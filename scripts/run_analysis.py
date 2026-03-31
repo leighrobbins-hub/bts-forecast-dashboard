@@ -162,6 +162,35 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
     return pd.DataFrame(results)
 
 
+TEST_PREP_KEYWORDS = [
+    'ACT', 'SAT', 'GRE', 'GMAT', 'LSAT', 'MCAT', 'ASVAB', 'PSAT', 'SSAT',
+    'ISEE', 'SHSAT', 'TEAS', 'NCLEX', 'Praxis', 'STAAR', 'DAT', 'OAT',
+]
+
+
+def classify_category(subject):
+    """Assign a grade-level / type category based on subject name."""
+    if subject.startswith('Elementary'):
+        return 'Elementary'
+    if subject.startswith('Middle School') or subject.startswith('Middle '):
+        return 'Middle School'
+    if subject.startswith('High School'):
+        return 'High School'
+    if subject.startswith('College'):
+        return 'College'
+    if subject.startswith('AP '):
+        return 'AP'
+    if subject.startswith('IB '):
+        return 'IB'
+    if any(subject == kw or subject.startswith(kw + ' ') for kw in TEST_PREP_KEYWORDS):
+        return 'Test Prep'
+    if 'Regents' in subject:
+        return 'Test Prep'
+    if any(kw in subject for kw in ['CPA', 'Nursing', 'ANCC', 'ARDMS', 'ARRT', 'Certification']):
+        return 'Professional/Cert'
+    return 'Other'
+
+
 def classify_problems(df_analysis, df_utilization):
     """Classify subjects as supply vs utilization problems"""
 
@@ -190,6 +219,7 @@ def classify_problems(df_analysis, df_utilization):
 
     df_merged['Problem_Type'] = df_merged.apply(get_problem_type, axis=1)
     df_merged['Util_Rate'] = df_merged['Util_Rate'].round(0)
+    df_merged['Category'] = df_merged['Subject'].apply(classify_category)
 
     return df_merged
 
@@ -264,6 +294,7 @@ def calculate_monthly_tracker(df_final, actuals):
             'remaining_need': remaining_need,
             'months_completed': months_with_actuals,
             'problem_type': row.get('Problem_Type', 'On Track'),
+            'category': row.get('Category', 'Other'),
             'march_baseline': mar_baseline,
             'months': months_data
         })
