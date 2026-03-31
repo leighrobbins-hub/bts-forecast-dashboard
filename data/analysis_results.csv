@@ -1,344 +1,344 @@
-Subject,Run_Rate,Smoothed_Target,Max_Capacity,Gap_Pct,Needs_External_Levers,Apr_Original,May_Original,Jun_Original,Jul_Original,Aug_Original,Sep_Original,Oct_Original,Total_Contracted,Utilized_30d,Util_Rate,Problem_Type
-Middle School Math,97.0,35.0,117.0,-64.0,False,39.0,27.0,24.0,26.0,34.0,45.0,53.0,129.0,56.0,43.0,On Track (Low Util)
-High School Chemistry,14.0,38.0,17.0,173.0,True,33.0,32.0,31.0,34.0,40.0,47.0,51.0,21.0,9.0,43.0,Utilization Problem
-Elementary School Math,120.0,19.0,143.0,-84.0,False,27.0,12.0,8.0,8.0,16.0,26.0,35.0,169.0,66.0,39.0,On Track (Low Util)
-SAT,11.0,36.0,13.0,227.0,True,27.0,26.0,30.0,36.0,42.0,45.0,46.0,29.0,18.0,62.0,True Supply Problem
-Pre-Calculus,24.0,28.0,29.0,14.0,False,23.0,21.0,18.0,20.0,28.0,39.0,46.0,27.0,12.0,44.0,On Track (Low Util)
-Elementary School Reading,108.0,18.0,130.0,-84.0,False,21.0,9.0,5.0,5.0,15.0,29.0,41.0,137.0,40.0,29.0,On Track (Low Util)
-Algebra 2,34.0,22.0,40.0,-33.0,False,18.0,12.0,9.0,11.0,22.0,36.0,48.0,43.0,20.0,47.0,On Track (Low Util)
-Algebra,52.0,16.0,63.0,-70.0,False,17.0,6.0,3.0,5.0,15.0,27.0,37.0,73.0,30.0,41.0,On Track (Low Util)
-AP Biology,20.0,17.0,24.0,-12.0,False,15.0,14.0,14.0,15.0,18.0,21.0,24.0,20.0,6.0,30.0,On Track (Low Util)
-College Accounting,4.0,17.0,5.0,284.0,True,15.0,16.0,17.0,18.0,19.0,18.0,18.0,9.0,2.0,22.0,Utilization Problem
-Geometry,23.0,17.0,28.0,-24.0,False,14.0,9.0,6.0,8.0,17.0,29.0,39.0,26.0,13.0,50.0,On Track
-AP Calculus AB,12.0,18.0,14.0,54.0,True,14.0,12.0,10.0,12.0,18.0,26.0,32.0,17.0,8.0,47.0,Utilization Problem
-College Chemistry,9.0,14.0,10.0,58.0,True,12.0,11.0,11.0,11.0,14.0,18.0,20.0,14.0,5.0,36.0,Utilization Problem
-Middle School Reading,92.0,12.0,110.0,-87.0,False,11.0,9.0,8.0,8.0,11.0,15.0,19.0,122.0,38.0,31.0,On Track (Low Util)
-Organic Chemistry,6.0,12.0,7.0,104.0,True,9.0,9.0,9.0,9.0,12.0,16.0,18.0,2.0,1.0,50.0,True Supply Problem
-Executive Functioning,14.0,8.0,17.0,-46.0,False,9.0,7.0,5.0,5.0,7.0,9.0,11.0,19.0,7.0,37.0,On Track (Low Util)
-High School Biology,32.0,10.0,39.0,-69.0,False,9.0,8.0,7.0,7.0,10.0,13.0,16.0,47.0,13.0,28.0,On Track (Low Util)
-Statistics,12.0,12.0,14.0,3.0,False,9.0,9.0,8.0,8.0,12.0,17.0,20.0,16.0,10.0,62.0,On Track
-High School Physics,8.0,10.0,9.0,33.0,True,8.0,7.0,6.0,7.0,10.0,14.0,18.0,7.0,3.0,43.0,Utilization Problem
-College Application Essays,36.0,8.0,43.0,-77.0,False,8.0,8.0,7.0,8.0,8.0,10.0,10.0,47.0,11.0,23.0,On Track (Low Util)
-Elementary School Writing,106.0,7.0,128.0,-93.0,False,7.0,6.0,5.0,5.0,6.0,9.0,12.0,141.0,38.0,27.0,On Track (Low Util)
-AP Chemistry,9.0,7.0,11.0,-24.0,False,7.0,5.0,5.0,5.0,7.0,9.0,11.0,11.0,6.0,55.0,On Track
-Middle School Science,60.0,6.0,72.0,-89.0,False,7.0,5.0,4.0,5.0,6.0,8.0,10.0,87.0,28.0,32.0,On Track (Low Util)
-College Biology,16.0,8.0,19.0,-48.0,False,7.0,7.0,7.0,7.0,9.0,10.0,10.0,16.0,4.0,25.0,On Track (Low Util)
-LSAT,2.0,9.0,3.0,287.0,True,6.0,7.0,9.0,10.0,10.0,10.0,9.0,3.0,1.0,33.0,Utilization Problem
-Coding,14.0,6.0,17.0,-56.0,False,6.0,6.0,5.0,5.0,6.0,8.0,8.0,24.0,11.0,46.0,On Track (Low Util)
-Handwriting,18.0,5.0,21.0,-71.0,False,6.0,5.0,4.0,4.0,5.0,6.0,6.0,8.0,3.0,38.0,On Track (Low Util)
-Elementary School English,96.0,5.0,115.0,-95.0,False,5.0,3.0,1.0,1.0,4.0,8.0,11.0,148.0,39.0,26.0,On Track (Low Util)
-AP Physics 1,8.0,5.0,9.0,-31.0,False,5.0,4.0,3.0,4.0,5.0,7.0,8.0,6.0,3.0,50.0,On Track
-AP Calculus BC,5.0,7.0,6.0,31.0,True,5.0,5.0,4.0,4.0,7.0,9.0,12.0,4.0,2.0,50.0,True Supply Problem
-AP Human Geography,3.0,5.0,3.0,104.0,True,5.0,5.0,5.0,5.0,6.0,6.0,6.0,4.0,1.0,25.0,Utilization Problem
-Spanish 1,14.0,6.0,16.0,-55.0,False,4.0,4.0,4.0,5.0,7.0,9.0,10.0,22.0,5.0,23.0,On Track (Low Util)
-Spanish 2,12.0,4.0,14.0,-62.0,False,4.0,3.0,2.0,3.0,4.0,7.0,8.0,11.0,1.0,9.0,On Track (Low Util)
-AP Statistics,6.0,5.0,7.0,-19.0,False,4.0,4.0,4.0,4.0,5.0,6.0,7.0,8.0,3.0,38.0,On Track (Low Util)
-AP English Language and Composition,27.0,5.0,32.0,-81.0,False,4.0,4.0,3.0,4.0,5.0,7.0,8.0,52.0,18.0,35.0,On Track (Low Util)
-Essay Editing,46.0,5.0,55.0,-89.0,False,4.0,4.0,4.0,4.0,5.0,7.0,7.0,70.0,19.0,27.0,On Track (Low Util)
-AP Physics C: Mechanics,2.0,5.0,3.0,102.0,True,4.0,4.0,3.0,4.0,5.0,6.0,7.0,1.0,1.0,100.0,True Supply Problem
-Calculus 3,4.0,5.0,5.0,21.0,True,4.0,4.0,4.0,4.0,5.0,6.0,7.0,1.0,1.0,100.0,True Supply Problem
-AP Computer Science A,6.0,6.0,8.0,-14.0,False,4.0,4.0,3.0,4.0,6.0,8.0,10.0,8.0,1.0,12.0,On Track (Low Util)
-IB Mathematics: Analysis and Approaches,1.0,6.0,1.0,500.0,True,4.0,4.0,5.0,5.0,7.0,8.0,9.0,,,,Supply Problem (No Util Data)
-Adobe Illustrator,8.0,4.0,10.0,-55.0,False,4.0,3.0,3.0,3.0,4.0,4.0,4.0,7.0,4.0,57.0,On Track
-SAT Math,12.0,2.0,15.0,-83.0,False,3.0,2.0,2.0,2.0,2.0,2.0,2.0,29.0,19.0,66.0,On Track
-Study Skills And Organization,15.0,3.0,18.0,-80.0,False,3.0,2.0,1.0,1.0,3.0,5.0,6.0,13.0,7.0,54.0,On Track
-Calculus 2,9.0,4.0,11.0,-53.0,False,3.0,3.0,3.0,3.0,4.0,7.0,8.0,5.0,3.0,60.0,On Track
-Public Speaking,23.0,2.0,28.0,-91.0,False,3.0,0.0,0.0,0.0,1.0,4.0,6.0,20.0,4.0,20.0,On Track (Low Util)
-Trigonometry,20.0,3.0,24.0,-84.0,False,3.0,2.0,2.0,2.0,3.0,4.0,6.0,25.0,12.0,48.0,On Track (Low Util)
-Nursing,10.0,3.0,11.0,-68.0,False,3.0,3.0,3.0,3.0,3.0,3.0,3.0,15.0,4.0,27.0,On Track (Low Util)
-College English,30.0,4.0,36.0,-87.0,False,3.0,3.0,3.0,3.0,4.0,5.0,6.0,62.0,19.0,31.0,On Track (Low Util)
-Finance,4.0,3.0,5.0,-33.0,False,3.0,2.0,2.0,2.0,3.0,4.0,5.0,10.0,1.0,10.0,On Track (Low Util)
-Biochemistry,6.0,3.0,7.0,-48.0,False,3.0,3.0,3.0,3.0,3.0,3.0,3.0,2.0,0.0,0.0,On Track (Low Util)
-College Economics,3.0,4.0,3.0,40.0,True,3.0,3.0,3.0,3.0,4.0,5.0,6.0,5.0,2.0,40.0,Utilization Problem
-Autocad,2.0,2.0,3.0,-8.0,False,3.0,2.0,2.0,2.0,2.0,2.0,2.0,4.0,4.0,100.0,On Track
-AP Pre-Calculus,5.0,38.0,6.0,621.0,True,31.0,33.0,34.0,37.0,41.0,44.0,45.0,12.0,6.0,50.0,True Supply Problem
-Managerial Accounting,3.0,4.0,4.0,24.0,True,3.0,3.0,3.0,3.0,4.0,5.0,5.0,4.0,1.0,25.0,Utilization Problem
-Macroeconomics,3.0,4.0,3.0,34.0,True,3.0,3.0,3.0,4.0,4.0,4.0,4.0,1.0,0.0,0.0,Utilization Problem
-AP Environmental Science,3.0,4.0,4.0,29.0,True,3.0,3.0,3.0,3.0,4.0,5.0,6.0,1.0,1.0,100.0,True Supply Problem
-High School World History,9.0,4.0,11.0,-59.0,False,3.0,3.0,2.0,3.0,4.0,5.0,6.0,14.0,2.0,14.0,On Track (Low Util)
-AP Macroeconomics,2.0,3.0,2.0,64.0,True,3.0,2.0,2.0,2.0,3.0,5.0,6.0,,,,Supply Problem (No Util Data)
-IB Mathematics: Applications and Interpretation,2.0,3.0,2.0,119.0,True,3.0,2.0,2.0,2.0,3.0,5.0,6.0,,,,Supply Problem (No Util Data)
-IB Chemistry,2.0,3.0,3.0,37.0,True,3.0,2.0,2.0,2.0,3.0,5.0,7.0,1.0,0.0,0.0,Utilization Problem
-Digital Media,11.0,3.0,13.0,-69.0,False,3.0,3.0,3.0,3.0,4.0,4.0,4.0,7.0,1.0,14.0,On Track (Low Util)
-Artificial Intelligence (AI),3.0,3.0,4.0,-8.0,False,3.0,3.0,3.0,3.0,3.0,3.0,3.0,2.0,1.0,50.0,On Track
-Management,1.0,3.0,2.0,136.0,True,3.0,3.0,2.0,3.0,3.0,4.0,4.0,2.0,0.0,0.0,Utilization Problem
-Social Networking,1.0,4.0,1.0,271.0,True,3.0,3.0,3.0,4.0,4.0,4.0,5.0,,,,Supply Problem (No Util Data)
-Middle School English,86.0,1.0,103.0,-99.0,False,2.0,0.0,0.0,0.0,0.0,1.0,3.0,131.0,33.0,25.0,On Track (Low Util)
-MCAT,4.0,3.0,4.0,-27.0,False,2.0,2.0,3.0,3.0,3.0,3.0,2.0,4.0,3.0,75.0,On Track
-ESL/ELL,18.0,3.0,22.0,-85.0,False,2.0,1.0,0.0,1.0,3.0,5.0,7.0,29.0,3.0,10.0,On Track (Low Util)
-Python,7.0,2.0,8.0,-70.0,False,2.0,1.0,1.0,1.0,2.0,3.0,4.0,9.0,4.0,44.0,On Track (Low Util)
-Anatomy & Physiology,18.0,2.0,22.0,-90.0,False,2.0,1.0,1.0,1.0,2.0,2.0,3.0,21.0,4.0,19.0,On Track (Low Util)
-Kindergarten Readiness,14.0,2.0,16.0,-84.0,False,2.0,2.0,1.0,1.0,2.0,3.0,4.0,17.0,4.0,24.0,On Track (Low Util)
-Microsoft Excel,9.0,3.0,11.0,-68.0,False,2.0,1.0,1.0,2.0,4.0,5.0,6.0,10.0,4.0,40.0,On Track (Low Util)
-HSPT,4.0,4.0,5.0,-8.0,False,2.0,3.0,4.0,4.0,5.0,6.0,5.0,16.0,12.0,75.0,On Track
-AP US History,5.0,3.0,6.0,-46.0,False,2.0,2.0,1.0,2.0,3.0,4.0,5.0,7.0,2.0,29.0,On Track (Low Util)
-Chess,2.0,2.0,3.0,-20.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-Spanish 3,10.0,3.0,12.0,-75.0,False,2.0,2.0,2.0,3.0,3.0,3.0,3.0,7.0,1.0,14.0,On Track (Low Util)
-High School Reading,38.0,3.0,46.0,-93.0,False,2.0,2.0,2.0,2.0,3.0,3.0,4.0,45.0,9.0,20.0,On Track (Low Util)
-ASVAB,1.0,3.0,2.0,104.0,True,2.0,1.0,1.0,2.0,3.0,5.0,5.0,1.0,0.0,0.0,Utilization Problem
-Piano,5.0,2.0,6.0,-64.0,False,2.0,1.0,1.0,2.0,2.0,2.0,2.0,5.0,0.0,0.0,On Track (Low Util)
-AP World History,5.0,2.0,6.0,-52.0,False,2.0,1.0,1.0,1.0,2.0,4.0,5.0,5.0,2.0,40.0,On Track (Low Util)
-Microeconomics,2.0,2.0,2.0,-14.0,False,2.0,1.0,1.0,1.0,2.0,2.0,3.0,2.0,1.0,50.0,On Track
-French 2,3.0,3.0,4.0,-14.0,False,2.0,2.0,2.0,2.0,2.0,4.0,4.0,2.0,1.0,50.0,On Track
-Linear Algebra,6.0,2.0,7.0,-62.0,False,2.0,2.0,2.0,2.0,2.0,3.0,3.0,3.0,1.0,33.0,On Track (Low Util)
-Psychology,16.0,2.0,19.0,-87.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,21.0,4.0,19.0,On Track (Low Util)
-English Grammar and Syntax,54.0,3.0,64.0,-95.0,False,2.0,2.0,2.0,3.0,4.0,3.0,3.0,38.0,7.0,18.0,On Track (Low Util)
-Competition Math,3.0,3.0,4.0,-14.0,False,2.0,2.0,2.0,2.0,3.0,3.0,4.0,2.0,0.0,0.0,On Track (Low Util)
-Mechanical Engineering,2.0,2.0,3.0,8.0,False,2.0,2.0,2.0,2.0,2.0,3.0,4.0,3.0,1.0,33.0,On Track (Low Util)
-AP English Literature and Composition,9.0,3.0,11.0,-72.0,False,2.0,2.0,2.0,3.0,3.0,3.0,3.0,4.0,3.0,75.0,On Track
-Physics 2,2.0,3.0,3.0,16.0,False,2.0,2.0,2.0,2.0,3.0,4.0,4.0,1.0,1.0,100.0,On Track
-College and University Admissions,18.0,2.0,22.0,-89.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,16.0,2.0,12.0,On Track (Low Util)
-AP Microeconomics,4.0,3.0,4.0,-14.0,False,2.0,2.0,1.0,2.0,3.0,5.0,6.0,5.0,1.0,20.0,On Track (Low Util)
-C++,2.0,2.0,3.0,-14.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-Pharmacology,8.0,2.0,9.0,-74.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,8.0,2.0,25.0,On Track (Low Util)
-French 3,1.0,3.0,2.0,174.0,True,2.0,2.0,2.0,3.0,4.0,5.0,6.0,2.0,1.0,50.0,True Supply Problem
-Math 2,2.0,4.0,3.0,59.0,True,2.0,2.0,2.0,2.0,4.0,6.0,8.0,2.0,1.0,50.0,True Supply Problem
-Multivariable Calculus,4.0,3.0,5.0,-32.0,False,2.0,2.0,2.0,2.0,3.0,4.0,4.0,,,,On Track
-JavaScript,4.0,2.0,5.0,-50.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,50.0,On Track
-AP Computer Science Principles,4.0,2.0,4.0,-38.0,False,2.0,2.0,2.0,2.0,2.0,3.0,3.0,2.0,0.0,0.0,On Track (Low Util)
-Corporate Finance,1.0,2.0,1.0,143.0,True,2.0,2.0,2.0,2.0,2.0,3.0,4.0,2.0,0.0,0.0,Utilization Problem
-Vietnamese,1.0,4.0,1.0,257.0,True,2.0,3.0,3.0,3.0,4.0,5.0,5.0,,,,Supply Problem (No Util Data)
-Cyber Security,6.0,2.0,7.0,-67.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,7.0,1.0,14.0,On Track (Low Util)
-BCABA,2.0,2.0,3.0,-20.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,,,,On Track
-IB Biology,4.0,2.0,5.0,-56.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-Electrical and Computer Engineering,1.0,2.0,1.0,143.0,True,2.0,2.0,2.0,2.0,2.0,3.0,4.0,1.0,0.0,0.0,Utilization Problem
-Statics and Dynamics,2.0,2.0,2.0,0.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,,,,On Track
-Applied Mathematics,5.0,2.0,6.0,-57.0,False,2.0,2.0,2.0,2.0,2.0,3.0,3.0,2.0,0.0,0.0,On Track (Low Util)
-Robotics,1.0,2.0,1.0,129.0,True,2.0,2.0,2.0,2.0,2.0,3.0,3.0,,,,Supply Problem (No Util Data)
-Fine arts,4.0,2.0,5.0,-54.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-Business Analytics,4.0,2.0,4.0,-34.0,False,2.0,2.0,2.0,2.0,3.0,3.0,3.0,3.0,1.0,33.0,On Track (Low Util)
-PTCE,1.0,2.0,1.0,100.0,True,2.0,2.0,2.0,2.0,2.0,2.0,2.0,,,,Supply Problem (No Util Data)
-Filmmaking,2.0,2.0,2.0,22.0,True,2.0,2.0,1.0,2.0,2.0,3.0,3.0,4.0,0.0,0.0,Utilization Problem
-Mac Basic Computer Skills,5.0,2.0,6.0,-57.0,False,2.0,1.0,1.0,1.0,2.0,3.0,4.0,6.0,1.0,17.0,On Track (Low Util)
-Cost Accounting,1.0,3.0,1.0,214.0,True,2.0,2.0,2.0,2.0,3.0,5.0,6.0,1.0,0.0,0.0,Utilization Problem
-PC Basic Computer Skills,6.0,2.0,7.0,-71.0,False,2.0,1.0,1.0,1.0,2.0,2.0,3.0,2.0,1.0,50.0,On Track
-Technical Writing,21.0,2.0,26.0,-91.0,False,2.0,2.0,2.0,2.0,2.0,2.0,2.0,14.0,2.0,14.0,On Track (Low Util)
-Music Recording,1.0,2.0,2.0,29.0,True,2.0,1.0,1.0,1.0,2.0,2.0,3.0,1.0,0.0,0.0,Utilization Problem
-Probability,1.0,2.0,2.0,94.0,True,2.0,2.0,2.0,2.0,2.0,3.0,4.0,2.0,0.0,0.0,Utilization Problem
-Linguistics,2.0,3.0,2.0,54.0,True,2.0,2.0,2.0,2.0,2.0,4.0,4.0,1.0,0.0,0.0,Utilization Problem
-Structural Engineering,1.0,2.0,1.0,129.0,True,2.0,2.0,2.0,2.0,2.0,3.0,3.0,,,,Supply Problem (No Util Data)
-Rhino,2.0,1.0,2.0,-5.0,False,2.0,1.0,1.0,1.0,1.0,2.0,2.0,3.0,1.0,33.0,On Track (Low Util)
-College Level American History,5.0,3.0,6.0,-43.0,False,2.0,2.0,2.0,2.0,3.0,4.0,5.0,,,,On Track
-Clinical Psychology,4.0,2.0,4.0,-35.0,False,2.0,2.0,2.0,2.0,2.0,3.0,3.0,,,,On Track
-Conversational Spanish,14.0,7.0,16.0,-50.0,False,1.0,0.0,2.0,5.0,10.0,14.0,15.0,24.0,4.0,17.0,On Track (Low Util)
-NCLEX,6.0,0.0,7.0,-98.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,5.0,2.0,40.0,On Track (Low Util)
-Japanese,2.0,3.0,2.0,81.0,True,1.0,1.0,2.0,2.0,3.0,5.0,5.0,1.0,0.0,0.0,Utilization Problem
-Orton Gillingham,3.0,0.0,4.0,-96.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,2.0,50.0,On Track
-Middle School Writing,98.0,0.0,118.0,-100.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,134.0,31.0,23.0,On Track (Low Util)
-College Physics,6.0,2.0,7.0,-68.0,False,1.0,1.0,0.0,0.0,2.0,4.0,5.0,6.0,3.0,50.0,On Track
-College Algebra,6.0,2.0,7.0,-64.0,False,1.0,0.0,0.0,0.0,2.0,5.0,7.0,5.0,1.0,20.0,On Track (Low Util)
-PSAT,6.0,1.0,8.0,-85.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,22.0,15.0,68.0,On Track
-Financial Accounting,5.0,2.0,6.0,-63.0,False,1.0,1.0,0.0,0.0,2.0,4.0,5.0,11.0,2.0,18.0,On Track (Low Util)
-Mandarin Chinese 1,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
-Drawing,15.0,1.0,18.0,-93.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,18.0,5.0,28.0,On Track (Low Util)
-SAT Writing and Language,8.0,1.0,10.0,-88.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,18.0,12.0,67.0,On Track
-French 1,8.0,1.0,10.0,-88.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,7.0,0.0,0.0,On Track (Low Util)
-ARRT - Radiography,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-NCLEX-RN,4.0,1.0,5.0,-75.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,6.0,2.0,33.0,On Track (Low Util)
-Conversational German,1.0,3.0,2.0,125.0,True,1.0,1.0,2.0,3.0,4.0,5.0,5.0,1.0,0.0,0.0,Utilization Problem
-NPTE,1.0,1.0,2.0,-25.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-Java,9.0,1.0,10.0,-87.0,False,1.0,1.0,1.0,1.0,1.0,1.0,2.0,14.0,5.0,36.0,On Track (Low Util)
-Basic Computer Literacy,15.0,2.0,18.0,-88.0,False,1.0,0.0,0.0,0.0,1.0,5.0,6.0,10.0,1.0,10.0,On Track (Low Util)
-Organic Chemistry 2,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Computer Programming,12.0,1.0,15.0,-92.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,23.0,7.0,30.0,On Track (Low Util)
-Creative Writing,72.0,1.0,86.0,-99.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,63.0,8.0,13.0,On Track (Low Util)
-College Computer Science,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,2.0,22.0,On Track (Low Util)
-Electrical Engineering,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,2.0,50.0,On Track
-Portuguese,1.0,1.0,2.0,-4.0,False,1.0,1.0,1.0,1.0,1.0,2.0,2.0,2.0,0.0,0.0,On Track (Low Util)
-General Chemistry 2,4.0,1.0,5.0,-68.0,False,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-Differential Equations,2.0,2.0,3.0,-30.0,False,1.0,1.0,1.0,1.0,2.0,2.0,3.0,2.0,1.0,50.0,On Track
-Spanish 4,9.0,1.0,11.0,-89.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,5.0,1.0,20.0,On Track (Low Util)
-OTR,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-High School Level American History,9.0,1.0,11.0,-89.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,20.0,5.0,25.0,On Track (Low Util)
-American Sign Language,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,1.0,25.0,On Track (Low Util)
-Grade 11 Physics,2.0,1.0,2.0,-40.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Latin 1,2.0,1.0,2.0,-57.0,False,1.0,0.0,0.0,0.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-CPA FAR,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-ACT Reading,4.0,2.0,5.0,-57.0,False,1.0,1.0,2.0,2.0,2.0,2.0,2.0,7.0,4.0,57.0,On Track
-Math 3,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-CogAT,1.0,2.0,1.0,57.0,True,1.0,1.0,1.0,2.0,2.0,2.0,2.0,,,,Supply Problem (No Util Data)
-Middle School Social Studies,35.0,0.0,42.0,-100.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,47.0,15.0,32.0,On Track (Low Util)
-ACT English,3.0,2.0,3.0,-12.0,False,1.0,1.0,2.0,2.0,3.0,4.0,4.0,5.0,3.0,60.0,On Track
-VTNE,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-French Immersion,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Guitar,3.0,1.0,4.0,-70.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-AP Psychology,8.0,1.0,10.0,-88.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,3.0,33.0,On Track (Low Util)
-NCLEX-PN,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
-Earth Science,15.0,1.0,18.0,-93.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,1.0,10.0,On Track (Low Util)
-Mandarin Chinese 2,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
-Microbiology,6.0,1.0,8.0,-84.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
-Chemistry 2,2.0,2.0,3.0,-31.0,False,1.0,1.0,1.0,1.0,2.0,3.0,3.0,1.0,0.0,0.0,On Track (Low Util)
-Functions,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-CFA - Level 1,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-CompTIA Security+,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Thermodynamics,3.0,1.0,4.0,-67.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Music Theory,8.0,1.0,9.0,-87.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,5.0,0.0,0.0,On Track (Low Util)
-Business Statistics,2.0,1.0,3.0,-57.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,1.0,25.0,On Track (Low Util)
-Physical Chemistry,4.0,2.0,5.0,-61.0,False,1.0,1.0,1.0,1.0,2.0,2.0,3.0,,,,On Track
-Math 1,4.0,1.0,5.0,-67.0,False,1.0,1.0,1.0,1.0,1.0,2.0,3.0,3.0,2.0,67.0,On Track
-Elementary Social Studies,42.0,1.0,50.0,-98.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,51.0,17.0,33.0,On Track (Low Util)
-Statistics Graduate Level,1.0,2.0,2.0,37.0,True,1.0,1.0,1.0,1.0,2.0,3.0,3.0,3.0,1.0,33.0,Utilization Problem
-COMLEX,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-IB Physics,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-AP European History,3.0,1.0,3.0,-46.0,False,1.0,1.0,1.0,1.0,1.0,2.0,3.0,1.0,0.0,0.0,On Track (Low Util)
-AP Physics 2,3.0,1.0,3.0,-62.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Genetics,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-SSAT- Upper Level,7.0,1.0,8.0,-85.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,19.0,12.0,63.0,On Track
-German 1,1.0,1.0,2.0,-25.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-ISEE- Middle Level,5.0,1.0,6.0,-81.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,15.0,11.0,73.0,On Track
-PANCE,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Environmental Science,5.0,1.0,6.0,-79.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Polish,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-PMP,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-ARDMS - Sonography Principals and Instruments (SPI),1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Data Analysis,2.0,1.0,3.0,-56.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
-Computer Game Design,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Discrete Math,3.0,1.0,3.0,-62.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Physical Science,8.0,1.0,10.0,-82.0,False,1.0,1.0,1.0,1.0,1.0,2.0,3.0,,,,On Track
-Data Structures,2.0,1.0,3.0,-60.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Marketing,10.0,1.0,13.0,-90.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,3.0,38.0,On Track (Low Util)
-Latin 2,2.0,1.0,2.0,-43.0,False,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,0.0,0.0,On Track (Low Util)
-Pathophysiology,6.0,1.0,8.0,-85.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,2.0,25.0,On Track (Low Util)
-Cell Biology,7.0,1.0,8.0,-86.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,7.0,0.0,0.0,On Track (Low Util)
-Grade 12 Physics,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-GED Math,4.0,1.0,5.0,-87.0,False,1.0,0.0,0.0,0.0,1.0,1.0,1.0,9.0,6.0,67.0,On Track
-PRAXIS Core Math,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Ukrainian,1.0,2.0,1.0,71.0,True,1.0,1.0,2.0,2.0,2.0,2.0,2.0,,,,Supply Problem (No Util Data)
-Autodesk Revit,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
-High School Computer Science,6.0,1.0,8.0,-85.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,2.0,22.0,On Track (Low Util)
-ISEE- Upper Level,5.0,1.0,6.0,-80.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,14.0,10.0,71.0,On Track
-Social Work,4.0,1.0,5.0,-78.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,0.0,0.0,On Track (Low Util)
-College Business,10.0,1.0,12.0,-90.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,4.0,44.0,On Track (Low Util)
-Machine Learning,4.0,1.0,5.0,-78.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
-AP Physics C: Electricity and Magnetism,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Philosophy,4.0,1.0,4.0,-71.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,0.0,0.0,On Track (Low Util)
-Singing,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-GRE Quantitative,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-CPA REG,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Video Game Design,2.0,2.0,2.0,5.0,False,1.0,1.0,1.0,2.0,2.0,2.0,2.0,,,,On Track
-High School Economics,6.0,2.0,7.0,-64.0,False,1.0,1.0,2.0,2.0,3.0,3.0,2.0,6.0,2.0,33.0,On Track (Low Util)
-SQL,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,4.0,50.0,On Track
-MAP,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Graphic Design,10.0,1.0,13.0,-90.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,3.0,30.0,On Track (Low Util)
-Contract Law,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-Animation,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Autodesk Fusion 360,1.0,1.0,1.0,43.0,True,1.0,1.0,1.0,1.0,2.0,2.0,2.0,1.0,0.0,0.0,Utilization Problem
-Finite Mathematics,1.0,1.0,2.0,-25.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-IB French,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Data Science,7.0,1.0,9.0,-86.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,3.0,38.0,On Track (Low Util)
-Project Management/PMP,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Microsoft Word,9.0,1.0,10.0,-84.0,False,1.0,1.0,1.0,1.0,2.0,2.0,2.0,4.0,1.0,25.0,On Track (Low Util)
-Sociology,4.0,1.0,5.0,-78.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Neuroscience,7.0,1.0,8.0,-85.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-Algorithms,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Civil Engineering,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Voice,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-R Programming,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Public Health,4.0,1.0,5.0,-75.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Algebra Regents,2.0,1.0,3.0,-60.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Biostatistics,2.0,1.0,3.0,-57.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-Web Development,5.0,1.0,6.0,-80.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Logic,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Web Design,4.0,1.0,5.0,-75.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,2.0,67.0,On Track
-Molecular Biology,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Personal Finance,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Chemical Engineering,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Photoshop,4.0,1.0,5.0,-78.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,6.0,2.0,33.0,On Track (Low Util)
-Fluid Mechanics,1.0,1.0,2.0,-25.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-Minecraft,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Econometrics,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-PSAT Mathematics,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-ANCC - Family Nurse Practitioner Certification (FNP),1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Enrichment,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-MCAT Chemical and Physical Foundations of Biological Systems,1.0,1.0,2.0,-20.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
-HTML,4.0,1.0,5.0,-76.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,2.0,50.0,On Track
-Roblox,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
-Legal Writing,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-College Political Science,3.0,1.0,4.0,-67.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-ACT Science,4.0,1.0,4.0,-71.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
-AP Research,4.0,1.0,5.0,-77.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-Microsoft Power BI,2.0,1.0,2.0,-40.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
-LSAT Logical Reasoning,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
-Aerospace Engineering,2.0,1.0,2.0,-40.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Astronomy,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-MATLAB,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Photography,3.0,1.0,3.0,-62.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Hebrew,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Inorganic Chemistry,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Architecture,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,3.0,75.0,On Track
-Civil Procedure,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Painting,5.0,1.0,6.0,-81.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,4.0,50.0,On Track
-Managerial Economics,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-German 2,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Linux,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Expository Writing,20.0,1.0,23.0,-95.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,13.0,3.0,23.0,On Track (Low Util)
-Information Technology,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Software,1.0,2.0,1.0,114.0,True,1.0,2.0,1.0,1.0,2.0,4.0,4.0,2.0,1.0,50.0,True Supply Problem
-ISEE- Primary,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-GMAT Quantitative Reasoning,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Tableau,2.0,1.0,3.0,-60.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
-Medical Terminology,13.0,1.0,16.0,-92.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,0.0,0.0,On Track (Low Util)
-Biomedical Engineering,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
-Series 10,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Analytical Chemistry,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Heat Transfer,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Latin 4,1.0,2.0,1.0,100.0,True,1.0,1.0,0.0,1.0,2.0,4.0,5.0,,,,Supply Problem (No Util Data)
-High School Geography,3.0,1.0,4.0,-70.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,5.0,1.0,20.0,On Track (Low Util)
-Police Officer Exam,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Series 24,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-High School Government,19.0,1.0,23.0,-95.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,16.0,7.0,44.0,On Track (Low Util)
-Materials Science,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Criminal Law,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-AP Seminar,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Biomechanics,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Quantum Physics,3.0,1.0,4.0,-67.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Kinesiology,1.0,1.0,2.0,-20.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-International Business,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Nutrition,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Data Management,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-Agricultural Science,2.0,1.0,2.0,-36.0,False,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-Real Analysis,3.0,1.0,4.0,-67.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Operating Systems,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Ethics,6.0,1.0,7.0,-83.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Discrete Structures,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Autodesk Maya,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Supply Chain Management,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-IB Business & Management,3.0,1.0,3.0,-64.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,2.0,50.0,On Track
-European History,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Immunology,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Computer Architecture,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Sketchup,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
-High School Level American Literature,8.0,1.0,10.0,-88.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Relational Databases,4.0,1.0,5.0,-75.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,6.0,3.0,50.0,On Track
-IB Extended Essay,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
-CISSP,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Theology,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-C,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-AP Art History,5.0,1.0,6.0,-79.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-Quantitative Methods,1.0,1.0,2.0,-25.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-Cooking,2.0,1.0,2.0,-33.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Trumpet,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Audio Engineering,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Cardiology,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Numerical Analysis,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-High School Accounting,4.0,1.0,5.0,-75.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,2.0,20.0,On Track (Low Util)
-Evolutionary Biology,2.0,1.0,2.0,-50.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-Fiction Writing,19.0,1.0,23.0,-95.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
-College Geography,2.0,1.0,3.0,-57.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,1.0,25.0,On Track (Low Util)
-TEFL,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-IB Economics,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-LSAT Argumentative Writing,2.0,1.0,2.0,-40.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
-IB Global Politics,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
-Turkish,1.0,1.0,1.0,0.0,False,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
-ACT,7.0,1.0,8.0,-90.0,False,0.0,0.0,0.0,0.0,1.0,2.0,2.0,19.0,9.0,47.0,On Track (Low Util)
-Conversational French,2.0,1.0,3.0,-43.0,False,0.0,0.0,0.0,0.0,2.0,4.0,4.0,4.0,1.0,25.0,On Track (Low Util)
-Korean,4.0,0.0,4.0,-88.0,False,0.0,0.0,0.0,0.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
-Pre-Algebra,41.0,0.0,49.0,-99.0,False,0.0,0.0,0.0,0.0,0.0,0.0,2.0,59.0,30.0,51.0,On Track
-Conversational Italian,2.0,0.0,2.0,-90.0,False,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,100.0,On Track
-College Statistics,3.0,0.0,3.0,-95.0,False,0.0,0.0,0.0,0.0,0.0,0.0,1.0,4.0,1.0,25.0,On Track (Low Util)
-High School Writing,94.0,0.0,112.0,-100.0,False,0.0,0.0,0.0,0.0,0.0,1.0,2.0,124.0,23.0,19.0,On Track (Low Util)
-Grade 10 Math,8.0,0.0,10.0,-95.0,False,0.0,0.0,0.0,0.0,0.0,1.0,2.0,10.0,4.0,40.0,On Track (Low Util)
-GMAT,2.0,1.0,2.0,-24.0,False,0.0,1.0,1.0,2.0,2.0,1.0,1.0,,,,On Track
-High School Science,20.0,0.0,23.0,-99.0,False,0.0,0.0,0.0,0.0,0.0,0.0,1.0,11.0,2.0,18.0,On Track (Low Util)
-Business Calculus,2.0,1.0,2.0,-52.0,False,0.0,0.0,0.0,0.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
-DAT,1.0,1.0,1.0,-14.0,False,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Subject,Run_Rate,Smoothed_Target,Max_Capacity,Gap_Pct,Needs_External_Levers,BTS_Total,Apr_Original,May_Original,Jun_Original,Jul_Original,Aug_Original,Sep_Original,Oct_Original,Total_Contracted,Utilized_30d,Util_Rate,Problem_Type
+Middle School Math,97.0,35.0,117.0,-64.0,False,248.0,39.0,27.0,24.0,26.0,34.0,45.0,53.0,129.0,56.0,43.0,On Track (Low Util)
+High School Chemistry,14.0,38.0,17.0,173.0,True,268.0,33.0,32.0,31.0,34.0,40.0,47.0,51.0,21.0,9.0,43.0,Utilization Problem
+Elementary School Math,120.0,19.0,143.0,-84.0,False,132.0,27.0,12.0,8.0,8.0,16.0,26.0,35.0,169.0,66.0,39.0,On Track (Low Util)
+SAT,11.0,36.0,13.0,227.0,True,252.0,27.0,26.0,30.0,36.0,42.0,45.0,46.0,29.0,18.0,62.0,True Supply Problem
+Pre-Calculus,24.0,28.0,29.0,14.0,False,195.0,23.0,21.0,18.0,20.0,28.0,39.0,46.0,27.0,12.0,44.0,On Track (Low Util)
+Elementary School Reading,108.0,18.0,130.0,-84.0,False,125.0,21.0,9.0,5.0,5.0,15.0,29.0,41.0,137.0,40.0,29.0,On Track (Low Util)
+Algebra 2,34.0,22.0,40.0,-33.0,False,156.0,18.0,12.0,9.0,11.0,22.0,36.0,48.0,43.0,20.0,47.0,On Track (Low Util)
+Algebra,52.0,16.0,63.0,-70.0,False,110.0,17.0,6.0,3.0,5.0,15.0,27.0,37.0,73.0,30.0,41.0,On Track (Low Util)
+AP Biology,20.0,17.0,24.0,-12.0,False,121.0,15.0,14.0,14.0,15.0,18.0,21.0,24.0,20.0,6.0,30.0,On Track (Low Util)
+College Accounting,4.0,17.0,5.0,284.0,True,121.0,15.0,16.0,17.0,18.0,19.0,18.0,18.0,9.0,2.0,22.0,Utilization Problem
+Geometry,23.0,17.0,28.0,-24.0,False,122.0,14.0,9.0,6.0,8.0,17.0,29.0,39.0,26.0,13.0,50.0,On Track
+AP Calculus AB,12.0,18.0,14.0,54.0,True,124.0,14.0,12.0,10.0,12.0,18.0,26.0,32.0,17.0,8.0,47.0,Utilization Problem
+College Chemistry,9.0,14.0,10.0,58.0,True,97.0,12.0,11.0,11.0,11.0,14.0,18.0,20.0,14.0,5.0,36.0,Utilization Problem
+Middle School Reading,92.0,12.0,110.0,-87.0,False,81.0,11.0,9.0,8.0,8.0,11.0,15.0,19.0,122.0,38.0,31.0,On Track (Low Util)
+Organic Chemistry,6.0,12.0,7.0,104.0,True,82.0,9.0,9.0,9.0,9.0,12.0,16.0,18.0,2.0,1.0,50.0,True Supply Problem
+Executive Functioning,14.0,8.0,17.0,-46.0,False,53.0,9.0,7.0,5.0,5.0,7.0,9.0,11.0,19.0,7.0,37.0,On Track (Low Util)
+High School Biology,32.0,10.0,39.0,-69.0,False,70.0,9.0,8.0,7.0,7.0,10.0,13.0,16.0,47.0,13.0,28.0,On Track (Low Util)
+Statistics,12.0,12.0,14.0,3.0,False,83.0,9.0,9.0,8.0,8.0,12.0,17.0,20.0,16.0,10.0,62.0,On Track
+High School Physics,8.0,10.0,9.0,33.0,True,70.0,8.0,7.0,6.0,7.0,10.0,14.0,18.0,7.0,3.0,43.0,Utilization Problem
+College Application Essays,36.0,8.0,43.0,-77.0,False,59.0,8.0,8.0,7.0,8.0,8.0,10.0,10.0,47.0,11.0,23.0,On Track (Low Util)
+Elementary School Writing,106.0,7.0,128.0,-93.0,False,50.0,7.0,6.0,5.0,5.0,6.0,9.0,12.0,141.0,38.0,27.0,On Track (Low Util)
+AP Chemistry,9.0,7.0,11.0,-24.0,False,49.0,7.0,5.0,5.0,5.0,7.0,9.0,11.0,11.0,6.0,55.0,On Track
+Middle School Science,60.0,6.0,72.0,-89.0,False,45.0,7.0,5.0,4.0,5.0,6.0,8.0,10.0,87.0,28.0,32.0,On Track (Low Util)
+College Biology,16.0,8.0,19.0,-48.0,False,57.0,7.0,7.0,7.0,7.0,9.0,10.0,10.0,16.0,4.0,25.0,On Track (Low Util)
+LSAT,2.0,9.0,3.0,287.0,True,61.0,6.0,7.0,9.0,10.0,10.0,10.0,9.0,3.0,1.0,33.0,Utilization Problem
+Coding,14.0,6.0,17.0,-56.0,False,44.0,6.0,6.0,5.0,5.0,6.0,8.0,8.0,24.0,11.0,46.0,On Track (Low Util)
+Handwriting,18.0,5.0,21.0,-71.0,False,36.0,6.0,5.0,4.0,4.0,5.0,6.0,6.0,8.0,3.0,38.0,On Track (Low Util)
+Elementary School English,96.0,5.0,115.0,-95.0,False,33.0,5.0,3.0,1.0,1.0,4.0,8.0,11.0,148.0,39.0,26.0,On Track (Low Util)
+AP Physics 1,8.0,5.0,9.0,-31.0,False,36.0,5.0,4.0,3.0,4.0,5.0,7.0,8.0,6.0,3.0,50.0,On Track
+AP Calculus BC,5.0,7.0,6.0,31.0,True,46.0,5.0,5.0,4.0,4.0,7.0,9.0,12.0,4.0,2.0,50.0,True Supply Problem
+AP Human Geography,3.0,5.0,3.0,104.0,True,38.0,5.0,5.0,5.0,5.0,6.0,6.0,6.0,4.0,1.0,25.0,Utilization Problem
+Spanish 1,14.0,6.0,16.0,-55.0,False,43.0,4.0,4.0,4.0,5.0,7.0,9.0,10.0,22.0,5.0,23.0,On Track (Low Util)
+Spanish 2,12.0,4.0,14.0,-62.0,False,31.0,4.0,3.0,2.0,3.0,4.0,7.0,8.0,11.0,1.0,9.0,On Track (Low Util)
+AP Statistics,6.0,5.0,7.0,-19.0,False,34.0,4.0,4.0,4.0,4.0,5.0,6.0,7.0,8.0,3.0,38.0,On Track (Low Util)
+AP English Language and Composition,27.0,5.0,32.0,-81.0,False,35.0,4.0,4.0,3.0,4.0,5.0,7.0,8.0,52.0,18.0,35.0,On Track (Low Util)
+Essay Editing,46.0,5.0,55.0,-89.0,False,35.0,4.0,4.0,4.0,4.0,5.0,7.0,7.0,70.0,19.0,27.0,On Track (Low Util)
+AP Physics C: Mechanics,2.0,5.0,3.0,102.0,True,33.0,4.0,4.0,3.0,4.0,5.0,6.0,7.0,1.0,1.0,100.0,True Supply Problem
+Calculus 3,4.0,5.0,5.0,21.0,True,34.0,4.0,4.0,4.0,4.0,5.0,6.0,7.0,1.0,1.0,100.0,True Supply Problem
+AP Computer Science A,6.0,6.0,8.0,-14.0,False,39.0,4.0,4.0,3.0,4.0,6.0,8.0,10.0,8.0,1.0,12.0,On Track (Low Util)
+IB Mathematics: Analysis and Approaches,1.0,6.0,1.0,500.0,True,42.0,4.0,4.0,5.0,5.0,7.0,8.0,9.0,,,,Supply Problem (No Util Data)
+Adobe Illustrator,8.0,4.0,10.0,-55.0,False,25.0,4.0,3.0,3.0,3.0,4.0,4.0,4.0,7.0,4.0,57.0,On Track
+SAT Math,12.0,2.0,15.0,-83.0,False,15.0,3.0,2.0,2.0,2.0,2.0,2.0,2.0,29.0,19.0,66.0,On Track
+Study Skills And Organization,15.0,3.0,18.0,-80.0,False,21.0,3.0,2.0,1.0,1.0,3.0,5.0,6.0,13.0,7.0,54.0,On Track
+Calculus 2,9.0,4.0,11.0,-53.0,False,31.0,3.0,3.0,3.0,3.0,4.0,7.0,8.0,5.0,3.0,60.0,On Track
+Public Speaking,23.0,2.0,28.0,-91.0,False,14.0,3.0,0.0,0.0,0.0,1.0,4.0,6.0,20.0,4.0,20.0,On Track (Low Util)
+Trigonometry,20.0,3.0,24.0,-84.0,False,22.0,3.0,2.0,2.0,2.0,3.0,4.0,6.0,25.0,12.0,48.0,On Track (Low Util)
+Nursing,10.0,3.0,11.0,-68.0,False,21.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,15.0,4.0,27.0,On Track (Low Util)
+College English,30.0,4.0,36.0,-87.0,False,27.0,3.0,3.0,3.0,3.0,4.0,5.0,6.0,62.0,19.0,31.0,On Track (Low Util)
+Finance,4.0,3.0,5.0,-33.0,False,21.0,3.0,2.0,2.0,2.0,3.0,4.0,5.0,10.0,1.0,10.0,On Track (Low Util)
+Biochemistry,6.0,3.0,7.0,-48.0,False,21.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,2.0,0.0,0.0,On Track (Low Util)
+College Economics,3.0,4.0,3.0,40.0,True,27.0,3.0,3.0,3.0,3.0,4.0,5.0,6.0,5.0,2.0,40.0,Utilization Problem
+Autocad,2.0,2.0,3.0,-8.0,False,15.0,3.0,2.0,2.0,2.0,2.0,2.0,2.0,4.0,4.0,100.0,On Track
+AP Pre-Calculus,5.0,38.0,6.0,621.0,True,265.0,31.0,33.0,34.0,37.0,41.0,44.0,45.0,12.0,6.0,50.0,True Supply Problem
+Managerial Accounting,3.0,4.0,4.0,24.0,True,26.0,3.0,3.0,3.0,3.0,4.0,5.0,5.0,4.0,1.0,25.0,Utilization Problem
+Macroeconomics,3.0,4.0,3.0,34.0,True,25.0,3.0,3.0,3.0,4.0,4.0,4.0,4.0,1.0,0.0,0.0,Utilization Problem
+AP Environmental Science,3.0,4.0,4.0,29.0,True,27.0,3.0,3.0,3.0,3.0,4.0,5.0,6.0,1.0,1.0,100.0,True Supply Problem
+High School World History,9.0,4.0,11.0,-59.0,False,26.0,3.0,3.0,2.0,3.0,4.0,5.0,6.0,14.0,2.0,14.0,On Track (Low Util)
+AP Macroeconomics,2.0,3.0,2.0,64.0,True,23.0,3.0,2.0,2.0,2.0,3.0,5.0,6.0,,,,Supply Problem (No Util Data)
+IB Mathematics: Applications and Interpretation,2.0,3.0,2.0,119.0,True,23.0,3.0,2.0,2.0,2.0,3.0,5.0,6.0,,,,Supply Problem (No Util Data)
+IB Chemistry,2.0,3.0,3.0,37.0,True,24.0,3.0,2.0,2.0,2.0,3.0,5.0,7.0,1.0,0.0,0.0,Utilization Problem
+Digital Media,11.0,3.0,13.0,-69.0,False,24.0,3.0,3.0,3.0,3.0,4.0,4.0,4.0,7.0,1.0,14.0,On Track (Low Util)
+Artificial Intelligence (AI),3.0,3.0,4.0,-8.0,False,21.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,2.0,1.0,50.0,On Track
+Management,1.0,3.0,2.0,136.0,True,22.0,3.0,3.0,2.0,3.0,3.0,4.0,4.0,2.0,0.0,0.0,Utilization Problem
+Social Networking,1.0,4.0,1.0,271.0,True,26.0,3.0,3.0,3.0,4.0,4.0,4.0,5.0,,,,Supply Problem (No Util Data)
+Middle School English,86.0,1.0,103.0,-99.0,False,6.0,2.0,0.0,0.0,0.0,0.0,1.0,3.0,131.0,33.0,25.0,On Track (Low Util)
+MCAT,4.0,3.0,4.0,-27.0,False,18.0,2.0,2.0,3.0,3.0,3.0,3.0,2.0,4.0,3.0,75.0,On Track
+ESL/ELL,18.0,3.0,22.0,-85.0,False,19.0,2.0,1.0,0.0,1.0,3.0,5.0,7.0,29.0,3.0,10.0,On Track (Low Util)
+Python,7.0,2.0,8.0,-70.0,False,14.0,2.0,1.0,1.0,1.0,2.0,3.0,4.0,9.0,4.0,44.0,On Track (Low Util)
+Anatomy & Physiology,18.0,2.0,22.0,-90.0,False,12.0,2.0,1.0,1.0,1.0,2.0,2.0,3.0,21.0,4.0,19.0,On Track (Low Util)
+Kindergarten Readiness,14.0,2.0,16.0,-84.0,False,15.0,2.0,2.0,1.0,1.0,2.0,3.0,4.0,17.0,4.0,24.0,On Track (Low Util)
+Microsoft Excel,9.0,3.0,11.0,-68.0,False,21.0,2.0,1.0,1.0,2.0,4.0,5.0,6.0,10.0,4.0,40.0,On Track (Low Util)
+HSPT,4.0,4.0,5.0,-8.0,False,29.0,2.0,3.0,4.0,4.0,5.0,6.0,5.0,16.0,12.0,75.0,On Track
+AP US History,5.0,3.0,6.0,-46.0,False,19.0,2.0,2.0,1.0,2.0,3.0,4.0,5.0,7.0,2.0,29.0,On Track (Low Util)
+Chess,2.0,2.0,3.0,-20.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+Spanish 3,10.0,3.0,12.0,-75.0,False,18.0,2.0,2.0,2.0,3.0,3.0,3.0,3.0,7.0,1.0,14.0,On Track (Low Util)
+High School Reading,38.0,3.0,46.0,-93.0,False,18.0,2.0,2.0,2.0,2.0,3.0,3.0,4.0,45.0,9.0,20.0,On Track (Low Util)
+ASVAB,1.0,3.0,2.0,104.0,True,19.0,2.0,1.0,1.0,2.0,3.0,5.0,5.0,1.0,0.0,0.0,Utilization Problem
+Piano,5.0,2.0,6.0,-64.0,False,12.0,2.0,1.0,1.0,2.0,2.0,2.0,2.0,5.0,0.0,0.0,On Track (Low Util)
+AP World History,5.0,2.0,6.0,-52.0,False,16.0,2.0,1.0,1.0,1.0,2.0,4.0,5.0,5.0,2.0,40.0,On Track (Low Util)
+Microeconomics,2.0,2.0,2.0,-14.0,False,12.0,2.0,1.0,1.0,1.0,2.0,2.0,3.0,2.0,1.0,50.0,On Track
+French 2,3.0,3.0,4.0,-14.0,False,18.0,2.0,2.0,2.0,2.0,2.0,4.0,4.0,2.0,1.0,50.0,On Track
+Linear Algebra,6.0,2.0,7.0,-62.0,False,16.0,2.0,2.0,2.0,2.0,2.0,3.0,3.0,3.0,1.0,33.0,On Track (Low Util)
+Psychology,16.0,2.0,19.0,-87.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,21.0,4.0,19.0,On Track (Low Util)
+English Grammar and Syntax,54.0,3.0,64.0,-95.0,False,19.0,2.0,2.0,2.0,3.0,4.0,3.0,3.0,38.0,7.0,18.0,On Track (Low Util)
+Competition Math,3.0,3.0,4.0,-14.0,False,18.0,2.0,2.0,2.0,2.0,3.0,3.0,4.0,2.0,0.0,0.0,On Track (Low Util)
+Mechanical Engineering,2.0,2.0,3.0,8.0,False,17.0,2.0,2.0,2.0,2.0,2.0,3.0,4.0,3.0,1.0,33.0,On Track (Low Util)
+AP English Literature and Composition,9.0,3.0,11.0,-72.0,False,18.0,2.0,2.0,2.0,3.0,3.0,3.0,3.0,4.0,3.0,75.0,On Track
+Physics 2,2.0,3.0,3.0,16.0,False,19.0,2.0,2.0,2.0,2.0,3.0,4.0,4.0,1.0,1.0,100.0,On Track
+College and University Admissions,18.0,2.0,22.0,-89.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,16.0,2.0,12.0,On Track (Low Util)
+AP Microeconomics,4.0,3.0,4.0,-14.0,False,21.0,2.0,2.0,1.0,2.0,3.0,5.0,6.0,5.0,1.0,20.0,On Track (Low Util)
+C++,2.0,2.0,3.0,-14.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+Pharmacology,8.0,2.0,9.0,-74.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,8.0,2.0,25.0,On Track (Low Util)
+French 3,1.0,3.0,2.0,174.0,True,24.0,2.0,2.0,2.0,3.0,4.0,5.0,6.0,2.0,1.0,50.0,True Supply Problem
+Math 2,2.0,4.0,3.0,59.0,True,26.0,2.0,2.0,2.0,2.0,4.0,6.0,8.0,2.0,1.0,50.0,True Supply Problem
+Multivariable Calculus,4.0,3.0,5.0,-32.0,False,19.0,2.0,2.0,2.0,2.0,3.0,4.0,4.0,,,,On Track
+JavaScript,4.0,2.0,5.0,-50.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,50.0,On Track
+AP Computer Science Principles,4.0,2.0,4.0,-38.0,False,16.0,2.0,2.0,2.0,2.0,2.0,3.0,3.0,2.0,0.0,0.0,On Track (Low Util)
+Corporate Finance,1.0,2.0,1.0,143.0,True,17.0,2.0,2.0,2.0,2.0,2.0,3.0,4.0,2.0,0.0,0.0,Utilization Problem
+Vietnamese,1.0,4.0,1.0,257.0,True,25.0,2.0,3.0,3.0,3.0,4.0,5.0,5.0,,,,Supply Problem (No Util Data)
+Cyber Security,6.0,2.0,7.0,-67.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,7.0,1.0,14.0,On Track (Low Util)
+BCABA,2.0,2.0,3.0,-20.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,,,,On Track
+IB Biology,4.0,2.0,5.0,-56.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+Electrical and Computer Engineering,1.0,2.0,1.0,143.0,True,17.0,2.0,2.0,2.0,2.0,2.0,3.0,4.0,1.0,0.0,0.0,Utilization Problem
+Statics and Dynamics,2.0,2.0,2.0,0.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,,,,On Track
+Applied Mathematics,5.0,2.0,6.0,-57.0,False,16.0,2.0,2.0,2.0,2.0,2.0,3.0,3.0,2.0,0.0,0.0,On Track (Low Util)
+Robotics,1.0,2.0,1.0,129.0,True,16.0,2.0,2.0,2.0,2.0,2.0,3.0,3.0,,,,Supply Problem (No Util Data)
+Fine arts,4.0,2.0,5.0,-54.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+Business Analytics,4.0,2.0,4.0,-34.0,False,17.0,2.0,2.0,2.0,2.0,3.0,3.0,3.0,3.0,1.0,33.0,On Track (Low Util)
+PTCE,1.0,2.0,1.0,100.0,True,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,,,,Supply Problem (No Util Data)
+Filmmaking,2.0,2.0,2.0,22.0,True,15.0,2.0,2.0,1.0,2.0,2.0,3.0,3.0,4.0,0.0,0.0,Utilization Problem
+Mac Basic Computer Skills,5.0,2.0,6.0,-57.0,False,14.0,2.0,1.0,1.0,1.0,2.0,3.0,4.0,6.0,1.0,17.0,On Track (Low Util)
+Cost Accounting,1.0,3.0,1.0,214.0,True,22.0,2.0,2.0,2.0,2.0,3.0,5.0,6.0,1.0,0.0,0.0,Utilization Problem
+PC Basic Computer Skills,6.0,2.0,7.0,-71.0,False,12.0,2.0,1.0,1.0,1.0,2.0,2.0,3.0,2.0,1.0,50.0,On Track
+Technical Writing,21.0,2.0,26.0,-91.0,False,14.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,14.0,2.0,14.0,On Track (Low Util)
+Music Recording,1.0,2.0,2.0,29.0,True,12.0,2.0,1.0,1.0,1.0,2.0,2.0,3.0,1.0,0.0,0.0,Utilization Problem
+Probability,1.0,2.0,2.0,94.0,True,17.0,2.0,2.0,2.0,2.0,2.0,3.0,4.0,2.0,0.0,0.0,Utilization Problem
+Linguistics,2.0,3.0,2.0,54.0,True,18.0,2.0,2.0,2.0,2.0,2.0,4.0,4.0,1.0,0.0,0.0,Utilization Problem
+Structural Engineering,1.0,2.0,1.0,129.0,True,16.0,2.0,2.0,2.0,2.0,2.0,3.0,3.0,,,,Supply Problem (No Util Data)
+Rhino,2.0,1.0,2.0,-5.0,False,10.0,2.0,1.0,1.0,1.0,1.0,2.0,2.0,3.0,1.0,33.0,On Track (Low Util)
+College Level American History,5.0,3.0,6.0,-43.0,False,20.0,2.0,2.0,2.0,2.0,3.0,4.0,5.0,,,,On Track
+Clinical Psychology,4.0,2.0,4.0,-35.0,False,16.0,2.0,2.0,2.0,2.0,2.0,3.0,3.0,,,,On Track
+Conversational Spanish,14.0,7.0,16.0,-50.0,False,47.0,1.0,0.0,2.0,5.0,10.0,14.0,15.0,24.0,4.0,17.0,On Track (Low Util)
+NCLEX,6.0,0.0,7.0,-98.0,False,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,5.0,2.0,40.0,On Track (Low Util)
+Japanese,2.0,3.0,2.0,81.0,True,19.0,1.0,1.0,2.0,2.0,3.0,5.0,5.0,1.0,0.0,0.0,Utilization Problem
+Orton Gillingham,3.0,0.0,4.0,-96.0,False,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,2.0,50.0,On Track
+Middle School Writing,98.0,0.0,118.0,-100.0,False,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,134.0,31.0,23.0,On Track (Low Util)
+College Physics,6.0,2.0,7.0,-68.0,False,13.0,1.0,1.0,0.0,0.0,2.0,4.0,5.0,6.0,3.0,50.0,On Track
+College Algebra,6.0,2.0,7.0,-64.0,False,15.0,1.0,0.0,0.0,0.0,2.0,5.0,7.0,5.0,1.0,20.0,On Track (Low Util)
+PSAT,6.0,1.0,8.0,-85.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,22.0,15.0,68.0,On Track
+Financial Accounting,5.0,2.0,6.0,-63.0,False,13.0,1.0,1.0,0.0,0.0,2.0,4.0,5.0,11.0,2.0,18.0,On Track (Low Util)
+Mandarin Chinese 1,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
+Drawing,15.0,1.0,18.0,-93.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,18.0,5.0,28.0,On Track (Low Util)
+SAT Writing and Language,8.0,1.0,10.0,-88.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,18.0,12.0,67.0,On Track
+French 1,8.0,1.0,10.0,-88.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,7.0,0.0,0.0,On Track (Low Util)
+ARRT - Radiography,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+NCLEX-RN,4.0,1.0,5.0,-75.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,6.0,2.0,33.0,On Track (Low Util)
+Conversational German,1.0,3.0,2.0,125.0,True,21.0,1.0,1.0,2.0,3.0,4.0,5.0,5.0,1.0,0.0,0.0,Utilization Problem
+NPTE,1.0,1.0,2.0,-25.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+Java,9.0,1.0,10.0,-87.0,False,8.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,14.0,5.0,36.0,On Track (Low Util)
+Basic Computer Literacy,15.0,2.0,18.0,-88.0,False,13.0,1.0,0.0,0.0,0.0,1.0,5.0,6.0,10.0,1.0,10.0,On Track (Low Util)
+Organic Chemistry 2,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Computer Programming,12.0,1.0,15.0,-92.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,23.0,7.0,30.0,On Track (Low Util)
+Creative Writing,72.0,1.0,86.0,-99.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,63.0,8.0,13.0,On Track (Low Util)
+College Computer Science,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,2.0,22.0,On Track (Low Util)
+Electrical Engineering,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,2.0,50.0,On Track
+Portuguese,1.0,1.0,2.0,-4.0,False,9.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,2.0,0.0,0.0,On Track (Low Util)
+General Chemistry 2,4.0,1.0,5.0,-68.0,False,9.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+Differential Equations,2.0,2.0,3.0,-30.0,False,11.0,1.0,1.0,1.0,1.0,2.0,2.0,3.0,2.0,1.0,50.0,On Track
+Spanish 4,9.0,1.0,11.0,-89.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,5.0,1.0,20.0,On Track (Low Util)
+OTR,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+High School Level American History,9.0,1.0,11.0,-89.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,20.0,5.0,25.0,On Track (Low Util)
+American Sign Language,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,1.0,25.0,On Track (Low Util)
+Grade 11 Physics,2.0,1.0,2.0,-40.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Latin 1,2.0,1.0,2.0,-57.0,False,6.0,1.0,0.0,0.0,0.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+CPA FAR,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+ACT Reading,4.0,2.0,5.0,-57.0,False,12.0,1.0,1.0,2.0,2.0,2.0,2.0,2.0,7.0,4.0,57.0,On Track
+Math 3,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+CogAT,1.0,2.0,1.0,57.0,True,11.0,1.0,1.0,1.0,2.0,2.0,2.0,2.0,,,,Supply Problem (No Util Data)
+Middle School Social Studies,35.0,0.0,42.0,-100.0,False,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,47.0,15.0,32.0,On Track (Low Util)
+ACT English,3.0,2.0,3.0,-12.0,False,17.0,1.0,1.0,2.0,2.0,3.0,4.0,4.0,5.0,3.0,60.0,On Track
+VTNE,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+French Immersion,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Guitar,3.0,1.0,4.0,-70.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+AP Psychology,8.0,1.0,10.0,-88.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,3.0,33.0,On Track (Low Util)
+NCLEX-PN,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
+Earth Science,15.0,1.0,18.0,-93.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,1.0,10.0,On Track (Low Util)
+Mandarin Chinese 2,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
+Microbiology,6.0,1.0,8.0,-84.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
+Chemistry 2,2.0,2.0,3.0,-31.0,False,12.0,1.0,1.0,1.0,1.0,2.0,3.0,3.0,1.0,0.0,0.0,On Track (Low Util)
+Functions,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+CFA - Level 1,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+CompTIA Security+,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Thermodynamics,3.0,1.0,4.0,-67.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Music Theory,8.0,1.0,9.0,-87.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,5.0,0.0,0.0,On Track (Low Util)
+Business Statistics,2.0,1.0,3.0,-57.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,1.0,25.0,On Track (Low Util)
+Physical Chemistry,4.0,2.0,5.0,-61.0,False,11.0,1.0,1.0,1.0,1.0,2.0,2.0,3.0,,,,On Track
+Math 1,4.0,1.0,5.0,-67.0,False,10.0,1.0,1.0,1.0,1.0,1.0,2.0,3.0,3.0,2.0,67.0,On Track
+Elementary Social Studies,42.0,1.0,50.0,-98.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,51.0,17.0,33.0,On Track (Low Util)
+Statistics Graduate Level,1.0,2.0,2.0,37.0,True,12.0,1.0,1.0,1.0,1.0,2.0,3.0,3.0,3.0,1.0,33.0,Utilization Problem
+COMLEX,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+IB Physics,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+AP European History,3.0,1.0,3.0,-46.0,False,10.0,1.0,1.0,1.0,1.0,1.0,2.0,3.0,1.0,0.0,0.0,On Track (Low Util)
+AP Physics 2,3.0,1.0,3.0,-62.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Genetics,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+SSAT- Upper Level,7.0,1.0,8.0,-85.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,19.0,12.0,63.0,On Track
+German 1,1.0,1.0,2.0,-25.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+ISEE- Middle Level,5.0,1.0,6.0,-81.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,15.0,11.0,73.0,On Track
+PANCE,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Environmental Science,5.0,1.0,6.0,-79.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Polish,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+PMP,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+ARDMS - Sonography Principals and Instruments (SPI),1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Data Analysis,2.0,1.0,3.0,-56.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
+Computer Game Design,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Discrete Math,3.0,1.0,3.0,-62.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Physical Science,8.0,1.0,10.0,-82.0,False,10.0,1.0,1.0,1.0,1.0,1.0,2.0,3.0,,,,On Track
+Data Structures,2.0,1.0,3.0,-60.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Marketing,10.0,1.0,13.0,-90.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,3.0,38.0,On Track (Low Util)
+Latin 2,2.0,1.0,2.0,-43.0,False,8.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,0.0,0.0,On Track (Low Util)
+Pathophysiology,6.0,1.0,8.0,-85.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,2.0,25.0,On Track (Low Util)
+Cell Biology,7.0,1.0,8.0,-86.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,7.0,0.0,0.0,On Track (Low Util)
+Grade 12 Physics,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+GED Math,4.0,1.0,5.0,-87.0,False,4.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,9.0,6.0,67.0,On Track
+PRAXIS Core Math,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Ukrainian,1.0,2.0,1.0,71.0,True,12.0,1.0,1.0,2.0,2.0,2.0,2.0,2.0,,,,Supply Problem (No Util Data)
+Autodesk Revit,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
+High School Computer Science,6.0,1.0,8.0,-85.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,2.0,22.0,On Track (Low Util)
+ISEE- Upper Level,5.0,1.0,6.0,-80.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,14.0,10.0,71.0,On Track
+Social Work,4.0,1.0,5.0,-78.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,0.0,0.0,On Track (Low Util)
+College Business,10.0,1.0,12.0,-90.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,9.0,4.0,44.0,On Track (Low Util)
+Machine Learning,4.0,1.0,5.0,-78.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
+AP Physics C: Electricity and Magnetism,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Philosophy,4.0,1.0,4.0,-71.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,0.0,0.0,On Track (Low Util)
+Singing,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+GRE Quantitative,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+CPA REG,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Video Game Design,2.0,2.0,2.0,5.0,False,11.0,1.0,1.0,1.0,2.0,2.0,2.0,2.0,,,,On Track
+High School Economics,6.0,2.0,7.0,-64.0,False,14.0,1.0,1.0,2.0,2.0,3.0,3.0,2.0,6.0,2.0,33.0,On Track (Low Util)
+SQL,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,4.0,50.0,On Track
+MAP,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Graphic Design,10.0,1.0,13.0,-90.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,3.0,30.0,On Track (Low Util)
+Contract Law,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+Animation,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Autodesk Fusion 360,1.0,1.0,1.0,43.0,True,10.0,1.0,1.0,1.0,1.0,2.0,2.0,2.0,1.0,0.0,0.0,Utilization Problem
+Finite Mathematics,1.0,1.0,2.0,-25.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+IB French,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Data Science,7.0,1.0,9.0,-86.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,3.0,38.0,On Track (Low Util)
+Project Management/PMP,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Microsoft Word,9.0,1.0,10.0,-84.0,False,10.0,1.0,1.0,1.0,1.0,2.0,2.0,2.0,4.0,1.0,25.0,On Track (Low Util)
+Sociology,4.0,1.0,5.0,-78.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Neuroscience,7.0,1.0,8.0,-85.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+Algorithms,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Civil Engineering,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Voice,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+R Programming,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Public Health,4.0,1.0,5.0,-75.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Algebra Regents,2.0,1.0,3.0,-60.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Biostatistics,2.0,1.0,3.0,-57.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+Web Development,5.0,1.0,6.0,-80.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Logic,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Web Design,4.0,1.0,5.0,-75.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,2.0,67.0,On Track
+Molecular Biology,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Personal Finance,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Chemical Engineering,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Photoshop,4.0,1.0,5.0,-78.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,6.0,2.0,33.0,On Track (Low Util)
+Fluid Mechanics,1.0,1.0,2.0,-25.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+Minecraft,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Econometrics,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+PSAT Mathematics,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+ANCC - Family Nurse Practitioner Certification (FNP),1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Enrichment,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+MCAT Chemical and Physical Foundations of Biological Systems,1.0,1.0,2.0,-20.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
+HTML,4.0,1.0,5.0,-76.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,2.0,50.0,On Track
+Roblox,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
+Legal Writing,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+College Political Science,3.0,1.0,4.0,-67.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+ACT Science,4.0,1.0,4.0,-71.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
+AP Research,4.0,1.0,5.0,-77.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+Microsoft Power BI,2.0,1.0,2.0,-40.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
+LSAT Logical Reasoning,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,3.0,1.0,33.0,On Track (Low Util)
+Aerospace Engineering,2.0,1.0,2.0,-40.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Astronomy,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+MATLAB,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Photography,3.0,1.0,3.0,-62.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Hebrew,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Inorganic Chemistry,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Architecture,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,3.0,75.0,On Track
+Civil Procedure,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Painting,5.0,1.0,6.0,-81.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,8.0,4.0,50.0,On Track
+Managerial Economics,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+German 2,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Linux,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Expository Writing,20.0,1.0,23.0,-95.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,13.0,3.0,23.0,On Track (Low Util)
+Information Technology,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Software,1.0,2.0,1.0,114.0,True,15.0,1.0,2.0,1.0,1.0,2.0,4.0,4.0,2.0,1.0,50.0,True Supply Problem
+ISEE- Primary,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+GMAT Quantitative Reasoning,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Tableau,2.0,1.0,3.0,-60.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
+Medical Terminology,13.0,1.0,16.0,-92.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,0.0,0.0,On Track (Low Util)
+Biomedical Engineering,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
+Series 10,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Analytical Chemistry,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Heat Transfer,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Latin 4,1.0,2.0,1.0,100.0,True,14.0,1.0,1.0,0.0,1.0,2.0,4.0,5.0,,,,Supply Problem (No Util Data)
+High School Geography,3.0,1.0,4.0,-70.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,5.0,1.0,20.0,On Track (Low Util)
+Police Officer Exam,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Series 24,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+High School Government,19.0,1.0,23.0,-95.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,16.0,7.0,44.0,On Track (Low Util)
+Materials Science,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Criminal Law,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+AP Seminar,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Biomechanics,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Quantum Physics,3.0,1.0,4.0,-67.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Kinesiology,1.0,1.0,2.0,-20.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+International Business,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Nutrition,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Data Management,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+Agricultural Science,2.0,1.0,2.0,-36.0,False,9.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+Real Analysis,3.0,1.0,4.0,-67.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Operating Systems,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Ethics,6.0,1.0,7.0,-83.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Discrete Structures,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Autodesk Maya,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Supply Chain Management,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+IB Business & Management,3.0,1.0,3.0,-64.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,2.0,50.0,On Track
+European History,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Immunology,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Computer Architecture,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Sketchup,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,100.0,On Track
+High School Level American Literature,8.0,1.0,10.0,-88.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Relational Databases,4.0,1.0,5.0,-75.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,6.0,3.0,50.0,On Track
+IB Extended Essay,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,1.0,50.0,On Track
+CISSP,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Theology,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+C,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+AP Art History,5.0,1.0,6.0,-79.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+Quantitative Methods,1.0,1.0,2.0,-25.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+Cooking,2.0,1.0,2.0,-33.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Trumpet,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Audio Engineering,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Cardiology,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Numerical Analysis,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+High School Accounting,4.0,1.0,5.0,-75.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,10.0,2.0,20.0,On Track (Low Util)
+Evolutionary Biology,2.0,1.0,2.0,-50.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+Fiction Writing,19.0,1.0,23.0,-95.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0,0.0,0.0,On Track (Low Util)
+College Geography,2.0,1.0,3.0,-57.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,4.0,1.0,25.0,On Track (Low Util)
+TEFL,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+IB Economics,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+LSAT Argumentative Writing,2.0,1.0,2.0,-40.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,0.0,On Track (Low Util)
+IB Global Politics,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track
+Turkish,1.0,1.0,1.0,0.0,False,7.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,On Track
+ACT,7.0,1.0,8.0,-90.0,False,5.0,0.0,0.0,0.0,0.0,1.0,2.0,2.0,19.0,9.0,47.0,On Track (Low Util)
+Conversational French,2.0,1.0,3.0,-43.0,False,10.0,0.0,0.0,0.0,0.0,2.0,4.0,4.0,4.0,1.0,25.0,On Track (Low Util)
+Korean,4.0,0.0,4.0,-88.0,False,3.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,3.0,0.0,0.0,On Track (Low Util)
+Pre-Algebra,41.0,0.0,49.0,-99.0,False,2.0,0.0,0.0,0.0,0.0,0.0,0.0,2.0,59.0,30.0,51.0,On Track
+Conversational Italian,2.0,0.0,2.0,-90.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,100.0,On Track
+College Statistics,3.0,0.0,3.0,-95.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,4.0,1.0,25.0,On Track (Low Util)
+High School Writing,94.0,0.0,112.0,-100.0,False,3.0,0.0,0.0,0.0,0.0,0.0,1.0,2.0,124.0,23.0,19.0,On Track (Low Util)
+Grade 10 Math,8.0,0.0,10.0,-95.0,False,3.0,0.0,0.0,0.0,0.0,0.0,1.0,2.0,10.0,4.0,40.0,On Track (Low Util)
+GMAT,2.0,1.0,2.0,-24.0,False,8.0,0.0,1.0,1.0,2.0,2.0,1.0,1.0,,,,On Track
+High School Science,20.0,0.0,23.0,-99.0,False,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,11.0,2.0,18.0,On Track (Low Util)
+Business Calculus,2.0,1.0,2.0,-52.0,False,5.0,0.0,0.0,0.0,0.0,1.0,2.0,2.0,1.0,0.0,0.0,On Track (Low Util)
+DAT,1.0,1.0,1.0,-14.0,False,6.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,100.0,On Track

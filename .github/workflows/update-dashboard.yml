@@ -8,7 +8,8 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'data/**' # Trigger when data files are updated
+      - 'data/**'
+      - 'dashboard/index.html'
 
 permissions:
   contents: write
