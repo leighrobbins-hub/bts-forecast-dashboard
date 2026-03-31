@@ -1619,7 +1619,7 @@ ELSE:
         })();
 
         /* ── Data loading ── */
-        fetch('data.json')
+        fetch('data.json?v=' + Date.now())
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 allData = data.subjects || [];
