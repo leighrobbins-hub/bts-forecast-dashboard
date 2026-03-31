@@ -164,30 +164,146 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
 
 TEST_PREP_KEYWORDS = [
     'ACT', 'SAT', 'GRE', 'GMAT', 'LSAT', 'MCAT', 'ASVAB', 'PSAT', 'SSAT',
-    'ISEE', 'SHSAT', 'TEAS', 'NCLEX', 'Praxis', 'STAAR', 'DAT', 'OAT',
+    'ISEE', 'SHSAT', 'TEAS', 'Praxis', 'STAAR', 'DAT', 'OAT', 'HSPT',
+    'CogAT', 'MAP', 'GED', 'COMLEX', 'PANCE',
 ]
+
+PROFESSIONAL_KEYWORDS = [
+    'CPA', 'CFA', 'CISSP', 'CompTIA', 'NCLEX', 'PMP', 'PTCE', 'VTNE',
+    'NPTE', 'OTR', 'BCABA', 'TEFL', 'Series 10', 'Series 24',
+    'Nursing', 'ANCC', 'ARDMS', 'ARRT', 'Certification',
+    'Police Officer Exam', 'PRAXIS',
+]
+
+ELEMENTARY_SUBJECTS = {
+    'Kindergarten Readiness', 'Handwriting', 'Phonics',
+}
+
+MIDDLE_SCHOOL_SUBJECTS = {
+    'Pre-Algebra',
+}
+
+HIGH_SCHOOL_SUBJECTS = {
+    'Algebra', 'Algebra 2', 'Geometry', 'Pre-Calculus', 'Trigonometry',
+    'Math 1', 'Math 2', 'Math 3', 'Earth Science', 'Physical Science',
+    'Chemistry', 'Physics', 'Competition Math', 'Functions',
+    'English Grammar and Syntax', 'European History',
+}
+
+COLLEGE_SUBJECTS = {
+    'Calculus 2', 'Calculus 3', 'Multivariable Calculus', 'Business Calculus',
+    'Differential Equations', 'Linear Algebra', 'Real Analysis',
+    'Discrete Math', 'Discrete Structures', 'Numerical Analysis',
+    'Probability', 'Applied Mathematics', 'Finite Mathematics',
+    'Statistics', 'Biostatistics', 'Business Statistics',
+    'Statistics Graduate Level', 'Quantitative Methods', 'Econometrics',
+    'Statics and Dynamics',
+    'Organic Chemistry', 'Organic Chemistry 2', 'Inorganic Chemistry',
+    'Analytical Chemistry', 'Physical Chemistry', 'General Chemistry 2',
+    'Chemistry 2', 'Physics 2',
+    'Biochemistry', 'Molecular Biology', 'Cell Biology', 'Genetics',
+    'Microbiology', 'Immunology', 'Neuroscience', 'Evolutionary Biology',
+    'Anatomy & Physiology', 'Pathophysiology', 'Pharmacology', 'Kinesiology',
+    'Biomechanics', 'Cardiology', 'Nutrition', 'Public Health',
+    'Aerospace Engineering', 'Biomedical Engineering', 'Chemical Engineering',
+    'Civil Engineering', 'Electrical Engineering',
+    'Electrical and Computer Engineering', 'Mechanical Engineering',
+    'Structural Engineering', 'Materials Science', 'Fluid Mechanics',
+    'Heat Transfer', 'Thermodynamics', 'Quantum Physics',
+    'Macroeconomics', 'Microeconomics', 'Managerial Economics',
+    'Finance', 'Corporate Finance', 'Personal Finance',
+    'Financial Accounting', 'Managerial Accounting', 'Cost Accounting',
+    'Marketing', 'Management', 'International Business',
+    'Business Analytics', 'Supply Chain Management',
+    'Project Management/PMP',
+    'Psychology', 'Clinical Psychology', 'Sociology', 'Social Work',
+    'Philosophy', 'Ethics', 'Theology', 'Linguistics', 'Logic',
+    'Criminal Law', 'Civil Procedure', 'Contract Law', 'Legal Writing',
+    'Medical Terminology', 'Agricultural Science',
+    'Data Science', 'Data Analysis', 'Data Management', 'Data Structures',
+    'Machine Learning', 'Artificial Intelligence (AI)', 'Algorithms',
+    'Computer Architecture', 'Operating Systems', 'Cyber Security',
+    'Information Technology',
+    'Java', 'JavaScript', 'Python', 'C', 'C++', 'R Programming',
+    'SQL', 'MATLAB', 'HTML', 'Relational Databases', 'Linux',
+    'Computer Programming', 'Web Development', 'Web Design',
+    'Software', 'Coding',
+    'Technical Writing', 'Expository Writing', 'Creative Writing',
+    'Fiction Writing', 'Public Speaking',
+}
+
+ARTS_AND_MUSIC = {
+    'Drawing', 'Painting', 'Photography', 'Fine arts', 'Graphic Design',
+    'Animation', 'Filmmaking', 'Music Theory', 'Music Recording',
+    'Piano', 'Guitar', 'Trumpet', 'Singing', 'Voice',
+    'Adobe Illustrator', 'Photoshop', 'Sketchup', 'Rhino',
+    'Autocad', 'Autodesk Fusion 360', 'Autodesk Maya', 'Autodesk Revit',
+    'Audio Engineering', 'Digital Media',
+}
+
+TECHNOLOGY = {
+    'Computer Game Design', 'Video Game Design', 'Minecraft', 'Roblox',
+    'Robotics', 'Tableau', 'Microsoft Excel', 'Microsoft Word',
+    'Microsoft Power BI', 'Mac Basic Computer Skills',
+    'PC Basic Computer Skills', 'Basic Computer Literacy',
+    'Social Networking',
+}
+
+LANGUAGES = {
+    'Spanish 1', 'Spanish 2', 'Spanish 3', 'Spanish 4',
+    'French 1', 'French 2', 'French 3', 'French Immersion',
+    'Conversational French', 'Conversational Spanish',
+    'Conversational German', 'Conversational Italian',
+    'German 1', 'German 2', 'Latin 1', 'Latin 2', 'Latin 4',
+    'Mandarin Chinese 1', 'Mandarin Chinese 2',
+    'Japanese', 'Korean', 'Hebrew', 'Portuguese', 'Polish',
+    'Turkish', 'Ukrainian', 'Vietnamese', 'American Sign Language',
+    'ESL/ELL',
+}
 
 
 def classify_category(subject):
     """Assign a grade-level / type category based on subject name."""
-    if subject.startswith('Elementary'):
-        return 'Elementary'
-    if subject.startswith('Middle School') or subject.startswith('Middle '):
-        return 'Middle School'
-    if subject.startswith('High School'):
-        return 'High School'
-    if subject.startswith('College'):
-        return 'College'
-    if subject.startswith('AP '):
+    s = subject.strip()
+
+    if s.startswith('AP '):
         return 'AP'
-    if subject.startswith('IB '):
+    if s.startswith('IB '):
         return 'IB'
-    if any(subject == kw or subject.startswith(kw + ' ') for kw in TEST_PREP_KEYWORDS):
+
+    if any(s == kw or s.startswith(kw + ' ') or s.startswith(kw + '-')
+           for kw in TEST_PREP_KEYWORDS):
         return 'Test Prep'
-    if 'Regents' in subject:
+    if 'Regents' in s:
         return 'Test Prep'
-    if any(kw in subject for kw in ['CPA', 'Nursing', 'ANCC', 'ARDMS', 'ARRT', 'Certification']):
+
+    if any(kw in s for kw in PROFESSIONAL_KEYWORDS):
         return 'Professional/Cert'
+
+    if s.startswith('Elementary') or s in ELEMENTARY_SUBJECTS:
+        return 'Elementary'
+
+    if s.startswith('Middle School') or s.startswith('Middle ') or s in MIDDLE_SCHOOL_SUBJECTS:
+        return 'Middle School'
+    if 'ISEE- Middle' in s:
+        return 'Middle School'
+
+    if (s.startswith('High School') or s in HIGH_SCHOOL_SUBJECTS
+            or s.startswith('Grade 10') or s.startswith('Grade 9')):
+        return 'High School'
+    if s.startswith('Grade 11') or s.startswith('Grade 12'):
+        return 'High School'
+
+    if (s.startswith('College') or s in COLLEGE_SUBJECTS):
+        return 'College'
+
+    if s in ARTS_AND_MUSIC:
+        return 'Arts & Music'
+    if s in TECHNOLOGY:
+        return 'Technology'
+    if s in LANGUAGES:
+        return 'Language'
+
     return 'Other'
 
 

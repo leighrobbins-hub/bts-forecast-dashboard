@@ -4,7 +4,7 @@ window.__dashboardData = {
     "utilization_problems": 24,
     "supply_problems": 10,
     "on_track": 298,
-    "last_updated": "2026-03-31 23:19 UTC",
+    "last_updated": "2026-03-31 18:24 UTC",
     "portfolio_bts_total": 6796.0,
     "portfolio_actual_to_date": 0,
     "portfolio_remaining": 6796.0,
@@ -131,7 +131,7 @@ window.__dashboardData = {
       "Utilized_30d": 12.0,
       "Util_Rate": 44.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Elementary School Reading",
@@ -177,7 +177,7 @@ window.__dashboardData = {
       "Utilized_30d": 20.0,
       "Util_Rate": 47.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Algebra",
@@ -200,7 +200,7 @@ window.__dashboardData = {
       "Utilized_30d": 30.0,
       "Util_Rate": 41.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "AP Biology",
@@ -269,7 +269,7 @@ window.__dashboardData = {
       "Utilized_30d": 13.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "AP Calculus AB",
@@ -361,7 +361,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "True Supply Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Executive Functioning",
@@ -430,7 +430,7 @@ window.__dashboardData = {
       "Utilized_30d": 10.0,
       "Util_Rate": 62.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "High School Physics",
@@ -614,7 +614,7 @@ window.__dashboardData = {
       "Utilized_30d": 11.0,
       "Util_Rate": 46.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Handwriting",
@@ -637,7 +637,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 38.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Elementary"
     },
     {
       "Subject": "Elementary School English",
@@ -752,7 +752,7 @@ window.__dashboardData = {
       "Utilized_30d": 5.0,
       "Util_Rate": 23.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Spanish 2",
@@ -775,7 +775,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 9.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "AP Statistics",
@@ -890,7 +890,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "True Supply Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP Computer Science A",
@@ -959,7 +959,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 57.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "SAT Math",
@@ -1028,7 +1028,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 60.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Public Speaking",
@@ -1051,7 +1051,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 20.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Trigonometry",
@@ -1074,7 +1074,7 @@ window.__dashboardData = {
       "Utilized_30d": 12.0,
       "Util_Rate": 48.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Nursing",
@@ -1143,7 +1143,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 10.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Biochemistry",
@@ -1166,7 +1166,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "College Economics",
@@ -1212,7 +1212,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "AP Pre-Calculus",
@@ -1258,7 +1258,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Macroeconomics",
@@ -1281,7 +1281,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP Environmental Science",
@@ -1419,7 +1419,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 14.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Artificial Intelligence (AI)",
@@ -1442,7 +1442,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Management",
@@ -1465,7 +1465,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Social Networking",
@@ -1488,7 +1488,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Middle School English",
@@ -1557,7 +1557,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 10.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Python",
@@ -1580,7 +1580,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 44.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Anatomy & Physiology",
@@ -1603,7 +1603,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 19.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Kindergarten Readiness",
@@ -1626,7 +1626,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 24.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Elementary"
     },
     {
       "Subject": "Microsoft Excel",
@@ -1649,7 +1649,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 40.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "HSPT",
@@ -1672,7 +1672,7 @@ window.__dashboardData = {
       "Utilized_30d": 12.0,
       "Util_Rate": 75.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "AP US History",
@@ -1741,7 +1741,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 14.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "High School Reading",
@@ -1810,7 +1810,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "AP World History",
@@ -1856,7 +1856,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "French 2",
@@ -1879,7 +1879,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Linear Algebra",
@@ -1902,7 +1902,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Psychology",
@@ -1925,7 +1925,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 19.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "English Grammar and Syntax",
@@ -1948,7 +1948,7 @@ window.__dashboardData = {
       "Utilized_30d": 7.0,
       "Util_Rate": 18.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Competition Math",
@@ -1971,7 +1971,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Mechanical Engineering",
@@ -1994,7 +1994,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP English Literature and Composition",
@@ -2040,7 +2040,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "College and University Admissions",
@@ -2109,7 +2109,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Pharmacology",
@@ -2132,7 +2132,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "French 3",
@@ -2155,7 +2155,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "True Supply Problem",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Math 2",
@@ -2178,7 +2178,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "True Supply Problem",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Multivariable Calculus",
@@ -2201,7 +2201,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "JavaScript",
@@ -2224,7 +2224,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP Computer Science Principles",
@@ -2270,7 +2270,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Vietnamese",
@@ -2293,7 +2293,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Cyber Security",
@@ -2316,7 +2316,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 14.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "BCABA",
@@ -2339,7 +2339,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "IB Biology",
@@ -2385,7 +2385,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Statics and Dynamics",
@@ -2408,7 +2408,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Applied Mathematics",
@@ -2431,7 +2431,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Robotics",
@@ -2454,7 +2454,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Fine arts",
@@ -2477,7 +2477,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Business Analytics",
@@ -2500,7 +2500,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "PTCE",
@@ -2523,7 +2523,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Filmmaking",
@@ -2546,7 +2546,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Mac Basic Computer Skills",
@@ -2569,7 +2569,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 17.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Cost Accounting",
@@ -2592,7 +2592,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "PC Basic Computer Skills",
@@ -2615,7 +2615,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Technical Writing",
@@ -2638,7 +2638,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 14.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Music Recording",
@@ -2661,7 +2661,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Probability",
@@ -2684,7 +2684,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Linguistics",
@@ -2707,7 +2707,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Structural Engineering",
@@ -2730,7 +2730,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Rhino",
@@ -2753,7 +2753,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "College Level American History",
@@ -2799,7 +2799,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Conversational Spanish",
@@ -2822,7 +2822,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 17.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "NCLEX",
@@ -2845,7 +2845,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 40.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Test Prep"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Japanese",
@@ -2868,7 +2868,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Orton Gillingham",
@@ -3006,7 +3006,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 18.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Mandarin Chinese 1",
@@ -3029,7 +3029,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Drawing",
@@ -3052,7 +3052,7 @@ window.__dashboardData = {
       "Utilized_30d": 5.0,
       "Util_Rate": 28.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "SAT Writing and Language",
@@ -3098,7 +3098,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "ARRT - Radiography",
@@ -3144,7 +3144,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Conversational German",
@@ -3167,7 +3167,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "NPTE",
@@ -3190,7 +3190,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Java",
@@ -3213,7 +3213,7 @@ window.__dashboardData = {
       "Utilized_30d": 5.0,
       "Util_Rate": 36.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Basic Computer Literacy",
@@ -3236,7 +3236,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 10.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Organic Chemistry 2",
@@ -3259,7 +3259,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Computer Programming",
@@ -3282,7 +3282,7 @@ window.__dashboardData = {
       "Utilized_30d": 7.0,
       "Util_Rate": 30.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Creative Writing",
@@ -3305,7 +3305,7 @@ window.__dashboardData = {
       "Utilized_30d": 8.0,
       "Util_Rate": 13.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "College Computer Science",
@@ -3351,7 +3351,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Portuguese",
@@ -3374,7 +3374,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "General Chemistry 2",
@@ -3397,7 +3397,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Differential Equations",
@@ -3420,7 +3420,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Spanish 4",
@@ -3443,7 +3443,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 20.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "OTR",
@@ -3466,7 +3466,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "High School Level American History",
@@ -3512,7 +3512,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Grade 11 Physics",
@@ -3535,7 +3535,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Latin 1",
@@ -3558,7 +3558,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "CPA FAR",
@@ -3627,7 +3627,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "CogAT",
@@ -3650,7 +3650,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "Middle School Social Studies",
@@ -3719,7 +3719,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "French Immersion",
@@ -3742,7 +3742,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Guitar",
@@ -3765,7 +3765,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "AP Psychology",
@@ -3811,7 +3811,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Earth Science",
@@ -3834,7 +3834,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 10.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Mandarin Chinese 2",
@@ -3857,7 +3857,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Microbiology",
@@ -3880,7 +3880,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Chemistry 2",
@@ -3903,7 +3903,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Functions",
@@ -3926,7 +3926,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "CFA - Level 1",
@@ -3949,7 +3949,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "CompTIA Security+",
@@ -3972,7 +3972,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Thermodynamics",
@@ -3995,7 +3995,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Music Theory",
@@ -4018,7 +4018,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Business Statistics",
@@ -4041,7 +4041,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Physical Chemistry",
@@ -4064,7 +4064,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Math 1",
@@ -4087,7 +4087,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 67.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Elementary Social Studies",
@@ -4133,7 +4133,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "COMLEX",
@@ -4156,7 +4156,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "IB Physics",
@@ -4248,7 +4248,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "SSAT- Upper Level",
@@ -4271,7 +4271,7 @@ window.__dashboardData = {
       "Utilized_30d": 12.0,
       "Util_Rate": 63.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "German 1",
@@ -4294,7 +4294,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "ISEE- Middle Level",
@@ -4317,7 +4317,7 @@ window.__dashboardData = {
       "Utilized_30d": 11.0,
       "Util_Rate": 73.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "PANCE",
@@ -4340,7 +4340,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "Environmental Science",
@@ -4386,7 +4386,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "PMP",
@@ -4409,7 +4409,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "ARDMS - Sonography Principals and Instruments (SPI)",
@@ -4455,7 +4455,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Computer Game Design",
@@ -4478,7 +4478,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Discrete Math",
@@ -4501,7 +4501,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Physical Science",
@@ -4524,7 +4524,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Data Structures",
@@ -4547,7 +4547,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Marketing",
@@ -4570,7 +4570,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 38.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Latin 2",
@@ -4593,7 +4593,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Pathophysiology",
@@ -4616,7 +4616,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Cell Biology",
@@ -4639,7 +4639,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Grade 12 Physics",
@@ -4662,7 +4662,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "GED Math",
@@ -4685,7 +4685,7 @@ window.__dashboardData = {
       "Utilized_30d": 6.0,
       "Util_Rate": 67.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "PRAXIS Core Math",
@@ -4708,7 +4708,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Ukrainian",
@@ -4731,7 +4731,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Autodesk Revit",
@@ -4754,7 +4754,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "High School Computer Science",
@@ -4800,7 +4800,7 @@ window.__dashboardData = {
       "Utilized_30d": 10.0,
       "Util_Rate": 71.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "Social Work",
@@ -4823,7 +4823,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "College Business",
@@ -4869,7 +4869,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP Physics C: Electricity and Magnetism",
@@ -4915,7 +4915,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Singing",
@@ -4938,7 +4938,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "GRE Quantitative",
@@ -5007,7 +5007,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "High School Economics",
@@ -5053,7 +5053,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "MAP",
@@ -5076,7 +5076,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "Graphic Design",
@@ -5099,7 +5099,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 30.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Contract Law",
@@ -5122,7 +5122,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Animation",
@@ -5145,7 +5145,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Autodesk Fusion 360",
@@ -5168,7 +5168,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "Utilization Problem",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Finite Mathematics",
@@ -5191,7 +5191,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "IB French",
@@ -5237,7 +5237,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 38.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Project Management/PMP",
@@ -5260,7 +5260,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Microsoft Word",
@@ -5283,7 +5283,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Sociology",
@@ -5306,7 +5306,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Neuroscience",
@@ -5329,7 +5329,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Algorithms",
@@ -5352,7 +5352,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Civil Engineering",
@@ -5375,7 +5375,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Voice",
@@ -5398,7 +5398,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "R Programming",
@@ -5421,7 +5421,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Public Health",
@@ -5444,7 +5444,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Algebra Regents",
@@ -5490,7 +5490,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Web Development",
@@ -5513,7 +5513,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Logic",
@@ -5536,7 +5536,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Web Design",
@@ -5559,7 +5559,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 67.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Molecular Biology",
@@ -5582,7 +5582,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Personal Finance",
@@ -5605,7 +5605,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Chemical Engineering",
@@ -5628,7 +5628,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Photoshop",
@@ -5651,7 +5651,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 33.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Fluid Mechanics",
@@ -5674,7 +5674,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Minecraft",
@@ -5697,7 +5697,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Econometrics",
@@ -5720,7 +5720,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "PSAT Mathematics",
@@ -5835,7 +5835,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Roblox",
@@ -5858,7 +5858,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Legal Writing",
@@ -5881,7 +5881,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "College Political Science",
@@ -5973,7 +5973,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "LSAT Logical Reasoning",
@@ -6019,7 +6019,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Astronomy",
@@ -6065,7 +6065,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Photography",
@@ -6088,7 +6088,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Hebrew",
@@ -6111,7 +6111,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Inorganic Chemistry",
@@ -6134,7 +6134,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Architecture",
@@ -6180,7 +6180,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Painting",
@@ -6203,7 +6203,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Managerial Economics",
@@ -6226,7 +6226,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "German 2",
@@ -6249,7 +6249,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Linux",
@@ -6272,7 +6272,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Expository Writing",
@@ -6295,7 +6295,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 23.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Information Technology",
@@ -6318,7 +6318,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Software",
@@ -6341,7 +6341,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "True Supply Problem",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "ISEE- Primary",
@@ -6364,7 +6364,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Test Prep"
     },
     {
       "Subject": "GMAT Quantitative Reasoning",
@@ -6410,7 +6410,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Technology"
     },
     {
       "Subject": "Medical Terminology",
@@ -6433,7 +6433,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Biomedical Engineering",
@@ -6456,7 +6456,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Series 10",
@@ -6479,7 +6479,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Analytical Chemistry",
@@ -6502,7 +6502,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Heat Transfer",
@@ -6525,7 +6525,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Latin 4",
@@ -6548,7 +6548,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "High School Geography",
@@ -6594,7 +6594,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Series 24",
@@ -6617,7 +6617,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "High School Government",
@@ -6663,7 +6663,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Criminal Law",
@@ -6686,7 +6686,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP Seminar",
@@ -6732,7 +6732,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Quantum Physics",
@@ -6755,7 +6755,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Kinesiology",
@@ -6778,7 +6778,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "International Business",
@@ -6801,7 +6801,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Nutrition",
@@ -6824,7 +6824,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Data Management",
@@ -6847,7 +6847,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Agricultural Science",
@@ -6870,7 +6870,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Real Analysis",
@@ -6893,7 +6893,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Operating Systems",
@@ -6916,7 +6916,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Ethics",
@@ -6939,7 +6939,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Discrete Structures",
@@ -6962,7 +6962,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Autodesk Maya",
@@ -6985,7 +6985,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Supply Chain Management",
@@ -7008,7 +7008,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "IB Business & Management",
@@ -7054,7 +7054,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "Immunology",
@@ -7077,7 +7077,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Computer Architecture",
@@ -7100,7 +7100,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Sketchup",
@@ -7123,7 +7123,7 @@ window.__dashboardData = {
       "Utilized_30d": 2.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "High School Level American Literature",
@@ -7169,7 +7169,7 @@ window.__dashboardData = {
       "Utilized_30d": 3.0,
       "Util_Rate": 50.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "IB Extended Essay",
@@ -7215,7 +7215,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "Theology",
@@ -7238,7 +7238,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "C",
@@ -7261,7 +7261,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "AP Art History",
@@ -7307,7 +7307,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Cooking",
@@ -7353,7 +7353,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Audio Engineering",
@@ -7376,7 +7376,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Arts & Music"
     },
     {
       "Subject": "Cardiology",
@@ -7399,7 +7399,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Numerical Analysis",
@@ -7422,7 +7422,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "High School Accounting",
@@ -7468,7 +7468,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "Fiction Writing",
@@ -7491,7 +7491,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "College Geography",
@@ -7537,7 +7537,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Professional/Cert"
     },
     {
       "Subject": "IB Economics",
@@ -7629,7 +7629,7 @@ window.__dashboardData = {
       "Utilized_30d": null,
       "Util_Rate": null,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "ACT",
@@ -7675,7 +7675,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Korean",
@@ -7698,7 +7698,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "Pre-Algebra",
@@ -7721,7 +7721,7 @@ window.__dashboardData = {
       "Utilized_30d": 30.0,
       "Util_Rate": 51.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Middle School"
     },
     {
       "Subject": "Conversational Italian",
@@ -7744,7 +7744,7 @@ window.__dashboardData = {
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
-      "Category": "Other"
+      "Category": "Language"
     },
     {
       "Subject": "College Statistics",
@@ -7813,7 +7813,7 @@ window.__dashboardData = {
       "Utilized_30d": 4.0,
       "Util_Rate": 40.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "High School"
     },
     {
       "Subject": "GMAT",
@@ -7882,7 +7882,7 @@ window.__dashboardData = {
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
       "Problem_Type": "On Track (Low Util)",
-      "Category": "Other"
+      "Category": "College"
     },
     {
       "Subject": "DAT",
@@ -8242,7 +8242,7 @@ window.__dashboardData = {
       "remaining_need": 195.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 17,
         "forecast": 24,
@@ -8404,7 +8404,7 @@ window.__dashboardData = {
       "remaining_need": 156.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 28,
         "forecast": 23,
@@ -8485,7 +8485,7 @@ window.__dashboardData = {
       "remaining_need": 110.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 47,
         "forecast": 30,
@@ -8728,7 +8728,7 @@ window.__dashboardData = {
       "remaining_need": 122.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 15,
         "forecast": 19,
@@ -9052,7 +9052,7 @@ window.__dashboardData = {
       "remaining_need": 82.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 8,
@@ -9295,7 +9295,7 @@ window.__dashboardData = {
       "remaining_need": 83.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 12,
         "forecast": 8,
@@ -9943,7 +9943,7 @@ window.__dashboardData = {
       "remaining_need": 44.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 16,
         "forecast": 6,
@@ -10024,7 +10024,7 @@ window.__dashboardData = {
       "remaining_need": 36.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Elementary",
       "march_baseline": {
         "actual": 6,
         "forecast": 6,
@@ -10429,7 +10429,7 @@ window.__dashboardData = {
       "remaining_need": 43.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 14,
         "forecast": 5,
@@ -10510,7 +10510,7 @@ window.__dashboardData = {
       "remaining_need": 31.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 5,
         "forecast": 5,
@@ -10915,7 +10915,7 @@ window.__dashboardData = {
       "remaining_need": 34.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 4,
@@ -11158,7 +11158,7 @@ window.__dashboardData = {
       "remaining_need": 25.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
         "forecast": 4,
@@ -11401,7 +11401,7 @@ window.__dashboardData = {
       "remaining_need": 31.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 5,
         "forecast": 4,
@@ -11482,7 +11482,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 11,
         "forecast": 8,
@@ -11563,7 +11563,7 @@ window.__dashboardData = {
       "remaining_need": 22.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 15,
         "forecast": 4,
@@ -11806,7 +11806,7 @@ window.__dashboardData = {
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 6,
         "forecast": 4,
@@ -11887,7 +11887,7 @@ window.__dashboardData = {
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 3,
@@ -12049,7 +12049,7 @@ window.__dashboardData = {
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
         "forecast": 4,
@@ -12211,7 +12211,7 @@ window.__dashboardData = {
       "remaining_need": 26.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -12292,7 +12292,7 @@ window.__dashboardData = {
       "remaining_need": 25.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 3,
@@ -12778,7 +12778,7 @@ window.__dashboardData = {
       "remaining_need": 24.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 4,
         "forecast": 3,
@@ -12859,7 +12859,7 @@ window.__dashboardData = {
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 3,
@@ -12940,7 +12940,7 @@ window.__dashboardData = {
       "remaining_need": 22.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -13021,7 +13021,7 @@ window.__dashboardData = {
       "remaining_need": 26.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 3,
@@ -13264,7 +13264,7 @@ window.__dashboardData = {
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 14,
         "forecast": 3,
@@ -13345,7 +13345,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 5,
         "forecast": 3,
@@ -13426,7 +13426,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 14,
         "forecast": 4,
@@ -13507,7 +13507,7 @@ window.__dashboardData = {
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Elementary",
       "march_baseline": {
         "actual": 11,
         "forecast": 3,
@@ -13588,7 +13588,7 @@ window.__dashboardData = {
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": 6,
         "forecast": 3,
@@ -13669,7 +13669,7 @@ window.__dashboardData = {
       "remaining_need": 29.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 9,
         "forecast": 1,
@@ -13912,7 +13912,7 @@ window.__dashboardData = {
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 3,
         "forecast": 2,
@@ -14155,7 +14155,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -14317,7 +14317,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -14398,7 +14398,7 @@ window.__dashboardData = {
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -14479,7 +14479,7 @@ window.__dashboardData = {
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 2,
@@ -14560,7 +14560,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 15,
         "forecast": 2,
@@ -14641,7 +14641,7 @@ window.__dashboardData = {
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 12,
         "forecast": 2,
@@ -14722,7 +14722,7 @@ window.__dashboardData = {
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 2,
         "forecast": 2,
@@ -14803,7 +14803,7 @@ window.__dashboardData = {
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -14965,7 +14965,7 @@ window.__dashboardData = {
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 3,
@@ -15208,7 +15208,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -15289,7 +15289,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 7,
         "forecast": 2,
@@ -15370,7 +15370,7 @@ window.__dashboardData = {
       "remaining_need": 24.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -15451,7 +15451,7 @@ window.__dashboardData = {
       "remaining_need": 26.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -15532,7 +15532,7 @@ window.__dashboardData = {
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -15613,7 +15613,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 2,
@@ -15775,7 +15775,7 @@ window.__dashboardData = {
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -15856,7 +15856,7 @@ window.__dashboardData = {
       "remaining_need": 25.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -15937,7 +15937,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 2,
@@ -16018,7 +16018,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -16180,7 +16180,7 @@ window.__dashboardData = {
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -16261,7 +16261,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -16342,7 +16342,7 @@ window.__dashboardData = {
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -16423,7 +16423,7 @@ window.__dashboardData = {
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -16504,7 +16504,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -16585,7 +16585,7 @@ window.__dashboardData = {
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 2,
@@ -16666,7 +16666,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -16747,7 +16747,7 @@ window.__dashboardData = {
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
         "forecast": 2,
@@ -16828,7 +16828,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": 3,
         "forecast": 2,
@@ -16909,7 +16909,7 @@ window.__dashboardData = {
       "remaining_need": 22.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -16990,7 +16990,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": 1,
         "forecast": 2,
@@ -17071,7 +17071,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 5,
         "forecast": 2,
@@ -17152,7 +17152,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -17233,7 +17233,7 @@ window.__dashboardData = {
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -17314,7 +17314,7 @@ window.__dashboardData = {
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -17395,7 +17395,7 @@ window.__dashboardData = {
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -17476,7 +17476,7 @@ window.__dashboardData = {
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -17638,7 +17638,7 @@ window.__dashboardData = {
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -17719,7 +17719,7 @@ window.__dashboardData = {
       "remaining_need": 47.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 16,
         "forecast": 6,
@@ -17800,7 +17800,7 @@ window.__dashboardData = {
       "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Test Prep",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": 4,
         "forecast": 2,
@@ -17881,7 +17881,7 @@ window.__dashboardData = {
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -18367,7 +18367,7 @@ window.__dashboardData = {
       "remaining_need": 13.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 4,
         "forecast": 1,
@@ -18448,7 +18448,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -18529,7 +18529,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 11,
         "forecast": 1,
@@ -18691,7 +18691,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 5,
         "forecast": 1,
@@ -18853,7 +18853,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": 4,
         "forecast": 2,
@@ -18934,7 +18934,7 @@ window.__dashboardData = {
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -19015,7 +19015,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -19096,7 +19096,7 @@ window.__dashboardData = {
       "remaining_need": 8.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 8,
         "forecast": 1,
@@ -19177,7 +19177,7 @@ window.__dashboardData = {
       "remaining_need": 13.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": 3,
         "forecast": 3,
@@ -19258,7 +19258,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 2,
@@ -19339,7 +19339,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 18,
         "forecast": 1,
@@ -19420,7 +19420,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 27,
         "forecast": 1,
@@ -19582,7 +19582,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 2,
@@ -19663,7 +19663,7 @@ window.__dashboardData = {
       "remaining_need": 9.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -19744,7 +19744,7 @@ window.__dashboardData = {
       "remaining_need": 9.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -19825,7 +19825,7 @@ window.__dashboardData = {
       "remaining_need": 11.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -19906,7 +19906,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -19987,7 +19987,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -20149,7 +20149,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -20230,7 +20230,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -20311,7 +20311,7 @@ window.__dashboardData = {
       "remaining_need": 6.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -20554,7 +20554,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -20635,7 +20635,7 @@ window.__dashboardData = {
       "remaining_need": 11.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -20878,7 +20878,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -20959,7 +20959,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -21040,7 +21040,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -21202,7 +21202,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -21283,7 +21283,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 5,
         "forecast": 1,
@@ -21364,7 +21364,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -21445,7 +21445,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -21526,7 +21526,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -21607,7 +21607,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -21688,7 +21688,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -21769,7 +21769,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -21850,7 +21850,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -21931,7 +21931,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -22012,7 +22012,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 1,
@@ -22093,7 +22093,7 @@ window.__dashboardData = {
       "remaining_need": 11.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -22174,7 +22174,7 @@ window.__dashboardData = {
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -22336,7 +22336,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 2,
@@ -22417,7 +22417,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -22741,7 +22741,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 1,
@@ -22822,7 +22822,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 12,
         "forecast": 1,
@@ -22903,7 +22903,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -22984,7 +22984,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 8,
         "forecast": 1,
@@ -23065,7 +23065,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -23227,7 +23227,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -23308,7 +23308,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -23470,7 +23470,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -23551,7 +23551,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -23632,7 +23632,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -23713,7 +23713,7 @@ window.__dashboardData = {
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -23794,7 +23794,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -23875,7 +23875,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 6,
         "forecast": 1,
@@ -23956,7 +23956,7 @@ window.__dashboardData = {
       "remaining_need": 8.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -24037,7 +24037,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 4,
         "forecast": 1,
@@ -24118,7 +24118,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 5,
         "forecast": 1,
@@ -24199,7 +24199,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -24280,7 +24280,7 @@ window.__dashboardData = {
       "remaining_need": 4.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 6,
         "forecast": 1,
@@ -24361,7 +24361,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -24442,7 +24442,7 @@ window.__dashboardData = {
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -24523,7 +24523,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -24685,7 +24685,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 8,
         "forecast": 1,
@@ -24766,7 +24766,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 6,
         "forecast": 1,
@@ -24928,7 +24928,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -25090,7 +25090,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -25171,7 +25171,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -25414,7 +25414,7 @@ window.__dashboardData = {
       "remaining_need": 11.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -25576,7 +25576,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 5,
         "forecast": 1,
@@ -25657,7 +25657,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -25738,7 +25738,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 4,
         "forecast": 1,
@@ -25819,7 +25819,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 1,
@@ -25900,7 +25900,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -25981,7 +25981,7 @@ window.__dashboardData = {
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "Utilization Problem",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -26062,7 +26062,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -26224,7 +26224,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 6,
         "forecast": 1,
@@ -26305,7 +26305,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -26386,7 +26386,7 @@ window.__dashboardData = {
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": 3,
         "forecast": 1,
@@ -26467,7 +26467,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -26548,7 +26548,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -26629,7 +26629,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -26710,7 +26710,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -26791,7 +26791,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -26872,7 +26872,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -26953,7 +26953,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27115,7 +27115,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -27196,7 +27196,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27277,7 +27277,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27358,7 +27358,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27439,7 +27439,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27520,7 +27520,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27601,7 +27601,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27682,7 +27682,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -27763,7 +27763,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -27844,7 +27844,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -27925,7 +27925,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -28330,7 +28330,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -28411,7 +28411,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -28492,7 +28492,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -28816,7 +28816,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -28978,7 +28978,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -29140,7 +29140,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -29221,7 +29221,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -29302,7 +29302,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -29383,7 +29383,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -29545,7 +29545,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -29626,7 +29626,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 4,
         "forecast": 1,
@@ -29707,7 +29707,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -29788,7 +29788,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -29869,7 +29869,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -29950,7 +29950,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 4,
         "forecast": 1,
@@ -30031,7 +30031,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -30112,7 +30112,7 @@ window.__dashboardData = {
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -30193,7 +30193,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Test Prep",
       "march_baseline": {
         "actual": 2,
         "forecast": 1,
@@ -30355,7 +30355,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Technology",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -30436,7 +30436,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 8,
         "forecast": 1,
@@ -30517,7 +30517,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -30598,7 +30598,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -30679,7 +30679,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -30760,7 +30760,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -30841,7 +30841,7 @@ window.__dashboardData = {
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "Supply Problem (No Util Data)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 0,
@@ -31003,7 +31003,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31084,7 +31084,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31246,7 +31246,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31327,7 +31327,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -31489,7 +31489,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31570,7 +31570,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31651,7 +31651,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -31732,7 +31732,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31813,7 +31813,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -31894,7 +31894,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -31975,7 +31975,7 @@ window.__dashboardData = {
       "remaining_need": 9.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32056,7 +32056,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32137,7 +32137,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -32218,7 +32218,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32299,7 +32299,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32380,7 +32380,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32461,7 +32461,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32623,7 +32623,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32704,7 +32704,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -32785,7 +32785,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -32866,7 +32866,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -33028,7 +33028,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 3,
         "forecast": 1,
@@ -33190,7 +33190,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -33271,7 +33271,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -33352,7 +33352,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -33514,7 +33514,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": 1,
         "forecast": 1,
@@ -33676,7 +33676,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -33757,7 +33757,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Arts & Music",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -33838,7 +33838,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -33919,7 +33919,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -34081,7 +34081,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -34162,7 +34162,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -34324,7 +34324,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -34648,7 +34648,7 @@ window.__dashboardData = {
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
@@ -34810,7 +34810,7 @@ window.__dashboardData = {
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 3,
         "forecast": 0,
@@ -34891,7 +34891,7 @@ window.__dashboardData = {
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": 3,
         "forecast": 0,
@@ -34972,7 +34972,7 @@ window.__dashboardData = {
       "remaining_need": 2.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Middle School",
       "march_baseline": {
         "actual": 38,
         "forecast": 7,
@@ -35053,7 +35053,7 @@ window.__dashboardData = {
       "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track",
-      "category": "Other",
+      "category": "Language",
       "march_baseline": {
         "actual": null,
         "forecast": 0,
@@ -35296,7 +35296,7 @@ window.__dashboardData = {
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "High School",
       "march_baseline": {
         "actual": 7,
         "forecast": 1,
@@ -35539,7 +35539,7 @@ window.__dashboardData = {
       "remaining_need": 5.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
-      "category": "Other",
+      "category": "College",
       "march_baseline": {
         "actual": null,
         "forecast": 1,
