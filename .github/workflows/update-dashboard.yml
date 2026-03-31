@@ -10,6 +10,10 @@ on:
     paths:
       - 'data/**' # Trigger when data files are updated
 
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   update-dashboard:
     runs-on: ubuntu-latest
