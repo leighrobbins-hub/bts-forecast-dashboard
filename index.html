@@ -1009,8 +1009,19 @@
         
         <!-- MONTHLY TRACKER TAB -->
         <div id="monthly-tracker" class="tab-content">
+            <div class="progress-container" id="march-baseline-card" style="display:none; margin-bottom:15px; background:#f8f9fa; border-left:4px solid #95a5a6;">
+                <h3 style="margin-bottom:10px; color:#7f8c8d;">March Baseline (Pre-BTS Reference)</h3>
+                <div style="display:flex; gap:30px; flex-wrap:wrap; font-size:14px;">
+                    <div><strong>Contracted:</strong> <span id="mar-total-actual">—</span></div>
+                    <div><strong>Forecasted:</strong> <span id="mar-total-forecast">—</span></div>
+                    <div><strong>Variance:</strong> <span id="mar-total-variance">—</span></div>
+                    <div><strong>Subjects w/ data:</strong> <span id="mar-subject-count">—</span></div>
+                </div>
+                <p style="margin-top:8px; font-size:12px; color:#95a5a6;" id="mar-insight"></p>
+            </div>
+
             <div class="progress-container">
-                <h3 style="margin-bottom: 5px;">BTS Portfolio Progress</h3>
+                <h3 style="margin-bottom: 5px;">BTS Portfolio Progress (Apr–Oct)</h3>
                 <div class="progress-meta">
                     <span id="progress-label">Loading...</span>
                     <span id="progress-pct"></span>
@@ -1050,6 +1061,7 @@
                         <tr>
                             <th>Subject</th>
                             <th>Run Rate</th>
+                            <th style="background:#ecf0f1; color:#7f8c8d;">Mar (Baseline)</th>
                             <th id="th-apr">Apr</th>
                             <th id="th-may">May</th>
                             <th id="th-jun">Jun</th>
@@ -1631,6 +1643,7 @@ ELSE:
                 updateTabCounts();
                 renderAllTables();
                 renderMonthlyTracker();
+                renderMarchBaseline(summaryData);
                 renderProgressBar(summaryData);
                 renderHistoryTab();
             })
@@ -1888,6 +1901,22 @@ ELSE:
                 var cells = '<td><strong>' + ts.subject + '</strong></td>';
                 cells += '<td>' + Math.round(ts.run_rate) + '</td>';
 
+                var mb = ts.march_baseline || {};
+                var marContent = '<div class="month-cell">';
+                if (mb.actual !== null && mb.actual !== undefined) {
+                    marContent += '<div class="mc-actual">' + mb.actual + '</div>';
+                    if (mb.forecast !== null && mb.forecast !== undefined) {
+                        marContent += '<div class="mc-target">fcst: ' + mb.forecast + '</div>';
+                        var marVar = mb.variance || 0;
+                        var marCls = marVar > 0 ? 'positive' : marVar < 0 ? 'negative' : 'zero';
+                        marContent += '<div class="mc-var ' + marCls + '">' + (marVar > 0 ? '+' : '') + marVar + '</div>';
+                    }
+                } else {
+                    marContent += '<div class="mc-actual" style="color:#bdc3c7">—</div>';
+                }
+                marContent += '</div>';
+                cells += '<td style="background:#f8f9fa;">' + marContent + '</td>';
+
                 ts.months.forEach(function(m) {
                     var cls = m.actual !== null ? 'month-past' : '';
                     var content = '<div class="month-cell">';
@@ -1910,6 +1939,24 @@ ELSE:
                 tr.innerHTML = cells;
                 tbody.appendChild(tr);
             });
+        }
+
+        function renderMarchBaseline(summary) {
+            var mb = summary.march_baseline;
+            if (!mb || !mb.total_actual) return;
+            document.getElementById('march-baseline-card').style.display = 'block';
+            document.getElementById('mar-total-actual').textContent = mb.total_actual.toLocaleString();
+            document.getElementById('mar-total-forecast').textContent = mb.total_forecast.toLocaleString();
+            var v = mb.variance;
+            var vColor = v >= 0 ? '#27ae60' : '#e74c3c';
+            var vSign = v >= 0 ? '+' : '';
+            document.getElementById('mar-total-variance').innerHTML = '<span style="color:' + vColor + '; font-weight:700;">' + vSign + v.toLocaleString() + '</span>';
+            document.getElementById('mar-subject-count').textContent = mb.subjects_with_data;
+            var pct = Math.round(v / mb.total_forecast * 100);
+            var insight = v >= 0
+                ? 'March contracted ' + pct + '% above forecast — strong baseline heading into BTS.'
+                : 'March contracted ' + Math.abs(pct) + '% below forecast — gap to watch entering BTS.';
+            document.getElementById('mar-insight').textContent = insight;
         }
 
         function renderProgressBar(summary) {
