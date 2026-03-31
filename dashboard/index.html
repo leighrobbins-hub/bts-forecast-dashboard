@@ -1740,7 +1740,8 @@ ELSE:
             var searchTerm = document.getElementById('search-all').value.toLowerCase();
             var gapFilter = parseInt(document.getElementById('filter-gap').value);
             var filtered = allData.filter(function(row) {
-                return matchesFilter(row.Problem_Type, typeFilter) && (!searchTerm || row.Subject.toLowerCase().indexOf(searchTerm) !== -1) && (row.Gap_Pct || 0) >= gapFilter;
+                var gapOk = gapFilter === 0 || (row.Gap_Pct || 0) >= gapFilter;
+                return matchesFilter(row.Problem_Type, typeFilter) && (!searchTerm || row.Subject.toLowerCase().indexOf(searchTerm) !== -1) && gapOk;
             });
             filtered = sortData(filtered, currentSorts.all.col, currentSorts.all.asc);
             document.getElementById('all-subjects-count').textContent = 'Showing ' + filtered.length + ' of ' + allData.length + ' subjects';
