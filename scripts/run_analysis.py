@@ -362,6 +362,11 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
     summary['months_remaining'] = len(BTS_MONTH_KEYS) - months_with_data
 
     records = df_final.to_dict('records')
+    # Scrub NaN → None so json.dump writes null instead of NaN (which breaks JS)
+    for rec in records:
+        for k, v in rec.items():
+            if isinstance(v, float) and np.isnan(v):
+                rec[k] = None
 
     return {
         'summary': summary,

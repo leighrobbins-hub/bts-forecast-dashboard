@@ -4,7 +4,7 @@ window.__dashboardData = {
     "utilization_problems": 24,
     "supply_problems": 10,
     "on_track": 298,
-    "last_updated": "2026-03-31 20:30 UTC",
+    "last_updated": "2026-03-31 15:43 UTC",
     "portfolio_bts_total": 6796.0,
     "portfolio_actual_to_date": 0,
     "portfolio_remaining": 6796.0,
@@ -807,9 +807,9 @@ window.__dashboardData = {
       "Aug_Original": 7.0,
       "Sep_Original": 8.0,
       "Oct_Original": 9.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -1167,9 +1167,9 @@ window.__dashboardData = {
       "Aug_Original": 3.0,
       "Sep_Original": 5.0,
       "Oct_Original": 6.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -1187,9 +1187,9 @@ window.__dashboardData = {
       "Aug_Original": 3.0,
       "Sep_Original": 5.0,
       "Oct_Original": 6.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -1287,9 +1287,9 @@ window.__dashboardData = {
       "Aug_Original": 4.0,
       "Sep_Original": 4.0,
       "Oct_Original": 5.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -1907,9 +1907,9 @@ window.__dashboardData = {
       "Aug_Original": 3.0,
       "Sep_Original": 4.0,
       "Oct_Original": 4.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -1987,9 +1987,9 @@ window.__dashboardData = {
       "Aug_Original": 4.0,
       "Sep_Original": 5.0,
       "Oct_Original": 5.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -2027,9 +2027,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 2.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -2087,9 +2087,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 2.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -2127,9 +2127,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 3.0,
       "Oct_Original": 3.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -2187,9 +2187,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 2.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -2367,9 +2367,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 3.0,
       "Oct_Original": 3.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -2407,9 +2407,9 @@ window.__dashboardData = {
       "Aug_Original": 3.0,
       "Sep_Original": 4.0,
       "Oct_Original": 5.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -2427,9 +2427,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 3.0,
       "Oct_Original": 3.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -2827,9 +2827,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3107,9 +3107,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3147,9 +3147,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3167,9 +3167,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 2.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -3227,9 +3227,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3467,9 +3467,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3527,9 +3527,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 3.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3607,9 +3607,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3627,9 +3627,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3807,9 +3807,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3847,9 +3847,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3887,9 +3887,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -3927,9 +3927,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 2.0,
       "Oct_Original": 3.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4047,9 +4047,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4107,9 +4107,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 2.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -4247,9 +4247,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4287,9 +4287,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4307,9 +4307,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4327,9 +4327,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4347,9 +4347,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 2.0,
       "Oct_Original": 2.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4407,9 +4407,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4467,9 +4467,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4607,9 +4607,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4687,9 +4687,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4727,9 +4727,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4747,9 +4747,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4807,9 +4807,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4847,9 +4847,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4867,9 +4867,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -4887,9 +4887,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5007,9 +5007,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5027,9 +5027,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5267,9 +5267,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5307,9 +5307,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5427,9 +5427,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5487,9 +5487,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5547,9 +5547,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5627,9 +5627,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5647,9 +5647,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5667,9 +5667,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5687,9 +5687,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 4.0,
       "Oct_Original": 5.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "Supply Problem (No Util Data)"
     },
     {
@@ -5747,9 +5747,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5787,9 +5787,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5827,9 +5827,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5847,9 +5847,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5867,9 +5867,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5907,9 +5907,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -5987,9 +5987,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6027,9 +6027,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6047,9 +6047,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6067,9 +6067,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6127,9 +6127,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6147,9 +6147,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6207,9 +6207,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6287,9 +6287,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6307,9 +6307,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6367,9 +6367,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6387,9 +6387,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6407,9 +6407,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6427,9 +6427,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6447,9 +6447,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6487,9 +6487,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6547,9 +6547,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6627,9 +6627,9 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
@@ -6807,9 +6807,9 @@ window.__dashboardData = {
       "Aug_Original": 2.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Total_Contracted": NaN,
-      "Utilized_30d": NaN,
-      "Util_Rate": NaN,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
       "Problem_Type": "On Track"
     },
     {
