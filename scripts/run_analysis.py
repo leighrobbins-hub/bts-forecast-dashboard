@@ -35,7 +35,8 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
         df_runrate[col] = pd.to_numeric(df_runrate[col], errors='coerce')
 
     df_runrate['Run_Rate'] = df_runrate[clean_months].mean(axis=1)
-    df_runrate = df_runrate[['Subject', 'Run_Rate']].copy()
+    df_runrate['Mar_Actual'] = df_runrate['2026-03']
+    df_runrate = df_runrate[['Subject', 'Run_Rate', 'Mar_Actual']].copy()
     df_runrate = df_runrate[df_runrate['Run_Rate'] > 0]
 
     df_forecast = pd.read_excel(forecast_path)
@@ -118,8 +119,12 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
             continue
 
         run_rate = runrate_row['Run_Rate'].values[0]
+        mar_actual = runrate_row['Mar_Actual'].values[0]
         if pd.isna(run_rate) or run_rate == 0:
             continue
+
+        mar_forecast_val = forecast_row.get(datetime(2026, 3, 1))
+        mar_forecast = float(mar_forecast_val) if pd.notna(mar_forecast_val) else None
 
         original_forecasts = []
         for month in BTS_MONTH_DATES:
@@ -149,7 +154,9 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
             'Jul_Original': round(original_forecasts[3], 0),
             'Aug_Original': round(original_forecasts[4], 0),
             'Sep_Original': round(original_forecasts[5], 0),
-            'Oct_Original': round(original_forecasts[6], 0)
+            'Oct_Original': round(original_forecasts[6], 0),
+            'Mar_Actual': round(mar_actual, 0) if pd.notna(mar_actual) else None,
+            'Mar_Forecast': round(mar_forecast, 0) if mar_forecast is not None else None
         })
 
     return pd.DataFrame(results)
@@ -240,6 +247,14 @@ def calculate_monthly_tracker(df_final, actuals):
                 else:
                     md['adjusted_target'] = 0
 
+        mar_actual = row.get('Mar_Actual')
+        mar_forecast = row.get('Mar_Forecast')
+        mar_baseline = {
+            'actual': int(mar_actual) if pd.notna(mar_actual) else None,
+            'forecast': int(mar_forecast) if pd.notna(mar_forecast) else None,
+            'variance': int(mar_actual - mar_forecast) if (pd.notna(mar_actual) and pd.notna(mar_forecast)) else None
+        }
+
         tracker_subjects.append({
             'subject': subject,
             'run_rate': float(row.get('Run_Rate', 0)),
@@ -249,6 +264,7 @@ def calculate_monthly_tracker(df_final, actuals):
             'remaining_need': remaining_need,
             'months_completed': months_with_actuals,
             'problem_type': row.get('Problem_Type', 'On Track'),
+            'march_baseline': mar_baseline,
             'months': months_data
         })
 
@@ -360,6 +376,15 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
     summary['portfolio_remaining'] = round(portfolio_bts_total - portfolio_actual, 0)
     summary['months_completed'] = months_with_data
     summary['months_remaining'] = len(BTS_MONTH_KEYS) - months_with_data
+
+    mar_total_actual = sum(ts['march_baseline']['actual'] or 0 for ts in tracker_subjects)
+    mar_total_forecast = sum(ts['march_baseline']['forecast'] or 0 for ts in tracker_subjects)
+    summary['march_baseline'] = {
+        'total_actual': mar_total_actual,
+        'total_forecast': mar_total_forecast,
+        'variance': mar_total_actual - mar_total_forecast if mar_total_forecast else None,
+        'subjects_with_data': sum(1 for ts in tracker_subjects if ts['march_baseline']['actual'] is not None)
+    }
 
     records = df_final.to_dict('records')
     # Scrub NaN → None so json.dump writes null instead of NaN (which breaks JS)
