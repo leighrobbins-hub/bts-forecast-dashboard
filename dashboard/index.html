@@ -1051,8 +1051,8 @@
                 <div class="filter-group">
                     <label>Target View</label>
                     <select id="tracker-view">
-                        <option value="both">Both (Forecast + Smoothed)</option>
-                        <option value="smoothed">Smoothed Only</option>
+                        <option value="both">Both (Forecast + Adjusted)</option>
+                        <option value="smoothed">Adjusted Only</option>
                         <option value="forecast">Original Forecast Only</option>
                     </select>
                 </div>
@@ -1280,7 +1280,7 @@
                 
                 <h2>Analysis Steps</h2>
                 
-                <h3>Step 1: Demand Smoothing</h3>
+                <h3>Step 1: Demand Adjustment</h3>
                 
                 <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand (e.g., SAT ramping from 27 in April to 46 in October). This creates operational planning challenges for recruiting team.</p>
                 
@@ -1289,11 +1289,11 @@
                 <p><strong>Formula:</strong></p>
                 <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">
 Total_BTS_Demand = Sum(Apr + May + Jun + Jul + Aug + Sep + Oct)
-Smoothed_Target = Total_BTS_Demand / 7
+Adjusted_Target = Total_BTS_Demand / 7
 
 For each month:
-    Adjusted_Forecast = Smoothed_Target
-    Change = Smoothed_Target - Original_Forecast
+    Adjusted_Forecast = Adjusted_Target
+    Change = Adjusted_Target - Original_Forecast
 </pre>
                 
                 <p><strong>Benefits:</strong></p>
@@ -1309,7 +1309,7 @@ For each month:
                     <tr>
                         <th>Month</th>
                         <th>Original</th>
-                        <th>Smoothed</th>
+                        <th>Adjusted</th>
                         <th>Change</th>
                     </tr>
                     <tr><td>Apr</td><td>27</td><td>36</td><td class="change-positive">+9</td></tr>
@@ -1326,15 +1326,15 @@ For each month:
                 
                 <p><strong>Metrics Calculated:</strong></p>
                 <ul>
-                    <li><code>Gap = Smoothed_Target - Run_Rate</code></li>
+                    <li><code>Gap = Adjusted_Target - Run_Rate</code></li>
                     <li><code>Gap_Pct = (Gap / Run_Rate) × 100</code></li>
                     <li><code>Max_Capacity = Run_Rate × 1.2</code> (20% stretch assumed achievable with focused effort)</li>
                 </ul>
                 
                 <p><strong>Threshold Logic:</strong></p>
                 <ul>
-                    <li>If <code>Smoothed_Target > Max_Capacity</code> → Flag as "Needs External Levers"</li>
-                    <li>If <code>Smoothed_Target ≤ Max_Capacity</code> → "On Track" (achievable with organic pipeline)</li>
+                    <li>If <code>Adjusted_Target > Max_Capacity</code> → Flag as "Needs External Levers"</li>
+                    <li>If <code>Adjusted_Target ≤ Max_Capacity</code> → "On Track" (achievable with organic pipeline)</li>
                 </ul>
                 
                 <h3>Step 3: Utilization-Based Problem Classification</h3>
@@ -1496,7 +1496,7 @@ ELSE:
                         <td>Validated against LSAT investigation. 50% threshold conservative. Data quality good (Feb-Mar 2026).</td>
                     </tr>
                     <tr>
-                        <td>Smoothing Methodology</td>
+                        <td>Adjustment Methodology</td>
                         <td><span class="badge util">MEDIUM</span></td>
                         <td>Mathematically sound. Assumes even distribution optimal (likely true but unvalidated).</td>
                     </tr>
@@ -1553,7 +1553,7 @@ ELSE:
                 <h3>Quarterly Review:</h3>
                 <ul>
                     <li>Validate forecast accuracy against actuals (Apr-Jun 2026 will provide first real test)</li>
-                    <li>Assess whether smoothing improved operational outcomes</li>
+                    <li>Assess whether adjusted targets improved operational outcomes</li>
                     <li>Re-evaluate utilization threshold (50%) if patterns change</li>
                     <li>Update run rate baseline as more clean months accumulate</li>
                 </ul>
@@ -1967,17 +1967,17 @@ ELSE:
                         content += '<div class="mc-actual">' + m.actual + '</div>';
                         if (view === 'both') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                            content += '<div class="mc-smoothed">smth: ' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
                         } else if (view === 'forecast') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
                         } else {
-                            content += '<div class="mc-smoothed">smth: ' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
                         }
                         content += '<div class="mc-var ' + varCls + '">' + varSign + Math.round(m.variance) + '</div>';
                     } else {
                         if (view === 'both') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                            content += '<div class="mc-smoothed">smth: ' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
                             if (adj !== null && adj !== smth) {
                                 content += '<div class="mc-target">adj: ' + adj + '</div>';
                             }
