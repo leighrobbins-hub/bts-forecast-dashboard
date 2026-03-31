@@ -4,7 +4,7 @@ window.__dashboardData = {
     "utilization_problems": 24,
     "supply_problems": 10,
     "on_track": 298,
-    "last_updated": "2026-03-31 20:02 UTC"
+    "last_updated": "2026-03-31 20:06 UTC"
   },
   "subjects": [
     {
