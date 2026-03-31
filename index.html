@@ -496,8 +496,10 @@
             background: #f8f9fa;
         }
 
-        .month-cell { font-size: 12px; line-height: 1.5; }
+        .month-cell { font-size: 12px; line-height: 1.4; }
         .month-cell .mc-target { color: #7f8c8d; }
+        .month-cell .mc-forecast { color: #8e44ad; font-size: 11px; }
+        .month-cell .mc-smoothed { color: #2980b9; font-size: 11px; }
         .month-cell .mc-actual { font-weight: 700; }
         .month-cell .mc-var { font-size: 11px; font-weight: 600; }
         .mc-var.positive { color: #27ae60; }
@@ -1045,6 +1047,14 @@
                 <div class="filter-group">
                     <label>Search</label>
                     <input type="text" id="tracker-search" placeholder="Type to search...">
+                </div>
+                <div class="filter-group">
+                    <label>Target View</label>
+                    <select id="tracker-view">
+                        <option value="both">Both (Forecast + Smoothed)</option>
+                        <option value="smoothed">Smoothed Only</option>
+                        <option value="forecast">Original Forecast Only</option>
+                    </select>
                 </div>
             </div>
 
@@ -1921,6 +1931,8 @@ ELSE:
             var tbody = document.getElementById('tracker-body');
             tbody.innerHTML = '';
 
+            var view = document.getElementById('tracker-view').value;
+
             filtered.forEach(function(ts) {
                 var tr = document.createElement('tr');
                 var cells = '<td><strong>' + ts.subject + '</strong></td>';
@@ -1945,15 +1957,37 @@ ELSE:
                 ts.months.forEach(function(m) {
                     var cls = m.actual !== null ? 'month-past' : '';
                     var content = '<div class="month-cell">';
+                    var fcst = m.original_forecast !== null && m.original_forecast !== undefined ? Math.round(m.original_forecast) : null;
+                    var smth = m.smoothed_target !== null && m.smoothed_target !== undefined ? Math.round(m.smoothed_target) : null;
+                    var adj = m.adjusted_target !== null && m.adjusted_target !== undefined ? Math.round(m.adjusted_target) : null;
+
                     if (m.actual !== null) {
                         var varCls = m.variance > 0 ? 'positive' : m.variance < 0 ? 'negative' : 'zero';
                         var varSign = m.variance > 0 ? '+' : '';
                         content += '<div class="mc-actual">' + m.actual + '</div>';
-                        content += '<div class="mc-target">target: ' + Math.round(m.smoothed_target) + '</div>';
+                        if (view === 'both') {
+                            content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
+                            content += '<div class="mc-smoothed">smth: ' + (smth !== null ? smth : '—') + '</div>';
+                        } else if (view === 'forecast') {
+                            content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
+                        } else {
+                            content += '<div class="mc-smoothed">smth: ' + (smth !== null ? smth : '—') + '</div>';
+                        }
                         content += '<div class="mc-var ' + varCls + '">' + varSign + Math.round(m.variance) + '</div>';
                     } else {
-                        content += '<div class="mc-actual">' + Math.round(m.adjusted_target) + '</div>';
-                        content += '<div class="mc-target">adj. target</div>';
+                        if (view === 'both') {
+                            content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
+                            content += '<div class="mc-smoothed">smth: ' + (smth !== null ? smth : '—') + '</div>';
+                            if (adj !== null && adj !== smth) {
+                                content += '<div class="mc-target">adj: ' + adj + '</div>';
+                            }
+                        } else if (view === 'forecast') {
+                            content += '<div class="mc-actual">' + (fcst !== null ? fcst : '—') + '</div>';
+                            content += '<div class="mc-target">forecast</div>';
+                        } else {
+                            content += '<div class="mc-actual">' + (adj !== null ? adj : (smth !== null ? smth : '—')) + '</div>';
+                            content += '<div class="mc-target">' + (adj !== null && adj !== smth ? 'adj. target' : 'target') + '</div>';
+                        }
                     }
                     content += '</div>';
                     cells += '<td class="' + cls + '">' + content + '</td>';
@@ -2292,6 +2326,7 @@ ELSE:
         document.getElementById('tracker-filter').addEventListener('change', renderMonthlyTracker);
         document.getElementById('tracker-search').addEventListener('input', renderMonthlyTracker);
         document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
+        document.getElementById('tracker-view').addEventListener('change', renderMonthlyTracker);
     </script>
 </body>
 </html>
