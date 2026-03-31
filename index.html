@@ -721,8 +721,7 @@
     <div class="tabs">
         <div class="tab active" onclick="showTab('overview', this)">Overview</div>
         <div class="tab" onclick="showTab('all-subjects', this)">All Subjects (<span id="tab-count-all">-</span>)</div>
-        <div class="tab" onclick="showTab('utilization-problems', this)">Utilization Problems (<span id="tab-count-util">-</span>)</div>
-        <div class="tab" onclick="showTab('supply-problems', this)">Supply Problems (<span id="tab-count-supply">-</span>)</div>
+        <div class="tab" onclick="showTab('problem-subjects', this)">Problem Subjects (<span id="tab-count-problems">-</span>)</div>
         <div class="tab" onclick="showTab('monthly-tracker', this)">Monthly Tracker</div>
         <div class="tab" onclick="showTab('upload-data', this)">Upload Data</div>
         <div class="tab" onclick="showTab('performance-history', this)">History</div>
@@ -860,6 +859,22 @@
                 </div>
                 
                 <div class="filter-group">
+                    <label>Category</label>
+                    <select id="filter-category-all">
+                        <option value="all">All Categories</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Middle School">Middle School</option>
+                        <option value="High School">High School</option>
+                        <option value="College">College</option>
+                        <option value="AP">AP</option>
+                        <option value="IB">IB</option>
+                        <option value="Test Prep">Test Prep</option>
+                        <option value="Professional/Cert">Professional/Cert</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
                     <label>Min Gap %</label>
                     <select id="filter-gap">
                         <option value="0">All</option>
@@ -884,6 +899,7 @@
                             <th class="sortable" onclick="sortTable('all', 3)">Util % (30d)</th>
                             <th class="sortable" onclick="sortTable('all', 4)">Gap %</th>
                             <th class="sortable" onclick="sortTable('all', 5)">Problem Type</th>
+                            <th class="sortable" onclick="sortTable('all', 6)">Category</th>
                             <th>Recommendation</th>
                         </tr>
                     </thead>
@@ -893,115 +909,72 @@
             </div>
         </div>
         
-        <!-- UTILIZATION PROBLEMS TAB -->
-        <div id="utilization-problems" class="tab-content">
+        <!-- PROBLEM SUBJECTS TAB (Combined Supply + Utilization) -->
+        <div id="problem-subjects" class="tab-content">
             <div class="callout warning">
-                <strong>These Are NOT Supply Shortages</strong>
-                These subjects exhibit the same pattern identified in the LSAT utilization investigation: enough tutors are being contracted, but algorithmic barriers prevent them from receiving assignments. Adding more tutors will NOT solve the problem — they will sit idle like current contracted tutors.
+                <strong>Important: Utilization problems may be masking real supply gaps.</strong>
+                Subjects flagged as "Utilization" have low tutor assignment rates, which could mean the placement algorithm is blocking supply that already exists — or it could be obscuring a genuine shortage. Until utilization improves, it's difficult to know which subjects also need more recruiting. Treat utilization subjects as <em>potential</em> supply problems that need algorithm investigation first.
             </div>
-            
+
             <div class="methodology" style="margin-bottom: 20px; padding: 25px;">
-                <h3 style="margin-top: 0;">Root Causes (From LSAT Investigation)</h3>
+                <h3 style="margin-top: 0;">How to Read This Table</h3>
                 <ul>
-                    <li><strong>Ranking issues:</strong> New tutors systematically ranked below veterans in match algorithm</li>
-                    <li><strong>Notification barriers:</strong> Overworked veterans receiving disproportionate notifications while underutilized tutors ignored</li>
-                    <li><strong>Capacity misdirection:</strong> 789 hrs/week available capacity in underutilized tutors not surfaced</li>
-                    <li><strong>Four-stage exclusion cascade:</strong> New tutors filtered out at multiple stages</li>
-                </ul>
-                
-                <h3>Recommended Actions</h3>
-                <ul>
-                    <li>Extend LSAT investigation methodology to Chemistry and College Accounting (highest volume/impact)</li>
-                    <li>Engineering work: Fix ranking algorithm, rebalance notification distribution, improve capacity routing</li>
-                    <li>Open TEMAT tickets: 3753 (ranking), 3573 (notifications), 3530 (capacity)</li>
-                    <li><strong>Do NOT recruit additional tutors until utilization improves to >70%</strong></li>
+                    <li><strong style="color:#e67e22;">Utilization / Algorithm</strong> — Low tutor assignment rates suggest placement barriers (LSAT pattern). These could be hiding real supply shortages. Investigate algorithm before recruiting.</li>
+                    <li><strong style="color:#e74c3c;">True Supply</strong> — High utilization confirms the pipeline is genuinely short. External recruitment levers needed.</li>
+                    <li><strong style="color:#95a5a6;">No Util Data</strong> — No utilization data available to classify. Could be either problem type. Gather data to determine next steps.</li>
                 </ul>
             </div>
-            
+
             <div class="filters">
                 <div class="filter-group">
-                    <label>Search Subject</label>
-                    <input type="text" id="search-util" placeholder="Type to search...">
+                    <label>Problem Type</label>
+                    <select id="filter-problem-type">
+                        <option value="all">All Problems</option>
+                        <option value="utilization">Utilization / Algorithm</option>
+                        <option value="true-supply">True Supply</option>
+                        <option value="no-util-data">No Util Data</option>
+                    </select>
                 </div>
-            </div>
-            
-            <div class="table-container">
-                <div class="table-toolbar">
-                    <span class="row-count" id="util-count"></span>
-                    <button class="export-btn" onclick="exportTable('util-table')">Export CSV</button>
+                <div class="filter-group">
+                    <label>Category</label>
+                    <select id="filter-category-problems">
+                        <option value="all">All Categories</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Middle School">Middle School</option>
+                        <option value="High School">High School</option>
+                        <option value="College">College</option>
+                        <option value="AP">AP</option>
+                        <option value="IB">IB</option>
+                        <option value="Test Prep">Test Prep</option>
+                        <option value="Professional/Cert">Professional/Cert</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
-                <table id="util-table">
-                    <thead>
-                        <tr>
-                            <th class="sortable" onclick="sortTable('util', 0)">Subject</th>
-                            <th class="sortable" onclick="sortTable('util', 1)">Run Rate/Mo</th>
-                            <th class="sortable" onclick="sortTable('util', 2)">Target/Mo</th>
-                            <th class="sortable" onclick="sortTable('util', 3)">Utilization %</th>
-                            <th class="sortable" onclick="sortTable('util', 4)">Gap %</th>
-                            <th>Root Cause Assessment</th>
-                        </tr>
-                    </thead>
-                    <tbody id="util-problems-body">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- TRUE SUPPLY PROBLEMS TAB -->
-        <div id="supply-problems" class="tab-content">
-            <div class="callout info">
-                <strong>Genuine Supply Constraints</strong>
-                These subjects have good utilization rates (>50%) or no utilization data — the problem is insufficient organic pipeline to meet forecasted demand. External recruitment levers are required.
-            </div>
-            
-            <div class="methodology" style="margin-bottom: 20px; padding: 25px;">
-                <h3 style="margin-top: 0;">Recommended Actions by Priority</h3>
-                
-                <p><strong>CRITICAL (Gap >200%):</strong></p>
-                <ul>
-                    <li>AP Pre-Calculus (621% gap, target 38/mo vs. capacity 6/mo)</li>
-                    <li>SAT (227% gap, target 36/mo vs. capacity 13/mo)</li>
-                    <li><strong>Actions:</strong> Paid spend campaigns (Rx allocation), InMail to credentialed tutors (1500+ SAT scorers, advanced math backgrounds), opt-in to existing tutors, partnership/white-label sourcing</li>
-                </ul>
-                
-                <p><strong>MODERATE (Gap 100-200%):</strong></p>
-                <ul>
-                    <li>French 3, Software, Organic Chemistry, AP Physics C</li>
-                    <li><strong>Actions:</strong> Targeted InMail campaigns, opt-in outreach</li>
-                </ul>
-                
-                <p><strong>LOW (Gap 20-100%):</strong></p>
-                <ul>
-                    <li>Math 2, AP Calculus BC, AP Environmental Science, Calculus 3</li>
-                    <li><strong>Actions:</strong> Monitor - may resolve with normal recruiting</li>
-                </ul>
-            </div>
-            
-            <div class="filters">
                 <div class="filter-group">
                     <label>Search Subject</label>
-                    <input type="text" id="search-supply" placeholder="Type to search...">
+                    <input type="text" id="search-problems" placeholder="Type to search...">
                 </div>
             </div>
-            
+
             <div class="table-container">
                 <div class="table-toolbar">
-                    <span class="row-count" id="supply-count"></span>
-                    <button class="export-btn" onclick="exportTable('supply-table')">Export CSV</button>
+                    <span class="row-count" id="problems-count"></span>
+                    <button class="export-btn" onclick="exportTable('problems-table')">Export CSV</button>
                 </div>
-                <table id="supply-table">
+                <table id="problems-table">
                     <thead>
                         <tr>
-                            <th class="sortable" onclick="sortTable('supply', 0)">Subject</th>
-                            <th class="sortable" onclick="sortTable('supply', 1)">Run Rate</th>
-                            <th class="sortable" onclick="sortTable('supply', 2)">Target/Mo</th>
-                            <th class="sortable" onclick="sortTable('supply', 3)">Util %</th>
-                            <th class="sortable" onclick="sortTable('supply', 4)">Gap %</th>
-                            <th>Priority</th>
-                            <th>Recommended Levers</th>
+                            <th class="sortable" onclick="sortTable('problems', 0)">Subject</th>
+                            <th class="sortable" onclick="sortTable('problems', 1)">Run Rate</th>
+                            <th class="sortable" onclick="sortTable('problems', 2)">Target/Mo</th>
+                            <th class="sortable" onclick="sortTable('problems', 3)">Util %</th>
+                            <th class="sortable" onclick="sortTable('problems', 4)">Gap %</th>
+                            <th class="sortable" onclick="sortTable('problems', 5)">Type</th>
+                            <th>Category</th>
+                            <th>Assessment</th>
                         </tr>
                     </thead>
-                    <tbody id="supply-problems-body">
+                    <tbody id="problems-body">
                     </tbody>
                 </table>
             </div>
@@ -1046,6 +1019,21 @@
                     </select>
                 </div>
                 <div class="filter-group">
+                    <label>Category</label>
+                    <select id="filter-category-tracker">
+                        <option value="all">All Categories</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Middle School">Middle School</option>
+                        <option value="High School">High School</option>
+                        <option value="College">College</option>
+                        <option value="AP">AP</option>
+                        <option value="IB">IB</option>
+                        <option value="Test Prep">Test Prep</option>
+                        <option value="Professional/Cert">Professional/Cert</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="filter-group">
                     <label>Search</label>
                     <input type="text" id="tracker-search" placeholder="Type to search...">
                 </div>
@@ -1059,18 +1047,18 @@
                 <table id="tracker-table">
                     <thead>
                         <tr>
-                            <th>Subject</th>
-                            <th>Run Rate</th>
+                            <th class="sortable" onclick="sortTracker('subject')">Subject</th>
+                            <th class="sortable" onclick="sortTracker('run_rate')">Run Rate</th>
                             <th style="background:#ecf0f1; color:#7f8c8d;">Mar (Baseline)</th>
-                            <th id="th-apr">Apr</th>
-                            <th id="th-may">May</th>
-                            <th id="th-jun">Jun</th>
-                            <th id="th-jul">Jul</th>
-                            <th id="th-aug">Aug</th>
-                            <th id="th-sep">Sep</th>
-                            <th id="th-oct">Oct</th>
-                            <th>BTS Total</th>
-                            <th>Remaining</th>
+                            <th>Apr</th>
+                            <th>May</th>
+                            <th>Jun</th>
+                            <th>Jul</th>
+                            <th>Aug</th>
+                            <th>Sep</th>
+                            <th>Oct</th>
+                            <th class="sortable" onclick="sortTracker('bts_total')">BTS Total</th>
+                            <th class="sortable" onclick="sortTracker('remaining_need')">Remaining</th>
                         </tr>
                     </thead>
                     <tbody id="tracker-body"></tbody>
@@ -1602,9 +1590,9 @@ ELSE:
 
         var currentSorts = {
             all: { col: 4, asc: false },
-            util: { col: 4, asc: false },
-            supply: { col: 4, asc: false }
+            problems: { col: 4, asc: false }
         };
+        var trackerSort = { key: 'subject', asc: true };
 
         function classifyType(problemType) {
             if (!problemType) return 'on-track';
@@ -1672,8 +1660,11 @@ ELSE:
 
         function updateTabCounts() {
             document.getElementById('tab-count-all').textContent = allData.length;
-            document.getElementById('tab-count-util').textContent = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; }).length;
-            document.getElementById('tab-count-supply').textContent = allData.filter(function(r) { return isSupplyRelated(r.Problem_Type); }).length;
+            var problemCount = allData.filter(function(r) {
+                var t = classifyType(r.Problem_Type);
+                return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+            }).length;
+            document.getElementById('tab-count-problems').textContent = problemCount;
         }
 
         function showTab(tabName, el) {
@@ -1688,8 +1679,7 @@ ELSE:
             renderBarChart();
             renderPriorityTable();
             renderAllSubjects();
-            renderUtilProblems();
-            renderSupplyProblems();
+            renderProblemSubjects();
         }
 
         function renderBarChart() {
@@ -1752,9 +1742,11 @@ ELSE:
             var typeFilter = document.getElementById('filter-type-all').value;
             var searchTerm = document.getElementById('search-all').value.toLowerCase();
             var gapFilter = parseInt(document.getElementById('filter-gap').value);
+            var catFilter = document.getElementById('filter-category-all').value;
             var filtered = allData.filter(function(row) {
                 var gapOk = gapFilter === 0 || (row.Gap_Pct || 0) >= gapFilter;
-                return matchesFilter(row.Problem_Type, typeFilter) && (!searchTerm || row.Subject.toLowerCase().indexOf(searchTerm) !== -1) && gapOk;
+                var catOk = catFilter === 'all' || row.Category === catFilter;
+                return matchesFilter(row.Problem_Type, typeFilter) && (!searchTerm || row.Subject.toLowerCase().indexOf(searchTerm) !== -1) && gapOk && catOk;
             });
             filtered = sortData(filtered, currentSorts.all.col, currentSorts.all.asc);
             document.getElementById('all-subjects-count').textContent = 'Showing ' + filtered.length + ' of ' + allData.length + ' subjects';
@@ -1778,68 +1770,79 @@ ELSE:
                 else if (type === 'true-supply') rec = 'External recruitment levers';
                 else if (type === 'no-util-data') rec = 'Gather utilization data';
                 else if (type === 'low-util') rec = 'Monitor utilization';
-                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + (row.Gap_Pct || 0) + '%</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + rec + '</small></td>';
+                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + (row.Gap_Pct || 0) + '%</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
                 tbody.appendChild(tr);
             });
         }
 
-        function renderUtilProblems() {
-            var searchTerm = document.getElementById('search-util').value.toLowerCase();
-            var utilProblems = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; });
-            if (searchTerm) utilProblems = utilProblems.filter(function(r) { return r.Subject.toLowerCase().indexOf(searchTerm) !== -1; });
-            utilProblems = sortData(utilProblems, currentSorts.util.col, currentSorts.util.asc);
-            var totalUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; }).length;
-            document.getElementById('util-count').textContent = 'Showing ' + utilProblems.length + ' of ' + totalUtil + ' utilization problems';
-            var tbody = document.getElementById('util-problems-body');
-            tbody.innerHTML = '';
-            utilProblems.forEach(function(row) {
-                var utilPct = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate : 0;
-                var assessment = 'Low utilization — may be supply problem masked by algorithm';
-                if (utilPct === 0) assessment = 'Zero utilization — likely supply gap hidden by placement issues';
-                else if (utilPct < 25) assessment = 'Severe underutilization — high priority, investigate algorithm vs. true supply';
-                var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : 'gap-medium';
-                var tr = document.createElement('tr');
-                tr.className = 'util-problem';
-                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilPct + '%</td><td class="' + gapClass + '">' + row.Gap_Pct + '%</td><td><small>' + assessment + '</small></td>';
-                tbody.appendChild(tr);
-            });
-        }
+        function renderProblemSubjects() {
+            var typeFilter = document.getElementById('filter-problem-type').value;
+            var catFilter = document.getElementById('filter-category-problems').value;
+            var searchTerm = document.getElementById('search-problems').value.toLowerCase();
 
-        function renderSupplyProblems() {
-            var searchTerm = document.getElementById('search-supply').value.toLowerCase();
-            var supplyProblems = allData.filter(function(r) { return isSupplyRelated(r.Problem_Type); });
-            if (searchTerm) supplyProblems = supplyProblems.filter(function(r) { return r.Subject.toLowerCase().indexOf(searchTerm) !== -1; });
-            supplyProblems = sortData(supplyProblems, currentSorts.supply.col, currentSorts.supply.asc);
-            var totalSupply = allData.filter(function(r) { return isSupplyRelated(r.Problem_Type); }).length;
-            document.getElementById('supply-count').textContent = 'Showing ' + supplyProblems.length + ' of ' + totalSupply + ' supply problems';
-            var tbody = document.getElementById('supply-problems-body');
+            var problems = allData.filter(function(r) {
+                var t = classifyType(r.Problem_Type);
+                return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+            });
+            var totalProblems = problems.length;
+
+            if (typeFilter !== 'all') problems = problems.filter(function(r) { return classifyType(r.Problem_Type) === typeFilter; });
+            if (catFilter !== 'all') problems = problems.filter(function(r) { return r.Category === catFilter; });
+            if (searchTerm) problems = problems.filter(function(r) { return r.Subject.toLowerCase().indexOf(searchTerm) !== -1; });
+
+            problems = sortData(problems, currentSorts.problems.col, currentSorts.problems.asc);
+            document.getElementById('problems-count').textContent = 'Showing ' + problems.length + ' of ' + totalProblems + ' problem subjects';
+
+            var tbody = document.getElementById('problems-body');
             tbody.innerHTML = '';
-            supplyProblems.forEach(function(row) {
-                var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
+            problems.forEach(function(row) {
                 var type = classifyType(row.Problem_Type);
-                var priority = 'Low', levers = 'Targeted InMail, opt-in';
-                if (type === 'no-util-data') { priority = 'Assess'; levers = 'Gather utilization data first'; }
-                else if (row.Gap_Pct > 200) { priority = 'Critical'; levers = 'Paid spend + InMail + Opt-in + Partnerships'; }
-                else if (row.Gap_Pct > 100) { priority = 'Moderate'; levers = 'InMail + Opt-in to existing tutors'; }
-                var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : 'gap-medium';
-                var priorityBadge = priority === 'Critical' ? 'supply' : priority === 'Assess' ? 'nodata' : 'util';
+                var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
+                var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
+
+                var badgeClass = 'util', badgeText = 'Util / Algorithm';
+                if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'True Supply'; }
+                else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
+
+                var assessment = '';
+                if (type === 'utilization') {
+                    var utilPct = row.Util_Rate || 0;
+                    if (utilPct === 0) assessment = 'Zero utilization — likely supply gap hidden by placement issues';
+                    else if (utilPct < 25) assessment = 'Severe underutilization — could be masking real supply shortage';
+                    else assessment = 'Low utilization — potential supply problem obscured by algorithm barriers';
+                } else if (type === 'true-supply') {
+                    if (row.Gap_Pct > 200) assessment = 'CRITICAL: External recruitment levers needed immediately';
+                    else if (row.Gap_Pct > 100) assessment = 'Moderate gap — InMail + opt-in campaigns';
+                    else assessment = 'Manageable gap — targeted outreach';
+                } else {
+                    assessment = 'No utilization data — could be supply or algorithm issue, gather data';
+                }
+
                 var tr = document.createElement('tr');
-                tr.className = type === 'no-util-data' ? 'nodata-problem' : 'supply-problem';
-                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + row.Gap_Pct + '%</td><td><span class="badge ' + priorityBadge + '">' + priority + '</span></td><td><small>' + levers + '</small></td>';
+                if (type === 'utilization') tr.className = 'util-problem';
+                else if (type === 'true-supply') tr.className = 'supply-problem';
+                else tr.className = 'nodata-problem';
+
+                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + row.Gap_Pct + '%</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
                 tbody.appendChild(tr);
             });
+        }
+
+        function sortTracker(key) {
+            if (trackerSort.key === key) { trackerSort.asc = !trackerSort.asc; }
+            else { trackerSort.key = key; trackerSort.asc = (key === 'subject'); }
+            renderMonthlyTracker();
         }
 
         function sortTable(tableType, colIndex) {
             var sort = currentSorts[tableType];
             if (sort.col === colIndex) { sort.asc = !sort.asc; } else { sort.col = colIndex; sort.asc = false; }
             if (tableType === 'all') filterAllSubjects();
-            else if (tableType === 'util') renderUtilProblems();
-            else if (tableType === 'supply') renderSupplyProblems();
+            else if (tableType === 'problems') renderProblemSubjects();
         }
 
         function sortData(data, colIndex, asc) {
-            var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Gap_Pct', 'Problem_Type'];
+            var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Gap_Pct', 'Problem_Type', 'Category'];
             var key = keysAll[colIndex] || keysAll[0];
             return data.slice().sort(function(a, b) {
                 var aVal = a[key], bVal = b[key];
@@ -1877,10 +1880,12 @@ ELSE:
         function renderMonthlyTracker() {
             if (!trackerData.length) return;
             var filter = document.getElementById('tracker-filter').value;
+            var catFilter = document.getElementById('filter-category-tracker').value;
             var search = document.getElementById('tracker-search').value.toLowerCase();
 
             var filtered = trackerData.filter(function(ts) {
                 if (search && ts.subject.toLowerCase().indexOf(search) === -1) return false;
+                if (catFilter !== 'all' && ts.category !== catFilter) return false;
                 if (filter === 'problems') return classifyType(ts.problem_type) !== 'on-track' && classifyType(ts.problem_type) !== 'low-util';
                 if (filter === 'has-actuals') return ts.actual_to_date > 0;
                 if (filter === 'behind') {
@@ -1890,6 +1895,17 @@ ELSE:
                     return false;
                 }
                 return true;
+            });
+
+            var sk = trackerSort.key;
+            var sa = trackerSort.asc;
+            filtered.sort(function(a, b) {
+                var av = a[sk], bv = b[sk];
+                if (av === null || av === undefined) return 1;
+                if (bv === null || bv === undefined) return -1;
+                if (av < bv) return sa ? -1 : 1;
+                if (av > bv) return sa ? 1 : -1;
+                return 0;
             });
 
             document.getElementById('tracker-count').textContent = 'Showing ' + filtered.length + ' of ' + trackerData.length + ' subjects';
@@ -2260,10 +2276,13 @@ ELSE:
         document.getElementById('filter-type-all').addEventListener('change', filterAllSubjects);
         document.getElementById('search-all').addEventListener('input', filterAllSubjects);
         document.getElementById('filter-gap').addEventListener('change', filterAllSubjects);
-        document.getElementById('search-util').addEventListener('input', renderUtilProblems);
-        document.getElementById('search-supply').addEventListener('input', renderSupplyProblems);
+        document.getElementById('filter-category-all').addEventListener('change', filterAllSubjects);
+        document.getElementById('filter-problem-type').addEventListener('change', renderProblemSubjects);
+        document.getElementById('filter-category-problems').addEventListener('change', renderProblemSubjects);
+        document.getElementById('search-problems').addEventListener('input', renderProblemSubjects);
         document.getElementById('tracker-filter').addEventListener('change', renderMonthlyTracker);
         document.getElementById('tracker-search').addEventListener('input', renderMonthlyTracker);
+        document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
     </script>
 </body>
 </html>
