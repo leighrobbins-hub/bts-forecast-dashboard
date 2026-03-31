@@ -1151,10 +1151,11 @@ ELSE:
 
         function classifyType(problemType) {
             if (!problemType) return 'on-track';
-            if (problemType.includes('UTILIZATION')) return 'utilization';
-            if (problemType.includes('True Supply')) return 'true-supply';
-            if (problemType.includes('No Util Data')) return 'no-util-data';
-            if (problemType.includes('But Low Util')) return 'low-util';
+            var pt = problemType.toLowerCase();
+            if (pt.includes('utilization problem')) return 'utilization';
+            if (pt.includes('true supply')) return 'true-supply';
+            if (pt.includes('no util data')) return 'no-util-data';
+            if (pt.includes('low util')) return 'low-util';
             return 'on-track';
         }
 
