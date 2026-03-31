@@ -747,7 +747,7 @@
                 
                 <div class="stat-card red">
                     <div class="stat-label">True Supply Problems</div>
-                    <div class="stat-value" id="supply-problems">-</div>
+                    <div class="stat-value" id="stat-supply-problems">-</div>
                     <div class="stat-detail">Need external recruitment levers</div>
                 </div>
                 
@@ -1640,7 +1640,7 @@ ELSE:
         function updateSummary(summary) {
             document.getElementById('total-subjects').textContent = summary.total_subjects || 0;
             document.getElementById('util-problems').textContent = summary.utilization_problems || 0;
-            document.getElementById('supply-problems').textContent = summary.supply_problems || 0;
+            document.getElementById('stat-supply-problems').textContent = summary.supply_problems || 0;
             document.getElementById('ontrack-subjects').textContent = summary.on_track || 0;
             document.getElementById('footer-time').textContent = 'Last updated: ' + summary.last_updated;
             document.getElementById('method-updated').textContent = summary.last_updated;
