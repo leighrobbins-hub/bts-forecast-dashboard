@@ -1,0 +1,61 @@
+name: Update BTS Forecast Dashboard
+
+on:
+  schedule:
+    # Run every Monday at 6 AM UTC (1 AM CST for Leigh, good for WBR prep)
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    branches: [ main ]
+    paths:
+      - 'data/**' # Trigger when data files are updated
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install pandas openpyxl numpy requests
+      
+      - name: Fetch Looker data
+        env:
+          LOOKER_CLIENT_ID: ${{ secrets.LOOKER_CLIENT_ID }}
+          LOOKER_CLIENT_SECRET: ${{ secrets.LOOKER_CLIENT_SECRET }}
+          LOOKER_API_URL: ${{ secrets.LOOKER_API_URL }}
+        run: |
+          python scripts/fetch_looker_data.py
+        continue-on-error: true # Continue even if Looker fetch fails
+      
+      - name: Run analysis
+        run: |
+          python scripts/run_analysis.py
+      
+      - name: Commit updated data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/ dashboard/
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update dashboard data - $(date +'%Y-%m-%d')"
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dashboard
+          publish_branch: gh-pages

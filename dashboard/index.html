@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTS Forecast Analysis - Varsity Tutors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid;
+        }
+        
+        .card.supply {
+            background: #ffe6e6;
+            border-color: #e74c3c;
+        }
+        
+        .card.utilization {
+            background: #ffe6cc;
+            border-color: #f39c12;
+        }
+        
+        .card.ontrack {
+            background: #e6f3e6;
+            border-color: #27ae60;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        
+        .card-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #7f8c8d;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th {
+            background: #34495e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th:hover {
+            background: #2c3e50;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        tr.util-problem {
+            background: #fff3e0;
+        }
+        
+        tr.supply-problem {
+            background: #ffebee;
+        }
+        
+        tr.on-track {
+            background: #f1f8f4;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-util {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .status-supply {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .status-ontrack {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .gap-high {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .gap-medium {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .gap-low {
+            color: #27ae60;
+        }
+        
+        .update-time {
+            text-align: right;
+            color: #95a5a6;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Back-to-School Forecast Analysis</h1>
+        <div class="subtitle">April-October 2026 | Supply vs. Utilization Problem Classification</div>
+        
+        <div class="summary-cards">
+            <div class="card supply">
+                <div class="card-title">True Supply Problems</div>
+                <div class="card-value" id="supply-count">-</div>
+            </div>
+            <div class="card utilization">
+                <div class="card-title">Utilization Problems</div>
+                <div class="card-value" id="util-count">-</div>
+            </div>
+            <div class="card ontrack">
+                <div class="card-title">On Track</div>
+                <div class="card-value" id="ontrack-count">-</div>
+            </div>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>Filter by Problem Type</label>
+                <select id="filter-type">
+                    <option value="all">All Subjects</option>
+                    <option value="supply">Supply Problems Only</option>
+                    <option value="utilization">Utilization Problems Only</option>
+                    <option value="on track">On Track Only</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Search Subject</label>
+                <input type="text" id="search-subject" placeholder="Type to search...">
+            </div>
+        </div>
+        
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Subject ↕</th>
+                    <th onclick="sortTable(1)">Run Rate ↕</th>
+                    <th onclick="sortTable(2)">Target/Mo ↕</th>
+                    <th onclick="sortTable(3)">Util % ↕</th>
+                    <th onclick="sortTable(4)">Gap % ↕</th>
+                    <th onclick="sortTable(5)">Problem Type ↕</th>
+                    <th>Recommendation</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Populated by JavaScript -->
+            </tbody>
+        </table>
+        
+        <div class="update-time" id="update-time">
+            Last updated: -
+        </div>
+    </div>
+    
+    <script>
+        let allData = [];
+        let currentSort = { col: 4, asc: false };
+        
+        function loadData() {
+            // Try fetch first (works on web servers), fall back to embedded data
+            fetch('data.json')
+                .then(response => response.json())
+                .then(initDashboard)
+                .catch(() => {
+                    // fetch fails on file:// protocol — load via script tag fallback
+                    const script = document.createElement('script');
+                    script.src = 'data.json.js';
+                    script.onload = () => {
+                        if (window.__dashboardData) initDashboard(window.__dashboardData);
+                        else showError();
+                    };
+                    script.onerror = showError;
+                    document.head.appendChild(script);
+                });
+        }
+
+        function showError() {
+            document.getElementById('table-body').innerHTML = 
+                '<tr><td colspan="7" style="text-align:center; padding:40px;">Error loading data. Please try again.</td></tr>';
+        }
+
+        function initDashboard(data) {
+            allData = data.subjects;
+            updateSummary(data.summary);
+            renderTable(allData);
+        }
+
+        loadData();
+        
+        function updateSummary(summary) {
+            document.getElementById('supply-count').textContent = summary.supply_problems || 0;
+            document.getElementById('util-count').textContent = summary.utilization_problems || 0;
+            document.getElementById('ontrack-count').textContent = summary.on_track || 0;
+            document.getElementById('update-time').textContent = `Last updated: ${summary.last_updated}`;
+        }
+        
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                
+                const pt = row.Problem_Type.toLowerCase();
+                if (pt.includes('utilization')) {
+                    tr.className = 'util-problem';
+                } else if (pt.includes('supply')) {
+                    tr.className = 'supply-problem';
+                } else {
+                    tr.className = 'on-track';
+                }
+                
+                // Subject
+                tr.innerHTML += `<td><strong>${row.Subject}</strong></td>`;
+                
+                // Run Rate
+                tr.innerHTML += `<td>${row.Run_Rate}</td>`;
+                
+                // Target
+                tr.innerHTML += `<td>${row.Smoothed_Target}</td>`;
+                
+                // Utilization
+                const utilDisplay = row.Util_Rate ? `${row.Util_Rate}%` : 'N/A';
+                tr.innerHTML += `<td>${utilDisplay}</td>`;
+                
+                // Gap %
+                let gapClass = 'gap-low';
+                if (row.Gap_Pct > 200) gapClass = 'gap-high';
+                else if (row.Gap_Pct > 100) gapClass = 'gap-medium';
+                tr.innerHTML += `<td class="${gapClass}">${row.Gap_Pct}%</td>`;
+                
+                let badgeClass = 'status-ontrack';
+                if (pt.includes('utilization')) badgeClass = 'status-util';
+                else if (pt.includes('supply')) badgeClass = 'status-supply';
+                
+                tr.innerHTML += `<td><span class="status-badge ${badgeClass}">${row.Problem_Type}</span></td>`;
+                
+                let rec = 'No action needed';
+                if (pt.includes('utilization')) {
+                    rec = 'Fix algorithmic barriers (ranking, notifications) before recruiting';
+                } else if (pt.includes('supply')) {
+                    rec = 'External recruitment levers (paid spend, InMail, opt-in)';
+                }
+                tr.innerHTML += `<td><small>${rec}</small></td>`;
+                
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function filterData() {
+            const typeFilter = document.getElementById('filter-type').value;
+            const searchTerm = document.getElementById('search-subject').value.toLowerCase();
+            
+            let filtered = allData;
+            
+            if (typeFilter !== 'all') {
+                filtered = filtered.filter(row => row.Problem_Type.toLowerCase().includes(typeFilter));
+            }
+            
+            // Filter by search
+            if (searchTerm) {
+                filtered = filtered.filter(row => row.Subject.toLowerCase().includes(searchTerm));
+            }
+            
+            // Sort
+            filtered = sortData(filtered, currentSort.col, currentSort.asc);
+            
+            renderTable(filtered);
+        }
+        
+        function sortTable(colIndex) {
+            if (currentSort.col === colIndex) {
+                currentSort.asc = !currentSort.asc;
+            } else {
+                currentSort.col = colIndex;
+                currentSort.asc = false;
+            }
+            filterData();
+        }
+        
+        function sortData(data, colIndex, asc) {
+            const keys = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Gap_Pct', 'Problem_Type'];
+            const key = keys[colIndex];
+            
+            return [...data].sort((a, b) => {
+                let aVal = a[key];
+                let bVal = b[key];
+                
+                // Handle nulls
+                if (aVal === null || aVal === undefined) return 1;
+                if (bVal === null || bVal === undefined) return -1;
+                
+                // Compare
+                if (aVal < bVal) return asc ? -1 : 1;
+                if (aVal > bVal) return asc ? 1 : -1;
+                return 0;
+            });
+        }
+        
+        // Event listeners
+        document.getElementById('filter-type').addEventListener('change', filterData);
+        document.getElementById('search-subject').addEventListener('input', filterData);
+    </script>
+</body>
+</html>

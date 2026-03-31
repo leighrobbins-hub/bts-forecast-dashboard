@@ -1,0 +1,2755 @@
+window.__dashboardData = {
+  "summary": {
+    "total_subjects": 343,
+    "utilization_problems": 24,
+    "supply_problems": 10,
+    "on_track": 298,
+    "last_updated": "2026-03-31 18:51 UTC"
+  },
+  "subjects": [
+    {
+      "Subject": "AP Pre-Calculus",
+      "Run_Rate": 5,
+      "Smoothed_Target": 38,
+      "Util_Rate": 50,
+      "Gap_Pct": 621,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "IB Mathematics: Analysis and Approaches",
+      "Run_Rate": 1,
+      "Smoothed_Target": 6,
+      "Util_Rate": null,
+      "Gap_Pct": 500,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "LSAT",
+      "Run_Rate": 2,
+      "Smoothed_Target": 9,
+      "Util_Rate": 33,
+      "Gap_Pct": 287,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "College Accounting",
+      "Run_Rate": 4,
+      "Smoothed_Target": 17,
+      "Util_Rate": 22,
+      "Gap_Pct": 284,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Social Networking",
+      "Run_Rate": 1,
+      "Smoothed_Target": 4,
+      "Util_Rate": null,
+      "Gap_Pct": 271,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Vietnamese",
+      "Run_Rate": 1,
+      "Smoothed_Target": 4,
+      "Util_Rate": null,
+      "Gap_Pct": 257,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "SAT",
+      "Run_Rate": 11,
+      "Smoothed_Target": 36,
+      "Util_Rate": 62,
+      "Gap_Pct": 227,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "Cost Accounting",
+      "Run_Rate": 1,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 214,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "French 3",
+      "Run_Rate": 1,
+      "Smoothed_Target": 3,
+      "Util_Rate": 50,
+      "Gap_Pct": 174,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "High School Chemistry",
+      "Run_Rate": 14,
+      "Smoothed_Target": 38,
+      "Util_Rate": 43,
+      "Gap_Pct": 173,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Corporate Finance",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": 143,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Electrical and Computer Engineering",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": 143,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Management",
+      "Run_Rate": 1,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 136,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Robotics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 129,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Structural Engineering",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 129,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Conversational German",
+      "Run_Rate": 1,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 125,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "IB Mathematics: Applications and Interpretation",
+      "Run_Rate": 2,
+      "Smoothed_Target": 3,
+      "Util_Rate": null,
+      "Gap_Pct": 119,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Software",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": 50,
+      "Gap_Pct": 114,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "Organic Chemistry",
+      "Run_Rate": 6,
+      "Smoothed_Target": 12,
+      "Util_Rate": 50,
+      "Gap_Pct": 104,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "AP Human Geography",
+      "Run_Rate": 3,
+      "Smoothed_Target": 5,
+      "Util_Rate": 25,
+      "Gap_Pct": 104,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "ASVAB",
+      "Run_Rate": 1,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 104,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "AP Physics C: Mechanics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 5,
+      "Util_Rate": 100,
+      "Gap_Pct": 102,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "PTCE",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 100,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Latin 4",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 100,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Probability",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": 94,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Japanese",
+      "Run_Rate": 2,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 81,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Ukrainian",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 71,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "AP Macroeconomics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 3,
+      "Util_Rate": null,
+      "Gap_Pct": 64,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Math 2",
+      "Run_Rate": 2,
+      "Smoothed_Target": 4,
+      "Util_Rate": 50,
+      "Gap_Pct": 59,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "College Chemistry",
+      "Run_Rate": 9,
+      "Smoothed_Target": 14,
+      "Util_Rate": 36,
+      "Gap_Pct": 58,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "CogAT",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 57,
+      "Problem_Type": "Supply Problem (No Util Data)"
+    },
+    {
+      "Subject": "Linguistics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 54,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "AP Calculus AB",
+      "Run_Rate": 12,
+      "Smoothed_Target": 18,
+      "Util_Rate": 47,
+      "Gap_Pct": 54,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Autodesk Fusion 360",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 43,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "College Economics",
+      "Run_Rate": 3,
+      "Smoothed_Target": 4,
+      "Util_Rate": 40,
+      "Gap_Pct": 40,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "IB Chemistry",
+      "Run_Rate": 2,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": 37,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Statistics Graduate Level",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": 33,
+      "Gap_Pct": 37,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Macroeconomics",
+      "Run_Rate": 3,
+      "Smoothed_Target": 4,
+      "Util_Rate": 0,
+      "Gap_Pct": 34,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "High School Physics",
+      "Run_Rate": 8,
+      "Smoothed_Target": 10,
+      "Util_Rate": 43,
+      "Gap_Pct": 33,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "AP Calculus BC",
+      "Run_Rate": 5,
+      "Smoothed_Target": 7,
+      "Util_Rate": 50,
+      "Gap_Pct": 31,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "AP Environmental Science",
+      "Run_Rate": 3,
+      "Smoothed_Target": 4,
+      "Util_Rate": 100,
+      "Gap_Pct": 29,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "Music Recording",
+      "Run_Rate": 1,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": 29,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Managerial Accounting",
+      "Run_Rate": 3,
+      "Smoothed_Target": 4,
+      "Util_Rate": 25,
+      "Gap_Pct": 24,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Filmmaking",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": 22,
+      "Problem_Type": "UTILIZATION Problem (Fix Algorithm First)"
+    },
+    {
+      "Subject": "Calculus 3",
+      "Run_Rate": 4,
+      "Smoothed_Target": 5,
+      "Util_Rate": 100,
+      "Gap_Pct": 21,
+      "Problem_Type": "True Supply Problem"
+    },
+    {
+      "Subject": "Physics 2",
+      "Run_Rate": 2,
+      "Smoothed_Target": 3,
+      "Util_Rate": 100,
+      "Gap_Pct": 16,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Pre-Calculus",
+      "Run_Rate": 24,
+      "Smoothed_Target": 28,
+      "Util_Rate": 44,
+      "Gap_Pct": 14,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Mechanical Engineering",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 33,
+      "Gap_Pct": 8,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Video Game Design",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 5,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Statistics",
+      "Run_Rate": 12,
+      "Smoothed_Target": 12,
+      "Util_Rate": 62,
+      "Gap_Pct": 3,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Statics and Dynamics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "ARRT - Radiography",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "CPA FAR",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "French Immersion",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "CFA - Level 1",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "CompTIA Security+",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "IB Physics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Polish",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "PMP",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "ARDMS - Sonography Principals and Instruments (SPI)",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "PRAXIS Core Math",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Autodesk Revit",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Physics C: Electricity and Magnetism",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "CPA REG",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "MAP",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Animation",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "IB French",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Voice",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "R Programming",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Chemical Engineering",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Minecraft",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Econometrics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "PSAT Mathematics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "ANCC - Family Nurse Practitioner Certification (FNP)",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Enrichment",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Roblox",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "MATLAB",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Hebrew",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Inorganic Chemistry",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Civil Procedure",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Managerial Economics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "German 2",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Linux",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "GMAT Quantitative Reasoning",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Biomedical Engineering",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Series 10",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Police Officer Exam",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Series 24",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Criminal Law",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "International Business",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Data Management",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Operating Systems",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Discrete Structures",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Autodesk Maya",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Supply Chain Management",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Computer Architecture",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Sketchup",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Theology",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "C",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Trumpet",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Numerical Analysis",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "TEFL",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "IB Economics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "IB Global Politics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Turkish",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": 0,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Portuguese",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -4,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Rhino",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -5,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Artificial Intelligence (AI)",
+      "Run_Rate": 3,
+      "Smoothed_Target": 3,
+      "Util_Rate": 50,
+      "Gap_Pct": -8,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "HSPT",
+      "Run_Rate": 4,
+      "Smoothed_Target": 4,
+      "Util_Rate": 75,
+      "Gap_Pct": -8,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Autocad",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 100,
+      "Gap_Pct": -8,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "ACT English",
+      "Run_Rate": 3,
+      "Smoothed_Target": 2,
+      "Util_Rate": 60,
+      "Gap_Pct": -12,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Biology",
+      "Run_Rate": 20,
+      "Smoothed_Target": 17,
+      "Util_Rate": 30,
+      "Gap_Pct": -12,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "C++",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "French 2",
+      "Run_Rate": 3,
+      "Smoothed_Target": 3,
+      "Util_Rate": 50,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Competition Math",
+      "Run_Rate": 3,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP Microeconomics",
+      "Run_Rate": 4,
+      "Smoothed_Target": 3,
+      "Util_Rate": 20,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP Computer Science A",
+      "Run_Rate": 6,
+      "Smoothed_Target": 6,
+      "Util_Rate": 12,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Microeconomics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 50,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "DAT",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -14,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Statistics",
+      "Run_Rate": 6,
+      "Smoothed_Target": 5,
+      "Util_Rate": 38,
+      "Gap_Pct": -19,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Chess",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -20,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "BCABA",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": -20,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "MCAT Chemical and Physical Foundations of Biological Systems",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -20,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Kinesiology",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -20,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "GMAT",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -24,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Geometry",
+      "Run_Rate": 23,
+      "Smoothed_Target": 17,
+      "Util_Rate": 50,
+      "Gap_Pct": -24,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Chemistry",
+      "Run_Rate": 9,
+      "Smoothed_Target": 7,
+      "Util_Rate": 54,
+      "Gap_Pct": -24,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "NPTE",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -25,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "German 1",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -25,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Finite Mathematics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -25,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Fluid Mechanics",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -25,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Quantitative Methods",
+      "Run_Rate": 1,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -25,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "MCAT",
+      "Run_Rate": 4,
+      "Smoothed_Target": 3,
+      "Util_Rate": 75,
+      "Gap_Pct": -27,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Differential Equations",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 50,
+      "Gap_Pct": -30,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Physics 1",
+      "Run_Rate": 8,
+      "Smoothed_Target": 5,
+      "Util_Rate": 50,
+      "Gap_Pct": -31,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Chemistry 2",
+      "Run_Rate": 2,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -31,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Multivariable Calculus",
+      "Run_Rate": 4,
+      "Smoothed_Target": 3,
+      "Util_Rate": null,
+      "Gap_Pct": -32,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Finance",
+      "Run_Rate": 4,
+      "Smoothed_Target": 3,
+      "Util_Rate": 10,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Mandarin Chinese 1",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "American Sign Language",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "NCLEX-PN",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Functions",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "COMLEX",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "PANCE",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Computer Game Design",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Singing",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Project Management/PMP",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Logic",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Legal Writing",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Astronomy",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Architecture",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 75,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "CISSP",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Cooking",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Algebra 2",
+      "Run_Rate": 34,
+      "Smoothed_Target": 22,
+      "Util_Rate": 46,
+      "Gap_Pct": -33,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Business Analytics",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": 33,
+      "Gap_Pct": -34,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Clinical Psychology",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": -35,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Agricultural Science",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -36,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP Computer Science Principles",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -38,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Grade 11 Physics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -40,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Microsoft Power BI",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -40,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Aerospace Engineering",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -40,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "LSAT Argumentative Writing",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -40,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Level American History",
+      "Run_Rate": 5,
+      "Smoothed_Target": 3,
+      "Util_Rate": null,
+      "Gap_Pct": -43,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Conversational French",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -43,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Latin 2",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -43,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP US History",
+      "Run_Rate": 5,
+      "Smoothed_Target": 3,
+      "Util_Rate": 29,
+      "Gap_Pct": -46,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Executive Functioning",
+      "Run_Rate": 14,
+      "Smoothed_Target": 8,
+      "Util_Rate": 37,
+      "Gap_Pct": -46,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP European History",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -46,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Biochemistry",
+      "Run_Rate": 6,
+      "Smoothed_Target": 3,
+      "Util_Rate": 0,
+      "Gap_Pct": -48,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Biology",
+      "Run_Rate": 16,
+      "Smoothed_Target": 8,
+      "Util_Rate": 25,
+      "Gap_Pct": -48,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "JavaScript",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": 50,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Electrical Engineering",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "OTR",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Math 3",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "VTNE",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Mandarin Chinese 2",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Grade 12 Physics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "GRE Quantitative",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Contract Law",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Algorithms",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Civil Engineering",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Molecular Biology",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "LSAT Logical Reasoning",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "ISEE- Primary",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Analytical Chemistry",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Heat Transfer",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Materials Science",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Seminar",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Biomechanics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Nutrition",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "European History",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Immunology",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "IB Extended Essay",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Audio Engineering",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Cardiology",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Evolutionary Biology",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Conversational Spanish",
+      "Run_Rate": 14,
+      "Smoothed_Target": 7,
+      "Util_Rate": 17,
+      "Gap_Pct": -50,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP World History",
+      "Run_Rate": 5,
+      "Smoothed_Target": 2,
+      "Util_Rate": 40,
+      "Gap_Pct": -52,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Business Calculus",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -52,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Calculus 2",
+      "Run_Rate": 9,
+      "Smoothed_Target": 4,
+      "Util_Rate": 60,
+      "Gap_Pct": -53,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Fine arts",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -54,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Spanish 1",
+      "Run_Rate": 14,
+      "Smoothed_Target": 6,
+      "Util_Rate": 23,
+      "Gap_Pct": -55,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Adobe Illustrator",
+      "Run_Rate": 8,
+      "Smoothed_Target": 4,
+      "Util_Rate": 57,
+      "Gap_Pct": -55,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "IB Biology",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -56,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Data Analysis",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -56,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Coding",
+      "Run_Rate": 14,
+      "Smoothed_Target": 6,
+      "Util_Rate": 46,
+      "Gap_Pct": -56,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Applied Mathematics",
+      "Run_Rate": 5,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Latin 1",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "ACT Reading",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": 57,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Business Statistics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Biostatistics",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Geography",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Mac Basic Computer Skills",
+      "Run_Rate": 5,
+      "Smoothed_Target": 2,
+      "Util_Rate": 17,
+      "Gap_Pct": -57,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School World History",
+      "Run_Rate": 9,
+      "Smoothed_Target": 4,
+      "Util_Rate": 14,
+      "Gap_Pct": -59,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Data Structures",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -60,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Algebra Regents",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -60,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Tableau",
+      "Run_Rate": 2,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -60,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Physical Chemistry",
+      "Run_Rate": 4,
+      "Smoothed_Target": 2,
+      "Util_Rate": null,
+      "Gap_Pct": -61,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Linear Algebra",
+      "Run_Rate": 6,
+      "Smoothed_Target": 2,
+      "Util_Rate": 33,
+      "Gap_Pct": -62,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Spanish 2",
+      "Run_Rate": 12,
+      "Smoothed_Target": 4,
+      "Util_Rate": 9,
+      "Gap_Pct": -62,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP Physics 2",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -62,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Discrete Math",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -62,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Photography",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -62,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Financial Accounting",
+      "Run_Rate": 5,
+      "Smoothed_Target": 2,
+      "Util_Rate": 18,
+      "Gap_Pct": -63,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Middle School Math",
+      "Run_Rate": 97,
+      "Smoothed_Target": 35,
+      "Util_Rate": 43,
+      "Gap_Pct": -64,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Economics",
+      "Run_Rate": 6,
+      "Smoothed_Target": 2,
+      "Util_Rate": 33,
+      "Gap_Pct": -64,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "IB Business & Management",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -64,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Piano",
+      "Run_Rate": 5,
+      "Smoothed_Target": 2,
+      "Util_Rate": 0,
+      "Gap_Pct": -64,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Algebra",
+      "Run_Rate": 6,
+      "Smoothed_Target": 2,
+      "Util_Rate": 20,
+      "Gap_Pct": -64,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Cyber Security",
+      "Run_Rate": 6,
+      "Smoothed_Target": 2,
+      "Util_Rate": 14,
+      "Gap_Pct": -67,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Thermodynamics",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -67,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "College Political Science",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -67,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Quantum Physics",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -67,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Real Analysis",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -67,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Math 1",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 67,
+      "Gap_Pct": -67,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Microsoft Excel",
+      "Run_Rate": 9,
+      "Smoothed_Target": 3,
+      "Util_Rate": 40,
+      "Gap_Pct": -68,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Physics",
+      "Run_Rate": 6,
+      "Smoothed_Target": 2,
+      "Util_Rate": 50,
+      "Gap_Pct": -68,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "General Chemistry 2",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -68,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Nursing",
+      "Run_Rate": 10,
+      "Smoothed_Target": 3,
+      "Util_Rate": 27,
+      "Gap_Pct": -68,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Digital Media",
+      "Run_Rate": 11,
+      "Smoothed_Target": 3,
+      "Util_Rate": 14,
+      "Gap_Pct": -69,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Biology",
+      "Run_Rate": 32,
+      "Smoothed_Target": 10,
+      "Util_Rate": 28,
+      "Gap_Pct": -69,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Algebra",
+      "Run_Rate": 52,
+      "Smoothed_Target": 16,
+      "Util_Rate": 41,
+      "Gap_Pct": -70,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Guitar",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -70,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Geography",
+      "Run_Rate": 3,
+      "Smoothed_Target": 1,
+      "Util_Rate": 20,
+      "Gap_Pct": -70,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Python",
+      "Run_Rate": 7,
+      "Smoothed_Target": 2,
+      "Util_Rate": 44,
+      "Gap_Pct": -70,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Handwriting",
+      "Run_Rate": 18,
+      "Smoothed_Target": 5,
+      "Util_Rate": 38,
+      "Gap_Pct": -71,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "PC Basic Computer Skills",
+      "Run_Rate": 6,
+      "Smoothed_Target": 2,
+      "Util_Rate": 50,
+      "Gap_Pct": -71,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Philosophy",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -71,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "ACT Science",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -71,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP English Literature and Composition",
+      "Run_Rate": 9,
+      "Smoothed_Target": 3,
+      "Util_Rate": 75,
+      "Gap_Pct": -72,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Pharmacology",
+      "Run_Rate": 8,
+      "Smoothed_Target": 2,
+      "Util_Rate": 25,
+      "Gap_Pct": -74,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "NCLEX-RN",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -75,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Public Health",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -75,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Web Design",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 67,
+      "Gap_Pct": -75,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Relational Databases",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -75,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "High School Accounting",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 20,
+      "Gap_Pct": -75,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Spanish 3",
+      "Run_Rate": 10,
+      "Smoothed_Target": 3,
+      "Util_Rate": 14,
+      "Gap_Pct": -75,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "HTML",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -76,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "College Application Essays",
+      "Run_Rate": 36,
+      "Smoothed_Target": 8,
+      "Util_Rate": 23,
+      "Gap_Pct": -77,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP Research",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -77,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Social Work",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -78,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Machine Learning",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -78,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Sociology",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -78,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Photoshop",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -78,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Environmental Science",
+      "Run_Rate": 5,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -79,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP Art History",
+      "Run_Rate": 5,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -79,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Study Skills And Organization",
+      "Run_Rate": 15,
+      "Smoothed_Target": 3,
+      "Util_Rate": 54,
+      "Gap_Pct": -80,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "ISEE- Upper Level",
+      "Run_Rate": 5,
+      "Smoothed_Target": 1,
+      "Util_Rate": 71,
+      "Gap_Pct": -80,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Web Development",
+      "Run_Rate": 5,
+      "Smoothed_Target": 1,
+      "Util_Rate": 100,
+      "Gap_Pct": -80,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Painting",
+      "Run_Rate": 5,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -81,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "ISEE- Middle Level",
+      "Run_Rate": 5,
+      "Smoothed_Target": 1,
+      "Util_Rate": 73,
+      "Gap_Pct": -81,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "AP English Language and Composition",
+      "Run_Rate": 27,
+      "Smoothed_Target": 5,
+      "Util_Rate": 35,
+      "Gap_Pct": -81,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Physical Science",
+      "Run_Rate": 8,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -82,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "College Computer Science",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 22,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "SQL",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "SAT Math",
+      "Run_Rate": 12,
+      "Smoothed_Target": 2,
+      "Util_Rate": 66,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Organic Chemistry 2",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Genetics",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Personal Finance",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Information Technology",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Ethics",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -83,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Elementary School Reading",
+      "Run_Rate": 108,
+      "Smoothed_Target": 18,
+      "Util_Rate": 29,
+      "Gap_Pct": -84,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Microsoft Word",
+      "Run_Rate": 9,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -84,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Kindergarten Readiness",
+      "Run_Rate": 14,
+      "Smoothed_Target": 2,
+      "Util_Rate": 24,
+      "Gap_Pct": -84,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Microbiology",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 50,
+      "Gap_Pct": -84,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Elementary School Math",
+      "Run_Rate": 120,
+      "Smoothed_Target": 19,
+      "Util_Rate": 39,
+      "Gap_Pct": -84,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Trigonometry",
+      "Run_Rate": 20,
+      "Smoothed_Target": 3,
+      "Util_Rate": 48,
+      "Gap_Pct": -84,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "PSAT",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 68,
+      "Gap_Pct": -85,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Pathophysiology",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -85,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Computer Science",
+      "Run_Rate": 6,
+      "Smoothed_Target": 1,
+      "Util_Rate": 22,
+      "Gap_Pct": -85,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "SSAT- Upper Level",
+      "Run_Rate": 7,
+      "Smoothed_Target": 1,
+      "Util_Rate": 63,
+      "Gap_Pct": -85,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Neuroscience",
+      "Run_Rate": 7,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -85,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "ESL/ELL",
+      "Run_Rate": 18,
+      "Smoothed_Target": 3,
+      "Util_Rate": 10,
+      "Gap_Pct": -85,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Cell Biology",
+      "Run_Rate": 7,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -86,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Data Science",
+      "Run_Rate": 7,
+      "Smoothed_Target": 1,
+      "Util_Rate": 38,
+      "Gap_Pct": -86,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "GED Math",
+      "Run_Rate": 4,
+      "Smoothed_Target": 1,
+      "Util_Rate": 67,
+      "Gap_Pct": -87,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Music Theory",
+      "Run_Rate": 8,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -87,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Java",
+      "Run_Rate": 9,
+      "Smoothed_Target": 1,
+      "Util_Rate": 36,
+      "Gap_Pct": -87,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College English",
+      "Run_Rate": 30,
+      "Smoothed_Target": 4,
+      "Util_Rate": 31,
+      "Gap_Pct": -87,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Psychology",
+      "Run_Rate": 16,
+      "Smoothed_Target": 2,
+      "Util_Rate": 19,
+      "Gap_Pct": -87,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Middle School Reading",
+      "Run_Rate": 92,
+      "Smoothed_Target": 12,
+      "Util_Rate": 31,
+      "Gap_Pct": -87,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "SAT Writing and Language",
+      "Run_Rate": 8,
+      "Smoothed_Target": 1,
+      "Util_Rate": 67,
+      "Gap_Pct": -88,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "French 1",
+      "Run_Rate": 8,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -88,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Basic Computer Literacy",
+      "Run_Rate": 15,
+      "Smoothed_Target": 2,
+      "Util_Rate": 10,
+      "Gap_Pct": -88,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Korean",
+      "Run_Rate": 4,
+      "Smoothed_Target": 0,
+      "Util_Rate": 0,
+      "Gap_Pct": -88,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "AP Psychology",
+      "Run_Rate": 8,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -88,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Level American Literature",
+      "Run_Rate": 8,
+      "Smoothed_Target": 1,
+      "Util_Rate": null,
+      "Gap_Pct": -88,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "College and University Admissions",
+      "Run_Rate": 18,
+      "Smoothed_Target": 2,
+      "Util_Rate": 12,
+      "Gap_Pct": -89,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Essay Editing",
+      "Run_Rate": 46,
+      "Smoothed_Target": 5,
+      "Util_Rate": 27,
+      "Gap_Pct": -89,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Level American History",
+      "Run_Rate": 9,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -89,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Spanish 4",
+      "Run_Rate": 9,
+      "Smoothed_Target": 1,
+      "Util_Rate": 20,
+      "Gap_Pct": -89,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Middle School Science",
+      "Run_Rate": 60,
+      "Smoothed_Target": 6,
+      "Util_Rate": 32,
+      "Gap_Pct": -89,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Business",
+      "Run_Rate": 10,
+      "Smoothed_Target": 1,
+      "Util_Rate": 44,
+      "Gap_Pct": -90,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "ACT",
+      "Run_Rate": 7,
+      "Smoothed_Target": 1,
+      "Util_Rate": 47,
+      "Gap_Pct": -90,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Anatomy & Physiology",
+      "Run_Rate": 18,
+      "Smoothed_Target": 2,
+      "Util_Rate": 19,
+      "Gap_Pct": -90,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Marketing",
+      "Run_Rate": 10,
+      "Smoothed_Target": 1,
+      "Util_Rate": 38,
+      "Gap_Pct": -90,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Graphic Design",
+      "Run_Rate": 10,
+      "Smoothed_Target": 1,
+      "Util_Rate": 30,
+      "Gap_Pct": -90,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Conversational Italian",
+      "Run_Rate": 2,
+      "Smoothed_Target": 0,
+      "Util_Rate": 100,
+      "Gap_Pct": -90,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Technical Writing",
+      "Run_Rate": 21,
+      "Smoothed_Target": 2,
+      "Util_Rate": 14,
+      "Gap_Pct": -91,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Public Speaking",
+      "Run_Rate": 23,
+      "Smoothed_Target": 2,
+      "Util_Rate": 20,
+      "Gap_Pct": -91,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Computer Programming",
+      "Run_Rate": 12,
+      "Smoothed_Target": 1,
+      "Util_Rate": 30,
+      "Gap_Pct": -92,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Medical Terminology",
+      "Run_Rate": 13,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -92,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Elementary School Writing",
+      "Run_Rate": 106,
+      "Smoothed_Target": 7,
+      "Util_Rate": 27,
+      "Gap_Pct": -93,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Reading",
+      "Run_Rate": 38,
+      "Smoothed_Target": 3,
+      "Util_Rate": 20,
+      "Gap_Pct": -93,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Drawing",
+      "Run_Rate": 15,
+      "Smoothed_Target": 1,
+      "Util_Rate": 28,
+      "Gap_Pct": -93,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Earth Science",
+      "Run_Rate": 15,
+      "Smoothed_Target": 1,
+      "Util_Rate": 10,
+      "Gap_Pct": -93,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Grade 10 Math",
+      "Run_Rate": 8,
+      "Smoothed_Target": 0,
+      "Util_Rate": 40,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Government",
+      "Run_Rate": 19,
+      "Smoothed_Target": 1,
+      "Util_Rate": 44,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Fiction Writing",
+      "Run_Rate": 19,
+      "Smoothed_Target": 1,
+      "Util_Rate": 0,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "College Statistics",
+      "Run_Rate": 3,
+      "Smoothed_Target": 0,
+      "Util_Rate": 25,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Expository Writing",
+      "Run_Rate": 20,
+      "Smoothed_Target": 1,
+      "Util_Rate": 23,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "English Grammar and Syntax",
+      "Run_Rate": 54,
+      "Smoothed_Target": 3,
+      "Util_Rate": 18,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Elementary School English",
+      "Run_Rate": 96,
+      "Smoothed_Target": 5,
+      "Util_Rate": 26,
+      "Gap_Pct": -95,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Orton Gillingham",
+      "Run_Rate": 3,
+      "Smoothed_Target": 0,
+      "Util_Rate": 50,
+      "Gap_Pct": -96,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "Elementary Social Studies",
+      "Run_Rate": 42,
+      "Smoothed_Target": 1,
+      "Util_Rate": 33,
+      "Gap_Pct": -98,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "NCLEX",
+      "Run_Rate": 6,
+      "Smoothed_Target": 0,
+      "Util_Rate": 40,
+      "Gap_Pct": -98,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Creative Writing",
+      "Run_Rate": 72,
+      "Smoothed_Target": 1,
+      "Util_Rate": 13,
+      "Gap_Pct": -99,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Middle School English",
+      "Run_Rate": 86,
+      "Smoothed_Target": 1,
+      "Util_Rate": 25,
+      "Gap_Pct": -99,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "High School Science",
+      "Run_Rate": 20,
+      "Smoothed_Target": 0,
+      "Util_Rate": 18,
+      "Gap_Pct": -99,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Pre-Algebra",
+      "Run_Rate": 41,
+      "Smoothed_Target": 0,
+      "Util_Rate": 51,
+      "Gap_Pct": -99,
+      "Problem_Type": "On Track"
+    },
+    {
+      "Subject": "High School Writing",
+      "Run_Rate": 94,
+      "Smoothed_Target": 0,
+      "Util_Rate": 18,
+      "Gap_Pct": -100,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Middle School Social Studies",
+      "Run_Rate": 35,
+      "Smoothed_Target": 0,
+      "Util_Rate": 32,
+      "Gap_Pct": -100,
+      "Problem_Type": "On Track (But Low Util)"
+    },
+    {
+      "Subject": "Middle School Writing",
+      "Run_Rate": 98,
+      "Smoothed_Target": 0,
+      "Util_Rate": 23,
+      "Gap_Pct": -100,
+      "Problem_Type": "On Track (But Low Util)"
+    }
+  ]
+};
