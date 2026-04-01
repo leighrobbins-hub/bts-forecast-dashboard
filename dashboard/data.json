@@ -4,7 +4,7 @@
     "utilization_problems": 25,
     "supply_problems": 21,
     "on_track": 305,
-    "last_updated": "2026-04-01 03:09 PM CST",
+    "last_updated": "2026-04-01 03:23 PM CST",
     "portfolio_bts_total": 7101.0,
     "portfolio_actual_to_date": 0,
     "portfolio_remaining": 7101.0,
@@ -12,9 +12,9 @@
     "months_remaining": 7,
     "march_baseline": {
       "total_actual": 2089,
-      "total_forecast": 1023,
-      "variance": 1066,
-      "subjects_with_data": 221
+      "total_forecast": 962,
+      "variance": 1127,
+      "subjects_with_data": 253
     }
   },
   "subjects": [
@@ -85,7 +85,7 @@
       "Sep_Smoothed": 47.0,
       "Oct_Smoothed": 51.0,
       "Mar_Actual": 14.0,
-      "Mar_Forecast": 31.0,
+      "Mar_Forecast": 28.0,
       "Total_Contracted": 21.0,
       "Utilized_30d": 9.0,
       "Util_Rate": 43.0,
@@ -159,7 +159,7 @@
       "Sep_Smoothed": 45.0,
       "Oct_Smoothed": 46.0,
       "Mar_Actual": 15.0,
-      "Mar_Forecast": 34.0,
+      "Mar_Forecast": 33.0,
       "Total_Contracted": 29.0,
       "Utilized_30d": 18.0,
       "Util_Rate": 62.0,
@@ -196,7 +196,7 @@
       "Sep_Smoothed": 39.0,
       "Oct_Smoothed": 46.0,
       "Mar_Actual": 17.0,
-      "Mar_Forecast": 24.0,
+      "Mar_Forecast": 16.0,
       "Total_Contracted": 27.0,
       "Utilized_30d": 12.0,
       "Util_Rate": 44.0,
@@ -270,7 +270,7 @@
       "Sep_Smoothed": 36.0,
       "Oct_Smoothed": 48.0,
       "Mar_Actual": 28.0,
-      "Mar_Forecast": 23.0,
+      "Mar_Forecast": 15.0,
       "Total_Contracted": 43.0,
       "Utilized_30d": 20.0,
       "Util_Rate": 47.0,
@@ -344,7 +344,7 @@
       "Sep_Smoothed": 21.0,
       "Oct_Smoothed": 24.0,
       "Mar_Actual": 13.0,
-      "Mar_Forecast": 15.0,
+      "Mar_Forecast": 7.0,
       "Total_Contracted": 20.0,
       "Utilized_30d": 6.0,
       "Util_Rate": 30.0,
@@ -381,7 +381,7 @@
       "Sep_Smoothed": 18.0,
       "Oct_Smoothed": 18.0,
       "Mar_Actual": 5.0,
-      "Mar_Forecast": 11.0,
+      "Mar_Forecast": 9.0,
       "Total_Contracted": 9.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 22.0,
@@ -418,7 +418,7 @@
       "Sep_Smoothed": 29.0,
       "Oct_Smoothed": 39.0,
       "Mar_Actual": 15.0,
-      "Mar_Forecast": 19.0,
+      "Mar_Forecast": 15.0,
       "Total_Contracted": 26.0,
       "Utilized_30d": 13.0,
       "Util_Rate": 50.0,
@@ -455,7 +455,7 @@
       "Sep_Smoothed": 26.0,
       "Oct_Smoothed": 32.0,
       "Mar_Actual": 14.0,
-      "Mar_Forecast": 14.0,
+      "Mar_Forecast": 8.0,
       "Total_Contracted": 17.0,
       "Utilized_30d": 8.0,
       "Util_Rate": 47.0,
@@ -492,7 +492,7 @@
       "Sep_Smoothed": 18.0,
       "Oct_Smoothed": 20.0,
       "Mar_Actual": 10.0,
-      "Mar_Forecast": 12.0,
+      "Mar_Forecast": 10.0,
       "Total_Contracted": 14.0,
       "Utilized_30d": 5.0,
       "Util_Rate": 36.0,
@@ -566,7 +566,7 @@
       "Sep_Smoothed": 16.0,
       "Oct_Smoothed": 18.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 8.0,
+      "Mar_Forecast": 9.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
@@ -603,7 +603,7 @@
       "Sep_Smoothed": 9.0,
       "Oct_Smoothed": 11.0,
       "Mar_Actual": 9.0,
-      "Mar_Forecast": 12.0,
+      "Mar_Forecast": 5.0,
       "Total_Contracted": 19.0,
       "Utilized_30d": 7.0,
       "Util_Rate": 37.0,
@@ -640,7 +640,7 @@
       "Sep_Smoothed": 13.0,
       "Oct_Smoothed": 16.0,
       "Mar_Actual": 31.0,
-      "Mar_Forecast": 10.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 47.0,
       "Utilized_30d": 13.0,
       "Util_Rate": 28.0,
@@ -677,7 +677,7 @@
       "Sep_Smoothed": 17.0,
       "Oct_Smoothed": 20.0,
       "Mar_Actual": 12.0,
-      "Mar_Forecast": 8.0,
+      "Mar_Forecast": 9.0,
       "Total_Contracted": 16.0,
       "Utilized_30d": 10.0,
       "Util_Rate": 62.0,
@@ -714,7 +714,7 @@
       "Sep_Smoothed": 14.0,
       "Oct_Smoothed": 18.0,
       "Mar_Actual": 6.0,
-      "Mar_Forecast": 9.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 7.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 43.0,
@@ -749,7 +749,7 @@
       "Sep_Smoothed": 10.0,
       "Oct_Smoothed": 10.0,
       "Mar_Actual": 27.0,
-      "Mar_Forecast": 7.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 47.0,
       "Utilized_30d": 11.0,
       "Util_Rate": 23.0,
@@ -823,7 +823,7 @@
       "Sep_Smoothed": 9.0,
       "Oct_Smoothed": 11.0,
       "Mar_Actual": 8.0,
-      "Mar_Forecast": 8.0,
+      "Mar_Forecast": 7.0,
       "Total_Contracted": 11.0,
       "Utilized_30d": 6.0,
       "Util_Rate": 55.0,
@@ -897,7 +897,7 @@
       "Sep_Smoothed": 10.0,
       "Oct_Smoothed": 10.0,
       "Mar_Actual": 11.0,
-      "Mar_Forecast": 8.0,
+      "Mar_Forecast": 5.0,
       "Total_Contracted": 16.0,
       "Utilized_30d": 4.0,
       "Util_Rate": 25.0,
@@ -934,7 +934,7 @@
       "Sep_Smoothed": 10.0,
       "Oct_Smoothed": 9.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 22.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
@@ -1082,7 +1082,7 @@
       "Sep_Smoothed": 7.0,
       "Oct_Smoothed": 8.0,
       "Mar_Actual": 5.0,
-      "Mar_Forecast": 7.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 6.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 50.0,
@@ -1119,7 +1119,7 @@
       "Sep_Smoothed": 9.0,
       "Oct_Smoothed": 12.0,
       "Mar_Actual": 4.0,
-      "Mar_Forecast": 5.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 50.0,
@@ -1156,7 +1156,7 @@
       "Sep_Smoothed": 6.0,
       "Oct_Smoothed": 6.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 5.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
@@ -1193,7 +1193,7 @@
       "Sep_Smoothed": 9.0,
       "Oct_Smoothed": 10.0,
       "Mar_Actual": 14.0,
-      "Mar_Forecast": 5.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 22.0,
       "Utilized_30d": 5.0,
       "Util_Rate": 23.0,
@@ -1228,7 +1228,7 @@
       "Sep_Smoothed": 7.0,
       "Oct_Smoothed": 8.0,
       "Mar_Actual": 5.0,
-      "Mar_Forecast": 5.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 11.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 9.0,
@@ -1265,7 +1265,7 @@
       "Sep_Smoothed": 6.0,
       "Oct_Smoothed": 7.0,
       "Mar_Actual": 7.0,
-      "Mar_Forecast": 5.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 8.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 38.0,
@@ -1413,7 +1413,7 @@
       "Sep_Smoothed": 6.0,
       "Oct_Smoothed": 7.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
@@ -1486,8 +1486,8 @@
       "Aug_Smoothed": 7.0,
       "Sep_Smoothed": 8.0,
       "Oct_Smoothed": 9.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 4.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -1598,7 +1598,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
       "Mar_Actual": 3.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 13.0,
       "Utilized_30d": 7.0,
       "Util_Rate": 54.0,
@@ -1635,7 +1635,7 @@
       "Sep_Smoothed": 7.0,
       "Oct_Smoothed": 8.0,
       "Mar_Actual": 5.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 60.0,
@@ -1818,7 +1818,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 6.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 10.0,
@@ -1855,7 +1855,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 4.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -1892,7 +1892,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 40.0,
@@ -1929,7 +1929,7 @@
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 2.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 4.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 4.0,
       "Util_Rate": 100.0,
@@ -1966,7 +1966,7 @@
       "Sep_Smoothed": 44.0,
       "Oct_Smoothed": 45.0,
       "Mar_Actual": 9.0,
-      "Mar_Forecast": 25.0,
+      "Mar_Forecast": 19.0,
       "Total_Contracted": 12.0,
       "Utilized_30d": 6.0,
       "Util_Rate": 50.0,
@@ -2002,8 +2002,8 @@
       "Aug_Smoothed": 4.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 5.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
@@ -2040,7 +2040,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -2076,8 +2076,8 @@
       "Aug_Smoothed": 4.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 4.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
@@ -2150,8 +2150,8 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 3.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -2187,8 +2187,8 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 3.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -2224,8 +2224,8 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 7.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 3.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -2299,7 +2299,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
@@ -2333,8 +2333,8 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -2370,8 +2370,8 @@
       "Aug_Smoothed": 4.0,
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 3.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -2480,7 +2480,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 7.0,
       "Mar_Actual": 14.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 29.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 10.0,
@@ -2628,7 +2628,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
       "Mar_Actual": 6.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 4.0,
       "Util_Rate": 40.0,
@@ -2663,7 +2663,7 @@
       "Sep_Smoothed": 6.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 9.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 16.0,
       "Utilized_30d": 12.0,
       "Util_Rate": 75.0,
@@ -2700,7 +2700,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 5.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 7.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 29.0,
@@ -2847,8 +2847,8 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 5.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -2922,7 +2922,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 3.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 40.0,
@@ -2994,7 +2994,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
@@ -3031,7 +3031,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 3.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
@@ -3177,7 +3177,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 5.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
@@ -3249,7 +3249,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
@@ -3428,7 +3428,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
@@ -3501,7 +3501,7 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 2.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -3574,7 +3574,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -3609,7 +3609,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -3643,8 +3643,8 @@
       "Aug_Smoothed": 4.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 5.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -3786,7 +3786,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -3896,8 +3896,8 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -3971,7 +3971,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
@@ -4041,7 +4041,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -4114,7 +4114,7 @@
       "Aug_Smoothed": 3.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 6.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
@@ -4291,7 +4291,7 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
@@ -4326,7 +4326,7 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -4471,7 +4471,7 @@
       "Sep_Smoothed": 14.0,
       "Oct_Smoothed": 15.0,
       "Mar_Actual": 16.0,
-      "Mar_Forecast": 6.0,
+      "Mar_Forecast": 5.0,
       "Total_Contracted": 24.0,
       "Utilized_30d": 4.0,
       "Util_Rate": 17.0,
@@ -4543,7 +4543,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -4654,7 +4654,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 5.0,
-      "Mar_Forecast": 3.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 6.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 50.0,
@@ -4691,7 +4691,7 @@
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 7.0,
       "Mar_Actual": 3.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 5.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 20.0,
@@ -4765,7 +4765,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
       "Mar_Actual": 4.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 4.0,
       "Total_Contracted": 11.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 18.0,
@@ -4872,7 +4872,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 10.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 18.0,
       "Utilized_30d": 12.0,
       "Util_Rate": 67.0,
@@ -4979,7 +4979,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 4.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 6.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 33.0,
@@ -5013,8 +5013,8 @@
       "Aug_Smoothed": 4.0,
       "Sep_Smoothed": 5.0,
       "Oct_Smoothed": 5.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 1.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -5159,8 +5159,8 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 2.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -5267,7 +5267,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 6.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 6.0,
       "Total_Contracted": 9.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 22.0,
@@ -5375,8 +5375,8 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 2.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 1.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -5413,7 +5413,7 @@
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 50.0,
@@ -5697,7 +5697,7 @@
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 2.0,
       "Mar_Actual": 4.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 7.0,
       "Utilized_30d": 4.0,
       "Util_Rate": 57.0,
@@ -5733,7 +5733,7 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -5770,7 +5770,7 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 2.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -5843,7 +5843,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 60.0,
@@ -6159,7 +6159,7 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
@@ -6301,7 +6301,7 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -6410,7 +6410,7 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 3.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -6522,7 +6522,7 @@
       "Sep_Smoothed": 3.0,
       "Oct_Smoothed": 3.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 2.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 33.0,
@@ -6742,7 +6742,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 12.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 19.0,
       "Utilized_30d": 12.0,
       "Util_Rate": 63.0,
@@ -7138,7 +7138,7 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 3.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
@@ -7209,7 +7209,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 6.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 8.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 38.0,
@@ -7602,7 +7602,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 6.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 8.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -8030,7 +8030,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 4.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 3.0,
       "Util_Rate": 30.0,
@@ -9322,7 +9322,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 100.0,
@@ -9393,7 +9393,7 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
@@ -9572,7 +9572,7 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
+      "Mar_Actual": 0.0,
       "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
@@ -10284,8 +10284,8 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 5.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -11995,7 +11995,7 @@
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 2.0,
       "Mar_Actual": 12.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 13.0,
       "Total_Contracted": 19.0,
       "Utilized_30d": 9.0,
       "Util_Rate": 47.0,
@@ -12069,7 +12069,7 @@
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 0.0,
       "Mar_Actual": 19.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 27.0,
       "Utilized_30d": 11.0,
       "Util_Rate": 41.0,
@@ -12106,7 +12106,7 @@
       "Sep_Smoothed": 4.0,
       "Oct_Smoothed": 4.0,
       "Mar_Actual": 3.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
@@ -12143,7 +12143,7 @@
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 3.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -12180,7 +12180,7 @@
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 2.0,
       "Mar_Actual": 38.0,
-      "Mar_Forecast": 7.0,
+      "Mar_Forecast": 4.0,
       "Total_Contracted": 59.0,
       "Utilized_30d": 30.0,
       "Util_Rate": 51.0,
@@ -12214,8 +12214,8 @@
       "Aug_Smoothed": 0.0,
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 100.0,
@@ -12288,8 +12288,8 @@
       "Aug_Smoothed": 0.0,
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 0.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -12326,7 +12326,7 @@
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 1.0,
       "Mar_Actual": 2.0,
-      "Mar_Forecast": 1.0,
+      "Mar_Forecast": 5.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 1.0,
       "Util_Rate": 25.0,
@@ -12362,8 +12362,8 @@
       "Aug_Smoothed": 0.0,
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 0.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -12472,7 +12472,7 @@
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 0.0,
       "Mar_Actual": 1.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 2.0,
       "Util_Rate": 50.0,
@@ -12508,8 +12508,8 @@
       "Aug_Smoothed": 2.0,
       "Sep_Smoothed": 1.0,
       "Oct_Smoothed": 1.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -12583,7 +12583,7 @@
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 0.0,
       "Mar_Actual": 8.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": 14.0,
       "Utilized_30d": 10.0,
       "Util_Rate": 71.0,
@@ -12620,7 +12620,7 @@
       "Sep_Smoothed": 0.0,
       "Oct_Smoothed": 0.0,
       "Mar_Actual": 10.0,
-      "Mar_Forecast": 0.0,
+      "Mar_Forecast": 2.0,
       "Total_Contracted": 13.0,
       "Utilized_30d": 7.0,
       "Util_Rate": 54.0,
@@ -12656,8 +12656,8 @@
       "Aug_Smoothed": 1.0,
       "Sep_Smoothed": 2.0,
       "Oct_Smoothed": 2.0,
-      "Mar_Actual": null,
-      "Mar_Forecast": 1.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 3.0,
       "Total_Contracted": 1.0,
       "Utilized_30d": 0.0,
       "Util_Rate": 0.0,
@@ -12803,8 +12803,8 @@
       "category": "High School",
       "march_baseline": {
         "actual": 14,
-        "forecast": 31,
-        "variance": -17
+        "forecast": 28,
+        "variance": -14
       },
       "months": [
         {
@@ -12979,8 +12979,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 15,
-        "forecast": 34,
-        "variance": -19
+        "forecast": 33,
+        "variance": -18
       },
       "months": [
         {
@@ -13067,8 +13067,8 @@
       "category": "High School",
       "march_baseline": {
         "actual": 17,
-        "forecast": 24,
-        "variance": -7
+        "forecast": 16,
+        "variance": 1
       },
       "months": [
         {
@@ -13243,8 +13243,8 @@
       "category": "High School",
       "march_baseline": {
         "actual": 28,
-        "forecast": 23,
-        "variance": 5
+        "forecast": 15,
+        "variance": 13
       },
       "months": [
         {
@@ -13419,8 +13419,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 13,
-        "forecast": 15,
-        "variance": -2
+        "forecast": 7,
+        "variance": 6
       },
       "months": [
         {
@@ -13507,8 +13507,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 5,
-        "forecast": 11,
-        "variance": -6
+        "forecast": 9,
+        "variance": -4
       },
       "months": [
         {
@@ -13595,8 +13595,8 @@
       "category": "High School",
       "march_baseline": {
         "actual": 15,
-        "forecast": 19,
-        "variance": -4
+        "forecast": 15,
+        "variance": 0
       },
       "months": [
         {
@@ -13683,8 +13683,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 14,
-        "forecast": 14,
-        "variance": 0
+        "forecast": 8,
+        "variance": 6
       },
       "months": [
         {
@@ -13771,8 +13771,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 10,
-        "forecast": 12,
-        "variance": -2
+        "forecast": 10,
+        "variance": 0
       },
       "months": [
         {
@@ -13947,8 +13947,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 8,
-        "variance": -7
+        "forecast": 9,
+        "variance": -8
       },
       "months": [
         {
@@ -14035,8 +14035,8 @@
       "category": "Other",
       "march_baseline": {
         "actual": 9,
-        "forecast": 12,
-        "variance": -3
+        "forecast": 5,
+        "variance": 4
       },
       "months": [
         {
@@ -14123,8 +14123,8 @@
       "category": "High School",
       "march_baseline": {
         "actual": 31,
-        "forecast": 10,
-        "variance": 21
+        "forecast": 2,
+        "variance": 29
       },
       "months": [
         {
@@ -14211,8 +14211,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 12,
-        "forecast": 8,
-        "variance": 4
+        "forecast": 9,
+        "variance": 3
       },
       "months": [
         {
@@ -14299,8 +14299,8 @@
       "category": "High School",
       "march_baseline": {
         "actual": 6,
-        "forecast": 9,
-        "variance": -3
+        "forecast": 2,
+        "variance": 4
       },
       "months": [
         {
@@ -14387,8 +14387,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 27,
-        "forecast": 7,
-        "variance": 20
+        "forecast": 1,
+        "variance": 26
       },
       "months": [
         {
@@ -14563,8 +14563,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 8,
-        "forecast": 8,
-        "variance": 0
+        "forecast": 7,
+        "variance": 1
       },
       "months": [
         {
@@ -14739,8 +14739,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 11,
-        "forecast": 8,
-        "variance": 3
+        "forecast": 5,
+        "variance": 6
       },
       "months": [
         {
@@ -14827,8 +14827,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 2,
-        "forecast": 4,
-        "variance": -2
+        "forecast": 22,
+        "variance": -20
       },
       "months": [
         {
@@ -15179,8 +15179,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 5,
-        "forecast": 7,
-        "variance": -2
+        "forecast": 1,
+        "variance": 4
       },
       "months": [
         {
@@ -15267,8 +15267,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 4,
-        "forecast": 5,
-        "variance": -1
+        "forecast": 3,
+        "variance": 1
       },
       "months": [
         {
@@ -15355,8 +15355,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 2,
-        "forecast": 5,
-        "variance": -3
+        "forecast": 2,
+        "variance": 0
       },
       "months": [
         {
@@ -15443,8 +15443,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 14,
-        "forecast": 5,
-        "variance": 9
+        "forecast": 1,
+        "variance": 13
       },
       "months": [
         {
@@ -15531,8 +15531,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 5,
-        "forecast": 5,
-        "variance": 0
+        "forecast": 2,
+        "variance": 3
       },
       "months": [
         {
@@ -15619,8 +15619,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 7,
-        "forecast": 5,
-        "variance": 2
+        "forecast": 1,
+        "variance": 6
       },
       "months": [
         {
@@ -15971,8 +15971,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 4,
-        "variance": -3
+        "forecast": 3,
+        "variance": -2
       },
       "months": [
         {
@@ -16146,9 +16146,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "IB",
       "march_baseline": {
-        "actual": null,
-        "forecast": 4,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -16411,8 +16411,8 @@
       "category": "Other",
       "march_baseline": {
         "actual": 3,
-        "forecast": 4,
-        "variance": -1
+        "forecast": 2,
+        "variance": 1
       },
       "months": [
         {
@@ -16499,8 +16499,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 5,
-        "forecast": 4,
-        "variance": 1
+        "forecast": 1,
+        "variance": 4
       },
       "months": [
         {
@@ -16939,8 +16939,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 6,
-        "forecast": 4,
-        "variance": 2
+        "forecast": 1,
+        "variance": 5
       },
       "months": [
         {
@@ -17027,8 +17027,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 3,
-        "variance": -2
+        "forecast": 4,
+        "variance": -3
       },
       "months": [
         {
@@ -17115,8 +17115,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 2,
-        "forecast": 4,
-        "variance": -2
+        "forecast": 3,
+        "variance": -1
       },
       "months": [
         {
@@ -17203,8 +17203,8 @@
       "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
-        "forecast": 4,
-        "variance": -2
+        "forecast": 1,
+        "variance": 1
       },
       "months": [
         {
@@ -17291,8 +17291,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 9,
-        "forecast": 25,
-        "variance": -16
+        "forecast": 19,
+        "variance": -10
       },
       "months": [
         {
@@ -17378,9 +17378,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "College",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 3,
+        "variance": -3
       },
       "months": [
         {
@@ -17467,8 +17467,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 3,
-        "variance": -2
+        "forecast": 2,
+        "variance": -1
       },
       "months": [
         {
@@ -17554,9 +17554,9 @@
       "problem_type": "True Supply Problem",
       "category": "AP",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 4,
+        "variance": -4
       },
       "months": [
         {
@@ -17730,9 +17730,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "AP",
       "march_baseline": {
-        "actual": null,
-        "forecast": 3,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -17818,9 +17818,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "IB",
       "march_baseline": {
-        "actual": null,
-        "forecast": 3,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -17906,9 +17906,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "IB",
       "march_baseline": {
-        "actual": null,
-        "forecast": 3,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -18083,8 +18083,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 3,
-        "variance": -2
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -18170,9 +18170,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "College",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -18258,9 +18258,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "Technology",
       "march_baseline": {
-        "actual": null,
-        "forecast": 3,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -18523,8 +18523,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 14,
-        "forecast": 3,
-        "variance": 11
+        "forecast": 1,
+        "variance": 13
       },
       "months": [
         {
@@ -18875,8 +18875,8 @@
       "category": "Technology",
       "march_baseline": {
         "actual": 6,
-        "forecast": 3,
-        "variance": 3
+        "forecast": 1,
+        "variance": 5
       },
       "months": [
         {
@@ -18963,8 +18963,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 9,
-        "forecast": 1,
-        "variance": 8
+        "forecast": 3,
+        "variance": 6
       },
       "months": [
         {
@@ -19051,8 +19051,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 5,
-        "forecast": 3,
-        "variance": 2
+        "forecast": 1,
+        "variance": 4
       },
       "months": [
         {
@@ -19402,9 +19402,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "Test Prep",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 3,
+        "variance": -3
       },
       "months": [
         {
@@ -19579,8 +19579,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 3,
-        "forecast": 3,
-        "variance": 0
+        "forecast": 2,
+        "variance": 1
       },
       "months": [
         {
@@ -19755,8 +19755,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 1,
-        "forecast": 2,
-        "variance": -1
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -19843,8 +19843,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 3,
-        "forecast": 2,
-        "variance": 1
+        "forecast": 3,
+        "variance": 0
       },
       "months": [
         {
@@ -20195,8 +20195,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 2,
-        "variance": -1
+        "forecast": 5,
+        "variance": -4
       },
       "months": [
         {
@@ -20371,8 +20371,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 3,
-        "variance": -2
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -20811,8 +20811,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 1,
-        "forecast": 2,
-        "variance": -1
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -20986,9 +20986,9 @@
       "problem_type": "On Track",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 2,
-        "variance": null
+        "variance": -2
       },
       "months": [
         {
@@ -21163,8 +21163,8 @@
       "category": "AP",
       "march_baseline": {
         "actual": 2,
-        "forecast": 2,
-        "variance": 0
+        "forecast": 3,
+        "variance": -1
       },
       "months": [
         {
@@ -21251,8 +21251,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 2,
-        "variance": -1
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -21338,9 +21338,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "Language",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -21691,8 +21691,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 2,
-        "variance": -1
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -21954,9 +21954,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "Technology",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -22131,8 +22131,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 2,
-        "forecast": 2,
-        "variance": 0
+        "forecast": 3,
+        "variance": -1
       },
       "months": [
         {
@@ -22307,8 +22307,8 @@
       "category": "Arts & Music",
       "march_baseline": {
         "actual": 2,
-        "forecast": 2,
-        "variance": 0
+        "forecast": 1,
+        "variance": 1
       },
       "months": [
         {
@@ -22482,9 +22482,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -22922,9 +22922,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -23010,9 +23010,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -23363,8 +23363,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 16,
-        "forecast": 6,
-        "variance": 10
+        "forecast": 5,
+        "variance": 11
       },
       "months": [
         {
@@ -23539,8 +23539,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 1,
-        "forecast": 1,
-        "variance": 0
+        "forecast": 2,
+        "variance": -1
       },
       "months": [
         {
@@ -23803,8 +23803,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 5,
-        "forecast": 3,
-        "variance": 2
+        "forecast": 1,
+        "variance": 4
       },
       "months": [
         {
@@ -23891,8 +23891,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 3,
-        "forecast": 2,
-        "variance": 1
+        "forecast": 5,
+        "variance": -2
       },
       "months": [
         {
@@ -24067,8 +24067,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 4,
-        "forecast": 1,
-        "variance": 3
+        "forecast": 4,
+        "variance": 0
       },
       "months": [
         {
@@ -24331,8 +24331,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 10,
-        "forecast": 1,
-        "variance": 9
+        "forecast": 2,
+        "variance": 8
       },
       "months": [
         {
@@ -24595,8 +24595,8 @@
       "category": "Professional/Cert",
       "march_baseline": {
         "actual": 4,
-        "forecast": 2,
-        "variance": 2
+        "forecast": 1,
+        "variance": 3
       },
       "months": [
         {
@@ -24682,9 +24682,9 @@
       "problem_type": "Possible Placement Issue",
       "category": "Language",
       "march_baseline": {
-        "actual": null,
-        "forecast": 1,
-        "variance": null
+        "actual": 0,
+        "forecast": 2,
+        "variance": -2
       },
       "months": [
         {
@@ -25034,9 +25034,9 @@
       "problem_type": "On Track",
       "category": "College",
       "march_baseline": {
-        "actual": null,
-        "forecast": 2,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -25299,8 +25299,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 6,
-        "forecast": 1,
-        "variance": 5
+        "forecast": 6,
+        "variance": 0
       },
       "months": [
         {
@@ -25562,9 +25562,9 @@
       "problem_type": "On Track (Low Util)",
       "category": "College",
       "march_baseline": {
-        "actual": null,
-        "forecast": 1,
-        "variance": null
+        "actual": 0,
+        "forecast": 2,
+        "variance": -2
       },
       "months": [
         {
@@ -25651,8 +25651,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 1,
-        "variance": 0
+        "forecast": 2,
+        "variance": -1
       },
       "months": [
         {
@@ -26355,8 +26355,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 4,
-        "forecast": 1,
-        "variance": 3
+        "forecast": 3,
+        "variance": 1
       },
       "months": [
         {
@@ -26442,9 +26442,9 @@
       "problem_type": "On Track",
       "category": "High School",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -26530,9 +26530,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "Test Prep",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -26707,8 +26707,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 2,
-        "forecast": 1,
-        "variance": 1
+        "forecast": 2,
+        "variance": 0
       },
       "months": [
         {
@@ -27498,9 +27498,9 @@
       "problem_type": "On Track (Low Util)",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -27850,9 +27850,9 @@
       "problem_type": "On Track",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -28114,9 +28114,9 @@
       "problem_type": "On Track",
       "category": "College",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -28379,8 +28379,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 2,
-        "forecast": 2,
-        "variance": 0
+        "forecast": 1,
+        "variance": 1
       },
       "months": [
         {
@@ -28907,8 +28907,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 12,
-        "forecast": 1,
-        "variance": 11
+        "forecast": 2,
+        "variance": 10
       },
       "months": [
         {
@@ -29874,9 +29874,9 @@
       "problem_type": "On Track",
       "category": "High School",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -30051,8 +30051,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 6,
-        "forecast": 1,
-        "variance": 5
+        "forecast": 3,
+        "variance": 3
       },
       "months": [
         {
@@ -31019,8 +31019,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 6,
-        "forecast": 1,
-        "variance": 5
+        "forecast": 2,
+        "variance": 4
       },
       "months": [
         {
@@ -32075,8 +32075,8 @@
       "category": "Arts & Music",
       "march_baseline": {
         "actual": 4,
-        "forecast": 1,
-        "variance": 3
+        "forecast": 3,
+        "variance": 1
       },
       "months": [
         {
@@ -35243,8 +35243,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 1,
-        "forecast": 1,
-        "variance": 0
+        "forecast": 2,
+        "variance": -1
       },
       "months": [
         {
@@ -35418,9 +35418,9 @@
       "problem_type": "On Track",
       "category": "Technology",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -35858,9 +35858,9 @@
       "problem_type": "On Track (Low Util)",
       "category": "Arts & Music",
       "march_baseline": {
-        "actual": null,
+        "actual": 0,
         "forecast": 1,
-        "variance": null
+        "variance": -1
       },
       "months": [
         {
@@ -37618,9 +37618,9 @@
       "problem_type": "Supply Problem (No Util Data)",
       "category": "Language",
       "march_baseline": {
-        "actual": null,
-        "forecast": 0,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -41843,8 +41843,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 12,
-        "forecast": 0,
-        "variance": 12
+        "forecast": 13,
+        "variance": -1
       },
       "months": [
         {
@@ -42019,8 +42019,8 @@
       "category": "Other",
       "march_baseline": {
         "actual": 19,
-        "forecast": 0,
-        "variance": 19
+        "forecast": 2,
+        "variance": 17
       },
       "months": [
         {
@@ -42107,8 +42107,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 3,
-        "forecast": 0,
-        "variance": 3
+        "forecast": 2,
+        "variance": 1
       },
       "months": [
         {
@@ -42195,8 +42195,8 @@
       "category": "Language",
       "march_baseline": {
         "actual": 3,
-        "forecast": 0,
-        "variance": 3
+        "forecast": 1,
+        "variance": 2
       },
       "months": [
         {
@@ -42283,8 +42283,8 @@
       "category": "Middle School",
       "march_baseline": {
         "actual": 38,
-        "forecast": 7,
-        "variance": 31
+        "forecast": 4,
+        "variance": 34
       },
       "months": [
         {
@@ -42370,9 +42370,9 @@
       "problem_type": "On Track",
       "category": "Language",
       "march_baseline": {
-        "actual": null,
-        "forecast": 0,
-        "variance": null
+        "actual": 0,
+        "forecast": 2,
+        "variance": -2
       },
       "months": [
         {
@@ -42546,9 +42546,9 @@
       "problem_type": "On Track (Low Util)",
       "category": "Test Prep",
       "march_baseline": {
-        "actual": null,
-        "forecast": 0,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -42635,8 +42635,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 2,
-        "forecast": 1,
-        "variance": 1
+        "forecast": 5,
+        "variance": -3
       },
       "months": [
         {
@@ -42722,9 +42722,9 @@
       "problem_type": "On Track",
       "category": "Test Prep",
       "march_baseline": {
-        "actual": null,
-        "forecast": 0,
-        "variance": null
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
       },
       "months": [
         {
@@ -42987,8 +42987,8 @@
       "category": "College",
       "march_baseline": {
         "actual": 1,
-        "forecast": 0,
-        "variance": 1
+        "forecast": 1,
+        "variance": 0
       },
       "months": [
         {
@@ -43074,9 +43074,9 @@
       "problem_type": "On Track",
       "category": "Test Prep",
       "march_baseline": {
-        "actual": null,
-        "forecast": 0,
-        "variance": null
+        "actual": 0,
+        "forecast": 2,
+        "variance": -2
       },
       "months": [
         {
@@ -43251,8 +43251,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 8,
-        "forecast": 0,
-        "variance": 8
+        "forecast": 1,
+        "variance": 7
       },
       "months": [
         {
@@ -43339,8 +43339,8 @@
       "category": "Test Prep",
       "march_baseline": {
         "actual": 10,
-        "forecast": 0,
-        "variance": 10
+        "forecast": 2,
+        "variance": 8
       },
       "months": [
         {
@@ -43426,9 +43426,9 @@
       "problem_type": "On Track (Low Util)",
       "category": "College",
       "march_baseline": {
-        "actual": null,
-        "forecast": 1,
-        "variance": null
+        "actual": 0,
+        "forecast": 3,
+        "variance": -3
       },
       "months": [
         {

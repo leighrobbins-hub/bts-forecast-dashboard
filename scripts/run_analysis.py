@@ -201,7 +201,7 @@ def load_manual_adjustments(adjustments_dir):
     return adjustments
 
 
-def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=None):
+def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=None, march_overrides=None):
     """Calculate smoothed monthly targets from forecast data"""
     if manual_adjustments is None:
         manual_adjustments = {}
@@ -301,8 +301,8 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             'Aug_Smoothed': round(monthly_targets[4], 0),
             'Sep_Smoothed': round(monthly_targets[5], 0),
             'Oct_Smoothed': round(monthly_targets[6], 0),
-            'Mar_Actual': round(mar_actual, 0) if pd.notna(mar_actual) else None,
-            'Mar_Forecast': round(mar_forecast, 0) if mar_forecast is not None else None
+            'Mar_Actual': round(march_overrides[subject]['actual'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['actual'] is not None else (round(mar_actual, 0) if pd.notna(mar_actual) else None),
+            'Mar_Forecast': round(march_overrides[subject]['forecast'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['forecast'] is not None else (round(mar_forecast, 0) if mar_forecast is not None else None)
         })
 
     # Add subjects that exist in manual adjustments but not in the forecast.
@@ -373,8 +373,8 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
                 'Aug_Smoothed': round(monthly_targets[4], 0),
                 'Sep_Smoothed': round(monthly_targets[5], 0),
                 'Oct_Smoothed': round(monthly_targets[6], 0),
-                'Mar_Actual': round(mar_actual, 0) if mar_actual is not None else None,
-                'Mar_Forecast': None
+                'Mar_Actual': round(march_overrides[subject]['actual'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['actual'] is not None else (round(mar_actual, 0) if mar_actual is not None else None),
+                'Mar_Forecast': round(march_overrides[subject]['forecast'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['forecast'] is not None else None
             })
 
     return pd.DataFrame(results)
@@ -825,10 +825,30 @@ def main():
     os.makedirs(forecasts_dir, exist_ok=True)
     os.makedirs(adjustments_dir, exist_ok=True)
 
+    march_finals_path = 'data/march_finals.csv'
+
     print("Loading data...")
     df_runrate, df_forecast, df_utilization = load_and_clean_data(
         run_rate_path, forecast_path, utilization_path
     )
+
+    if os.path.exists(march_finals_path):
+        print("Loading March finals override...")
+        df_march = pd.read_csv(march_finals_path, skiprows=1)
+        df_march.columns = ['Subject_ID', 'Subject', 'Mar_Forecast_Final', 'Mar_Actual_Final']
+        df_march['Subject'] = df_march['Subject'].astype(str).str.strip()
+        df_march['Mar_Forecast_Final'] = pd.to_numeric(df_march['Mar_Forecast_Final'], errors='coerce')
+        df_march['Mar_Actual_Final'] = pd.to_numeric(df_march['Mar_Actual_Final'], errors='coerce')
+        march_overrides = {}
+        for _, row in df_march.iterrows():
+            if pd.notna(row['Subject']) and row['Subject']:
+                march_overrides[row['Subject']] = {
+                    'forecast': float(row['Mar_Forecast_Final']) if pd.notna(row['Mar_Forecast_Final']) else None,
+                    'actual': float(row['Mar_Actual_Final']) if pd.notna(row['Mar_Actual_Final']) else None
+                }
+        print(f"  Loaded March finals for {len(march_overrides)} subjects")
+    else:
+        march_overrides = None
 
     print("Loading actuals...")
     actuals, month_statuses = load_actuals(actuals_dir)
@@ -843,7 +863,7 @@ def main():
         print(f"  {len(manual_adjustments)} subjects have manual overrides (applied before all calculations)")
 
     print("Calculating smoothed forecasts (with manual adjustments applied)...")
-    df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments)
+    df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments, march_overrides)
 
     print("Classifying problems...")
     df_final = classify_problems(df_analysis, df_utilization)
