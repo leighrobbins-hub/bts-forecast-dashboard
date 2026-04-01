@@ -30,17 +30,31 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
     """Load and parse all input data files"""
 
     df_runrate_raw = pd.read_csv(run_rate_path)
-    df_runrate = df_runrate_raw.iloc[1:].reset_index(drop=True)
-    df_runrate.columns = ['Subject'] + df_runrate_raw.columns[1:].tolist()
+    cols = [c.strip() for c in df_runrate_raw.columns]
+    df_runrate_raw.columns = cols
 
-    clean_months = ['2026-03', '2026-02', '2026-01', '2025-12']
-    for col in clean_months:
-        df_runrate[col] = pd.to_numeric(df_runrate[col], errors='coerce')
-
-    df_runrate['Run_Rate'] = df_runrate[clean_months].mean(axis=1)
-    df_runrate['Mar_Actual'] = df_runrate['2026-03']
-    df_runrate = df_runrate[['Subject', 'Run_Rate', 'Mar_Actual']].copy()
-    df_runrate = df_runrate[df_runrate['Run_Rate'] > 0]
+    if 'Subject Name - General' in cols or 'Total Count Likely Attanable' in cols:
+        # New simple two-column format: subject name + single run rate value
+        subj_col = [c for c in cols if 'subject' in c.lower() or 'name' in c.lower()][0]
+        rate_col = [c for c in cols if c != subj_col][0]
+        df_runrate = df_runrate_raw.rename(columns={subj_col: 'Subject', rate_col: 'Run_Rate'})
+        df_runrate['Run_Rate'] = pd.to_numeric(df_runrate['Run_Rate'], errors='coerce')
+        df_runrate['Mar_Actual'] = None
+        df_runrate = df_runrate[['Subject', 'Run_Rate', 'Mar_Actual']].copy()
+        df_runrate = df_runrate[df_runrate['Run_Rate'] > 0]
+    else:
+        # Legacy multi-column monthly format
+        df_runrate = df_runrate_raw.iloc[1:].reset_index(drop=True)
+        df_runrate.columns = ['Subject'] + df_runrate_raw.columns[1:].tolist()
+        clean_months = ['2026-03', '2026-02', '2026-01', '2025-12']
+        for col in clean_months:
+            if col in df_runrate.columns:
+                df_runrate[col] = pd.to_numeric(df_runrate[col], errors='coerce')
+        available = [c for c in clean_months if c in df_runrate.columns]
+        df_runrate['Run_Rate'] = df_runrate[available].mean(axis=1)
+        df_runrate['Mar_Actual'] = df_runrate['2026-03'] if '2026-03' in df_runrate.columns else None
+        df_runrate = df_runrate[['Subject', 'Run_Rate', 'Mar_Actual']].copy()
+        df_runrate = df_runrate[df_runrate['Run_Rate'] > 0]
 
     df_forecast = pd.read_excel(forecast_path)
     df_forecast = df_forecast[df_forecast['metric'] == 'forecasted_headcount'].copy()
