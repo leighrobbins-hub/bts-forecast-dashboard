@@ -4,7 +4,7 @@ window.__dashboardData = {
     "utilization_problems": 24,
     "supply_problems": 10,
     "on_track": 298,
-    "last_updated": "2026-04-01 14:54 UTC",
+    "last_updated": "2026-04-01 09:58 AM CST",
     "portfolio_bts_total": 6796.0,
     "portfolio_actual_to_date": 0,
     "portfolio_remaining": 6796.0,

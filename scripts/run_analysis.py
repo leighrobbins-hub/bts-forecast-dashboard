@@ -10,8 +10,11 @@ import json
 import glob
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 import sys
+
+CST = ZoneInfo('America/Chicago')
 
 
 BTS_MONTH_LABELS = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
@@ -518,7 +521,7 @@ def build_upload_log(actuals_dir, forecasts_dir):
             'type': 'actuals',
             'month': month_key,
             'filename': filename,
-            'uploaded_at': datetime.fromtimestamp(mtime).strftime('%Y-%m-%d %H:%M'),
+            'uploaded_at': datetime.fromtimestamp(mtime, tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
             'subjects_count': len(df)
         })
 
@@ -529,7 +532,7 @@ def build_upload_log(actuals_dir, forecasts_dir):
             'type': 'forecast',
             'month': None,
             'filename': filename,
-            'uploaded_at': datetime.fromtimestamp(mtime).strftime('%Y-%m-%d %H:%M'),
+            'uploaded_at': datetime.fromtimestamp(mtime, tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
             'subjects_count': None
         })
 
@@ -544,7 +547,7 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
         'utilization_problems': len(df_final[df_final['Problem_Type'] == 'Utilization Problem']),
         'supply_problems': len(df_final[df_final['Problem_Type'] == 'True Supply Problem']),
         'on_track': len(df_final[df_final['Problem_Type'].str.contains('On Track')]),
-        'last_updated': datetime.now().strftime('%Y-%m-%d %H:%M UTC')
+        'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST')
     }
 
     portfolio_bts_total = sum(ts['bts_total'] for ts in tracker_subjects)
