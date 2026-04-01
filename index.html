@@ -168,6 +168,8 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             overflow-x: auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 260px);
         }
         
         table {
@@ -186,6 +188,9 @@
             font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         th:hover {
@@ -234,6 +239,8 @@
         .badge.ontrack { background: #27ae60; color: white; }
         .badge.nodata { background: #95a5a6; color: white; }
         .badge.lowutil { background: #9b59b6; color: white; }
+        .badge.adjusted { background: #3498db; color: white; font-size: 10px; padding: 2px 6px; margin-left: 6px; }
+        .adj-note { display: block; font-size: 11px; color: #7f8c8d; font-weight: normal; }
         
         .gap-critical { color: #c0392b; font-weight: bold; }
         .gap-high { color: #e67e22; font-weight: bold; }
@@ -947,7 +954,7 @@
                     <select id="filter-type-all">
                         <option value="all">All Subjects</option>
                         <option value="all-problems">All Problems (Supply + Util)</option>
-                        <option value="utilization">Utilization Problems</option>
+                        <option value="utilization">Possible Placement Issues</option>
                         <option value="true-supply">True Supply Problems</option>
                         <option value="no-util-data">Supply — No Util Data</option>
                         <option value="on-track">On Track</option>
@@ -1018,7 +1025,7 @@
         <div id="problem-subjects" class="tab-content">
             <div class="callout warning">
                 <strong>Important: Utilization problems may be masking real supply gaps.</strong>
-                Subjects flagged as "Utilization" have low tutor assignment rates, which could mean the placement algorithm is blocking supply that already exists — or it could be obscuring a genuine shortage. Until utilization improves, it's difficult to know which subjects also need more recruiting. Treat utilization subjects as <em>potential</em> supply problems that need algorithm investigation first.
+                Subjects flagged as "Possible Placement Issue" have low tutor assignment rates — new tutors were contracted but not assigned to students. This may be caused by placement algorithm behavior or inaccurate forecasting. Root cause is not yet confirmed. Until utilization improves, it's difficult to know which subjects also need more recruiting. Treat these as <em>potential</em> supply problems that need investigation first.
             </div>
 
             <div class="methodology" style="margin-bottom: 20px; padding: 25px;">
@@ -1035,7 +1042,7 @@
                     <label>Problem Type</label>
                     <select id="filter-problem-type">
                         <option value="all">All Problems</option>
-                        <option value="utilization">Utilization / Algorithm</option>
+                        <option value="utilization">Possible Placement Issue</option>
                         <option value="true-supply">True Supply</option>
                         <option value="no-util-data">No Util Data</option>
                     </select>
@@ -1061,6 +1068,19 @@
                 <div class="filter-group">
                     <label>Search Subject</label>
                     <input type="text" id="search-problems" placeholder="Type to search...">
+                </div>
+                <div class="filter-group">
+                    <label>Problem Month</label>
+                    <select id="filter-problem-month">
+                        <option value="all">All Months</option>
+                        <option value="0">Apr</option>
+                        <option value="1">May</option>
+                        <option value="2">Jun</option>
+                        <option value="3">Jul</option>
+                        <option value="4">Aug</option>
+                        <option value="5">Sep</option>
+                        <option value="6">Oct</option>
+                    </select>
                 </div>
             </div>
 
@@ -1216,6 +1236,9 @@
                             <input type="checkbox" id="actuals-final"> Mark as final (month complete)
                         </label>
                     </div>
+                    <div class="filter-group" id="locked-months-display" style="display:none; align-items:flex-end; padding-bottom:4px;">
+                        <span id="locked-months-list" style="font-size:12px; color:#7f8c8d;"></span>
+                    </div>
                 </div>
 
                 <span class="template-link" onclick="downloadActualsTemplate()">Download blank template CSV</span>
@@ -1271,6 +1294,34 @@
                     <button class="btn btn-secondary" id="btn-download-runrates" onclick="downloadRunRatesFile()" disabled>Download File</button>
                 </div>
                 <div id="runrates-status" class="status-msg"></div>
+            </div>
+
+            <div class="upload-section">
+                <h3>Upload Manual Forecast Adjustments</h3>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects. Required columns: <code>Subject Name</code> and <code>Final Forecast</code>. Adjusted subjects will use this value instead of Pierre's model output for all calculations.</p>
+
+                <div class="upload-controls">
+                    <div class="filter-group">
+                        <label>Adjustments File (.csv)</label>
+                        <input type="file" id="adjustments-file" accept=".csv">
+                    </div>
+                </div>
+
+                <div id="adjustments-preview" style="display:none; margin-top:15px;">
+                    <div class="section-header">Preview Adjustments</div>
+                    <div class="table-container" style="max-height:300px; overflow-y:auto;">
+                        <table>
+                            <thead><tr><th>Subject</th><th>Final Forecast</th><th>Match</th></tr></thead>
+                            <tbody id="adjustments-preview-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" id="btn-publish-adjustments" onclick="publishAdjustments()" disabled>Commit to Repo</button>
+                    <button class="btn btn-secondary" id="btn-download-adjustments" onclick="downloadAdjustmentsFile()" disabled>Download File</button>
+                </div>
+                <div id="adjustments-status" class="status-msg"></div>
             </div>
 
             <div class="upload-section">
@@ -1406,47 +1457,50 @@
                 
                 <h2>Analysis Steps</h2>
                 
-                <h3>Step 1: Demand Adjustment</h3>
+                <h3>Step 1: Demand Adjustment (Back-Loaded Smoothing)</h3>
                 
-                <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand (e.g., SAT ramping from 27 in April to 46 in October). This creates operational planning challenges for recruiting team.</p>
+                <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand (e.g., SAT ramping from 27 in April to 46 in October). Additionally, tutors recruited too early (e.g., April for a September need) are likely to attrit before they are actually needed.</p>
                 
-                <p><strong>Solution:</strong> Distribute total BTS demand evenly across all 7 months.</p>
+                <p><strong>Solution:</strong> Back-load adjusted targets toward peak months (September/October). Fill each month up to the run rate cap, working backward from October. Only spill into earlier months when later months are already maxed.</p>
                 
-                <p><strong>Formula:</strong></p>
+                <p><strong>Algorithm:</strong></p>
                 <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">
 Total_BTS_Demand = Sum(Apr + May + Jun + Jul + Aug + Sep + Oct)
-Adjusted_Target = Total_BTS_Demand / 7
+remaining = Total_BTS_Demand
 
-For each month:
-    Adjusted_Forecast = Adjusted_Target
-    Change = Adjusted_Target - Original_Forecast
+For month in [Oct, Sep, Aug, Jul, Jun, May, Apr]:
+    Adjusted_Target[month] = min(remaining, Run_Rate)
+    remaining -= Adjusted_Target[month]
+    if remaining <= 0: stop
 </pre>
                 
                 <p><strong>Benefits:</strong></p>
                 <ul>
-                    <li>Consistent monthly recruitment goals (easier to budget and plan)</li>
-                    <li>Eliminates reactive ramping (front-loads earlier months to build buffer)</li>
-                    <li>Variance reduction improves operational predictability</li>
+                    <li>Concentrates recruiting into fewest months possible near peak demand</li>
+                    <li>Reduces tutor attrition risk (tutors recruited closer to when they are needed)</li>
+                    <li>Each month is capped at run rate (realistic contracting capacity)</li>
+                    <li>Earlier months (Apr/May) stay at zero unless later months are already maxed</li>
                     <li>Same total demand (no under/over forecasting - just redistributed)</li>
                 </ul>
                 
-                <p><strong>Example - SAT:</strong></p>
+                <p><strong>Example - SAT (Run Rate: 11/mo):</strong></p>
                 <table style="width: 100%;">
                     <tr>
                         <th>Month</th>
                         <th>Original</th>
-                        <th>Adjusted</th>
+                        <th>Back-Loaded</th>
                         <th>Change</th>
                     </tr>
-                    <tr><td>Apr</td><td>27</td><td>36</td><td class="change-positive">+9</td></tr>
-                    <tr><td>May</td><td>26</td><td>36</td><td class="change-positive">+10</td></tr>
-                    <tr><td>Jun</td><td>30</td><td>36</td><td class="change-positive">+6</td></tr>
-                    <tr><td>Jul</td><td>36</td><td>36</td><td>0</td></tr>
-                    <tr><td>Aug</td><td>42</td><td>36</td><td class="change-negative">-6</td></tr>
-                    <tr><td>Sep</td><td>45</td><td>36</td><td class="change-negative">-9</td></tr>
-                    <tr><td>Oct</td><td>46</td><td>36</td><td class="change-negative">-10</td></tr>
-                    <tr style="font-weight: bold;"><td>Total</td><td>252</td><td>252</td><td>0</td></tr>
+                    <tr><td>Apr</td><td>27</td><td>0</td><td class="change-negative">-27</td></tr>
+                    <tr><td>May</td><td>26</td><td>0</td><td class="change-negative">-26</td></tr>
+                    <tr><td>Jun</td><td>30</td><td>0</td><td class="change-negative">-30</td></tr>
+                    <tr><td>Jul</td><td>36</td><td>0</td><td class="change-negative">-36</td></tr>
+                    <tr><td>Aug</td><td>42</td><td>0</td><td class="change-negative">-42</td></tr>
+                    <tr><td>Sep</td><td>45</td><td>11</td><td class="change-negative">-34</td></tr>
+                    <tr><td>Oct</td><td>46</td><td>11</td><td class="change-negative">-35</td></tr>
+                    <tr style="font-weight: bold;"><td>Total</td><td>252</td><td>22</td><td>-230 (gap: need exceeds capacity)</td></tr>
                 </table>
+                <p><em>Note: When total demand exceeds 7 × run rate, earlier months remain at zero and a capacity gap is flagged.</em></p>
                 
                 <h3>Step 2: Capacity Gap Analysis</h3>
                 
@@ -1470,8 +1524,9 @@ For each month:
                 <p><strong>Classification Algorithm:</strong></p>
                 <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">
 IF Util_Rate < 50% AND Gap > 20%:
-    → UTILIZATION PROBLEM
-    → Recommendation: Fix algorithm before recruiting
+    → POSSIBLE PLACEMENT ISSUE
+    → Recommendation: Investigate placement/assignment before recruiting
+    → Note: New tutors contracted but not assigned — may be algorithm or forecast issue
     
 ELSE IF Util_Rate >= 50% AND Gap > 20%:
     → TRUE SUPPLY PROBLEM
@@ -1731,6 +1786,21 @@ ELSE:
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v2.0 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag feature">Major Update</span></div>
+                <ul>
+                    <li>Back-loaded smoothing: adjusted targets now concentrate recruiting toward peak months (Sep/Oct), capped at run rate, to reduce tutor attrition risk</li>
+                    <li>Manual forecast adjustments: upload CSV overrides for specific subjects; ADJ badge shows which subjects differ from model output</li>
+                    <li>Monthly problem filter: filter Problem Subjects by specific month to see which subjects are problems in Apr vs Sep, etc.</li>
+                    <li>Dual gap metric: gap column now shows raw gap number AND coverage percentage (e.g., "-185 gap (68% coverage)")</li>
+                    <li>Sticky table headers: column headers stay visible when scrolling all data tables</li>
+                    <li>Utilization detail: shows underlying counts (e.g., "62% (23 of 37)") below percentage</li>
+                    <li>Renamed "Utilization Problem" to "Possible Placement Issue" for stakeholder clarity</li>
+                    <li>Mark-as-Final lock: finalized months removed from upload dropdown, lock icon shown</li>
+                    <li>Reconciliation check: overview card counts computed client-side from actual data for accuracy</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v1.8 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag feature">Feature</span></div>
                 <ul>
                     <li>Weekly actuals uploads — upload partial-month data as often as needed</li>
@@ -1826,6 +1896,7 @@ ELSE:
         var pendingActualsCSV = null;
         var pendingForecastFile = null;
         var pendingRunRatesFile = null;
+        var pendingAdjustmentsCSV = null;
         var REPO_OWNER = 'leighrobbins-hub';
         var REPO_NAME = 'bts-forecast-dashboard';
 
@@ -1838,6 +1909,7 @@ ELSE:
         function classifyType(problemType) {
             if (!problemType) return 'on-track';
             var pt = problemType.toLowerCase();
+            if (pt.includes('possible placement')) return 'utilization';
             if (pt.includes('utilization problem')) return 'utilization';
             if (pt.includes('true supply')) return 'true-supply';
             if (pt.includes('no util data')) return 'no-util-data';
@@ -1875,21 +1947,72 @@ ELSE:
                 renderMarchBaseline(summaryData);
                 renderProgressBar(summaryData);
                 renderHistoryTab();
+                lockFinalizedMonths();
             })
             .catch(function(e) { console.error('Error loading data:', e); });
 
+        function lockFinalizedMonths() {
+            if (!trackerData.length) return;
+            var finalMonths = {};
+            trackerData[0].months.forEach(function(m) {
+                if (m.status === 'final') finalMonths[m.month] = m.label;
+            });
+            var select = document.getElementById('actuals-month');
+            var locked = [];
+            for (var i = select.options.length - 1; i >= 0; i--) {
+                var val = select.options[i].value;
+                if (finalMonths[val]) {
+                    select.remove(i);
+                    locked.push(finalMonths[val]);
+                }
+            }
+            if (locked.length > 0) {
+                var lockDiv = document.getElementById('locked-months-display');
+                lockDiv.style.display = 'flex';
+                document.getElementById('locked-months-list').innerHTML = '&#128274; Locked: ' + locked.join(', ');
+            }
+            var monthLabels = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
+            var trackerHeaders = document.querySelectorAll('#tracker-table thead th');
+            trackerHeaders.forEach(function(th) {
+                var txt = th.textContent.trim();
+                var idx = monthLabels.indexOf(txt);
+                if (idx !== -1) {
+                    var mk = '2026-' + String(idx + 4).padStart(2, '0');
+                    if (finalMonths[mk]) {
+                        th.innerHTML = txt + ' &#128274;';
+                        th.style.background = '#2c3e50';
+                    }
+                }
+            });
+        }
+
         /* ── Summary + tab counts ── */
         function updateSummary(summary) {
-            document.getElementById('total-subjects').textContent = summary.total_subjects || 0;
-            document.getElementById('util-problems').textContent = summary.utilization_problems || 0;
-            document.getElementById('stat-supply-problems').textContent = summary.supply_problems || 0;
-            document.getElementById('ontrack-subjects').textContent = summary.on_track || 0;
+            var clientTotal = allData.length;
+            var clientUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; }).length;
+            var clientSupply = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
+            var clientNoUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
+            var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track' || t === 'low-util'; }).length;
+            var lowUtilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'low-util'; }).length;
+
+            document.getElementById('total-subjects').textContent = clientTotal;
+            document.getElementById('util-problems').textContent = clientUtil;
+            document.getElementById('stat-supply-problems').textContent = clientSupply + clientNoUtil;
+            document.getElementById('ontrack-subjects').textContent = clientOnTrack;
+            document.getElementById('lowutil-subjects').textContent = lowUtilCount;
+            document.getElementById('lowutil-count-callout').textContent = lowUtilCount;
+
             document.getElementById('footer-time').textContent = 'Last updated: ' + summary.last_updated;
             document.getElementById('method-updated').textContent = summary.last_updated;
 
-            var lowUtilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'low-util'; }).length;
-            document.getElementById('lowutil-subjects').textContent = lowUtilCount;
-            document.getElementById('lowutil-count-callout').textContent = lowUtilCount;
+            var discrepancies = [];
+            if (clientTotal !== (summary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + summary.total_subjects);
+            if (clientUtil !== (summary.utilization_problems || 0)) discrepancies.push('Placement issues: card=' + clientUtil + ' vs data=' + summary.utilization_problems);
+            var serverSupply = (summary.supply_problems || 0);
+            if ((clientSupply + clientNoUtil) !== serverSupply) discrepancies.push('Supply: card=' + (clientSupply + clientNoUtil) + ' vs data=' + serverSupply);
+            if (discrepancies.length > 0) {
+                console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
+            }
 
             var topLowUtil = allData
                 .filter(function(r) { return classifyType(r.Problem_Type) === 'low-util'; })
@@ -1954,13 +2077,17 @@ ELSE:
                 else if (type === 'true-supply') tr.className = 'supply-problem';
                 else if (type === 'no-util-data') tr.className = 'nodata-problem';
                 var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
+                if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
                 var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : 'gap-medium';
                 var action = '', badgeClass = '', badgeText = '';
-                if (type === 'utilization') { action = 'Possible supply gap masked by placement algorithm'; badgeClass = 'util'; badgeText = 'Util / Algorithm'; }
+                if (type === 'utilization') { action = 'Possible supply gap masked by placement issues'; badgeClass = 'util'; badgeText = 'Placement Issue'; }
                 else if (type === 'no-util-data') { action = 'Gather utilization data'; badgeClass = 'nodata'; badgeText = 'No Util Data'; }
                 else if (row.Gap_Pct > 200) { action = 'CRITICAL: External levers now'; badgeClass = 'supply'; badgeText = 'Supply'; }
                 else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
-                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + row.Gap_Pct + '%</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
+                var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
+                var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
+                var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
+                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
                 tbody.appendChild(tr);
             });
         }
@@ -2000,18 +2127,24 @@ ELSE:
                 else if (type === 'true-supply') tr.className = 'supply-problem';
                 else if (type === 'no-util-data') tr.className = 'nodata-problem';
                 var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
+                if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
                 var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
                 var badgeClass = 'ontrack', badgeText = 'On Track';
-                if (type === 'utilization') { badgeClass = 'util'; badgeText = 'Utilization'; }
+                if (type === 'utilization') { badgeClass = 'util'; badgeText = 'Placement Issue'; }
                 else if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'Supply'; }
                 else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
                 else if (type === 'low-util') { badgeClass = 'lowutil'; badgeText = 'Low Util'; }
                 var rec = 'No action needed';
-                if (type === 'utilization') rec = 'Potential supply problem masked by placement algorithm issues';
+                if (type === 'utilization') rec = 'Possible placement issue — tutors contracted but not assigned';
                 else if (type === 'true-supply') rec = 'External recruitment levers';
                 else if (type === 'no-util-data') rec = 'Gather utilization data';
                 else if (type === 'low-util') rec = 'Monitor utilization';
-                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + (row.Gap_Pct || 0) + '%</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
+                var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Model: ' + row.Original_Model_Total + ' total">ADJ</span>' : '';
+                var adjNote = row.Is_Adjusted ? '<span class="adj-note">Model total: ' + row.Original_Model_Total + '</span>' : '';
+                var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
+                var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
+                var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
+                tr.innerHTML = '<td><strong>' + row.Subject + '</strong>' + adjMark + adjNote + '</td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
                 tbody.appendChild(tr);
             });
         }
@@ -2020,11 +2153,22 @@ ELSE:
             var typeFilter = document.getElementById('filter-problem-type').value;
             var catFilter = document.getElementById('filter-category-problems').value;
             var searchTerm = document.getElementById('search-problems').value.toLowerCase();
+            var monthFilter = document.getElementById('filter-problem-month').value;
 
-            var problems = allData.filter(function(r) {
-                var t = classifyType(r.Problem_Type);
-                return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
-            });
+            var problems;
+            if (monthFilter !== 'all') {
+                var mi = parseInt(monthFilter);
+                problems = allData.filter(function(r) {
+                    var ts = trackerData.find(function(t) { return t.subject === r.Subject; });
+                    if (!ts || !ts.months || !ts.months[mi]) return false;
+                    return ts.months[mi].smoothed_target > ts.run_rate;
+                });
+            } else {
+                problems = allData.filter(function(r) {
+                    var t = classifyType(r.Problem_Type);
+                    return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+                });
+            }
             var totalProblems = problems.length;
 
             if (typeFilter !== 'all') problems = problems.filter(function(r) { return classifyType(r.Problem_Type) === typeFilter; });
@@ -2039,18 +2183,19 @@ ELSE:
             problems.forEach(function(row) {
                 var type = classifyType(row.Problem_Type);
                 var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
+                if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
                 var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
 
-                var badgeClass = 'util', badgeText = 'Util / Algorithm';
+                var badgeClass = 'util', badgeText = 'Placement Issue';
                 if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'True Supply'; }
                 else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
 
                 var assessment = '';
                 if (type === 'utilization') {
                     var utilPct = row.Util_Rate || 0;
-                    if (utilPct === 0) assessment = 'Zero utilization — likely supply gap hidden by placement issues';
-                    else if (utilPct < 25) assessment = 'Severe underutilization — could be masking real supply shortage';
-                    else assessment = 'Low utilization — potential supply problem obscured by algorithm barriers';
+                    if (utilPct === 0) assessment = 'Zero assignment rate — possible placement issue or supply gap';
+                    else if (utilPct < 25) assessment = 'Very low assignment rate — placement issue likely masking true supply need';
+                    else assessment = 'Low assignment rate — possible placement issue, investigate before recruiting';
                 } else if (type === 'true-supply') {
                     if (row.Gap_Pct > 200) assessment = 'CRITICAL: External recruitment levers needed immediately';
                     else if (row.Gap_Pct > 100) assessment = 'Moderate gap — InMail + opt-in campaigns';
@@ -2064,7 +2209,11 @@ ELSE:
                 else if (type === 'true-supply') tr.className = 'supply-problem';
                 else tr.className = 'nodata-problem';
 
-                tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + row.Gap_Pct + '%</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
+                var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Model: ' + row.Original_Model_Total + ' total">ADJ</span>' : '';
+                var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
+                var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
+                var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
+                tr.innerHTML = '<td><strong>' + row.Subject + '</strong>' + adjMark + '</td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
                 tbody.appendChild(tr);
             });
         }
@@ -2083,7 +2232,7 @@ ELSE:
         }
 
         function sortData(data, colIndex, asc) {
-            var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Gap_Pct', 'Problem_Type', 'Category'];
+            var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Raw_Gap', 'Problem_Type', 'Category'];
             var key = keysAll[colIndex] || keysAll[0];
             return data.slice().sort(function(a, b) {
                 var aVal = a[key], bVal = b[key];
@@ -2441,6 +2590,54 @@ ELSE:
             showStatus('runrates-status', 'File selected: ' + file.name + '. Commit or download to update.', 'info');
         });
 
+        document.getElementById('adjustments-file').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var text = ev.target.result;
+                var lines = text.trim().split('\n');
+                if (lines.length < 2) { showStatus('adjustments-status', 'File appears empty', 'error'); return; }
+                var header = lines[0].split(',').map(function(h) { return h.trim().replace(/"/g, ''); });
+                var nameIdx = header.indexOf('Subject Name');
+                if (nameIdx === -1) nameIdx = header.indexOf('subject_name');
+                var fcstIdx = header.indexOf('Final Forecast');
+                if (fcstIdx === -1) fcstIdx = header.indexOf('final_forecast');
+                if (nameIdx === -1 || fcstIdx === -1) {
+                    showStatus('adjustments-status', 'CSV must have "Subject Name" and "Final Forecast" columns', 'error');
+                    return;
+                }
+                var rows = [];
+                var csvLines = ['Subject Name,Final Forecast'];
+                for (var i = 1; i < lines.length; i++) {
+                    var cols = lines[i].split(',').map(function(c) { return c.trim().replace(/"/g, ''); });
+                    if (cols.length > Math.max(nameIdx, fcstIdx)) {
+                        var subj = cols[nameIdx];
+                        var val = parseFloat(cols[fcstIdx]);
+                        if (subj && !isNaN(val)) {
+                            var known = allData.some(function(d) { return d.Subject === subj; });
+                            rows.push({ subject: subj, forecast: val, known: known });
+                            csvLines.push(subj + ',' + val);
+                        }
+                    }
+                }
+                pendingAdjustmentsCSV = csvLines.join('\n');
+                var preview = document.getElementById('adjustments-preview');
+                var tbody = document.getElementById('adjustments-preview-body');
+                tbody.innerHTML = '';
+                rows.forEach(function(r) {
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = '<td>' + r.subject + '</td><td>' + r.forecast + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#e74c3c">Unknown</span>') + '</td>';
+                    tbody.appendChild(tr);
+                });
+                preview.style.display = 'block';
+                document.getElementById('btn-publish-adjustments').disabled = false;
+                document.getElementById('btn-download-adjustments').disabled = false;
+                showStatus('adjustments-status', rows.length + ' adjustments parsed. Review preview, then commit or download.', 'info');
+            };
+            reader.readAsText(file);
+        });
+
         function downloadActualsTemplate() {
             var lines = ['Subject,Actual_Contracted'];
             allData.forEach(function(r) { lines.push(r.Subject + ','); });
@@ -2637,6 +2834,34 @@ ELSE:
             reader.readAsText(pendingRunRatesFile);
         }
 
+        function downloadAdjustmentsFile() {
+            if (!pendingAdjustmentsCSV) return;
+            var blob = new Blob([pendingAdjustmentsCSV], { type: 'text/csv' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'manual_adjustments.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showStatus('adjustments-status', 'File downloaded. Upload to data/adjustments/ in the GitHub repo.', 'success');
+        }
+
+        function publishAdjustments() {
+            if (!pendingAdjustmentsCSV) return;
+            document.getElementById('btn-publish-adjustments').disabled = true;
+            showStatus('adjustments-status', 'Committing adjustments...', 'info');
+            commitFile('data/adjustments/manual_adjustments.csv', pendingAdjustmentsCSV, 'Update manual forecast adjustments - ' + new Date().toISOString().slice(0, 10))
+                .then(function() {
+                    showStatus('adjustments-status', 'Adjustments committed. Dashboard will update in ~2 minutes.', 'success');
+                })
+                .catch(function(err) {
+                    showStatus('adjustments-status', 'Error: ' + err + '. Use the Download button instead.', 'error');
+                    document.getElementById('btn-publish-adjustments').disabled = false;
+                });
+        }
+
         function showStatus(id, msg, type) {
             var el = document.getElementById(id);
             el.textContent = msg;
@@ -2651,6 +2876,7 @@ ELSE:
         document.getElementById('filter-problem-type').addEventListener('change', renderProblemSubjects);
         document.getElementById('filter-category-problems').addEventListener('change', renderProblemSubjects);
         document.getElementById('search-problems').addEventListener('input', renderProblemSubjects);
+        document.getElementById('filter-problem-month').addEventListener('change', renderProblemSubjects);
         document.getElementById('tracker-filter').addEventListener('change', renderMonthlyTracker);
         document.getElementById('tracker-search').addEventListener('input', renderMonthlyTracker);
         document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
