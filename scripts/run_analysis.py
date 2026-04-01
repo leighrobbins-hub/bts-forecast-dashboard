@@ -249,22 +249,18 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         if total_demand == 0 and original_model_total == 0 and not is_adjusted:
             continue
 
-        # Back-loaded smoothing: start with the monthly forecast as a floor (demand
-        # is real each month), then distribute any excess demand toward peak months
-        # (Oct backward), each month capped at run_rate.
-        monthly_targets = list(adjusted_forecasts)  # floor = forecast per month
-        excess = total_demand - sum(adjusted_forecasts)  # usually 0 unless rounding
-        # If run_rate exceeds a month's forecast, later months can absorb more.
-        # Back-load: boost targets from Oct backward up to run_rate to concentrate
-        # tutor onboarding near peak months.
+        # Back-loaded smoothing: build an independent back-loaded plan (Oct backward,
+        # capped at run_rate), then take max(forecast, backloaded) per month so that
+        # peak months get boosted while earlier months keep their forecast floor.
+        backloaded = [0.0] * 7
+        remaining = total_demand
         for i in reversed(range(7)):  # Oct, Sep, Aug, Jul, Jun, May, Apr
-            if monthly_targets[i] < run_rate:
-                room = run_rate - monthly_targets[i]
-                add = min(room, excess) if excess > 0 else 0
-                monthly_targets[i] += add
-                excess -= add
-            if excess <= 0:
+            alloc = min(remaining, run_rate)
+            backloaded[i] = alloc
+            remaining -= alloc
+            if remaining <= 0:
                 break
+        monthly_targets = [max(adjusted_forecasts[i], backloaded[i]) for i in range(7)]
 
         target_per_month = total_demand / len(BTS_MONTH_DATES)
         max_capacity = run_rate * 1.2
@@ -329,17 +325,16 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             run_rate = float(runrate_row['Run_Rate'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Run_Rate'].values[0]) else 0
             mar_actual = float(runrate_row['Mar_Actual'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Mar_Actual'].values[0]) else None
 
-            monthly_targets = list(adjusted_forecasts)
+            backloaded = [0.0] * 7
             if run_rate > 0:
-                excess = total_demand - sum(adjusted_forecasts)
+                rem = total_demand
                 for i in reversed(range(7)):
-                    if monthly_targets[i] < run_rate:
-                        room = run_rate - monthly_targets[i]
-                        add = min(room, excess) if excess > 0 else 0
-                        monthly_targets[i] += add
-                        excess -= add
-                    if excess <= 0:
+                    alloc = min(rem, run_rate)
+                    backloaded[i] = alloc
+                    rem -= alloc
+                    if rem <= 0:
                         break
+            monthly_targets = [max(adjusted_forecasts[i], backloaded[i]) for i in range(7)]
 
             target_per_month = total_demand / 7
             max_capacity = run_rate * 1.2
