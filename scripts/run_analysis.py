@@ -79,8 +79,18 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
 
 
 def load_actuals(actuals_dir):
-    """Load all monthly actuals CSVs from data/actuals/"""
+    """Load all monthly actuals CSVs and per-month status from data/actuals/"""
     actuals = {}
+    statuses = {}
+
+    status_path = os.path.join(actuals_dir, 'status.json')
+    if os.path.exists(status_path):
+        try:
+            with open(status_path) as f:
+                statuses = json.load(f)
+        except Exception as e:
+            print(f"  Warning: could not read status.json: {e}")
+
     pattern = os.path.join(actuals_dir, '*.csv')
     for filepath in sorted(glob.glob(pattern)):
         filename = os.path.basename(filepath)
@@ -100,10 +110,11 @@ def load_actuals(actuals_dir):
                 if pd.notna(val):
                     month_data[subject] = int(val)
             actuals[month_key] = month_data
-            print(f"  Loaded actuals for {month_key}: {len(month_data)} subjects")
+            status = statuses.get(month_key, 'in_progress')
+            print(f"  Loaded actuals for {month_key}: {len(month_data)} subjects [{status}]")
         except Exception as e:
             print(f"  Error loading {filename}: {e}")
-    return actuals
+    return actuals, statuses
 
 
 def calculate_smoothed_forecasts(df_forecast, df_runrate):
@@ -340,8 +351,15 @@ def classify_problems(df_analysis, df_utilization):
     return df_merged
 
 
-def calculate_monthly_tracker(df_final, actuals):
-    """Build per-subject monthly tracker with adjusted targets based on actuals."""
+def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
+    """Build per-subject monthly tracker with adjusted targets based on actuals.
+
+    month_statuses: dict mapping month keys to 'in_progress' or 'final'.
+    Only 'final' months count toward months_completed and adjusted-target
+    recalculation.  In-progress months show actuals but are clearly marked.
+    """
+    if month_statuses is None:
+        month_statuses = {}
 
     tracker_subjects = []
 
@@ -360,15 +378,18 @@ def calculate_monthly_tracker(df_final, actuals):
         originals = [float(row.get(k, 0)) if pd.notna(row.get(k, 0)) else 0 for k in original_keys]
 
         months_data = []
-        actual_so_far = 0
-        months_with_actuals = 0
+        final_actual_sum = 0
+        final_months_count = 0
 
         for i, month_key in enumerate(BTS_MONTH_KEYS):
             actual = None
+            status = None
             if month_key in actuals and subject in actuals[month_key]:
                 actual = actuals[month_key][subject]
-                actual_so_far += actual
-                months_with_actuals += 1
+                status = month_statuses.get(month_key, 'in_progress')
+                if status == 'final':
+                    final_actual_sum += actual
+                    final_months_count += 1
 
             months_data.append({
                 'month': month_key,
@@ -376,22 +397,34 @@ def calculate_monthly_tracker(df_final, actuals):
                 'original_forecast': originals[i],
                 'smoothed_target': float(smoothed),
                 'actual': actual,
+                'status': status,
                 'adjusted_target': None,
                 'variance': None
             })
 
-        remaining_need = bts_total - actual_so_far
-        months_left = len(BTS_MONTH_KEYS) - months_with_actuals
+        remaining_need = bts_total - final_actual_sum
+        months_left = len(BTS_MONTH_KEYS) - final_months_count
 
         for md in months_data:
-            if md['actual'] is not None:
+            if md['status'] == 'final' and md['actual'] is not None:
                 md['variance'] = md['actual'] - md['smoothed_target']
                 md['adjusted_target'] = md['smoothed_target']
+            elif md['status'] == 'in_progress' and md['actual'] is not None:
+                md['variance'] = md['actual'] - md['smoothed_target']
+                if months_left > 0:
+                    md['adjusted_target'] = round(remaining_need / months_left, 1)
+                else:
+                    md['adjusted_target'] = md['smoothed_target']
             else:
                 if months_left > 0:
                     md['adjusted_target'] = round(remaining_need / months_left, 1)
                 else:
                     md['adjusted_target'] = 0
+
+        total_actual = final_actual_sum
+        for md in months_data:
+            if md['status'] == 'in_progress' and md['actual'] is not None:
+                total_actual += md['actual']
 
         mar_actual = row.get('Mar_Actual')
         mar_forecast = row.get('Mar_Forecast')
@@ -406,9 +439,9 @@ def calculate_monthly_tracker(df_final, actuals):
             'run_rate': float(row.get('Run_Rate', 0)),
             'bts_total': bts_total,
             'smoothed_target': float(smoothed),
-            'actual_to_date': actual_so_far,
+            'actual_to_date': total_actual,
             'remaining_need': remaining_need,
-            'months_completed': months_with_actuals,
+            'months_completed': final_months_count,
             'problem_type': row.get('Problem_Type', 'On Track'),
             'category': row.get('Category', 'Other'),
             'march_baseline': mar_baseline,
@@ -583,7 +616,7 @@ def main():
     )
 
     print("Loading actuals...")
-    actuals = load_actuals(actuals_dir)
+    actuals, month_statuses = load_actuals(actuals_dir)
     if actuals:
         print(f"  Found actuals for {len(actuals)} month(s): {', '.join(sorted(actuals.keys()))}")
     else:
@@ -596,7 +629,7 @@ def main():
     df_final = classify_problems(df_analysis, df_utilization)
 
     print("Building monthly tracker...")
-    tracker_subjects = calculate_monthly_tracker(df_final, actuals)
+    tracker_subjects = calculate_monthly_tracker(df_final, actuals, month_statuses)
 
     print("Generating performance history...")
     history = generate_history(tracker_subjects, actuals)

@@ -548,6 +548,26 @@
         .mc-var.zero { color: #95a5a6; }
         .month-current { background: #eaf6ff; }
         .month-past { background: #f9f9f9; }
+        .month-in-progress {
+            background: #eaf6ff;
+            border: 2px dashed #3498db;
+            position: relative;
+        }
+        .ip-badge {
+            display: inline-block; font-size: 9px; font-weight: 700;
+            background: #3498db; color: #fff;
+            padding: 1px 5px; border-radius: 3px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        .ip-progress-outer {
+            height: 4px; background: #d5e8f7; border-radius: 2px;
+            margin-top: 3px; overflow: hidden;
+        }
+        .ip-progress-fill {
+            height: 100%; background: #3498db; border-radius: 2px;
+            transition: width 0.3s;
+        }
 
         .pace-bar-wrap { width: 80px; display: inline-block; vertical-align: middle; }
         .pace-bar-outer { height: 10px; background: #ecf0f1; border-radius: 5px; overflow: hidden; }
@@ -1148,7 +1168,7 @@
                             <th>Oct</th>
                             <th class="sortable" onclick="sortTracker('bts_total')">BTS Total</th>
                             <th class="sortable" onclick="sortTracker('remaining_need')">Remaining</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTracker('_pace')">Pace<span class="tooltip-text"><strong>Pace</strong> shows if a subject can meet its BTS goal at the current run rate.<br><br><strong>Formula:</strong> (Run Rate × Months Left) ÷ Remaining Need<br><br>🟢 ≥100% — On track<br>🟡 80–99% — At risk<br>🔴 &lt;80% — Will miss forecast</span></th>
+                            <th class="sortable tooltip-wrap" onclick="sortTracker('_pace')">Pace<span class="tooltip-text"><strong>Pace</strong> shows if a subject can meet its BTS goal at the current run rate.<br><br><strong>Formula:</strong> (Run Rate × Months Left) ÷ Remaining Need<br><br>🟢 ≥100% — On track<br>🟡 80–99% — At risk<br>🔴 &lt;80% — Will miss forecast<br><br><em>Note: Only finalized months reduce "Remaining Need." In-progress months are shown but don't shift targets or pace.</em></span></th>
                         </tr>
                     </thead>
                     <tbody id="tracker-body"></tbody>
@@ -1160,7 +1180,7 @@
         <div id="upload-data" class="tab-content">
             <div class="upload-section">
                 <h3>Upload Monthly Actuals</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with actual contracting numbers for a completed month. Format: <code>Subject,Actual_Contracted</code></p>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with actual contracting numbers. You can upload weekly updates — the month will show as "in progress" until you mark it final. Format: <code>Subject,Actual_Contracted</code></p>
 
                 <div class="upload-controls">
                     <div class="filter-group">
@@ -1178,6 +1198,11 @@
                     <div class="filter-group">
                         <label>CSV File</label>
                         <input type="file" id="actuals-file" accept=".csv">
+                    </div>
+                    <div class="filter-group" style="display:flex; align-items:flex-end; padding-bottom:4px;">
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; white-space:nowrap;">
+                            <input type="checkbox" id="actuals-final"> Mark as final (month complete)
+                        </label>
                     </div>
                 </div>
 
@@ -1676,6 +1701,25 @@ ELSE:
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v1.8 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Weekly actuals uploads — upload partial-month data as often as needed</li>
+                    <li>In-progress months shown with dashed blue border, mini progress bar, and "IN PROGRESS" badge</li>
+                    <li>"Mark as final" checkbox on upload — only finalized months shift adjusted targets and pace</li>
+                    <li>Pace tooltip updated to explain in-progress vs final distinction</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
+                <div class="cl-version">v1.7 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Pace column with color-coded progress bar (green/yellow/red) showing forecast risk per subject</li>
+                    <li>Hover tooltip on Pace header explaining formula and color coding</li>
+                    <li>"Will Miss Forecast" and "At Risk" filter options</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v1.6 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
                 <ul>
                     <li>Renamed "Smoothed" terminology to "Adjusted" across all user-facing labels</li>
@@ -2119,15 +2163,15 @@ ELSE:
                 cells += '<td style="background:#f8f9fa;">' + marContent + '</td>';
 
                 ts.months.forEach(function(m) {
-                    var cls = m.actual !== null ? 'month-past' : '';
+                    var isInProgress = m.status === 'in_progress';
+                    var isFinal = m.status === 'final';
+                    var cls = isFinal ? 'month-past' : (isInProgress ? 'month-in-progress' : '');
                     var content = '<div class="month-cell">';
                     var fcst = m.original_forecast !== null && m.original_forecast !== undefined ? Math.round(m.original_forecast) : null;
                     var smth = m.smoothed_target !== null && m.smoothed_target !== undefined ? Math.round(m.smoothed_target) : null;
                     var adj = m.adjusted_target !== null && m.adjusted_target !== undefined ? Math.round(m.adjusted_target) : null;
 
-                    if (m.actual !== null) {
-                        var varCls = m.variance > 0 ? 'positive' : m.variance < 0 ? 'negative' : 'zero';
-                        var varSign = m.variance > 0 ? '+' : '';
+                    if (m.actual !== null && (isFinal || isInProgress)) {
                         content += '<div class="mc-actual">' + m.actual + '</div>';
                         if (view === 'both') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
@@ -2137,7 +2181,17 @@ ELSE:
                         } else {
                             content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
                         }
-                        content += '<div class="mc-var ' + varCls + '">' + varSign + Math.round(m.variance) + '</div>';
+                        if (isFinal) {
+                            var varCls = m.variance > 0 ? 'positive' : m.variance < 0 ? 'negative' : 'zero';
+                            var varSign = m.variance > 0 ? '+' : '';
+                            content += '<div class="mc-var ' + varCls + '">' + varSign + Math.round(m.variance) + '</div>';
+                        }
+                        if (isInProgress) {
+                            var target = smth || 1;
+                            var pct = Math.min(Math.round(m.actual / target * 100), 100);
+                            content += '<div class="ip-progress-outer"><div class="ip-progress-fill" style="width:' + pct + '%"></div></div>';
+                            content += '<div class="ip-badge">in progress</div>';
+                        }
                     } else {
                         if (view === 'both') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
@@ -2436,17 +2490,49 @@ ELSE:
         function publishActuals() {
             if (!pendingActualsCSV) return;
             var month = document.getElementById('actuals-month').value;
+            var isFinal = document.getElementById('actuals-final').checked;
             var path = 'data/actuals/' + month + '.csv';
+            var statusPath = 'data/actuals/status.json';
             document.getElementById('btn-publish-actuals').disabled = true;
-            showStatus('actuals-status', 'Committing to repo...', 'info');
+            var statusLabel = isFinal ? 'final' : 'in progress';
+            showStatus('actuals-status', 'Committing actuals (' + statusLabel + ')...', 'info');
 
-            commitFile(path, pendingActualsCSV, 'Add actuals for ' + month)
+            commitFile(path, pendingActualsCSV, (isFinal ? 'Final' : 'Update') + ' actuals for ' + month)
                 .then(function() {
-                    showStatus('actuals-status', 'Committed ' + path + ' to repo. The workflow will run automatically and update the dashboard in ~2 minutes.', 'success');
+                    return updateStatusJson(month, isFinal ? 'final' : 'in_progress');
+                })
+                .then(function() {
+                    showStatus('actuals-status', 'Committed ' + month + ' actuals (' + statusLabel + '). Dashboard will update in ~2 minutes.', 'success');
                 })
                 .catch(function(err) {
                     showStatus('actuals-status', 'Error: ' + err + '. Use the Download button and upload manually instead.', 'error');
                     document.getElementById('btn-publish-actuals').disabled = false;
+                });
+        }
+
+        function updateStatusJson(month, status) {
+            var pat = getPAT();
+            if (!pat) return Promise.resolve();
+            var statusPath = 'data/actuals/status.json';
+            var apiUrl = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + statusPath;
+            var headers = { 'Authorization': 'token ' + pat, 'Content-Type': 'application/json' };
+
+            return fetch(apiUrl, { headers: headers })
+                .then(function(r) { return r.ok ? r.json() : null; })
+                .then(function(existing) {
+                    var current = {};
+                    if (existing && existing.content) {
+                        try { current = JSON.parse(atob(existing.content.replace(/\n/g, ''))); } catch(e) {}
+                    }
+                    current[month] = status;
+                    var content = btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2))));
+                    var body = { message: 'Update status: ' + month + ' → ' + status, content: content, branch: 'main' };
+                    if (existing && existing.sha) body.sha = existing.sha;
+                    return fetch(apiUrl, { method: 'PUT', headers: headers, body: JSON.stringify(body) });
+                })
+                .then(function(r) {
+                    if (!r.ok) throw new Error('status.json update failed: ' + r.status);
+                    return r.json();
                 });
         }
 
