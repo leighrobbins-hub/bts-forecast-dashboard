@@ -1173,8 +1173,8 @@
                 <div class="filter-group">
                     <label>Target View</label>
                     <select id="tracker-view">
-                        <option value="both">Both (Forecast + Adjusted)</option>
-                        <option value="smoothed">Adjusted Only</option>
+                        <option value="both">Both (Forecast + Target)</option>
+                        <option value="smoothed">Target Only</option>
                         <option value="forecast">Original Forecast Only</option>
                     </select>
                 </div>
@@ -1298,9 +1298,21 @@
 
             <div class="upload-section">
                 <h3>Upload Manual Forecast Adjustments</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects. Required columns: <code>Subject Name</code> and <code>Final Forecast</code>. Adjusted subjects will use this value instead of Pierre's model output for all calculations.</p>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects <strong>for a specific month</strong>. Required columns: <code>Subject Name</code> and <code>Final Forecast</code>. Overrides apply only to the selected month and persist across new model uploads.</p>
 
                 <div class="upload-controls">
+                    <div class="filter-group">
+                        <label>Month</label>
+                        <select id="adjustments-month">
+                            <option value="2026-04">April 2026</option>
+                            <option value="2026-05">May 2026</option>
+                            <option value="2026-06">June 2026</option>
+                            <option value="2026-07">July 2026</option>
+                            <option value="2026-08">August 2026</option>
+                            <option value="2026-09">September 2026</option>
+                            <option value="2026-10">October 2026</option>
+                        </select>
+                    </div>
                     <div class="filter-group">
                         <label>Adjustments File (.csv)</label>
                         <input type="file" id="adjustments-file" accept=".csv">
@@ -2139,8 +2151,9 @@ ELSE:
                 else if (type === 'true-supply') rec = 'External recruitment levers';
                 else if (type === 'no-util-data') rec = 'Gather utilization data';
                 else if (type === 'low-util') rec = 'Monitor utilization';
-                var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Model: ' + row.Original_Model_Total + ' total">ADJ</span>' : '';
-                var adjNote = row.Is_Adjusted ? '<span class="adj-note">Model total: ' + row.Original_Model_Total + '</span>' : '';
+                var adjMonths = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
+                var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + adjMonths + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
+                var adjNote = row.Is_Adjusted ? '<span class="adj-note">Adj: ' + adjMonths + ' (model: ' + row.Original_Model_Total + ')</span>' : '';
                 var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
                 var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
                 var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
@@ -2209,7 +2222,8 @@ ELSE:
                 else if (type === 'true-supply') tr.className = 'supply-problem';
                 else tr.className = 'nodata-problem';
 
-                var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Model: ' + row.Original_Model_Total + ' total">ADJ</span>' : '';
+                var adjMonthsP = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
+                var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + adjMonthsP + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
                 var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
                 var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
                 var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
@@ -2355,11 +2369,11 @@ ELSE:
                         content += '<div class="mc-actual">' + m.actual + '</div>';
                         if (view === 'both') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                            content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-smoothed">target: ' + (smth !== null ? smth : '—') + '</div>';
                         } else if (view === 'forecast') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
                         } else {
-                            content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-smoothed">target: ' + (smth !== null ? smth : '—') + '</div>';
                         }
                         if (isFinal) {
                             var varCls = m.variance > 0 ? 'positive' : m.variance < 0 ? 'negative' : 'zero';
@@ -2375,16 +2389,14 @@ ELSE:
                     } else {
                         if (view === 'both') {
                             content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                            content += '<div class="mc-smoothed">adj: ' + (smth !== null ? smth : '—') + '</div>';
-                            if (adj !== null && adj !== smth) {
-                                content += '<div class="mc-target">adj: ' + adj + '</div>';
-                            }
+                            content += '<div class="mc-actual">' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-target">target</div>';
                         } else if (view === 'forecast') {
                             content += '<div class="mc-actual">' + (fcst !== null ? fcst : '—') + '</div>';
                             content += '<div class="mc-target">forecast</div>';
                         } else {
-                            content += '<div class="mc-actual">' + (adj !== null ? adj : (smth !== null ? smth : '—')) + '</div>';
-                            content += '<div class="mc-target">' + (adj !== null && adj !== smth ? 'adj. target' : 'target') + '</div>';
+                            content += '<div class="mc-actual">' + (smth !== null ? smth : '—') + '</div>';
+                            content += '<div class="mc-target">target</div>';
                         }
                     }
                     content += '</div>';
@@ -2836,25 +2848,27 @@ ELSE:
 
         function downloadAdjustmentsFile() {
             if (!pendingAdjustmentsCSV) return;
+            var month = document.getElementById('adjustments-month').value;
             var blob = new Blob([pendingAdjustmentsCSV], { type: 'text/csv' });
             var url = URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
-            a.download = 'manual_adjustments.csv';
+            a.download = month + '_adjustments.csv';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showStatus('adjustments-status', 'File downloaded. Upload to data/adjustments/ in the GitHub repo.', 'success');
+            showStatus('adjustments-status', 'File downloaded. Upload to data/adjustments/ in the GitHub repo as ' + month + '.csv', 'success');
         }
 
         function publishAdjustments() {
             if (!pendingAdjustmentsCSV) return;
+            var month = document.getElementById('adjustments-month').value;
             document.getElementById('btn-publish-adjustments').disabled = true;
-            showStatus('adjustments-status', 'Committing adjustments...', 'info');
-            commitFile('data/adjustments/manual_adjustments.csv', pendingAdjustmentsCSV, 'Update manual forecast adjustments - ' + new Date().toISOString().slice(0, 10))
+            showStatus('adjustments-status', 'Committing adjustments for ' + month + '...', 'info');
+            commitFile('data/adjustments/' + month + '.csv', pendingAdjustmentsCSV, 'Manual adjustments for ' + month + ' - ' + new Date().toISOString().slice(0, 10))
                 .then(function() {
-                    showStatus('adjustments-status', 'Adjustments committed. Dashboard will update in ~2 minutes.', 'success');
+                    showStatus('adjustments-status', 'Adjustments for ' + month + ' committed. Dashboard will update in ~2 minutes.', 'success');
                 })
                 .catch(function(err) {
                     showStatus('adjustments-status', 'Error: ' + err + '. Use the Download button instead.', 'error');

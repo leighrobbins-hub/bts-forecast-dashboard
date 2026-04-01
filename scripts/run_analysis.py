@@ -121,43 +121,83 @@ def load_actuals(actuals_dir):
 
 
 def load_manual_adjustments(adjustments_dir):
-    """Load manual forecast adjustments CSV.
+    """Load per-month manual forecast adjustment CSVs.
 
-    Expected columns: 'Subject Name' and 'Final Forecast'.
-    Returns a dict mapping subject name -> {'final_forecast': float}.
+    Each file is named by month key (e.g. 2026-04.csv) with columns
+    'Subject Name' and 'Final Forecast'.
+    Returns a dict: {month_key: {subject_name: forecast_value}}.
     """
-    path = os.path.join(adjustments_dir, 'manual_adjustments.csv')
-    if not os.path.exists(path):
-        return {}
-
-    try:
-        df = pd.read_csv(path)
-    except Exception as e:
-        print(f"  Warning: could not read manual_adjustments.csv: {e}")
-        return {}
-
-    name_col = None
-    for candidate in ['Subject Name', 'subject_name', 'Subject']:
-        if candidate in df.columns:
-            name_col = candidate
-            break
-    forecast_col = None
-    for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast']:
-        if candidate in df.columns:
-            forecast_col = candidate
-            break
-
-    if name_col is None or forecast_col is None:
-        print(f"  Warning: manual_adjustments.csv missing required columns (need 'Subject Name' and 'Final Forecast')")
-        return {}
-
     adjustments = {}
-    for _, row in df.iterrows():
-        subject = str(row[name_col]).strip()
-        val = pd.to_numeric(row[forecast_col], errors='coerce')
-        if pd.notna(val) and subject:
-            adjustments[subject] = {'final_forecast': float(val)}
-    print(f"  Loaded {len(adjustments)} manual adjustments")
+    for filepath in sorted(glob.glob(os.path.join(adjustments_dir, '*.csv'))):
+        filename = os.path.basename(filepath)
+        month_key = filename.replace('.csv', '')
+        if month_key not in BTS_MONTH_KEYS:
+            continue
+        try:
+            df = pd.read_csv(filepath)
+        except Exception as e:
+            print(f"  Warning: could not read {filename}: {e}")
+            continue
+
+        name_col = None
+        for candidate in ['Subject Name', 'subject_name', 'Subject']:
+            if candidate in df.columns:
+                name_col = candidate
+                break
+        forecast_col = None
+        for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast']:
+            if candidate in df.columns:
+                forecast_col = candidate
+                break
+
+        if name_col is None or forecast_col is None:
+            print(f"  Warning: {filename} missing required columns (need 'Subject Name' and 'Final Forecast')")
+            continue
+
+        month_adj = {}
+        for _, row in df.iterrows():
+            subject = str(row[name_col]).strip()
+            val = pd.to_numeric(row[forecast_col], errors='coerce')
+            if pd.notna(val) and subject:
+                month_adj[subject] = float(val)
+        adjustments[month_key] = month_adj
+        print(f"  Loaded {len(month_adj)} adjustments for {month_key}")
+
+    # Also support legacy single-file format (manual_adjustments.csv)
+    legacy_path = os.path.join(adjustments_dir, 'manual_adjustments.csv')
+    if os.path.exists(legacy_path):
+        try:
+            df = pd.read_csv(legacy_path)
+            name_col = None
+            for candidate in ['Subject Name', 'subject_name', 'Subject']:
+                if candidate in df.columns:
+                    name_col = candidate
+                    break
+            forecast_col = None
+            for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast']:
+                if candidate in df.columns:
+                    forecast_col = candidate
+                    break
+            if name_col and forecast_col:
+                count = 0
+                for _, row in df.iterrows():
+                    subject = str(row[name_col]).strip()
+                    val = pd.to_numeric(row[forecast_col], errors='coerce')
+                    if pd.notna(val) and subject:
+                        for mk in BTS_MONTH_KEYS:
+                            if mk not in adjustments:
+                                adjustments[mk] = {}
+                            if subject not in adjustments[mk]:
+                                adjustments[mk][subject] = val
+                                count += 1
+                if count > 0:
+                    print(f"  Legacy manual_adjustments.csv: applied {count} overrides")
+        except Exception:
+            pass
+
+    total = sum(len(v) for v in adjustments.values())
+    if total > 0:
+        print(f"  Total: {total} subject-month adjustments across {len(adjustments)} months")
     return adjustments
 
 
@@ -192,14 +232,19 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         if total_demand == 0:
             continue
 
-        # Apply manual adjustment if one exists for this subject
+        # Apply per-month manual adjustments where they exist.
+        # Adjusted months use the override; non-adjusted months keep the model forecast.
+        adjusted_forecasts = list(original_forecasts)
         is_adjusted = False
+        adjusted_months = []
+        if manual_adjustments:
+            for i, mk in enumerate(BTS_MONTH_KEYS):
+                if mk in manual_adjustments and subject in manual_adjustments[mk]:
+                    adjusted_forecasts[i] = manual_adjustments[mk][subject]
+                    is_adjusted = True
+                    adjusted_months.append(BTS_MONTH_LABELS[i])
         original_model_total = total_demand
-        if subject in manual_adjustments:
-            adj = manual_adjustments[subject]
-            adjusted_monthly = adj['final_forecast']
-            total_demand = adjusted_monthly * len(BTS_MONTH_DATES)
-            is_adjusted = True
+        total_demand = sum(adjusted_forecasts)
 
         # Back-loaded smoothing: fill from Oct backward, each month capped at run_rate.
         monthly_targets = [0.0] * 7  # Apr(0)..Oct(6)
@@ -230,6 +275,7 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             'Needs_External_Levers': needs_external,
             'BTS_Total': round(total_demand, 0),
             'Is_Adjusted': is_adjusted,
+            'Adjusted_Months': adjusted_months if adjusted_months else None,
             'Original_Model_Total': round(original_model_total, 0),
             'Apr_Original': round(original_forecasts[0], 0),
             'May_Original': round(original_forecasts[1], 0),
