@@ -120,8 +120,51 @@ def load_actuals(actuals_dir):
     return actuals, statuses
 
 
-def calculate_smoothed_forecasts(df_forecast, df_runrate):
+def load_manual_adjustments(adjustments_dir):
+    """Load manual forecast adjustments CSV.
+
+    Expected columns: 'Subject Name' and 'Final Forecast'.
+    Returns a dict mapping subject name -> {'final_forecast': float}.
+    """
+    path = os.path.join(adjustments_dir, 'manual_adjustments.csv')
+    if not os.path.exists(path):
+        return {}
+
+    try:
+        df = pd.read_csv(path)
+    except Exception as e:
+        print(f"  Warning: could not read manual_adjustments.csv: {e}")
+        return {}
+
+    name_col = None
+    for candidate in ['Subject Name', 'subject_name', 'Subject']:
+        if candidate in df.columns:
+            name_col = candidate
+            break
+    forecast_col = None
+    for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast']:
+        if candidate in df.columns:
+            forecast_col = candidate
+            break
+
+    if name_col is None or forecast_col is None:
+        print(f"  Warning: manual_adjustments.csv missing required columns (need 'Subject Name' and 'Final Forecast')")
+        return {}
+
+    adjustments = {}
+    for _, row in df.iterrows():
+        subject = str(row[name_col]).strip()
+        val = pd.to_numeric(row[forecast_col], errors='coerce')
+        if pd.notna(val) and subject:
+            adjustments[subject] = {'final_forecast': float(val)}
+    print(f"  Loaded {len(adjustments)} manual adjustments")
+    return adjustments
+
+
+def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=None):
     """Calculate smoothed monthly targets from forecast data"""
+    if manual_adjustments is None:
+        manual_adjustments = {}
 
     results = []
 
@@ -149,10 +192,32 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
         if total_demand == 0:
             continue
 
+        # Apply manual adjustment if one exists for this subject
+        is_adjusted = False
+        original_model_total = total_demand
+        if subject in manual_adjustments:
+            adj = manual_adjustments[subject]
+            adjusted_monthly = adj['final_forecast']
+            total_demand = adjusted_monthly * len(BTS_MONTH_DATES)
+            is_adjusted = True
+
+        # Back-loaded smoothing: fill from Oct backward, each month capped at run_rate.
+        monthly_targets = [0.0] * 7  # Apr(0)..Oct(6)
+        remaining = total_demand
+        for i in reversed(range(7)):  # Oct, Sep, Aug, Jul, Jun, May, Apr
+            alloc = min(remaining, run_rate)
+            monthly_targets[i] = alloc
+            remaining -= alloc
+            if remaining <= 0:
+                break
+
         target_per_month = total_demand / len(BTS_MONTH_DATES)
         max_capacity = run_rate * 1.2
+        total_capacity = run_rate * len(BTS_MONTH_DATES)
         gap_pct = ((target_per_month - run_rate) / run_rate * 100) if run_rate > 0 else 0
         needs_external = target_per_month > max_capacity
+        raw_gap = round(total_capacity - total_demand, 0)
+        coverage_pct = round(total_capacity / total_demand * 100) if total_demand > 0 else 100
 
         results.append({
             'Subject': subject,
@@ -160,8 +225,12 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
             'Smoothed_Target': round(target_per_month, 0),
             'Max_Capacity': round(max_capacity, 0),
             'Gap_Pct': round(gap_pct, 0),
+            'Raw_Gap': raw_gap,
+            'Coverage_Pct': coverage_pct,
             'Needs_External_Levers': needs_external,
             'BTS_Total': round(total_demand, 0),
+            'Is_Adjusted': is_adjusted,
+            'Original_Model_Total': round(original_model_total, 0),
             'Apr_Original': round(original_forecasts[0], 0),
             'May_Original': round(original_forecasts[1], 0),
             'Jun_Original': round(original_forecasts[2], 0),
@@ -169,6 +238,13 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate):
             'Aug_Original': round(original_forecasts[4], 0),
             'Sep_Original': round(original_forecasts[5], 0),
             'Oct_Original': round(original_forecasts[6], 0),
+            'Apr_Smoothed': round(monthly_targets[0], 0),
+            'May_Smoothed': round(monthly_targets[1], 0),
+            'Jun_Smoothed': round(monthly_targets[2], 0),
+            'Jul_Smoothed': round(monthly_targets[3], 0),
+            'Aug_Smoothed': round(monthly_targets[4], 0),
+            'Sep_Smoothed': round(monthly_targets[5], 0),
+            'Oct_Smoothed': round(monthly_targets[6], 0),
             'Mar_Actual': round(mar_actual, 0) if pd.notna(mar_actual) else None,
             'Mar_Forecast': round(mar_forecast, 0) if mar_forecast is not None else None
         })
@@ -338,7 +414,7 @@ def classify_problems(df_analysis, df_utilization):
 
         if util_rate < 50:
             if needs_external:
-                return "Utilization Problem"
+                return "Possible Placement Issue"
             else:
                 return "On Track (Low Util)"
         else:
@@ -380,6 +456,10 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
                          'Jul_Original', 'Aug_Original', 'Sep_Original', 'Oct_Original']
         originals = [float(row.get(k, 0)) if pd.notna(row.get(k, 0)) else 0 for k in original_keys]
 
+        smoothed_keys = ['Apr_Smoothed', 'May_Smoothed', 'Jun_Smoothed',
+                         'Jul_Smoothed', 'Aug_Smoothed', 'Sep_Smoothed', 'Oct_Smoothed']
+        per_month_smoothed = [float(row.get(k, 0)) if pd.notna(row.get(k, 0)) else 0 for k in smoothed_keys]
+
         months_data = []
         final_actual_sum = 0
         final_months_count = 0
@@ -398,7 +478,7 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
                 'month': month_key,
                 'label': BTS_MONTH_LABELS[i],
                 'original_forecast': originals[i],
-                'smoothed_target': float(smoothed),
+                'smoothed_target': per_month_smoothed[i],
                 'actual': actual,
                 'status': status,
                 'adjusted_target': None,
@@ -542,10 +622,11 @@ def build_upload_log(actuals_dir, forecasts_dir):
 def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
     """Generate JSON data for dashboard including monthly tracker."""
 
+    supply_mask = df_final['Problem_Type'].isin(['True Supply Problem', 'Supply Problem (No Util Data)'])
     summary = {
         'total_subjects': len(df_final),
-        'utilization_problems': len(df_final[df_final['Problem_Type'] == 'Utilization Problem']),
-        'supply_problems': len(df_final[df_final['Problem_Type'] == 'True Supply Problem']),
+        'utilization_problems': len(df_final[df_final['Problem_Type'] == 'Possible Placement Issue']),
+        'supply_problems': int(supply_mask.sum()),
         'on_track': len(df_final[df_final['Problem_Type'].str.contains('On Track')]),
         'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST')
     }
@@ -610,8 +691,11 @@ def main():
     actuals_dir = 'data/actuals'
     forecasts_dir = 'data/forecasts'
 
+    adjustments_dir = 'data/adjustments'
+
     os.makedirs(actuals_dir, exist_ok=True)
     os.makedirs(forecasts_dir, exist_ok=True)
+    os.makedirs(adjustments_dir, exist_ok=True)
 
     print("Loading data...")
     df_runrate, df_forecast, df_utilization = load_and_clean_data(
@@ -625,8 +709,13 @@ def main():
     else:
         print("  No actuals uploaded yet")
 
-    print("Calculating smoothed forecasts...")
-    df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate)
+    print("Loading manual adjustments...")
+    manual_adjustments = load_manual_adjustments(adjustments_dir)
+    if manual_adjustments:
+        print(f"  {len(manual_adjustments)} subjects have manual overrides (applied before all calculations)")
+
+    print("Calculating smoothed forecasts (with manual adjustments applied)...")
+    df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments)
 
     print("Classifying problems...")
     df_final = classify_problems(df_analysis, df_utilization)
