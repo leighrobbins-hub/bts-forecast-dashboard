@@ -1305,6 +1305,24 @@
             </div>
 
             <div class="upload-section">
+                <h3>Upload Updated Utilization Data</h3>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload an updated <code>utilization.csv</code> with current tutor utilization data. This replaces the existing utilization data and triggers recalculation of problem classifications.</p>
+
+                <div class="upload-controls">
+                    <div class="filter-group">
+                        <label>Utilization File (.csv)</label>
+                        <input type="file" id="utilization-file" accept=".csv">
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" id="btn-publish-utilization" onclick="publishUtilization()" disabled>Commit to Repo</button>
+                    <button class="btn btn-secondary" id="btn-download-utilization" onclick="downloadUtilizationFile()" disabled>Download File</button>
+                </div>
+                <div id="utilization-status" class="status-msg"></div>
+            </div>
+
+            <div class="upload-section">
                 <h3>Upload Manual Forecast Adjustments</h3>
                 <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects <strong>for a specific month</strong>. Required columns: <code>Subject Name</code> and <code>Final Forecast</code>. Overrides apply only to the selected month and persist across new model uploads.</p>
 
@@ -1916,6 +1934,7 @@ ELSE:
         var pendingActualsCSV = null;
         var pendingForecastFile = null;
         var pendingRunRatesFile = null;
+        var pendingUtilizationFile = null;
         var pendingAdjustmentsCSV = null;
         var REPO_OWNER = 'leighrobbins-hub';
         var REPO_NAME = 'bts-forecast-dashboard';
@@ -2614,6 +2633,15 @@ ELSE:
             showStatus('runrates-status', 'File selected: ' + file.name + '. Commit or download to update.', 'info');
         });
 
+        document.getElementById('utilization-file').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            pendingUtilizationFile = file;
+            document.getElementById('btn-publish-utilization').disabled = false;
+            document.getElementById('btn-download-utilization').disabled = false;
+            showStatus('utilization-status', 'File selected: ' + file.name + '. Commit or download to update.', 'info');
+        });
+
         document.getElementById('adjustments-file').addEventListener('change', function(e) {
             var file = e.target.files[0];
             if (!file) return;
@@ -2856,6 +2884,37 @@ ELSE:
                     });
             };
             reader.readAsText(pendingRunRatesFile);
+        }
+
+        function downloadUtilizationFile() {
+            if (!pendingUtilizationFile) return;
+            var url = URL.createObjectURL(pendingUtilizationFile);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'utilization.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function publishUtilization() {
+            if (!pendingUtilizationFile) return;
+            document.getElementById('btn-publish-utilization').disabled = true;
+            showStatus('utilization-status', 'Reading file...', 'info');
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var content = ev.target.result;
+                commitFile('data/utilization.csv', content, 'Update utilization data - ' + new Date().toISOString().slice(0, 10))
+                    .then(function() {
+                        showStatus('utilization-status', 'Utilization data committed. Dashboard will update in ~2 minutes.', 'success');
+                    })
+                    .catch(function(err) {
+                        showStatus('utilization-status', 'Error: ' + err + '. Use the Download button instead.', 'error');
+                        document.getElementById('btn-publish-utilization').disabled = false;
+                    });
+            };
+            reader.readAsText(pendingUtilizationFile);
         }
 
         function downloadAdjustmentsFile() {
