@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTS Forecast Analysis Dashboard - Varsity Tutors</title>
+    <title>BTS Forecast Dashboard - Varsity Tutors</title>
+    <link rel="icon" href="https://www.varsitytutors.com/favicon.ico" type="image/x-icon">
     <style>
         * {
             margin: 0;
@@ -17,20 +18,28 @@
         }
         
         .header {
-            background: #2c3e50;
+            background: linear-gradient(135deg, #20205f 0%, #323661 100%);
             color: white;
             padding: 20px 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        
+        .header-logo {
+            height: 36px;
+            flex-shrink: 0;
         }
         
         .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 22px;
+            margin-bottom: 4px;
         }
         
         .header .subtitle {
-            color: #bdc3c7;
-            font-size: 14px;
+            color: #D7D5F0;
+            font-size: 13px;
         }
         
         .tabs {
@@ -52,13 +61,13 @@
         }
         
         .tab:hover {
-            background: #f8f9fa;
-            color: #2c3e50;
+            background: #EFEDFF;
+            color: #20205f;
         }
         
         .tab.active {
-            color: #3498db;
-            border-bottom-color: #3498db;
+            color: #4A4BB6;
+            border-bottom-color: #4A4BB6;
         }
         
         .content {
@@ -92,9 +101,9 @@
         
         .stat-card.red { border-color: #e74c3c; }
         .stat-card.orange { border-color: #f39c12; }
-        .stat-card.green { border-color: #27ae60; }
-        .stat-card.blue { border-color: #3498db; }
-        .stat-card.purple { border-color: #9b59b6; }
+        .stat-card.green { border-color: #35AA59; }
+        .stat-card.blue { border-color: #4A4BB6; }
+        .stat-card.purple { border-color: #6366F1; }
         
         .stat-label {
             font-size: 13px;
@@ -336,7 +345,7 @@
             padding: 20px;
         }
 
-        .update-time a { color: #3498db; cursor: pointer; text-decoration: none; margin-left: 12px; }
+        .update-time a { color: #4A4BB6; cursor: pointer; text-decoration: none; margin-left: 12px; }
         .update-time a:hover { text-decoration: underline; }
 
         .changelog-overlay {
@@ -625,7 +634,7 @@
             transition: width 0.6s ease;
         }
 
-        .progress-bar-fill.on-pace { background: linear-gradient(90deg, #27ae60, #2ecc71); }
+        .progress-bar-fill.on-pace { background: linear-gradient(90deg, #35AA59, #3dc466); }
         .progress-bar-fill.behind { background: linear-gradient(90deg, #e74c3c, #c0392b); }
         .progress-bar-fill.ahead { background: linear-gradient(90deg, #3498db, #2980b9); }
 
@@ -693,8 +702,8 @@
             transition: all 0.2s;
         }
 
-        .btn-primary { background: #3498db; color: white; }
-        .btn-primary:hover { background: #2980b9; }
+        .btn-primary { background: #4A4BB6; color: white; }
+        .btn-primary:hover { background: #3a3b96; }
         .btn-success { background: #27ae60; color: white; }
         .btn-success:hover { background: #219a52; }
         .btn-secondary { background: #ecf0f1; color: #2c3e50; }
@@ -804,8 +813,11 @@
 </head>
 <body>
     <div class="header">
-        <h1>Back-to-School Forecast Analysis Dashboard</h1>
-        <div class="subtitle">April-October 2026 | Clean Run Rates (Dec 2025 - Mar 2026) | Supply vs. Utilization Classification</div>
+        <img src="https://www.varsitytutors.com/images/vt-logo.svg" alt="Varsity Tutors" class="header-logo">
+        <div>
+            <h1>Back-to-School Forecast Dashboard</h1>
+            <div class="subtitle">April-October 2026 | Clean Run Rates (Dec 2025 - Mar 2026) | Supply vs. Utilization Classification</div>
+        </div>
     </div>
     
     <div class="tabs">
