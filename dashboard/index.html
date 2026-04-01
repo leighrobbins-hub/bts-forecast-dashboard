@@ -549,6 +549,19 @@
         .month-current { background: #eaf6ff; }
         .month-past { background: #f9f9f9; }
 
+        .pace-bar-wrap { width: 80px; display: inline-block; vertical-align: middle; }
+        .pace-bar-outer { height: 10px; background: #ecf0f1; border-radius: 5px; overflow: hidden; }
+        .pace-bar-fill { height: 100%; border-radius: 5px; transition: width 0.3s; }
+        .pace-bar-fill.pace-miss { background: #e74c3c; }
+        .pace-bar-fill.pace-risk { background: #f39c12; }
+        .pace-bar-fill.pace-ok { background: #27ae60; }
+        .pace-label { font-size: 11px; font-weight: 600; margin-top: 2px; text-align: center; }
+        .pace-label.pace-miss { color: #e74c3c; }
+        .pace-label.pace-risk { color: #f39c12; }
+        .pace-label.pace-ok { color: #27ae60; }
+        tr.row-miss td:first-child { border-left: 3px solid #e74c3c; }
+        tr.row-risk td:first-child { border-left: 3px solid #f39c12; }
+
         .progress-container {
             background: white;
             padding: 25px;
@@ -1063,6 +1076,8 @@
                     <select id="tracker-filter">
                         <option value="all">All Subjects</option>
                         <option value="problems">Problems Only</option>
+                        <option value="will-miss">Will Miss Forecast</option>
+                        <option value="at-risk">At Risk (80-99%)</option>
                         <option value="has-actuals">With Actuals</option>
                         <option value="behind">Behind Target</option>
                     </select>
@@ -1119,6 +1134,7 @@
                             <th>Oct</th>
                             <th class="sortable" onclick="sortTracker('bts_total')">BTS Total</th>
                             <th class="sortable" onclick="sortTracker('remaining_need')">Remaining</th>
+                            <th class="sortable" onclick="sortTracker('_pace')">Pace</th>
                         </tr>
                     </thead>
                     <tbody id="tracker-body"></tbody>
@@ -2019,10 +2035,21 @@ ELSE:
             var catFilter = document.getElementById('filter-category-tracker').value;
             var search = document.getElementById('tracker-search').value.toLowerCase();
 
+            trackerData.forEach(function(ts) {
+                var rr = ts.run_rate || 0;
+                var rem = ts.remaining_need || 0;
+                var monthsRem = 7 - (ts.months_completed || 0);
+                if (monthsRem < 1) monthsRem = 1;
+                var projected = rr * monthsRem;
+                ts._pace = rem > 0 ? Math.round(projected / rem * 100) : (rr > 0 ? 999 : 100);
+            });
+
             var filtered = trackerData.filter(function(ts) {
                 if (search && ts.subject.toLowerCase().indexOf(search) === -1) return false;
                 if (catFilter !== 'all' && ts.category !== catFilter) return false;
                 if (filter === 'problems') return classifyType(ts.problem_type) !== 'on-track' && classifyType(ts.problem_type) !== 'low-util';
+                if (filter === 'will-miss') return ts._pace < 80;
+                if (filter === 'at-risk') return ts._pace >= 80 && ts._pace < 100;
                 if (filter === 'has-actuals') return ts.actual_to_date > 0;
                 if (filter === 'behind') {
                     for (var i = 0; i < ts.months.length; i++) {
@@ -2032,6 +2059,9 @@ ELSE:
                 }
                 return true;
             });
+
+            var missCount = trackerData.filter(function(ts) { return ts._pace < 80; }).length;
+            var riskCount = trackerData.filter(function(ts) { return ts._pace >= 80 && ts._pace < 100; }).length;
 
             var sk = trackerSort.key;
             var sa = trackerSort.asc;
@@ -2044,7 +2074,7 @@ ELSE:
                 return 0;
             });
 
-            document.getElementById('tracker-count').textContent = 'Showing ' + filtered.length + ' of ' + trackerData.length + ' subjects';
+            document.getElementById('tracker-count').innerHTML = 'Showing ' + filtered.length + ' of ' + trackerData.length + ' subjects &nbsp;·&nbsp; <span style="color:#e74c3c;font-weight:600">' + missCount + ' will miss</span> &nbsp;·&nbsp; <span style="color:#f39c12;font-weight:600">' + riskCount + ' at risk</span>';
             var tbody = document.getElementById('tracker-body');
             tbody.innerHTML = '';
 
@@ -2052,6 +2082,9 @@ ELSE:
 
             filtered.forEach(function(ts) {
                 var tr = document.createElement('tr');
+                var pace = ts._pace;
+                if (pace < 80) tr.className = 'row-miss';
+                else if (pace < 100) tr.className = 'row-risk';
                 var cells = '<td><strong>' + ts.subject + '</strong></td>';
                 cells += '<td>' + Math.round(ts.run_rate) + '</td>';
 
@@ -2112,6 +2145,13 @@ ELSE:
 
                 cells += '<td><strong>' + Math.round(ts.bts_total) + '</strong></td>';
                 cells += '<td>' + Math.round(ts.remaining_need) + '</td>';
+
+                var pace = ts._pace;
+                var paceCls = pace >= 100 ? 'pace-ok' : pace >= 80 ? 'pace-risk' : 'pace-miss';
+                var paceWidth = Math.min(pace, 100);
+                var paceLabel = pace >= 999 ? '✓' : pace + '%';
+                cells += '<td><div class="pace-bar-wrap"><div class="pace-bar-outer"><div class="pace-bar-fill ' + paceCls + '" style="width:' + paceWidth + '%"></div></div><div class="pace-label ' + paceCls + '">' + paceLabel + '</div></div></td>';
+
                 tr.innerHTML = cells;
                 tbody.appendChild(tr);
             });
