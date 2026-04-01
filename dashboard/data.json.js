@@ -1,20 +1,20 @@
-window.__dashboardData = {
+var dashboardData = {
   "summary": {
-    "total_subjects": 343,
+    "total_subjects": 351,
     "utilization_problems": 25,
     "supply_problems": 21,
-    "on_track": 297,
-    "last_updated": "2026-04-01 02:51 PM CST",
-    "portfolio_bts_total": 7079.0,
+    "on_track": 305,
+    "last_updated": "2026-04-01 02:57 PM CST",
+    "portfolio_bts_total": 7101.0,
     "portfolio_actual_to_date": 0,
-    "portfolio_remaining": 7079.0,
+    "portfolio_remaining": 7101.0,
     "months_completed": 0,
     "months_remaining": 7,
     "march_baseline": {
-      "total_actual": 1951,
-      "total_forecast": 1022,
-      "variance": 929,
-      "subjects_with_data": 215
+      "total_actual": 2089,
+      "total_forecast": 1023,
+      "variance": 1066,
+      "subjects_with_data": 221
     }
   },
   "subjects": [
@@ -12003,6 +12003,80 @@ window.__dashboardData = {
       "Category": "Test Prep"
     },
     {
+      "Subject": "High School English",
+      "Run_Rate": 98.0,
+      "Smoothed_Target": 1.0,
+      "Max_Capacity": 118.0,
+      "Gap_Pct": -99.0,
+      "Raw_Gap": 681.0,
+      "Coverage_Pct": 9825,
+      "Needs_External_Levers": false,
+      "BTS_Total": 7.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 7.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 60.0,
+      "Mar_Forecast": 1.0,
+      "Total_Contracted": 125.0,
+      "Utilized_30d": 28.0,
+      "Util_Rate": 22.0,
+      "Problem_Type": "On Track (Low Util)",
+      "Category": "High School"
+    },
+    {
+      "Subject": "Calculus 1",
+      "Run_Rate": 20.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 25.0,
+      "Gap_Pct": -98.0,
+      "Raw_Gap": 140.0,
+      "Coverage_Pct": 4783,
+      "Needs_External_Levers": false,
+      "BTS_Total": 3.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 3.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 19.0,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": 27.0,
+      "Utilized_30d": 11.0,
+      "Util_Rate": 41.0,
+      "Problem_Type": "On Track (Low Util)",
+      "Category": "Other"
+    },
+    {
       "Subject": "Conversational French",
       "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
@@ -12149,6 +12223,80 @@ window.__dashboardData = {
       "Category": "Language"
     },
     {
+      "Subject": "Phonics",
+      "Run_Rate": 70.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 85.0,
+      "Gap_Pct": -99.0,
+      "Raw_Gap": 490.0,
+      "Coverage_Pct": 16450,
+      "Needs_External_Levers": false,
+      "BTS_Total": 3.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 3.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 40.0,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": 98.0,
+      "Utilized_30d": 34.0,
+      "Util_Rate": 35.0,
+      "Problem_Type": "On Track (Low Util)",
+      "Category": "Elementary"
+    },
+    {
+      "Subject": "GRE",
+      "Run_Rate": 1.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -71.0,
+      "Raw_Gap": 5.0,
+      "Coverage_Pct": 350,
+      "Needs_External_Levers": false,
+      "BTS_Total": 2.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 2.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": 1.0,
+      "Utilized_30d": 0.0,
+      "Util_Rate": 0.0,
+      "Problem_Type": "On Track (Low Util)",
+      "Category": "Test Prep"
+    },
+    {
       "Subject": "College Statistics",
       "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
@@ -12184,6 +12332,43 @@ window.__dashboardData = {
       "Util_Rate": 25.0,
       "Problem_Type": "On Track (Low Util)",
       "Category": "College"
+    },
+    {
+      "Subject": "TEAS",
+      "Run_Rate": 2.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 2.0,
+      "Gap_Pct": -86.0,
+      "Raw_Gap": 12.0,
+      "Coverage_Pct": 700,
+      "Needs_External_Levers": false,
+      "BTS_Total": 2.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 2.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "On Track",
+      "Category": "Test Prep"
     },
     {
       "Subject": "High School Writing",
@@ -12258,6 +12443,43 @@ window.__dashboardData = {
       "Category": "High School"
     },
     {
+      "Subject": "College Math",
+      "Run_Rate": 3.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 4.0,
+      "Gap_Pct": -87.0,
+      "Raw_Gap": 20.0,
+      "Coverage_Pct": 758,
+      "Needs_External_Levers": false,
+      "BTS_Total": 3.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 3.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 1.0,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": 4.0,
+      "Utilized_30d": 2.0,
+      "Util_Rate": 50.0,
+      "Problem_Type": "On Track",
+      "Category": "College"
+    },
+    {
       "Subject": "GMAT",
       "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
@@ -12330,6 +12552,80 @@ window.__dashboardData = {
       "Util_Rate": 18.0,
       "Problem_Type": "On Track (Low Util)",
       "Category": "High School"
+    },
+    {
+      "Subject": "SHSAT",
+      "Run_Rate": 5.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 6.0,
+      "Gap_Pct": -97.0,
+      "Raw_Gap": 34.0,
+      "Coverage_Pct": 3500,
+      "Needs_External_Levers": false,
+      "BTS_Total": 1.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 8.0,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": 14.0,
+      "Utilized_30d": 10.0,
+      "Util_Rate": 71.0,
+      "Problem_Type": "On Track",
+      "Category": "Test Prep"
+    },
+    {
+      "Subject": "GED",
+      "Run_Rate": 7.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 8.0,
+      "Gap_Pct": -98.0,
+      "Raw_Gap": 46.0,
+      "Coverage_Pct": 4725,
+      "Needs_External_Levers": false,
+      "BTS_Total": 1.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 10.0,
+      "Mar_Forecast": 0.0,
+      "Total_Contracted": 13.0,
+      "Utilized_30d": 7.0,
+      "Util_Rate": 54.0,
+      "Problem_Type": "On Track",
+      "Category": "Test Prep"
     },
     {
       "Subject": "Business Calculus",
@@ -41624,6 +41920,182 @@ window.__dashboardData = {
       ]
     },
     {
+      "subject": "High School English",
+      "run_rate": 98.0,
+      "bts_total": 7.0,
+      "smoothed_target": 1.0,
+      "actual_to_date": 0,
+      "remaining_need": 7.0,
+      "months_completed": 0,
+      "problem_type": "On Track (Low Util)",
+      "category": "High School",
+      "march_baseline": {
+        "actual": 60,
+        "forecast": 1,
+        "variance": 59
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 7.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 1.0,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "Calculus 1",
+      "run_rate": 20.0,
+      "bts_total": 3.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 3.0,
+      "months_completed": 0,
+      "problem_type": "On Track (Low Util)",
+      "category": "Other",
+      "march_baseline": {
+        "actual": 19,
+        "forecast": 0,
+        "variance": 19
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 3.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        }
+      ]
+    },
+    {
       "subject": "Conversational French",
       "run_rate": 2.0,
       "bts_total": 17.0,
@@ -41976,6 +42448,182 @@ window.__dashboardData = {
       ]
     },
     {
+      "subject": "Phonics",
+      "run_rate": 70.0,
+      "bts_total": 3.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 3.0,
+      "months_completed": 0,
+      "problem_type": "On Track (Low Util)",
+      "category": "Elementary",
+      "march_baseline": {
+        "actual": 40,
+        "forecast": 0,
+        "variance": 40
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 3.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "GRE",
+      "run_rate": 1.0,
+      "bts_total": 2.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 2.0,
+      "months_completed": 0,
+      "problem_type": "On Track (Low Util)",
+      "category": "Test Prep",
+      "march_baseline": {
+        "actual": null,
+        "forecast": 0,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 2.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        }
+      ]
+    },
+    {
       "subject": "College Statistics",
       "run_rate": 3.0,
       "bts_total": 5.0,
@@ -42059,6 +42707,94 @@ window.__dashboardData = {
           "actual": null,
           "status": null,
           "adjusted_target": 0.7,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "TEAS",
+      "run_rate": 2.0,
+      "bts_total": 2.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 2.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "Test Prep",
+      "march_baseline": {
+        "actual": null,
+        "forecast": 0,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 2.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
           "variance": null
         }
       ]
@@ -42240,6 +42976,94 @@ window.__dashboardData = {
       ]
     },
     {
+      "subject": "College Math",
+      "run_rate": 3.0,
+      "bts_total": 3.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 3.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "College",
+      "march_baseline": {
+        "actual": 1,
+        "forecast": 0,
+        "variance": 1
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 3.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        }
+      ]
+    },
+    {
       "subject": "GMAT",
       "run_rate": 2.0,
       "bts_total": 10.0,
@@ -42411,6 +43235,182 @@ window.__dashboardData = {
           "actual": null,
           "status": null,
           "adjusted_target": 0.4,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "SHSAT",
+      "run_rate": 5.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 1.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "Test Prep",
+      "march_baseline": {
+        "actual": 8,
+        "forecast": 0,
+        "variance": 8
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "GED",
+      "run_rate": 7.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 1.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "Test Prep",
+      "march_baseline": {
+        "actual": 10,
+        "forecast": 0,
+        "variance": 10
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
           "variance": null
         }
       ]

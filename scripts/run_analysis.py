@@ -207,9 +207,11 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         manual_adjustments = {}
 
     results = []
+    processed_subjects = set()
 
     for _, forecast_row in df_forecast.iterrows():
         subject = forecast_row['subject_name']
+        processed_subjects.add(subject)
 
         runrate_row = df_runrate[df_runrate['Subject'] == subject]
         if len(runrate_row) == 0:
@@ -229,8 +231,6 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             original_forecasts.append(float(val) if pd.notna(val) else 0)
 
         total_demand = sum(original_forecasts)
-        if total_demand == 0:
-            continue
 
         # Apply per-month manual adjustments where they exist.
         # Adjusted months use the override; non-adjusted months keep the model forecast.
@@ -245,6 +245,9 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
                     adjusted_months.append(BTS_MONTH_LABELS[i])
         original_model_total = total_demand
         total_demand = sum(adjusted_forecasts)
+
+        if total_demand == 0 and original_model_total == 0 and not is_adjusted:
+            continue
 
         # Back-loaded smoothing: start with the monthly forecast as a floor (demand
         # is real each month), then distribute any excess demand toward peak months
@@ -301,6 +304,78 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             'Mar_Actual': round(mar_actual, 0) if pd.notna(mar_actual) else None,
             'Mar_Forecast': round(mar_forecast, 0) if mar_forecast is not None else None
         })
+
+    # Add subjects that exist in manual adjustments but not in the forecast.
+    # These are subjects the team decided to add manually.
+    if manual_adjustments:
+        adj_subjects = set()
+        for mk in manual_adjustments:
+            adj_subjects.update(manual_adjustments[mk].keys())
+
+        new_subjects = adj_subjects - processed_subjects
+        for subject in sorted(new_subjects):
+            adjusted_forecasts = [0.0] * 7
+            adjusted_months = []
+            for i, mk in enumerate(BTS_MONTH_KEYS):
+                if mk in manual_adjustments and subject in manual_adjustments[mk]:
+                    adjusted_forecasts[i] = manual_adjustments[mk][subject]
+                    adjusted_months.append(BTS_MONTH_LABELS[i])
+
+            total_demand = sum(adjusted_forecasts)
+            if total_demand == 0:
+                continue
+
+            runrate_row = df_runrate[df_runrate['Subject'] == subject]
+            run_rate = float(runrate_row['Run_Rate'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Run_Rate'].values[0]) else 0
+            mar_actual = float(runrate_row['Mar_Actual'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Mar_Actual'].values[0]) else None
+
+            monthly_targets = list(adjusted_forecasts)
+            if run_rate > 0:
+                excess = total_demand - sum(adjusted_forecasts)
+                for i in reversed(range(7)):
+                    if monthly_targets[i] < run_rate:
+                        room = run_rate - monthly_targets[i]
+                        add = min(room, excess) if excess > 0 else 0
+                        monthly_targets[i] += add
+                        excess -= add
+                    if excess <= 0:
+                        break
+
+            target_per_month = total_demand / 7
+            max_capacity = run_rate * 1.2
+            total_capacity = run_rate * 7
+            gap_pct = ((target_per_month - run_rate) / run_rate * 100) if run_rate > 0 else 0
+            needs_external = target_per_month > max_capacity
+            raw_gap = round(total_capacity - total_demand, 0)
+            coverage_pct = round(total_capacity / total_demand * 100) if total_demand > 0 else 0
+
+            print(f"  Added new subject from manual adjustments: {subject} (total demand: {total_demand})")
+
+            results.append({
+                'Subject': subject,
+                'Run_Rate': round(run_rate, 0),
+                'Smoothed_Target': round(target_per_month, 0),
+                'Max_Capacity': round(max_capacity, 0),
+                'Gap_Pct': round(gap_pct, 0),
+                'Raw_Gap': raw_gap,
+                'Coverage_Pct': coverage_pct,
+                'Needs_External_Levers': needs_external,
+                'BTS_Total': round(total_demand, 0),
+                'Is_Adjusted': True,
+                'Adjusted_Months': adjusted_months,
+                'Original_Model_Total': 0,
+                'Apr_Original': 0, 'May_Original': 0, 'Jun_Original': 0,
+                'Jul_Original': 0, 'Aug_Original': 0, 'Sep_Original': 0, 'Oct_Original': 0,
+                'Apr_Smoothed': round(monthly_targets[0], 0),
+                'May_Smoothed': round(monthly_targets[1], 0),
+                'Jun_Smoothed': round(monthly_targets[2], 0),
+                'Jul_Smoothed': round(monthly_targets[3], 0),
+                'Aug_Smoothed': round(monthly_targets[4], 0),
+                'Sep_Smoothed': round(monthly_targets[5], 0),
+                'Oct_Smoothed': round(monthly_targets[6], 0),
+                'Mar_Actual': round(mar_actual, 0) if mar_actual is not None else None,
+                'Mar_Forecast': None
+            })
 
     return pd.DataFrame(results)
 
