@@ -1244,6 +1244,24 @@
             </div>
 
             <div class="upload-section">
+                <h3>Upload Updated Run Rates</h3>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload an updated <code>run_rates.csv</code> with the latest contracting run rate data. This replaces the current run rates and triggers recalculation.</p>
+
+                <div class="upload-controls">
+                    <div class="filter-group">
+                        <label>Run Rates File (.csv)</label>
+                        <input type="file" id="runrates-file" accept=".csv">
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" id="btn-publish-runrates" onclick="publishRunRates()" disabled>Commit to Repo</button>
+                    <button class="btn btn-secondary" id="btn-download-runrates" onclick="downloadRunRatesFile()" disabled>Download File</button>
+                </div>
+                <div id="runrates-status" class="status-msg"></div>
+            </div>
+
+            <div class="upload-section">
                 <h3>GitHub Connection</h3>
                 <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">To commit files directly from the dashboard, enter a GitHub Personal Access Token with <strong>repo</strong> scope. The token is stored in your browser only.</p>
                 <div class="settings-row">
@@ -1795,6 +1813,7 @@ ELSE:
         var summaryData = {};
         var pendingActualsCSV = null;
         var pendingForecastFile = null;
+        var pendingRunRatesFile = null;
         var REPO_OWNER = 'leighrobbins-hub';
         var REPO_NAME = 'bts-forecast-dashboard';
 
@@ -2401,6 +2420,15 @@ ELSE:
             showStatus('forecast-status', 'File selected: ' + file.name + '. Commit or download to update.', 'info');
         });
 
+        document.getElementById('runrates-file').addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            pendingRunRatesFile = file;
+            document.getElementById('btn-publish-runrates').disabled = false;
+            document.getElementById('btn-download-runrates').disabled = false;
+            showStatus('runrates-status', 'File selected: ' + file.name + '. Commit or download to update.', 'info');
+        });
+
         function downloadActualsTemplate() {
             var lines = ['Subject,Actual_Contracted'];
             allData.forEach(function(r) { lines.push(r.Subject + ','); });
@@ -2564,6 +2592,37 @@ ELSE:
                     });
             };
             reader.readAsArrayBuffer(pendingForecastFile);
+        }
+
+        function downloadRunRatesFile() {
+            if (!pendingRunRatesFile) return;
+            var url = URL.createObjectURL(pendingRunRatesFile);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'run_rates.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function publishRunRates() {
+            if (!pendingRunRatesFile) return;
+            document.getElementById('btn-publish-runrates').disabled = true;
+            showStatus('runrates-status', 'Reading file...', 'info');
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                var content = ev.target.result;
+                commitFile('data/run_rates.csv', content, 'Update run rates - ' + new Date().toISOString().slice(0, 10))
+                    .then(function() {
+                        showStatus('runrates-status', 'Run rates committed. Dashboard will update in ~2 minutes.', 'success');
+                    })
+                    .catch(function(err) {
+                        showStatus('runrates-status', 'Error: ' + err + '. Use the Download button instead.', 'error');
+                        document.getElementById('btn-publish-runrates').disabled = false;
+                    });
+            };
+            reader.readAsText(pendingRunRatesFile);
         }
 
         function showStatus(id, msg, type) {
