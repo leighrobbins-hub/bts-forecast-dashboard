@@ -246,14 +246,21 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         original_model_total = total_demand
         total_demand = sum(adjusted_forecasts)
 
-        # Back-loaded smoothing: fill from Oct backward, each month capped at run_rate.
-        monthly_targets = [0.0] * 7  # Apr(0)..Oct(6)
-        remaining = total_demand
+        # Back-loaded smoothing: start with the monthly forecast as a floor (demand
+        # is real each month), then distribute any excess demand toward peak months
+        # (Oct backward), each month capped at run_rate.
+        monthly_targets = list(adjusted_forecasts)  # floor = forecast per month
+        excess = total_demand - sum(adjusted_forecasts)  # usually 0 unless rounding
+        # If run_rate exceeds a month's forecast, later months can absorb more.
+        # Back-load: boost targets from Oct backward up to run_rate to concentrate
+        # tutor onboarding near peak months.
         for i in reversed(range(7)):  # Oct, Sep, Aug, Jul, Jun, May, Apr
-            alloc = min(remaining, run_rate)
-            monthly_targets[i] = alloc
-            remaining -= alloc
-            if remaining <= 0:
+            if monthly_targets[i] < run_rate:
+                room = run_rate - monthly_targets[i]
+                add = min(room, excess) if excess > 0 else 0
+                monthly_targets[i] += add
+                excess -= add
+            if excess <= 0:
                 break
 
         target_per_month = total_demand / len(BTS_MONTH_DATES)
