@@ -1824,12 +1824,25 @@ ELSE:
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v2.1 <span class="cl-date">Apr 1, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
+                <ul>
+                    <li>Smoothing fix: monthly targets now use forecast as a floor — earlier months are no longer zeroed out; back-loading only adds capacity toward peak months</li>
+                    <li>Manual adjustments can now add new subjects not in Pierre's model — zero-value adjustments treated as intentional removal</li>
+                    <li>Per-month manual adjustments with month selector — adjustments stored and applied independently per month</li>
+                    <li>Redesigned capacity gap bar chart — values displayed outside bars for readability</li>
+                    <li>Utilization data upload section added to Upload Data tab</li>
+                    <li>Utilization column tooltips explaining the 30-day Feb-Mar 2026 measurement period</li>
+                    <li>Gap column and priority table updated to use raw gap + coverage percentage</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v2.0 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag feature">Major Update</span></div>
                 <ul>
-                    <li>Back-loaded smoothing: adjusted targets now concentrate recruiting toward peak months (Sep/Oct), capped at run rate, to reduce tutor attrition risk</li>
+                    <li>Back-loaded smoothing: adjusted targets concentrate recruiting toward peak months (Sep/Oct), capped at run rate</li>
                     <li>Manual forecast adjustments: upload CSV overrides for specific subjects; ADJ badge shows which subjects differ from model output</li>
                     <li>Monthly problem filter: filter Problem Subjects by specific month to see which subjects are problems in Apr vs Sep, etc.</li>
-                    <li>Dual gap metric: gap column now shows raw gap number AND coverage percentage (e.g., "-185 gap (68% coverage)")</li>
+                    <li>Dual gap metric: gap column now shows raw gap number AND coverage percentage</li>
                     <li>Sticky table headers: column headers stay visible when scrolling all data tables</li>
                     <li>Utilization detail: shows underlying counts (e.g., "62% (23 of 37)") below percentage</li>
                     <li>Renamed "Utilization Problem" to "Possible Placement Issue" for stakeholder clarity</li>
