@@ -562,6 +562,26 @@
         tr.row-miss td:first-child { border-left: 3px solid #e74c3c; }
         tr.row-risk td:first-child { border-left: 3px solid #f39c12; }
 
+        .tooltip-wrap { position: relative; cursor: help; }
+        .tooltip-wrap .tooltip-text {
+            visibility: hidden; opacity: 0;
+            position: absolute; bottom: 125%; left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50; color: #fff;
+            font-size: 12px; font-weight: 400; line-height: 1.5;
+            padding: 10px 14px; border-radius: 6px;
+            width: 260px; text-align: left;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            transition: opacity 0.2s; z-index: 100;
+            pointer-events: none;
+        }
+        .tooltip-wrap .tooltip-text::after {
+            content: ''; position: absolute; top: 100%; left: 50%;
+            margin-left: -5px; border: 5px solid transparent;
+            border-top-color: #2c3e50;
+        }
+        .tooltip-wrap:hover .tooltip-text { visibility: visible; opacity: 1; }
+
         .progress-container {
             background: white;
             padding: 25px;
@@ -1134,7 +1154,7 @@
                             <th>Oct</th>
                             <th class="sortable" onclick="sortTracker('bts_total')">BTS Total</th>
                             <th class="sortable" onclick="sortTracker('remaining_need')">Remaining</th>
-                            <th class="sortable" onclick="sortTracker('_pace')">Pace</th>
+                            <th class="sortable tooltip-wrap" onclick="sortTracker('_pace')">Pace<span class="tooltip-text"><strong>Pace</strong> shows if a subject can meet its BTS goal at the current run rate.<br><br><strong>Formula:</strong> (Run Rate × Months Left) ÷ Remaining Need<br><br>🟢 ≥100% — On track<br>🟡 80–99% — At risk<br>🔴 &lt;80% — Will miss forecast</span></th>
                         </tr>
                     </thead>
                     <tbody id="tracker-body"></tbody>
