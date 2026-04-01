@@ -929,8 +929,8 @@
                             <th>Subject</th>
                             <th>Run Rate</th>
                             <th>Target/Mo</th>
-                            <th>Util %</th>
-                            <th>Gap %</th>
+                            <th class="tooltip-wrap">Util %<span class="tooltip-text">30-day utilization rate based on Feb-Mar 2026 data. Of tutors contracted in that period, what % received at least one assignment within 30 days.</span></th>
+                            <th>Gap</th>
                             <th>Problem Type</th>
                             <th>Priority Action</th>
                         </tr>
@@ -1008,8 +1008,8 @@
                             <th class="sortable" onclick="sortTable('all', 0)">Subject</th>
                             <th class="sortable" onclick="sortTable('all', 1)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('all', 2)">Target/Mo</th>
-                            <th class="sortable" onclick="sortTable('all', 3)">Util % (30d)</th>
-                            <th class="sortable" onclick="sortTable('all', 4)">Gap %</th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('all', 3)">Util % (30d)<span class="tooltip-text">30-day utilization rate based on Feb-Mar 2026 data. Of tutors contracted in that period, what % received at least one assignment within 30 days.</span></th>
+                            <th class="sortable" onclick="sortTable('all', 4)">Gap</th>
                             <th class="sortable" onclick="sortTable('all', 5)">Problem Type</th>
                             <th class="sortable" onclick="sortTable('all', 6)">Category</th>
                             <th>Recommendation</th>
@@ -1095,8 +1095,8 @@
                             <th class="sortable" onclick="sortTable('problems', 0)">Subject</th>
                             <th class="sortable" onclick="sortTable('problems', 1)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('problems', 2)">Target/Mo</th>
-                            <th class="sortable" onclick="sortTable('problems', 3)">Util %</th>
-                            <th class="sortable" onclick="sortTable('problems', 4)">Gap %</th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('problems', 3)">Util %<span class="tooltip-text">30-day utilization rate based on Feb-Mar 2026 data. Of tutors contracted in that period, what % received at least one assignment within 30 days.</span></th>
+                            <th class="sortable" onclick="sortTable('problems', 4)">Gap</th>
                             <th class="sortable" onclick="sortTable('problems', 5)">Type</th>
                             <th>Category</th>
                             <th>Assessment</th>
@@ -2060,25 +2060,27 @@ ELSE:
 
         function renderBarChart() {
             var problems = allData
-                .filter(function(r) { return r.Problem_Type && r.Problem_Type.includes('Problem') && r.Gap_Pct > 0; })
-                .sort(function(a, b) { return b.Gap_Pct - a.Gap_Pct; })
+                .filter(function(r) { return r.Problem_Type && r.Problem_Type.includes('Problem') && r.Raw_Gap != null && r.Raw_Gap < 0; })
+                .sort(function(a, b) { return a.Raw_Gap - b.Raw_Gap; })
                 .slice(0, 12);
-            var maxGap = problems.length > 0 ? problems[0].Gap_Pct : 100;
+            var maxGap = problems.length > 0 ? Math.abs(problems[0].Raw_Gap) : 100;
             var container = document.getElementById('gap-chart');
             container.innerHTML = '';
             problems.forEach(function(row) {
-                var pct = Math.min(100, (row.Gap_Pct / maxGap) * 100);
+                var absGap = Math.abs(row.Raw_Gap);
+                var pct = Math.min(100, (absGap / maxGap) * 100);
                 var type = classifyType(row.Problem_Type);
                 var barClass = type === 'utilization' ? 'util-bar' : type === 'no-util-data' ? 'nodata-bar' : 'supply-bar';
+                var covPct = row.Coverage_Pct != null ? row.Coverage_Pct : 0;
                 var div = document.createElement('div');
                 div.className = 'bar-row';
-                div.innerHTML = '<div class="bar-label" title="' + row.Subject + '">' + row.Subject + '</div><div class="bar-track"><div class="bar-fill ' + barClass + '" style="width: ' + pct + '%">' + row.Gap_Pct + '%</div></div>';
+                div.innerHTML = '<div class="bar-label" title="' + row.Subject + '">' + row.Subject + '</div><div class="bar-track"><div class="bar-fill ' + barClass + '" style="width: ' + pct + '%">' + row.Raw_Gap + ' gap (' + covPct + '% coverage)</div></div>';
                 container.appendChild(div);
             });
         }
 
         function renderPriorityTable() {
-            var priority = allData.filter(function(r) { return r.Problem_Type && r.Problem_Type.includes('Problem'); }).sort(function(a, b) { return (b.Gap_Pct || 0) - (a.Gap_Pct || 0); }).slice(0, 15);
+            var priority = allData.filter(function(r) { return r.Problem_Type && r.Problem_Type.includes('Problem'); }).sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); }).slice(0, 15);
             var tbody = document.getElementById('priority-body');
             tbody.innerHTML = '';
             document.getElementById('priority-count').textContent = 'Showing top ' + priority.length + ' problem subjects';
@@ -2090,14 +2092,14 @@ ELSE:
                 else if (type === 'no-util-data') tr.className = 'nodata-problem';
                 var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
                 if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
-                var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : 'gap-medium';
+                var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
+                var gapClass = covPct < 50 ? 'gap-critical' : covPct < 80 ? 'gap-high' : 'gap-medium';
                 var action = '', badgeClass = '', badgeText = '';
                 if (type === 'utilization') { action = 'Possible supply gap masked by placement issues'; badgeClass = 'util'; badgeText = 'Placement Issue'; }
                 else if (type === 'no-util-data') { action = 'Gather utilization data'; badgeClass = 'nodata'; badgeText = 'No Util Data'; }
-                else if (row.Gap_Pct > 200) { action = 'CRITICAL: External levers now'; badgeClass = 'supply'; badgeText = 'Supply'; }
+                else if (covPct < 50) { action = 'CRITICAL: External levers now'; badgeClass = 'supply'; badgeText = 'Supply'; }
                 else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
                 var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
-                var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
                 var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
                 tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
                 tbody.appendChild(tr);
