@@ -249,18 +249,30 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         if total_demand == 0 and original_model_total == 0 and not is_adjusted:
             continue
 
-        # Back-loaded smoothing: build an independent back-loaded plan (Oct backward,
-        # capped at run_rate), then take max(forecast, backloaded) per month so that
-        # peak months get boosted while earlier months keep their forecast floor.
-        backloaded = [0.0] * 7
-        remaining = total_demand
-        for i in reversed(range(7)):  # Oct, Sep, Aug, Jul, Jun, May, Apr
-            alloc = min(remaining, run_rate)
-            backloaded[i] = alloc
-            remaining -= alloc
-            if remaining <= 0:
-                break
-        monthly_targets = [max(adjusted_forecasts[i], backloaded[i]) for i in range(7)]
+        # Cascade smoothing: start with forecasts, then for any month over the
+        # run-rate cap, push excess backward one month at a time. If excess
+        # can't be fully absorbed cascading back to April, spread the remainder
+        # evenly across all months.
+        monthly_targets = list(adjusted_forecasts)
+        total_overflow = 0.0
+        for i in reversed(range(7)):  # Oct(6) back to Apr(0)
+            if monthly_targets[i] > run_rate:
+                excess = monthly_targets[i] - run_rate
+                monthly_targets[i] = run_rate
+                for j in range(i - 1, -1, -1):
+                    room = run_rate - monthly_targets[j]
+                    if room > 0:
+                        absorb = min(excess, room)
+                        monthly_targets[j] += absorb
+                        excess -= absorb
+                    if excess <= 0:
+                        break
+                if excess > 0:
+                    total_overflow += excess
+        if total_overflow > 0:
+            per_month = total_overflow / 7
+            for i in range(7):
+                monthly_targets[i] += per_month
 
         target_per_month = total_demand / len(BTS_MONTH_DATES)
         max_capacity = run_rate * 1.2
@@ -325,16 +337,27 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             run_rate = float(runrate_row['Run_Rate'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Run_Rate'].values[0]) else 0
             mar_actual = float(runrate_row['Mar_Actual'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Mar_Actual'].values[0]) else None
 
-            backloaded = [0.0] * 7
+            monthly_targets = list(adjusted_forecasts)
+            total_overflow = 0.0
             if run_rate > 0:
-                rem = total_demand
                 for i in reversed(range(7)):
-                    alloc = min(rem, run_rate)
-                    backloaded[i] = alloc
-                    rem -= alloc
-                    if rem <= 0:
-                        break
-            monthly_targets = [max(adjusted_forecasts[i], backloaded[i]) for i in range(7)]
+                    if monthly_targets[i] > run_rate:
+                        excess = monthly_targets[i] - run_rate
+                        monthly_targets[i] = run_rate
+                        for j in range(i - 1, -1, -1):
+                            room = run_rate - monthly_targets[j]
+                            if room > 0:
+                                absorb = min(excess, room)
+                                monthly_targets[j] += absorb
+                                excess -= absorb
+                            if excess <= 0:
+                                break
+                        if excess > 0:
+                            total_overflow += excess
+                if total_overflow > 0:
+                    per_month = total_overflow / 7
+                    for i in range(7):
+                        monthly_targets[i] += per_month
 
             target_per_month = total_demand / 7
             max_capacity = run_rate * 1.2
