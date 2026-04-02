@@ -1495,30 +1495,37 @@
                 
                 <h2>Analysis Steps</h2>
                 
-                <h3>Step 1: Demand Adjustment (Back-Loaded Smoothing)</h3>
+                <h3>Step 1: Demand Adjustment (3-Month Group Smoothing)</h3>
                 
-                <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand (e.g., SAT ramping from 27 in April to 46 in October). Additionally, tutors recruited too early (e.g., April for a September need) are likely to attrit before they are actually needed.</p>
+                <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand (e.g., SAT ramping from 27 in April to 46 in October). Additionally, tutors recruited too early are likely to attrit before they are actually needed.</p>
                 
-                <p><strong>Solution:</strong> Back-load adjusted targets toward peak months (September/October). Fill each month up to the run rate cap, working backward from October. Only spill into earlier months when later months are already maxed.</p>
+                <p><strong>Solution:</strong> Smooth demand within fixed 3-month groups. If any month in a group exceeds the run-rate cap, the group's total is averaged across its three months. This keeps demand concentrated near peak while preventing spikes that exceed contracting capacity.</p>
                 
                 <p><strong>Algorithm:</strong></p>
                 <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">
-Total_BTS_Demand = Sum(Apr + May + Jun + Jul + Aug + Sep + Oct)
-remaining = Total_BTS_Demand
+Group 1: Aug + Sep + Oct
+Group 2: May + Jun + Jul
+Standalone: Apr
 
-For month in [Oct, Sep, Aug, Jul, Jun, May, Apr]:
-    Adjusted_Target[month] = min(remaining, Run_Rate)
-    remaining -= Adjusted_Target[month]
-    if remaining <= 0: stop
+For each group:
+    IF any month in group > Run_Rate:
+        total = sum of group
+        each month = floor(total / 3)
+        middle month gets remainder
+        enforce manual adjustment floors
+
+April: left unchanged if Group 2 needed correction.
+    If Group 2 did NOT need correction and Apr > Run_Rate,
+    cascade Apr excess to May (up to May's available room).
 </pre>
                 
                 <p><strong>Benefits:</strong></p>
                 <ul>
-                    <li>Concentrates recruiting into fewest months possible near peak demand</li>
-                    <li>Reduces tutor attrition risk (tutors recruited closer to when they are needed)</li>
-                    <li>Each month is capped at run rate (realistic contracting capacity)</li>
-                    <li>Earlier months (Apr/May) stay at zero unless later months are already maxed</li>
-                    <li>Same total demand (no under/over forecasting - just redistributed)</li>
+                    <li>Keeps demand concentrated near peak months (no leaking back to April)</li>
+                    <li>Reduces tutor attrition risk (smoothing stays within 90-day windows)</li>
+                    <li>Total demand is preserved across each group</li>
+                    <li>Manual forecast adjustments are always respected as the floor</li>
+                    <li>Months that don't need correction are left untouched</li>
                 </ul>
                 
                 <p><strong>Example - SAT (Run Rate: 11/mo):</strong></p>
@@ -1526,19 +1533,19 @@ For month in [Oct, Sep, Aug, Jul, Jun, May, Apr]:
                     <tr>
                         <th>Month</th>
                         <th>Original</th>
-                        <th>Back-Loaded</th>
+                        <th>Smoothed</th>
                         <th>Change</th>
                     </tr>
-                    <tr><td>Apr</td><td>27</td><td>0</td><td class="change-negative">-27</td></tr>
-                    <tr><td>May</td><td>26</td><td>0</td><td class="change-negative">-26</td></tr>
-                    <tr><td>Jun</td><td>30</td><td>0</td><td class="change-negative">-30</td></tr>
-                    <tr><td>Jul</td><td>36</td><td>0</td><td class="change-negative">-36</td></tr>
-                    <tr><td>Aug</td><td>42</td><td>0</td><td class="change-negative">-42</td></tr>
-                    <tr><td>Sep</td><td>45</td><td>11</td><td class="change-negative">-34</td></tr>
-                    <tr><td>Oct</td><td>46</td><td>11</td><td class="change-negative">-35</td></tr>
-                    <tr style="font-weight: bold;"><td>Total</td><td>252</td><td>22</td><td>-230 (gap: need exceeds capacity)</td></tr>
+                    <tr><td>Apr</td><td>27</td><td>28</td><td class="change-positive">+1</td></tr>
+                    <tr><td>May</td><td>26</td><td>30</td><td class="change-positive">+4</td></tr>
+                    <tr><td>Jun</td><td>30</td><td>32</td><td class="change-positive">+2</td></tr>
+                    <tr><td>Jul</td><td>36</td><td>30</td><td class="change-negative">-6</td></tr>
+                    <tr><td>Aug</td><td>42</td><td>44</td><td class="change-positive">+2</td></tr>
+                    <tr><td>Sep</td><td>45</td><td>45</td><td>—</td></tr>
+                    <tr><td>Oct</td><td>46</td><td>44</td><td class="change-negative">-2</td></tr>
+                    <tr style="font-weight: bold;"><td>Total</td><td>252</td><td>253</td><td>Demand preserved within groups</td></tr>
                 </table>
-                <p><em>Note: When total demand exceeds 7 × run rate, earlier months remain at zero and a capacity gap is flagged.</em></p>
+                <p><em>Group 1 (Aug/Sep/Oct): 42+45+46 = 133 → 44, 45, 44. Group 2 (May/Jun/Jul): 26+30+36 = 92 → 30, 32, 30. April left as-is since Group 2 had corrections.</em></p>
                 
                 <h3>Step 2: Capacity Gap Analysis</h3>
                 
