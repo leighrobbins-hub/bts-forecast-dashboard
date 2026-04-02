@@ -1,4 +1,4 @@
-var dashboardData = {
+window.__dashboardData = {
   "summary": {
     "total_subjects": 351,
     "utilization_problems": 24,
