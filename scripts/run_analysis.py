@@ -263,35 +263,55 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         if total_demand == 0 and original_model_total == 0 and not is_adjusted:
             continue
 
-        # Cascade smoothing with 90-day (3-month) lookback window.
-        # Over-cap months push excess backward up to 3 months. Remaining
-        # overflow spreads within that window only — never leaks to earlier
-        # months. Months that receive spread are locked (not re-processed),
-        # keeping demand concentrated near peak to reduce tutor attrition.
+        # 3-month group smoothing: average within fixed groups when any
+        # month exceeds the run-rate cap. Keeps demand near peak months
+        # to reduce tutor attrition. Manual adjustments are the floor.
         monthly_targets = list(adjusted_forecasts)
-        spread_locked = set()
-        for i in reversed(range(7)):
-            if i in spread_locked:
-                continue
-            if monthly_targets[i] <= run_rate:
-                continue
-            excess = monthly_targets[i] - run_rate
-            monthly_targets[i] = run_rate
-            window_start = max(0, i - 3)
-            for j in range(i - 1, window_start - 1, -1):
-                room = run_rate - monthly_targets[j]
-                if room > 0:
-                    absorb = min(excess, room)
-                    monthly_targets[j] += absorb
-                    excess -= absorb
-                if excess <= 0:
-                    break
-            if excess > 0:
-                window = list(range(window_start, i + 1))
-                per_month = excess / len(window)
-                for j in window:
-                    monthly_targets[j] += per_month
-                    spread_locked.add(j)
+        manual_floors = [None] * 7
+        if manual_adjustments:
+            for i, mk in enumerate(BTS_MONTH_KEYS):
+                if mk in manual_adjustments and subject in manual_adjustments[mk]:
+                    manual_floors[i] = manual_adjustments[mk][subject]
+
+        # Group 1: Aug(4), Sep(5), Oct(6)
+        g1 = [4, 5, 6]
+        if any(monthly_targets[i] > run_rate for i in g1):
+            total = sum(monthly_targets[i] for i in g1)
+            base = int(total // 3)
+            rem = int(total - base * 3)
+            for i in g1:
+                monthly_targets[i] = base
+            monthly_targets[g1[1]] += rem
+            for i in g1:
+                if manual_floors[i] is not None and monthly_targets[i] < manual_floors[i]:
+                    monthly_targets[i] = manual_floors[i]
+
+        # Group 2: May(1), Jun(2), Jul(3)
+        g2 = [1, 2, 3]
+        g2_corrected = any(adjusted_forecasts[i] > run_rate for i in g2)
+        if g2_corrected:
+            total = sum(monthly_targets[i] for i in g2)
+            base = int(total // 3)
+            rem = int(total - base * 3)
+            for i in g2:
+                monthly_targets[i] = base
+            monthly_targets[g2[1]] += rem
+            for i in g2:
+                if manual_floors[i] is not None and monthly_targets[i] < manual_floors[i]:
+                    monthly_targets[i] = manual_floors[i]
+
+        # April: leave alone if previous group had correction.
+        # If previous group did NOT need correction and Apr > run_rate,
+        # cascade excess to May if there's room.
+        if not g2_corrected and monthly_targets[0] > run_rate:
+            excess = monthly_targets[0] - run_rate
+            room = run_rate - monthly_targets[1]
+            if room > 0:
+                absorb = min(excess, room)
+                monthly_targets[0] -= absorb
+                monthly_targets[1] += absorb
+        if manual_floors[0] is not None and monthly_targets[0] < manual_floors[0]:
+            monthly_targets[0] = manual_floors[0]
 
         target_per_month = total_demand / len(BTS_MONTH_DATES)
         max_capacity = run_rate * 1.2
@@ -357,30 +377,42 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             mar_actual = float(runrate_row['Mar_Actual'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Mar_Actual'].values[0]) else None
 
             monthly_targets = list(adjusted_forecasts)
+            manual_floors = list(adjusted_forecasts)
             if run_rate > 0:
-                spread_locked = set()
-                for i in reversed(range(7)):
-                    if i in spread_locked:
-                        continue
-                    if monthly_targets[i] <= run_rate:
-                        continue
-                    excess = monthly_targets[i] - run_rate
-                    monthly_targets[i] = run_rate
-                    window_start = max(0, i - 3)
-                    for j in range(i - 1, window_start - 1, -1):
-                        room = run_rate - monthly_targets[j]
-                        if room > 0:
-                            absorb = min(excess, room)
-                            monthly_targets[j] += absorb
-                            excess -= absorb
-                        if excess <= 0:
-                            break
-                    if excess > 0:
-                        window = list(range(window_start, i + 1))
-                        per_month = excess / len(window)
-                        for j in window:
-                            monthly_targets[j] += per_month
-                            spread_locked.add(j)
+                g1 = [4, 5, 6]
+                if any(monthly_targets[i] > run_rate for i in g1):
+                    total = sum(monthly_targets[i] for i in g1)
+                    base = int(total // 3)
+                    rem = int(total - base * 3)
+                    for i in g1:
+                        monthly_targets[i] = base
+                    monthly_targets[g1[1]] += rem
+                    for i in g1:
+                        if monthly_targets[i] < manual_floors[i]:
+                            monthly_targets[i] = manual_floors[i]
+
+                g2 = [1, 2, 3]
+                g2_corrected = any(adjusted_forecasts[i] > run_rate for i in g2)
+                if g2_corrected:
+                    total = sum(monthly_targets[i] for i in g2)
+                    base = int(total // 3)
+                    rem = int(total - base * 3)
+                    for i in g2:
+                        monthly_targets[i] = base
+                    monthly_targets[g2[1]] += rem
+                    for i in g2:
+                        if monthly_targets[i] < manual_floors[i]:
+                            monthly_targets[i] = manual_floors[i]
+
+                if not g2_corrected and monthly_targets[0] > run_rate:
+                    excess = monthly_targets[0] - run_rate
+                    room = run_rate - monthly_targets[1]
+                    if room > 0:
+                        absorb = min(excess, room)
+                        monthly_targets[0] -= absorb
+                        monthly_targets[1] += absorb
+                if monthly_targets[0] < manual_floors[0]:
+                    monthly_targets[0] = manual_floors[0]
 
             target_per_month = total_demand / 7
             max_capacity = run_rate * 1.2
