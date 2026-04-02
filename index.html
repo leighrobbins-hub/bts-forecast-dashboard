@@ -1428,7 +1428,7 @@
         <div id="methodology" class="tab-content">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.1</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.2</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -1817,6 +1817,15 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v2.2 <span class="cl-date">Apr 1, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
+                <ul>
+                    <li>Cascade smoothing with 90-day window — over-cap months only push excess backward 3 months, keeping demand concentrated near peak to reduce tutor attrition</li>
+                    <li>March baseline updated with final actual and adjusted forecast data (144 subjects)</li>
+                    <li>New run rates format supported — auto-detects simple two-column CSV uploads</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.1 <span class="cl-date">Apr 1, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
