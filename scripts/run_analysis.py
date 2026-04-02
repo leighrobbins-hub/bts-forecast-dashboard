@@ -263,30 +263,35 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         if total_demand == 0 and original_model_total == 0 and not is_adjusted:
             continue
 
-        # Cascade smoothing: start with forecasts, then for any month over the
-        # run-rate cap, push excess backward one month at a time. If excess
-        # can't be fully absorbed cascading back to April, spread the remainder
-        # evenly across all months.
+        # Cascade smoothing with 90-day (3-month) lookback window.
+        # Over-cap months push excess backward up to 3 months. Remaining
+        # overflow spreads within that window only — never leaks to earlier
+        # months. Months that receive spread are locked (not re-processed),
+        # keeping demand concentrated near peak to reduce tutor attrition.
         monthly_targets = list(adjusted_forecasts)
-        total_overflow = 0.0
-        for i in reversed(range(7)):  # Oct(6) back to Apr(0)
-            if monthly_targets[i] > run_rate:
-                excess = monthly_targets[i] - run_rate
-                monthly_targets[i] = run_rate
-                for j in range(i - 1, -1, -1):
-                    room = run_rate - monthly_targets[j]
-                    if room > 0:
-                        absorb = min(excess, room)
-                        monthly_targets[j] += absorb
-                        excess -= absorb
-                    if excess <= 0:
-                        break
-                if excess > 0:
-                    total_overflow += excess
-        if total_overflow > 0:
-            per_month = total_overflow / 7
-            for i in range(7):
-                monthly_targets[i] += per_month
+        spread_locked = set()
+        for i in reversed(range(7)):
+            if i in spread_locked:
+                continue
+            if monthly_targets[i] <= run_rate:
+                continue
+            excess = monthly_targets[i] - run_rate
+            monthly_targets[i] = run_rate
+            window_start = max(0, i - 3)
+            for j in range(i - 1, window_start - 1, -1):
+                room = run_rate - monthly_targets[j]
+                if room > 0:
+                    absorb = min(excess, room)
+                    monthly_targets[j] += absorb
+                    excess -= absorb
+                if excess <= 0:
+                    break
+            if excess > 0:
+                window = list(range(window_start, i + 1))
+                per_month = excess / len(window)
+                for j in window:
+                    monthly_targets[j] += per_month
+                    spread_locked.add(j)
 
         target_per_month = total_demand / len(BTS_MONTH_DATES)
         max_capacity = run_rate * 1.2
@@ -352,26 +357,30 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             mar_actual = float(runrate_row['Mar_Actual'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Mar_Actual'].values[0]) else None
 
             monthly_targets = list(adjusted_forecasts)
-            total_overflow = 0.0
             if run_rate > 0:
+                spread_locked = set()
                 for i in reversed(range(7)):
-                    if monthly_targets[i] > run_rate:
-                        excess = monthly_targets[i] - run_rate
-                        monthly_targets[i] = run_rate
-                        for j in range(i - 1, -1, -1):
-                            room = run_rate - monthly_targets[j]
-                            if room > 0:
-                                absorb = min(excess, room)
-                                monthly_targets[j] += absorb
-                                excess -= absorb
-                            if excess <= 0:
-                                break
-                        if excess > 0:
-                            total_overflow += excess
-                if total_overflow > 0:
-                    per_month = total_overflow / 7
-                    for i in range(7):
-                        monthly_targets[i] += per_month
+                    if i in spread_locked:
+                        continue
+                    if monthly_targets[i] <= run_rate:
+                        continue
+                    excess = monthly_targets[i] - run_rate
+                    monthly_targets[i] = run_rate
+                    window_start = max(0, i - 3)
+                    for j in range(i - 1, window_start - 1, -1):
+                        room = run_rate - monthly_targets[j]
+                        if room > 0:
+                            absorb = min(excess, room)
+                            monthly_targets[j] += absorb
+                            excess -= absorb
+                        if excess <= 0:
+                            break
+                    if excess > 0:
+                        window = list(range(window_start, i + 1))
+                        per_month = excess / len(window)
+                        for j in window:
+                            monthly_targets[j] += per_month
+                            spread_locked.add(j)
 
             target_per_month = total_demand / 7
             max_capacity = run_rate * 1.2
