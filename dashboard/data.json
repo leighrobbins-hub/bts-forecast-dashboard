@@ -1,20 +1,20 @@
 {
   "summary": {
-    "total_subjects": 355,
+    "total_subjects": 358,
     "utilization_problems": 24,
     "supply_problems": 28,
-    "on_track": 303,
-    "last_updated": "2026-04-07 09:51 AM CST",
-    "portfolio_bts_total": 7104.0,
+    "on_track": 306,
+    "last_updated": "2026-04-07 10:07 AM CST",
+    "portfolio_bts_total": 7110.0,
     "portfolio_actual_to_date": 0,
-    "portfolio_remaining": 7104.0,
+    "portfolio_remaining": 7110.0,
     "months_completed": 0,
     "months_remaining": 7,
     "march_baseline": {
       "total_actual": 581,
-      "total_forecast": 430,
-      "variance": 151,
-      "subjects_with_data": 126
+      "total_forecast": 432,
+      "variance": 149,
+      "subjects_with_data": 128
     }
   },
   "subjects": [
@@ -12634,6 +12634,43 @@
       "Category": "Test Prep"
     },
     {
+      "Subject": "Blender",
+      "Run_Rate": 1.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -86.0,
+      "Raw_Gap": 6.0,
+      "Coverage_Pct": 700,
+      "Needs_External_Levers": false,
+      "BTS_Total": 1.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": null,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "On Track",
+      "Category": "Other"
+    },
+    {
       "Subject": "HESI - Health Education Systems Incorporated",
       "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
@@ -12745,6 +12782,43 @@
       "Category": "Professional/Cert"
     },
     {
+      "Subject": "OAT",
+      "Run_Rate": 1.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -71.0,
+      "Raw_Gap": 5.0,
+      "Coverage_Pct": 350,
+      "Needs_External_Levers": false,
+      "BTS_Total": 2.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 2.0,
+      "May_Smoothed": 1.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "On Track",
+      "Category": "Test Prep"
+    },
+    {
       "Subject": "Orton Gillingham Reading",
       "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
@@ -12775,6 +12849,43 @@
       "Oct_Smoothed": 0.0,
       "Mar_Actual": null,
       "Mar_Forecast": null,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "On Track",
+      "Category": "Other"
+    },
+    {
+      "Subject": "Viral Content Creation",
+      "Run_Rate": 1.0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -57.0,
+      "Raw_Gap": 4.0,
+      "Coverage_Pct": 233,
+      "Needs_External_Levers": false,
+      "BTS_Total": 3.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 3.0,
+      "May_Smoothed": 1.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": 0.0,
+      "Mar_Forecast": 1.0,
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
@@ -43672,6 +43783,94 @@
       ]
     },
     {
+      "subject": "Blender",
+      "run_rate": 1.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 1.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "Other",
+      "march_baseline": {
+        "actual": null,
+        "forecast": null,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        }
+      ]
+    },
+    {
       "subject": "HESI - Health Education Systems Incorporated",
       "run_rate": 1.0,
       "bts_total": 1.0,
@@ -43936,6 +44135,94 @@
       ]
     },
     {
+      "subject": "OAT",
+      "run_rate": 1.0,
+      "bts_total": 2.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 2.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "Test Prep",
+      "march_baseline": {
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 2.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.3,
+          "variance": null
+        }
+      ]
+    },
+    {
       "subject": "Orton Gillingham Reading",
       "run_rate": 1.0,
       "bts_total": 5.0,
@@ -44019,6 +44306,94 @@
           "actual": null,
           "status": null,
           "adjusted_target": 0.7,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "Viral Content Creation",
+      "run_rate": 1.0,
+      "bts_total": 3.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 3.0,
+      "months_completed": 0,
+      "problem_type": "On Track",
+      "category": "Other",
+      "march_baseline": {
+        "actual": 0,
+        "forecast": 1,
+        "variance": -1
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 3.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.4,
           "variance": null
         }
       ]

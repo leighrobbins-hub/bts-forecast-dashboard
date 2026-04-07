@@ -268,7 +268,6 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
 
     for _, forecast_row in df_forecast.iterrows():
         subject = forecast_row['subject_name']
-        processed_subjects.add(subject)
 
         runrate_row = df_runrate[df_runrate['Subject'] == subject]
         if len(runrate_row) == 0:
@@ -394,9 +393,11 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             'Mar_Actual': round(march_overrides[subject]['actual'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['actual'] is not None else (round(mar_actual, 0) if pd.notna(mar_actual) else None),
             'Mar_Forecast': round(march_overrides[subject]['forecast'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['forecast'] is not None else (round(mar_forecast, 0) if mar_forecast is not None else None)
         })
+        processed_subjects.add(subject)
 
-    # Add subjects that exist in manual adjustments but not in the forecast.
-    # Per-month files only set that month; other months stay zero until another file does.
+    # Add subjects from manual adjustments that were not fully processed above: e.g. not in
+    # the forecast, or in the forecast but skipped (no run-rate row). Per-month files only
+    # set that month; other months stay zero until another file does.
     if manual_adjustments:
         adj_subjects = set()
         for mk in manual_adjustments:
