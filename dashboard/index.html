@@ -1324,7 +1324,7 @@
 
             <div class="upload-section">
                 <h3>Upload Manual Forecast Adjustments</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects <strong>for a specific month</strong>. Required: <code>Subject Name</code> and <code>Final Forecast</code> and/or <code>Goal</code>. Both columns set the target for <strong>this upload month only</strong> (Final Forecast wins if both are filled). For a new subject not in the model, other months stay at zero until you upload a later month file. Overrides persist across new model uploads.</p>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects <strong>for a specific month</strong>. Required columns: <code>Subject Name</code> and <code>Final Forecast</code> (the target for that month, including new subjects added on the goal sheet). Values apply to <strong>this upload month only</strong>; other months stay at zero for brand-new subjects until you upload later month files. Overrides persist across new model uploads. Legacy exports may include a separate <code>Goal</code> column only when <code>Final Forecast</code> is blank—the pipeline uses the same number either way.</p>
 
                 <div class="upload-controls">
                     <div class="filter-group">
@@ -1349,7 +1349,7 @@
                     <div class="section-header">Preview Adjustments</div>
                     <div class="table-container" style="max-height:300px; overflow-y:auto;">
                         <table>
-                            <thead><tr><th>Subject</th><th>Final Forecast</th><th>Goal</th><th>Status</th></tr></thead>
+                            <thead><tr><th>Subject</th><th>Final Forecast</th><th>Status</th></tr></thead>
                             <tbody id="adjustments-preview-body"></tbody>
                         </table>
                     </div>
@@ -2727,43 +2727,31 @@ ELSE:
                 if (nameIdx === -1) nameIdx = header.indexOf('subject_name');
                 var fcstIdx = header.indexOf('Final Forecast');
                 if (fcstIdx === -1) fcstIdx = header.indexOf('final_forecast');
+                if (fcstIdx === -1) fcstIdx = header.indexOf('Forecast');
+                // Legacy: some sheets use Goal only when Final Forecast is empty
                 var goalIdx = header.indexOf('Goal');
                 if (goalIdx === -1) goalIdx = header.indexOf('BTS Goal');
                 if (goalIdx === -1) goalIdx = header.indexOf('Total Goal');
                 if (nameIdx === -1 || (fcstIdx === -1 && goalIdx === -1)) {
-                    showStatus('adjustments-status', 'CSV must have "Subject Name" and ("Final Forecast" and/or a Goal column)', 'error');
+                    showStatus('adjustments-status', 'CSV must have "Subject Name" and "Final Forecast" (or legacy "Goal" if Forecast is blank)', 'error');
                     return;
                 }
                 var rows = [];
-                var anyGoal = false;
                 for (var i = 1; i < lines.length; i++) {
                     var cols = parseCsvLine(lines[i]);
-                    // Require Subject Name only; Final Forecast / Goal may be omitted (short rows) when optional.
                     if (cols.length <= nameIdx) continue;
                     var subj = cols[nameIdx];
                     var val = (fcstIdx >= 0 && cols.length > fcstIdx) ? parseFloat(cols[fcstIdx]) : NaN;
                     var gval = (goalIdx >= 0 && cols.length > goalIdx) ? parseFloat(cols[goalIdx]) : NaN;
-                    if (subj && (!isNaN(val) || !isNaN(gval))) {
-                        if (!isNaN(gval)) anyGoal = true;
+                    var effective = !isNaN(val) ? val : (!isNaN(gval) ? gval : NaN);
+                    if (subj && !isNaN(effective)) {
                         var known = allData.some(function(d) { return d.Subject === subj; });
-                        rows.push({
-                            subject: subj,
-                            forecast: isNaN(val) ? null : val,
-                            goal: isNaN(gval) ? null : gval,
-                            known: known
-                        });
+                        rows.push({ subject: subj, forecast: effective, known: known });
                     }
                 }
-                var useGoalCol = goalIdx >= 0 || anyGoal;
-                var csvLines = [useGoalCol ? 'Subject Name,Final Forecast,Goal' : 'Subject Name,Final Forecast'];
+                var csvLines = ['Subject Name,Final Forecast'];
                 rows.forEach(function(r) {
-                    var fc = r.forecast != null ? String(r.forecast) : '';
-                    var gl = r.goal != null ? String(r.goal) : '';
-                    if (useGoalCol) {
-                        csvLines.push(csvEscapeField(r.subject) + ',' + csvEscapeField(fc) + ',' + csvEscapeField(gl));
-                    } else {
-                        csvLines.push(csvEscapeField(r.subject) + ',' + csvEscapeField(fc));
-                    }
+                    csvLines.push(csvEscapeField(r.subject) + ',' + csvEscapeField(String(r.forecast)));
                 });
                 pendingAdjustmentsCSV = csvLines.join('\n');
                 var preview = document.getElementById('adjustments-preview');
@@ -2771,9 +2759,7 @@ ELSE:
                 tbody.innerHTML = '';
                 rows.forEach(function(r) {
                     var tr = document.createElement('tr');
-                    var gcell = r.goal != null ? r.goal : '—';
-                    var fcell = r.forecast != null ? r.forecast : '—';
-                    tr.innerHTML = '<td>' + r.subject + '</td><td>' + fcell + '</td><td>' + gcell + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#3498db" title="Not in the current subject list; pipeline adds as a new subject">New</span>') + '</td>';
+                    tr.innerHTML = '<td>' + r.subject + '</td><td>' + r.forecast + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#3498db" title="Not in the current subject list; pipeline adds as a new subject">New</span>') + '</td>';
                     tbody.appendChild(tr);
                 });
                 preview.style.display = 'block';

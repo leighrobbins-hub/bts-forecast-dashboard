@@ -142,14 +142,21 @@ def load_actuals(actuals_dir):
     return actuals, statuses
 
 
+def _normalize_csv_columns(df):
+    """Strip whitespace / BOM from column names so 'Final Forecast' matches exports."""
+    df = df.copy()
+    df.columns = [str(c).strip().lstrip('\ufeff') for c in df.columns]
+    return df
+
+
 def load_manual_adjustments(adjustments_dir):
     """Load per-month manual forecast adjustment CSVs.
 
-    Each file is named by month key (e.g. 2026-04.csv). Values apply to that
-    month only. Use 'Final Forecast' for the override; optional 'Goal' (or
-    'BTS Goal', etc.) fills the same cell when Final Forecast is blank—e.g. a
-    new subject on the goal sheet gets April's number from the April upload
-    only; other months stay zero until a later month file sets them.
+    Each file is named by month key (e.g. 2026-04.csv). The monthly value comes
+    from **Final Forecast** (required for normal goal-sheet exports). Optional
+    Goal/BTS Goal columns are only used when Final Forecast is blank for legacy
+    sheets. Other months stay zero for brand-new subjects until another month
+    file sets them.
 
     Returns:
         adjustments: {month_key: {subject_name: value_for_that_month}}
@@ -161,7 +168,7 @@ def load_manual_adjustments(adjustments_dir):
         if month_key not in BTS_MONTH_KEYS:
             continue
         try:
-            df = pd.read_csv(filepath)
+            df = _normalize_csv_columns(pd.read_csv(filepath))
         except Exception as e:
             print(f"  Warning: could not read {filename}: {e}")
             continue
@@ -172,14 +179,14 @@ def load_manual_adjustments(adjustments_dir):
                 name_col = candidate
                 break
         forecast_col = None
-        for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast']:
+        for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast', 'Forecast', 'forecast']:
             if candidate in df.columns:
                 forecast_col = candidate
                 break
         goal_col = _find_goal_column(df)
 
         if name_col is None or (forecast_col is None and goal_col is None):
-            print(f"  Warning: {filename} missing required columns (need 'Subject Name' and 'Final Forecast' and/or a Goal column)")
+            print(f"  Warning: {filename} missing required columns (need 'Subject Name' and 'Final Forecast' and/or Goal)")
             continue
 
         month_adj = {}
@@ -205,14 +212,14 @@ def load_manual_adjustments(adjustments_dir):
     legacy_path = os.path.join(adjustments_dir, 'manual_adjustments.csv')
     if os.path.exists(legacy_path):
         try:
-            df = pd.read_csv(legacy_path)
+            df = _normalize_csv_columns(pd.read_csv(legacy_path))
             name_col = None
             for candidate in ['Subject Name', 'subject_name', 'Subject']:
                 if candidate in df.columns:
                     name_col = candidate
                     break
             forecast_col = None
-            for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast']:
+            for candidate in ['Final Forecast', 'final_forecast', 'Final_Forecast', 'Forecast', 'forecast']:
                 if candidate in df.columns:
                     forecast_col = candidate
                     break
