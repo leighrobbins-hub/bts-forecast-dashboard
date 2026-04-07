@@ -2,9 +2,9 @@ window.__dashboardData = {
   "summary": {
     "total_subjects": 355,
     "utilization_problems": 24,
-    "supply_problems": 32,
-    "on_track": 299,
-    "last_updated": "2026-04-07 08:38 AM CST",
+    "supply_problems": 28,
+    "on_track": 303,
+    "last_updated": "2026-04-07 09:25 AM CST",
     "portfolio_bts_total": 7104.0,
     "portfolio_actual_to_date": 0,
     "portfolio_remaining": 7104.0,
@@ -12,15 +12,15 @@ window.__dashboardData = {
     "months_remaining": 7,
     "march_baseline": {
       "total_actual": 581,
-      "total_forecast": 962,
-      "variance": -381,
+      "total_forecast": 430,
+      "variance": 151,
       "subjects_with_data": 126
     }
   },
   "subjects": [
     {
       "Subject": "Middle School Math",
-      "Run_Rate": 98,
+      "Run_Rate": 98.0,
       "Smoothed_Target": 35.0,
       "Max_Capacity": 118.0,
       "Gap_Pct": -64.0,
@@ -57,7 +57,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Chemistry",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 39.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": 158.0,
@@ -94,7 +94,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Elementary School Math",
-      "Run_Rate": 120,
+      "Run_Rate": 120.0,
       "Smoothed_Target": 24.0,
       "Max_Capacity": 144.0,
       "Gap_Pct": -80.0,
@@ -131,7 +131,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "SAT",
-      "Run_Rate": 11,
+      "Run_Rate": 11.0,
       "Smoothed_Target": 36.0,
       "Max_Capacity": 13.0,
       "Gap_Pct": 229.0,
@@ -168,7 +168,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Pre-Calculus",
-      "Run_Rate": 25,
+      "Run_Rate": 25.0,
       "Smoothed_Target": 28.0,
       "Max_Capacity": 30.0,
       "Gap_Pct": 13.0,
@@ -205,7 +205,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Elementary School Reading",
-      "Run_Rate": 109,
+      "Run_Rate": 109.0,
       "Smoothed_Target": 25.0,
       "Max_Capacity": 131.0,
       "Gap_Pct": -77.0,
@@ -242,7 +242,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Algebra 2",
-      "Run_Rate": 34,
+      "Run_Rate": 34.0,
       "Smoothed_Target": 24.0,
       "Max_Capacity": 41.0,
       "Gap_Pct": -30.0,
@@ -279,7 +279,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Algebra",
-      "Run_Rate": 53,
+      "Run_Rate": 53.0,
       "Smoothed_Target": 18.0,
       "Max_Capacity": 64.0,
       "Gap_Pct": -66.0,
@@ -316,7 +316,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Biology",
-      "Run_Rate": 21,
+      "Run_Rate": 21.0,
       "Smoothed_Target": 17.0,
       "Max_Capacity": 25.0,
       "Gap_Pct": -17.0,
@@ -353,7 +353,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Accounting",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 16.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": 217.0,
@@ -390,7 +390,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Geometry",
-      "Run_Rate": 24,
+      "Run_Rate": 24.0,
       "Smoothed_Target": 19.0,
       "Max_Capacity": 29.0,
       "Gap_Pct": -22.0,
@@ -427,7 +427,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Calculus AB",
-      "Run_Rate": 12,
+      "Run_Rate": 12.0,
       "Smoothed_Target": 18.0,
       "Max_Capacity": 14.0,
       "Gap_Pct": 49.0,
@@ -464,7 +464,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Chemistry",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 14.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": 57.0,
@@ -501,7 +501,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Middle School Reading",
-      "Run_Rate": 92,
+      "Run_Rate": 92.0,
       "Smoothed_Target": 12.0,
       "Max_Capacity": 110.0,
       "Gap_Pct": -87.0,
@@ -538,7 +538,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Organic Chemistry",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 12.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": 100.0,
@@ -575,7 +575,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Executive Functioning",
-      "Run_Rate": 14,
+      "Run_Rate": 14.0,
       "Smoothed_Target": 8.0,
       "Max_Capacity": 17.0,
       "Gap_Pct": -42.0,
@@ -612,7 +612,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Biology",
-      "Run_Rate": 33,
+      "Run_Rate": 33.0,
       "Smoothed_Target": 10.0,
       "Max_Capacity": 40.0,
       "Gap_Pct": -70.0,
@@ -649,7 +649,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Statistics",
-      "Run_Rate": 12,
+      "Run_Rate": 12.0,
       "Smoothed_Target": 12.0,
       "Max_Capacity": 14.0,
       "Gap_Pct": 1.0,
@@ -686,7 +686,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Physics",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 10.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": 27.0,
@@ -723,7 +723,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Application Essays",
-      "Run_Rate": 36,
+      "Run_Rate": 36.0,
       "Smoothed_Target": 8.0,
       "Max_Capacity": 43.0,
       "Gap_Pct": -77.0,
@@ -758,7 +758,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Elementary School Writing",
-      "Run_Rate": 107,
+      "Run_Rate": 107.0,
       "Smoothed_Target": 8.0,
       "Max_Capacity": 128.0,
       "Gap_Pct": -92.0,
@@ -795,7 +795,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Chemistry",
-      "Run_Rate": 10,
+      "Run_Rate": 10.0,
       "Smoothed_Target": 7.0,
       "Max_Capacity": 12.0,
       "Gap_Pct": -29.0,
@@ -832,7 +832,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Middle School Science",
-      "Run_Rate": 61,
+      "Run_Rate": 61.0,
       "Smoothed_Target": 6.0,
       "Max_Capacity": 73.0,
       "Gap_Pct": -89.0,
@@ -869,7 +869,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Biology",
-      "Run_Rate": 16,
+      "Run_Rate": 16.0,
       "Smoothed_Target": 8.0,
       "Max_Capacity": 19.0,
       "Gap_Pct": -48.0,
@@ -906,7 +906,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "LSAT",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 9.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": 210.0,
@@ -943,7 +943,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Coding",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 6.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -58.0,
@@ -980,7 +980,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Handwriting",
-      "Run_Rate": 18,
+      "Run_Rate": 18.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 22.0,
       "Gap_Pct": -71.0,
@@ -1017,7 +1017,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Elementary School English",
-      "Run_Rate": 97,
+      "Run_Rate": 97.0,
       "Smoothed_Target": 7.0,
       "Max_Capacity": 116.0,
       "Gap_Pct": -93.0,
@@ -1054,7 +1054,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Physics 1",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -34.0,
@@ -1091,7 +1091,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Calculus BC",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 7.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": 68.0,
@@ -1128,7 +1128,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Human Geography",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 171.0,
@@ -1165,7 +1165,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Spanish 1",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 6.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -59.0,
@@ -1202,7 +1202,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Spanish 2",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": -51.0,
@@ -1237,7 +1237,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Statistics",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -19.0,
@@ -1274,7 +1274,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP English Language and Composition",
-      "Run_Rate": 27,
+      "Run_Rate": 27.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 32.0,
       "Gap_Pct": -81.0,
@@ -1311,7 +1311,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Essay Editing",
-      "Run_Rate": 46,
+      "Run_Rate": 46.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 55.0,
       "Gap_Pct": -89.0,
@@ -1348,7 +1348,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Physics C: Mechanics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 136.0,
@@ -1385,7 +1385,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Calculus 3",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 143.0,
@@ -1422,7 +1422,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Computer Science A",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 6.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -20.0,
@@ -1459,7 +1459,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Mathematics: Analysis and Approaches",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 6.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 500.0,
@@ -1496,7 +1496,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Adobe Illustrator",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -61.0,
@@ -1533,7 +1533,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "SAT Math",
-      "Run_Rate": 13,
+      "Run_Rate": 13.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 16.0,
       "Gap_Pct": -84.0,
@@ -1570,7 +1570,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Study Skills And Organization",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -74.0,
@@ -1607,7 +1607,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Calculus 2",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 5.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -33.0,
@@ -1644,7 +1644,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Public Speaking",
-      "Run_Rate": 23,
+      "Run_Rate": 23.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 28.0,
       "Gap_Pct": -88.0,
@@ -1681,7 +1681,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Trigonometry",
-      "Run_Rate": 21,
+      "Run_Rate": 21.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 25.0,
       "Gap_Pct": -84.0,
@@ -1718,7 +1718,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Nursing",
-      "Run_Rate": 10,
+      "Run_Rate": 10.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 12.0,
       "Gap_Pct": -70.0,
@@ -1755,7 +1755,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College English",
-      "Run_Rate": 31,
+      "Run_Rate": 31.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 37.0,
       "Gap_Pct": -88.0,
@@ -1790,7 +1790,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Finance",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -40.0,
@@ -1827,7 +1827,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Biochemistry",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -50.0,
@@ -1864,7 +1864,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Economics",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": 38.0,
@@ -1901,7 +1901,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Autocad",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 7.0,
@@ -1938,7 +1938,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Pre-Calculus",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 37.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": 517.0,
@@ -1975,7 +1975,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Managerial Accounting",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": 29.0,
@@ -2012,7 +2012,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Macroeconomics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 71.0,
@@ -2049,7 +2049,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Environmental Science",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": 29.0,
@@ -2086,7 +2086,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School World History",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": -60.0,
@@ -2123,7 +2123,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Macroeconomics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 229.0,
@@ -2160,7 +2160,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Mathematics: Applications and Interpretation",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 229.0,
@@ -2197,7 +2197,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Chemistry",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 64.0,
@@ -2234,7 +2234,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Digital Media",
-      "Run_Rate": 11,
+      "Run_Rate": 11.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 13.0,
       "Gap_Pct": -69.0,
@@ -2271,7 +2271,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Artificial Intelligence (AI)",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -25.0,
@@ -2308,7 +2308,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Management",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 214.0,
@@ -2343,7 +2343,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Social Networking",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 271.0,
@@ -2380,7 +2380,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Middle School English",
-      "Run_Rate": 86,
+      "Run_Rate": 86.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 103.0,
       "Gap_Pct": -98.0,
@@ -2417,7 +2417,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "MCAT",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -36.0,
@@ -2454,7 +2454,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ESL/ELL",
-      "Run_Rate": 19,
+      "Run_Rate": 19.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 23.0,
       "Gap_Pct": -86.0,
@@ -2489,7 +2489,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Python",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -71.0,
@@ -2526,7 +2526,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Anatomy & Physiology",
-      "Run_Rate": 19,
+      "Run_Rate": 19.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 23.0,
       "Gap_Pct": -91.0,
@@ -2563,7 +2563,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Kindergarten Readiness",
-      "Run_Rate": 14,
+      "Run_Rate": 14.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 17.0,
       "Gap_Pct": -82.0,
@@ -2600,7 +2600,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Microsoft Excel",
-      "Run_Rate": 10,
+      "Run_Rate": 10.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 12.0,
       "Gap_Pct": -70.0,
@@ -2637,7 +2637,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "HSPT",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -17.0,
@@ -2672,7 +2672,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP US History",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -43.0,
@@ -2709,7 +2709,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Chess",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 0.0,
@@ -2746,7 +2746,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Spanish 3",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -68.0,
@@ -2783,7 +2783,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Reading",
-      "Run_Rate": 39,
+      "Run_Rate": 39.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 47.0,
       "Gap_Pct": -93.0,
@@ -2820,7 +2820,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ASVAB",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 171.0,
@@ -2857,7 +2857,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Piano",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -66.0,
@@ -2894,7 +2894,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP World History",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -51.0,
@@ -2931,7 +2931,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Microeconomics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -14.0,
@@ -2968,7 +2968,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "French 2",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -14.0,
@@ -3003,7 +3003,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Linear Algebra",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -51.0,
@@ -3040,7 +3040,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Psychology",
-      "Run_Rate": 16,
+      "Run_Rate": 16.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 19.0,
       "Gap_Pct": -88.0,
@@ -3075,7 +3075,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "English Grammar and Syntax",
-      "Run_Rate": 54,
+      "Run_Rate": 54.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 65.0,
       "Gap_Pct": -95.0,
@@ -3112,7 +3112,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Competition Math",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -14.0,
@@ -3149,7 +3149,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Mechanical Engineering",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": 0.0,
@@ -3186,7 +3186,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP English Literature and Composition",
-      "Run_Rate": 10,
+      "Run_Rate": 10.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 12.0,
       "Gap_Pct": -74.0,
@@ -3221,7 +3221,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Physics 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 36.0,
@@ -3258,7 +3258,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College and University Admissions",
-      "Run_Rate": 18,
+      "Run_Rate": 18.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 22.0,
       "Gap_Pct": -89.0,
@@ -3295,7 +3295,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Microeconomics",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -25.0,
@@ -3332,7 +3332,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "C++",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 0.0,
@@ -3367,7 +3367,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Pharmacology",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -75.0,
@@ -3402,7 +3402,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "French 3",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 71.0,
@@ -3437,7 +3437,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Math 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 93.0,
@@ -3474,7 +3474,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Multivariable Calculus",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 171.0,
@@ -3511,7 +3511,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "JavaScript",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -33.0,
@@ -3546,7 +3546,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Computer Science Principles",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -24.0,
@@ -3583,7 +3583,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Corporate Finance",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 143.0,
@@ -3618,7 +3618,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Vietnamese",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 4.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 257.0,
@@ -3653,7 +3653,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Cyber Security",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -67.0,
@@ -3688,7 +3688,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "BCABA",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 0.0,
@@ -3723,7 +3723,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Biology",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -33.0,
@@ -3758,7 +3758,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Electrical and Computer Engineering",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 143.0,
@@ -3795,7 +3795,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Statics and Dynamics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 100.0,
@@ -3832,7 +3832,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Applied Mathematics",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -43.0,
@@ -3869,7 +3869,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Robotics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 129.0,
@@ -3906,7 +3906,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Fine arts",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -50.0,
@@ -3941,7 +3941,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Business Analytics",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -19.0,
@@ -3978,7 +3978,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PTCE",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 100.0,
@@ -4013,7 +4013,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Filmmaking",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 7.0,
@@ -4048,7 +4048,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Mac Basic Computer Skills",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -50.0,
@@ -4085,7 +4085,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Cost Accounting",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 214.0,
@@ -4122,7 +4122,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PC Basic Computer Skills",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -66.0,
@@ -4157,7 +4157,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Technical Writing",
-      "Run_Rate": 22,
+      "Run_Rate": 22.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 26.0,
       "Gap_Pct": -91.0,
@@ -4192,7 +4192,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Music Recording",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 71.0,
@@ -4227,7 +4227,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Probability",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 21.0,
@@ -4262,7 +4262,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Linguistics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 29.0,
@@ -4299,7 +4299,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Structural Engineering",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 129.0,
@@ -4334,7 +4334,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Rhino",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 43.0,
@@ -4369,7 +4369,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Level American History",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 43.0,
@@ -4404,7 +4404,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Clinical Psychology",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": 14.0,
@@ -4439,7 +4439,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Conversational Spanish",
-      "Run_Rate": 14,
+      "Run_Rate": 14.0,
       "Smoothed_Target": 10.0,
       "Max_Capacity": 17.0,
       "Gap_Pct": -30.0,
@@ -4476,7 +4476,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "NCLEX",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -98.0,
@@ -4513,7 +4513,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Japanese",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 171.0,
@@ -4548,7 +4548,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Orton Gillingham",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -95.0,
@@ -4583,7 +4583,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Middle School Writing",
-      "Run_Rate": 99,
+      "Run_Rate": 99.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 119.0,
       "Gap_Pct": -100.0,
@@ -4620,7 +4620,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Physics",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -55.0,
@@ -4657,7 +4657,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Algebra",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -57.0,
@@ -4694,7 +4694,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PSAT",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -86.0,
@@ -4731,7 +4731,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Financial Accounting",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -54.0,
@@ -4768,7 +4768,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Mandarin Chinese 1",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -4803,7 +4803,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Drawing",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -93.0,
@@ -4838,7 +4838,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "SAT Writing and Language",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -88.0,
@@ -4875,7 +4875,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "French 1",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": -89.0,
@@ -4910,7 +4910,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ARRT - Radiography",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -4945,7 +4945,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "NCLEX-RN",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -4980,7 +4980,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Conversational German",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 200.0,
@@ -5015,7 +5015,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "NPTE",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -5050,7 +5050,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Java",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": -87.0,
@@ -5087,7 +5087,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Basic Computer Literacy",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -79.0,
@@ -5124,7 +5124,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Organic Chemistry 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -43.0,
@@ -5161,7 +5161,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Computer Programming",
-      "Run_Rate": 13,
+      "Run_Rate": 13.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 16.0,
       "Gap_Pct": -92.0,
@@ -5196,7 +5196,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Creative Writing",
-      "Run_Rate": 72,
+      "Run_Rate": 72.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 86.0,
       "Gap_Pct": -99.0,
@@ -5231,7 +5231,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Computer Science",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -74.0,
@@ -5268,7 +5268,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Electrical Engineering",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -5305,7 +5305,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Portuguese",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 29.0,
@@ -5340,7 +5340,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "General Chemistry 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -36.0,
@@ -5377,7 +5377,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Differential Equations",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -48.0,
@@ -5414,7 +5414,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Spanish 4",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -86.0,
@@ -5449,7 +5449,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "OTR",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -5484,7 +5484,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Level American History",
-      "Run_Rate": 10,
+      "Run_Rate": 10.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 12.0,
       "Gap_Pct": -90.0,
@@ -5519,7 +5519,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "American Sign Language",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -5556,7 +5556,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Grade 11 Physics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -5591,7 +5591,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Latin 1",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": -14.0,
@@ -5626,7 +5626,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "CPA FAR",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -5661,7 +5661,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ACT Reading",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -66.0,
@@ -5698,7 +5698,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Math 3",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -5735,7 +5735,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "CogAT",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 57.0,
@@ -5772,7 +5772,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Middle School Social Studies",
-      "Run_Rate": 35,
+      "Run_Rate": 35.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 42.0,
       "Gap_Pct": -100.0,
@@ -5807,7 +5807,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ACT English",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -14.0,
@@ -5844,7 +5844,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "VTNE",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -5879,7 +5879,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "French Immersion",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -5914,7 +5914,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Guitar",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -5951,7 +5951,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Psychology",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": -89.0,
@@ -5986,7 +5986,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "NCLEX-PN",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6021,7 +6021,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Earth Science",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -93.0,
@@ -6056,7 +6056,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Mandarin Chinese 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -6091,7 +6091,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Microbiology",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -6126,7 +6126,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Chemistry 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -14.0,
@@ -6161,7 +6161,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Functions",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6196,7 +6196,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "CFA - Level 1",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6231,7 +6231,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "CompTIA Security+",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6266,7 +6266,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Thermodynamics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -6303,7 +6303,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Music Theory",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -88.0,
@@ -6338,7 +6338,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Business Statistics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -6375,7 +6375,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Physical Chemistry",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 57.0,
@@ -6412,7 +6412,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Math 1",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -64.0,
@@ -6449,7 +6449,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Elementary Social Studies",
-      "Run_Rate": 42,
+      "Run_Rate": 42.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 50.0,
       "Gap_Pct": -98.0,
@@ -6486,7 +6486,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Statistics Graduate Level",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -14.0,
@@ -6523,7 +6523,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "COMLEX",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6558,7 +6558,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Physics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6595,7 +6595,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP European History",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -29.0,
@@ -6632,7 +6632,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Physics 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -6669,7 +6669,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Genetics",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -6706,7 +6706,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "SSAT- Upper Level",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -83.0,
@@ -6743,7 +6743,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "German 1",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6778,7 +6778,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ISEE- Middle Level",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -6813,7 +6813,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PANCE",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6848,7 +6848,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Environmental Science",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -6883,7 +6883,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Polish",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6918,7 +6918,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PMP",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6953,7 +6953,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ARDMS - Sonography Principals and Instruments (SPI)",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -6988,7 +6988,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Data Analysis",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -7025,7 +7025,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Computer Game Design",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7060,7 +7060,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Discrete Math",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -7097,7 +7097,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Physical Science",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -29.0,
@@ -7134,7 +7134,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Data Structures",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -7169,7 +7169,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Marketing",
-      "Run_Rate": 11,
+      "Run_Rate": 11.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 13.0,
       "Gap_Pct": -91.0,
@@ -7204,7 +7204,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Latin 2",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -43.0,
@@ -7239,7 +7239,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Pathophysiology",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -86.0,
@@ -7276,7 +7276,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Cell Biology",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -86.0,
@@ -7311,7 +7311,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Grade 12 Physics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7346,7 +7346,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "GED Math",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -89.0,
@@ -7381,7 +7381,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PRAXIS Core Math",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7416,7 +7416,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Ukrainian",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 71.0,
@@ -7451,7 +7451,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Autodesk Revit",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7486,7 +7486,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Computer Science",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -86.0,
@@ -7523,7 +7523,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ISEE- Upper Level",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -7558,7 +7558,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Social Work",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -7595,7 +7595,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Business",
-      "Run_Rate": 10,
+      "Run_Rate": 10.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 12.0,
       "Gap_Pct": -90.0,
@@ -7630,7 +7630,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Machine Learning",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -7667,7 +7667,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Physics C: Electricity and Magnetism",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7702,7 +7702,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Philosophy",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -7737,7 +7737,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Singing",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7772,7 +7772,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "GRE Quantitative",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7807,7 +7807,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "CPA REG",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7842,7 +7842,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Video Game Design",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 57.0,
@@ -7877,7 +7877,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Economics",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -67.0,
@@ -7912,7 +7912,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "SQL",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -83.0,
@@ -7947,7 +7947,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "MAP",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -7982,7 +7982,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Graphic Design",
-      "Run_Rate": 11,
+      "Run_Rate": 11.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 13.0,
       "Gap_Pct": -91.0,
@@ -8019,7 +8019,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Contract Law",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8054,7 +8054,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Animation",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8089,7 +8089,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Autodesk Fusion 360",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 43.0,
@@ -8126,7 +8126,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Finite Mathematics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8161,7 +8161,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB French",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8196,7 +8196,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Data Science",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -88.0,
@@ -8233,7 +8233,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Project Management/PMP",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8268,7 +8268,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Microsoft Word",
-      "Run_Rate": 9,
+      "Run_Rate": 9.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 11.0,
       "Gap_Pct": -84.0,
@@ -8303,7 +8303,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Sociology",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -8338,7 +8338,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Neuroscience",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -86.0,
@@ -8373,7 +8373,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Algorithms",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8408,7 +8408,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Civil Engineering",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -8445,7 +8445,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Voice",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8480,7 +8480,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "R Programming",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8515,7 +8515,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Public Health",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8550,7 +8550,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Algebra Regents",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -8585,7 +8585,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Biostatistics",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -8620,7 +8620,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Web Development",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -8655,7 +8655,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Logic",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8690,7 +8690,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Web Design",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -8725,7 +8725,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Molecular Biology",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8760,7 +8760,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Personal Finance",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -8795,7 +8795,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Chemical Engineering",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8830,7 +8830,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Photoshop",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -8867,7 +8867,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Fluid Mechanics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8904,7 +8904,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Minecraft",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8939,7 +8939,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Econometrics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -8974,7 +8974,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "PSAT Mathematics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9009,7 +9009,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ANCC - Family Nurse Practitioner Certification (FNP)",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9044,7 +9044,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Enrichment",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9079,7 +9079,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "MCAT Chemical and Physical Foundations of Biological Systems",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9114,7 +9114,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "HTML",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -9149,7 +9149,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Roblox",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9184,7 +9184,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Legal Writing",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9219,7 +9219,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Political Science",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -9254,7 +9254,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ACT Science",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -9291,7 +9291,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Research",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -9326,7 +9326,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Microsoft Power BI",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9363,7 +9363,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "LSAT Logical Reasoning",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9398,7 +9398,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Aerospace Engineering",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9433,7 +9433,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Astronomy",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9468,7 +9468,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "MATLAB",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9503,7 +9503,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Photography",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9540,7 +9540,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Hebrew",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9575,7 +9575,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Inorganic Chemistry",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 14.0,
@@ -9612,7 +9612,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Architecture",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9649,7 +9649,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Civil Procedure",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9684,7 +9684,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Painting",
-      "Run_Rate": 6,
+      "Run_Rate": 6.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 7.0,
       "Gap_Pct": -83.0,
@@ -9719,7 +9719,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Managerial Economics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9754,7 +9754,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "German 2",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9789,7 +9789,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Linux",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9824,7 +9824,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Expository Writing",
-      "Run_Rate": 20,
+      "Run_Rate": 20.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 24.0,
       "Gap_Pct": -95.0,
@@ -9859,7 +9859,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Information Technology",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -9894,7 +9894,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Software",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 114.0,
@@ -9929,7 +9929,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ISEE- Primary",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -9964,7 +9964,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "GMAT Quantitative Reasoning",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -9999,7 +9999,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Tableau",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -10034,7 +10034,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Medical Terminology",
-      "Run_Rate": 14,
+      "Run_Rate": 14.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 17.0,
       "Gap_Pct": -93.0,
@@ -10069,7 +10069,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Biomedical Engineering",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10104,7 +10104,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Series 10",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10139,7 +10139,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Analytical Chemistry",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10174,7 +10174,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Heat Transfer",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10209,7 +10209,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Latin 4",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 100.0,
@@ -10246,7 +10246,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Geography",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -10281,7 +10281,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Police Officer Exam",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10316,7 +10316,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Series 24",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10351,7 +10351,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Government",
-      "Run_Rate": 19,
+      "Run_Rate": 19.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 23.0,
       "Gap_Pct": -95.0,
@@ -10388,7 +10388,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Materials Science",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10423,7 +10423,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Criminal Law",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10458,7 +10458,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Seminar",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10493,7 +10493,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Biomechanics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10528,7 +10528,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Quantum Physics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10563,7 +10563,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Kinesiology",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -10598,7 +10598,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "International Business",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10633,7 +10633,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Nutrition",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -10668,7 +10668,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Data Management",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10703,7 +10703,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Agricultural Science",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -36.0,
@@ -10740,7 +10740,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Real Analysis",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10775,7 +10775,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Operating Systems",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10810,7 +10810,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Ethics",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -10845,7 +10845,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Discrete Structures",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10880,7 +10880,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Autodesk Maya",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10915,7 +10915,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Supply Chain Management",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -10950,7 +10950,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Business & Management",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -67.0,
@@ -10987,7 +10987,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "European History",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11022,7 +11022,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Immunology",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11057,7 +11057,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Computer Architecture",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11092,7 +11092,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Sketchup",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11129,7 +11129,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Level American Literature",
-      "Run_Rate": 5,
+      "Run_Rate": 5.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 6.0,
       "Gap_Pct": -80.0,
@@ -11164,7 +11164,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Relational Databases",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -11199,7 +11199,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Extended Essay",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11234,7 +11234,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "CISSP",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11269,7 +11269,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Theology",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11304,7 +11304,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "C",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11339,7 +11339,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "AP Art History",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -11374,7 +11374,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Quantitative Methods",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11409,7 +11409,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Cooking",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11444,7 +11444,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Trumpet",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11479,7 +11479,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Audio Engineering",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11514,7 +11514,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Cardiology",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11549,7 +11549,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Numerical Analysis",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11584,7 +11584,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Accounting",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -75.0,
@@ -11619,7 +11619,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Evolutionary Biology",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11654,7 +11654,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Fiction Writing",
-      "Run_Rate": 15,
+      "Run_Rate": 15.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 18.0,
       "Gap_Pct": -93.0,
@@ -11689,7 +11689,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Geography",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -11724,7 +11724,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "TEFL",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11759,7 +11759,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Economics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11794,7 +11794,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "LSAT Argumentative Writing",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -50.0,
@@ -11829,7 +11829,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "IB Global Politics",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11864,7 +11864,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Turkish",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -11899,7 +11899,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "ACT",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 3.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -61.0,
@@ -11936,7 +11936,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School English",
-      "Run_Rate": 99,
+      "Run_Rate": 99.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 119.0,
       "Gap_Pct": -99.0,
@@ -11973,7 +11973,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Calculus 1",
-      "Run_Rate": 21,
+      "Run_Rate": 21.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 25.0,
       "Gap_Pct": -98.0,
@@ -12010,7 +12010,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Conversational French",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 2.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -19.0,
@@ -12047,7 +12047,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Korean",
-      "Run_Rate": 2,
+      "Run_Rate": 2.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 2.0,
       "Gap_Pct": -71.0,
@@ -12084,7 +12084,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Pre-Algebra",
-      "Run_Rate": 42,
+      "Run_Rate": 42.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 50.0,
       "Gap_Pct": -97.0,
@@ -12121,7 +12121,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Conversational Italian",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": -86.0,
@@ -12156,7 +12156,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Phonics",
-      "Run_Rate": 71,
+      "Run_Rate": 71.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 85.0,
       "Gap_Pct": -99.0,
@@ -12193,7 +12193,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "GRE",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": -71.0,
@@ -12230,7 +12230,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Statistics",
-      "Run_Rate": 3,
+      "Run_Rate": 3.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 4.0,
       "Gap_Pct": -76.0,
@@ -12267,7 +12267,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "TEAS",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": -71.0,
@@ -12304,7 +12304,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Writing",
-      "Run_Rate": 94,
+      "Run_Rate": 94.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 113.0,
       "Gap_Pct": -100.0,
@@ -12339,7 +12339,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Grade 10 Math",
-      "Run_Rate": 8,
+      "Run_Rate": 8.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 10.0,
       "Gap_Pct": -93.0,
@@ -12376,7 +12376,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "College Math",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -89.0,
@@ -12413,7 +12413,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "GMAT",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 43.0,
@@ -12450,7 +12450,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "High School Science",
-      "Run_Rate": 20,
+      "Run_Rate": 20.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 24.0,
       "Gap_Pct": -98.0,
@@ -12487,7 +12487,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "SHSAT",
-      "Run_Rate": 4,
+      "Run_Rate": 4.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 5.0,
       "Gap_Pct": -96.0,
@@ -12524,7 +12524,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "GED",
-      "Run_Rate": 7,
+      "Run_Rate": 7.0,
       "Smoothed_Target": 0.0,
       "Max_Capacity": 8.0,
       "Gap_Pct": -98.0,
@@ -12561,7 +12561,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "Business Calculus",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": -14.0,
@@ -12598,7 +12598,7 @@ window.__dashboardData = {
     },
     {
       "Subject": "DAT",
-      "Run_Rate": 1,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
       "Gap_Pct": 0.0,
@@ -12635,13 +12635,13 @@ window.__dashboardData = {
     },
     {
       "Subject": "HESI - Health Education Systems Incorporated",
-      "Run_Rate": 0,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
-      "Max_Capacity": 0.0,
-      "Gap_Pct": 0.0,
-      "Raw_Gap": -1.0,
-      "Coverage_Pct": 0,
-      "Needs_External_Levers": true,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -86.0,
+      "Raw_Gap": 6.0,
+      "Coverage_Pct": 700,
+      "Needs_External_Levers": false,
       "BTS_Total": 1.0,
       "Is_Adjusted": true,
       "Adjusted_Months": [
@@ -12667,18 +12667,18 @@ window.__dashboardData = {
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
-      "Problem_Type": "Supply Problem (No Util Data)",
+      "Problem_Type": "On Track",
       "Category": "Other"
     },
     {
       "Subject": "IBEW - International Brotherhood of Electrical Workers",
-      "Run_Rate": 0,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
-      "Max_Capacity": 0.0,
-      "Gap_Pct": 0.0,
-      "Raw_Gap": -1.0,
-      "Coverage_Pct": 0,
-      "Needs_External_Levers": true,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -86.0,
+      "Raw_Gap": 6.0,
+      "Coverage_Pct": 700,
+      "Needs_External_Levers": false,
       "BTS_Total": 1.0,
       "Is_Adjusted": true,
       "Adjusted_Months": [
@@ -12704,18 +12704,18 @@ window.__dashboardData = {
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
-      "Problem_Type": "Supply Problem (No Util Data)",
+      "Problem_Type": "On Track",
       "Category": "Other"
     },
     {
       "Subject": "NCLEX-Registed Nurse",
-      "Run_Rate": 0,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 0.0,
-      "Max_Capacity": 0.0,
-      "Gap_Pct": 0.0,
-      "Raw_Gap": -1.0,
-      "Coverage_Pct": 0,
-      "Needs_External_Levers": true,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -86.0,
+      "Raw_Gap": 6.0,
+      "Coverage_Pct": 700,
+      "Needs_External_Levers": false,
       "BTS_Total": 1.0,
       "Is_Adjusted": true,
       "Adjusted_Months": [
@@ -12741,18 +12741,18 @@ window.__dashboardData = {
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
-      "Problem_Type": "Supply Problem (No Util Data)",
+      "Problem_Type": "On Track",
       "Category": "Professional/Cert"
     },
     {
       "Subject": "Orton Gillingham Reading",
-      "Run_Rate": 0,
+      "Run_Rate": 1.0,
       "Smoothed_Target": 1.0,
-      "Max_Capacity": 0.0,
-      "Gap_Pct": 0.0,
-      "Raw_Gap": -5.0,
-      "Coverage_Pct": 0,
-      "Needs_External_Levers": true,
+      "Max_Capacity": 1.0,
+      "Gap_Pct": -29.0,
+      "Raw_Gap": 2.0,
+      "Coverage_Pct": 140,
+      "Needs_External_Levers": false,
       "BTS_Total": 5.0,
       "Is_Adjusted": true,
       "Adjusted_Months": [
@@ -12767,7 +12767,7 @@ window.__dashboardData = {
       "Sep_Original": 0.0,
       "Oct_Original": 0.0,
       "Apr_Smoothed": 5.0,
-      "May_Smoothed": 0.0,
+      "May_Smoothed": 1.0,
       "Jun_Smoothed": 0.0,
       "Jul_Smoothed": 0.0,
       "Aug_Smoothed": 0.0,
@@ -12778,7 +12778,7 @@ window.__dashboardData = {
       "Total_Contracted": null,
       "Utilized_30d": null,
       "Util_Rate": null,
-      "Problem_Type": "Supply Problem (No Util Data)",
+      "Problem_Type": "On Track",
       "Category": "Other"
     }
   ],
@@ -43673,13 +43673,13 @@ window.__dashboardData = {
     },
     {
       "subject": "HESI - Health Education Systems Incorporated",
-      "run_rate": 0.0,
+      "run_rate": 1.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
       "actual_to_date": 0,
       "remaining_need": 1.0,
       "months_completed": 0,
-      "problem_type": "Supply Problem (No Util Data)",
+      "problem_type": "On Track",
       "category": "Other",
       "march_baseline": {
         "actual": null,
@@ -43761,13 +43761,13 @@ window.__dashboardData = {
     },
     {
       "subject": "IBEW - International Brotherhood of Electrical Workers",
-      "run_rate": 0.0,
+      "run_rate": 1.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
       "actual_to_date": 0,
       "remaining_need": 1.0,
       "months_completed": 0,
-      "problem_type": "Supply Problem (No Util Data)",
+      "problem_type": "On Track",
       "category": "Other",
       "march_baseline": {
         "actual": null,
@@ -43849,13 +43849,13 @@ window.__dashboardData = {
     },
     {
       "subject": "NCLEX-Registed Nurse",
-      "run_rate": 0.0,
+      "run_rate": 1.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
       "actual_to_date": 0,
       "remaining_need": 1.0,
       "months_completed": 0,
-      "problem_type": "Supply Problem (No Util Data)",
+      "problem_type": "On Track",
       "category": "Professional/Cert",
       "march_baseline": {
         "actual": null,
@@ -43937,13 +43937,13 @@ window.__dashboardData = {
     },
     {
       "subject": "Orton Gillingham Reading",
-      "run_rate": 0.0,
+      "run_rate": 1.0,
       "bts_total": 5.0,
       "smoothed_target": 1.0,
       "actual_to_date": 0,
       "remaining_need": 5.0,
       "months_completed": 0,
-      "problem_type": "Supply Problem (No Util Data)",
+      "problem_type": "On Track",
       "category": "Other",
       "march_baseline": {
         "actual": null,
@@ -43965,7 +43965,7 @@ window.__dashboardData = {
           "month": "2026-05",
           "label": "May",
           "original_forecast": 0.0,
-          "smoothed_target": 0.0,
+          "smoothed_target": 1.0,
           "actual": null,
           "status": null,
           "adjusted_target": 0.7,
