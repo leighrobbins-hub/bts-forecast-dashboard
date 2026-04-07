@@ -2589,6 +2589,54 @@ ELSE:
             });
         }
 
+        /** Parse one CSV line (handles "quoted,fields" with commas inside). */
+        function parseCsvLine(line) {
+            var out = [];
+            var field = '';
+            var i = 0;
+            var inQ = false;
+            while (i < line.length) {
+                var c = line[i];
+                if (inQ) {
+                    if (c === '"') {
+                        if (line[i + 1] === '"') {
+                            field += '"';
+                            i += 2;
+                            continue;
+                        }
+                        inQ = false;
+                        i++;
+                        continue;
+                    }
+                    field += c;
+                    i++;
+                } else {
+                    if (c === '"') {
+                        inQ = true;
+                        i++;
+                        continue;
+                    }
+                    if (c === ',') {
+                        out.push(field.trim());
+                        field = '';
+                        i++;
+                        continue;
+                    }
+                    field += c;
+                    i++;
+                }
+            }
+            out.push(field.trim());
+            return out;
+        }
+
+        function csvEscapeField(s) {
+            if (s === null || s === undefined) return '';
+            s = String(s);
+            if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+            return s;
+        }
+
         /* ── Upload: Actuals ── */
         document.getElementById('actuals-file').addEventListener('change', function(e) {
             var file = e.target.files[0];
@@ -2599,7 +2647,7 @@ ELSE:
                 var lines = text.trim().split('\n');
                 if (lines.length < 2) { showStatus('actuals-status', 'File appears empty', 'error'); return; }
 
-                var header = lines[0].split(',').map(function(h) { return h.trim().replace(/"/g, ''); });
+                var header = parseCsvLine(lines[0]).map(function(h) { return h.replace(/^"|"$/g, '').trim(); });
                 var subjectIdx = header.indexOf('Subject');
                 var actualIdx = header.indexOf('Actual_Contracted');
                 if (subjectIdx === -1 || actualIdx === -1) {
@@ -2610,14 +2658,14 @@ ELSE:
                 var rows = [];
                 var csvLines = ['Subject,Actual_Contracted'];
                 for (var i = 1; i < lines.length; i++) {
-                    var cols = lines[i].split(',').map(function(c) { return c.trim().replace(/"/g, ''); });
+                    var cols = parseCsvLine(lines[i]);
                     if (cols.length > Math.max(subjectIdx, actualIdx)) {
                         var subj = cols[subjectIdx];
-                        var val = parseInt(cols[actualIdx]);
+                        var val = parseInt(cols[actualIdx], 10);
                         if (subj && !isNaN(val)) {
                             var known = allData.some(function(d) { return d.Subject === subj; });
                             rows.push({ subject: subj, actual: val, known: known });
-                            csvLines.push(subj + ',' + val);
+                            csvLines.push(csvEscapeField(subj) + ',' + val);
                         }
                     }
                 }
@@ -2674,7 +2722,7 @@ ELSE:
                 var text = ev.target.result;
                 var lines = text.trim().split('\n');
                 if (lines.length < 2) { showStatus('adjustments-status', 'File appears empty', 'error'); return; }
-                var header = lines[0].split(',').map(function(h) { return h.trim().replace(/"/g, ''); });
+                var header = parseCsvLine(lines[0]).map(function(h) { return h.replace(/^"|"$/g, '').trim(); });
                 var nameIdx = header.indexOf('Subject Name');
                 if (nameIdx === -1) nameIdx = header.indexOf('subject_name');
                 var fcstIdx = header.indexOf('Final Forecast');
@@ -2689,22 +2737,21 @@ ELSE:
                 var rows = [];
                 var anyGoal = false;
                 for (var i = 1; i < lines.length; i++) {
-                    var cols = lines[i].split(',').map(function(c) { return c.trim().replace(/"/g, ''); });
-                    var maxIdx = Math.max(nameIdx, fcstIdx >= 0 ? fcstIdx : 0, goalIdx >= 0 ? goalIdx : 0);
-                    if (cols.length > maxIdx) {
-                        var subj = cols[nameIdx];
-                        var val = fcstIdx >= 0 ? parseFloat(cols[fcstIdx]) : NaN;
-                        var gval = goalIdx >= 0 ? parseFloat(cols[goalIdx]) : NaN;
-                        if (subj && (!isNaN(val) || !isNaN(gval))) {
-                            if (!isNaN(gval)) anyGoal = true;
-                            var known = allData.some(function(d) { return d.Subject === subj; });
-                            rows.push({
-                                subject: subj,
-                                forecast: isNaN(val) ? null : val,
-                                goal: isNaN(gval) ? null : gval,
-                                known: known
-                            });
-                        }
+                    var cols = parseCsvLine(lines[i]);
+                    // Require Subject Name only; Final Forecast / Goal may be omitted (short rows) when optional.
+                    if (cols.length <= nameIdx) continue;
+                    var subj = cols[nameIdx];
+                    var val = (fcstIdx >= 0 && cols.length > fcstIdx) ? parseFloat(cols[fcstIdx]) : NaN;
+                    var gval = (goalIdx >= 0 && cols.length > goalIdx) ? parseFloat(cols[goalIdx]) : NaN;
+                    if (subj && (!isNaN(val) || !isNaN(gval))) {
+                        if (!isNaN(gval)) anyGoal = true;
+                        var known = allData.some(function(d) { return d.Subject === subj; });
+                        rows.push({
+                            subject: subj,
+                            forecast: isNaN(val) ? null : val,
+                            goal: isNaN(gval) ? null : gval,
+                            known: known
+                        });
                     }
                 }
                 var useGoalCol = goalIdx >= 0 || anyGoal;
@@ -2712,7 +2759,11 @@ ELSE:
                 rows.forEach(function(r) {
                     var fc = r.forecast != null ? String(r.forecast) : '';
                     var gl = r.goal != null ? String(r.goal) : '';
-                    csvLines.push(useGoalCol ? (r.subject + ',' + fc + ',' + gl) : (r.subject + ',' + fc));
+                    if (useGoalCol) {
+                        csvLines.push(csvEscapeField(r.subject) + ',' + csvEscapeField(fc) + ',' + csvEscapeField(gl));
+                    } else {
+                        csvLines.push(csvEscapeField(r.subject) + ',' + csvEscapeField(fc));
+                    }
                 });
                 pendingAdjustmentsCSV = csvLines.join('\n');
                 var preview = document.getElementById('adjustments-preview');
