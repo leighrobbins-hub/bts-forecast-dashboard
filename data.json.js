@@ -1,13 +1,13 @@
 window.__dashboardData = {
   "summary": {
-    "total_subjects": 351,
+    "total_subjects": 355,
     "utilization_problems": 24,
-    "supply_problems": 28,
+    "supply_problems": 32,
     "on_track": 299,
-    "last_updated": "2026-04-06 02:22 AM CST",
-    "portfolio_bts_total": 7101.0,
+    "last_updated": "2026-04-07 08:38 AM CST",
+    "portfolio_bts_total": 7104.0,
     "portfolio_actual_to_date": 0,
-    "portfolio_remaining": 7101.0,
+    "portfolio_remaining": 7104.0,
     "months_completed": 0,
     "months_remaining": 7,
     "march_baseline": {
@@ -3914,10 +3914,8 @@ window.__dashboardData = {
       "Coverage_Pct": 200,
       "Needs_External_Levers": false,
       "BTS_Total": 14.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 14.0,
       "Apr_Original": 2.0,
       "May_Original": 2.0,
@@ -4414,10 +4412,8 @@ window.__dashboardData = {
       "Coverage_Pct": 88,
       "Needs_External_Levers": false,
       "BTS_Total": 16.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 16.0,
       "Apr_Original": 2.0,
       "May_Original": 2.0,
@@ -4553,17 +4549,15 @@ window.__dashboardData = {
     {
       "Subject": "Orton Gillingham",
       "Run_Rate": 3,
-      "Smoothed_Target": 1.0,
+      "Smoothed_Target": 0.0,
       "Max_Capacity": 4.0,
-      "Gap_Pct": -76.0,
-      "Raw_Gap": 16.0,
-      "Coverage_Pct": 420,
+      "Gap_Pct": -95.0,
+      "Raw_Gap": 20.0,
+      "Coverage_Pct": 2100,
       "Needs_External_Levers": false,
-      "BTS_Total": 5.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "BTS_Total": 1.0,
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 1.0,
       "Apr_Original": 1.0,
       "May_Original": 0.0,
@@ -4572,8 +4566,8 @@ window.__dashboardData = {
       "Aug_Original": 0.0,
       "Sep_Original": 0.0,
       "Oct_Original": 0.0,
-      "Apr_Smoothed": 5.0,
-      "May_Smoothed": 2.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
       "Jun_Smoothed": 0.0,
       "Jul_Smoothed": 0.0,
       "Aug_Smoothed": 0.0,
@@ -4959,10 +4953,8 @@ window.__dashboardData = {
       "Coverage_Pct": 400,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -6759,10 +6751,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -6866,10 +6856,8 @@ window.__dashboardData = {
       "Coverage_Pct": 400,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -6903,10 +6891,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -7473,10 +7459,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -7691,10 +7675,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -7973,10 +7955,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8082,10 +8062,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8333,10 +8311,8 @@ window.__dashboardData = {
       "Coverage_Pct": 300,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8405,10 +8381,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8479,10 +8453,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8551,10 +8523,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8693,10 +8663,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8835,10 +8803,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -8981,10 +8947,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -9018,10 +8982,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -9195,10 +9157,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -9446,10 +9406,8 @@ window.__dashboardData = {
       "Coverage_Pct": 200,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -9590,10 +9548,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -9911,10 +9867,8 @@ window.__dashboardData = {
       "Coverage_Pct": 300,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -10193,10 +10147,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -10444,10 +10396,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -10551,10 +10501,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -10693,10 +10641,8 @@ window.__dashboardData = {
       "Coverage_Pct": 200,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -10907,10 +10853,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11051,10 +10995,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11123,10 +11065,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11267,10 +11207,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11444,10 +11382,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11586,10 +11522,8 @@ window.__dashboardData = {
       "Coverage_Pct": 100,
       "Needs_External_Levers": false,
       "BTS_Total": 7.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11933,15 +11867,13 @@ window.__dashboardData = {
       "Run_Rate": 1,
       "Smoothed_Target": 1.0,
       "Max_Capacity": 1.0,
-      "Gap_Pct": 14.0,
-      "Raw_Gap": -1.0,
-      "Coverage_Pct": 88,
+      "Gap_Pct": 0.0,
+      "Raw_Gap": 0.0,
+      "Coverage_Pct": 100,
       "Needs_External_Levers": false,
-      "BTS_Total": 8.0,
-      "Is_Adjusted": true,
-      "Adjusted_Months": [
-        "Apr"
-      ],
+      "BTS_Total": 7.0,
+      "Is_Adjusted": false,
+      "Adjusted_Months": null,
       "Original_Model_Total": 7.0,
       "Apr_Original": 1.0,
       "May_Original": 1.0,
@@ -11950,7 +11882,7 @@ window.__dashboardData = {
       "Aug_Original": 1.0,
       "Sep_Original": 1.0,
       "Oct_Original": 1.0,
-      "Apr_Smoothed": 2.0,
+      "Apr_Smoothed": 1.0,
       "May_Smoothed": 1.0,
       "Jun_Smoothed": 1.0,
       "Jul_Smoothed": 1.0,
@@ -12700,6 +12632,154 @@ window.__dashboardData = {
       "Util_Rate": 100.0,
       "Problem_Type": "On Track",
       "Category": "Test Prep"
+    },
+    {
+      "Subject": "HESI - Health Education Systems Incorporated",
+      "Run_Rate": 0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 0.0,
+      "Gap_Pct": 0.0,
+      "Raw_Gap": -1.0,
+      "Coverage_Pct": 0,
+      "Needs_External_Levers": true,
+      "BTS_Total": 1.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": null,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "Supply Problem (No Util Data)",
+      "Category": "Other"
+    },
+    {
+      "Subject": "IBEW - International Brotherhood of Electrical Workers",
+      "Run_Rate": 0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 0.0,
+      "Gap_Pct": 0.0,
+      "Raw_Gap": -1.0,
+      "Coverage_Pct": 0,
+      "Needs_External_Levers": true,
+      "BTS_Total": 1.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": null,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "Supply Problem (No Util Data)",
+      "Category": "Other"
+    },
+    {
+      "Subject": "NCLEX-Registed Nurse",
+      "Run_Rate": 0,
+      "Smoothed_Target": 0.0,
+      "Max_Capacity": 0.0,
+      "Gap_Pct": 0.0,
+      "Raw_Gap": -1.0,
+      "Coverage_Pct": 0,
+      "Needs_External_Levers": true,
+      "BTS_Total": 1.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 1.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": null,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "Supply Problem (No Util Data)",
+      "Category": "Professional/Cert"
+    },
+    {
+      "Subject": "Orton Gillingham Reading",
+      "Run_Rate": 0,
+      "Smoothed_Target": 1.0,
+      "Max_Capacity": 0.0,
+      "Gap_Pct": 0.0,
+      "Raw_Gap": -5.0,
+      "Coverage_Pct": 0,
+      "Needs_External_Levers": true,
+      "BTS_Total": 5.0,
+      "Is_Adjusted": true,
+      "Adjusted_Months": [
+        "Apr"
+      ],
+      "Original_Model_Total": 0.0,
+      "Apr_Original": 0.0,
+      "May_Original": 0.0,
+      "Jun_Original": 0.0,
+      "Jul_Original": 0.0,
+      "Aug_Original": 0.0,
+      "Sep_Original": 0.0,
+      "Oct_Original": 0.0,
+      "Apr_Smoothed": 5.0,
+      "May_Smoothed": 0.0,
+      "Jun_Smoothed": 0.0,
+      "Jul_Smoothed": 0.0,
+      "Aug_Smoothed": 0.0,
+      "Sep_Smoothed": 0.0,
+      "Oct_Smoothed": 0.0,
+      "Mar_Actual": null,
+      "Mar_Forecast": null,
+      "Total_Contracted": null,
+      "Utilized_30d": null,
+      "Util_Rate": null,
+      "Problem_Type": "Supply Problem (No Util Data)",
+      "Category": "Other"
     }
   ],
   "monthly_tracker": [
@@ -23618,10 +23698,10 @@ window.__dashboardData = {
     {
       "subject": "Orton Gillingham",
       "run_rate": 3.0,
-      "bts_total": 5.0,
-      "smoothed_target": 1.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
       "actual_to_date": 0,
-      "remaining_need": 5.0,
+      "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track",
       "category": "Other",
@@ -23635,20 +23715,20 @@ window.__dashboardData = {
           "month": "2026-04",
           "label": "Apr",
           "original_forecast": 1.0,
-          "smoothed_target": 5.0,
+          "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         },
         {
           "month": "2026-05",
           "label": "May",
           "original_forecast": 0.0,
-          "smoothed_target": 2.0,
+          "smoothed_target": 0.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         },
         {
@@ -23658,7 +23738,7 @@ window.__dashboardData = {
           "smoothed_target": 0.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         },
         {
@@ -23668,7 +23748,7 @@ window.__dashboardData = {
           "smoothed_target": 0.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         },
         {
@@ -23678,7 +23758,7 @@ window.__dashboardData = {
           "smoothed_target": 0.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         },
         {
@@ -23688,7 +23768,7 @@ window.__dashboardData = {
           "smoothed_target": 0.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         },
         {
@@ -23698,7 +23778,7 @@ window.__dashboardData = {
           "smoothed_target": 0.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 0.7,
+          "adjusted_target": 0.1,
           "variance": null
         }
       ]
@@ -41746,10 +41826,10 @@ window.__dashboardData = {
     {
       "subject": "Turkish",
       "run_rate": 1.0,
-      "bts_total": 8.0,
+      "bts_total": 7.0,
       "smoothed_target": 1.0,
       "actual_to_date": 0,
-      "remaining_need": 8.0,
+      "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
       "category": "Language",
@@ -41763,10 +41843,10 @@ window.__dashboardData = {
           "month": "2026-04",
           "label": "Apr",
           "original_forecast": 1.0,
-          "smoothed_target": 2.0,
+          "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         },
         {
@@ -41776,7 +41856,7 @@ window.__dashboardData = {
           "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         },
         {
@@ -41786,7 +41866,7 @@ window.__dashboardData = {
           "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         },
         {
@@ -41796,7 +41876,7 @@ window.__dashboardData = {
           "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         },
         {
@@ -41806,7 +41886,7 @@ window.__dashboardData = {
           "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         },
         {
@@ -41816,7 +41896,7 @@ window.__dashboardData = {
           "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         },
         {
@@ -41826,7 +41906,7 @@ window.__dashboardData = {
           "smoothed_target": 1.0,
           "actual": null,
           "status": null,
-          "adjusted_target": 1.1,
+          "adjusted_target": 1.0,
           "variance": null
         }
       ]
@@ -43587,6 +43667,358 @@ window.__dashboardData = {
           "actual": null,
           "status": null,
           "adjusted_target": 1.0,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "HESI - Health Education Systems Incorporated",
+      "run_rate": 0.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 1.0,
+      "months_completed": 0,
+      "problem_type": "Supply Problem (No Util Data)",
+      "category": "Other",
+      "march_baseline": {
+        "actual": null,
+        "forecast": null,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "IBEW - International Brotherhood of Electrical Workers",
+      "run_rate": 0.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 1.0,
+      "months_completed": 0,
+      "problem_type": "Supply Problem (No Util Data)",
+      "category": "Other",
+      "march_baseline": {
+        "actual": null,
+        "forecast": null,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "NCLEX-Registed Nurse",
+      "run_rate": 0.0,
+      "bts_total": 1.0,
+      "smoothed_target": 0.0,
+      "actual_to_date": 0,
+      "remaining_need": 1.0,
+      "months_completed": 0,
+      "problem_type": "Supply Problem (No Util Data)",
+      "category": "Professional/Cert",
+      "march_baseline": {
+        "actual": null,
+        "forecast": null,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 1.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.1,
+          "variance": null
+        }
+      ]
+    },
+    {
+      "subject": "Orton Gillingham Reading",
+      "run_rate": 0.0,
+      "bts_total": 5.0,
+      "smoothed_target": 1.0,
+      "actual_to_date": 0,
+      "remaining_need": 5.0,
+      "months_completed": 0,
+      "problem_type": "Supply Problem (No Util Data)",
+      "category": "Other",
+      "march_baseline": {
+        "actual": null,
+        "forecast": null,
+        "variance": null
+      },
+      "months": [
+        {
+          "month": "2026-04",
+          "label": "Apr",
+          "original_forecast": 0.0,
+          "smoothed_target": 5.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
+          "variance": null
+        },
+        {
+          "month": "2026-05",
+          "label": "May",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
+          "variance": null
+        },
+        {
+          "month": "2026-06",
+          "label": "Jun",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
+          "variance": null
+        },
+        {
+          "month": "2026-07",
+          "label": "Jul",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
+          "variance": null
+        },
+        {
+          "month": "2026-08",
+          "label": "Aug",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
+          "variance": null
+        },
+        {
+          "month": "2026-09",
+          "label": "Sep",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
+          "variance": null
+        },
+        {
+          "month": "2026-10",
+          "label": "Oct",
+          "original_forecast": 0.0,
+          "smoothed_target": 0.0,
+          "actual": null,
+          "status": null,
+          "adjusted_target": 0.7,
           "variance": null
         }
       ]
