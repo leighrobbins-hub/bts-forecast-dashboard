@@ -1155,6 +1155,7 @@
                         <option value="has-actuals">With Actuals</option>
                         <option value="behind">Behind Target</option>
                     </select>
+                    <p id="tracker-filter-hint" style="display:none; margin:6px 0 0; font-size:12px; color:#7f8c8d; max-width:420px;">"With Actuals" hides subjects that have no finalized or in-progress actuals yet (including many new adds until you upload actuals).</p>
                 </div>
                 <div class="filter-group">
                     <label>Category</label>
@@ -2340,6 +2341,8 @@ ELSE:
         function renderMonthlyTracker() {
             if (!trackerData.length) return;
             var filter = document.getElementById('tracker-filter').value;
+            var hintEl = document.getElementById('tracker-filter-hint');
+            if (hintEl) hintEl.style.display = filter === 'has-actuals' ? 'block' : 'none';
             var catFilter = document.getElementById('filter-category-tracker').value;
             var search = document.getElementById('tracker-search').value.toLowerCase();
 
