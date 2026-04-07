@@ -1324,7 +1324,7 @@
 
             <div class="upload-section">
                 <h3>Upload Manual Forecast Adjustments</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects <strong>for a specific month</strong>. Required columns: <code>Subject Name</code> and <code>Final Forecast</code>. Overrides apply only to the selected month and persist across new model uploads.</p>
+                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with manual overrides for specific subjects <strong>for a specific month</strong>. Required: <code>Subject Name</code> and <code>Final Forecast</code> and/or <code>Goal</code>. Both columns set the target for <strong>this upload month only</strong> (Final Forecast wins if both are filled). For a new subject not in the model, other months stay at zero until you upload a later month file. Overrides persist across new model uploads.</p>
 
                 <div class="upload-controls">
                     <div class="filter-group">
@@ -1349,7 +1349,7 @@
                     <div class="section-header">Preview Adjustments</div>
                     <div class="table-container" style="max-height:300px; overflow-y:auto;">
                         <table>
-                            <thead><tr><th>Subject</th><th>Final Forecast</th><th>Match</th></tr></thead>
+                            <thead><tr><th>Subject</th><th>Final Forecast</th><th>Goal</th><th>Status</th></tr></thead>
                             <tbody id="adjustments-preview-body"></tbody>
                         </table>
                     </div>
@@ -2679,37 +2679,56 @@ ELSE:
                 if (nameIdx === -1) nameIdx = header.indexOf('subject_name');
                 var fcstIdx = header.indexOf('Final Forecast');
                 if (fcstIdx === -1) fcstIdx = header.indexOf('final_forecast');
-                if (nameIdx === -1 || fcstIdx === -1) {
-                    showStatus('adjustments-status', 'CSV must have "Subject Name" and "Final Forecast" columns', 'error');
+                var goalIdx = header.indexOf('Goal');
+                if (goalIdx === -1) goalIdx = header.indexOf('BTS Goal');
+                if (goalIdx === -1) goalIdx = header.indexOf('Total Goal');
+                if (nameIdx === -1 || (fcstIdx === -1 && goalIdx === -1)) {
+                    showStatus('adjustments-status', 'CSV must have "Subject Name" and ("Final Forecast" and/or a Goal column)', 'error');
                     return;
                 }
                 var rows = [];
-                var csvLines = ['Subject Name,Final Forecast'];
+                var anyGoal = false;
                 for (var i = 1; i < lines.length; i++) {
                     var cols = lines[i].split(',').map(function(c) { return c.trim().replace(/"/g, ''); });
-                    if (cols.length > Math.max(nameIdx, fcstIdx)) {
+                    var maxIdx = Math.max(nameIdx, fcstIdx >= 0 ? fcstIdx : 0, goalIdx >= 0 ? goalIdx : 0);
+                    if (cols.length > maxIdx) {
                         var subj = cols[nameIdx];
-                        var val = parseFloat(cols[fcstIdx]);
-                        if (subj && !isNaN(val)) {
+                        var val = fcstIdx >= 0 ? parseFloat(cols[fcstIdx]) : NaN;
+                        var gval = goalIdx >= 0 ? parseFloat(cols[goalIdx]) : NaN;
+                        if (subj && (!isNaN(val) || !isNaN(gval))) {
+                            if (!isNaN(gval)) anyGoal = true;
                             var known = allData.some(function(d) { return d.Subject === subj; });
-                            rows.push({ subject: subj, forecast: val, known: known });
-                            csvLines.push(subj + ',' + val);
+                            rows.push({
+                                subject: subj,
+                                forecast: isNaN(val) ? null : val,
+                                goal: isNaN(gval) ? null : gval,
+                                known: known
+                            });
                         }
                     }
                 }
+                var useGoalCol = goalIdx >= 0 || anyGoal;
+                var csvLines = [useGoalCol ? 'Subject Name,Final Forecast,Goal' : 'Subject Name,Final Forecast'];
+                rows.forEach(function(r) {
+                    var fc = r.forecast != null ? String(r.forecast) : '';
+                    var gl = r.goal != null ? String(r.goal) : '';
+                    csvLines.push(useGoalCol ? (r.subject + ',' + fc + ',' + gl) : (r.subject + ',' + fc));
+                });
                 pendingAdjustmentsCSV = csvLines.join('\n');
                 var preview = document.getElementById('adjustments-preview');
                 var tbody = document.getElementById('adjustments-preview-body');
                 tbody.innerHTML = '';
                 rows.forEach(function(r) {
                     var tr = document.createElement('tr');
-                    tr.innerHTML = '<td>' + r.subject + '</td><td>' + r.forecast + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#e74c3c">Unknown</span>') + '</td>';
+                    var gcell = r.goal != null ? r.goal : '—';
+                    var fcell = r.forecast != null ? r.forecast : '—';
+                    tr.innerHTML = '<td>' + r.subject + '</td><td>' + fcell + '</td><td>' + gcell + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#3498db" title="Not in the current subject list; pipeline adds as a new subject">New</span>') + '</td>';
                     tbody.appendChild(tr);
                 });
                 preview.style.display = 'block';
                 document.getElementById('btn-publish-adjustments').disabled = false;
                 document.getElementById('btn-download-adjustments').disabled = false;
-                showStatus('adjustments-status', rows.length + ' adjustments parsed. Review preview, then commit or download.', 'info');
+                showStatus('adjustments-status', rows.length + ' row(s) parsed. Review preview, then commit or download.', 'info');
             };
             reader.readAsText(file);
         });

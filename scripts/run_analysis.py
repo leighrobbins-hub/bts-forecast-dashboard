@@ -26,6 +26,14 @@ BTS_MONTH_DATES = [
 ]
 
 
+def _find_goal_column(df):
+    for c in df.columns:
+        cl = str(c).strip().lower()
+        if cl in ('goal', 'bts goal', 'total goal', 'season goal', 'bts_total', 'season total'):
+            return c
+    return None
+
+
 def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
     """Load and parse all input data files"""
 
@@ -137,9 +145,14 @@ def load_actuals(actuals_dir):
 def load_manual_adjustments(adjustments_dir):
     """Load per-month manual forecast adjustment CSVs.
 
-    Each file is named by month key (e.g. 2026-04.csv) with columns
-    'Subject Name' and 'Final Forecast'.
-    Returns a dict: {month_key: {subject_name: forecast_value}}.
+    Each file is named by month key (e.g. 2026-04.csv). Values apply to that
+    month only. Use 'Final Forecast' for the override; optional 'Goal' (or
+    'BTS Goal', etc.) fills the same cell when Final Forecast is blank—e.g. a
+    new subject on the goal sheet gets April's number from the April upload
+    only; other months stay zero until a later month file sets them.
+
+    Returns:
+        adjustments: {month_key: {subject_name: value_for_that_month}}
     """
     adjustments = {}
     for filepath in sorted(glob.glob(os.path.join(adjustments_dir, '*.csv'))):
@@ -163,17 +176,28 @@ def load_manual_adjustments(adjustments_dir):
             if candidate in df.columns:
                 forecast_col = candidate
                 break
+        goal_col = _find_goal_column(df)
 
-        if name_col is None or forecast_col is None:
-            print(f"  Warning: {filename} missing required columns (need 'Subject Name' and 'Final Forecast')")
+        if name_col is None or (forecast_col is None and goal_col is None):
+            print(f"  Warning: {filename} missing required columns (need 'Subject Name' and 'Final Forecast' and/or a Goal column)")
             continue
 
         month_adj = {}
         for _, row in df.iterrows():
             subject = str(row[name_col]).strip()
-            val = pd.to_numeric(row[forecast_col], errors='coerce')
-            if pd.notna(val) and subject:
-                month_adj[subject] = float(val)
+            if not subject:
+                continue
+            month_val = None
+            if forecast_col is not None:
+                val = pd.to_numeric(row[forecast_col], errors='coerce')
+                if pd.notna(val):
+                    month_val = float(val)
+            if month_val is None and goal_col is not None:
+                gv = pd.to_numeric(row[goal_col], errors='coerce')
+                if pd.notna(gv):
+                    month_val = float(gv)
+            if month_val is not None:
+                month_adj[subject] = month_val
         adjustments[month_key] = month_adj
         print(f"  Loaded {len(month_adj)} adjustments for {month_key}")
 
@@ -192,18 +216,30 @@ def load_manual_adjustments(adjustments_dir):
                 if candidate in df.columns:
                     forecast_col = candidate
                     break
-            if name_col and forecast_col:
+            goal_col = _find_goal_column(df)
+            if name_col and (forecast_col or goal_col):
                 count = 0
                 for _, row in df.iterrows():
                     subject = str(row[name_col]).strip()
-                    val = pd.to_numeric(row[forecast_col], errors='coerce')
-                    if pd.notna(val) and subject:
-                        for mk in BTS_MONTH_KEYS:
-                            if mk not in adjustments:
-                                adjustments[mk] = {}
-                            if subject not in adjustments[mk]:
-                                adjustments[mk][subject] = val
-                                count += 1
+                    if not subject:
+                        continue
+                    month_val = None
+                    if forecast_col is not None:
+                        val = pd.to_numeric(row[forecast_col], errors='coerce')
+                        if pd.notna(val):
+                            month_val = float(val)
+                    if month_val is None and goal_col is not None:
+                        gv = pd.to_numeric(row[goal_col], errors='coerce')
+                        if pd.notna(gv):
+                            month_val = float(gv)
+                    if month_val is None:
+                        continue
+                    for mk in BTS_MONTH_KEYS:
+                        if mk not in adjustments:
+                            adjustments[mk] = {}
+                        if subject not in adjustments[mk]:
+                            adjustments[mk][subject] = month_val
+                            count += 1
                 if count > 0:
                     print(f"  Legacy manual_adjustments.csv: applied {count} overrides")
         except Exception:
@@ -353,7 +389,7 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         })
 
     # Add subjects that exist in manual adjustments but not in the forecast.
-    # These are subjects the team decided to add manually.
+    # Per-month files only set that month; other months stay zero until another file does.
     if manual_adjustments:
         adj_subjects = set()
         for mk in manual_adjustments:
@@ -375,6 +411,9 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             runrate_row = df_runrate[df_runrate['Subject'] == subject]
             run_rate = float(runrate_row['Run_Rate'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Run_Rate'].values[0]) else 0
             mar_actual = float(runrate_row['Mar_Actual'].values[0]) if len(runrate_row) > 0 and pd.notna(runrate_row['Mar_Actual'].values[0]) else None
+            # Subjects not yet in run_rates.csv need a baseline for gap / smoothing math.
+            if (run_rate == 0 or pd.isna(run_rate)) and total_demand > 0:
+                run_rate = max(1.0, round(total_demand / 7.0))
 
             monthly_targets = list(adjusted_forecasts)
             manual_floors = list(adjusted_forecasts)
@@ -842,13 +881,16 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
     summary['months_completed'] = months_with_data
     summary['months_remaining'] = len(BTS_MONTH_KEYS) - months_with_data
 
-    mar_total_actual = sum(ts['march_baseline']['actual'] or 0 for ts in tracker_subjects)
-    mar_total_forecast = sum(ts['march_baseline']['forecast'] or 0 for ts in tracker_subjects)
+    mar_matched = [ts for ts in tracker_subjects
+                    if ts['march_baseline']['actual'] is not None
+                    and ts['march_baseline']['forecast'] is not None]
+    mar_total_actual = sum(ts['march_baseline']['actual'] for ts in mar_matched)
+    mar_total_forecast = sum(ts['march_baseline']['forecast'] for ts in mar_matched)
     summary['march_baseline'] = {
         'total_actual': mar_total_actual,
         'total_forecast': mar_total_forecast,
         'variance': mar_total_actual - mar_total_forecast if mar_total_forecast else None,
-        'subjects_with_data': sum(1 for ts in tracker_subjects if ts['march_baseline']['actual'] is not None)
+        'subjects_with_data': len(mar_matched)
     }
 
     records = df_final.to_dict('records')
@@ -933,7 +975,7 @@ def main():
     print("Loading manual adjustments...")
     manual_adjustments = load_manual_adjustments(adjustments_dir)
     if manual_adjustments:
-        print(f"  {len(manual_adjustments)} subjects have manual overrides (applied before all calculations)")
+        print(f"  {len(manual_adjustments)} month file(s) with manual overrides (applied before all calculations)")
 
     print("Calculating smoothed forecasts (with manual adjustments applied)...")
     df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments, march_overrides)

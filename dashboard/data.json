@@ -12,8 +12,8 @@
     "months_remaining": 7,
     "march_baseline": {
       "total_actual": 581,
-      "total_forecast": 962,
-      "variance": -381,
+      "total_forecast": 430,
+      "variance": 151,
       "subjects_with_data": 126
     }
   },
