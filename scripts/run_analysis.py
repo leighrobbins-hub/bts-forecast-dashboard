@@ -1044,11 +1044,6 @@ def main():
     with open('dashboard/data.json', 'w') as f:
         json.dump(dashboard_data, f, indent=2)
 
-    with open('dashboard/data.json.js', 'w') as f:
-        f.write('window.__dashboardData = ')
-        json.dump(dashboard_data, f, indent=2)
-        f.write(';\n')
-
     summary = dashboard_data['summary']
     print(f"\nAnalysis complete!")
     print(f"  {summary['total_subjects']} subjects analyzed")
