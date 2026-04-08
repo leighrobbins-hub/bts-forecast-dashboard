@@ -923,6 +923,33 @@ def version_forecast(forecast_path, forecasts_dir):
     print(f"  Forecast versioned as {os.path.basename(dest)}")
 
 
+def validate_data(df_runrate, df_forecast, df_utilization):
+    """Validate loaded data for common issues."""
+    warnings = []
+
+    neg_rr = df_runrate[df_runrate['Run_Rate'] < 0]
+    if len(neg_rr) > 0:
+        warnings.append(f"  {len(neg_rr)} subjects have negative run rates")
+
+    if len(df_runrate) == 0:
+        warnings.append("  Run rates file produced zero subjects")
+
+    if len(df_forecast) == 0:
+        warnings.append("  Forecast file produced zero subjects")
+
+    if len(df_utilization) > 0:
+        out_of_range = df_utilization[
+            (df_utilization['Util_Rate'] < 0) | (df_utilization['Util_Rate'] > 100)
+        ]
+        if len(out_of_range) > 0:
+            warnings.append(f"  {len(out_of_range)} subjects have utilization outside 0-100%")
+
+    for w in warnings:
+        print(f"WARNING: {w}")
+
+    return warnings
+
+
 def main():
     print("Starting BTS Forecast Analysis...")
 
@@ -940,28 +967,41 @@ def main():
 
     march_finals_path = 'data/march_finals.csv'
 
-    print("Loading data...")
-    df_runrate, df_forecast, df_utilization = load_and_clean_data(
-        run_rate_path, forecast_path, utilization_path
-    )
+    for required in [run_rate_path, forecast_path, utilization_path]:
+        if not os.path.exists(required):
+            print(f"ERROR: Required file not found: {required}")
+            sys.exit(1)
 
+    try:
+        print("Loading data...")
+        df_runrate, df_forecast, df_utilization = load_and_clean_data(
+            run_rate_path, forecast_path, utilization_path
+        )
+    except Exception as e:
+        print(f"ERROR: Failed to load input data: {e}")
+        sys.exit(1)
+
+    validate_data(df_runrate, df_forecast, df_utilization)
+
+    march_overrides = None
     if os.path.exists(march_finals_path):
-        print("Loading March finals override...")
-        df_march = pd.read_csv(march_finals_path, skiprows=1)
-        df_march.columns = ['Subject_ID', 'Subject', 'Mar_Forecast_Final', 'Mar_Actual_Final']
-        df_march['Subject'] = df_march['Subject'].astype(str).str.strip()
-        df_march['Mar_Forecast_Final'] = pd.to_numeric(df_march['Mar_Forecast_Final'], errors='coerce')
-        df_march['Mar_Actual_Final'] = pd.to_numeric(df_march['Mar_Actual_Final'], errors='coerce')
-        march_overrides = {}
-        for _, row in df_march.iterrows():
-            if pd.notna(row['Subject']) and row['Subject']:
-                march_overrides[row['Subject']] = {
-                    'forecast': float(row['Mar_Forecast_Final']) if pd.notna(row['Mar_Forecast_Final']) else None,
-                    'actual': float(row['Mar_Actual_Final']) if pd.notna(row['Mar_Actual_Final']) else None
-                }
-        print(f"  Loaded March finals for {len(march_overrides)} subjects")
-    else:
-        march_overrides = None
+        try:
+            print("Loading March finals override...")
+            df_march = pd.read_csv(march_finals_path, skiprows=1)
+            df_march.columns = ['Subject_ID', 'Subject', 'Mar_Forecast_Final', 'Mar_Actual_Final']
+            df_march['Subject'] = df_march['Subject'].astype(str).str.strip()
+            df_march['Mar_Forecast_Final'] = pd.to_numeric(df_march['Mar_Forecast_Final'], errors='coerce')
+            df_march['Mar_Actual_Final'] = pd.to_numeric(df_march['Mar_Actual_Final'], errors='coerce')
+            march_overrides = {}
+            for _, row in df_march.iterrows():
+                if pd.notna(row['Subject']) and row['Subject']:
+                    march_overrides[row['Subject']] = {
+                        'forecast': float(row['Mar_Forecast_Final']) if pd.notna(row['Mar_Forecast_Final']) else None,
+                        'actual': float(row['Mar_Actual_Final']) if pd.notna(row['Mar_Actual_Final']) else None
+                    }
+            print(f"  Loaded March finals for {len(march_overrides)} subjects")
+        except Exception as e:
+            print(f"WARNING: Could not load March finals ({e}), continuing without them")
 
     print("Loading actuals...")
     actuals, month_statuses = load_actuals(actuals_dir)
@@ -975,23 +1015,29 @@ def main():
     if manual_adjustments:
         print(f"  {len(manual_adjustments)} month file(s) with manual overrides (applied before all calculations)")
 
-    print("Calculating smoothed forecasts (with manual adjustments applied)...")
-    df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments, march_overrides)
+    try:
+        print("Calculating smoothed forecasts (with manual adjustments applied)...")
+        df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments, march_overrides)
 
-    print("Classifying problems...")
-    df_final = classify_problems(df_analysis, df_utilization)
+        print("Classifying problems...")
+        df_final = classify_problems(df_analysis, df_utilization)
 
-    print("Building monthly tracker...")
-    tracker_subjects = calculate_monthly_tracker(df_final, actuals, month_statuses)
+        print("Building monthly tracker...")
+        tracker_subjects = calculate_monthly_tracker(df_final, actuals, month_statuses)
 
-    print("Generating performance history...")
-    history = generate_history(tracker_subjects, actuals)
+        print("Generating performance history...")
+        history = generate_history(tracker_subjects, actuals)
 
-    print("Building upload log...")
-    uploads = build_upload_log(actuals_dir, forecasts_dir)
+        print("Building upload log...")
+        uploads = build_upload_log(actuals_dir, forecasts_dir)
 
-    print("Generating dashboard data...")
-    dashboard_data = generate_dashboard_data(df_final, tracker_subjects, history, uploads)
+        print("Generating dashboard data...")
+        dashboard_data = generate_dashboard_data(df_final, tracker_subjects, history, uploads)
+    except Exception as e:
+        print(f"ERROR: Analysis failed: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
     df_final.to_csv('data/analysis_results.csv', index=False)
 
