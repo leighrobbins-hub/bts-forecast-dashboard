@@ -48,47 +48,44 @@ git push -u origin main
 
 1. In your GitHub repo, go to **Settings** → **Secrets and variables** → **Actions**
 2. Click "New repository secret"
-3. Add these three secrets:
+3. Add these secrets:
 
-**Secret 1:**
-- Name: `LOOKER_CLIENT_ID`
-- Value: Your Looker API client ID
-
-**Secret 2:**
-- Name: `LOOKER_CLIENT_SECRET`
-- Value: Your Looker API client secret
-
-**Secret 3:**
-- Name: `LOOKER_API_URL`
-- Value: `https://varsitytutors.looker.com`
+| Secret name | Value |
+|---|---|
+| `LOOKER_CLIENT_ID` | Your Looker API client ID |
+| `LOOKER_CLIENT_SECRET` | Your Looker API client secret |
+| `LOOKER_API_URL` | `https://varsitytutors.looker.com` |
+| `LOOKER_RUN_RATE_LOOK_ID` | Look ID for run rate data (see Step 4) |
+| `LOOKER_UTILIZATION_LOOK_ID` | Look ID for utilization data (see Step 4) |
 
 ### How to Get Looker API Credentials:
 
 1. Log into Looker
-2. Click your profile → Edit
-3. Scroll to "API Keys" section
-4. Click "New API3 Key"
-5. Copy the Client ID and Client Secret (save them securely - secret only shows once!)
+2. Go to **Admin** → **Users** → select your user (or a service account) → **Edit API Keys**
+3. Click **New API Key** — you'll get a Client ID and Client Secret
+4. Save both securely (the secret is only shown once!)
 
 **Note:** If you don't have permission to create API keys, ask your Looker admin for access.
 
 ---
 
-## Step 4: Update Looker Query IDs (2 minutes)
+## Step 4: Find Your Look IDs (2 minutes)
 
-1. In your GitHub repo, click `scripts/fetch_looker_data.py`
-2. Click the pencil icon to edit
-3. Find line 55 and update with your run rate query ID:
-   ```python
-   QUERY_ID = "OoJHXx9GMJbQoLFMN7t105"  # Your actual query ID
-   ```
-4. Find line 72 and update with your utilization query ID
-5. Commit changes
+Look IDs are the recommended way to connect to Looker because they stay stable even when the underlying query is edited.
 
-**How to find query IDs:**
-- Open your Looker look: https://varsitytutors.looker.com/looks/25848
-- The query ID is `25848`
-- Or for explores: `?qid=OoJHXx9GMJbQoLFMN7t105` → query ID is the part after `qid=`
+1. Open Looker at `https://varsitytutors.looker.com`
+2. Navigate to the saved Look that contains your data
+3. The Look ID is in the URL: `https://varsitytutors.looker.com/looks/12345` → the ID is **12345**
+4. Add the IDs as GitHub secrets (`LOOKER_RUN_RATE_LOOK_ID`, `LOOKER_UTILIZATION_LOOK_ID`)
+
+**Don't have a saved Look yet?**
+1. Go to **Explore** in Looker
+2. Build your query (run rate or utilization data)
+3. Click **Save** → **As a Look** and give it a descriptive name
+4. Grab the numeric ID from the URL
+
+**Alternative — use raw Query IDs instead:**
+If you prefer, you can set `LOOKER_RUN_RATE_QUERY_ID` and `LOOKER_UTILIZATION_QUERY_ID` as secrets. These are the `qid=` values from Explore URLs (e.g., `?qid=AbCdEfGhIjK`). Note that query IDs change every time a Look is edited, so Look IDs are more reliable.
 
 ---
 
@@ -146,12 +143,25 @@ Want to test before deploying?
 # Install Python dependencies
 pip install -r requirements.txt
 
+# Copy .env.example to .env and fill in your credentials
+cp .env.example .env
+# Edit .env with your Looker Client ID, Secret, and Look IDs
+
+# Source environment variables
+export $(grep -v '^#' .env | xargs)
+
+# Test Looker connection without overwriting data
+python scripts/fetch_looker_data.py --dry-run
+
+# Fetch data for real
+python scripts/fetch_looker_data.py
+
 # Run analysis locally
 python scripts/run_analysis.py
 
-# Open dashboard locally
-open dashboard/index.html
-# (or just double-click index.html in your file browser)
+# Serve the dashboard (file:// URLs may not work due to CORS)
+python -m http.server 8080 --directory dashboard
+# Open http://localhost:8080 in your browser
 ```
 
 ---
