@@ -8,6 +8,15 @@ function escapeHtml(str) {
         .replace(/'/g, '&#039;');
 }
 
+function debounce(fn, delay) {
+    var timer;
+    return function() {
+        var ctx = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function() { fn.apply(ctx, args); }, delay);
+    };
+}
+
 var allData = [];
 var trackerData = [];
 var historyData = [];
@@ -1253,15 +1262,15 @@ function showStatus(id, msg, type) {
 
 /* ── Event listeners ── */
 document.getElementById('filter-type-all').addEventListener('change', filterAllSubjects);
-document.getElementById('search-all').addEventListener('input', filterAllSubjects);
+document.getElementById('search-all').addEventListener('input', debounce(filterAllSubjects, 200));
 document.getElementById('filter-gap').addEventListener('change', filterAllSubjects);
 document.getElementById('filter-category-all').addEventListener('change', filterAllSubjects);
 document.getElementById('filter-problem-type').addEventListener('change', renderProblemSubjects);
 document.getElementById('filter-category-problems').addEventListener('change', renderProblemSubjects);
-document.getElementById('search-problems').addEventListener('input', renderProblemSubjects);
+document.getElementById('search-problems').addEventListener('input', debounce(renderProblemSubjects, 200));
 document.getElementById('filter-problem-month').addEventListener('change', renderProblemSubjects);
 document.getElementById('tracker-filter').addEventListener('change', renderMonthlyTracker);
-document.getElementById('tracker-search').addEventListener('input', renderMonthlyTracker);
+document.getElementById('tracker-search').addEventListener('input', debounce(renderMonthlyTracker, 200));
 document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
 document.getElementById('tracker-view').addEventListener('change', renderMonthlyTracker);
 
