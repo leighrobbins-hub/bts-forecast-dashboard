@@ -46,7 +46,7 @@ function isSupplyRelated(problemType) {
 
 /* ── Load saved PAT ── */
 (function() {
-    var saved = localStorage.getItem('bts_github_pat');
+    var saved = sessionStorage.getItem('bts_github_pat');
     if (saved) {
         var el = document.getElementById('github-pat');
         if (el) el.value = saved;
@@ -1028,13 +1028,13 @@ function downloadForecastFile() {
 
 /* ── GitHub API ── */
 function getPAT() {
-    return document.getElementById('github-pat').value.trim() || localStorage.getItem('bts_github_pat') || '';
+    return document.getElementById('github-pat').value.trim() || sessionStorage.getItem('bts_github_pat') || '';
 }
 
 function savePAT() {
     var pat = document.getElementById('github-pat').value.trim();
     if (pat) {
-        localStorage.setItem('bts_github_pat', pat);
+        sessionStorage.setItem('bts_github_pat', pat);
         showStatus('pat-status', 'Token saved to browser storage.', 'success');
     }
 }
