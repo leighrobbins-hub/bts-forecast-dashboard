@@ -210,9 +210,13 @@ function renderCriticalFindings() {
 
 function showTab(tabName, el) {
     document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
-    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.tab').forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+    });
     document.getElementById(tabName).classList.add('active');
     el.classList.add('active');
+    el.setAttribute('aria-selected', 'true');
 }
 
 /* ── Original table renderers ── */
@@ -1260,6 +1264,21 @@ document.getElementById('tracker-filter').addEventListener('change', renderMonth
 document.getElementById('tracker-search').addEventListener('input', renderMonthlyTracker);
 document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
 document.getElementById('tracker-view').addEventListener('change', renderMonthlyTracker);
+
+/* ── Keyboard navigation for tabs ── */
+document.getElementById('main-tabs').addEventListener('keydown', function(e) {
+    var tabs = Array.from(this.querySelectorAll('.tab'));
+    var idx = tabs.indexOf(document.activeElement);
+    if (idx === -1) return;
+    var next = -1;
+    if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+    if (next !== -1) {
+        e.preventDefault();
+        tabs[next].focus();
+        tabs[next].click();
+    }
+});
 
 document.querySelectorAll('.tooltip-wrap').forEach(function(el) {
     var tip = el.querySelector('.tooltip-text');

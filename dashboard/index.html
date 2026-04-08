@@ -26,19 +26,19 @@
         <div style="color:#7f8c8d; font-size:14px;" id="load-error-detail">Please try refreshing the page.</div>
     </div>
 
-    <div class="tabs" id="main-tabs" style="display:none;">
-        <div class="tab active" onclick="showTab('overview', this)">Overview</div>
-        <div class="tab" onclick="showTab('all-subjects', this)">All Subjects (<span id="tab-count-all">-</span>)</div>
-        <div class="tab" onclick="showTab('problem-subjects', this)">Problem Subjects (<span id="tab-count-problems">-</span>)</div>
-        <div class="tab" onclick="showTab('monthly-tracker', this)">Monthly Tracker</div>
-        <div class="tab" onclick="showTab('upload-data', this)">Upload Data</div>
-        <div class="tab" onclick="showTab('performance-history', this)">History</div>
-        <div class="tab" onclick="showTab('methodology', this)">Methodology</div>
+    <div class="tabs" id="main-tabs" role="tablist" style="display:none;">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="overview" onclick="showTab('overview', this)">Overview</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="all-subjects" onclick="showTab('all-subjects', this)">All Subjects (<span id="tab-count-all">-</span>)</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="problem-subjects" onclick="showTab('problem-subjects', this)">Problem Subjects (<span id="tab-count-problems">-</span>)</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="monthly-tracker" onclick="showTab('monthly-tracker', this)">Monthly Tracker</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="upload-data" onclick="showTab('upload-data', this)">Upload Data</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="performance-history" onclick="showTab('performance-history', this)">History</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="methodology" onclick="showTab('methodology', this)">Methodology</button>
     </div>
     
     <div class="content" id="main-content" style="display:none;">
         <!-- OVERVIEW TAB -->
-        <div id="overview" class="tab-content active">
+        <div id="overview" class="tab-content active" role="tabpanel">
             <div class="summary-grid">
                 <div class="stat-card blue">
                     <div class="stat-label">Total Subjects Analyzed</div>
@@ -126,7 +126,7 @@
         </div>
         
         <!-- ALL SUBJECTS TAB -->
-        <div id="all-subjects" class="tab-content">
+        <div id="all-subjects" class="tab-content" role="tabpanel">
             <div class="filters">
                 <div class="filter-group">
                     <label>Filter by Problem Type</label>
@@ -201,7 +201,7 @@
         </div>
         
         <!-- PROBLEM SUBJECTS TAB (Combined Supply + Utilization) -->
-        <div id="problem-subjects" class="tab-content">
+        <div id="problem-subjects" class="tab-content" role="tabpanel">
             <div class="callout warning">
                 <strong>Important: Utilization problems may be masking real supply gaps.</strong>
                 Subjects flagged as "Possible Placement Issue" have low tutor assignment rates — new tutors were contracted but not assigned to students. This may be caused by placement algorithm behavior or inaccurate forecasting. Root cause is not yet confirmed. Until utilization improves, it's difficult to know which subjects also need more recruiting. Treat these as <em>potential</em> supply problems that need investigation first.
@@ -288,7 +288,7 @@
         </div>
         
         <!-- MONTHLY TRACKER TAB -->
-        <div id="monthly-tracker" class="tab-content">
+        <div id="monthly-tracker" class="tab-content" role="tabpanel">
             <div class="progress-container" id="march-baseline-card" style="display:none; margin-bottom:15px; background:#f8f9fa; border-left:4px solid #95a5a6;">
                 <h3 style="margin-bottom:10px; color:#7f8c8d;">March Baseline (Pre-BTS Reference)</h3>
                 <div style="display:flex; gap:30px; flex-wrap:wrap; font-size:14px;">
@@ -389,7 +389,7 @@
         </div>
 
         <!-- UPLOAD DATA TAB -->
-        <div id="upload-data" class="tab-content">
+        <div id="upload-data" class="tab-content" role="tabpanel">
             <div class="upload-section">
                 <h3>Upload Monthly Actuals</h3>
                 <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with actual contracting numbers. You can upload weekly updates — the month will show as "in progress" until you mark it final. Format: <code>Subject,Actual_Contracted</code></p>
@@ -555,7 +555,7 @@
         </div>
 
         <!-- PERFORMANCE HISTORY TAB -->
-        <div id="performance-history" class="tab-content">
+        <div id="performance-history" class="tab-content" role="tabpanel">
             <div class="progress-container" id="cumulative-progress-section">
                 <h3>Cumulative BTS Progress</h3>
                 <div class="progress-meta">
@@ -600,7 +600,7 @@
         </div>
 
         <!-- METHODOLOGY TAB -->
-        <div id="methodology" class="tab-content">
+        <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
                 <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.2</strong> | Last Updated: <span id="method-updated">-</span></p>
