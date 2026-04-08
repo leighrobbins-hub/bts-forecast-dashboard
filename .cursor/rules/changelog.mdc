@@ -1,0 +1,36 @@
+---
+description: Ensure the dashboard changelog is updated when making user-facing changes
+globs: dashboard/**
+alwaysApply: false
+---
+
+# Changelog Updates
+
+When making user-facing changes to dashboard files, update the changelog in `dashboard/index.html`.
+
+## Location
+
+The changelog lives inside `<div class="changelog-modal">` near the bottom of `index.html`. Entries are ordered newest-first.
+
+## Format
+
+Each entry follows this pattern:
+
+```html
+<div class="cl-entry">
+    <div class="cl-version">vX.Y <span class="cl-date">Mon DD, YYYY</span> <span class="cl-tag TYPE">Label</span></div>
+    <ul>
+        <li>Change description</li>
+    </ul>
+</div>
+```
+
+Tag types: `feature`, `fix`, `improvement`
+
+## Rules
+
+- Bump the minor version (e.g. v2.3 -> v2.4) for each batch of changes
+- Use today's date
+- Add the new entry as the FIRST `cl-entry` inside the modal (above existing entries)
+- Keep descriptions concise (one line per change)
+- Only log user-visible or operationally significant changes -- skip pure refactors unless they affect behavior
