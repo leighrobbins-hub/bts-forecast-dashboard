@@ -76,6 +76,7 @@ fetch('data.json?v=' + Date.now())
         summaryData = data.summary || {};
         updateSummary(summaryData);
         updateTabCounts();
+        populateCategoryDropdowns();
         renderCriticalFindings();
         renderAllTables();
         renderMonthlyTracker();
@@ -173,6 +174,30 @@ function updateTabCounts() {
         return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
     }).length;
     document.getElementById('tab-count-problems').textContent = problemCount;
+}
+
+var CATEGORY_ORDER = [
+    'Elementary', 'Middle School', 'High School', 'College',
+    'AP', 'IB', 'Test Prep', 'Professional/Cert',
+    'Arts & Music', 'Technology', 'Language', 'Other'
+];
+
+function populateCategoryDropdowns() {
+    var present = {};
+    allData.forEach(function(r) {
+        var cat = r.Category || 'Other';
+        present[cat] = true;
+    });
+    var cats = CATEGORY_ORDER.filter(function(c) { return present[c]; });
+    document.querySelectorAll('.category-dropdown').forEach(function(sel) {
+        while (sel.options.length > 1) sel.remove(1);
+        cats.forEach(function(cat) {
+            var opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            sel.appendChild(opt);
+        });
+    });
 }
 
 function renderCriticalFindings() {
