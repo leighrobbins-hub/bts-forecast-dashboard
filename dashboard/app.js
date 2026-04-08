@@ -67,6 +67,7 @@ fetch('data.json?v=' + Date.now())
         summaryData = data.summary || {};
         updateSummary(summaryData);
         updateTabCounts();
+        renderCriticalFindings();
         renderAllTables();
         renderMonthlyTracker();
         renderMarchBaseline(summaryData);
@@ -163,6 +164,48 @@ function updateTabCounts() {
         return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
     }).length;
     document.getElementById('tab-count-problems').textContent = problemCount;
+}
+
+function renderCriticalFindings() {
+    var flagged = allData.filter(function(r) {
+        var t = classifyType(r.Problem_Type);
+        return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+    });
+    var utilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; }).length;
+    var supplyCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
+    var noUtilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
+    var utilPct = flagged.length > 0 ? Math.round(utilCount / flagged.length * 100) : 0;
+    var trueSupplyTotal = supplyCount + noUtilCount;
+
+    var topSupply = allData
+        .filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; })
+        .sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); })
+        .slice(0, 2);
+    var topExamples = topSupply.map(function(r) {
+        var covPct = r.Coverage_Pct !== null && r.Coverage_Pct !== undefined ? r.Coverage_Pct : 0;
+        return escapeHtml(r.Subject) + ' (' + Math.abs(Math.round(r.Gap_Pct || 0)) + '% gap)';
+    }).join(', ');
+
+    var findings = [
+        {
+            finding: utilPct + '% of flagged subjects are utilization problems',
+            impact: utilCount + ' subjects exhibit low utilization — enough tutors contracted, but algorithmic barriers may prevent assignments',
+            action: 'Investigate placement/assignment barriers before recruiting more tutors.'
+        },
+        {
+            finding: 'Only ' + trueSupplyTotal + ' subjects are true supply shortages',
+            impact: topExamples ? topExamples + ' have good utilization but insufficient organic pipeline' : 'These subjects have confirmed supply gaps',
+            action: 'Deploy external recruitment levers for these ' + trueSupplyTotal + ' only (paid spend, InMail, opt-in)'
+        }
+    ];
+
+    var tbody = document.getElementById('critical-findings-body');
+    tbody.innerHTML = '';
+    findings.forEach(function(f) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td><strong>' + f.finding + '</strong></td><td>' + f.impact + '</td><td>' + f.action + '</td>';
+        tbody.appendChild(tr);
+    });
 }
 
 function showTab(tabName, el) {
