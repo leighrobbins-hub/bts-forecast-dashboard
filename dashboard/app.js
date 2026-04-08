@@ -1,3 +1,13 @@
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 var allData = [];
 var trackerData = [];
 var historyData = [];
@@ -81,7 +91,7 @@ function lockFinalizedMonths() {
     if (locked.length > 0) {
         var lockDiv = document.getElementById('locked-months-display');
         lockDiv.style.display = 'flex';
-        document.getElementById('locked-months-list').innerHTML = '&#128274; Locked: ' + locked.join(', ');
+        document.getElementById('locked-months-list').innerHTML = '&#128274; Locked: ' + escapeHtml(locked.join(', '));
     }
     var monthLabels = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
     var trackerHeaders = document.querySelectorAll('#tracker-table thead th');
@@ -174,9 +184,9 @@ function renderBarChart() {
         var covPct = row.Coverage_Pct != null ? row.Coverage_Pct : 0;
         var div = document.createElement('div');
         div.className = 'bar-row';
-        div.innerHTML = '<div class="bar-label" title="' + row.Subject + '">' + row.Subject + '</div>' +
-            '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width: ' + pct + '%"></div></div>' +
-            '<div class="bar-value">' + row.Raw_Gap + ' gap <span class="bar-coverage">(' + covPct + '%)</span></div>';
+        div.innerHTML = '<div class="bar-label" title="' + escapeHtml(row.Subject) + '">' + escapeHtml(row.Subject) + '</div>' +
+                '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width: ' + pct + '%"></div></div>' +
+                '<div class="bar-value">' + row.Raw_Gap + ' gap <span class="bar-coverage">(' + covPct + '%)</span></div>';
         container.appendChild(div);
     });
 }
@@ -203,12 +213,12 @@ function renderPriorityTable() {
         else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + row.Subject + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
-        tbody.appendChild(tr);
-    });
-}
+            tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
+            tbody.appendChild(tr);
+        });
+    }
 
-function renderAllSubjects() { filterAllSubjects(); }
+    function renderAllSubjects() { filterAllSubjects(); }
 
 function matchesFilter(problemType, filter) {
     var type = classifyType(problemType);
@@ -256,12 +266,12 @@ function filterAllSubjects() {
         else if (type === 'no-util-data') rec = 'Gather utilization data';
         else if (type === 'low-util') rec = 'Monitor utilization';
         var adjMonths = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
-        var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + adjMonths + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
-        var adjNote = row.Is_Adjusted ? '<span class="adj-note">Adj: ' + adjMonths + ' (model: ' + row.Original_Model_Total + ')</span>' : '';
+        var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + escapeHtml(adjMonths) + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
+        var adjNote = row.Is_Adjusted ? '<span class="adj-note">Adj: ' + escapeHtml(adjMonths) + ' (model: ' + row.Original_Model_Total + ')</span>' : '';
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + row.Subject + '</strong>' + adjMark + adjNote + '</td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
+        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + adjNote + '</td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
         tbody.appendChild(tr);
     });
 }
@@ -327,11 +337,11 @@ function renderProblemSubjects() {
         else tr.className = 'nodata-problem';
 
         var adjMonthsP = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
-        var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + adjMonthsP + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
+        var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + escapeHtml(adjMonthsP) + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + row.Subject + '</strong>' + adjMark + '</td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + (row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
+        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + '</td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
         tbody.appendChild(tr);
     });
 }
@@ -443,7 +453,7 @@ function renderMonthlyTracker() {
         var pace = ts._pace;
         if (pace < 80) tr.className = 'row-miss';
         else if (pace < 100) tr.className = 'row-risk';
-        var cells = '<td><strong>' + ts.subject + '</strong></td>';
+        var cells = '<td><strong>' + escapeHtml(ts.subject) + '</strong></td>';
         cells += '<td>' + Math.round(ts.run_rate) + '</td>';
 
         var mb = ts.march_baseline || {};
@@ -609,14 +619,14 @@ function renderHistoryCards() {
         if (h.under_performers && h.under_performers.length) {
             html += '<div class="history-performers"><strong>Biggest gaps:</strong>';
             h.under_performers.slice(0, 3).forEach(function(p) {
-                html += p.subject + ' (' + Math.round(p.variance) + '), ';
+                html += escapeHtml(p.subject) + ' (' + Math.round(p.variance) + '), ';
             });
             html = html.slice(0, -2) + '</div>';
         }
         if (h.over_performers && h.over_performers.length) {
             html += '<div class="history-performers"><strong>Over-performed:</strong>';
             h.over_performers.slice(0, 3).forEach(function(p) {
-                html += p.subject + ' (+' + Math.round(p.variance) + '), ';
+                html += escapeHtml(p.subject) + ' (+' + Math.round(p.variance) + '), ';
             });
             html = html.slice(0, -2) + '</div>';
         }
@@ -635,7 +645,7 @@ function renderUploadLog() {
     tbody.innerHTML = '';
     uploadsData.forEach(function(u) {
         var tr = document.createElement('tr');
-        tr.innerHTML = '<td><span class="badge ' + (u.type === 'actuals' ? 'util' : 'supply') + '">' + u.type + '</span></td><td>' + u.filename + '</td><td>' + (u.month || '-') + '</td><td>' + (u.subjects_count || '-') + '</td><td>' + u.uploaded_at + '</td>';
+            tr.innerHTML = '<td><span class="badge ' + (u.type === 'actuals' ? 'util' : 'supply') + '">' + escapeHtml(u.type) + '</span></td><td>' + escapeHtml(u.filename) + '</td><td>' + escapeHtml(u.month || '-') + '</td><td>' + (u.subjects_count || '-') + '</td><td>' + escapeHtml(u.uploaded_at) + '</td>';
         tbody.appendChild(tr);
     });
 }
@@ -810,7 +820,7 @@ function finalizeAdjustmentsPreview(rows, clearedCount, month, hadPriorFile) {
         } else {
             statusHtml = r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#3498db" title="Not in the current subject list; pipeline adds as a new subject">New</span>';
         }
-        tr.innerHTML = '<td>' + r.subject + '</td><td>' + r.forecast + '</td><td>' + statusHtml + '</td>';
+            tr.innerHTML = '<td>' + escapeHtml(r.subject) + '</td><td>' + r.forecast + '</td><td>' + statusHtml + '</td>';
         tbody.appendChild(tr);
     });
     preview.style.display = 'block';
@@ -866,7 +876,7 @@ document.getElementById('actuals-file').addEventListener('change', function(e) {
         tbody.innerHTML = '';
         rows.forEach(function(r) {
             var tr = document.createElement('tr');
-            tr.innerHTML = '<td>' + r.subject + '</td><td>' + r.actual + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#e74c3c">Unknown subject</span>') + '</td>';
+                tr.innerHTML = '<td>' + escapeHtml(r.subject) + '</td><td>' + r.actual + '</td><td>' + (r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#e74c3c">Unknown subject</span>') + '</td>';
             tbody.appendChild(tr);
         });
         preview.style.display = 'block';
