@@ -965,6 +965,25 @@ ELSE:
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v2.3 <span class="cl-date">Apr 8, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
+                <ul>
+                    <li>Extracted CSS and JS into separate files for maintainability and browser caching</li>
+                    <li>Added HTML escaping to prevent XSS from data-derived values</li>
+                    <li>Added loading spinner and error message when dashboard data fails to load</li>
+                    <li>Critical Findings table now computes statistics dynamically from data</li>
+                    <li>Deduplicated smoothing algorithm in analysis script</li>
+                    <li>GitHub PAT switched to session-only storage with security warning</li>
+                    <li>Added error handling and data validation to analysis pipeline</li>
+                    <li>Added 24 unit tests for smoothing, classification, and categories</li>
+                    <li>Updated CI/CD: newer GitHub Actions, pip caching, test step, skip-ci on bot commits</li>
+                    <li>Improved accessibility: ARIA tab roles, keyboard navigation, non-color badge icons</li>
+                    <li>Removed unused data.json.js (~1.1MB savings per deploy)</li>
+                    <li>Added 200ms debounce to search inputs</li>
+                    <li>Category filter dropdowns now generated dynamically from data</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v2.2 <span class="cl-date">Apr 1, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
                 <ul>
                     <li>Cascade smoothing with 90-day window — over-cap months only push excess backward 3 months, keeping demand concentrated near peak to reduce tutor attrition</li>
