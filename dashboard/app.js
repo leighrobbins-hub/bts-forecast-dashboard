@@ -55,7 +55,10 @@ function isSupplyRelated(problemType) {
 
 /* ── Data loading ── */
 fetch('data.json?v=' + Date.now())
-    .then(function(r) { return r.json(); })
+    .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+    })
     .then(function(data) {
         allData = data.subjects || [];
         trackerData = data.monthly_tracker || [];
@@ -70,8 +73,17 @@ fetch('data.json?v=' + Date.now())
         renderProgressBar(summaryData);
         renderHistoryTab();
         lockFinalizedMonths();
+        document.getElementById('loading-overlay').style.display = 'none';
+        document.getElementById('main-tabs').style.display = '';
+        document.getElementById('main-content').style.display = '';
     })
-    .catch(function(e) { console.error('Error loading data:', e); });
+    .catch(function(e) {
+        console.error('Error loading data:', e);
+        document.getElementById('loading-overlay').style.display = 'none';
+        document.getElementById('load-error').style.display = 'block';
+        document.getElementById('load-error-detail').textContent =
+            'Error: ' + e.message + '. Please try refreshing the page.';
+    });
 
 function lockFinalizedMonths() {
     if (!trackerData.length) return;

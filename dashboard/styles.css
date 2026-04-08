@@ -816,3 +816,7 @@ tr.row-risk td:first-child { border-left: 3px solid #f39c12; }
 .upload-log-table {
     width: 100%;
 }
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
