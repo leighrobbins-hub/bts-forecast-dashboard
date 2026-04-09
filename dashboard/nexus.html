@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexus Academy — Choose your realm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #040508;
+      --text: #e8eaed;
+      --muted: #9aa0a6;
+      --life: #5eead4;
+      --math: #38bdf8;
+      --ela: #f59e0b;
+      --card: #0a0e12;
+      --radius: 18px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: clamp(1rem, 0.95rem + 0.2vw, 1.05rem);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 70% at 50% -30%, rgba(94, 234, 212, 0.1), transparent 55%),
+        radial-gradient(circle at 0% 100%, rgba(56, 189, 248, 0.06), transparent 45%),
+        radial-gradient(circle at 100% 40%, rgba(245, 158, 11, 0.06), transparent 40%),
+        var(--bg);
+      pointer-events: none;
+      z-index: -1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .wrap { width: min(72rem, calc(100% - 2rem)); margin: 0 auto; padding: 2rem 0 3rem; }
+
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .brand {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--life);
+    }
+    .cadet-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      font-size: 0.88rem;
+    }
+    .cadet-strip label { color: var(--muted); }
+    .cadet-strip input {
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-family: inherit;
+      max-width: 14rem;
+    }
+    .cadet-strip button {
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--life), #0d9488);
+      color: #042f2e;
+    }
+    .scores-link {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--math);
+      text-decoration: none;
+    }
+    .scores-link:hover { text-decoration: underline; }
+
+    .hero { text-align: center; margin-bottom: 2.5rem; }
+    .hero h1 {
+      font-size: clamp(2rem, 1.3rem + 2.5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      margin: 0 0 0.75rem;
+      background: linear-gradient(135deg, #fff 0%, #e8eaed 35%, var(--life) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero .tagline { color: var(--muted); max-width: 46ch; margin: 0 auto 1.25rem; }
+    .continue-row { margin-top: 0.5rem; }
+    .btn-continue {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.35rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      font-family: inherit;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #eef2ff;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
+      transition: transform 0.2s var(--ease);
+    }
+    .btn-continue:hover { transform: translateY(-2px); }
+    .btn-continue[hidden] { display: none; }
+
+    .merit-panel {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 2rem;
+      max-width: 40rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .merit-panel .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+    .merit-panel .total { font-size: 1.2rem; font-weight: 700; }
+    .merit-panel .rank { font-size: 0.88rem; color: var(--muted); margin-top: 0.35rem; }
+    .merit-bar {
+      height: 10px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .merit-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--life), var(--math), var(--ela));
+      transition: width 0.6s var(--ease);
+    }
+    .mini-merits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .mini-merits strong { display: block; color: var(--text); font-size: 0.85rem; margin-top: 0.15rem; }
+
+    .portals-head {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+    .portals-head h2 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+    .portals-head p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+    .portals {
+      display: grid;
+      gap: 1rem;
+    }
+    @media (min-width: 900px) {
+      .portals { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    a.portal {
+      position: relative;
+      display: block;
+      padding: 1.65rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      transition: transform 0.25s var(--ease), border-color 0.25s, box-shadow 0.25s;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      a.portal:hover {
+        transform: translateY(-6px) scale(1.01);
+      }
+    }
+    a.portal:focus-visible {
+      outline: 2px solid var(--life);
+      outline-offset: 3px;
+    }
+    a.portal.life { border-color: rgba(94, 234, 212, 0.25); }
+    a.portal.life:hover { border-color: rgba(94, 234, 212, 0.55); box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 40px rgba(94, 234, 212, 0.12); }
+    a.portal.math { border-color: rgba(56, 189, 248, 0.25); }
+    a.portal.math:hover { border-color: rgba(56, 189, 248, 0.55); box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 40px rgba(56, 189, 248, 0.12); }
+    a.portal.ela { border-color: rgba(245, 158, 11, 0.28); }
+    a.portal.ela:hover { border-color: rgba(245, 158, 11, 0.55); box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 40px rgba(245, 158, 11, 0.12); }
+
+    .portal-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .portal h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.12rem;
+      font-weight: 700;
+    }
+    .portal .sub { margin: 0 0 0.85rem; font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+    .portal .go { font-size: 0.85rem; font-weight: 700; }
+    a.portal.life .go { color: var(--life); }
+    a.portal.math .go { color: var(--math); }
+    a.portal.ela .go { color: var(--ela); }
+
+    .portal .bar {
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .portal .bar > div { height: 100%; width: 0%; border-radius: 99px; transition: width 0.5s ease; }
+    a.portal.life .bar > div { background: linear-gradient(90deg, #2dd4bf, var(--life)); }
+    a.portal.math .bar > div { background: linear-gradient(90deg, #0284c7, var(--math)); }
+    a.portal.ela .bar > div { background: linear-gradient(90deg, #b45309, var(--ela)); }
+    .portal .xp-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; }
+
+    .privacy {
+      margin-top: 2.5rem;
+      padding: 1rem 1.15rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 52rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top-bar">
+      <span class="brand">Nexus Academy</span>
+      <div class="cadet-strip">
+        <label for="cadet-name">Cadet name</label>
+        <input id="cadet-name" type="text" maxlength="24" placeholder="Your display name" autocomplete="nickname" />
+        <button type="button" id="btn-save-name">Save</button>
+        <a class="scores-link" href="nexus-scores.html">Nexus Merit &amp; scores →</a>
+      </div>
+    </div>
+
+    <header class="hero">
+      <h1>Three realms. One academy.</h1>
+      <p class="tagline">Train across life sciences, mathematics, and language arts. Nexus Merit adds up your XP from every track—saved on this device.</p>
+      <div class="continue-row">
+        <a class="btn-continue" id="btn-continue" href="hub.html" hidden>Continue where you left off →</a>
+      </div>
+    </header>
+
+    <div class="merit-panel" id="merit-panel" aria-live="polite">
+      <div class="row">
+        <span>Nexus Merit</span>
+        <span class="total" id="merit-total">0 / 7200</span>
+      </div>
+      <div class="merit-bar"><div class="merit-fill" id="merit-fill"></div></div>
+      <p class="rank" id="cadet-rank">Recruit — pick a realm to begin.</p>
+      <div class="mini-merits">
+        <div>Life <strong id="xp-life">0</strong></div>
+        <div>Logic <strong id="xp-math">0</strong></div>
+        <div>Language <strong id="xp-ela">0</strong></div>
+      </div>
+    </div>
+
+    <div class="portals-head">
+      <h2>Where to today?</h2>
+      <p>Tap a portal—no required order.</p>
+    </div>
+
+    <div class="portals">
+      <a class="portal life" href="hub.html" data-game="geneCode" id="portal-life">
+        <div class="portal-icon" aria-hidden="true">🧬</div>
+        <h3>Gene Code Explorer</h3>
+        <p class="sub">Bio-Vector: DNA, heredity, cells, evolution—decode the hidden language of living things.</p>
+        <div class="bar"><div id="bar-life"></div></div>
+        <p class="xp-label"><span id="label-life">0 / 2400 XP</span></p>
+        <span class="go">Enter life sciences →</span>
+      </a>
+      <a class="portal math" href="math/hub.html" data-game="orbital" id="portal-math">
+        <div class="portal-icon" aria-hidden="true">🛰️</div>
+        <h3>Orbital Academy</h3>
+        <p class="sub">Astro-Vector: ratios, proportion, data, geometry—navigation under the stars.</p>
+        <div class="bar"><div id="bar-math"></div></div>
+        <p class="xp-label"><span id="label-math">0 / 2400 XP</span></p>
+        <span class="go">Enter mathematics →</span>
+      </a>
+      <a class="portal ela" href="ela/hub.html" data-game="lexicon" id="portal-ela">
+        <div class="portal-icon" aria-hidden="true">📜</div>
+        <h3>Guild of the Lexicon</h3>
+        <p class="sub">Chronicle-Vector: reading craft, voice, sentences, figurative power.</p>
+        <div class="bar"><div id="bar-ela"></div></div>
+        <p class="xp-label"><span id="label-ela">0 / 2400 XP</span></p>
+        <span class="go">Enter language arts →</span>
+      </a>
+    </div>
+
+    <p class="privacy">
+      <strong>Privacy:</strong> Names and scores stay in this browser on this device (local storage) unless your school adds accounts later. Clearing site data will reset progress.
+    </p>
+
+    <footer>Nexus Academy · Middle school · <a href="nexus-scores.html" style="color:var(--math);font-weight:600;">Full scoreboard</a></footer>
+  </div>
+
+  <script src="gene-code-game.js"></script>
+  <script src="js/orbital-game.js"></script>
+  <script src="js/lexicon-game.js"></script>
+  <script src="js/nexus-academy.js"></script>
+  <script>
+    (function () {
+      function cadetRank(total) {
+        if (total >= 6500) return "Archon Cadet — triple-track legend.";
+        if (total >= 5000) return "Vanguard — serious range across realms.";
+        if (total >= 3500) return "Pathfinder — momentum in multiple tracks.";
+        if (total >= 2000) return "Specialist — building depth.";
+        if (total >= 500) return "Trainee — welcome to the Nexus.";
+        return "Recruit — pick a realm to begin.";
+      }
+
+      var input = document.getElementById("cadet-name");
+      var btnSave = document.getElementById("btn-save-name");
+      var meritTotal = document.getElementById("merit-total");
+      var meritFill = document.getElementById("merit-fill");
+      var cadetRankEl = document.getElementById("cadet-rank");
+      var xpLife = document.getElementById("xp-life");
+      var xpMath = document.getElementById("xp-math");
+      var xpEla = document.getElementById("xp-ela");
+      var barLife = document.getElementById("bar-life");
+      var barMath = document.getElementById("bar-math");
+      var barEla = document.getElementById("bar-ela");
+      var labelLife = document.getElementById("label-life");
+      var labelMath = document.getElementById("label-math");
+      var labelEla = document.getElementById("label-ela");
+      var btnContinue = document.getElementById("btn-continue");
+
+      function refresh() {
+        var agg = NexusAcademy.getAggregate();
+        var t = agg.total;
+        var maxT = agg.maxTotal;
+        meritTotal.textContent = t + " / " + maxT;
+        meritFill.style.width = Math.min(100, (t / maxT) * 100) + "%";
+        cadetRankEl.textContent = cadetRank(t);
+        xpLife.textContent = agg.geneCode;
+        xpMath.textContent = agg.orbital;
+        xpEla.textContent = agg.lexicon;
+        var p1 = Math.min(100, (agg.geneCode / 2400) * 100);
+        var p2 = Math.min(100, (agg.orbital / 2400) * 100);
+        var p3 = Math.min(100, (agg.lexicon / 2400) * 100);
+        barLife.style.width = p1 + "%";
+        barMath.style.width = p2 + "%";
+        barEla.style.width = p3 + "%";
+        labelLife.textContent = agg.geneCode + " / 2400 XP";
+        labelMath.textContent = agg.orbital + " / 2400 XP";
+        labelEla.textContent = agg.lexicon + " / 2400 XP";
+      }
+
+      var m = NexusAcademy.loadManifest();
+      if (m.displayName) {
+        input.value = m.displayName;
+        NexusAcademy.syncNameToGames(m.displayName);
+      }
+
+      if (m.lastPlayed && m.lastPlayed.href) {
+        btnContinue.href = m.lastPlayed.href;
+        btnContinue.removeAttribute("hidden");
+        var g = m.lastPlayed.gameId || "";
+        var labels = { geneCode: "Continue Gene Code", orbital: "Continue Orbital", lexicon: "Continue Lexicon" };
+        if (labels[g]) btnContinue.textContent = labels[g] + " →";
+      }
+
+      btnSave.addEventListener("click", function () {
+        var v = (input.value || "").trim().slice(0, 24);
+        if (v) NexusAcademy.setDisplayName(v);
+        refresh();
+      });
+
+      refresh();
+
+      document.querySelectorAll("a.portal").forEach(function (a) {
+        a.addEventListener("click", function () {
+          var id = a.getAttribute("data-game");
+          if (id && NexusAcademy.recordLastPlayed) {
+            var href = a.getAttribute("href");
+            NexusAcademy.recordLastPlayed(id, new URL(href, location.href).href);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
