@@ -1,4 +1,5 @@
-# Publishes one GitHub Pages site: Gene Code / Nexus (gene-code-explorer/) + BTS Forecast (dashboard/).
+# Publishes GitHub Pages site for the BTS Forecast dashboard (dashboard/ only).
+# Gene Code Explorer + Nexus live in https://github.com/leighrobbins-hub/GeneCode-Explorer
 name: Deploy dashboard site
 
 on:
@@ -6,7 +7,6 @@ on:
     branches: [main]
     paths:
       - "dashboard/**"
-      - "gene-code-explorer/**"
       - ".github/workflows/deploy-dashboard-site.yml"
   workflow_dispatch:
 
@@ -24,11 +24,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Assemble site (games + forecast app)
+      - name: Assemble site (BTS forecast app)
         run: |
           set -e
           mkdir -p _site
-          cp -R gene-code-explorer/* _site/
           cp dashboard/index.html dashboard/app.js dashboard/styles.css _site/
           if [ -f dashboard/data.json ]; then cp dashboard/data.json _site/; fi
           for f in dashboard/*.jpeg dashboard/*.jpg dashboard/*.png dashboard/*.csv; do

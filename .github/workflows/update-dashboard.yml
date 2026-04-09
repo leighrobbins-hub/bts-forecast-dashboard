@@ -66,4 +66,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-      # Pages deploy: use workflow "Deploy dashboard site" (merges dashboard + gene-code-explorer)
+      # Pages deploy: workflow "Deploy dashboard site" (dashboard/ only; games are in GeneCode-Explorer repo)
