@@ -1652,14 +1652,18 @@
   </main>
 
   <footer class="wrap">
-    <p>DNA: Code of Life — lesson, flashcards, 3D model, missions &amp; quiz in one scroll.</p>
+    <p>DNA: Code of Life — lesson, flashcards, 3D model, missions &amp; quiz.</p>
   </footer>
 
   <script src="gene-code-game.js"></script>
+  <script src="js/nexus-academy.js"></script>
   <script>
     (function () {
       var G = window.GeneCodeGame;
       var LESSON = "dna";
+      if (window.NexusAcademy && NexusAcademy.applyDisplayNameFromManifest) {
+        NexusAcademy.applyDisplayNameFromManifest();
+      }
       var prevLessonComplete = G.lessonComplete(LESSON);
 
       function personalize(text) {
@@ -1917,7 +1921,12 @@
 
       document.getElementById("codename-start").addEventListener("click", function () {
         var v = input.value.trim();
-        if (v) G.setName(v.slice(0, 24));
+        if (v) {
+          G.setName(v.slice(0, 24));
+          if (window.NexusAcademy && NexusAcademy.setDisplayName) {
+            NexusAcademy.setDisplayName(v.slice(0, 24));
+          }
+        }
         closeCodename();
         updateHUD();
       });

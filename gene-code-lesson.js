@@ -25,6 +25,9 @@
   function init(opts) {
     var G = window.GeneCodeGame;
     if (!G) return;
+    if (window.NexusAcademy && typeof window.NexusAcademy.applyDisplayNameFromManifest === "function") {
+      window.NexusAcademy.applyDisplayNameFromManifest();
+    }
     var lessonId = opts.lessonId;
     var opLabel = opts.operationLabel || "Operation";
     var personalize = function (t) {
@@ -135,7 +138,12 @@
     if (startBtn) {
       startBtn.addEventListener("click", function () {
         var v = input && input.value.trim();
-        if (v) G.setName(v.slice(0, 24));
+        if (v) {
+          G.setName(v.slice(0, 24));
+          if (window.NexusAcademy && window.NexusAcademy.setDisplayName) {
+            window.NexusAcademy.setDisplayName(v.slice(0, 24));
+          }
+        }
         closeCodename();
         updateHUD();
       });

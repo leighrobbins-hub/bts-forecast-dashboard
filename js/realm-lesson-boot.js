@@ -22,15 +22,12 @@
     }, 3500);
   }
 
-  function nexusSyncName(name) {
-    if (window.NexusAcademy && typeof window.NexusAcademy.setDisplayName === "function") {
-      window.NexusAcademy.setDisplayName(name);
-    }
-  }
-
   function init(opts) {
     var G = opts.api;
     if (!G || typeof G.refreshLessonHUD !== "function") return;
+    if (window.NexusAcademy && typeof window.NexusAcademy.applyDisplayNameFromManifest === "function") {
+      window.NexusAcademy.applyDisplayNameFromManifest();
+    }
     var lessonId = opts.lessonId;
     var opLabel = opts.operationLabel || "Operation";
     var storageKey = opts.storageKey || "";
@@ -141,7 +138,9 @@
         var v = input && input.value.trim();
         if (v) {
           G.setName(v.slice(0, 24));
-          nexusSyncName(v.slice(0, 24));
+          if (window.NexusAcademy && window.NexusAcademy.setDisplayName) {
+            window.NexusAcademy.setDisplayName(v.slice(0, 24));
+          }
         }
         closeCodename();
         updateHUD();
