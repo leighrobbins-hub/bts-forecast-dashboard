@@ -20,3 +20,10 @@ cd gene-code-explorer && python3 scripts/generate-realm-units.py
 ```
 
 **Deploy:** GitHub Actions merges this folder with `dashboard/` (forecast app) into one site on `gh-pages`. See `.github/workflows/deploy-dashboard-site.yml`.
+
+**GitHub Pages URL (this repo)** — files from `gene-code-explorer/` are published at the **site root**, not under a `GeneCode-Explorer/` path. Use your **repository name** in the URL:
+
+- Nexus: `https://leighrobbins-hub.github.io/bts-forecast-dashboard/nexus.html`
+- BTS forecast: `https://leighrobbins-hub.github.io/bts-forecast-dashboard/` (or `index.html`)
+
+There is no separate `GeneCode-Explorer` project site in this setup; `GeneCode-Explorer` in the URL will 404.
