@@ -1,5 +1,5 @@
 # Publishes GitHub Pages site for the BTS Forecast dashboard (dashboard/ only).
-# Gene Code Explorer + Nexus live in https://github.com/leighrobbins-hub/GeneCode-Explorer
+# Nexus Academy (games) live in https://github.com/leighrobbins-hub/nexus-academy
 name: Deploy dashboard site
 
 on:
