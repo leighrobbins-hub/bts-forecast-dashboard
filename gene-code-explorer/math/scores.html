@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Progress &amp; scores — Gene Code Explorer</title>
+  <title>Progress — Orbital Academy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #050809;
+      --bg: #050810;
       --text: #e8eaed;
-      --muted: #9aa0a6;
-      --accent: #5eead4;
-      --card: #0c1012;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --card: #0a1220;
       --radius: 14px;
       --ok: #4ade80;
     }
@@ -30,26 +30,13 @@
       content: "";
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% -15%, rgba(94, 234, 212, 0.09), transparent),
-        radial-gradient(circle at 85% 70%, rgba(96, 165, 250, 0.05), transparent 45%);
+      background: radial-gradient(ellipse 80% 50% at 50% -15%, rgba(56, 189, 248, 0.1), transparent);
       pointer-events: none;
       z-index: -1;
     }
-    .wrap {
-      width: min(52rem, calc(100% - 2rem));
-      margin: 0 auto;
-      padding: 2.5rem 0 4rem;
-    }
-    .nav {
-      margin-bottom: 2rem;
-    }
-    .nav a {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .wrap { width: min(52rem, calc(100% - 2rem)); margin: 0 auto; padding: 2.5rem 0 4rem; }
+    .nav { margin-bottom: 2rem; }
+    .nav a { font-size: 0.9rem; font-weight: 600; color: var(--accent); text-decoration: none; }
     .nav a:hover { text-decoration: underline; }
     header { margin-bottom: 2rem; }
     .logo {
@@ -60,17 +47,11 @@
       color: var(--accent);
       margin-bottom: 0.75rem;
     }
-    h1 {
-      font-size: clamp(1.65rem, 1.1rem + 2vw, 2.25rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin: 0 0 0.5rem;
-    }
+    h1 { font-size: clamp(1.65rem, 1.1rem + 2vw, 2.25rem); font-weight: 700; margin: 0 0 0.5rem; }
     .sub { color: var(--muted); max-width: 46ch; margin: 0 0 1.5rem; }
-
     .summary {
       background: var(--card);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.15);
       border-radius: var(--radius);
       padding: 1.35rem 1.5rem;
       margin-bottom: 2rem;
@@ -85,7 +66,7 @@
     }
     .summary-row:last-child { margin-bottom: 0; }
     .label { font-size: 0.8rem; color: var(--muted); }
-    .codename { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .codename { font-weight: 700; font-size: 1.1rem; }
     .career-bar-wrap {
       height: 12px;
       border-radius: 99px;
@@ -101,22 +82,10 @@
       transition: width 0.4s ease;
     }
     .career-xp-text { font-size: 0.95rem; font-weight: 600; }
-    .grand {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
+    .grand { font-size: 0.88rem; color: var(--muted); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.06); }
     .grand.done { color: var(--ok); }
-
-    .lesson-grid {
-      display: grid;
-      gap: 1rem;
-    }
-    @media (min-width: 640px) {
-      .lesson-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    .lesson-grid { display: grid; gap: 1rem; }
+    @media (min-width: 640px) { .lesson-grid { grid-template-columns: repeat(2, 1fr); } }
     .lesson-card {
       background: var(--card);
       border: 1px solid rgba(255, 255, 255, 0.07);
@@ -126,11 +95,7 @@
       flex-direction: column;
       gap: 0.65rem;
     }
-    .lesson-card h2 {
-      margin: 0;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
+    .lesson-card h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
     .lesson-card .num {
       font-size: 0.68rem;
       font-weight: 700;
@@ -138,22 +103,14 @@
       text-transform: uppercase;
       color: var(--accent);
     }
-    .stat {
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
+    .stat { font-size: 0.88rem; color: var(--muted); }
     .stat strong { color: var(--text); font-weight: 600; }
-    .bar-mini {
-      height: 6px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.08);
-      overflow: hidden;
-    }
+    .bar-mini { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
     .bar-mini-fill {
       height: 100%;
       width: 0%;
       border-radius: 99px;
-      background: linear-gradient(90deg, #2dd4bf, var(--accent));
+      background: linear-gradient(90deg, #0284c7, var(--accent));
       transition: width 0.35s ease;
     }
     .badge {
@@ -164,53 +121,26 @@
       border-radius: 6px;
       width: fit-content;
     }
-    .badge.complete {
-      background: rgba(74, 222, 128, 0.12);
-      border: 1px solid rgba(74, 222, 128, 0.35);
-      color: var(--ok);
-    }
-    .badge.progress {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--muted);
-    }
-    .lesson-card a.open {
-      margin-top: auto;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .badge.complete { background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.35); color: var(--ok); }
+    .badge.progress { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); }
+    .lesson-card a.open { margin-top: auto; font-size: 0.88rem; font-weight: 600; color: var(--accent); text-decoration: none; }
     .lesson-card a.open:hover { text-decoration: underline; }
-
-    .empty {
-      text-align: center;
-      padding: 2rem 1rem;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    footer {
-      text-align: center;
-      margin-top: 2.5rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
+    footer { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
     footer a { color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <p class="nav"><a href="hub.html">← Back to lessons</a></p>
+    <p class="nav"><a href="hub.html">← Orbital units</a> · <a href="../nexus-scores.html">Nexus Merit</a></p>
     <header>
-      <p class="logo">Gene Code Explorer</p>
-      <h1>Progress &amp; scores</h1>
-      <p class="sub">Saved in this browser only (<code>localStorage</code>). Each chapter is worth up to <strong>600 XP</strong> (5 missions × 100 + 4 quiz × 25).</p>
+      <p class="logo">Orbital Academy</p>
+      <h1>Math progress</h1>
+      <p class="sub">Each unit is worth up to <strong>600 XP</strong> (5 missions × 100 + 4 quiz × 25).</p>
     </header>
-
     <div id="scores-root"></div>
+    <footer><a href="../nexus.html">Nexus Academy</a></footer>
   </div>
-
-  <script src="gene-code-game.js"></script>
+  <script src="../js/orbital-game.js"></script>
   <script>
     (function () {
       function escapeHtml(s) {
@@ -220,16 +150,15 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;");
       }
-
-      var G = window.GeneCodeGame;
+      var G = window.OrbitalGame;
       var root = document.getElementById("scores-root");
       if (!G || !root) return;
 
       var LESSONS = [
-        { id: "dna", num: "Lesson 1", title: "DNA &amp; genetic information", href: "lesson-dna-encoding.html" },
-        { id: "heredity", num: "Lesson 2", title: "Heredity &amp; traits", href: "lesson-heredity.html" },
-        { id: "cells", num: "Lesson 3", title: "Cells &amp; chromosomes", href: "lesson-cells-chromosomes.html" },
-        { id: "evolution", num: "Lesson 4", title: "Evolution &amp; variation", href: "lesson-evolution-variation.html" }
+        { id: "launch", num: "Unit 1", title: "Launch Vector", href: "unit-1.html" },
+        { id: "transfer", num: "Unit 2", title: "Transfer Orbit", href: "unit-2.html" },
+        { id: "sensors", num: "Unit 3", title: "Sensor Array", href: "unit-3.html" },
+        { id: "geometry", num: "Unit 4", title: "Geometry Sector", href: "unit-4.html" }
       ];
 
       var globalXp = G.computeGlobalXP();
@@ -243,24 +172,14 @@
 
       var html = "";
       html += '<div class="summary">';
-      html += '<div class="summary-row">';
-      html += '<span class="label">Explorer</span>';
-      html += '<span class="codename">' + escapeHtml(name) + "</span>";
-      html += "</div>";
-      html += '<div class="summary-row">';
-      html += '<span class="label">Career XP</span>';
-      html += '<span class="career-xp-text">' + globalXp + " / " + maxG + "</span>";
-      html += "</div>";
+      html += '<div class="summary-row"><span class="label">Call sign</span><span class="codename">' + escapeHtml(name) + "</span></div>";
+      html += '<div class="summary-row"><span class="label">Career XP</span><span class="career-xp-text">' + globalXp + " / " + maxG + "</span></div>";
       html += '<div class="career-bar-wrap" role="progressbar" aria-valuenow="' + globalXp + '" aria-valuemin="0" aria-valuemax="' + maxG + '">';
-      html += '<div class="career-bar-fill" id="career-fill" style="width:' + pctG + '%"></div>';
-      html += "</div>";
+      html += '<div class="career-bar-fill" style="width:' + pctG + '%"></div></div>';
       if (allComplete) {
-        html +=
-          '<p class="grand done">All four lessons complete.' +
-          (grandSeen ? " You’ve seen the finale celebration." : "") +
-          "</p>";
+        html += '<p class="grand done">All four units complete.' + (grandSeen ? " Grand finale seen." : "") + "</p>";
       } else {
-        html += '<p class="grand">Complete every mission and quiz in all four chapters to max out career XP.</p>';
+        html += '<p class="grand">Clear every mission and quiz in all four units to max career XP.</p>';
       }
       html += "</div>";
 
@@ -277,25 +196,14 @@
         html += '<article class="lesson-card">';
         html += '<span class="num">' + L.num + "</span>";
         html += "<h2>" + L.title + "</h2>";
-        html += '<div class="stat">Chapter XP: <strong>' + xp + " / " + maxL + "</strong></div>";
+        html += '<div class="stat">Unit XP: <strong>' + xp + " / " + maxL + "</strong></div>";
         html += '<div class="bar-mini"><div class="bar-mini-fill" style="width:' + pctL + '%"></div></div>';
-        html +=
-          '<div class="stat">Missions: <strong>' +
-          mDone +
-          " / 5</strong> · Quiz: <strong>" +
-          qDone +
-          " / 4</strong></div>";
-        html +=
-          '<span class="badge ' +
-          (done ? "complete" : "progress") +
-          '">' +
-          (done ? "Chapter complete" : "In progress") +
-          "</span>";
-        html += '<a class="open" href="' + L.href + '">Open lesson →</a>';
+        html += '<div class="stat">Missions: <strong>' + mDone + " / 5</strong> · Quiz: <strong>" + qDone + " / 4</strong></div>";
+        html += '<span class="badge ' + (done ? "complete" : "progress") + '">' + (done ? "Unit complete" : "In progress") + "</span>";
+        html += '<a class="open" href="' + L.href + '">Open unit →</a>';
         html += "</article>";
       });
       html += "</div>";
-
       root.innerHTML = html;
     })();
   </script>

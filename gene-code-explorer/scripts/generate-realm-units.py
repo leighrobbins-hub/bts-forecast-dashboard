@@ -1,11 +1,23 @@
 #!/usr/bin/env python3
-"""Generate math/ela unit HTML from data tables. Run from dashboard/: python3 scripts/generate-realm-units.py"""
+"""Generate math/ela unit HTML from data tables. Run: cd gene-code-explorer && python3 scripts/generate-realm-units.py"""
 from __future__ import annotations
 
 import json
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Single source for modal/footer copy.
+SAVE_MODAL_MATH = (
+    "Choose a <strong>call sign</strong>, then roll into missions. "
+    "Matches your Nexus Academy cadet name if you already picked one there."
+)
+SAVE_MODAL_ELA = (
+    "Choose a <strong>hero name</strong>, then begin the quest. "
+    "Matches your Nexus Academy cadet name if you already picked one there."
+)
+FOOTER_MATH = "Orbital Academy · Middle school math"
+FOOTER_ELA = "Guild of the Lexicon · Middle school ELA"
 
 MATH_CSS = """    :root {
       --bg: #050810;
@@ -523,7 +535,6 @@ MATH_UNITS = [
         "chapter_msg": "{name}, Launch Vector complete. Ready for transfer orbit.",
         "grand_msg": "{name}, you cleared Orbital Academy—every burn counted.",
         "modal_welcome": "Welcome, cadet",
-        "modal_body": "Choose a <strong>call sign</strong>. Progress saves in this browser on this device.",
         "chapter_badges": '<span class="mini-badge">Ratio Rookie</span><span class="mini-badge">Unit Rate</span><span class="mini-badge">Scale Scout</span><span class="mini-badge">Table Pro</span><span class="mini-badge">Launch Ready</span>',
         "grand_badges": '<span class="mini-badge">Navigator</span><span class="mini-badge">Transfer</span><span class="mini-badge">Sensor Tech</span><span class="mini-badge">Geometry</span><span class="mini-badge">Orbital Ace</span>',
         "mission_ok": "{name}, solution locked.",
@@ -613,7 +624,6 @@ MATH_UNITS = [
         "chapter_msg": "{name}, transfer burn complete. Sensors next.",
         "grand_msg": "{name}, you cleared Orbital Academy—every burn counted.",
         "modal_welcome": "Welcome, cadet",
-        "modal_body": "Choose a <strong>call sign</strong>. Progress saves locally in this browser.",
         "chapter_badges": '<span class="mini-badge">k master</span><span class="mini-badge">Proportion</span><span class="mini-badge">Line Sense</span><span class="mini-badge">y = kx</span><span class="mini-badge">Transfer OK</span>',
         "grand_badges": '<span class="mini-badge">Navigator</span><span class="mini-badge">Transfer</span><span class="mini-badge">Sensor Tech</span><span class="mini-badge">Geometry</span><span class="mini-badge">Orbital Ace</span>',
         "mission_ok": "{name}, burn nominal.",
@@ -733,7 +743,6 @@ MATH_UNITS += [
         "chapter_msg": "{name}, sensors calibrated. Geometry sector ahead.",
         "grand_msg": "{name}, you cleared Orbital Academy—every burn counted.",
         "modal_welcome": "Welcome, cadet",
-        "modal_body": "Choose a <strong>call sign</strong>. Progress saves locally.",
         "chapter_badges": '<span class="mini-badge">Mean</span><span class="mini-badge">Median</span><span class="mini-badge">Range</span><span class="mini-badge">Dot Plot</span><span class="mini-badge">Sensor Sync</span>',
         "grand_badges": '<span class="mini-badge">Navigator</span><span class="mini-badge">Transfer</span><span class="mini-badge">Sensor Tech</span><span class="mini-badge">Geometry</span><span class="mini-badge">Orbital Ace</span>',
         "mission_ok": "{name}, data locked.",
@@ -823,7 +832,6 @@ MATH_UNITS += [
         "chapter_msg": "{name}, geometry sector secure. Orbit mastered.",
         "grand_msg": "{name}, you cleared Orbital Academy—every burn counted.",
         "modal_welcome": "Welcome, cadet",
-        "modal_body": "Choose a <strong>call sign</strong>. Progress saves locally.",
         "chapter_badges": '<span class="mini-badge">Area</span><span class="mini-badge">Volume</span><span class="mini-badge">SA</span><span class="mini-badge">Pythagoras</span><span class="mini-badge">Sector Clear</span>',
         "grand_badges": '<span class="mini-badge">Navigator</span><span class="mini-badge">Transfer</span><span class="mini-badge">Sensor Tech</span><span class="mini-badge">Geometry</span><span class="mini-badge">Orbital Ace</span>',
         "mission_ok": "{name}, measures verified.",
@@ -921,7 +929,6 @@ ELA_UNITS = [
         "chapter_msg": "{name}, the map is yours. Voices await.",
         "grand_msg": "{name}, the Lexicon knows your name—every sigil earned.",
         "modal_welcome": "Welcome, hero",
-        "modal_body": "Choose a <strong>hero name</strong>. Progress saves locally in this browser.",
         "chapter_badges": '<span class="mini-badge">Plot</span><span class="mini-badge">Setting</span><span class="mini-badge">Theme</span><span class="mini-badge">Conflict</span><span class="mini-badge">Cartographer</span>',
         "grand_badges": '<span class="mini-badge">Map</span><span class="mini-badge">Voices</span><span class="mini-badge">Forge</span><span class="mini-badge">Sigils</span><span class="mini-badge">Guild Master</span>',
         "mission_ok": "{name}, passage marked.",
@@ -1021,7 +1028,6 @@ ELA_UNITS = [
         "chapter_msg": "{name}, voices harmonized. The forge awaits.",
         "grand_msg": "{name}, the Lexicon knows your name—every sigil earned.",
         "modal_welcome": "Welcome, hero",
-        "modal_body": "Choose a <strong>hero name</strong>. Progress saves locally.",
         "chapter_badges": '<span class="mini-badge">1st person</span><span class="mini-badge">3rd limited</span><span class="mini-badge">Omniscient</span><span class="mini-badge">Tone</span><span class="mini-badge">Speaker</span>',
         "grand_badges": '<span class="mini-badge">Map</span><span class="mini-badge">Voices</span><span class="mini-badge">Forge</span><span class="mini-badge">Sigils</span><span class="mini-badge">Guild Master</span>',
         "mission_ok": "{name}, voice noted.",
@@ -1116,7 +1122,6 @@ ELA_UNITS = [
         "chapter_msg": "{name}, forge cooled. Sigils next.",
         "grand_msg": "{name}, the Lexicon knows your name—every sigil earned.",
         "modal_welcome": "Welcome, hero",
-        "modal_body": "Choose a <strong>hero name</strong>. Progress saves locally.",
         "chapter_badges": '<span class="mini-badge">Clause</span><span class="mini-badge">Phrase</span><span class="mini-badge">Fragment</span><span class="mini-badge">Run-on</span><span class="mini-badge">Smith</span>',
         "grand_badges": '<span class="mini-badge">Map</span><span class="mini-badge">Voices</span><span class="mini-badge">Forge</span><span class="mini-badge">Sigils</span><span class="mini-badge">Guild Master</span>',
         "mission_ok": "{name}, sentence forged.",
@@ -1221,7 +1226,6 @@ ELA_UNITS = [
         "chapter_msg": "{name}, sigils mastered. Lexicon complete.",
         "grand_msg": "{name}, the Lexicon knows your name—every sigil earned.",
         "modal_welcome": "Welcome, hero",
-        "modal_body": "Choose a <strong>hero name</strong>. Progress saves locally.",
         "chapter_badges": '<span class="mini-badge">Simile</span><span class="mini-badge">Metaphor</span><span class="mini-badge">Symbol</span><span class="mini-badge">Imagery</span><span class="mini-badge">Archivist</span>',
         "grand_badges": '<span class="mini-badge">Map</span><span class="mini-badge">Voices</span><span class="mini-badge">Forge</span><span class="mini-badge">Sigils</span><span class="mini-badge">Guild Master</span>',
         "mission_ok": "{name}, sigil recognized.",
@@ -1311,7 +1315,7 @@ def main() -> None:
             storage_key="orbitalAcademy_v1",
             default_name="Cadet",
             modal_welcome=u["modal_welcome"],
-            modal_body=u["modal_body"],
+            modal_body=SAVE_MODAL_MATH,
             placeholder="Your call sign",
             home_href="hub.html",
             home_label="← Units",
@@ -1324,7 +1328,7 @@ def main() -> None:
             missions=u["missions"],
             quizzes=u["quizzes"],
             flashcards=u["flashcards"],
-            footer="Orbital Academy · Middle school math · Local progress",
+            footer=FOOTER_MATH,
             api="OrbitalGame",
             confetti=json.dumps(["#38bdf8", "#22d3ee", "#a5f3fc", "#fbbf24", "#818cf8"]),
         )
@@ -1345,7 +1349,7 @@ def main() -> None:
             storage_key="lexiconGuild_v1",
             default_name="Hero",
             modal_welcome=u["modal_welcome"],
-            modal_body=u["modal_body"],
+            modal_body=SAVE_MODAL_ELA,
             placeholder="Hero name",
             home_href="hub.html",
             home_label="← Units",
@@ -1358,7 +1362,7 @@ def main() -> None:
             missions=u["missions"],
             quizzes=u["quizzes"],
             flashcards=u["flashcards"],
-            footer="Guild of the Lexicon · Middle school ELA · Local progress",
+            footer=FOOTER_ELA,
             api="LexiconGame",
             confetti=json.dumps(["#f59e0b", "#fbbf24", "#fb7185", "#a78bfa", "#fde68a"]),
         )

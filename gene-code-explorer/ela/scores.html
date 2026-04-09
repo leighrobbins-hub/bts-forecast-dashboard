@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Progress — Orbital Academy</title>
+  <title>Progress — Guild of the Lexicon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #050810;
-      --text: #e8eaed;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --card: #0a1220;
+      --bg: #0c0a08;
+      --text: #f5f0e8;
+      --muted: #a8a29e;
+      --accent: #f59e0b;
+      --card: #17120e;
       --radius: 14px;
       --ok: #4ade80;
     }
@@ -30,7 +30,7 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% -15%, rgba(56, 189, 248, 0.1), transparent);
+      background: radial-gradient(ellipse 80% 50% at 50% -15%, rgba(245, 158, 11, 0.1), transparent);
       pointer-events: none;
       z-index: -1;
     }
@@ -51,7 +51,7 @@
     .sub { color: var(--muted); max-width: 46ch; margin: 0 0 1.5rem; }
     .summary {
       background: var(--card);
-      border: 1px solid rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.2);
       border-radius: var(--radius);
       padding: 1.35rem 1.5rem;
       margin-bottom: 2rem;
@@ -110,7 +110,7 @@
       height: 100%;
       width: 0%;
       border-radius: 99px;
-      background: linear-gradient(90deg, #0284c7, var(--accent));
+      background: linear-gradient(90deg, #b45309, var(--accent));
       transition: width 0.35s ease;
     }
     .badge {
@@ -131,16 +131,16 @@
 </head>
 <body>
   <div class="wrap">
-    <p class="nav"><a href="hub.html">← Orbital units</a> · <a href="../nexus-scores.html">Nexus Merit</a></p>
+    <p class="nav"><a href="hub.html">← Guild units</a> · <a href="../nexus-scores.html">Nexus Merit</a></p>
     <header>
-      <p class="logo">Orbital Academy</p>
-      <h1>Math progress</h1>
-      <p class="sub">Saved in this browser only. Each unit is up to <strong>600 XP</strong> (5 missions × 100 + 4 quiz × 25).</p>
+      <p class="logo">Guild of the Lexicon</p>
+      <h1>ELA progress</h1>
+      <p class="sub">Each unit is worth up to <strong>600 XP</strong>.</p>
     </header>
     <div id="scores-root"></div>
     <footer><a href="../nexus.html">Nexus Academy</a></footer>
   </div>
-  <script src="../js/orbital-game.js"></script>
+  <script src="../js/lexicon-game.js"></script>
   <script>
     (function () {
       function escapeHtml(s) {
@@ -150,15 +150,15 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;");
       }
-      var G = window.OrbitalGame;
+      var G = window.LexiconGame;
       var root = document.getElementById("scores-root");
       if (!G || !root) return;
 
       var LESSONS = [
-        { id: "launch", num: "Unit 1", title: "Launch Vector", href: "unit-1.html" },
-        { id: "transfer", num: "Unit 2", title: "Transfer Orbit", href: "unit-2.html" },
-        { id: "sensors", num: "Unit 3", title: "Sensor Array", href: "unit-3.html" },
-        { id: "geometry", num: "Unit 4", title: "Geometry Sector", href: "unit-4.html" }
+        { id: "map", num: "Unit 1", title: "Realm Map", href: "unit-1.html" },
+        { id: "voices", num: "Unit 2", title: "Chorus of Voices", href: "unit-2.html" },
+        { id: "forge", num: "Unit 3", title: "Syntax Forge", href: "unit-3.html" },
+        { id: "sigils", num: "Unit 4", title: "Sigils &amp; Symbols", href: "unit-4.html" }
       ];
 
       var globalXp = G.computeGlobalXP();
@@ -172,7 +172,7 @@
 
       var html = "";
       html += '<div class="summary">';
-      html += '<div class="summary-row"><span class="label">Call sign</span><span class="codename">' + escapeHtml(name) + "</span></div>";
+      html += '<div class="summary-row"><span class="label">Hero</span><span class="codename">' + escapeHtml(name) + "</span></div>";
       html += '<div class="summary-row"><span class="label">Career XP</span><span class="career-xp-text">' + globalXp + " / " + maxG + "</span></div>";
       html += '<div class="career-bar-wrap" role="progressbar" aria-valuenow="' + globalXp + '" aria-valuemin="0" aria-valuemax="' + maxG + '">';
       html += '<div class="career-bar-fill" style="width:' + pctG + '%"></div></div>';

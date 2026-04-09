@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orbital Academy — Math</title>
+  <title>Guild of the Lexicon — ELA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #050810;
-      --text: #e8eaed;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --card: #0a1220;
+      --bg: #0c0a08;
+      --text: #f5f0e8;
+      --muted: #a8a29e;
+      --accent: #f59e0b;
+      --card: #17120e;
       --radius: 16px;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -32,8 +32,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 90% 60% at 50% -20%, rgba(56, 189, 248, 0.14), transparent 55%),
-        radial-gradient(circle at 100% 60%, rgba(34, 211, 238, 0.06), transparent 40%),
+        radial-gradient(ellipse 90% 55% at 50% -25%, rgba(245, 158, 11, 0.15), transparent 55%),
+        radial-gradient(circle at 0% 70%, rgba(180, 83, 9, 0.1), transparent 45%),
         var(--bg);
       pointer-events: none;
       z-index: -1;
@@ -55,7 +55,7 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       margin: 0 0 0.75rem;
-      background: linear-gradient(135deg, #fff 0%, #e0f2fe 50%, var(--accent) 100%);
+      background: linear-gradient(135deg, #fff8e7 0%, #fde68a 45%, var(--accent) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -77,9 +77,9 @@
       transition: transform 0.2s var(--ease);
     }
     .btn-primary {
-      background: linear-gradient(135deg, #38bdf8, #0284c7);
-      color: #0c1220;
-      box-shadow: 0 8px 28px rgba(56, 189, 248, 0.25);
+      background: linear-gradient(135deg, #f59e0b, #b45309);
+      color: #1c1004;
+      box-shadow: 0 8px 28px rgba(245, 158, 11, 0.22);
     }
     .btn-primary:hover { transform: translateY(-2px); }
     .btn-secondary {
@@ -102,15 +102,15 @@
       padding: 1.4rem 1.5rem;
       border-radius: var(--radius);
       background: var(--card);
-      border: 1px solid rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.2);
       text-decoration: none;
       color: inherit;
       transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
     }
     a.card:hover {
       transform: translateY(-3px);
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+      border-color: rgba(245, 158, 11, 0.45);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
     }
     .card-num {
       font-size: 0.68rem;
@@ -133,53 +133,52 @@
       <a href="../nexus.html">← Nexus Academy</a>
       <a href="scores.html">Progress</a>
     </nav>
-    <p class="logo">Orbital Academy</p>
-    <h1>Navigate by numbers under the stars</h1>
+    <p class="logo">Guild of the Lexicon</p>
+    <h1>Stories, sentences, and symbols</h1>
     <p class="hook">
-      Ratios, proportional relationships, data, and geometry—each unit is five missions plus a checkpoint quiz.
-      Career XP stacks to <strong>2400</strong> when you clear every burn.
+      Plot to figurative language—four units, same rhythm: five missions, four quiz questions, one career bar up to <strong>2400 XP</strong>.
     </p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="unit-1.html">Start Unit 1 — Launch</a>
-      <a class="btn btn-secondary" href="scores.html">Your math XP</a>
+      <a class="btn btn-primary" href="unit-1.html">Start Unit 1 — Map</a>
+      <a class="btn btn-secondary" href="scores.html">Your ELA XP</a>
     </div>
     <div class="chapters-head">
       <h2>Units</h2>
-      <p>Play in any order—your XP still adds up.</p>
+      <p>Choose your quest.</p>
     </div>
     <div class="grid">
       <a class="card" href="unit-1.html">
         <div class="card-num">Unit 1</div>
-        <h2>Launch Vector</h2>
-        <p>Ratios, equivalent ratios, unit rates, tables, tape diagrams.</p>
+        <h2>Realm Map</h2>
+        <p>Plot, setting, theme, conflict, evidence.</p>
         <div class="go">Enter →</div>
       </a>
       <a class="card" href="unit-2.html">
         <div class="card-num">Unit 2</div>
-        <h2>Transfer Orbit</h2>
-        <p>Proportional relationships, constants, graphs, equations.</p>
+        <h2>Chorus of Voices</h2>
+        <p>Point of view, tone, mood, narration craft.</p>
         <div class="go">Enter →</div>
       </a>
       <a class="card" href="unit-3.html">
         <div class="card-num">Unit 3</div>
-        <h2>Sensor Array</h2>
-        <p>Mean, median, range, probability, sampling intuition.</p>
+        <h2>Syntax Forge</h2>
+        <p>Clauses, fragments, run-ons, sentence combining.</p>
         <div class="go">Enter →</div>
       </a>
       <a class="card" href="unit-4.html">
         <div class="card-num">Unit 4</div>
-        <h2>Geometry Sector</h2>
-        <p>Area, volume, circles, Pythagorean theorem.</p>
+        <h2>Sigils &amp; Symbols</h2>
+        <p>Simile, metaphor, symbol, imagery, connotation.</p>
         <div class="go">Enter →</div>
       </a>
     </div>
     <footer>
-      <p><a href="../nexus.html">Nexus Academy</a> · Device-local saves · Middle school math</p>
+      <p><a href="../nexus.html">Nexus Academy</a> · Middle school ELA</p>
     </footer>
   </div>
   <script src="../js/nexus-academy.js"></script>
   <script>
-    if (window.NexusAcademy) NexusAcademy.recordLastPlayed("orbital", location.href);
+    if (window.NexusAcademy) NexusAcademy.recordLastPlayed("lexicon", location.href);
   </script>
 </body>
 </html>

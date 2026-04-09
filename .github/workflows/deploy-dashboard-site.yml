@@ -1,5 +1,4 @@
-# Publishes the static dashboard folder (Nexus, Gene Code, math, ELA) to GitHub Pages.
-# Requires Pages → Source: branch gh-pages / (root) or legacy gh-pages workflow settings.
+# Publishes one GitHub Pages site: Gene Code / Nexus (gene-code-explorer/) + BTS Forecast (dashboard/).
 name: Deploy dashboard site
 
 on:
@@ -7,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "dashboard/**"
+      - "gene-code-explorer/**"
       - ".github/workflows/deploy-dashboard-site.yml"
   workflow_dispatch:
 
@@ -24,10 +24,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Assemble site (games + forecast app)
+        run: |
+          set -e
+          mkdir -p _site
+          cp -R gene-code-explorer/* _site/
+          cp dashboard/index.html dashboard/app.js dashboard/styles.css _site/
+          if [ -f dashboard/data.json ]; then cp dashboard/data.json _site/; fi
+          for f in dashboard/*.jpeg dashboard/*.jpg dashboard/*.png dashboard/*.csv; do
+            [ -f "$f" ] && cp "$f" _site/ || true
+          done
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dashboard
+          publish_dir: _site
           publish_branch: gh-pages
           force_orphan: false

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lesson 3 · Cells &amp; chromosomes — Gene Code Explorer</title>
+  <title>Lesson 4 · Evolution &amp; variation — Gene Code Explorer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
@@ -13,8 +13,9 @@
       --bg-elevated: #0c1012;
       --text: #e8eaed;
       --text-muted: #9aa0a6;
-      --accent: #60a5fa;
-      --accent-dim: #93c5fd;
+      --accent: #fbbf24;
+      --accent-dim: #fcd34d;
+      --green: #4ade80;
       --gold: #fbbf24;
       --a: #4ade80;
       --t: #fb7185;
@@ -37,8 +38,8 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse 75% 45% at 70% -5%, rgba(96, 165, 250, 0.08), transparent),
-        radial-gradient(circle at 10% 70%, rgba(94, 234, 212, 0.04), transparent);
+      background: radial-gradient(ellipse 65% 50% at 30% -15%, rgba(251, 191, 36, 0.07), transparent),
+        radial-gradient(circle at 90% 60%, rgba(74, 222, 128, 0.05), transparent);
       z-index: -1;
       pointer-events: none;
     }
@@ -59,7 +60,7 @@
       min-height: var(--hud-h);
       background: rgba(5, 8, 9, 0.92);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(96, 165, 250, 0.22);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.22);
       flex-wrap: wrap;
     }
     .hud-brand { display: flex; flex-direction: column; gap: 0.1rem; font-weight: 700; font-size: 0.85rem; color: var(--accent); }
@@ -70,11 +71,11 @@
     .hud-xp { width: 100%; }
     .hud-xp-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
     .hud-xp-bar { height: 7px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
-    .hud-xp-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #2563eb, var(--accent)); transition: width 0.5s var(--ease-out); }
+    .hud-xp-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #eab308, var(--accent)); transition: width 0.5s var(--ease-out); }
     .hud-xp.global .hud-xp-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
     .hud-quiz-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
     .hud-quiz-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
-    .hud-quiz-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #3b82f6, #93c5fd); transition: width 0.4s; }
+    .hud-quiz-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #f59e0b, #fcd34d); transition: width 0.4s; }
     .hud-missions { display: flex; gap: 0.3rem; flex-wrap: wrap; }
     .mission-dot {
       width: 34px; height: 34px; border-radius: 9px;
@@ -85,7 +86,7 @@
       display: grid; place-items: center;
       cursor: pointer;
     }
-    .mission-dot.done { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(96, 165, 250, 0.28); }
+    .mission-dot.done { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(251, 191, 36, 0.22); }
     .hud-mute { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-muted); border-radius: 8px; padding: 0.3rem 0.45rem; font-size: 0.72rem; cursor: pointer; }
 
     .modal-overlay {
@@ -97,7 +98,7 @@
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal {
       background: var(--bg-elevated);
-      border: 1px solid rgba(96, 165, 250, 0.35);
+      border: 1px solid rgba(251, 191, 36, 0.35);
       border-radius: 16px;
       padding: 1.75rem;
       max-width: 400px;
@@ -112,8 +113,8 @@
     }
     .modal button.primary {
       width: 100%; padding: 0.85rem; border: none; border-radius: 10px;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: #fff; font-weight: 700; font-family: inherit; cursor: pointer;
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      color: #1c1917; font-weight: 700; font-family: inherit; cursor: pointer;
     }
 
     .victory-overlay {
@@ -126,20 +127,20 @@
     .victory-card { text-align: center; max-width: 420px; padding: 2rem; }
     .victory-card h2 {
       font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0 0 0.5rem;
-      background: linear-gradient(135deg, #fde68a, var(--accent));
+      background: linear-gradient(135deg, #fde68a, #4ade80);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
     .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 1.25rem 0; }
     .mini-badge {
       font-size: 0.72rem; padding: 0.35rem 0.65rem; border-radius: 99px;
-      background: rgba(96, 165, 250, 0.12);
-      border: 1px solid rgba(96, 165, 250, 0.35);
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.35);
       color: var(--accent-dim);
     }
     .btn-dismiss {
       padding: 0.75rem 1.5rem; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: #fff; font-weight: 700; font-family: inherit; cursor: pointer;
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      color: #1c1917; font-weight: 700; font-family: inherit; cursor: pointer;
     }
 
     .confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 195; overflow: hidden; }
@@ -159,8 +160,8 @@
     .hero-cta { display: flex; flex-wrap: wrap; gap: 0.65rem; }
     .btn-primary {
       padding: 0.65rem 1.1rem; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: #fff; font-weight: 600; font-family: inherit; cursor: pointer;
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      color: #1c1917; font-weight: 600; font-family: inherit; cursor: pointer;
     }
     .btn-ghost {
       padding: 0.65rem 1rem; border-radius: 10px;
@@ -178,9 +179,9 @@
       margin-bottom: 0.5rem;
       padding: 0.2rem 0.55rem;
       border-radius: 6px;
-      border: 1px solid rgba(96, 165, 250, 0.35);
+      border: 1px solid rgba(251, 191, 36, 0.35);
     }
-    .mission-tag.done { background: rgba(96, 165, 250, 0.12); }
+    .mission-tag.done { background: rgba(251, 191, 36, 0.1); }
     .kicker { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-dim); margin-bottom: 0.35rem; }
     h2 { font-size: clamp(1.3rem, 1rem + 1vw, 1.65rem); margin: 0 0 0.65rem; }
     .intro { color: var(--text-muted); margin-bottom: 1rem; max-width: 52ch; }
@@ -188,44 +189,28 @@
       margin: 1rem 0;
       padding: 1rem 1.15rem;
       border-radius: 0 var(--radius) var(--radius) 0;
-      border-left: 4px solid var(--accent);
-      background: rgba(96, 165, 250, 0.08);
+      border-left: 4px solid var(--green);
+      background: rgba(74, 222, 128, 0.07);
     }
-    .diagram {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      padding: 1.25rem;
-      margin: 1rem 0;
+    .pop-grid { display: grid; gap: 0.6rem; margin: 1rem 0; }
+    @media (min-width: 520px) { .pop-grid { grid-template-columns: repeat(3, 1fr); } }
+    .pop-card {
+      padding: 0.75rem;
+      border-radius: 10px;
       background: var(--bg-elevated);
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-    .nucleus {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      border: 3px dashed rgba(96, 165, 250, 0.5);
-      display: grid;
-      place-items: center;
-      font-size: 0.72rem;
-      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.82rem;
       text-align: center;
-      padding: 0.5rem;
+      color: var(--text-muted);
     }
-    .chrom-pair { display: flex; gap: 0.35rem; align-items: flex-end; }
-    .chrom { width: 12px; height: 48px; border-radius: 6px; background: linear-gradient(180deg, #60a5fa, #3b82f6); }
-    .chrom.alt { background: linear-gradient(180deg, #94a3b8, #64748b); height: 44px; }
-    .arrow { font-size: 1.4rem; color: var(--accent); }
+    .pop-card b { display: block; color: var(--accent); font-size: 1rem; margin-bottom: 0.2rem; }
 
     .gce-challenge {
       margin-top: 1.5rem;
       padding: 1.35rem;
       border-radius: 14px;
-      background: linear-gradient(145deg, rgba(96, 165, 250, 0.08), rgba(5, 8, 9, 0.95));
-      border: 1px solid rgba(96, 165, 250, 0.25);
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.07), rgba(5, 8, 9, 0.95));
+      border: 1px solid rgba(251, 191, 36, 0.22);
     }
     .gce-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 600; }
     .xp-pill { font-size: 0.65rem; font-weight: 700; color: var(--gold); background: rgba(251, 191, 36, 0.12); padding: 0.15rem 0.45rem; border-radius: 6px; }
@@ -256,7 +241,7 @@
     .flashcard-q::after { content: " ▾"; opacity: 0.5; }
     .flashcard.open .flashcard-q::after { content: " ▴"; }
     .flashcard-a { max-height: 0; overflow: hidden; transition: max-height 0.45s var(--ease-out); }
-    .flashcard.open .flashcard-a { max-height: 200px; }
+    .flashcard.open .flashcard-a { max-height: 220px; }
     .flashcard-a-inner { padding: 0 1rem 1rem; color: var(--text-muted); font-size: 0.92rem; }
 
     .quiz-box { background: var(--bg-elevated); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.2rem 1.3rem; margin-bottom: 1.15rem; }
@@ -271,7 +256,7 @@
     .quiz-opts button.ok { border-color: #4ade80; background: rgba(74,222,128,0.1); }
     .quiz-opts button.bad { border-color: #fb7185; background: rgba(251,113,133,0.08); }
     .explain { margin-top: 0.65rem; font-size: 0.85rem; color: var(--text-muted); max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s; }
-    .explain.open { max-height: 140px; opacity: 1; }
+    .explain.open { max-height: 160px; opacity: 1; }
 
     .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
     .reveal.in-view { opacity: 1; transform: none; }
@@ -284,7 +269,7 @@
   <div id="codename-modal" class="modal-overlay" role="dialog" aria-labelledby="codename-title" aria-modal="true">
     <div class="modal">
       <h2 id="codename-title">Welcome, recruit</h2>
-      <p>Pick a codename—your progress and <strong>career XP</strong> sync across all four lessons.</p>
+      <p>Pick a codename—your progress and <strong>career XP</strong> carry across all four lessons. Same name as Nexus Academy if you already chose one there.</p>
       <label class="sr-only" for="codename-input">Codename</label>
       <input id="codename-input" type="text" maxlength="24" placeholder="Your codename" autocomplete="nickname" />
       <button type="button" class="primary" id="codename-start">Enter</button>
@@ -303,7 +288,7 @@
 
   <header class="game-hud" role="banner">
     <div class="hud-brand">
-      <span id="gce-op-title">Operation Cell Atlas</span>
+      <span id="gce-op-title">Operation Deep Time</span>
       <span class="hud-codename" id="hud-codename" title=""></span>
     </div>
     <a href="hub.html" class="hud-home-link">← All lessons</a>
@@ -333,10 +318,10 @@
 
   <div class="wrap hero">
     <header>
-      <p class="hero-badge reveal">Lesson 3 · Cells</p>
+      <p class="hero-badge reveal">Lesson 4 · Evolution</p>
       <p class="hero-greeting reveal" id="hero-greeting"></p>
-      <h1 class="reveal d1">Where DNA lives — and how cells copy it</h1>
-      <p class="lead reveal d2">Chromosomes package your genome; mitosis and meiosis split them for growth and reproduction. Earn the same <strong>career XP</strong> as Lessons 1–2 and 4.</p>
+      <h1 class="reveal d1">Same DNA alphabet, amazing variety of life</h1>
+      <p class="lead reveal d2"><strong>Evolution</strong> is change in inherited traits in populations over generations. Finish five missions, then the quiz—XP feeds the <strong>same career bar</strong> as every other lesson.</p>
       <div class="hero-cta reveal">
         <button type="button" class="btn-primary" id="btn-jump-m1">Start mission 1</button>
         <button type="button" class="btn-ghost" id="btn-edit-name">Change codename</button>
@@ -345,83 +330,79 @@
   </div>
 
   <main class="wrap">
-    <section id="nucleus" data-mission="1">
-      <span class="mission-tag" data-mission-tag="1">Mission 1 · The nucleus</span>
-      <p class="kicker reveal">Location</p>
-      <h2 class="reveal d1">Nucleus: the cell’s library</h2>
-      <p class="intro reveal d2">In eukaryotic cells, DNA is stored in the <strong>nucleus</strong>, surrounded by a membrane.</p>
-      <div class="diagram reveal" aria-hidden="true">
-        <div class="nucleus">Nucleus<br/>DNA inside</div>
-        <span class="arrow">→</span>
-        <div style="font-size:0.85rem;color:var(--text-muted);max-width:11rem">Chromosomes = long DNA + proteins.</div>
+    <section id="variation" data-mission="1">
+      <span class="mission-tag" data-mission-tag="1">Mission 1 · Variation</span>
+      <p class="kicker reveal">Raw material</p>
+      <h2 class="reveal d1">Variation in populations</h2>
+      <p class="intro reveal d2">Members of a species differ genetically. <strong>Mutation</strong>, recombination, and gene flow introduce and shuffle differences.</p>
+      <div class="pop-grid reveal" aria-hidden="true">
+        <div class="pop-card"><b>Mutation</b>Random DNA changes</div>
+        <div class="pop-card"><b>Gene flow</b>Alleles move</div>
+        <div class="pop-card"><b>Sexual repro</b>New combos</div>
       </div>
       <div class="gce-challenge reveal" data-mi="0">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Most of your nuclear DNA is stored in the…</p>
-        <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="false">Ribosome</button>
-          <button type="button" class="choice-btn" data-correct="true">Nucleus</button>
-          <button type="button" class="choice-btn" data-correct="false">Cell membrane only</button>
-          <button type="button" class="choice-btn" data-correct="false">Vacuole (in animals)</button>
+        <p class="gce-prompt">Why is genetic variation important for evolution by natural selection?</p>
+        <div class="choice-grid">
+          <button type="button" class="choice-btn" data-correct="false">It guarantees every mutation is helpful</button>
+          <button type="button" class="choice-btn" data-correct="true">Selection can change allele frequencies only if heritable differences exist</button>
+          <button type="button" class="choice-btn" data-correct="false">It proves Lamarck was always right</button>
+          <button type="button" class="choice-btn" data-correct="false">It removes all disease instantly</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
 
-    <section id="chromosomes" data-mission="2">
-      <span class="mission-tag" data-mission-tag="2">Mission 2 · Chromosome count</span>
-      <p class="kicker reveal">Packaging</p>
-      <h2 class="reveal d1">Chromosomes come in pairs</h2>
-      <p class="intro reveal d2">Humans have <strong>46 chromosomes</strong> in most body cells: <strong>23 pairs</strong>.</p>
-      <div class="diagram reveal">
-        <div class="chrom-pair"><div class="chrom"></div><div class="chrom alt"></div></div>
-        <span style="color:var(--text-muted);font-size:0.85rem">Homologous pair — same genes, possibly different alleles.</span>
-      </div>
+    <section id="selection" data-mission="2">
+      <span class="mission-tag" data-mission-tag="2">Mission 2 · Selection</span>
+      <p class="kicker reveal">Mechanism</p>
+      <h2 class="reveal d1">Natural selection</h2>
+      <p class="intro reveal d2">Some heritable traits help survival and reproduction in a given environment—those alleles tend to become more common over time.</p>
+      <div class="callout reveal">The environment selects phenotypes; DNA variation supplies options.</div>
       <div class="gce-challenge reveal" data-mi="1">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">A typical human body cell has how many chromosomes?</p>
+        <p class="gce-prompt">Natural selection acts on…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="false">23</button>
-          <button type="button" class="choice-btn" data-correct="true">46</button>
-          <button type="button" class="choice-btn" data-correct="false">92</button>
-          <button type="button" class="choice-btn" data-correct="false">12</button>
+          <button type="button" class="choice-btn" data-correct="false">Individual wishes only</button>
+          <button type="button" class="choice-btn" data-correct="false">Ancient fossils directly</button>
+          <button type="button" class="choice-btn" data-correct="true">Heritable variation that affects survival/reproduction</button>
+          <button type="button" class="choice-btn" data-correct="false">The moon phase only</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
 
-    <section id="mitosis" data-mission="3">
-      <span class="mission-tag" data-mission-tag="3">Mission 3 · Mitosis</span>
-      <p class="kicker reveal">Body cells</p>
-      <h2 class="reveal d1">Mitosis — copy for growth &amp; repair</h2>
-      <p class="intro reveal d2"><strong>Mitosis</strong> produces two daughter cells with the <strong>same</strong> chromosome number as the parent (after DNA replication).</p>
+    <section id="adaptation" data-mission="3">
+      <span class="mission-tag" data-mission-tag="3">Mission 3 · Adaptation</span>
+      <p class="kicker reveal">Outcome</p>
+      <h2 class="reveal d1">Adaptation</h2>
+      <p class="intro reveal d2">An <strong>adaptation</strong> is a trait that helps survival and reproduction in an environment—often shaped over many generations.</p>
       <div class="gce-challenge reveal" data-mi="2">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Mitosis is best described as…</p>
+        <p class="gce-prompt">In biology class, an “adaptation” usually means…</p>
         <div class="choice-grid">
-          <button type="button" class="choice-btn" data-correct="true">Division that makes genetically identical body cells (same chromosome number)</button>
-          <button type="button" class="choice-btn" data-correct="false">Halving DNA for sperm and eggs only</button>
-          <button type="button" class="choice-btn" data-correct="false">Photosynthesis in the nucleus</button>
-          <button type="button" class="choice-btn" data-correct="false">Random destruction of chromosomes</button>
+          <button type="button" class="choice-btn" data-correct="false">Any change an animal chooses to make in its lifetime</button>
+          <button type="button" class="choice-btn" data-correct="true">A heritable trait that helps survival/reproduction in its environment (often shaped by selection)</button>
+          <button type="button" class="choice-btn" data-correct="false">Only camouflage in moths</button>
+          <button type="button" class="choice-btn" data-correct="false">Identical to “mutation”</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
 
-    <section id="meiosis" data-mission="4">
-      <span class="mission-tag" data-mission-tag="4">Mission 4 · Meiosis</span>
-      <p class="kicker reveal">Sex cells</p>
-      <h2 class="reveal d1">Meiosis — half the DNA for gametes</h2>
-      <p class="intro reveal d2"><strong>Meiosis</strong> makes gametes with <strong>23 chromosomes</strong> in humans.</p>
-      <div class="callout reveal">Fertilization restores the full diploid set—one copy from each parent.</div>
+    <section id="speciation" data-mission="4">
+      <span class="mission-tag" data-mission-tag="4">Mission 4 · Speciation</span>
+      <p class="kicker reveal">Big picture</p>
+      <h2 class="reveal d1">From differences to new species</h2>
+      <p class="intro reveal d2">When populations diverge enough, they may stop interbreeding freely—<strong>speciation</strong>.</p>
       <div class="gce-challenge reveal" data-mi="3">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Human sperm or egg cells typically contain how many chromosomes?</p>
-        <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="false">46</button>
-          <button type="button" class="choice-btn" data-correct="false">92</button>
-          <button type="button" class="choice-btn" data-correct="true">23</button>
-          <button type="button" class="choice-btn" data-correct="false">2</button>
+        <p class="gce-prompt">Two populations no longer interbreed—what idea fits best?</p>
+        <div class="choice-grid">
+          <button type="button" class="choice-btn" data-correct="false">They must have identical DNA</button>
+          <button type="button" class="choice-btn" data-correct="true">Reproductive isolation / divergence over time (speciation)</button>
+          <button type="button" class="choice-btn" data-correct="false">They stopped eating lunch</button>
+          <button type="button" class="choice-btn" data-correct="false">Mitosis doubled their species count overnight</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
@@ -429,17 +410,17 @@
 
     <section id="synthesis" data-mission="5">
       <span class="mission-tag" data-mission-tag="5">Mission 5 · Synthesis</span>
-      <p class="kicker reveal">Big picture</p>
-      <h2 class="reveal d1">Tie it together</h2>
-      <p class="intro reveal d2">Nuclear DNA → chromosomes → mitosis vs meiosis powers growth and inheritance.</p>
+      <p class="kicker reveal">Wrap-up</p>
+      <h2 class="reveal d1">Put it together</h2>
+      <p class="intro reveal d2">Variation → selection → adaptation — all reading changes in <strong>populations</strong> across <strong>generations</strong>.</p>
       <div class="gce-challenge reveal" data-mi="4">
         <div class="gce-head">⚡ Final checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">A <strong>homologous</strong> pair of chromosomes means…</p>
+        <p class="gce-prompt">Which statement matches how biologists use “evolution” in class?</p>
         <div class="choice-grid">
-          <button type="button" class="choice-btn" data-correct="false">Identical copies made by mistake</button>
-          <button type="button" class="choice-btn" data-correct="true">Matching chromosomes (same genes, possibly different alleles) from mom &amp; dad</button>
-          <button type="button" class="choice-btn" data-correct="false">Only found in bacteria</button>
-          <button type="button" class="choice-btn" data-correct="false">Pairs of ribosomes</button>
+          <button type="button" class="choice-btn" data-correct="false">Organisms try to mutate toward perfection</button>
+          <button type="button" class="choice-btn" data-correct="true">Allele frequencies in populations change across generations</button>
+          <button type="button" class="choice-btn" data-correct="false">Only humans evolve</button>
+          <button type="button" class="choice-btn" data-correct="false">Natural selection always increases complexity in one direction forever</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
@@ -448,75 +429,76 @@
     <section id="flash">
       <p class="kicker reveal">Review</p>
       <h2 class="reveal d1">Flashcards</h2>
-      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">What is a chromosome?</p><div class="flashcard-a"><div class="flashcard-a-inner">A <strong>package</strong> of DNA + proteins carrying many genes.</div></div></div>
-      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Mitosis vs meiosis in one sentence?</p><div class="flashcard-a"><div class="flashcard-a-inner"><strong>Mitosis:</strong> identical body cells. <strong>Meiosis:</strong> gametes with half the chromosomes.</div></div></div>
-      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Why half the chromosomes in gametes?</p><div class="flashcard-a"><div class="flashcard-a-inner">So fertilization restores a <strong>full</strong> diploid set.</div></div></div>
+      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">What is natural selection?</p><div class="flashcard-a"><div class="flashcard-a-inner">Differential survival and reproduction of <strong>heritable</strong> traits in a population.</div></div></div>
+      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Does evolution have goals?</p><div class="flashcard-a"><div class="flashcard-a-inner">No teleology—just differential reproduction of existing variation.</div></div></div>
+      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Why is variation important?</p><div class="flashcard-a"><div class="flashcard-a-inner">Without differences in alleles, frequencies can’t change via selection.</div></div></div>
     </section>
 
     <section id="quiz">
       <p class="kicker reveal">Checkpoint quiz</p>
       <h2 class="reveal d1">Four questions (+25 XP each)</h2>
-      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="1" id="qq1">
-        <p>1. In typical human body cells, chromosomes usually come in…</p>
-        <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Single files (no pairs)</button>
-          <button type="button" data-i="1">Pairs (homologous pairs)</button>
-          <button type="button" data-i="2">Groups of ten</button>
-          <button type="button" data-i="3">Only in mitochondria</button>
-        </div>
-        <div class="explain"><p>23 pairs — 46 total in diploid body cells.</p></div>
-      </div>
-      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="0" id="qq2">
-        <p>2. Which process makes genetically identical body cells for growth?</p>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="2" id="qq1">
+        <p>1. Natural selection acts on…</p>
         <div class="quiz-opts">
-          <button type="button" data-i="0">Mitosis</button>
-          <button type="button" data-i="1">Meiosis</button>
-          <button type="button" data-i="2">Photosynthesis</button>
-          <button type="button" data-i="3">Fermentation</button>
+          <button type="button" data-i="0">Individual cells only</button>
+          <button type="button" data-i="1">Ancient fossils directly</button>
+          <button type="button" data-i="2">Heritable variation in populations</button>
+          <button type="button" data-i="3">The weather only</button>
         </div>
-        <div class="explain"><p>Mitosis — same chromosome complement (after replication).</p></div>
+        <div class="explain"><p>Population-level change in allele frequencies.</p></div>
       </div>
-      <div class="quiz-box gce-quiz-box reveal d2" data-qi="2" data-ok="2" id="qq3">
-        <p>3. Human gametes typically have how many chromosomes?</p>
+      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="1" id="qq2">
+        <p>2. A helpful trait spreads mainly because…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">46</button>
-          <button type="button" data-i="1">92</button>
-          <button type="button" data-i="2">23</button>
-          <button type="button" data-i="3">12</button>
+          <button type="button" data-i="0">Organisms choose to evolve</button>
+          <button type="button" data-i="1">Carriers tend to survive/reproduce more</button>
+          <button type="button" data-i="2">DNA always mutates toward “better”</button>
+          <button type="button" data-i="3">The sun heats DNA</button>
         </div>
-        <div class="explain"><p>Haploid <strong>n = 23</strong>.</p></div>
+        <div class="explain"><p>Heritable traits tied to more offspring become more common.</p></div>
+      </div>
+      <div class="quiz-box gce-quiz-box reveal d2" data-qi="2" data-ok="0" id="qq3">
+        <p>3. Which is a source of new genetic variation?</p>
+        <div class="quiz-opts cols-2">
+          <button type="button" data-i="0">Mutation</button>
+          <button type="button" data-i="1">Drinking water</button>
+          <button type="button" data-i="2">Wearing glasses</button>
+          <button type="button" data-i="3">Homework</button>
+        </div>
+        <div class="explain"><p>Mutation creates new alleles; other processes reshuffle variation.</p></div>
       </div>
       <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="3" id="qq4">
-        <p>4. Most nuclear DNA is stored in the…</p>
-        <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Ribosome</button>
-          <button type="button" data-i="1">Membrane only</button>
-          <button type="button" data-i="2">Golgi</button>
-          <button type="button" data-i="3">Nucleus</button>
+        <p>4. Two populations no longer interbreed—what might have happened?</p>
+        <div class="quiz-opts">
+          <button type="button" data-i="0">They forgot names</button>
+          <button type="button" data-i="1">They ran out of DNA</button>
+          <button type="button" data-i="2">Photosynthesis stopped</button>
+          <button type="button" data-i="3">Reproductive isolation / divergence (speciation over time)</button>
         </div>
-        <div class="explain"><p>Plus a small amount of mitochondrial DNA.</p></div>
+        <div class="explain"><p>Many mechanisms can split gene pools.</p></div>
       </div>
     </section>
   </main>
 
-  <footer>Gene Code Explorer · Lesson 3 · Cells &amp; chromosomes</footer>
+  <footer>Gene Code Explorer · Lesson 4 · Evolution &amp; variation</footer>
 
   <script src="gene-code-game.js"></script>
+  <script src="js/nexus-academy.js"></script>
   <script src="gene-code-lesson.js"></script>
   <script>
     GeneCodeLesson.init({
-      lessonId: "cells",
-      operationLabel: "Operation Cell Atlas",
-      heroGreeting: "{name}, map where genomes live and how cells divide.",
-      chapterMsg: "{name}, you’ve cleared the cell &amp; chromosome chapter.",
-      missionOk: "{name}, confirmed.",
-      missionRetry: "Try again—check the section above.",
+      lessonId: "evolution",
+      operationLabel: "Operation Deep Time",
+      heroGreeting: "{name}, connect variation, selection, and deep time.",
+      chapterMsg: "{name}, you’ve finished the evolution chapter—population thinking unlocked.",
+      missionOk: "{name}, solid reasoning.",
+      missionRetry: "Try again—reread the section.",
       chapterBadges:
-        '<span class="mini-badge">Nucleus Navigator</span>' +
-        '<span class="mini-badge">46 &amp; Counting</span>' +
-        '<span class="mini-badge">Mitosis Mind</span>' +
-        '<span class="mini-badge">Meiosis Maven</span>' +
-        '<span class="mini-badge">Homolog Hero</span>',
+        '<span class="mini-badge">Variation Scout</span>' +
+        '<span class="mini-badge">Selection Sense</span>' +
+        '<span class="mini-badge">Adaptation Ace</span>' +
+        '<span class="mini-badge">Speciation Guide</span>' +
+        '<span class="mini-badge">Population Thinker</span>',
       grandBadges:
         '<span class="mini-badge">Helix Scout</span>' +
         '<span class="mini-badge">Inheritance</span>' +

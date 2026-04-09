@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unit 1 · Realm Map — Guild of the Lexicon</title>
+  <title>Unit 3 · Sensor Array — Orbital Academy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0c0a08;
-      --bg-elevated: #17120e;
-      --text: #f5f0e8;
-      --text-muted: #a8a29e;
-      --accent: #f59e0b;
-      --accent-dim: #fcd34d;
-      --gold: #fde68a;
+      --bg: #050810;
+      --bg-elevated: #0a1220;
+      --text: #e8eaed;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: #7dd3fc;
+      --gold: #fbbf24;
       --a: #4ade80;
       --t: #fb7185;
       --radius: 12px;
@@ -37,7 +37,7 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(245, 158, 11, 0.12), transparent), radial-gradient(circle at 85% 70%, rgba(180, 83, 9, 0.08), transparent);
+      background: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(56, 189, 248, 0.1), transparent), radial-gradient(circle at 15% 80%, rgba(34, 211, 238, 0.05), transparent);
       z-index: -1;
       pointer-events: none;
     }
@@ -58,7 +58,7 @@
       min-height: var(--hud-h);
       background: rgba(5, 8, 9, 0.92);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
       flex-wrap: wrap;
     }
     .hud-brand { display: flex; flex-direction: column; gap: 0.1rem; font-weight: 700; font-size: 0.85rem; color: var(--accent); }
@@ -69,7 +69,7 @@
     .hud-xp { width: 100%; }
     .hud-xp-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
     .hud-xp-bar { height: 7px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
-    .hud-xp-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #f59e0b, var(--accent-dim)); transition: width 0.5s var(--ease-out); }
+    .hud-xp-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #38bdf8, var(--accent-dim)); transition: width 0.5s var(--ease-out); }
     .hud-xp.global .hud-xp-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
     .hud-quiz-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
     .hud-quiz-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
@@ -84,7 +84,7 @@
       display: grid; place-items: center;
       cursor: pointer;
     }
-    .mission-dot.done { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(245, 158, 11, 0.25); }
+    .mission-dot.done { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(56, 189, 248, 0.25); }
     .hud-mute { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-muted); border-radius: 8px; padding: 0.3rem 0.45rem; font-size: 0.72rem; cursor: pointer; }
 
     .modal-overlay {
@@ -96,7 +96,7 @@
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal {
       background: var(--bg-elevated);
-      border: 1px solid rgba(245, 158, 11, 0.28);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       border-radius: 16px;
       padding: 1.75rem;
       max-width: 400px;
@@ -111,7 +111,7 @@
     }
     .modal button.primary {
       width: 100%; padding: 0.85rem; border: none; border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      background: linear-gradient(135deg, var(--accent), #38bdf8);
       color: #0a0a0a; font-weight: 700; font-family: inherit; cursor: pointer;
     }
 
@@ -131,13 +131,13 @@
     .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 1.25rem 0; }
     .mini-badge {
       font-size: 0.72rem; padding: 0.35rem 0.65rem; border-radius: 99px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.28);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       color: var(--accent-dim);
     }
     .btn-dismiss {
       padding: 0.75rem 1.5rem; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      background: linear-gradient(135deg, var(--accent), #38bdf8);
       color: #0a0a0a; font-weight: 700; font-family: inherit; cursor: pointer;
     }
 
@@ -158,7 +158,7 @@
     .hero-cta { display: flex; flex-wrap: wrap; gap: 0.65rem; }
     .btn-primary {
       padding: 0.65rem 1.1rem; border-radius: 10px; border: none;
-      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      background: linear-gradient(135deg, var(--accent), #38bdf8);
       color: #0a0a0a; font-weight: 600; font-family: inherit; cursor: pointer;
     }
     .btn-ghost {
@@ -177,9 +177,9 @@
       margin-bottom: 0.5rem;
       padding: 0.2rem 0.55rem;
       border-radius: 6px;
-      border: 1px solid rgba(245, 158, 11, 0.28);
+      border: 1px solid rgba(56, 189, 248, 0.25);
     }
-    .mission-tag.done { background: rgba(245, 158, 11, 0.12); }
+    .mission-tag.done { background: rgba(56, 189, 248, 0.12); }
     .kicker { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-dim); margin-bottom: 0.35rem; }
     h2 { font-size: clamp(1.3rem, 1rem + 1vw, 1.65rem); margin: 0 0 0.65rem; }
     .intro { color: var(--text-muted); margin-bottom: 1rem; max-width: 52ch; }
@@ -188,8 +188,8 @@
       margin-top: 1.5rem;
       padding: 1.35rem;
       border-radius: 14px;
-      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(5, 8, 9, 0.95));
-      border: 1px solid rgba(245, 158, 11, 0.28);
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.08), rgba(5, 8, 9, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.25);
     }
     .gce-challenge.complete { opacity: 0.95; }
     .gce-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 600; }
@@ -249,10 +249,10 @@
 <body>
   <div id="codename-modal" class="modal-overlay" role="dialog" aria-labelledby="codename-title" aria-modal="true">
     <div class="modal">
-      <h2 id="codename-title">Welcome, hero</h2>
-      <p>Choose a <strong>hero name</strong>. Progress saves locally in this browser.</p>
+      <h2 id="codename-title">Welcome, cadet</h2>
+      <p>Choose a <strong>call sign</strong>, then roll into missions. Matches your Nexus Academy cadet name if you already picked one there.</p>
       <label class="sr-only" for="codename-input">Display name</label>
-      <input id="codename-input" type="text" maxlength="24" placeholder="Hero name" autocomplete="nickname" />
+      <input id="codename-input" type="text" maxlength="24" placeholder="Your call sign" autocomplete="nickname" />
       <button type="button" class="primary" id="codename-start">Enter</button>
     </div>
   </div>
@@ -269,7 +269,7 @@
 
   <header class="game-hud" role="banner">
     <div class="hud-brand">
-      <span id="gce-op-title">Realm Map</span>
+      <span id="gce-op-title">Sensor Array</span>
       <span class="hud-codename" id="hud-codename" title=""></span>
     </div>
     <a href="hub.html" class="hud-home-link">← Units</a>
@@ -299,10 +299,10 @@
 
   <div class="wrap hero">
     <header>
-      <p class="hero-badge reveal">Unit 1 · Realm Map — Guild of the Lexicon</p>
+      <p class="hero-badge reveal">Unit 3 · Sensor Array — Orbital Academy</p>
       <p class="hero-greeting reveal" id="hero-greeting"></p>
-      <h1 class="reveal d1">Plot, setting, theme</h1>
-      <p class="lead reveal d2">Stories have structure. Map the terrain before you argue or polish sentences.</p>
+      <h1 class="reveal d1">Data from the void</h1>
+      <p class="lead reveal d2">Summarize data with center, spread, and simple probability models.</p>
       <div class="hero-cta reveal">
         <button type="button" class="btn-primary" id="btn-jump-m1">Start mission 1</button>
         <button type="button" class="btn-ghost" id="btn-edit-name">Change name</button>
@@ -312,86 +312,86 @@
 
   <main class="wrap">
     <section data-mission="1">
-      <span class="mission-tag" data-mission-tag="1">Mission 1 · Plot vs theme</span>
+      <span class="mission-tag" data-mission-tag="1">Mission 1 · Mean</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Plot vs theme</h2>
-      <p class="intro reveal d2"><strong>Plot</strong> is what happens; <strong>theme</strong> is the insight about life or human nature the story suggests.</p>
+      <h2 class="reveal d1">Mean</h2>
+      <p class="intro reveal d2">The <strong>mean</strong> is the average—sum divided by count.</p>
       <div class="gce-challenge reveal" data-mi="0">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Which best describes a theme?</p>
+        <p class="gce-prompt">Data: 4, 8, 8, 10. What is the mean?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">Courage can cost comfort</button>
-          <button type="button" class="choice-btn" data-correct="false">The hero opened the door at 7:02 p.m.</button>
-          <button type="button" class="choice-btn" data-correct="false">Chapter 3 has 12 pages</button>
-          <button type="button" class="choice-btn" data-correct="false">The cover is blue</button>
+          <button type="button" class="choice-btn" data-correct="true">7.5</button>
+          <button type="button" class="choice-btn" data-correct="false">8</button>
+          <button type="button" class="choice-btn" data-correct="false">10</button>
+          <button type="button" class="choice-btn" data-correct="false">30</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="2">
-      <span class="mission-tag" data-mission-tag="2">Mission 2 · Setting</span>
+      <span class="mission-tag" data-mission-tag="2">Mission 2 · Median</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Setting</h2>
-      <p class="intro reveal d2">Setting includes time, place, and sometimes mood or social world.</p>
+      <h2 class="reveal d1">Median</h2>
+      <p class="intro reveal d2">The <strong>median</strong> is the middle value when data are ordered.</p>
       <div class="gce-challenge reveal" data-mi="1">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">“A rainy coastal town in 1920” mainly establishes…</p>
+        <p class="gce-prompt">Ordered data: 3, 7, 9, 12, 20. What is the median?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">Setting</button>
-          <button type="button" class="choice-btn" data-correct="false">Theme</button>
-          <button type="button" class="choice-btn" data-correct="false">Climax</button>
-          <button type="button" class="choice-btn" data-correct="false">Author’s birthday</button>
+          <button type="button" class="choice-btn" data-correct="true">9</button>
+          <button type="button" class="choice-btn" data-correct="false">7</button>
+          <button type="button" class="choice-btn" data-correct="false">10.2</button>
+          <button type="button" class="choice-btn" data-correct="false">20</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="3">
-      <span class="mission-tag" data-mission-tag="3">Mission 3 · Conflict</span>
+      <span class="mission-tag" data-mission-tag="3">Mission 3 · Range</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Conflict</h2>
-      <p class="intro reveal d2">Conflict drives plot—internal or external struggle.</p>
+      <h2 class="reveal d1">Range</h2>
+      <p class="intro reveal d2">Range = max − min.</p>
       <div class="gce-challenge reveal" data-mi="2">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">A character wrestles with fear of speaking up. That is mostly…</p>
+        <p class="gce-prompt">Scores: 14, 18, 22. What is the range?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">Internal conflict</button>
-          <button type="button" class="choice-btn" data-correct="false">Exposition only</button>
-          <button type="button" class="choice-btn" data-correct="false">Setting</button>
-          <button type="button" class="choice-btn" data-correct="false">A type of meter</button>
+          <button type="button" class="choice-btn" data-correct="true">8</button>
+          <button type="button" class="choice-btn" data-correct="false">18</button>
+          <button type="button" class="choice-btn" data-correct="false">22</button>
+          <button type="button" class="choice-btn" data-correct="false">54</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="4">
-      <span class="mission-tag" data-mission-tag="4">Mission 4 · Sequence</span>
+      <span class="mission-tag" data-mission-tag="4">Mission 4 · Simple probability</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Sequence</h2>
-      <p class="intro reveal d2">Common plot parts: exposition, rising action, climax, falling action, resolution.</p>
+      <h2 class="reveal d1">Simple probability</h2>
+      <p class="intro reveal d2">Probability of an event = favorable outcomes / total equally likely outcomes.</p>
       <div class="gce-challenge reveal" data-mi="3">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">The turning point of highest tension is usually the…</p>
+        <p class="gce-prompt">A fair number cube (1–6). P(rolling an even number)?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">Climax</button>
-          <button type="button" class="choice-btn" data-correct="false">Exposition</button>
-          <button type="button" class="choice-btn" data-correct="false">Title page</button>
-          <button type="button" class="choice-btn" data-correct="false">Copyright</button>
+          <button type="button" class="choice-btn" data-correct="true">1/2</button>
+          <button type="button" class="choice-btn" data-correct="false">1/3</button>
+          <button type="button" class="choice-btn" data-correct="false">1/6</button>
+          <button type="button" class="choice-btn" data-correct="false">2/3</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="5">
-      <span class="mission-tag" data-mission-tag="5">Mission 5 · Evidence</span>
+      <span class="mission-tag" data-mission-tag="5">Mission 5 · Samples</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Evidence</h2>
-      <p class="intro reveal d2">Claims about theme need textual evidence—quotes or paraphrase tied to events.</p>
+      <h2 class="reveal d1">Samples</h2>
+      <p class="intro reveal d2">A <strong>random sample</strong> helps generalize to a population—if done well.</p>
       <div class="gce-challenge reveal" data-mi="4">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Which supports a claim about theme best?</p>
+        <p class="gce-prompt">Why randomize a sample?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">A pattern of choices the character repeats with consequences</button>
-          <button type="button" class="choice-btn" data-correct="false">The font size on page 1</button>
-          <button type="button" class="choice-btn" data-correct="false">How many chapters exist</button>
-          <button type="button" class="choice-btn" data-correct="false">The book’s price</button>
+          <button type="button" class="choice-btn" data-correct="true">Reduce bias and improve representativeness</button>
+          <button type="button" class="choice-btn" data-correct="false">Guarantee perfect accuracy always</button>
+          <button type="button" class="choice-btn" data-correct="false">Make the sample smaller always</button>
+          <button type="button" class="choice-btn" data-correct="false">Remove all variability</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
@@ -400,82 +400,82 @@
     <section id="flash">
       <p class="kicker reveal">Review</p>
       <h2 class="reveal d1">Flashcards</h2>
-      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Plot</p><div class="flashcard-a"><div class="flashcard-a-inner">What happens.</div></div></div>
-      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Theme</p><div class="flashcard-a"><div class="flashcard-a-inner">So what—big idea.</div></div></div>
-      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Setting</p><div class="flashcard-a"><div class="flashcard-a-inner">When and where (and mood/world).</div></div></div>
+      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Mean</p><div class="flashcard-a"><div class="flashcard-a-inner">Sum ÷ count.</div></div></div>
+      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Median</p><div class="flashcard-a"><div class="flashcard-a-inner">Middle when sorted.</div></div></div>
+      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Range</p><div class="flashcard-a"><div class="flashcard-a-inner">Max − min.</div></div></div>
 
     </section>
 
     <section id="quiz">
       <p class="kicker reveal">Checkpoint quiz</p>
       <h2 class="reveal d1">Four questions (+25 XP each)</h2>
-      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="1">
-        <p>1. Theme is usually stated as…</p>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="2">
+        <p>1. Which is most affected by a single very large outlier?</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">A single object only</button>
-          <button type="button" data-i="1">A complete sentence about a big idea</button>
-          <button type="button" data-i="2">Only dialogue tags</button>
-          <button type="button" data-i="3">The ISBN</button>
+          <button type="button" data-i="0">Median</button>
+          <button type="button" data-i="1">Mode</button>
+          <button type="button" data-i="2">Mean</button>
+          <button type="button" data-i="3">Range only</button>
         </div>
-        <div class="explain"><p>Themes are interpretive claims—often full sentences.</p></div>
+        <div class="explain"><p>The mean shifts with extreme values.</p></div>
       </div>
-      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="2">
-        <p>2. Mood is…</p>
+      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="1">
+        <p>2. Probability must be between…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">The moral</button>
-          <button type="button" data-i="1">The narrator’s name</button>
-          <button type="button" data-i="2">The feeling the reader gets</button>
-          <button type="button" data-i="3">Only the year printed</button>
+          <button type="button" data-i="0">0 and 10</button>
+          <button type="button" data-i="1">0 and 1 inclusive</button>
+          <button type="button" data-i="2">1 and 100 always</button>
+          <button type="button" data-i="3">−1 and 1</button>
         </div>
-        <div class="explain"><p>Atmosphere/feeling.</p></div>
+        <div class="explain"><p>0 ≤ P ≤ 1 for standard probability models.</p></div>
       </div>
       <div class="quiz-box gce-quiz-box reveal d2" data-qi="2" data-ok="0">
-        <p>3. First-person narration uses pronouns like…</p>
+        <p>3. A dot plot shows…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">I / we</button>
-          <button type="button" data-i="1">He / she only</button>
-          <button type="button" data-i="2">They only</button>
-          <button type="button" data-i="3">You for everyone</button>
+          <button type="button" data-i="0">Each data value as a dot along a number line</button>
+          <button type="button" data-i="1">Only the mean</button>
+          <button type="button" data-i="2">Only pie slices</button>
+          <button type="button" data-i="3">Only 3D shapes</button>
         </div>
-        <div class="explain"><p>Inside a character’s perspective.</p></div>
+        <div class="explain"><p>Dots stack for repeats.</p></div>
       </div>
       <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="3">
-        <p>4. A story’s central message about life is closest to…</p>
+        <p>4. Flip a fair coin. P(heads) =</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">A footnote</button>
-          <button type="button" data-i="1">Word count</button>
-          <button type="button" data-i="2">Copyright date</button>
-          <button type="button" data-i="3">Theme</button>
+          <button type="button" data-i="0">0</button>
+          <button type="button" data-i="1">1/4</button>
+          <button type="button" data-i="2">1/3</button>
+          <button type="button" data-i="3">1/2</button>
         </div>
-        <div class="explain"><p>Theme—interpret carefully with evidence.</p></div>
+        <div class="explain"><p>Two equally likely outcomes.</p></div>
       </div>
     </section>
   </main>
 
-  <footer>Guild of the Lexicon · Middle school ELA · Local progress</footer>
+  <footer>Orbital Academy · Middle school math</footer>
 
-  <script src="../js/lexicon-game.js"></script>
+  <script src="../js/orbital-game.js"></script>
   <script src="../js/nexus-academy.js"></script>
   <script src="../js/realm-lesson-boot.js"></script>
   <script>
     RealmLesson.init({
-      api: window.LexiconGame,
-      lessonId: "map",
-      storageKey: "lexiconGuild_v1",
-      defaultName: "Hero",
-      operationLabel: "Realm Map",
-      heroGreeting: "{name}, chart the story\u2014setting lights the path.",
+      api: window.OrbitalGame,
+      lessonId: "sensors",
+      storageKey: "orbitalAcademy_v1",
+      defaultName: "Cadet",
+      operationLabel: "Sensor Array",
+      heroGreeting: "{name}, read the noise\u2014means and more.",
       chapterTitle: "Unit complete",
-      chapterMsg: "{name}, the map is yours. Voices await.",
-      grandTitle: "Guild of the Lexicon complete",
-      grandMsg: "{name}, the Lexicon knows your name\u2014every sigil earned.",
-      chapterBadges: "<span class=\"mini-badge\">Plot</span><span class=\"mini-badge\">Setting</span><span class=\"mini-badge\">Theme</span><span class=\"mini-badge\">Conflict</span><span class=\"mini-badge\">Cartographer</span>",
-      grandBadges: "<span class=\"mini-badge\">Map</span><span class=\"mini-badge\">Voices</span><span class=\"mini-badge\">Forge</span><span class=\"mini-badge\">Sigils</span><span class=\"mini-badge\">Guild Master</span>",
-      missionOk: "{name}, passage marked.",
+      chapterMsg: "{name}, sensors calibrated. Geometry sector ahead.",
+      grandTitle: "Orbital Academy complete",
+      grandMsg: "{name}, you cleared Orbital Academy\u2014every burn counted.",
+      chapterBadges: "<span class=\"mini-badge\">Mean</span><span class=\"mini-badge\">Median</span><span class=\"mini-badge\">Range</span><span class=\"mini-badge\">Dot Plot</span><span class=\"mini-badge\">Sensor Sync</span>",
+      grandBadges: "<span class=\"mini-badge\">Navigator</span><span class=\"mini-badge\">Transfer</span><span class=\"mini-badge\">Sensor Tech</span><span class=\"mini-badge\">Geometry</span><span class=\"mini-badge\">Orbital Ace</span>",
+      missionOk: "{name}, data locked.",
       missionRetry: "Try again—use the briefing above.",
-      confettiColors: ["#f59e0b", "#fbbf24", "#fb7185", "#a78bfa", "#fde68a"]
+      confettiColors: ["#38bdf8", "#22d3ee", "#a5f3fc", "#fbbf24", "#818cf8"]
     });
-    if (window.NexusAcademy) NexusAcademy.recordLastPlayed("lexicon", location.href);
+    if (window.NexusAcademy) NexusAcademy.recordLastPlayed("orbital", location.href);
   </script>
 </body>
 </html>

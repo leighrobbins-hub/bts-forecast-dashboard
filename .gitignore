@@ -30,6 +30,3 @@ Thumbs.db
 # Local agent / editor
 .agents/
 dashboard/.cursor/
-
-# Nested clone (duplicate of dashboard root; main site deploys from dashboard/)
-dashboard/GeneCode-Explorer/

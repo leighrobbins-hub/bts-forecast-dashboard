@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unit 3 · Sensor Array — Orbital Academy</title>
+  <title>Unit 2 · Transfer Orbit — Orbital Academy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
@@ -250,7 +250,7 @@
   <div id="codename-modal" class="modal-overlay" role="dialog" aria-labelledby="codename-title" aria-modal="true">
     <div class="modal">
       <h2 id="codename-title">Welcome, cadet</h2>
-      <p>Choose a <strong>call sign</strong>. Progress saves locally.</p>
+      <p>Choose a <strong>call sign</strong>, then roll into missions. Matches your Nexus Academy cadet name if you already picked one there.</p>
       <label class="sr-only" for="codename-input">Display name</label>
       <input id="codename-input" type="text" maxlength="24" placeholder="Your call sign" autocomplete="nickname" />
       <button type="button" class="primary" id="codename-start">Enter</button>
@@ -269,7 +269,7 @@
 
   <header class="game-hud" role="banner">
     <div class="hud-brand">
-      <span id="gce-op-title">Sensor Array</span>
+      <span id="gce-op-title">Transfer Orbit</span>
       <span class="hud-codename" id="hud-codename" title=""></span>
     </div>
     <a href="hub.html" class="hud-home-link">← Units</a>
@@ -299,10 +299,10 @@
 
   <div class="wrap hero">
     <header>
-      <p class="hero-badge reveal">Unit 3 · Sensor Array — Orbital Academy</p>
+      <p class="hero-badge reveal">Unit 2 · Transfer Orbit — Orbital Academy</p>
       <p class="hero-greeting reveal" id="hero-greeting"></p>
-      <h1 class="reveal d1">Data from the void</h1>
-      <p class="lead reveal d2">Summarize data with center, spread, and simple probability models.</p>
+      <h1 class="reveal d1">Proportions &amp; linear patterns</h1>
+      <p class="lead reveal d2">When two quantities stay in proportion, you can predict unknowns with equations and graphs.</p>
       <div class="hero-cta reveal">
         <button type="button" class="btn-primary" id="btn-jump-m1">Start mission 1</button>
         <button type="button" class="btn-ghost" id="btn-edit-name">Change name</button>
@@ -312,86 +312,86 @@
 
   <main class="wrap">
     <section data-mission="1">
-      <span class="mission-tag" data-mission-tag="1">Mission 1 · Mean</span>
+      <span class="mission-tag" data-mission-tag="1">Mission 1 · Proportional relationships</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Mean</h2>
-      <p class="intro reveal d2">The <strong>mean</strong> is the average—sum divided by count.</p>
+      <h2 class="reveal d1">Proportional relationships</h2>
+      <p class="intro reveal d2">If y is always k times x, the relationship is <strong>proportional</strong>; k is the constant of proportionality.</p>
       <div class="gce-challenge reveal" data-mi="0">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Data: 4, 8, 8, 10. What is the mean?</p>
+        <p class="gce-prompt">y = 4x. What is y when x = 7?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">7.5</button>
-          <button type="button" class="choice-btn" data-correct="false">8</button>
-          <button type="button" class="choice-btn" data-correct="false">10</button>
-          <button type="button" class="choice-btn" data-correct="false">30</button>
+          <button type="button" class="choice-btn" data-correct="true">28</button>
+          <button type="button" class="choice-btn" data-correct="false">11</button>
+          <button type="button" class="choice-btn" data-correct="false">3</button>
+          <button type="button" class="choice-btn" data-correct="false">47</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="2">
-      <span class="mission-tag" data-mission-tag="2">Mission 2 · Median</span>
+      <span class="mission-tag" data-mission-tag="2">Mission 2 · Tables</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Median</h2>
-      <p class="intro reveal d2">The <strong>median</strong> is the middle value when data are ordered.</p>
+      <h2 class="reveal d1">Tables</h2>
+      <p class="intro reveal d2">Check whether all rows have the same ratio y:x.</p>
       <div class="gce-challenge reveal" data-mi="1">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Ordered data: 3, 7, 9, 12, 20. What is the median?</p>
+        <p class="gce-prompt">Which table could show a proportional relationship?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">9</button>
-          <button type="button" class="choice-btn" data-correct="false">7</button>
-          <button type="button" class="choice-btn" data-correct="false">10.2</button>
-          <button type="button" class="choice-btn" data-correct="false">20</button>
+          <button type="button" class="choice-btn" data-correct="true">x 1,2,3 and y 3,6,9</button>
+          <button type="button" class="choice-btn" data-correct="false">x 1,2,3 and y 2,4,7</button>
+          <button type="button" class="choice-btn" data-correct="false">x 1,1,1 and y 2,3,4</button>
+          <button type="button" class="choice-btn" data-correct="false">x 0,1 and y 1,3 only</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="3">
-      <span class="mission-tag" data-mission-tag="3">Mission 3 · Range</span>
+      <span class="mission-tag" data-mission-tag="3">Mission 3 · Graphs</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Range</h2>
-      <p class="intro reveal d2">Range = max − min.</p>
+      <h2 class="reveal d1">Graphs</h2>
+      <p class="intro reveal d2">Proportional relationships graph as lines through the origin (in many middle-school contexts).</p>
       <div class="gce-challenge reveal" data-mi="2">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Scores: 14, 18, 22. What is the range?</p>
+        <p class="gce-prompt">A proportional line through the origin has slope equal to…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">8</button>
-          <button type="button" class="choice-btn" data-correct="false">18</button>
-          <button type="button" class="choice-btn" data-correct="false">22</button>
-          <button type="button" class="choice-btn" data-correct="false">54</button>
+          <button type="button" class="choice-btn" data-correct="true">the constant of proportionality</button>
+          <button type="button" class="choice-btn" data-correct="false">always zero</button>
+          <button type="button" class="choice-btn" data-correct="false">the y-intercept only</button>
+          <button type="button" class="choice-btn" data-correct="false">area</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="4">
-      <span class="mission-tag" data-mission-tag="4">Mission 4 · Simple probability</span>
+      <span class="mission-tag" data-mission-tag="4">Mission 4 · Equations</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Simple probability</h2>
-      <p class="intro reveal d2">Probability of an event = favorable outcomes / total equally likely outcomes.</p>
+      <h2 class="reveal d1">Equations</h2>
+      <p class="intro reveal d2">Translate words to y = kx when quantities stay proportional.</p>
       <div class="gce-challenge reveal" data-mi="3">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">A fair number cube (1–6). P(rolling an even number)?</p>
+        <p class="gce-prompt">A recipe uses 2 cups milk for 3 cups flour. If flour is x and milk is y, which equation fits a proportional story?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">1/2</button>
-          <button type="button" class="choice-btn" data-correct="false">1/3</button>
-          <button type="button" class="choice-btn" data-correct="false">1/6</button>
-          <button type="button" class="choice-btn" data-correct="false">2/3</button>
+          <button type="button" class="choice-btn" data-correct="true">y = (2/3)x when comparing to flour as x</button>
+          <button type="button" class="choice-btn" data-correct="false">y = x + 2</button>
+          <button type="button" class="choice-btn" data-correct="false">y = 3/x</button>
+          <button type="button" class="choice-btn" data-correct="false">y = 2</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="5">
-      <span class="mission-tag" data-mission-tag="5">Mission 5 · Samples</span>
+      <span class="mission-tag" data-mission-tag="5">Mission 5 · Non-examples</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Samples</h2>
-      <p class="intro reveal d2">A <strong>random sample</strong> helps generalize to a population—if done well.</p>
+      <h2 class="reveal d1">Non-examples</h2>
+      <p class="intro reveal d2">If adding a fixed fee breaks through-origin, it may not be proportional from zero.</p>
       <div class="gce-challenge reveal" data-mi="4">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Why randomize a sample?</p>
+        <p class="gce-prompt">Which is usually NOT proportional?</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">Reduce bias and improve representativeness</button>
-          <button type="button" class="choice-btn" data-correct="false">Guarantee perfect accuracy always</button>
-          <button type="button" class="choice-btn" data-correct="false">Make the sample smaller always</button>
-          <button type="button" class="choice-btn" data-correct="false">Remove all variability</button>
+          <button type="button" class="choice-btn" data-correct="false">Cost = $5 per shirt with no fee</button>
+          <button type="button" class="choice-btn" data-correct="true">Cost = $5 per shirt plus $2 flat fee from 0 items</button>
+          <button type="button" class="choice-btn" data-correct="false">Distance = 60 miles per hour × hours</button>
+          <button type="button" class="choice-btn" data-correct="false">Meters = 100 × centimeters</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
@@ -400,9 +400,9 @@
     <section id="flash">
       <p class="kicker reveal">Review</p>
       <h2 class="reveal d1">Flashcards</h2>
-      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Mean</p><div class="flashcard-a"><div class="flashcard-a-inner">Sum ÷ count.</div></div></div>
-      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Median</p><div class="flashcard-a"><div class="flashcard-a-inner">Middle when sorted.</div></div></div>
-      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Range</p><div class="flashcard-a"><div class="flashcard-a-inner">Max − min.</div></div></div>
+      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Proportional?</p><div class="flashcard-a"><div class="flashcard-a-inner">y = kx through the origin in many textbook setups.</div></div></div>
+      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">k</p><div class="flashcard-a"><div class="flashcard-a-inner">The factor in y = kx.</div></div></div>
+      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Graph clue</p><div class="flashcard-a"><div class="flashcard-a-inner">Straight line through origin when both variables start at zero.</div></div></div>
 
     </section>
 
@@ -410,49 +410,49 @@
       <p class="kicker reveal">Checkpoint quiz</p>
       <h2 class="reveal d1">Four questions (+25 XP each)</h2>
       <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="2">
-        <p>1. Which is most affected by a single very large outlier?</p>
+        <p>1. Constant of proportionality k in y = kx means…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Median</button>
-          <button type="button" data-i="1">Mode</button>
-          <button type="button" data-i="2">Mean</button>
-          <button type="button" data-i="3">Range only</button>
+          <button type="button" data-i="0">y + x</button>
+          <button type="button" data-i="1">y ÷ x when proportional</button>
+          <button type="button" data-i="2">x − y</button>
+          <button type="button" data-i="3">Always 1</button>
         </div>
-        <div class="explain"><p>The mean shifts with extreme values.</p></div>
+        <div class="explain"><p>k is the factor relating y to x.</p></div>
       </div>
       <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="1">
-        <p>2. Probability must be between…</p>
+        <p>2. A line through (0,0) and (2,6) has slope…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">0 and 10</button>
-          <button type="button" data-i="1">0 and 1 inclusive</button>
-          <button type="button" data-i="2">1 and 100 always</button>
-          <button type="button" data-i="3">−1 and 1</button>
+          <button type="button" data-i="0">2</button>
+          <button type="button" data-i="1">3</button>
+          <button type="button" data-i="2">6</button>
+          <button type="button" data-i="3">0</button>
         </div>
-        <div class="explain"><p>0 ≤ P ≤ 1 for standard probability models.</p></div>
+        <div class="explain"><p>Rise/run = 6/2 = 3.</p></div>
       </div>
       <div class="quiz-box gce-quiz-box reveal d2" data-qi="2" data-ok="0">
-        <p>3. A dot plot shows…</p>
+        <p>3. Which point must a proportional graph through the origin pass?</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Each data value as a dot along a number line</button>
-          <button type="button" data-i="1">Only the mean</button>
-          <button type="button" data-i="2">Only pie slices</button>
-          <button type="button" data-i="3">Only 3D shapes</button>
+          <button type="button" data-i="0">(0,0)</button>
+          <button type="button" data-i="1">(1,0)</button>
+          <button type="button" data-i="2">(0,1)</button>
+          <button type="button" data-i="3">(2,2)</button>
         </div>
-        <div class="explain"><p>Dots stack for repeats.</p></div>
+        <div class="explain"><p>Zero input → zero output in proportional stories from zero.</p></div>
       </div>
-      <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="3">
-        <p>4. Flip a fair coin. P(heads) =</p>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="1">
+        <p>4. If 8 ounces cost $2, the unit price is…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">0</button>
-          <button type="button" data-i="1">1/4</button>
-          <button type="button" data-i="2">1/3</button>
-          <button type="button" data-i="3">1/2</button>
+          <button type="button" data-i="0">$0.25 per ounce</button>
+          <button type="button" data-i="1">$4 per ounce</button>
+          <button type="button" data-i="2">$16 per ounce</button>
+          <button type="button" data-i="3">$6 per ounce</button>
         </div>
-        <div class="explain"><p>Two equally likely outcomes.</p></div>
+        <div class="explain"><p>2 dollars ÷ 8 ounces = $0.25 per ounce.</p></div>
       </div>
     </section>
   </main>
 
-  <footer>Orbital Academy · Middle school math · Local progress</footer>
+  <footer>Orbital Academy · Middle school math</footer>
 
   <script src="../js/orbital-game.js"></script>
   <script src="../js/nexus-academy.js"></script>
@@ -460,18 +460,18 @@
   <script>
     RealmLesson.init({
       api: window.OrbitalGame,
-      lessonId: "sensors",
+      lessonId: "transfer",
       storageKey: "orbitalAcademy_v1",
       defaultName: "Cadet",
-      operationLabel: "Sensor Array",
-      heroGreeting: "{name}, read the noise\u2014means and more.",
+      operationLabel: "Transfer Orbit",
+      heroGreeting: "{name}, match your slope\u2014constant of proportionality ahead.",
       chapterTitle: "Unit complete",
-      chapterMsg: "{name}, sensors calibrated. Geometry sector ahead.",
+      chapterMsg: "{name}, transfer burn complete. Sensors next.",
       grandTitle: "Orbital Academy complete",
       grandMsg: "{name}, you cleared Orbital Academy\u2014every burn counted.",
-      chapterBadges: "<span class=\"mini-badge\">Mean</span><span class=\"mini-badge\">Median</span><span class=\"mini-badge\">Range</span><span class=\"mini-badge\">Dot Plot</span><span class=\"mini-badge\">Sensor Sync</span>",
+      chapterBadges: "<span class=\"mini-badge\">k Master</span><span class=\"mini-badge\">Proportion</span><span class=\"mini-badge\">Line Sense</span><span class=\"mini-badge\">y = kx</span><span class=\"mini-badge\">Transfer OK</span>",
       grandBadges: "<span class=\"mini-badge\">Navigator</span><span class=\"mini-badge\">Transfer</span><span class=\"mini-badge\">Sensor Tech</span><span class=\"mini-badge\">Geometry</span><span class=\"mini-badge\">Orbital Ace</span>",
-      missionOk: "{name}, data locked.",
+      missionOk: "{name}, burn nominal.",
       missionRetry: "Try again—use the briefing above.",
       confettiColors: ["#38bdf8", "#22d3ee", "#a5f3fc", "#fbbf24", "#818cf8"]
     });

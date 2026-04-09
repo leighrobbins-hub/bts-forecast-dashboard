@@ -87,6 +87,16 @@
     if (global.LexiconGame && global.LexiconGame.setName) global.LexiconGame.setName(name);
   }
 
+  /**
+   * Apply Nexus cadet name from the manifest to whichever game engines are loaded.
+   * Call after game scripts load so names set on Nexus propagate everywhere.
+   */
+  function applyDisplayNameFromManifest() {
+    var m = loadManifest();
+    if (!m.displayName) return;
+    syncNameToGames(m.displayName);
+  }
+
   function recordLastPlayed(gameId, href) {
     var m = loadManifest();
     m.lastPlayed = {
@@ -124,6 +134,7 @@
     getAggregate: getAggregate,
     setDisplayName: setDisplayName,
     syncNameToGames: syncNameToGames,
+    applyDisplayNameFromManifest: applyDisplayNameFromManifest,
     recordLastPlayed: recordLastPlayed,
     xpGeneCode: xpGeneCode,
     xpOrbital: xpOrbital,

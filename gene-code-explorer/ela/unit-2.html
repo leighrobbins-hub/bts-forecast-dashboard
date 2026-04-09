@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unit 3 · Syntax Forge — Guild of the Lexicon</title>
+  <title>Unit 2 · Chorus of Voices — Guild of the Lexicon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
@@ -250,7 +250,7 @@
   <div id="codename-modal" class="modal-overlay" role="dialog" aria-labelledby="codename-title" aria-modal="true">
     <div class="modal">
       <h2 id="codename-title">Welcome, hero</h2>
-      <p>Choose a <strong>hero name</strong>. Progress saves locally.</p>
+      <p>Choose a <strong>hero name</strong>, then begin the quest. Matches your Nexus Academy cadet name if you already picked one there.</p>
       <label class="sr-only" for="codename-input">Display name</label>
       <input id="codename-input" type="text" maxlength="24" placeholder="Hero name" autocomplete="nickname" />
       <button type="button" class="primary" id="codename-start">Enter</button>
@@ -269,7 +269,7 @@
 
   <header class="game-hud" role="banner">
     <div class="hud-brand">
-      <span id="gce-op-title">Syntax Forge</span>
+      <span id="gce-op-title">Chorus of Voices</span>
       <span class="hud-codename" id="hud-codename" title=""></span>
     </div>
     <a href="hub.html" class="hud-home-link">← Units</a>
@@ -299,10 +299,10 @@
 
   <div class="wrap hero">
     <header>
-      <p class="hero-badge reveal">Unit 3 · Syntax Forge — Guild of the Lexicon</p>
+      <p class="hero-badge reveal">Unit 2 · Chorus of Voices — Guild of the Lexicon</p>
       <p class="hero-greeting reveal" id="hero-greeting"></p>
-      <h1 class="reveal d1">Sentences that hold</h1>
-      <p class="lead reveal d2">Clauses, phrases, and punctuation—forge clear sentences for arguments and stories.</p>
+      <h1 class="reveal d1">Point of view &amp; tone</h1>
+      <p class="lead reveal d2">Who tells the story—and how does it sound? Precision starts with voice.</p>
       <div class="hero-cta reveal">
         <button type="button" class="btn-primary" id="btn-jump-m1">Start mission 1</button>
         <button type="button" class="btn-ghost" id="btn-edit-name">Change name</button>
@@ -312,86 +312,86 @@
 
   <main class="wrap">
     <section data-mission="1">
-      <span class="mission-tag" data-mission-tag="1">Mission 1 · Independent clause</span>
+      <span class="mission-tag" data-mission-tag="1">Mission 1 · First vs third</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Independent clause</h2>
-      <p class="intro reveal d2">Has a subject and predicate and can stand alone as a sentence.</p>
+      <h2 class="reveal d1">First vs third</h2>
+      <p class="intro reveal d2"><strong>First person</strong> uses I/we; <strong>third</strong> uses he/she/they.</p>
       <div class="gce-challenge reveal" data-mi="0">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Which is a full sentence?</p>
+        <p class="gce-prompt">“I shivered as the door creaked.” This is…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">The comet streaked across the sky.</button>
-          <button type="button" class="choice-btn" data-correct="false">Running through the field.</button>
-          <button type="button" class="choice-btn" data-correct="false">Because the bell rang.</button>
-          <button type="button" class="choice-btn" data-correct="false">Although quiet.</button>
+          <button type="button" class="choice-btn" data-correct="true">First person</button>
+          <button type="button" class="choice-btn" data-correct="false">Second person</button>
+          <button type="button" class="choice-btn" data-correct="false">Omniscient only</button>
+          <button type="button" class="choice-btn" data-correct="false">Objective only</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="2">
-      <span class="mission-tag" data-mission-tag="2">Mission 2 · Fragment</span>
+      <span class="mission-tag" data-mission-tag="2">Mission 2 · Third limited</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Fragment</h2>
-      <p class="intro reveal d2">A fragment is missing a complete thought or needed connection.</p>
+      <h2 class="reveal d1">Third limited</h2>
+      <p class="intro reveal d2">Third-person limited sticks closely to one character’s perceptions.</p>
       <div class="gce-challenge reveal" data-mi="1">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">“After the storm.” This is…</p>
+        <p class="gce-prompt">We only know one character’s thoughts on the page. Likely…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">A fragment</button>
-          <button type="button" class="choice-btn" data-correct="false">A complete sentence</button>
-          <button type="button" class="choice-btn" data-correct="false">A novel</button>
-          <button type="button" class="choice-btn" data-correct="false">A thesis</button>
+          <button type="button" class="choice-btn" data-correct="true">Third-person limited</button>
+          <button type="button" class="choice-btn" data-correct="false">Second person</button>
+          <button type="button" class="choice-btn" data-correct="false">Dramatic irony always</button>
+          <button type="button" class="choice-btn" data-correct="false">Recipe</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="3">
-      <span class="mission-tag" data-mission-tag="3">Mission 3 · Comma splice</span>
+      <span class="mission-tag" data-mission-tag="3">Mission 3 · Tone</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Comma splice</h2>
-      <p class="intro reveal d2">Two independent clauses jammed with only a comma—often fixed with a semicolon, period, or conjunction.</p>
+      <h2 class="reveal d1">Tone</h2>
+      <p class="intro reveal d2"><strong>Tone</strong> is the author’s attitude toward the subject—serious, playful, ironic…</p>
       <div class="gce-challenge reveal" data-mi="2">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">“I ran, I jumped.” is commonly labeled…</p>
+        <p class="gce-prompt">Sarcastic word choices usually signal…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">Comma splice (needs stronger join)</button>
-          <button type="button" class="choice-btn" data-correct="false">Perfect as-is always</button>
-          <button type="button" class="choice-btn" data-correct="false">A fragment</button>
-          <button type="button" class="choice-btn" data-correct="false">A phrase only</button>
+          <button type="button" class="choice-btn" data-correct="true">A particular tone</button>
+          <button type="button" class="choice-btn" data-correct="false">Always a happy theme</button>
+          <button type="button" class="choice-btn" data-correct="false">Only setting</button>
+          <button type="button" class="choice-btn" data-correct="false">Only plot</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="4">
-      <span class="mission-tag" data-mission-tag="4">Mission 4 · Compound sentence</span>
+      <span class="mission-tag" data-mission-tag="4">Mission 4 · Mood vs tone</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Compound sentence</h2>
-      <p class="intro reveal d2">Two independent clauses joined properly (e.g., comma + FANBOYS, or semicolon).</p>
+      <h2 class="reveal d1">Mood vs tone</h2>
+      <p class="intro reveal d2">Mood is reader feeling; tone is author attitude—related but not identical.</p>
       <div class="gce-challenge reveal" data-mi="3">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">Which is a properly joined compound in many classrooms?</p>
+        <p class="gce-prompt">“The room felt suffocating” leans toward describing…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">I read, and I wrote.</button>
-          <button type="button" class="choice-btn" data-correct="false">I read I wrote.</button>
-          <button type="button" class="choice-btn" data-correct="false">I read, I wrote with only a comma and no FANBOYS</button>
-          <button type="button" class="choice-btn" data-correct="false">Reading writing</button>
+          <button type="button" class="choice-btn" data-correct="true">Mood</button>
+          <button type="button" class="choice-btn" data-correct="false">A math ratio</button>
+          <button type="button" class="choice-btn" data-correct="false">A thesis statement</button>
+          <button type="button" class="choice-btn" data-correct="false">A bibliography</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
     </section>
     <section data-mission="5">
-      <span class="mission-tag" data-mission-tag="5">Mission 5 · Phrase vs clause</span>
+      <span class="mission-tag" data-mission-tag="5">Mission 5 · Unreliable narrator</span>
       <p class="kicker reveal">Briefing</p>
-      <h2 class="reveal d1">Phrase vs clause</h2>
-      <p class="intro reveal d2">A clause has a subject and verb; a phrase does not have both in the same unit.</p>
+      <h2 class="reveal d1">Unreliable narrator</h2>
+      <p class="intro reveal d2">Sometimes the narrator’s view is biased or mistaken—watch for clues.</p>
       <div class="gce-challenge reveal" data-mi="4">
         <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
-        <p class="gce-prompt">“Walking to school” is…</p>
+        <p class="gce-prompt">If details contradict the narrator’s claims, readers may infer…</p>
         <div class="choice-grid cols-2">
-          <button type="button" class="choice-btn" data-correct="true">A phrase (no full clause on its own)</button>
-          <button type="button" class="choice-btn" data-correct="false">An independent clause</button>
-          <button type="button" class="choice-btn" data-correct="false">A bibliography</button>
-          <button type="button" class="choice-btn" data-correct="false">A thesis</button>
+          <button type="button" class="choice-btn" data-correct="true">Unreliability or complexity</button>
+          <button type="button" class="choice-btn" data-correct="false">The book has no words</button>
+          <button type="button" class="choice-btn" data-correct="false">Third person is illegal</button>
+          <button type="button" class="choice-btn" data-correct="false">Theme is impossible</button>
         </div>
         <div class="gce-feedback" aria-live="polite"></div>
       </div>
@@ -400,59 +400,59 @@
     <section id="flash">
       <p class="kicker reveal">Review</p>
       <h2 class="reveal d1">Flashcards</h2>
-      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Clause</p><div class="flashcard-a"><div class="flashcard-a-inner">Subject + verb (may be dependent or independent).</div></div></div>
-      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Fragment</p><div class="flashcard-a"><div class="flashcard-a-inner">Incomplete thought as a sentence.</div></div></div>
-      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Comma splice</p><div class="flashcard-a"><div class="flashcard-a-inner">Two independents with only a comma.</div></div></div>
+      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Tone</p><div class="flashcard-a"><div class="flashcard-a-inner">Author attitude.</div></div></div>
+      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Mood</p><div class="flashcard-a"><div class="flashcard-a-inner">Reader feeling.</div></div></div>
+      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">POV</p><div class="flashcard-a"><div class="flashcard-a-inner">Who tells / sees.</div></div></div>
 
     </section>
 
     <section id="quiz">
       <p class="kicker reveal">Checkpoint quiz</p>
       <h2 class="reveal d1">Four questions (+25 XP each)</h2>
-      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="1">
-        <p>1. A dependent clause…</p>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="2">
+        <p>1. Second-person narration often uses…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Always stands alone</button>
-          <button type="button" data-i="1">Cannot stand alone as a complete sentence</button>
-          <button type="button" data-i="2">Has no verb</button>
-          <button type="button" data-i="3">Is always a title</button>
+          <button type="button" data-i="0">He</button>
+          <button type="button" data-i="1">She</button>
+          <button type="button" data-i="2">You</button>
+          <button type="button" data-i="3">We only</button>
         </div>
-        <div class="explain"><p>Needs an independent clause or context.</p></div>
+        <div class="explain"><p>Direct address to the reader or character as “you.”</p></div>
       </div>
-      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="2">
-        <p>2. FANBOYS are…</p>
+      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="1">
+        <p>2. An objective narrator typically…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Only adjectives</button>
-          <button type="button" data-i="1">Only nouns</button>
-          <button type="button" data-i="2">Coordinating conjunctions</button>
-          <button type="button" data-i="3">Punctuation marks</button>
+          <button type="button" data-i="0">Shares every thought in the universe</button>
+          <button type="button" data-i="1">Reports actions/dialogue without inner thoughts</button>
+          <button type="button" data-i="2">Always uses I</button>
+          <button type="button" data-i="3">Writes only in poetry</button>
         </div>
-        <div class="explain"><p>For, And, Nor, But, Or, Yet, So.</p></div>
+        <div class="explain"><p>Camera-like reporting.</p></div>
       </div>
       <div class="quiz-box gce-quiz-box reveal d2" data-qi="2" data-ok="0">
-        <p>3. A run-on may be…</p>
+        <p>3. Word choice, imagery, and rhythm contribute to…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Fused independent clauses without proper punctuation/conjunctions</button>
-          <button type="button" data-i="1">Any long sentence</button>
-          <button type="button" data-i="2">Any short sentence</button>
-          <button type="button" data-i="3">Only poetry</button>
+          <button type="button" data-i="0">Tone and style</button>
+          <button type="button" data-i="1">Only page numbers</button>
+          <button type="button" data-i="2">Only margins</button>
+          <button type="button" data-i="3">ISBN</button>
         </div>
-        <div class="explain"><p>Two (or more) independents crashed together.</p></div>
+        <div class="explain"><p>Craft shapes how we hear the story.</p></div>
       </div>
-      <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="3">
-        <p>4. Which revision often fixes a comma splice?</p>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="1">
+        <p>4. If the narrator says one thing but events show another, that can create…</p>
         <div class="quiz-opts cols-2">
-          <button type="button" data-i="0">Add nothing</button>
-          <button type="button" data-i="1">Remove all verbs</button>
-          <button type="button" data-i="2">Use only commas forever</button>
-          <button type="button" data-i="3">Use a period or semicolon, or add a coordinating conjunction</button>
+          <button type="button" data-i="0">A table of contents</button>
+          <button type="button" data-i="1">Irony or dramatic tension</button>
+          <button type="button" data-i="2">A bibliography</button>
+          <button type="button" data-i="3">A ratio</button>
         </div>
-        <div class="explain"><p>Give each independent its due boundary.</p></div>
+        <div class="explain"><p>Gap between saying and showing.</p></div>
       </div>
     </section>
   </main>
 
-  <footer>Guild of the Lexicon · Middle school ELA · Local progress</footer>
+  <footer>Guild of the Lexicon · Middle school ELA</footer>
 
   <script src="../js/lexicon-game.js"></script>
   <script src="../js/nexus-academy.js"></script>
@@ -460,18 +460,18 @@
   <script>
     RealmLesson.init({
       api: window.LexiconGame,
-      lessonId: "forge",
+      lessonId: "voices",
       storageKey: "lexiconGuild_v1",
       defaultName: "Hero",
-      operationLabel: "Syntax Forge",
-      heroGreeting: "{name}, strike true\u2014subject meets predicate.",
+      operationLabel: "Chorus of Voices",
+      heroGreeting: "{name}, tune your ear\u2014tone carries meaning.",
       chapterTitle: "Unit complete",
-      chapterMsg: "{name}, forge cooled. Sigils next.",
+      chapterMsg: "{name}, voices harmonized. The forge awaits.",
       grandTitle: "Guild of the Lexicon complete",
       grandMsg: "{name}, the Lexicon knows your name\u2014every sigil earned.",
-      chapterBadges: "<span class=\"mini-badge\">Clause</span><span class=\"mini-badge\">Phrase</span><span class=\"mini-badge\">Fragment</span><span class=\"mini-badge\">Run-on</span><span class=\"mini-badge\">Smith</span>",
+      chapterBadges: "<span class=\"mini-badge\">1st person</span><span class=\"mini-badge\">3rd limited</span><span class=\"mini-badge\">Omniscient</span><span class=\"mini-badge\">Tone</span><span class=\"mini-badge\">Speaker</span>",
       grandBadges: "<span class=\"mini-badge\">Map</span><span class=\"mini-badge\">Voices</span><span class=\"mini-badge\">Forge</span><span class=\"mini-badge\">Sigils</span><span class=\"mini-badge\">Guild Master</span>",
-      missionOk: "{name}, sentence forged.",
+      missionOk: "{name}, voice noted.",
       missionRetry: "Try again—use the briefing above.",
       confettiColors: ["#f59e0b", "#fbbf24", "#fb7185", "#a78bfa", "#fde68a"]
     });
