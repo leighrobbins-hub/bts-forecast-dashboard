@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1 · Realm Map — Guild of the Lexicon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0a08;
+      --bg-elevated: #17120e;
+      --text: #f5f0e8;
+      --text-muted: #a8a29e;
+      --accent: #f59e0b;
+      --accent-dim: #fcd34d;
+      --gold: #fde68a;
+      --a: #4ade80;
+      --t: #fb7185;
+      --radius: 12px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --hud-h: 100px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      padding-top: var(--hud-h);
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: clamp(1rem, 0.95rem + 0.3vw, 1.1rem);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(245, 158, 11, 0.12), transparent), radial-gradient(circle at 85% 70%, rgba(180, 83, 9, 0.08), transparent);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .wrap { width: min(48rem, calc(100% - 2rem)); margin: 0 auto; padding: 2rem 0 3rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+    .game-hud {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+      padding: 0.55rem 1rem;
+      min-height: var(--hud-h);
+      background: rgba(5, 8, 9, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+      flex-wrap: wrap;
+    }
+    .hud-brand { display: flex; flex-direction: column; gap: 0.1rem; font-weight: 700; font-size: 0.85rem; color: var(--accent); }
+    .hud-codename { font-size: 0.65rem; font-weight: 600; color: var(--text-muted); max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hud-home-link { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-decoration: none; }
+    .hud-home-link:hover { color: var(--accent); }
+    .hud-xp-stack { flex: 1; min-width: 160px; max-width: 280px; display: flex; flex-direction: column; gap: 0.35rem; }
+    .hud-xp { width: 100%; }
+    .hud-xp-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .hud-xp-bar { height: 7px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .hud-xp-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #f59e0b, var(--accent-dim)); transition: width 0.5s var(--ease-out); }
+    .hud-xp.global .hud-xp-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+    .hud-quiz-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+    .hud-quiz-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .hud-quiz-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent-dim)); transition: width 0.4s; }
+    .hud-missions { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .mission-dot {
+      width: 34px; height: 34px; border-radius: 9px;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      font-size: 0.72rem; font-weight: 700;
+      display: grid; place-items: center;
+      cursor: pointer;
+    }
+    .mission-dot.done { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px rgba(245, 158, 11, 0.25); }
+    .hud-mute { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-muted); border-radius: 8px; padding: 0.3rem 0.45rem; font-size: 0.72rem; cursor: pointer; }
+
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.75);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: var(--bg-elevated);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: 16px;
+      padding: 1.75rem;
+      max-width: 400px;
+      width: 100%;
+    }
+    .modal h2 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+    .modal p { margin: 0 0 1rem; color: var(--text-muted); font-size: 0.95rem; }
+    .modal input {
+      width: 100%; padding: 0.75rem 1rem; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--bg); color: var(--text); font-family: inherit; margin-bottom: 1rem;
+    }
+    .modal button.primary {
+      width: 100%; padding: 0.85rem; border: none; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      color: #0a0a0a; font-weight: 700; font-family: inherit; cursor: pointer;
+    }
+
+    .victory-overlay {
+      position: fixed; inset: 0; z-index: 190;
+      background: rgba(5, 8, 9, 0.88);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.4s;
+    }
+    .victory-overlay.active { opacity: 1; pointer-events: auto; }
+    .victory-card { text-align: center; max-width: 420px; padding: 2rem; }
+    .victory-card h2 {
+      font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0 0 0.5rem;
+      background: linear-gradient(135deg, #fde68a, var(--accent));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 1.25rem 0; }
+    .mini-badge {
+      font-size: 0.72rem; padding: 0.35rem 0.65rem; border-radius: 99px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      color: var(--accent-dim);
+    }
+    .btn-dismiss {
+      padding: 0.75rem 1.5rem; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      color: #0a0a0a; font-weight: 700; font-family: inherit; cursor: pointer;
+    }
+
+    .confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 195; overflow: hidden; }
+    .confetti-piece {
+      position: absolute; width: 8px; height: 12px; top: -20px;
+      animation: confetti-fall 2.5s linear forwards;
+    }
+    @keyframes confetti-fall {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0.9; }
+    }
+
+    .hero { padding: 2rem 0 1rem; }
+    .hero-badge { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.65rem; }
+    .hero-greeting { font-size: 1.05rem; font-weight: 600; color: var(--accent); margin: 0 0 0.75rem; min-height: 1.35em; }
+    h1 { font-size: clamp(1.85rem, 1.2rem + 2vw, 2.5rem); font-weight: 700; letter-spacing: -0.03em; margin: 0 0 1rem; line-height: 1.15; }
+    .lead { color: var(--text-muted); max-width: 44ch; margin: 0 0 1.5rem; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+    .btn-primary {
+      padding: 0.65rem 1.1rem; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      color: #0a0a0a; font-weight: 600; font-family: inherit; cursor: pointer;
+    }
+    .btn-ghost {
+      padding: 0.65rem 1rem; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: transparent; color: var(--text-muted); font-family: inherit; cursor: pointer;
+    }
+
+    section { padding: 2.25rem 0; border-top: 1px solid rgba(255,255,255,0.06); scroll-margin-top: calc(var(--hud-h) + 8px); }
+    .mission-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .mission-tag.done { background: rgba(245, 158, 11, 0.12); }
+    .kicker { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-dim); margin-bottom: 0.35rem; }
+    h2 { font-size: clamp(1.3rem, 1rem + 1vw, 1.65rem); margin: 0 0 0.65rem; }
+    .intro { color: var(--text-muted); margin-bottom: 1rem; max-width: 52ch; }
+
+    .gce-challenge {
+      margin-top: 1.5rem;
+      padding: 1.35rem;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(5, 8, 9, 0.95));
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .gce-challenge.complete { opacity: 0.95; }
+    .gce-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; font-size: 1rem; font-weight: 600; }
+    .xp-pill { font-size: 0.65rem; font-weight: 700; color: var(--gold); background: rgba(251, 191, 36, 0.12); padding: 0.15rem 0.45rem; border-radius: 6px; }
+    .gce-prompt { margin: 0 0 0.85rem; font-weight: 500; }
+    .choice-grid { display: grid; gap: 0.45rem; }
+    @media (min-width: 500px) { .choice-grid.cols-2 { grid-template-columns: 1fr 1fr; } }
+    .choice-btn {
+      padding: 0.75rem 0.95rem;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: var(--bg-elevated);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      text-align: left;
+      cursor: pointer;
+    }
+    .choice-btn:disabled { cursor: default; opacity: 0.88; }
+    .choice-btn.correct { border-color: var(--a); background: rgba(74, 222, 128, 0.12); }
+    .choice-btn.wrong { border-color: var(--t); background: rgba(251, 113, 133, 0.1); }
+    .gce-feedback { margin-top: 0.85rem; font-size: 0.88rem; display: none; padding: 0.65rem 0.85rem; border-radius: 10px; }
+    .gce-feedback.show { display: block; }
+    .gce-feedback.ok { background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.35); color: #86efac; }
+    .gce-feedback.no { background: rgba(251, 113, 133, 0.08); border: 1px solid rgba(251, 113, 133, 0.25); color: #fda4af; }
+    .btn-retry { margin-top: 0.4rem; padding: 0.35rem 0.65rem; font-size: 0.82rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text); cursor: pointer; font-family: inherit; }
+
+    .flashcard { margin-bottom: 0.75rem; border-radius: var(--radius); background: var(--bg-elevated); border: 1px solid rgba(255,255,255,0.07); border-left: 4px solid var(--accent); overflow: hidden; }
+    .flashcard-q { padding: 0.85rem 1rem; margin: 0; font-weight: 600; cursor: pointer; user-select: none; }
+    .flashcard-q::after { content: " ▾"; opacity: 0.5; }
+    .flashcard.open .flashcard-q::after { content: " ▴"; }
+    .flashcard-a { max-height: 0; overflow: hidden; transition: max-height 0.45s var(--ease-out); }
+    .flashcard.open .flashcard-a { max-height: 200px; }
+    .flashcard-a-inner { padding: 0 1rem 1rem; color: var(--text-muted); font-size: 0.92rem; }
+
+    .quiz-box { background: var(--bg-elevated); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.2rem 1.3rem; margin-bottom: 1.15rem; }
+    .quiz-box p:first-child { margin-top: 0; font-weight: 600; }
+    .quiz-opts { display: grid; gap: 0.45rem; }
+    @media(min-width:500px){ .quiz-opts.cols-2 { grid-template-columns: 1fr 1fr; } }
+    .quiz-opts button {
+      padding: 0.6rem 0.8rem; border-radius: 10px; border: 2px solid rgba(255,255,255,0.1);
+      background: var(--bg); color: var(--text); font-family: inherit; font-size: 0.88rem; text-align: left; cursor: pointer;
+    }
+    .quiz-opts button:disabled { opacity: 0.9; cursor: default; }
+    .quiz-opts button.ok { border-color: #4ade80; background: rgba(74,222,128,0.1); }
+    .quiz-opts button.bad { border-color: #fb7185; background: rgba(251,113,133,0.08); }
+    .explain { margin-top: 0.65rem; font-size: 0.85rem; color: var(--text-muted); max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.3s; }
+    .explain.open { max-height: 140px; opacity: 1; }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
+    .reveal.in-view { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.06s; } .d2 { transition-delay: 0.12s; }
+
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.06); }
+  </style>
+</head>
+<body>
+  <div id="codename-modal" class="modal-overlay" role="dialog" aria-labelledby="codename-title" aria-modal="true">
+    <div class="modal">
+      <h2 id="codename-title">Welcome, hero</h2>
+      <p>Choose a <strong>hero name</strong>. Progress saves locally in this browser.</p>
+      <label class="sr-only" for="codename-input">Display name</label>
+      <input id="codename-input" type="text" maxlength="24" placeholder="Hero name" autocomplete="nickname" />
+      <button type="button" class="primary" id="codename-start">Enter</button>
+    </div>
+  </div>
+
+  <div id="victory" class="victory-overlay" role="dialog" aria-labelledby="victory-title" aria-hidden="true">
+    <div class="victory-card">
+      <h2 id="victory-title">Unit complete</h2>
+      <p id="victory-msg" style="color:var(--text-muted);margin:0 0 1rem;"></p>
+      <div class="badge-row" id="victory-badges"></div>
+      <button type="button" class="btn-dismiss" id="victory-dismiss">Continue</button>
+    </div>
+  </div>
+  <div id="confetti-root" class="confetti-layer" aria-hidden="true"></div>
+
+  <header class="game-hud" role="banner">
+    <div class="hud-brand">
+      <span id="gce-op-title">Realm Map</span>
+      <span class="hud-codename" id="hud-codename" title=""></span>
+    </div>
+    <a href="hub.html" class="hud-home-link">← Units</a>
+    <div class="hud-xp-stack">
+      <div class="hud-xp global">
+        <div class="hud-xp-label"><span>Career XP</span><span id="hud-global-xp-text">0 / 2400</span></div>
+        <div class="hud-xp-bar" role="progressbar" id="hud-global-xp-bar-wrap" aria-valuenow="0" aria-valuemin="0" aria-valuemax="2400">
+          <div class="hud-xp-fill" id="hud-global-xp-fill"></div>
+        </div>
+      </div>
+      <div class="hud-xp chapter">
+        <div class="hud-xp-label"><span>This unit</span><span id="hud-chapter-xp-text">0 / 600</span></div>
+        <div class="hud-xp-bar" role="progressbar" id="hud-chapter-xp-bar-wrap" aria-valuenow="0" aria-valuemin="0" aria-valuemax="600">
+          <div class="hud-xp-fill" id="hud-chapter-xp-fill"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hud-quiz" title="Checkpoint quiz">
+      <div class="hud-quiz-label"><span>Quiz</span><span id="hud-quiz-text">0 / 4</span></div>
+      <div class="hud-quiz-bar" role="progressbar" id="hud-quiz-bar-wrap" aria-valuenow="0" aria-valuemin="0" aria-valuemax="4">
+        <div class="hud-quiz-fill" id="hud-quiz-fill"></div>
+      </div>
+    </div>
+    <div class="hud-missions" id="hud-missions" aria-label="Missions"></div>
+    <button type="button" class="hud-mute" id="btn-mute">Sound on</button>
+  </header>
+
+  <div class="wrap hero">
+    <header>
+      <p class="hero-badge reveal">Unit 1 · Realm Map — Guild of the Lexicon</p>
+      <p class="hero-greeting reveal" id="hero-greeting"></p>
+      <h1 class="reveal d1">Plot, setting, theme</h1>
+      <p class="lead reveal d2">Stories have structure. Map the terrain before you argue or polish sentences.</p>
+      <div class="hero-cta reveal">
+        <button type="button" class="btn-primary" id="btn-jump-m1">Start mission 1</button>
+        <button type="button" class="btn-ghost" id="btn-edit-name">Change name</button>
+      </div>
+    </header>
+  </div>
+
+  <main class="wrap">
+    <section data-mission="1">
+      <span class="mission-tag" data-mission-tag="1">Mission 1 · Plot vs theme</span>
+      <p class="kicker reveal">Briefing</p>
+      <h2 class="reveal d1">Plot vs theme</h2>
+      <p class="intro reveal d2"><strong>Plot</strong> is what happens; <strong>theme</strong> is the insight about life or human nature the story suggests.</p>
+      <div class="gce-challenge reveal" data-mi="0">
+        <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
+        <p class="gce-prompt">Which best describes a theme?</p>
+        <div class="choice-grid cols-2">
+          <button type="button" class="choice-btn" data-correct="true">Courage can cost comfort</button>
+          <button type="button" class="choice-btn" data-correct="false">The hero opened the door at 7:02 p.m.</button>
+          <button type="button" class="choice-btn" data-correct="false">Chapter 3 has 12 pages</button>
+          <button type="button" class="choice-btn" data-correct="false">The cover is blue</button>
+        </div>
+        <div class="gce-feedback" aria-live="polite"></div>
+      </div>
+    </section>
+    <section data-mission="2">
+      <span class="mission-tag" data-mission-tag="2">Mission 2 · Setting</span>
+      <p class="kicker reveal">Briefing</p>
+      <h2 class="reveal d1">Setting</h2>
+      <p class="intro reveal d2">Setting includes time, place, and sometimes mood or social world.</p>
+      <div class="gce-challenge reveal" data-mi="1">
+        <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
+        <p class="gce-prompt">“A rainy coastal town in 1920” mainly establishes…</p>
+        <div class="choice-grid cols-2">
+          <button type="button" class="choice-btn" data-correct="true">Setting</button>
+          <button type="button" class="choice-btn" data-correct="false">Theme</button>
+          <button type="button" class="choice-btn" data-correct="false">Climax</button>
+          <button type="button" class="choice-btn" data-correct="false">Author’s birthday</button>
+        </div>
+        <div class="gce-feedback" aria-live="polite"></div>
+      </div>
+    </section>
+    <section data-mission="3">
+      <span class="mission-tag" data-mission-tag="3">Mission 3 · Conflict</span>
+      <p class="kicker reveal">Briefing</p>
+      <h2 class="reveal d1">Conflict</h2>
+      <p class="intro reveal d2">Conflict drives plot—internal or external struggle.</p>
+      <div class="gce-challenge reveal" data-mi="2">
+        <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
+        <p class="gce-prompt">A character wrestles with fear of speaking up. That is mostly…</p>
+        <div class="choice-grid cols-2">
+          <button type="button" class="choice-btn" data-correct="true">Internal conflict</button>
+          <button type="button" class="choice-btn" data-correct="false">Exposition only</button>
+          <button type="button" class="choice-btn" data-correct="false">Setting</button>
+          <button type="button" class="choice-btn" data-correct="false">A type of meter</button>
+        </div>
+        <div class="gce-feedback" aria-live="polite"></div>
+      </div>
+    </section>
+    <section data-mission="4">
+      <span class="mission-tag" data-mission-tag="4">Mission 4 · Sequence</span>
+      <p class="kicker reveal">Briefing</p>
+      <h2 class="reveal d1">Sequence</h2>
+      <p class="intro reveal d2">Common plot parts: exposition, rising action, climax, falling action, resolution.</p>
+      <div class="gce-challenge reveal" data-mi="3">
+        <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
+        <p class="gce-prompt">The turning point of highest tension is usually the…</p>
+        <div class="choice-grid cols-2">
+          <button type="button" class="choice-btn" data-correct="true">Climax</button>
+          <button type="button" class="choice-btn" data-correct="false">Exposition</button>
+          <button type="button" class="choice-btn" data-correct="false">Title page</button>
+          <button type="button" class="choice-btn" data-correct="false">Copyright</button>
+        </div>
+        <div class="gce-feedback" aria-live="polite"></div>
+      </div>
+    </section>
+    <section data-mission="5">
+      <span class="mission-tag" data-mission-tag="5">Mission 5 · Evidence</span>
+      <p class="kicker reveal">Briefing</p>
+      <h2 class="reveal d1">Evidence</h2>
+      <p class="intro reveal d2">Claims about theme need textual evidence—quotes or paraphrase tied to events.</p>
+      <div class="gce-challenge reveal" data-mi="4">
+        <div class="gce-head">⚡ Checkpoint <span class="xp-pill">+100 XP</span></div>
+        <p class="gce-prompt">Which supports a claim about theme best?</p>
+        <div class="choice-grid cols-2">
+          <button type="button" class="choice-btn" data-correct="true">A pattern of choices the character repeats with consequences</button>
+          <button type="button" class="choice-btn" data-correct="false">The font size on page 1</button>
+          <button type="button" class="choice-btn" data-correct="false">How many chapters exist</button>
+          <button type="button" class="choice-btn" data-correct="false">The book’s price</button>
+        </div>
+        <div class="gce-feedback" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="flash">
+      <p class="kicker reveal">Review</p>
+      <h2 class="reveal d1">Flashcards</h2>
+      <div class="flashcard reveal"><p class="flashcard-q" tabindex="0" role="button">Plot</p><div class="flashcard-a"><div class="flashcard-a-inner">What happens.</div></div></div>
+      <div class="flashcard reveal d1"><p class="flashcard-q" tabindex="0" role="button">Theme</p><div class="flashcard-a"><div class="flashcard-a-inner">So what—big idea.</div></div></div>
+      <div class="flashcard reveal d2"><p class="flashcard-q" tabindex="0" role="button">Setting</p><div class="flashcard-a"><div class="flashcard-a-inner">When and where (and mood/world).</div></div></div>
+
+    </section>
+
+    <section id="quiz">
+      <p class="kicker reveal">Checkpoint quiz</p>
+      <h2 class="reveal d1">Four questions (+25 XP each)</h2>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="0" data-ok="1">
+        <p>1. Theme is usually stated as…</p>
+        <div class="quiz-opts cols-2">
+          <button type="button" data-i="0">A single object only</button>
+          <button type="button" data-i="1">A complete sentence about a big idea</button>
+          <button type="button" data-i="2">Only dialogue tags</button>
+          <button type="button" data-i="3">The ISBN</button>
+        </div>
+        <div class="explain"><p>Themes are interpretive claims—often full sentences.</p></div>
+      </div>
+      <div class="quiz-box gce-quiz-box reveal d1" data-qi="1" data-ok="2">
+        <p>2. Mood is…</p>
+        <div class="quiz-opts cols-2">
+          <button type="button" data-i="0">The moral</button>
+          <button type="button" data-i="1">The narrator’s name</button>
+          <button type="button" data-i="2">The feeling the reader gets</button>
+          <button type="button" data-i="3">Only the year printed</button>
+        </div>
+        <div class="explain"><p>Atmosphere/feeling.</p></div>
+      </div>
+      <div class="quiz-box gce-quiz-box reveal d2" data-qi="2" data-ok="0">
+        <p>3. First-person narration uses pronouns like…</p>
+        <div class="quiz-opts cols-2">
+          <button type="button" data-i="0">I / we</button>
+          <button type="button" data-i="1">He / she only</button>
+          <button type="button" data-i="2">They only</button>
+          <button type="button" data-i="3">You for everyone</button>
+        </div>
+        <div class="explain"><p>Inside a character’s perspective.</p></div>
+      </div>
+      <div class="quiz-box gce-quiz-box reveal" data-qi="3" data-ok="3">
+        <p>4. A story’s central message about life is closest to…</p>
+        <div class="quiz-opts cols-2">
+          <button type="button" data-i="0">A footnote</button>
+          <button type="button" data-i="1">Word count</button>
+          <button type="button" data-i="2">Copyright date</button>
+          <button type="button" data-i="3">Theme</button>
+        </div>
+        <div class="explain"><p>Theme—interpret carefully with evidence.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Guild of the Lexicon · Middle school ELA · Local progress</footer>
+
+  <script src="../js/lexicon-game.js"></script>
+  <script src="../js/nexus-academy.js"></script>
+  <script src="../js/realm-lesson-boot.js"></script>
+  <script>
+    RealmLesson.init({
+      api: window.LexiconGame,
+      lessonId: "map",
+      storageKey: "lexiconGuild_v1",
+      defaultName: "Hero",
+      operationLabel: "Realm Map",
+      heroGreeting: "{name}, chart the story\u2014setting lights the path.",
+      chapterTitle: "Unit complete",
+      chapterMsg: "{name}, the map is yours. Voices await.",
+      grandTitle: "Guild of the Lexicon complete",
+      grandMsg: "{name}, the Lexicon knows your name\u2014every sigil earned.",
+      chapterBadges: "<span class=\"mini-badge\">Plot</span><span class=\"mini-badge\">Setting</span><span class=\"mini-badge\">Theme</span><span class=\"mini-badge\">Conflict</span><span class=\"mini-badge\">Cartographer</span>",
+      grandBadges: "<span class=\"mini-badge\">Map</span><span class=\"mini-badge\">Voices</span><span class=\"mini-badge\">Forge</span><span class=\"mini-badge\">Sigils</span><span class=\"mini-badge\">Guild Master</span>",
+      missionOk: "{name}, passage marked.",
+      missionRetry: "Try again—use the briefing above.",
+      confettiColors: ["#f59e0b", "#fbbf24", "#fb7185", "#a78bfa", "#fde68a"]
+    });
+    if (window.NexusAcademy) NexusAcademy.recordLastPlayed("lexicon", location.href);
+  </script>
+</body>
+</html>

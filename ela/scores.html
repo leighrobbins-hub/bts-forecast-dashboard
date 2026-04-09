@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Progress — Guild of the Lexicon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0a08;
+      --text: #f5f0e8;
+      --muted: #a8a29e;
+      --accent: #f59e0b;
+      --card: #17120e;
+      --radius: 14px;
+      --ok: #4ade80;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% -15%, rgba(245, 158, 11, 0.1), transparent);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .wrap { width: min(52rem, calc(100% - 2rem)); margin: 0 auto; padding: 2.5rem 0 4rem; }
+    .nav { margin-bottom: 2rem; }
+    .nav a { font-size: 0.9rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+    .nav a:hover { text-decoration: underline; }
+    header { margin-bottom: 2rem; }
+    .logo {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    h1 { font-size: clamp(1.65rem, 1.1rem + 2vw, 2.25rem); font-weight: 700; margin: 0 0 0.5rem; }
+    .sub { color: var(--muted); max-width: 46ch; margin: 0 0 1.5rem; }
+    .summary {
+      background: var(--card);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .summary-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+    .summary-row:last-child { margin-bottom: 0; }
+    .label { font-size: 0.8rem; color: var(--muted); }
+    .codename { font-weight: 700; font-size: 1.1rem; }
+    .career-bar-wrap {
+      height: 12px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      margin-top: 0.35rem;
+    }
+    .career-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      transition: width 0.4s ease;
+    }
+    .career-xp-text { font-size: 0.95rem; font-weight: 600; }
+    .grand { font-size: 0.88rem; color: var(--muted); margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.06); }
+    .grand.done { color: var(--ok); }
+    .lesson-grid { display: grid; gap: 1rem; }
+    @media (min-width: 640px) { .lesson-grid { grid-template-columns: repeat(2, 1fr); } }
+    .lesson-card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .lesson-card h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
+    .lesson-card .num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .stat { font-size: 0.88rem; color: var(--muted); }
+    .stat strong { color: var(--text); font-weight: 600; }
+    .bar-mini { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+    .bar-mini-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #b45309, var(--accent));
+      transition: width 0.35s ease;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .badge.complete { background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.35); color: var(--ok); }
+    .badge.progress { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); }
+    .lesson-card a.open { margin-top: auto; font-size: 0.88rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+    .lesson-card a.open:hover { text-decoration: underline; }
+    footer { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="nav"><a href="hub.html">← Guild units</a> · <a href="../nexus-scores.html">Nexus Merit</a></p>
+    <header>
+      <p class="logo">Guild of the Lexicon</p>
+      <h1>ELA progress</h1>
+      <p class="sub">Saved in this browser only. Each unit is up to <strong>600 XP</strong>.</p>
+    </header>
+    <div id="scores-root"></div>
+    <footer><a href="../nexus.html">Nexus Academy</a></footer>
+  </div>
+  <script src="../js/lexicon-game.js"></script>
+  <script>
+    (function () {
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+      var G = window.LexiconGame;
+      var root = document.getElementById("scores-root");
+      if (!G || !root) return;
+
+      var LESSONS = [
+        { id: "map", num: "Unit 1", title: "Realm Map", href: "unit-1.html" },
+        { id: "voices", num: "Unit 2", title: "Chorus of Voices", href: "unit-2.html" },
+        { id: "forge", num: "Unit 3", title: "Syntax Forge", href: "unit-3.html" },
+        { id: "sigils", num: "Unit 4", title: "Sigils &amp; Symbols", href: "unit-4.html" }
+      ];
+
+      var globalXp = G.computeGlobalXP();
+      var maxG = G.MAX_GLOBAL;
+      var pctG = Math.min(100, (globalXp / maxG) * 100);
+      var name = G.displayName();
+      var allComplete = G.LESSON_IDS.every(function (id) {
+        return G.lessonComplete(id);
+      });
+      var grandSeen = !!G.state.grandFinaleSeen;
+
+      var html = "";
+      html += '<div class="summary">';
+      html += '<div class="summary-row"><span class="label">Hero</span><span class="codename">' + escapeHtml(name) + "</span></div>";
+      html += '<div class="summary-row"><span class="label">Career XP</span><span class="career-xp-text">' + globalXp + " / " + maxG + "</span></div>";
+      html += '<div class="career-bar-wrap" role="progressbar" aria-valuenow="' + globalXp + '" aria-valuemin="0" aria-valuemax="' + maxG + '">';
+      html += '<div class="career-bar-fill" style="width:' + pctG + '%"></div></div>';
+      if (allComplete) {
+        html += '<p class="grand done">All four units complete.' + (grandSeen ? " Grand finale seen." : "") + "</p>";
+      } else {
+        html += '<p class="grand">Clear every mission and quiz in all four units to max career XP.</p>';
+      }
+      html += "</div>";
+
+      html += '<div class="lesson-grid">';
+      LESSONS.forEach(function (L) {
+        var lesson = G.state.lessons[L.id];
+        if (!lesson) return;
+        var xp = G.computeLessonXP(L.id);
+        var maxL = G.MAX_PER_LESSON;
+        var pctL = Math.min(100, (xp / maxL) * 100);
+        var mDone = lesson.missions.filter(Boolean).length;
+        var qDone = lesson.quiz.filter(Boolean).length;
+        var done = G.lessonComplete(L.id);
+        html += '<article class="lesson-card">';
+        html += '<span class="num">' + L.num + "</span>";
+        html += "<h2>" + L.title + "</h2>";
+        html += '<div class="stat">Unit XP: <strong>' + xp + " / " + maxL + "</strong></div>";
+        html += '<div class="bar-mini"><div class="bar-mini-fill" style="width:' + pctL + '%"></div></div>';
+        html += '<div class="stat">Missions: <strong>' + mDone + " / 5</strong> · Quiz: <strong>" + qDone + " / 4</strong></div>";
+        html += '<span class="badge ' + (done ? "complete" : "progress") + '">' + (done ? "Unit complete" : "In progress") + "</span>";
+        html += '<a class="open" href="' + L.href + '">Open unit →</a>';
+        html += "</article>";
+      });
+      html += "</div>";
+      root.innerHTML = html;
+    })();
+  </script>
+</body>
+</html>
