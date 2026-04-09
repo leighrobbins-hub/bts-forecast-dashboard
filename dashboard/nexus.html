@@ -250,18 +250,6 @@
     a.portal.ela .bar > div { background: linear-gradient(90deg, #b45309, var(--ela)); }
     .portal .xp-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; }
 
-    .privacy {
-      margin-top: 2.5rem;
-      padding: 1rem 1.15rem;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.85rem;
-      color: var(--muted);
-      max-width: 52rem;
-      margin-left: auto;
-      margin-right: auto;
-    }
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -284,7 +272,7 @@
 
     <header class="hero">
       <h1>Three realms. One academy.</h1>
-      <p class="tagline">Train across life sciences, mathematics, and language arts. Nexus Merit adds up your XP from every track—saved on this device.</p>
+      <p class="tagline">Science, math, and language arts—three adventures, one Nexus Merit score. Pick a portal and rack up XP.</p>
       <div class="continue-row">
         <a class="btn-continue" id="btn-continue" href="hub.html" hidden>Continue where you left off →</a>
       </div>
@@ -336,11 +324,7 @@
       </a>
     </div>
 
-    <p class="privacy">
-      <strong>Privacy:</strong> Names and scores stay in this browser on this device (local storage) unless your school adds accounts later. Clearing site data will reset progress.
-    </p>
-
-    <footer>Nexus Academy · Middle school · <a href="nexus-scores.html" style="color:var(--math);font-weight:600;">Full scoreboard</a></footer>
+    <footer><a href="nexus-scores.html" style="color:var(--math);font-weight:600;">Nexus Merit scoreboard</a> · Three games, one academy</footer>
   </div>
 
   <script src="gene-code-game.js"></script>
@@ -409,10 +393,14 @@
         if (labels[g]) btnContinue.textContent = labels[g] + " →";
       }
 
-      btnSave.addEventListener("click", function () {
+      function saveCadetName() {
         var v = (input.value || "").trim().slice(0, 24);
         if (v) NexusAcademy.setDisplayName(v);
         refresh();
+      }
+      btnSave.addEventListener("click", saveCadetName);
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") saveCadetName();
       });
 
       refresh();

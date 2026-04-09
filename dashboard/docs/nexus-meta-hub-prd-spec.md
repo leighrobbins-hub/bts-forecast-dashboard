@@ -112,7 +112,7 @@ These patterns are widely used in consumer and edtech UX for **early adolescence
 | H6 | **Unified Cadet name**: read/write a **shared display name** in a Nexus manifest; optional sync into each game on next visit (see Part B) | P1 |
 | H7 | **Mute / reduce motion**: respect `prefers-reduced-motion` and a **sound off** default | P0 |
 | H8 | **Scores / progress** page reachable from Nexus that can evolve into **cross-game dashboard** | P1 |
-| H9 | **Privacy copy**: short note that progress is **device-local** unless accounts added later | P0 |
+| H9 | **Student-facing copy**: keep it game-forward (XP, ranks, portals)—no login/account setup in v1; optional teacher-facing note on data staying on the device if needed | P0 |
 
 ---
 
