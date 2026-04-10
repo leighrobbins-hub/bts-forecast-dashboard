@@ -1,0 +1,9 @@
+{
+  "fetched_at": "2026-04-10T16:45:10.337802+00:00",
+  "dry_run": false,
+  "sources": {
+    "run_rates": false,
+    "utilization": false
+  },
+  "any_failed": true
+}
