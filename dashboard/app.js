@@ -84,6 +84,7 @@ fetch('data.json?v=' + Date.now())
         renderProgressBar(summaryData);
         renderHistoryTab();
         lockFinalizedMonths();
+        showFetchStatusBanner(data.fetch_status);
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-tabs').style.display = '';
         document.getElementById('main-content').style.display = '';
@@ -95,6 +96,26 @@ fetch('data.json?v=' + Date.now())
         document.getElementById('load-error-detail').textContent =
             'Error: ' + e.message + '. Please try refreshing the page.';
     });
+
+function showFetchStatusBanner(fetchStatus) {
+    if (!fetchStatus || !fetchStatus.any_failed) return;
+    var failed = Object.entries(fetchStatus.sources || {})
+        .filter(function(kv) { return !kv[1]; })
+        .map(function(kv) { return kv[0].replace(/_/g, ' '); });
+    if (!failed.length) return;
+    var banner = document.getElementById('looker-fetch-warning');
+    if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'looker-fetch-warning';
+        banner.className = 'fetch-warning-banner';
+        var firstTab = document.getElementById('main-content');
+        if (firstTab) firstTab.insertBefore(banner, firstTab.firstChild);
+    }
+    var when = fetchStatus.fetched_at
+        ? new Date(fetchStatus.fetched_at).toLocaleString()
+        : 'unknown time';
+    banner.innerHTML = '&#9888; <strong>Looker data may be stale.</strong> Last fetch (' + escapeHtml(when) + ') failed for: ' + escapeHtml(failed.join(', ')) + '. Showing most recent cached CSV files.';
+}
 
 function lockFinalizedMonths() {
     if (!trackerData.length) return;
@@ -149,6 +170,16 @@ function updateSummary(summary) {
 
     document.getElementById('footer-time').textContent = 'Last updated: ' + summary.last_updated;
     document.getElementById('method-updated').textContent = summary.last_updated;
+
+    // Data quality badge: show util coverage from summary if available
+    var qualityEl = document.getElementById('util-coverage-badge');
+    if (qualityEl && summary.util_coverage_pct != null) {
+        var pct = summary.util_coverage_pct;
+        var withUtil = summary.subjects_with_util_data || 0;
+        var total = summary.total_subjects || 0;
+        qualityEl.textContent = pct + '% (' + withUtil + '/' + total + ' subjects have util data)';
+        qualityEl.className = 'util-coverage-badge ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warn' : 'bad');
+    }
 
     var discrepancies = [];
     if (clientTotal !== (summary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + summary.total_subjects);
@@ -285,7 +316,10 @@ function renderBarChart() {
 }
 
 function renderPriorityTable() {
-    var priority = allData.filter(function(r) { return r.Problem_Type && r.Problem_Type.includes('Problem'); }).sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); }).slice(0, 15);
+    var priority = allData.filter(function(r) {
+        var t = classifyType(r.Problem_Type);
+        return t === 'true-supply' || t === 'utilization' || t === 'no-util-data';
+    }).sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); }).slice(0, 15);
     var tbody = document.getElementById('priority-body');
     tbody.innerHTML = '';
     document.getElementById('priority-count').textContent = 'Showing top ' + priority.length + ' problem subjects';

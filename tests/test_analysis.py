@@ -12,7 +12,62 @@ from run_analysis import (
     apply_group_smoothing,
     classify_category,
     classify_problems,
+    _norm_subject,
 )
+
+
+class TestNormSubject(unittest.TestCase):
+    """Tests for subject name normalization."""
+
+    def test_strips_leading_trailing_whitespace(self):
+        self.assertEqual(_norm_subject('  SAT  '), 'SAT')
+
+    def test_collapses_internal_spaces(self):
+        self.assertEqual(_norm_subject('High  School  Math'), 'High School Math')
+
+    def test_handles_nan(self):
+        self.assertEqual(_norm_subject(float('nan')), '')
+
+    def test_no_change_on_clean_name(self):
+        self.assertEqual(_norm_subject('AP Chemistry'), 'AP Chemistry')
+
+
+class TestClassifyProblemsWithMismatchedCase(unittest.TestCase):
+    """Verify that subject name normalization allows case/whitespace mismatches to merge."""
+
+    def _subject_row(self, name):
+        return {
+            'Subject': name, 'Run_Rate': 10, 'Smoothed_Target': 30,
+            'Max_Capacity': 12, 'Gap_Pct': 200, 'Raw_Gap': -140,
+            'Coverage_Pct': 33, 'Needs_External_Levers': True,
+            'BTS_Total': 210, 'Is_Adjusted': False, 'Adjusted_Months': None,
+            'Original_Model_Total': 210,
+            'Apr_Original': 30, 'May_Original': 30, 'Jun_Original': 30,
+            'Jul_Original': 30, 'Aug_Original': 30, 'Sep_Original': 30, 'Oct_Original': 30,
+            'Apr_Smoothed': 30, 'May_Smoothed': 30, 'Jun_Smoothed': 30,
+            'Jul_Smoothed': 30, 'Aug_Smoothed': 30, 'Sep_Smoothed': 30, 'Oct_Smoothed': 30,
+            'Mar_Actual': None, 'Mar_Forecast': None,
+        }
+
+    def test_trailing_space_in_util_subject_still_matches(self):
+        analysis = pd.DataFrame([self._subject_row('SAT')])
+        util = pd.DataFrame([{
+            'Subject': 'SAT ',  # trailing space — should still match after normalization
+            'Total_Contracted': 29, 'Utilized_30d': 18, 'Util_Rate': 62.0
+        }])
+        result = classify_problems(analysis, util)
+        # Should match and classify as True Supply Problem (util 62% >= 50)
+        self.assertEqual(result.iloc[0]['Problem_Type'], 'True Supply Problem')
+        self.assertAlmostEqual(result.iloc[0]['Util_Rate'], 62.0)
+
+    def test_extra_internal_space_in_analysis_subject_still_matches(self):
+        analysis = pd.DataFrame([self._subject_row('High  School  Math')])
+        util = pd.DataFrame([{
+            'Subject': 'High School Math',
+            'Total_Contracted': 20, 'Utilized_30d': 15, 'Util_Rate': 75.0
+        }])
+        result = classify_problems(analysis, util)
+        self.assertAlmostEqual(result.iloc[0]['Util_Rate'], 75.0)
 
 
 class TestApplyGroupSmoothing(unittest.TestCase):

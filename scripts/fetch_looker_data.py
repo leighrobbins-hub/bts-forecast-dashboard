@@ -173,6 +173,25 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
+def _write_fetch_status(results, dry_run=False):
+    """Write data/fetch_status.json so the dashboard can warn about stale data."""
+    import json
+    from datetime import datetime, timezone
+
+    status = {
+        'fetched_at': datetime.now(timezone.utc).isoformat(),
+        'dry_run': dry_run,
+        'sources': results,
+        'any_failed': not all(results.values()),
+    }
+    if not dry_run:
+        os.makedirs('data', exist_ok=True)
+        with open('data/fetch_status.json', 'w') as f:
+            json.dump(status, f, indent=2)
+        print(f"✓ Fetch status written to data/fetch_status.json")
+    return status
+
+
 def main(argv=None):
     args = parse_args(argv)
 
@@ -190,6 +209,7 @@ def main(argv=None):
         print("⚠  Looker credentials not found in environment")
         print("   Set LOOKER_CLIENT_ID and LOOKER_CLIENT_SECRET, then re-run.")
         print("   Skipping API fetch — will use existing CSV files")
+        _write_fetch_status({'run_rates': False, 'utilization': False}, dry_run=args.dry_run)
         return
 
     api = LookerAPI(api_url, client_id, client_secret)
@@ -197,8 +217,10 @@ def main(argv=None):
     if args.dry_run:
         api.authenticate()  # verify creds are valid
 
-    fetch_run_rates(api, dry_run=args.dry_run)
-    fetch_utilization(api, dry_run=args.dry_run)
+    rr_ok = fetch_run_rates(api, dry_run=args.dry_run)
+    util_ok = fetch_utilization(api, dry_run=args.dry_run)
+
+    _write_fetch_status({'run_rates': rr_ok, 'utilization': util_ok}, dry_run=args.dry_run)
 
     print("\n✓ Looker data fetch complete")
     print("\nNote: monitoring_table.xlsx (Pierre's forecast) should be uploaded manually")

@@ -9,6 +9,16 @@ body {
     background: #f5f7fa;
 }
 
+.fetch-warning-banner {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 10px 20px;
+    font-size: 13px;
+    border-radius: 4px;
+    margin: 12px 30px 0;
+}
+
 .header {
     background: #202344;
     color: white;
@@ -100,6 +110,24 @@ body {
 .stat-card.green { border-color: #35AA59; }
 .stat-card.blue { border-color: #4A4BB6; }
 .stat-card.purple { border-color: #6366F1; }
+
+.data-quality-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+.data-quality-label { color: #7f8c8d; }
+.util-coverage-badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+}
+.util-coverage-badge.good { background: #d4edda; color: #155724; }
+.util-coverage-badge.warn { background: #fff3cd; color: #856404; }
+.util-coverage-badge.bad  { background: #f8d7da; color: #721c24; }
 
 .stat-label {
     font-size: 13px;

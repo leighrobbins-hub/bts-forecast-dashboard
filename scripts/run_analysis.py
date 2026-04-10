@@ -17,6 +17,13 @@ import sys
 CST = ZoneInfo('America/Chicago')
 
 
+def _norm_subject(name):
+    """Normalize subject name for consistent matching: strip whitespace, collapse internal spaces."""
+    if pd.isna(name):
+        return ''
+    return ' '.join(str(name).strip().split())
+
+
 BTS_MONTH_LABELS = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
 BTS_MONTH_KEYS = ['2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10']
 BTS_MONTH_DATES = [
@@ -64,6 +71,8 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
         df_runrate = df_runrate[['Subject', 'Run_Rate', 'Mar_Actual']].copy()
         df_runrate = df_runrate[df_runrate['Run_Rate'] > 0]
 
+    df_runrate['Subject'] = df_runrate['Subject'].map(_norm_subject)
+
     df_forecast = pd.read_excel(forecast_path)
     df_forecast = df_forecast[df_forecast['metric'] == 'forecasted_headcount'].copy()
 
@@ -71,20 +80,37 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
     df_util = df_util_raw.iloc[1:].reset_index(drop=True)
     df_util.columns = ['Subject'] + df_util_raw.columns[1:].tolist()
 
-    feb_mar_months = {
-        'Mar': ('2026-03', '2026-03.1'),
-        'Feb': ('2026-02', '2026-02.1')
-    }
+    # Detect month columns dynamically from CSV headers instead of hard-coding Feb/Mar.
+    # Looker exports duplicate column names as YYYY-MM (total) and YYYY-MM.1 (30-day util).
+    import re as _re
+    _month_pat = _re.compile(r'^\d{4}-\d{2}$')
+    detected_month_pairs = [
+        (col, col + '.1')
+        for col in df_util.columns
+        if _month_pat.match(str(col)) and (col + '.1') in df_util.columns
+    ]
+    if not detected_month_pairs:
+        # Fallback: if column naming differs, try any pair of numeric-looking columns
+        print("  Warning: could not detect YYYY-MM column pairs in utilization CSV; "
+              "falling back to columns 1+2, 3+4 pairing")
+        numeric_cols = [c for c in df_util.columns if c != 'Subject']
+        detected_month_pairs = [
+            (numeric_cols[i], numeric_cols[i + 1])
+            for i in range(0, len(numeric_cols) - 1, 2)
+        ] if len(numeric_cols) >= 2 else []
+    else:
+        print(f"  Detected {len(detected_month_pairs)} utilization month(s): "
+              f"{[p[0] for p in detected_month_pairs]}")
 
     util_data = []
     for _, row in df_util.iterrows():
-        subject = row['Subject']
+        subject = _norm_subject(row['Subject'])
         total = 0
         utilized = 0
 
-        for month, (total_col, util_col) in feb_mar_months.items():
-            t = pd.to_numeric(row[total_col], errors='coerce')
-            u = pd.to_numeric(row[util_col], errors='coerce')
+        for total_col, util_col in detected_month_pairs:
+            t = pd.to_numeric(row.get(total_col), errors='coerce')
+            u = pd.to_numeric(row.get(util_col), errors='coerce')
             if pd.notna(t):
                 total += t
             if pd.notna(u):
@@ -332,7 +358,7 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
     processed_subjects = set()
 
     for _, forecast_row in df_forecast.iterrows():
-        subject = forecast_row['subject_name']
+        subject = _norm_subject(forecast_row['subject_name'])
 
         runrate_row = df_runrate[df_runrate['Subject'] == subject]
         if len(runrate_row) == 0:
@@ -428,7 +454,7 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             adj_subjects.update(manual_adjustments[mk].keys())
 
         new_subjects = adj_subjects - processed_subjects
-        for subject in sorted(new_subjects):
+        for subject in sorted(_norm_subject(s) for s in new_subjects):
             adjusted_forecasts = [0.0] * 7
             adjusted_months = []
             for i, mk in enumerate(BTS_MONTH_KEYS):
@@ -638,6 +664,10 @@ def classify_category(subject):
 def classify_problems(df_analysis, df_utilization):
     """Classify subjects as supply vs utilization problems"""
 
+    df_analysis = df_analysis.copy()
+    df_utilization = df_utilization.copy()
+    df_analysis['Subject'] = df_analysis['Subject'].map(_norm_subject)
+    df_utilization['Subject'] = df_utilization['Subject'].map(_norm_subject)
     df_merged = df_analysis.merge(df_utilization, on='Subject', how='left')
 
     def get_problem_type(row):
@@ -861,12 +891,16 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
     """Generate JSON data for dashboard including monthly tracker."""
 
     supply_mask = df_final['Problem_Type'].isin(['True Supply Problem', 'Supply Problem (No Util Data)'])
+    subjects_with_util = int(df_final['Util_Rate'].notna().sum())
+    total_subjects = len(df_final)
     summary = {
-        'total_subjects': len(df_final),
+        'total_subjects': total_subjects,
         'utilization_problems': len(df_final[df_final['Problem_Type'] == 'Possible Placement Issue']),
         'supply_problems': int(supply_mask.sum()),
         'on_track': len(df_final[df_final['Problem_Type'].str.contains('On Track')]),
-        'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST')
+        'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
+        'subjects_with_util_data': subjects_with_util,
+        'util_coverage_pct': round(subjects_with_util / total_subjects * 100, 1) if total_subjects > 0 else 0,
     }
 
     portfolio_bts_total = sum(ts['bts_total'] for ts in tracker_subjects)
@@ -1033,6 +1067,15 @@ def main():
 
         print("Generating dashboard data...")
         dashboard_data = generate_dashboard_data(df_final, tracker_subjects, history, uploads)
+
+        # Attach Looker fetch status so dashboard can warn about stale data
+        fetch_status_path = 'data/fetch_status.json'
+        if os.path.exists(fetch_status_path):
+            try:
+                with open(fetch_status_path) as fh:
+                    dashboard_data['fetch_status'] = json.load(fh)
+            except Exception:
+                pass
     except Exception as e:
         print(f"ERROR: Analysis failed: {e}")
         import traceback
@@ -1040,6 +1083,12 @@ def main():
         sys.exit(1)
 
     df_final.to_csv('data/analysis_results.csv', index=False)
+
+    # Keep a timestamped copy for rollback / audit trail
+    results_archive_dir = 'data/analysis_archive'
+    os.makedirs(results_archive_dir, exist_ok=True)
+    ts = datetime.now(tz=CST).strftime('%Y%m%d_%H%M%S')
+    df_final.to_csv(os.path.join(results_archive_dir, f'{ts}_analysis_results.csv'), index=False)
 
     with open('dashboard/data.json', 'w') as f:
         json.dump(dashboard_data, f, indent=2)
