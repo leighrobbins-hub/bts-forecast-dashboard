@@ -2,7 +2,7 @@
 
 Automated weekly analysis of BTS forecast vs. run rate capacity with supply vs. utilization problem classification.
 
-**Live Dashboard:** https://YOUR-USERNAME.github.io/bts-forecast-dashboard/
+**Live Dashboard:** https://leighrobbins-hub.github.io/bts-forecast-dashboard/
 
 ---
 
