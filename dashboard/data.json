@@ -4,12 +4,12 @@
     "utilization_problems": 12,
     "supply_problems": 32,
     "on_track": 338,
-    "last_updated": "2026-04-14 03:09 PM CST",
+    "last_updated": "2026-04-14 03:12 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "portfolio_bts_total": 7317.0,
-    "portfolio_actual_to_date": 0,
-    "portfolio_remaining": 7317.0,
+    "portfolio_actual_to_date": 863,
+    "portfolio_remaining": 6454.0,
     "months_completed": 0,
     "months_remaining": 7,
     "march_baseline": {
@@ -16033,7 +16033,7 @@
       "run_rate": 102.0,
       "bts_total": 248.0,
       "smoothed_target": 35.0,
-      "actual_to_date": 0,
+      "actual_to_date": 26,
       "remaining_need": 248.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -16049,10 +16049,10 @@
           "label": "Apr",
           "original_forecast": 39.0,
           "smoothed_target": 39.0,
-          "actual": null,
-          "status": null,
+          "actual": 26,
+          "status": "in_progress",
           "adjusted_target": 35.4,
-          "variance": null
+          "variance": -13.0
         },
         {
           "month": "2026-05",
@@ -16121,7 +16121,7 @@
       "run_rate": 18.0,
       "bts_total": 271.0,
       "smoothed_target": 39.0,
-      "actual_to_date": 0,
+      "actual_to_date": 12,
       "remaining_need": 271.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -16137,10 +16137,10 @@
           "label": "Apr",
           "original_forecast": 33.0,
           "smoothed_target": 36.0,
-          "actual": null,
-          "status": null,
+          "actual": 12,
+          "status": "in_progress",
           "adjusted_target": 38.7,
-          "variance": null
+          "variance": -24.0
         },
         {
           "month": "2026-05",
@@ -16209,7 +16209,7 @@
       "run_rate": 129.0,
       "bts_total": 168.0,
       "smoothed_target": 24.0,
-      "actual_to_date": 0,
+      "actual_to_date": 26,
       "remaining_need": 168.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -16225,10 +16225,10 @@
           "label": "Apr",
           "original_forecast": 27.0,
           "smoothed_target": 63.0,
-          "actual": null,
-          "status": null,
+          "actual": 26,
+          "status": "in_progress",
           "adjusted_target": 24.0,
-          "variance": null
+          "variance": -37.0
         },
         {
           "month": "2026-05",
@@ -16297,7 +16297,7 @@
       "run_rate": 11.0,
       "bts_total": 253.0,
       "smoothed_target": 36.0,
-      "actual_to_date": 0,
+      "actual_to_date": 10,
       "remaining_need": 253.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -16313,10 +16313,10 @@
           "label": "Apr",
           "original_forecast": 27.0,
           "smoothed_target": 28.0,
-          "actual": null,
-          "status": null,
+          "actual": 10,
+          "status": "in_progress",
           "adjusted_target": 36.1,
-          "variance": null
+          "variance": -18.0
         },
         {
           "month": "2026-05",
@@ -16385,7 +16385,7 @@
       "run_rate": 31.0,
       "bts_total": 198.0,
       "smoothed_target": 28.0,
-      "actual_to_date": 0,
+      "actual_to_date": 9,
       "remaining_need": 198.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -16401,10 +16401,10 @@
           "label": "Apr",
           "original_forecast": 23.0,
           "smoothed_target": 26.0,
-          "actual": null,
-          "status": null,
+          "actual": 9,
+          "status": "in_progress",
           "adjusted_target": 28.3,
-          "variance": null
+          "variance": -17.0
         },
         {
           "month": "2026-05",
@@ -16473,7 +16473,7 @@
       "run_rate": 113.0,
       "bts_total": 175.0,
       "smoothed_target": 25.0,
-      "actual_to_date": 0,
+      "actual_to_date": 20,
       "remaining_need": 175.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -16489,10 +16489,10 @@
           "label": "Apr",
           "original_forecast": 21.0,
           "smoothed_target": 71.0,
-          "actual": null,
-          "status": null,
+          "actual": 20,
+          "status": "in_progress",
           "adjusted_target": 25.0,
-          "variance": null
+          "variance": -51.0
         },
         {
           "month": "2026-05",
@@ -16561,7 +16561,7 @@
       "run_rate": 38.0,
       "bts_total": 167.0,
       "smoothed_target": 24.0,
-      "actual_to_date": 0,
+      "actual_to_date": 10,
       "remaining_need": 167.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -16577,10 +16577,10 @@
           "label": "Apr",
           "original_forecast": 18.0,
           "smoothed_target": 29.0,
-          "actual": null,
-          "status": null,
+          "actual": 10,
+          "status": "in_progress",
           "adjusted_target": 23.9,
-          "variance": null
+          "variance": -19.0
         },
         {
           "month": "2026-05",
@@ -16649,7 +16649,7 @@
       "run_rate": 62.0,
       "bts_total": 125.0,
       "smoothed_target": 18.0,
-      "actual_to_date": 0,
+      "actual_to_date": 20,
       "remaining_need": 125.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -16665,10 +16665,10 @@
           "label": "Apr",
           "original_forecast": 17.0,
           "smoothed_target": 32.0,
-          "actual": null,
-          "status": null,
+          "actual": 20,
+          "status": "in_progress",
           "adjusted_target": 17.9,
-          "variance": null
+          "variance": -12.0
         },
         {
           "month": "2026-05",
@@ -16737,7 +16737,7 @@
       "run_rate": 23.0,
       "bts_total": 122.0,
       "smoothed_target": 17.0,
-      "actual_to_date": 0,
+      "actual_to_date": 8,
       "remaining_need": 122.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -16753,10 +16753,10 @@
           "label": "Apr",
           "original_forecast": 15.0,
           "smoothed_target": 16.0,
-          "actual": null,
-          "status": null,
+          "actual": 8,
+          "status": "in_progress",
           "adjusted_target": 17.4,
-          "variance": null
+          "variance": -8.0
         },
         {
           "month": "2026-05",
@@ -16913,7 +16913,7 @@
       "run_rate": 28.0,
       "bts_total": 131.0,
       "smoothed_target": 19.0,
-      "actual_to_date": 0,
+      "actual_to_date": 11,
       "remaining_need": 131.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -16929,10 +16929,10 @@
           "label": "Apr",
           "original_forecast": 14.0,
           "smoothed_target": 23.0,
-          "actual": null,
-          "status": null,
+          "actual": 11,
+          "status": "in_progress",
           "adjusted_target": 18.7,
-          "variance": null
+          "variance": -12.0
         },
         {
           "month": "2026-05",
@@ -17001,7 +17001,7 @@
       "run_rate": 13.0,
       "bts_total": 125.0,
       "smoothed_target": 18.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 125.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -17017,10 +17017,10 @@
           "label": "Apr",
           "original_forecast": 14.0,
           "smoothed_target": 15.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 17.9,
-          "variance": null
+          "variance": -11.0
         },
         {
           "month": "2026-05",
@@ -17089,7 +17089,7 @@
       "run_rate": 11.0,
       "bts_total": 99.0,
       "smoothed_target": 14.0,
-      "actual_to_date": 0,
+      "actual_to_date": 9,
       "remaining_need": 99.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -17105,10 +17105,10 @@
           "label": "Apr",
           "original_forecast": 12.0,
           "smoothed_target": 14.0,
-          "actual": null,
-          "status": null,
+          "actual": 9,
+          "status": "in_progress",
           "adjusted_target": 14.1,
-          "variance": null
+          "variance": -5.0
         },
         {
           "month": "2026-05",
@@ -17177,7 +17177,7 @@
       "run_rate": 92.0,
       "bts_total": 86.0,
       "smoothed_target": 12.0,
-      "actual_to_date": 0,
+      "actual_to_date": 18,
       "remaining_need": 86.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -17193,10 +17193,10 @@
           "label": "Apr",
           "original_forecast": 11.0,
           "smoothed_target": 16.0,
-          "actual": null,
-          "status": null,
+          "actual": 18,
+          "status": "in_progress",
           "adjusted_target": 12.3,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -17265,7 +17265,7 @@
       "run_rate": 9.0,
       "bts_total": 84.0,
       "smoothed_target": 12.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 84.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -17281,10 +17281,10 @@
           "label": "Apr",
           "original_forecast": 9.0,
           "smoothed_target": 11.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 12.0,
-          "variance": null
+          "variance": -7.0
         },
         {
           "month": "2026-05",
@@ -17353,7 +17353,7 @@
       "run_rate": 15.0,
       "bts_total": 57.0,
       "smoothed_target": 8.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 57.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -17369,10 +17369,10 @@
           "label": "Apr",
           "original_forecast": 9.0,
           "smoothed_target": 13.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 8.1,
-          "variance": null
+          "variance": -10.0
         },
         {
           "month": "2026-05",
@@ -17441,7 +17441,7 @@
       "run_rate": 35.0,
       "bts_total": 70.0,
       "smoothed_target": 10.0,
-      "actual_to_date": 0,
+      "actual_to_date": 14,
       "remaining_need": 70.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -17457,10 +17457,10 @@
           "label": "Apr",
           "original_forecast": 9.0,
           "smoothed_target": 9.0,
-          "actual": null,
-          "status": null,
+          "actual": 14,
+          "status": "in_progress",
           "adjusted_target": 10.0,
-          "variance": null
+          "variance": 5.0
         },
         {
           "month": "2026-05",
@@ -17529,7 +17529,7 @@
       "run_rate": 12.0,
       "bts_total": 85.0,
       "smoothed_target": 12.0,
-      "actual_to_date": 0,
+      "actual_to_date": 12,
       "remaining_need": 85.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -17545,10 +17545,10 @@
           "label": "Apr",
           "original_forecast": 9.0,
           "smoothed_target": 11.0,
-          "actual": null,
-          "status": null,
+          "actual": 12,
+          "status": "in_progress",
           "adjusted_target": 12.1,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -17617,7 +17617,7 @@
       "run_rate": 12.0,
       "bts_total": 71.0,
       "smoothed_target": 10.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 71.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -17633,10 +17633,10 @@
           "label": "Apr",
           "original_forecast": 8.0,
           "smoothed_target": 9.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 10.1,
-          "variance": null
+          "variance": -6.0
         },
         {
           "month": "2026-05",
@@ -17705,7 +17705,7 @@
       "run_rate": 35.0,
       "bts_total": 59.0,
       "smoothed_target": 8.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 59.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -17721,10 +17721,10 @@
           "label": "Apr",
           "original_forecast": 8.0,
           "smoothed_target": 8.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 8.4,
-          "variance": null
+          "variance": -5.0
         },
         {
           "month": "2026-05",
@@ -17793,7 +17793,7 @@
       "run_rate": 107.0,
       "bts_total": 57.0,
       "smoothed_target": 8.0,
-      "actual_to_date": 0,
+      "actual_to_date": 20,
       "remaining_need": 57.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -17809,10 +17809,10 @@
           "label": "Apr",
           "original_forecast": 7.0,
           "smoothed_target": 14.0,
-          "actual": null,
-          "status": null,
+          "actual": 20,
+          "status": "in_progress",
           "adjusted_target": 8.1,
-          "variance": null
+          "variance": 6.0
         },
         {
           "month": "2026-05",
@@ -17881,7 +17881,7 @@
       "run_rate": 12.0,
       "bts_total": 50.0,
       "smoothed_target": 7.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 50.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -17897,10 +17897,10 @@
           "label": "Apr",
           "original_forecast": 7.0,
           "smoothed_target": 8.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 7.1,
-          "variance": null
+          "variance": -4.0
         },
         {
           "month": "2026-05",
@@ -17969,7 +17969,7 @@
       "run_rate": 60.0,
       "bts_total": 45.0,
       "smoothed_target": 6.0,
-      "actual_to_date": 0,
+      "actual_to_date": 18,
       "remaining_need": 45.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -17985,10 +17985,10 @@
           "label": "Apr",
           "original_forecast": 7.0,
           "smoothed_target": 7.0,
-          "actual": null,
-          "status": null,
+          "actual": 18,
+          "status": "in_progress",
           "adjusted_target": 6.4,
-          "variance": null
+          "variance": 11.0
         },
         {
           "month": "2026-05",
@@ -18057,7 +18057,7 @@
       "run_rate": 19.0,
       "bts_total": 58.0,
       "smoothed_target": 8.0,
-      "actual_to_date": 0,
+      "actual_to_date": 7,
       "remaining_need": 58.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -18073,10 +18073,10 @@
           "label": "Apr",
           "original_forecast": 7.0,
           "smoothed_target": 8.0,
-          "actual": null,
-          "status": null,
+          "actual": 7,
+          "status": "in_progress",
           "adjusted_target": 8.3,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -18145,7 +18145,7 @@
       "run_rate": 4.0,
       "bts_total": 65.0,
       "smoothed_target": 9.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 65.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -18161,10 +18161,10 @@
           "label": "Apr",
           "original_forecast": 6.0,
           "smoothed_target": 10.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 9.3,
-          "variance": null
+          "variance": -6.0
         },
         {
           "month": "2026-05",
@@ -18233,7 +18233,7 @@
       "run_rate": 15.0,
       "bts_total": 44.0,
       "smoothed_target": 6.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 44.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -18249,10 +18249,10 @@
           "label": "Apr",
           "original_forecast": 6.0,
           "smoothed_target": 6.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 6.3,
-          "variance": null
+          "variance": -3.0
         },
         {
           "month": "2026-05",
@@ -18321,7 +18321,7 @@
       "run_rate": 16.0,
       "bts_total": 36.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 36.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -18337,10 +18337,10 @@
           "label": "Apr",
           "original_forecast": 6.0,
           "smoothed_target": 6.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 5.1,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -18409,7 +18409,7 @@
       "run_rate": 92.0,
       "bts_total": 46.0,
       "smoothed_target": 7.0,
-      "actual_to_date": 0,
+      "actual_to_date": 21,
       "remaining_need": 46.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -18425,10 +18425,10 @@
           "label": "Apr",
           "original_forecast": 5.0,
           "smoothed_target": 18.0,
-          "actual": null,
-          "status": null,
+          "actual": 21,
+          "status": "in_progress",
           "adjusted_target": 6.6,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -18585,7 +18585,7 @@
       "run_rate": 5.0,
       "bts_total": 47.0,
       "smoothed_target": 7.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 47.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -18601,10 +18601,10 @@
           "label": "Apr",
           "original_forecast": 5.0,
           "smoothed_target": 6.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 6.7,
-          "variance": null
+          "variance": -4.0
         },
         {
           "month": "2026-05",
@@ -18673,7 +18673,7 @@
       "run_rate": 3.0,
       "bts_total": 38.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 38.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -18689,10 +18689,10 @@
           "label": "Apr",
           "original_forecast": 5.0,
           "smoothed_target": 5.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 5.4,
-          "variance": null
+          "variance": -4.0
         },
         {
           "month": "2026-05",
@@ -18761,7 +18761,7 @@
       "run_rate": 19.0,
       "bts_total": 43.0,
       "smoothed_target": 6.0,
-      "actual_to_date": 0,
+      "actual_to_date": 6,
       "remaining_need": 43.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -18777,10 +18777,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 6,
+          "status": "in_progress",
           "adjusted_target": 6.1,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -18849,7 +18849,7 @@
       "run_rate": 14.0,
       "bts_total": 31.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 31.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -18865,10 +18865,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 4.4,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -18937,7 +18937,7 @@
       "run_rate": 7.0,
       "bts_total": 34.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 34.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -18953,10 +18953,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 4.9,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -19025,7 +19025,7 @@
       "run_rate": 30.0,
       "bts_total": 35.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 13,
       "remaining_need": 35.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -19041,10 +19041,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 13,
+          "status": "in_progress",
           "adjusted_target": 5.0,
-          "variance": null
+          "variance": 9.0
         },
         {
           "month": "2026-05",
@@ -19113,7 +19113,7 @@
       "run_rate": 56.0,
       "bts_total": 35.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 20,
       "remaining_need": 35.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -19129,10 +19129,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 20,
+          "status": "in_progress",
           "adjusted_target": 5.0,
-          "variance": null
+          "variance": 16.0
         },
         {
           "month": "2026-05",
@@ -19289,7 +19289,7 @@
       "run_rate": 4.0,
       "bts_total": 34.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 34.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -19305,10 +19305,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 4.9,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -19377,7 +19377,7 @@
       "run_rate": 7.0,
       "bts_total": 39.0,
       "smoothed_target": 6.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 39.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -19393,10 +19393,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 5.6,
-          "variance": null
+          "variance": -3.0
         },
         {
           "month": "2026-05",
@@ -19553,7 +19553,7 @@
       "run_rate": 10.0,
       "bts_total": 22.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 22.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -19569,10 +19569,10 @@
           "label": "Apr",
           "original_forecast": 4.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.1,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -19641,7 +19641,7 @@
       "run_rate": 14.0,
       "bts_total": 15.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -19657,10 +19657,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.1,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -19729,7 +19729,7 @@
       "run_rate": 17.0,
       "bts_total": 27.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 27.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -19745,10 +19745,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 9.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 3.9,
-          "variance": null
+          "variance": -6.0
         },
         {
           "month": "2026-05",
@@ -19817,7 +19817,7 @@
       "run_rate": 11.0,
       "bts_total": 33.0,
       "smoothed_target": 5.0,
-      "actual_to_date": 0,
+      "actual_to_date": 7,
       "remaining_need": 33.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -19833,10 +19833,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 5.0,
-          "actual": null,
-          "status": null,
+          "actual": 7,
+          "status": "in_progress",
           "adjusted_target": 4.7,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -19905,7 +19905,7 @@
       "run_rate": 26.0,
       "bts_total": 20.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 20.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -19921,10 +19921,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 9.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 2.9,
-          "variance": null
+          "variance": -6.0
         },
         {
           "month": "2026-05",
@@ -19993,7 +19993,7 @@
       "run_rate": 24.0,
       "bts_total": 23.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 6,
       "remaining_need": 23.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -20009,10 +20009,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 6,
+          "status": "in_progress",
           "adjusted_target": 3.3,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -20169,7 +20169,7 @@
       "run_rate": 33.0,
       "bts_total": 27.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 11,
       "remaining_need": 27.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -20185,10 +20185,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 11,
+          "status": "in_progress",
           "adjusted_target": 3.9,
-          "variance": null
+          "variance": 8.0
         },
         {
           "month": "2026-05",
@@ -20345,7 +20345,7 @@
       "run_rate": 8.0,
       "bts_total": 21.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -20361,10 +20361,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 3.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -20521,7 +20521,7 @@
       "run_rate": 2.0,
       "bts_total": 15.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -20537,10 +20537,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.1,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -20609,7 +20609,7 @@
       "run_rate": 8.0,
       "bts_total": 259.0,
       "smoothed_target": 37.0,
-      "actual_to_date": 0,
+      "actual_to_date": 9,
       "remaining_need": 259.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -20625,10 +20625,10 @@
           "label": "Apr",
           "original_forecast": 31.0,
           "smoothed_target": 25.0,
-          "actual": null,
-          "status": null,
+          "actual": 9,
+          "status": "in_progress",
           "adjusted_target": 37.0,
-          "variance": null
+          "variance": -16.0
         },
         {
           "month": "2026-05",
@@ -20785,7 +20785,7 @@
       "run_rate": 5.0,
       "bts_total": 24.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 24.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -20801,10 +20801,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.4,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -20873,7 +20873,7 @@
       "run_rate": 4.0,
       "bts_total": 27.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 27.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -20889,10 +20889,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 3.9,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -20961,7 +20961,7 @@
       "run_rate": 13.0,
       "bts_total": 25.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 25.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -20977,10 +20977,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 3.6,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -21137,7 +21137,7 @@
       "run_rate": 1.0,
       "bts_total": 23.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 23.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -21153,10 +21153,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.3,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -21225,7 +21225,7 @@
       "run_rate": 2.0,
       "bts_total": 23.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 23.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -21241,10 +21241,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 3.3,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -21313,7 +21313,7 @@
       "run_rate": 13.0,
       "bts_total": 24.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 24.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -21329,10 +21329,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 3.4,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -21401,7 +21401,7 @@
       "run_rate": 4.0,
       "bts_total": 21.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -21417,10 +21417,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.0,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -21489,7 +21489,7 @@
       "run_rate": 2.0,
       "bts_total": 22.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 22.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -21505,10 +21505,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 3.1,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -21665,7 +21665,7 @@
       "run_rate": 1.0,
       "bts_total": 26.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 26.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -21681,10 +21681,10 @@
           "label": "Apr",
           "original_forecast": 3.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.7,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -21753,7 +21753,7 @@
       "run_rate": 81.0,
       "bts_total": 13.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 15,
       "remaining_need": 13.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -21769,10 +21769,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 9.0,
-          "actual": null,
-          "status": null,
+          "actual": 15,
+          "status": "in_progress",
           "adjusted_target": 1.9,
-          "variance": null
+          "variance": 6.0
         },
         {
           "month": "2026-05",
@@ -21841,7 +21841,7 @@
       "run_rate": 5.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -21857,10 +21857,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -21929,7 +21929,7 @@
       "run_rate": 23.0,
       "bts_total": 19.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 7,
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -21945,10 +21945,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 7,
+          "status": "in_progress",
           "adjusted_target": 2.7,
-          "variance": null
+          "variance": 5.0
         },
         {
           "month": "2026-05",
@@ -22017,7 +22017,7 @@
       "run_rate": 12.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -22033,10 +22033,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -22105,7 +22105,7 @@
       "run_rate": 21.0,
       "bts_total": 12.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 6,
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22121,10 +22121,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 6,
+          "status": "in_progress",
           "adjusted_target": 1.7,
-          "variance": null
+          "variance": 4.0
         },
         {
           "month": "2026-05",
@@ -22193,7 +22193,7 @@
       "run_rate": 14.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22209,10 +22209,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 5.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -22281,7 +22281,7 @@
       "run_rate": 13.0,
       "bts_total": 21.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 21.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22297,10 +22297,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 3.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -22369,7 +22369,7 @@
       "run_rate": 6.0,
       "bts_total": 29.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 29.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -22385,10 +22385,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 4.1,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -22457,7 +22457,7 @@
       "run_rate": 9.0,
       "bts_total": 20.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 20.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22473,10 +22473,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.9,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -22633,7 +22633,7 @@
       "run_rate": 12.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22649,10 +22649,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -22721,7 +22721,7 @@
       "run_rate": 39.0,
       "bts_total": 19.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22737,10 +22737,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 2.7,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -22809,7 +22809,7 @@
       "run_rate": 2.0,
       "bts_total": 19.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -22825,10 +22825,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.7,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -22897,7 +22897,7 @@
       "run_rate": 6.0,
       "bts_total": 12.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -22913,10 +22913,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.7,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -22985,7 +22985,7 @@
       "run_rate": 8.0,
       "bts_total": 17.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -23001,10 +23001,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.4,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -23073,7 +23073,7 @@
       "run_rate": 4.0,
       "bts_total": 12.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -23089,10 +23089,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.7,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -23161,7 +23161,7 @@
       "run_rate": 5.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -23177,10 +23177,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -23249,7 +23249,7 @@
       "run_rate": 7.0,
       "bts_total": 17.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -23265,10 +23265,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.4,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -23337,7 +23337,7 @@
       "run_rate": 18.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -23353,10 +23353,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -23425,7 +23425,7 @@
       "run_rate": 62.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 10,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -23441,10 +23441,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 10,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": 9.0
         },
         {
           "month": "2026-05",
@@ -23513,7 +23513,7 @@
       "run_rate": 3.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -23529,10 +23529,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -23689,7 +23689,7 @@
       "run_rate": 14.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 9,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -23705,10 +23705,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 9,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": 7.0
         },
         {
           "month": "2026-05",
@@ -23865,7 +23865,7 @@
       "run_rate": 19.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -23881,10 +23881,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -24129,7 +24129,7 @@
       "run_rate": 8.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -24145,10 +24145,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -24217,7 +24217,7 @@
       "run_rate": 4.0,
       "bts_total": 24.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 24.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -24233,10 +24233,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.4,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -24305,7 +24305,7 @@
       "run_rate": 3.0,
       "bts_total": 27.0,
       "smoothed_target": 4.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 27.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -24321,10 +24321,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 3.9,
-          "variance": null
+          "variance": -2.0
         },
         {
           "month": "2026-05",
@@ -24393,7 +24393,7 @@
       "run_rate": 2.0,
       "bts_total": 19.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -24409,10 +24409,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.7,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -24833,7 +24833,7 @@
       "run_rate": 7.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -24849,10 +24849,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -24921,7 +24921,7 @@
       "run_rate": 2.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -24937,10 +24937,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -25009,7 +25009,7 @@
       "run_rate": 3.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -25025,10 +25025,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -25185,7 +25185,7 @@
       "run_rate": 2.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -25201,10 +25201,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -25537,7 +25537,7 @@
       "run_rate": 3.0,
       "bts_total": 17.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -25553,10 +25553,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 2.4,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -25713,7 +25713,7 @@
       "run_rate": 2.0,
       "bts_total": 15.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -25729,10 +25729,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.1,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -25801,7 +25801,7 @@
       "run_rate": 5.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -25817,10 +25817,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -25977,7 +25977,7 @@
       "run_rate": 5.0,
       "bts_total": 12.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 7,
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -25993,10 +25993,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 7,
+          "status": "in_progress",
           "adjusted_target": 1.7,
-          "variance": null
+          "variance": 5.0
         },
         {
           "month": "2026-05",
@@ -26065,7 +26065,7 @@
       "run_rate": 24.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -26081,10 +26081,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -26241,7 +26241,7 @@
       "run_rate": 2.0,
       "bts_total": 17.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 17.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -26257,10 +26257,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.4,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -26329,7 +26329,7 @@
       "run_rate": 2.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -26345,10 +26345,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -26417,7 +26417,7 @@
       "run_rate": 1.0,
       "bts_total": 16.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -26433,10 +26433,10 @@
           "label": "Apr",
           "original_forecast": 2.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.3,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -26769,7 +26769,7 @@
       "run_rate": 17.0,
       "bts_total": 69.0,
       "smoothed_target": 10.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 69.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -26785,10 +26785,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 23.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 9.9,
-          "variance": null
+          "variance": -20.0
         },
         {
           "month": "2026-05",
@@ -26945,7 +26945,7 @@
       "run_rate": 1.0,
       "bts_total": 19.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -26961,10 +26961,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.7,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -27033,7 +27033,7 @@
       "run_rate": 4.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -27049,10 +27049,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 0.1,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -27121,7 +27121,7 @@
       "run_rate": 98.0,
       "bts_total": 3.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 20,
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -27137,10 +27137,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 20,
+          "status": "in_progress",
           "adjusted_target": 0.4,
-          "variance": null
+          "variance": 17.0
         },
         {
           "month": "2026-05",
@@ -27297,7 +27297,7 @@
       "run_rate": 6.0,
       "bts_total": 15.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 15.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -27313,10 +27313,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.1,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -27385,7 +27385,7 @@
       "run_rate": 9.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -27401,10 +27401,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -27473,7 +27473,7 @@
       "run_rate": 8.0,
       "bts_total": 16.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 16.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -27489,10 +27489,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.3,
-          "variance": null
+          "variance": -3.0
         },
         {
           "month": "2026-05",
@@ -27649,7 +27649,7 @@
       "run_rate": 16.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -27665,10 +27665,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 4.0
         },
         {
           "month": "2026-05",
@@ -27737,7 +27737,7 @@
       "run_rate": 9.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 5,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -27753,10 +27753,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 5,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 4.0
         },
         {
           "month": "2026-05",
@@ -28353,7 +28353,7 @@
       "run_rate": 18.0,
       "bts_total": 22.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 6,
       "remaining_need": 22.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -28369,10 +28369,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 10.0,
-          "actual": null,
-          "status": null,
+          "actual": 6,
+          "status": "in_progress",
           "adjusted_target": 3.1,
-          "variance": null
+          "variance": -4.0
         },
         {
           "month": "2026-05",
@@ -28441,7 +28441,7 @@
       "run_rate": 3.0,
       "bts_total": 8.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 8.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -28457,10 +28457,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.1,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -28529,7 +28529,7 @@
       "run_rate": 15.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -28545,10 +28545,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -28617,7 +28617,7 @@
       "run_rate": 81.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 8,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -28633,10 +28633,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 8,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 7.0
         },
         {
           "month": "2026-05",
@@ -28881,7 +28881,7 @@
       "run_rate": 1.0,
       "bts_total": 9.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 9.0,
       "months_completed": 0,
       "problem_type": "Possible Placement Issue",
@@ -28897,10 +28897,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.3,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -28969,7 +28969,7 @@
       "run_rate": 4.0,
       "bts_total": 9.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 9.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -28985,10 +28985,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.3,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -29057,7 +29057,7 @@
       "run_rate": 5.0,
       "bts_total": 11.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 11.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -29073,10 +29073,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.6,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -29145,7 +29145,7 @@
       "run_rate": 12.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -29161,10 +29161,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -29321,7 +29321,7 @@
       "run_rate": 10.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -29337,10 +29337,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -29409,7 +29409,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -29425,10 +29425,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -29497,7 +29497,7 @@
       "run_rate": 3.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -29513,10 +29513,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -29585,7 +29585,7 @@
       "run_rate": 2.0,
       "bts_total": 6.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 6.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -29601,10 +29601,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 0.9,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -29761,7 +29761,7 @@
       "run_rate": 5.0,
       "bts_total": 12.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -29777,10 +29777,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.7,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -30025,7 +30025,7 @@
       "run_rate": 32.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -30041,10 +30041,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 0.1,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -30113,7 +30113,7 @@
       "run_rate": 4.0,
       "bts_total": 18.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 18.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -30129,10 +30129,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 2.6,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -30465,7 +30465,7 @@
       "run_rate": 10.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 6,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -30481,10 +30481,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 6,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 5.0
         },
         {
           "month": "2026-05",
@@ -30641,7 +30641,7 @@
       "run_rate": 16.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -30657,10 +30657,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -30817,7 +30817,7 @@
       "run_rate": 7.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -30833,10 +30833,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -30905,7 +30905,7 @@
       "run_rate": 2.0,
       "bts_total": 12.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 12.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -30921,10 +30921,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.7,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -31609,7 +31609,7 @@
       "run_rate": 10.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -31625,10 +31625,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -31697,7 +31697,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -31713,10 +31713,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -31873,7 +31873,7 @@
       "run_rate": 5.0,
       "bts_total": 10.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -31889,10 +31889,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.4,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -31961,7 +31961,7 @@
       "run_rate": 48.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -31977,10 +31977,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -32313,7 +32313,7 @@
       "run_rate": 4.0,
       "bts_total": 10.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -32329,10 +32329,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.4,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -32665,7 +32665,7 @@
       "run_rate": 5.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -32681,10 +32681,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -32753,7 +32753,7 @@
       "run_rate": 6.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -32769,10 +32769,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -32929,7 +32929,7 @@
       "run_rate": 6.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -32945,10 +32945,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -33017,7 +33017,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -33033,10 +33033,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -33105,7 +33105,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -33121,10 +33121,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -33545,7 +33545,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -33561,10 +33561,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -33809,7 +33809,7 @@
       "run_rate": 3.0,
       "bts_total": 10.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -33825,10 +33825,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.4,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -33985,7 +33985,7 @@
       "run_rate": 10.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -34001,10 +34001,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -34073,7 +34073,7 @@
       "run_rate": 2.0,
       "bts_total": 8.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 8.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -34089,10 +34089,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.1,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -34161,7 +34161,7 @@
       "run_rate": 7.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -34177,10 +34177,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -34337,7 +34337,7 @@
       "run_rate": 10.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 7,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -34353,10 +34353,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 7,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 6.0
         },
         {
           "month": "2026-05",
@@ -34425,7 +34425,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -34441,10 +34441,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -34865,7 +34865,7 @@
       "run_rate": 9.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -34881,10 +34881,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -34953,7 +34953,7 @@
       "run_rate": 5.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -34969,10 +34969,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -35129,7 +35129,7 @@
       "run_rate": 11.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -35145,10 +35145,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -35217,7 +35217,7 @@
       "run_rate": 5.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -35233,10 +35233,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -35393,7 +35393,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -35409,10 +35409,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -36009,7 +36009,7 @@
       "run_rate": 6.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -36025,10 +36025,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -36185,7 +36185,7 @@
       "run_rate": 11.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -36201,10 +36201,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -36273,7 +36273,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -36289,10 +36289,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -36361,7 +36361,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -36377,10 +36377,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -36801,7 +36801,7 @@
       "run_rate": 7.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -36817,10 +36817,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -36977,7 +36977,7 @@
       "run_rate": 11.0,
       "bts_total": 10.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -36993,10 +36993,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.4,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -37153,7 +37153,7 @@
       "run_rate": 6.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -37169,10 +37169,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -37329,7 +37329,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -37345,10 +37345,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -38033,7 +38033,7 @@
       "run_rate": 1.0,
       "bts_total": 13.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 13.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -38049,10 +38049,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.9,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -38473,7 +38473,7 @@
       "run_rate": 7.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -38489,10 +38489,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -39089,7 +39089,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -39105,10 +39105,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -39177,7 +39177,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -39193,10 +39193,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -39353,7 +39353,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -39369,10 +39369,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -39529,7 +39529,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -39545,10 +39545,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -39705,7 +39705,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -39721,10 +39721,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -39793,7 +39793,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -39809,10 +39809,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -39881,7 +39881,7 @@
       "run_rate": 4.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -39897,10 +39897,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -40321,7 +40321,7 @@
       "run_rate": 2.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -40337,10 +40337,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -40585,7 +40585,7 @@
       "run_rate": 2.0,
       "bts_total": 8.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 8.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -40601,10 +40601,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.1,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -40761,7 +40761,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -40777,10 +40777,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -40937,7 +40937,7 @@
       "run_rate": 6.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -40953,10 +40953,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -41377,7 +41377,7 @@
       "run_rate": 18.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -41393,10 +41393,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -41993,7 +41993,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -42009,10 +42009,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -42081,7 +42081,7 @@
       "run_rate": 12.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -42097,10 +42097,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -42169,7 +42169,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -42185,10 +42185,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -42521,7 +42521,7 @@
       "run_rate": 1.0,
       "bts_total": 14.0,
       "smoothed_target": 2.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 14.0,
       "months_completed": 0,
       "problem_type": "True Supply Problem",
@@ -42537,10 +42537,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 2.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -42609,7 +42609,7 @@
       "run_rate": 3.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -42625,10 +42625,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -42873,7 +42873,7 @@
       "run_rate": 18.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -42889,10 +42889,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 3,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 2.0
         },
         {
           "month": "2026-05",
@@ -43929,7 +43929,7 @@
       "run_rate": 2.0,
       "bts_total": 9.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 9.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -43945,10 +43945,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.3,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -46745,7 +46745,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -46761,10 +46761,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -47097,7 +47097,7 @@
       "run_rate": 3.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -47113,10 +47113,10 @@
           "label": "Apr",
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -47449,7 +47449,7 @@
       "run_rate": 7.0,
       "bts_total": 19.0,
       "smoothed_target": 3.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 19.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -47465,10 +47465,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 14.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 2.7,
-          "variance": null
+          "variance": -10.0
         },
         {
           "month": "2026-05",
@@ -47537,7 +47537,7 @@
       "run_rate": 100.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 19,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -47553,10 +47553,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 7.0,
-          "actual": null,
-          "status": null,
+          "actual": 19,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 12.0
         },
         {
           "month": "2026-05",
@@ -47625,7 +47625,7 @@
       "run_rate": 28.0,
       "bts_total": 3.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 13,
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -47641,10 +47641,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 13,
+          "status": "in_progress",
           "adjusted_target": 0.4,
-          "variance": null
+          "variance": 10.0
         },
         {
           "month": "2026-05",
@@ -47889,7 +47889,7 @@
       "run_rate": 43.0,
       "bts_total": 10.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 13,
       "remaining_need": 10.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -47905,10 +47905,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 8.0,
-          "actual": null,
-          "status": null,
+          "actual": 13,
+          "status": "in_progress",
           "adjusted_target": 1.4,
-          "variance": null
+          "variance": 5.0
         },
         {
           "month": "2026-05",
@@ -48065,7 +48065,7 @@
       "run_rate": 72.0,
       "bts_total": 3.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 14,
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -48081,10 +48081,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 14,
+          "status": "in_progress",
           "adjusted_target": 0.4,
-          "variance": null
+          "variance": 11.0
         },
         {
           "month": "2026-05",
@@ -48153,7 +48153,7 @@
       "run_rate": 1.0,
       "bts_total": 2.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 2.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -48169,10 +48169,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 0.3,
-          "variance": null
+          "variance": -1.0
         },
         {
           "month": "2026-05",
@@ -48241,7 +48241,7 @@
       "run_rate": 4.0,
       "bts_total": 5.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 8,
       "remaining_need": 5.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -48257,10 +48257,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 4.0,
-          "actual": null,
-          "status": null,
+          "actual": 8,
+          "status": "in_progress",
           "adjusted_target": 0.7,
-          "variance": null
+          "variance": 4.0
         },
         {
           "month": "2026-05",
@@ -48417,7 +48417,7 @@
       "run_rate": 95.0,
       "bts_total": 3.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 20,
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -48433,10 +48433,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 0.0,
-          "actual": null,
-          "status": null,
+          "actual": 20,
+          "status": "in_progress",
           "adjusted_target": 0.4,
-          "variance": null
+          "variance": 20.0
         },
         {
           "month": "2026-05",
@@ -48505,7 +48505,7 @@
       "run_rate": 12.0,
       "bts_total": 4.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 4.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -48521,10 +48521,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 0.6,
-          "variance": null
+          "variance": 3.0
         },
         {
           "month": "2026-05",
@@ -48593,7 +48593,7 @@
       "run_rate": 5.0,
       "bts_total": 3.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 4,
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -48609,10 +48609,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 3.0,
-          "actual": null,
-          "status": null,
+          "actual": 4,
+          "status": "in_progress",
           "adjusted_target": 0.4,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -48769,7 +48769,7 @@
       "run_rate": 22.0,
       "bts_total": 3.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 6,
       "remaining_need": 3.0,
       "months_completed": 0,
       "problem_type": "On Track (Low Util)",
@@ -48785,10 +48785,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 2.0,
-          "actual": null,
-          "status": null,
+          "actual": 6,
+          "status": "in_progress",
           "adjusted_target": 0.4,
-          "variance": null
+          "variance": 4.0
         },
         {
           "month": "2026-05",
@@ -48857,7 +48857,7 @@
       "run_rate": 5.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 2,
       "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -48873,10 +48873,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 2,
+          "status": "in_progress",
           "adjusted_target": 0.1,
-          "variance": null
+          "variance": 1.0
         },
         {
           "month": "2026-05",
@@ -48945,7 +48945,7 @@
       "run_rate": 7.0,
       "bts_total": 1.0,
       "smoothed_target": 0.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 1.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -48961,10 +48961,10 @@
           "label": "Apr",
           "original_forecast": 0.0,
           "smoothed_target": 1.0,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 0.1,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -49645,8 +49645,71 @@
       ]
     }
   ],
-  "history": [],
-  "uploads": [],
+  "history": [
+    {
+      "month": "2026-04",
+      "label": "Apr",
+      "total_target": 933.0,
+      "total_actual": 863,
+      "variance": -70.0,
+      "variance_pct": -7.5,
+      "cumulative_target": 933.0,
+      "cumulative_actual": 863,
+      "over_performers": [
+        {
+          "subject": "High School Writing",
+          "variance": 20.0
+        },
+        {
+          "subject": "Middle School Writing",
+          "variance": 17.0
+        },
+        {
+          "subject": "Essay Editing",
+          "variance": 16.0
+        },
+        {
+          "subject": "High School English",
+          "variance": 12.0
+        },
+        {
+          "subject": "Middle School Science",
+          "variance": 11.0
+        }
+      ],
+      "under_performers": [
+        {
+          "subject": "Elementary School Reading",
+          "variance": -51.0
+        },
+        {
+          "subject": "Elementary School Math",
+          "variance": -37.0
+        },
+        {
+          "subject": "High School Chemistry",
+          "variance": -24.0
+        },
+        {
+          "subject": "Conversational Spanish",
+          "variance": -20.0
+        },
+        {
+          "subject": "Algebra 2",
+          "variance": -19.0
+        }
+      ]
+    }
+  ],
+  "uploads": [
+    {
+      "type": "actuals",
+      "month": "2026-04",
+      "filename": "2026-04.csv",
+      "uploaded_at": "2026-04-14 03:12 PM CST",
+      "subjects_count": 377
+    }
+  ],
   "bts_months": [
     "2026-04",
     "2026-05",

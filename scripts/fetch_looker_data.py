@@ -8,6 +8,7 @@ Supports both Look IDs (stable, recommended) and raw query IDs.
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -179,12 +180,72 @@ def fetch_utilization(api, *, dry_run=False):
         return False
 
 
-ACTUALS_SUBJECT_PATTERNS = ['subject name', 'subject']
-ACTUALS_MONTH_PATTERNS = ['start month', 'month']
-ACTUALS_CONTRACTED_PATTERNS = ['tutor count', 'contracted', 'count']
-ACTUALS_ASSIGNABLE_PATTERNS = ['auto assignable', 'assignable']
-ACTUALS_RESPONDED_PATTERNS = ['responded', 'opportunity responded']
-ACTUALS_ASSIGNS_PATTERNS = ['assignment count', 'assigns']
+ACTUALS_MEASURE_MAP = {
+    'tutor count': 'Actual_Contracted',
+    'tutor tutor count': 'Actual_Contracted',
+    'auto assignable': 'Auto_Assignable',
+    'assignable in subject': 'Auto_Assignable',
+    'opportunity responded': 'Opps_Responded',
+    'responded total': 'Opps_Responded',
+    'assignment count': 'Assigns',
+    'total assignment': 'Assigns',
+}
+
+
+def _parse_pivoted_actuals(df):
+    """Parse Looker's pivoted actuals export into a tall DataFrame.
+
+    Looker pivots months into columns, producing a layout like:
+      Row 0 (header):      PivotDimName | 2026-04 | 2026-04.1 | 2026-04.2 | ...
+      Row 1 (sub-header):  SubjectLabel | Measure1| Measure2  | Measure3  | ...
+      Row 2+:              SubjectName  |  value  |  value    |  value    | ...
+    """
+    import re
+
+    raw_headers = list(df.columns)
+    sub_header = df.iloc[0].tolist()
+    data_rows = df.iloc[1:].reset_index(drop=True)
+
+    print(f"  Pivot sub-header: {sub_header}")
+
+    month_col_groups = {}
+    for i, header in enumerate(raw_headers):
+        if i == 0:
+            continue
+        month_key = _normalize_month(re.sub(r'\.\d+$', '', str(header)))
+        if month_key not in month_col_groups:
+            month_col_groups[month_key] = []
+        measure_name = str(sub_header[i]).strip()
+        month_col_groups[month_key].append((i, measure_name))
+
+    print(f"  Detected months in pivot: {list(month_col_groups.keys())}")
+
+    all_rows = []
+    for _, data_row in data_rows.iterrows():
+        subject = str(data_row.iloc[0]).strip()
+        if not subject or subject.lower() in ('nan', ''):
+            continue
+        for month_key, col_pairs in month_col_groups.items():
+            row = {'Subject': subject, 'Month_Key': month_key}
+            for col_idx, measure_name in col_pairs:
+                standard = _map_measure(measure_name)
+                if standard:
+                    val = pd.to_numeric(data_row.iloc[col_idx], errors='coerce')
+                    row[standard] = int(val) if pd.notna(val) else 0
+            all_rows.append(row)
+
+    result = pd.DataFrame(all_rows)
+    print(f"  Unpivoted to {len(result)} rows across {len(month_col_groups)} month(s)")
+    return result
+
+
+def _map_measure(name):
+    """Map a Looker measure header to a standard column name."""
+    lower = str(name).lower().strip()
+    for pattern, standard in ACTUALS_MEASURE_MAP.items():
+        if pattern in lower:
+            return standard
+    return None
 
 
 def fetch_actuals(api, *, dry_run=False):
@@ -202,46 +263,45 @@ def fetch_actuals(api, *, dry_run=False):
         df = _fetch(api, look_id, query_id, "actuals")
         print(f"  Raw columns: {list(df.columns)}")
 
-        subj_col = _find_column(df, ACTUALS_SUBJECT_PATTERNS, "actuals subject")
-        month_col = _find_column(df, ACTUALS_MONTH_PATTERNS, "actuals month")
-        contracted_col = _find_column(df, ACTUALS_CONTRACTED_PATTERNS, "actuals contracted")
-        assignable_col = _find_column(df, ACTUALS_ASSIGNABLE_PATTERNS, "actuals assignable")
-        responded_col = _find_column(df, ACTUALS_RESPONDED_PATTERNS, "actuals responded")
-        assigns_col = _find_column(df, ACTUALS_ASSIGNS_PATTERNS, "actuals assigns")
+        is_pivoted = any(
+            _normalize_month(re.sub(r'\.\d+$', '', str(c))) in BTS_MONTH_KEYS
+            for c in df.columns[1:]
+        )
 
-        if not subj_col or not month_col or not contracted_col:
-            print("  ⚠  Could not identify required columns (subject, month, contracted)")
-            print("     Saving raw output to data/actuals_raw.csv for inspection")
+        if is_pivoted:
+            print("  Detected pivoted Looker format — unpivoting…")
+            df = _parse_pivoted_actuals(df)
+        else:
+            subj_col = _find_column(df, ['subject name', 'subject'], "actuals subject")
+            month_col = _find_column(df, ['start month', 'month'], "actuals month")
+            contracted_col = _find_column(df, ['tutor count', 'contracted'], "actuals contracted")
+            if not subj_col or not month_col or not contracted_col:
+                print("  ⚠  Could not identify required columns")
+                if not dry_run:
+                    os.makedirs('data', exist_ok=True)
+                    df.to_csv('data/actuals_raw.csv', index=False)
+                return False
+            rename = {subj_col: 'Subject', month_col: 'Month', contracted_col: 'Actual_Contracted'}
+            for col in df.columns:
+                m = _map_measure(col)
+                if m and m not in rename.values():
+                    rename[col] = m
+            df = df.rename(columns=rename)
+            for c in ['Actual_Contracted', 'Auto_Assignable', 'Opps_Responded', 'Assigns']:
+                if c in df.columns:
+                    df[c] = pd.to_numeric(df[c], errors='coerce').fillna(0).astype(int)
+            df['Month_Key'] = df['Month'].astype(str).str.strip().apply(_normalize_month)
+
+        if 'Actual_Contracted' not in df.columns:
+            print("  ⚠  No Actual_Contracted column found after parsing")
             if not dry_run:
                 os.makedirs('data', exist_ok=True)
                 df.to_csv('data/actuals_raw.csv', index=False)
             return False
 
-        rename_map = {subj_col: 'Subject', month_col: 'Month', contracted_col: 'Actual_Contracted'}
-        extra_cols = []
-        if assignable_col:
-            rename_map[assignable_col] = 'Auto_Assignable'
-            extra_cols.append('Auto_Assignable')
-        if responded_col:
-            rename_map[responded_col] = 'Opps_Responded'
-            extra_cols.append('Opps_Responded')
-        if assigns_col:
-            rename_map[assigns_col] = 'Assigns'
-            extra_cols.append('Assigns')
-
-        df = df.rename(columns=rename_map)
-        keep_cols = ['Subject', 'Month', 'Actual_Contracted'] + extra_cols
-        df = df[[c for c in keep_cols if c in df.columns]]
-        df['Actual_Contracted'] = pd.to_numeric(df['Actual_Contracted'], errors='coerce').fillna(0).astype(int)
-        for ec in extra_cols:
-            if ec in df.columns:
-                df[ec] = pd.to_numeric(df[ec], errors='coerce').fillna(0).astype(int)
-
-        month_raw = df['Month'].astype(str).str.strip()
-        df['Month_Key'] = month_raw.apply(_normalize_month)
-
         now = datetime.now(timezone.utc)
         current_month_key = now.strftime('%Y-%m')
+        extra_cols = [c for c in ['Auto_Assignable', 'Opps_Responded', 'Assigns'] if c in df.columns]
         statuses = {}
         months_written = 0
 
@@ -289,7 +349,6 @@ def fetch_actuals(api, *, dry_run=False):
 
 def _normalize_month(val):
     """Convert month values like '2026-04', '2026-04-01', 'April 2026' to 'YYYY-MM'."""
-    import re
     s = str(val).strip()
     m = re.match(r'^(\d{4})-(\d{2})', s)
     if m:
