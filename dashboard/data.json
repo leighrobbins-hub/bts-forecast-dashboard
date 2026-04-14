@@ -4,7 +4,7 @@
     "utilization_problems": 12,
     "supply_problems": 32,
     "on_track": 338,
-    "last_updated": "2026-04-14 03:08 PM CST",
+    "last_updated": "2026-04-14 03:09 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "portfolio_bts_total": 7317.0,
@@ -49666,7 +49666,7 @@
     "Oct"
   ],
   "fetch_status": {
-    "fetched_at": "2026-04-14T20:08:11.242039+00:00",
+    "fetched_at": "2026-04-14T20:09:02.309076+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -49675,6 +49675,6 @@
       "actuals": false
     },
     "any_failed": true,
-    "last_successful_fetch": "2026-04-14T20:08:11.242039+00:00"
+    "last_successful_fetch": "2026-04-14T20:09:02.309076+00:00"
   }
 }
