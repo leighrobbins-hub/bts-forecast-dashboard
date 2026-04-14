@@ -203,7 +203,7 @@ def main(argv=None):
 
     client_id = os.getenv("LOOKER_CLIENT_ID")
     client_secret = os.getenv("LOOKER_CLIENT_SECRET")
-    api_url = os.getenv("LOOKER_API_URL", "https://varsitytutors.looker.com")
+    api_url = os.getenv("LOOKER_BASE_URL") or os.getenv("LOOKER_API_URL", "https://varsitytutors.looker.com")
 
     if not client_id or not client_secret:
         print("⚠  Looker credentials not found in environment")

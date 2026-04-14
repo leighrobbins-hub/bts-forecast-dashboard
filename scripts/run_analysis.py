@@ -102,26 +102,56 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
         print(f"  Detected {len(detected_month_pairs)} utilization month(s): "
               f"{[p[0] for p in detected_month_pairs]}")
 
+    RECENT_MONTHS = 3
+    sorted_pairs = sorted(detected_month_pairs, key=lambda p: p[0], reverse=True)
+    recent_pairs = sorted_pairs[:RECENT_MONTHS]
+    trailing_pairs = sorted_pairs[RECENT_MONTHS:]
+    recent_labels = [p[0] for p in recent_pairs]
+    trailing_labels = [p[0] for p in trailing_pairs]
+    print(f"  Utilization trending: recent={recent_labels}, trailing={len(trailing_labels)} older months")
+
     util_data = []
     for _, row in df_util.iterrows():
         subject = _norm_subject(row['Subject'])
-        total = 0
-        utilized = 0
 
-        for total_col, util_col in detected_month_pairs:
-            t = pd.to_numeric(row.get(total_col), errors='coerce')
-            u = pd.to_numeric(row.get(util_col), errors='coerce')
-            if pd.notna(t):
-                total += t
-            if pd.notna(u):
-                utilized += u
+        def _sum_pairs(pairs):
+            t, u = 0, 0
+            for total_col, util_col in pairs:
+                tv = pd.to_numeric(row.get(total_col), errors='coerce')
+                uv = pd.to_numeric(row.get(util_col), errors='coerce')
+                if pd.notna(tv):
+                    t += tv
+                if pd.notna(uv):
+                    u += uv
+            return t, u
 
-        if total > 0:
+        all_total, all_util = _sum_pairs(sorted_pairs)
+        rec_total, rec_util = _sum_pairs(recent_pairs)
+        trail_total, trail_util = _sum_pairs(trailing_pairs)
+
+        if all_total > 0:
+            current_rate = (rec_util / rec_total * 100) if rec_total > 0 else None
+            trailing_rate = (trail_util / trail_total * 100) if trail_total > 0 else None
+
+            if current_rate is not None and trailing_rate is not None:
+                delta = round(current_rate - trailing_rate, 1)
+                trend = 'up' if delta > 3 else ('down' if delta < -3 else 'flat')
+            else:
+                delta = None
+                trend = None
+
             util_data.append({
                 'Subject': subject,
-                'Total_Contracted': total,
-                'Utilized_30d': utilized,
-                'Util_Rate': (utilized / total * 100)
+                'Total_Contracted': all_total,
+                'Utilized_30d': all_util,
+                'Util_Rate': (current_rate if current_rate is not None
+                              else (all_util / all_total * 100)),
+                'Util_Rate_Current': round(current_rate, 1) if current_rate is not None else None,
+                'Util_Rate_Trailing': round(trailing_rate, 1) if trailing_rate is not None else None,
+                'Util_Trend': trend,
+                'Util_Trend_Delta': delta,
+                'Util_Recent_Contracted': rec_total,
+                'Util_Recent_Utilized': rec_util,
             })
 
     df_utilization = pd.DataFrame(util_data)

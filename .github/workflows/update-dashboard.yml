@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - 'data/**'
+      - 'scripts/**'
       - 'dashboard/index.html'
       - 'dashboard/app.js'
       - 'dashboard/styles.css'
@@ -43,7 +44,7 @@ jobs:
         env:
           LOOKER_CLIENT_ID: ${{ secrets.LOOKER_CLIENT_ID }}
           LOOKER_CLIENT_SECRET: ${{ secrets.LOOKER_CLIENT_SECRET }}
-          LOOKER_API_URL: ${{ secrets.LOOKER_API_URL }}
+          LOOKER_BASE_URL: ${{ secrets.LOOKER_BASE_URL }}
           LOOKER_RUN_RATE_LOOK_ID: ${{ secrets.LOOKER_RUN_RATE_LOOK_ID }}
           LOOKER_UTILIZATION_LOOK_ID: ${{ secrets.LOOKER_UTILIZATION_LOOK_ID }}
         run: |
