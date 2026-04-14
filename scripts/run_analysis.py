@@ -48,10 +48,16 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
     cols = [c.strip() for c in df_runrate_raw.columns]
     df_runrate_raw.columns = cols
 
-    if 'Subject Name - General' in cols or 'Total Count Likely Attanable' in cols:
-        # New simple two-column format: subject name + single run rate value
-        subj_col = [c for c in cols if 'subject' in c.lower() or 'name' in c.lower()][0]
-        rate_col = [c for c in cols if c != subj_col][0]
+    rate_keywords = ['attain', 'run rate', 'total count likely']
+    subj_keywords = ['subject name', 'subject']
+    has_simple_format = any(
+        any(kw in c.lower() for kw in rate_keywords) for c in cols
+    )
+    if has_simple_format:
+        subj_col = next((c for c in cols for kw in subj_keywords if kw in c.lower()), cols[0])
+        rate_col = next((c for c in cols for kw in rate_keywords if kw in c.lower()), None)
+        if not rate_col:
+            rate_col = [c for c in cols if c != subj_col][0]
         df_runrate = df_runrate_raw.rename(columns={subj_col: 'Subject', rate_col: 'Run_Rate'})
         df_runrate['Run_Rate'] = pd.to_numeric(df_runrate['Run_Rate'], errors='coerce')
         df_runrate['Mar_Actual'] = None
@@ -77,8 +83,13 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
     df_forecast = df_forecast[df_forecast['metric'] == 'forecasted_headcount'].copy()
 
     df_util_raw = pd.read_csv(utilization_path)
-    df_util = df_util_raw.iloc[1:].reset_index(drop=True)
-    df_util.columns = ['Subject'] + df_util_raw.columns[1:].tolist()
+    first_col = str(df_util_raw.columns[0]).strip().lower()
+    if first_col == 'subject' or 'subject name' in first_col:
+        df_util = df_util_raw.copy()
+        df_util = df_util.rename(columns={df_util.columns[0]: 'Subject'})
+    else:
+        df_util = df_util_raw.iloc[1:].reset_index(drop=True)
+        df_util.columns = ['Subject'] + df_util_raw.columns[1:].tolist()
 
     # Detect month columns dynamically from CSV headers instead of hard-coding Feb/Mar.
     # Looker exports duplicate column names as YYYY-MM (total) and YYYY-MM.1 (30-day util).

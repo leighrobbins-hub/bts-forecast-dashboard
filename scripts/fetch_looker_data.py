@@ -17,8 +17,9 @@ import requests
 MAX_RETRIES = 3
 BACKOFF_BASE = 2  # seconds; delays will be 2, 4, 8 …
 
-RUN_RATE_EXPECTED_COLUMNS = {"Subject"}
-UTILIZATION_EXPECTED_COLUMNS = {"Subject"}
+RUN_RATE_SUBJECT_PATTERNS = ['subject name', 'subject']
+RUN_RATE_VALUE_PATTERNS = ['attain', 'run rate', 'total count']
+UTILIZATION_SUBJECT_PATTERNS = ['tutor start month', 'subject name', 'subject']
 
 
 class LookerAPI:
@@ -89,14 +90,15 @@ class LookerAPIError(Exception):
     pass
 
 
-def _validate_columns(df, expected, label):
-    """Warn if any expected columns are missing from the fetched data."""
-    missing = expected - set(df.columns)
-    if missing:
-        print(f"  ⚠  {label}: missing expected columns {missing}")
-        print(f"     Columns received: {list(df.columns)}")
-        return False
-    return True
+def _find_column(df, patterns, label):
+    """Find a column whose name contains one of the given patterns (case-insensitive)."""
+    for pat in patterns:
+        for col in df.columns:
+            if pat in str(col).lower():
+                return col
+    print(f"  ⚠  {label}: could not find column matching {patterns}")
+    print(f"     Columns received: {list(df.columns)}")
+    return None
 
 
 def _fetch(api, look_id, query_id, label):
@@ -124,7 +126,14 @@ def fetch_run_rates(api, *, dry_run=False):
     print("Fetching run rate data from Looker…")
     try:
         df = _fetch(api, look_id, query_id, "run rates")
-        _validate_columns(df, RUN_RATE_EXPECTED_COLUMNS, "run rates")
+        subj_col = _find_column(df, RUN_RATE_SUBJECT_PATTERNS, "run rates")
+        rate_col = _find_column(df, RUN_RATE_VALUE_PATTERNS, "run rates")
+        if subj_col and rate_col:
+            df = df.rename(columns={subj_col: 'Subject Name - General', rate_col: 'Total Count Likely Attanable'})
+            df = df[['Subject Name - General', 'Total Count Likely Attanable']]
+            print(f"  Normalized columns: {subj_col!r} → Subject Name - General, {rate_col!r} → Total Count Likely Attanable")
+        else:
+            print(f"  ⚠  Could not auto-detect columns; saving raw Looker output")
         if dry_run:
             print(f"  [dry-run] Would save {len(df)} rows to data/run_rates.csv")
         else:
@@ -150,7 +159,10 @@ def fetch_utilization(api, *, dry_run=False):
     print("Fetching utilization data from Looker…")
     try:
         df = _fetch(api, look_id, query_id, "utilization")
-        _validate_columns(df, UTILIZATION_EXPECTED_COLUMNS, "utilization")
+        subj_col = _find_column(df, UTILIZATION_SUBJECT_PATTERNS, "utilization")
+        if subj_col:
+            df = df.rename(columns={subj_col: 'Subject'})
+            print(f"  Normalized subject column: {subj_col!r} → Subject")
         if dry_run:
             print(f"  [dry-run] Would save {len(df)} rows to data/utilization.csv")
         else:
