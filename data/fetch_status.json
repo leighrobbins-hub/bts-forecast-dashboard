@@ -1,12 +1,12 @@
 {
-  "fetched_at": "2026-04-14T20:09:02.309076+00:00",
+  "fetched_at": "2026-04-14T20:13:07.888206+00:00",
   "dry_run": false,
   "skipped": false,
   "sources": {
     "run_rates": true,
     "utilization": true,
-    "actuals": false
+    "actuals": true
   },
-  "any_failed": true,
-  "last_successful_fetch": "2026-04-14T20:09:02.309076+00:00"
+  "any_failed": false,
+  "last_successful_fetch": "2026-04-14T20:13:07.888206+00:00"
 }
