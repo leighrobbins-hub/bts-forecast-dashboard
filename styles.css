@@ -722,6 +722,95 @@ tr.row-risk td:first-child { border-left: 3px solid #f39c12; }
     font-size: 16px;
 }
 
+.looker-sync-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #eaf6ec 0%, #e8f4fd 100%);
+    border: 1px solid #b8dcc6;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 25px;
+}
+
+.looker-sync-icon {
+    font-size: 28px;
+    color: #27ae60;
+    flex-shrink: 0;
+}
+
+.looker-sync-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.looker-sync-text strong {
+    font-size: 15px;
+}
+
+.looker-sync-text span {
+    color: #5a6c7d;
+}
+
+.advanced-uploads {
+    margin-bottom: 25px;
+}
+
+.advanced-uploads > summary {
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: #7f8c8d;
+    padding: 14px 20px;
+    background: #f8f9fa;
+    border: 1px dashed #bdc3c7;
+    border-radius: 8px;
+    list-style: none;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.advanced-uploads > summary::-webkit-details-marker {
+    display: none;
+}
+
+.advanced-uploads > summary::before {
+    content: "\25B6";
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 11px;
+    transition: transform 0.2s;
+}
+
+.advanced-uploads[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.advanced-uploads > summary:hover {
+    color: #2c3e50;
+    border-color: #95a5a6;
+}
+
+.advanced-uploads[open] > summary {
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.advanced-uploads-note {
+    color: #7f8c8d;
+    font-size: 13px;
+    padding: 15px 20px;
+    margin: 0;
+    background: #fdf9f0;
+    border: 1px dashed #bdc3c7;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    margin-bottom: 20px;
+}
+
 .upload-controls {
     display: flex;
     gap: 15px;

@@ -359,54 +359,13 @@
 
         <!-- UPLOAD DATA TAB -->
         <div id="upload-data" class="tab-content" role="tabpanel">
-            <div class="upload-section">
-                <h3>Upload Monthly Actuals</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload a CSV with actual contracting numbers. You can upload weekly updates — the month will show as "in progress" until you mark it final. Format: <code>Subject,Actual_Contracted</code></p>
 
-                <div class="upload-controls">
-                    <div class="filter-group">
-                        <label>Month</label>
-                        <select id="actuals-month">
-                            <option value="2026-04">April 2026</option>
-                            <option value="2026-05">May 2026</option>
-                            <option value="2026-06">June 2026</option>
-                            <option value="2026-07">July 2026</option>
-                            <option value="2026-08">August 2026</option>
-                            <option value="2026-09">September 2026</option>
-                            <option value="2026-10">October 2026</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>CSV File</label>
-                        <input type="file" id="actuals-file" accept=".csv">
-                    </div>
-                    <div class="filter-group" style="display:flex; align-items:flex-end; padding-bottom:4px;">
-                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer; white-space:nowrap;">
-                            <input type="checkbox" id="actuals-final"> Mark as final (month complete)
-                        </label>
-                    </div>
-                    <div class="filter-group" id="locked-months-display" style="display:none; align-items:flex-end; padding-bottom:4px;">
-                        <span id="locked-months-list" style="font-size:12px; color:#7f8c8d;"></span>
-                    </div>
+            <div class="looker-sync-banner" id="looker-sync-banner">
+                <div class="looker-sync-icon">&#x2699;</div>
+                <div class="looker-sync-text">
+                    <strong>Looker Auto-Sync Active</strong>
+                    <span id="looker-sync-detail">Actuals, run rates, and utilization are automatically synced from Looker daily.</span>
                 </div>
-
-                <span class="template-link" onclick="downloadActualsTemplate()">Download blank template CSV</span>
-
-                <div class="upload-preview" id="actuals-preview" style="display:none;">
-                    <div class="section-header" style="margin-top:15px;">Preview</div>
-                    <div class="table-container">
-                        <table>
-                            <thead><tr><th>Subject</th><th>Actual Contracted</th><th>Status</th></tr></thead>
-                            <tbody id="actuals-preview-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px; display: flex; gap: 10px;">
-                    <button class="btn btn-primary" id="btn-publish-actuals" onclick="publishActuals()" disabled>Commit to Repo</button>
-                    <button class="btn btn-secondary" id="btn-download-actuals" onclick="downloadActualsFile()" disabled>Download File</button>
-                </div>
-                <div id="actuals-status" class="status-msg"></div>
             </div>
 
             <div class="upload-section">
@@ -425,42 +384,6 @@
                     <button class="btn btn-secondary" id="btn-download-forecast" onclick="downloadForecastFile()" disabled>Download File</button>
                 </div>
                 <div id="forecast-status" class="status-msg"></div>
-            </div>
-
-            <div class="upload-section">
-                <h3>Upload Updated Run Rates</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload an updated <code>run_rates.csv</code> with the latest contracting run rate data. This replaces the current run rates and triggers recalculation.</p>
-
-                <div class="upload-controls">
-                    <div class="filter-group">
-                        <label>Run Rates File (.csv)</label>
-                        <input type="file" id="runrates-file" accept=".csv">
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px; display: flex; gap: 10px;">
-                    <button class="btn btn-primary" id="btn-publish-runrates" onclick="publishRunRates()" disabled>Commit to Repo</button>
-                    <button class="btn btn-secondary" id="btn-download-runrates" onclick="downloadRunRatesFile()" disabled>Download File</button>
-                </div>
-                <div id="runrates-status" class="status-msg"></div>
-            </div>
-
-            <div class="upload-section">
-                <h3>Upload Updated Utilization Data</h3>
-                <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Upload an updated <code>utilization.csv</code> with current tutor utilization data. This replaces the existing utilization data and triggers recalculation of problem classifications.</p>
-
-                <div class="upload-controls">
-                    <div class="filter-group">
-                        <label>Utilization File (.csv)</label>
-                        <input type="file" id="utilization-file" accept=".csv">
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px; display: flex; gap: 10px;">
-                    <button class="btn btn-primary" id="btn-publish-utilization" onclick="publishUtilization()" disabled>Commit to Repo</button>
-                    <button class="btn btn-secondary" id="btn-download-utilization" onclick="downloadUtilizationFile()" disabled>Download File</button>
-                </div>
-                <div id="utilization-status" class="status-msg"></div>
             </div>
 
             <div class="upload-section">
@@ -502,6 +425,97 @@
                 </div>
                 <div id="adjustments-status" class="status-msg"></div>
             </div>
+
+            <details class="advanced-uploads">
+                <summary>Advanced: Manual Data Overrides</summary>
+                <p class="advanced-uploads-note">These data sources are automatically synced from Looker daily. Use these uploads only if you need to manually override or correct the automated data. Changes will persist until the next Looker sync.</p>
+
+                <div class="upload-section">
+                    <h3>Upload Monthly Actuals</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Override Looker actuals for a specific month. Format: <code>Subject,Actual_Contracted</code></p>
+
+                    <div class="upload-controls">
+                        <div class="filter-group">
+                            <label>Month</label>
+                            <select id="actuals-month">
+                                <option value="2026-04">April 2026</option>
+                                <option value="2026-05">May 2026</option>
+                                <option value="2026-06">June 2026</option>
+                                <option value="2026-07">July 2026</option>
+                                <option value="2026-08">August 2026</option>
+                                <option value="2026-09">September 2026</option>
+                                <option value="2026-10">October 2026</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>CSV File</label>
+                            <input type="file" id="actuals-file" accept=".csv">
+                        </div>
+                        <div class="filter-group" style="display:flex; align-items:flex-end; padding-bottom:4px;">
+                            <label style="display:flex; align-items:center; gap:6px; cursor:pointer; white-space:nowrap;">
+                                <input type="checkbox" id="actuals-final"> Mark as final (month complete)
+                            </label>
+                        </div>
+                        <div class="filter-group" id="locked-months-display" style="display:none; align-items:flex-end; padding-bottom:4px;">
+                            <span id="locked-months-list" style="font-size:12px; color:#7f8c8d;"></span>
+                        </div>
+                    </div>
+
+                    <span class="template-link" onclick="downloadActualsTemplate()">Download blank template CSV</span>
+
+                    <div class="upload-preview" id="actuals-preview" style="display:none;">
+                        <div class="section-header" style="margin-top:15px;">Preview</div>
+                        <div class="table-container">
+                            <table>
+                                <thead><tr><th>Subject</th><th>Actual Contracted</th><th>Status</th></tr></thead>
+                                <tbody id="actuals-preview-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button class="btn btn-primary" id="btn-publish-actuals" onclick="publishActuals()" disabled>Commit to Repo</button>
+                        <button class="btn btn-secondary" id="btn-download-actuals" onclick="downloadActualsFile()" disabled>Download File</button>
+                    </div>
+                    <div id="actuals-status" class="status-msg"></div>
+                </div>
+
+                <div class="upload-section">
+                    <h3>Upload Updated Run Rates</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Override Looker run rates. Upload an updated <code>run_rates.csv</code> with the latest contracting run rate data.</p>
+
+                    <div class="upload-controls">
+                        <div class="filter-group">
+                            <label>Run Rates File (.csv)</label>
+                            <input type="file" id="runrates-file" accept=".csv">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button class="btn btn-primary" id="btn-publish-runrates" onclick="publishRunRates()" disabled>Commit to Repo</button>
+                        <button class="btn btn-secondary" id="btn-download-runrates" onclick="downloadRunRatesFile()" disabled>Download File</button>
+                    </div>
+                    <div id="runrates-status" class="status-msg"></div>
+                </div>
+
+                <div class="upload-section">
+                    <h3>Upload Updated Utilization Data</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Override Looker utilization data. Upload an updated <code>utilization.csv</code> with current tutor utilization data.</p>
+
+                    <div class="upload-controls">
+                        <div class="filter-group">
+                            <label>Utilization File (.csv)</label>
+                            <input type="file" id="utilization-file" accept=".csv">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button class="btn btn-primary" id="btn-publish-utilization" onclick="publishUtilization()" disabled>Commit to Repo</button>
+                        <button class="btn btn-secondary" id="btn-download-utilization" onclick="downloadUtilizationFile()" disabled>Download File</button>
+                    </div>
+                    <div id="utilization-status" class="status-msg"></div>
+                </div>
+            </details>
 
             <div class="upload-section">
                 <h3>GitHub Connection</h3>
@@ -572,7 +586,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.5</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.6</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -968,6 +982,16 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v2.6 <span class="cl-date">Apr 14, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
+                <ul>
+                    <li>Upload tab restructured: Forecast and Manual Adjustments promoted to primary sections</li>
+                    <li>Looker auto-sync status banner shows last successful fetch time and source status</li>
+                    <li>Actuals, Run Rates, and Utilization uploads moved to collapsible "Advanced: Manual Data Overrides" section</li>
+                    <li>Override descriptions clarified for all Looker-automated data sources</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.5 <span class="cl-date">Apr 14, 2026</span> <span class="cl-tag feature">Feature</span></div>

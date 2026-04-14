@@ -102,6 +102,7 @@ fetch('data.json?v=' + Date.now())
         renderHistoryTab();
         lockFinalizedMonths();
         showFetchStatusBanner(data.fetch_status);
+        populateLookerSyncBanner(data.fetch_status);
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-tabs').style.display = '';
         document.getElementById('main-content').style.display = '';
@@ -137,6 +138,31 @@ function showFetchStatusBanner(fetchStatus) {
         ? ' Last successful pull: ' + new Date(fetchStatus.last_successful_fetch).toLocaleString() + '.'
         : '';
     banner.innerHTML = '&#9888; <strong>Looker pull failed</strong> at ' + escapeHtml(when) + ' for: ' + escapeHtml(failed.join(', ')) + '. Using most recent cached data.' + lastGood + ' <span style="color:#7f8c8d">(Looker refreshes daily.)</span>';
+}
+
+function populateLookerSyncBanner(fetchStatus) {
+    var detail = document.getElementById('looker-sync-detail');
+    if (!detail) return;
+    var base = 'Actuals, run rates, and utilization are automatically synced from Looker daily.';
+    if (!fetchStatus) {
+        detail.textContent = base;
+        return;
+    }
+    var parts = [base];
+    if (fetchStatus.last_successful_fetch) {
+        var d = new Date(fetchStatus.last_successful_fetch);
+        parts.push('Last successful sync: ' + d.toLocaleString() + '.');
+    } else if (fetchStatus.fetched_at) {
+        var d2 = new Date(fetchStatus.fetched_at);
+        parts.push('Last checked: ' + d2.toLocaleString() + '.');
+    }
+    var sources = fetchStatus.sources || {};
+    var ok = Object.entries(sources).filter(function(kv) { return kv[1]; }).map(function(kv) { return kv[0].replace(/_/g, ' '); });
+    var fail = Object.entries(sources).filter(function(kv) { return !kv[1]; }).map(function(kv) { return kv[0].replace(/_/g, ' '); });
+    if (fail.length) {
+        parts.push('Failed: ' + fail.join(', ') + '.');
+    }
+    detail.textContent = parts.join(' ');
 }
 
 function lockFinalizedMonths() {
