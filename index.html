@@ -572,7 +572,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.4</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.5</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -968,6 +968,16 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v2.5 <span class="cl-date">Mar 31, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Looker actuals integration: monthly contracted counts (Look 26292) now auto-fetched in CI/CD</li>
+                    <li>Per-month actuals CSVs written to data/actuals/ with auto-detected status (final/in_progress)</li>
+                    <li>Months with all-zero actuals are automatically skipped to prevent empty files</li>
+                    <li>Extra columns stored for future use: Auto Assignable, Opps Responded, Assigns</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.4 <span class="cl-date">Apr 13, 2026</span> <span class="cl-tag feature">Feature</span></div>
