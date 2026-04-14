@@ -113,7 +113,7 @@
                             <th>Subject</th>
                             <th>Run Rate</th>
                             <th>Target/Mo</th>
-                            <th class="tooltip-wrap">Util %<span class="tooltip-text">30-day utilization rate based on Feb-Mar 2026 data. Of tutors contracted in that period, what % received at least one assignment within 30 days.</span></th>
+                            <th class="tooltip-wrap">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
                             <th>Gap</th>
                             <th>Problem Type</th>
                             <th>Priority Action</th>
@@ -180,7 +180,7 @@
                             <th class="sortable" onclick="sortTable('all', 0)">Subject</th>
                             <th class="sortable" onclick="sortTable('all', 1)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('all', 2)">Target/Mo</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('all', 3)">Util % (30d)<span class="tooltip-text">30-day utilization rate based on Feb-Mar 2026 data. Of tutors contracted in that period, what % received at least one assignment within 30 days.</span></th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('all', 3)">Util % (30d)<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
                             <th class="sortable" onclick="sortTable('all', 4)">Gap</th>
                             <th class="sortable" onclick="sortTable('all', 5)">Problem Type</th>
                             <th class="sortable" onclick="sortTable('all', 6)">Category</th>
@@ -255,7 +255,7 @@
                             <th class="sortable" onclick="sortTable('problems', 0)">Subject</th>
                             <th class="sortable" onclick="sortTable('problems', 1)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('problems', 2)">Target/Mo</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('problems', 3)">Util %<span class="tooltip-text">30-day utilization rate based on Feb-Mar 2026 data. Of tutors contracted in that period, what % received at least one assignment within 30 days.</span></th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('problems', 3)">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
                             <th class="sortable" onclick="sortTable('problems', 4)">Gap</th>
                             <th class="sortable" onclick="sortTable('problems', 5)">Type</th>
                             <th>Category</th>
@@ -572,7 +572,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.2</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.4</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -968,6 +968,17 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v2.4 <span class="cl-date">Apr 13, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Looker API integration: utilization (Look 26291) and run rates (Look 25848) now auto-fetched in CI/CD</li>
+                    <li>Utilization trending: current rate (recent 3 months) vs trailing rate with ↑/↓/→ trend indicators</li>
+                    <li>Problem classification now uses recent utilization instead of pooled all-time average</li>
+                    <li>Util column shows recent contracted vs utilized counts and trend delta tooltip</li>
+                    <li>CI/CD: added scripts/** to trigger paths so analysis code changes trigger rebuilds</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.3 <span class="cl-date">Apr 8, 2026</span> <span class="cl-tag improvement">Improvement</span></div>

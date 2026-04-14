@@ -53,6 +53,23 @@ function isSupplyRelated(problemType) {
     return problemType.includes('True Supply') || problemType.includes('No Util Data');
 }
 
+function buildUtilDisplay(row) {
+    if (row.Util_Rate === null || row.Util_Rate === undefined) return 'N/A';
+    var html = Math.round(row.Util_Rate) + '%';
+    if (row.Util_Trend && row.Util_Trend_Delta != null) {
+        var arrow = row.Util_Trend === 'up' ? '↑' : row.Util_Trend === 'down' ? '↓' : '→';
+        var color = row.Util_Trend === 'up' ? '#27ae60' : row.Util_Trend === 'down' ? '#e74c3c' : '#7f8c8d';
+        var delta = row.Util_Trend_Delta > 0 ? '+' + row.Util_Trend_Delta : '' + row.Util_Trend_Delta;
+        html += ' <span style="color:' + color + ';font-weight:600" title="' + delta + '% vs trailing avg">' + arrow + '</span>';
+    }
+    if (row.Util_Recent_Contracted != null && row.Util_Recent_Utilized != null) {
+        html += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Util_Recent_Utilized) + ' of ' + Math.round(row.Util_Recent_Contracted) + ' recent)</div>';
+    } else if (row.Total_Contracted != null && row.Utilized_30d != null) {
+        html += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
+    }
+    return html;
+}
+
 /* ── Load saved PAT ── */
 (function() {
     var saved = sessionStorage.getItem('bts_github_pat');
@@ -329,8 +346,7 @@ function renderPriorityTable() {
         if (type === 'utilization') tr.className = 'util-problem';
         else if (type === 'true-supply') tr.className = 'supply-problem';
         else if (type === 'no-util-data') tr.className = 'nodata-problem';
-        var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
-        if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
+        var utilDisplay = buildUtilDisplay(row);
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapClass = covPct < 50 ? 'gap-critical' : covPct < 80 ? 'gap-high' : 'gap-medium';
         var action = '', badgeClass = '', badgeText = '';
@@ -379,8 +395,7 @@ function filterAllSubjects() {
         if (type === 'utilization') tr.className = 'util-problem';
         else if (type === 'true-supply') tr.className = 'supply-problem';
         else if (type === 'no-util-data') tr.className = 'nodata-problem';
-        var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
-        if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
+        var utilDisplay = buildUtilDisplay(row);
         var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
         var badgeClass = 'ontrack', badgeText = 'On Track';
         if (type === 'utilization') { badgeClass = 'util'; badgeText = 'Placement Issue'; }
@@ -436,8 +451,7 @@ function renderProblemSubjects() {
     tbody.innerHTML = '';
     problems.forEach(function(row) {
         var type = classifyType(row.Problem_Type);
-        var utilDisplay = row.Util_Rate !== null && row.Util_Rate !== undefined ? row.Util_Rate + '%' : 'N/A';
-        if (row.Total_Contracted != null && row.Utilized_30d != null) utilDisplay += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
+        var utilDisplay = buildUtilDisplay(row);
         var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
 
         var badgeClass = 'util', badgeText = 'Placement Issue';
@@ -487,7 +501,7 @@ function sortTable(tableType, colIndex) {
 }
 
 function sortData(data, colIndex, asc) {
-    var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Raw_Gap', 'Problem_Type', 'Category'];
+    var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Util_Trend', 'Util_Trend_Delta', 'Raw_Gap', 'Problem_Type', 'Category'];
     var key = keysAll[colIndex] || keysAll[0];
     return data.slice().sort(function(a, b) {
         var aVal = a[key], bVal = b[key];
