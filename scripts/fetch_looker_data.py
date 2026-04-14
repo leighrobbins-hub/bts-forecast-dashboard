@@ -1,18 +1,22 @@
 """
 Fetch data from Looker API
-Pulls run rate and utilization data for BTS forecast analysis.
+Pulls run rate, utilization, and actuals data for BTS forecast analysis.
 
 Supports both Look IDs (stable, recommended) and raw query IDs.
 """
 
 import argparse
+import json
 import os
 import sys
 import time
+from datetime import datetime, timezone
 from io import StringIO
 
 import pandas as pd
 import requests
+
+BTS_MONTH_KEYS = ['2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10']
 
 MAX_RETRIES = 3
 BACKOFF_BASE = 2  # seconds; delays will be 2, 4, 8 …
@@ -175,6 +179,134 @@ def fetch_utilization(api, *, dry_run=False):
         return False
 
 
+ACTUALS_SUBJECT_PATTERNS = ['subject name', 'subject']
+ACTUALS_MONTH_PATTERNS = ['start month', 'month']
+ACTUALS_CONTRACTED_PATTERNS = ['tutor count', 'contracted', 'count']
+ACTUALS_ASSIGNABLE_PATTERNS = ['auto assignable', 'assignable']
+ACTUALS_RESPONDED_PATTERNS = ['responded', 'opportunity responded']
+ACTUALS_ASSIGNS_PATTERNS = ['assignment count', 'assigns']
+
+
+def fetch_actuals(api, *, dry_run=False):
+    """Fetch BTS actuals from Looker — split by month into data/actuals/."""
+    look_id = os.getenv("LOOKER_ACTUALS_LOOK_ID", "").strip() or None
+    query_id = os.getenv("LOOKER_ACTUALS_QUERY_ID", "").strip() or None
+
+    if not look_id and not query_id:
+        print("⚠  No LOOKER_ACTUALS_LOOK_ID or LOOKER_ACTUALS_QUERY_ID set")
+        print("   Skipping actuals fetch — using existing data/actuals/ if available")
+        return False
+
+    print("Fetching BTS actuals from Looker…")
+    try:
+        df = _fetch(api, look_id, query_id, "actuals")
+        print(f"  Raw columns: {list(df.columns)}")
+
+        subj_col = _find_column(df, ACTUALS_SUBJECT_PATTERNS, "actuals subject")
+        month_col = _find_column(df, ACTUALS_MONTH_PATTERNS, "actuals month")
+        contracted_col = _find_column(df, ACTUALS_CONTRACTED_PATTERNS, "actuals contracted")
+        assignable_col = _find_column(df, ACTUALS_ASSIGNABLE_PATTERNS, "actuals assignable")
+        responded_col = _find_column(df, ACTUALS_RESPONDED_PATTERNS, "actuals responded")
+        assigns_col = _find_column(df, ACTUALS_ASSIGNS_PATTERNS, "actuals assigns")
+
+        if not subj_col or not month_col or not contracted_col:
+            print("  ⚠  Could not identify required columns (subject, month, contracted)")
+            print("     Saving raw output to data/actuals_raw.csv for inspection")
+            if not dry_run:
+                os.makedirs('data', exist_ok=True)
+                df.to_csv('data/actuals_raw.csv', index=False)
+            return False
+
+        rename_map = {subj_col: 'Subject', month_col: 'Month', contracted_col: 'Actual_Contracted'}
+        extra_cols = []
+        if assignable_col:
+            rename_map[assignable_col] = 'Auto_Assignable'
+            extra_cols.append('Auto_Assignable')
+        if responded_col:
+            rename_map[responded_col] = 'Opps_Responded'
+            extra_cols.append('Opps_Responded')
+        if assigns_col:
+            rename_map[assigns_col] = 'Assigns'
+            extra_cols.append('Assigns')
+
+        df = df.rename(columns=rename_map)
+        keep_cols = ['Subject', 'Month', 'Actual_Contracted'] + extra_cols
+        df = df[[c for c in keep_cols if c in df.columns]]
+        df['Actual_Contracted'] = pd.to_numeric(df['Actual_Contracted'], errors='coerce').fillna(0).astype(int)
+        for ec in extra_cols:
+            if ec in df.columns:
+                df[ec] = pd.to_numeric(df[ec], errors='coerce').fillna(0).astype(int)
+
+        month_raw = df['Month'].astype(str).str.strip()
+        df['Month_Key'] = month_raw.apply(_normalize_month)
+
+        now = datetime.now(timezone.utc)
+        current_month_key = now.strftime('%Y-%m')
+        statuses = {}
+        months_written = 0
+
+        if not dry_run:
+            os.makedirs('data/actuals', exist_ok=True)
+
+        for month_key in BTS_MONTH_KEYS:
+            month_df = df[df['Month_Key'] == month_key]
+            if month_df.empty:
+                continue
+
+            has_real_data = (month_df['Actual_Contracted'] > 0).any()
+            if not has_real_data:
+                print(f"  Skipping {month_key}: all zeros/null")
+                continue
+
+            out_cols = ['Subject', 'Actual_Contracted'] + [c for c in extra_cols if c in month_df.columns]
+            out_df = month_df[out_cols].copy()
+            out_df = out_df.sort_values('Subject').reset_index(drop=True)
+
+            status = 'final' if month_key < current_month_key else 'in_progress'
+            statuses[month_key] = status
+
+            if dry_run:
+                print(f"  [dry-run] {month_key}: {len(out_df)} subjects [{status}]")
+            else:
+                out_df.to_csv(f'data/actuals/{month_key}.csv', index=False)
+                print(f"  ✓ {month_key}: {len(out_df)} subjects, "
+                      f"{out_df['Actual_Contracted'].sum()} total contracted [{status}]")
+            months_written += 1
+
+        if not dry_run and statuses:
+            with open('data/actuals/status.json', 'w') as f:
+                json.dump(statuses, f, indent=2)
+
+        print(f"✓ Actuals saved: {months_written} month(s)")
+        return True
+    except Exception as exc:
+        print(f"⚠  Could not fetch actuals: {exc}")
+        import traceback
+        traceback.print_exc()
+        print("   Using existing data/actuals/ if available")
+        return False
+
+
+def _normalize_month(val):
+    """Convert month values like '2026-04', '2026-04-01', 'April 2026' to 'YYYY-MM'."""
+    import re
+    s = str(val).strip()
+    m = re.match(r'^(\d{4})-(\d{2})', s)
+    if m:
+        return f"{m.group(1)}-{m.group(2)}"
+    month_names = {
+        'january': '01', 'february': '02', 'march': '03', 'april': '04',
+        'may': '05', 'june': '06', 'july': '07', 'august': '08',
+        'september': '09', 'october': '10', 'november': '11', 'december': '12'
+    }
+    for name, num in month_names.items():
+        if name in s.lower():
+            year_m = re.search(r'(\d{4})', s)
+            if year_m:
+                return f"{year_m.group(1)}-{num}"
+    return s
+
+
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="Fetch BTS data from Looker API")
     parser.add_argument(
@@ -187,9 +319,6 @@ def parse_args(argv=None):
 
 def _write_fetch_status(results, dry_run=False, skipped=False):
     """Write data/fetch_status.json so the dashboard can warn about stale data."""
-    import json
-    from datetime import datetime, timezone
-
     now = datetime.now(timezone.utc).isoformat()
     status = {
         'fetched_at': now,
@@ -250,8 +379,12 @@ def main(argv=None):
 
     rr_ok = fetch_run_rates(api, dry_run=args.dry_run)
     util_ok = fetch_utilization(api, dry_run=args.dry_run)
+    actuals_ok = fetch_actuals(api, dry_run=args.dry_run)
 
-    _write_fetch_status({'run_rates': rr_ok, 'utilization': util_ok}, dry_run=args.dry_run)
+    _write_fetch_status(
+        {'run_rates': rr_ok, 'utilization': util_ok, 'actuals': actuals_ok},
+        dry_run=args.dry_run,
+    )
 
     print("\n✓ Looker data fetch complete")
     print("\nNote: monitoring_table.xlsx (Pierre's forecast) should be uploaded manually")
