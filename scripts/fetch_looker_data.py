@@ -173,17 +173,36 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
-def _write_fetch_status(results, dry_run=False):
+def _write_fetch_status(results, dry_run=False, skipped=False):
     """Write data/fetch_status.json so the dashboard can warn about stale data."""
     import json
     from datetime import datetime, timezone
 
+    now = datetime.now(timezone.utc).isoformat()
     status = {
-        'fetched_at': datetime.now(timezone.utc).isoformat(),
+        'fetched_at': now,
         'dry_run': dry_run,
+        'skipped': skipped,
         'sources': results,
         'any_failed': not all(results.values()),
     }
+
+    if not skipped:
+        succeeded = [k for k, v in results.items() if v]
+        if succeeded:
+            status['last_successful_fetch'] = now
+
+    existing = {}
+    if os.path.exists('data/fetch_status.json'):
+        try:
+            with open('data/fetch_status.json') as f:
+                existing = json.load(f)
+        except Exception:
+            pass
+
+    if 'last_successful_fetch' not in status and 'last_successful_fetch' in existing:
+        status['last_successful_fetch'] = existing['last_successful_fetch']
+
     if not dry_run:
         os.makedirs('data', exist_ok=True)
         with open('data/fetch_status.json', 'w') as f:
@@ -209,7 +228,7 @@ def main(argv=None):
         print("⚠  Looker credentials not found in environment")
         print("   Set LOOKER_CLIENT_ID and LOOKER_CLIENT_SECRET, then re-run.")
         print("   Skipping API fetch — will use existing CSV files")
-        _write_fetch_status({'run_rates': False, 'utilization': False}, dry_run=args.dry_run)
+        _write_fetch_status({'run_rates': False, 'utilization': False}, dry_run=args.dry_run, skipped=True)
         return
 
     api = LookerAPI(api_url, client_id, client_secret)

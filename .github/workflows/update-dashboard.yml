@@ -2,8 +2,8 @@ name: Update BTS Forecast Dashboard
 
 on:
   schedule:
-    # Run every Monday at 6 AM UTC (1 AM CST for Leigh, good for WBR prep)
-    - cron: '0 6 * * 1'
+    # Run daily at 6 AM UTC (1 AM CST) — Looker refreshes once per day
+    - cron: '0 6 * * *'
   workflow_dispatch: # Allow manual trigger
   push:
     branches: [ main ]
