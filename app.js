@@ -115,7 +115,9 @@ fetch('data.json?v=' + Date.now())
     });
 
 function showFetchStatusBanner(fetchStatus) {
-    if (!fetchStatus || !fetchStatus.any_failed) return;
+    if (!fetchStatus) return;
+    if (fetchStatus.skipped) return;
+    if (!fetchStatus.any_failed) return;
     var failed = Object.entries(fetchStatus.sources || {})
         .filter(function(kv) { return !kv[1]; })
         .map(function(kv) { return kv[0].replace(/_/g, ' '); });
@@ -131,7 +133,10 @@ function showFetchStatusBanner(fetchStatus) {
     var when = fetchStatus.fetched_at
         ? new Date(fetchStatus.fetched_at).toLocaleString()
         : 'unknown time';
-    banner.innerHTML = '&#9888; <strong>Looker data may be stale.</strong> Last fetch (' + escapeHtml(when) + ') failed for: ' + escapeHtml(failed.join(', ')) + '. Showing most recent cached CSV files.';
+    var lastGood = fetchStatus.last_successful_fetch
+        ? ' Last successful pull: ' + new Date(fetchStatus.last_successful_fetch).toLocaleString() + '.'
+        : '';
+    banner.innerHTML = '&#9888; <strong>Looker pull failed</strong> at ' + escapeHtml(when) + ' for: ' + escapeHtml(failed.join(', ')) + '. Using most recent cached data.' + lastGood + ' <span style="color:#7f8c8d">(Looker refreshes daily.)</span>';
 }
 
 function lockFinalizedMonths() {
