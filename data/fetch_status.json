@@ -1,9 +1,11 @@
 {
-  "fetched_at": "2026-04-14T17:38:35.200895+00:00",
+  "fetched_at": "2026-04-14T17:49:56.782006+00:00",
   "dry_run": false,
+  "skipped": false,
   "sources": {
-    "run_rates": false,
-    "utilization": false
+    "run_rates": true,
+    "utilization": true
   },
-  "any_failed": true
+  "any_failed": false,
+  "last_successful_fetch": "2026-04-14T17:49:56.782006+00:00"
 }
