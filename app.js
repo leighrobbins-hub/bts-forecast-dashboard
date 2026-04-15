@@ -103,6 +103,7 @@ fetch('data.json?v=' + Date.now())
         lockFinalizedMonths();
         showFetchStatusBanner(data.fetch_status);
         populateLookerSyncBanner(data.fetch_status);
+        initTrackerKey();
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-tabs').style.display = '';
         document.getElementById('main-content').style.display = '';
@@ -567,6 +568,95 @@ function exportTable(tableId) {
 }
 
 /* ── Monthly Tracker ── */
+function buildMonthTooltip(m, label) {
+    var fcst = m.original_forecast != null ? Math.round(m.original_forecast) : null;
+    var smth = m.smoothed_target != null ? Math.round(m.smoothed_target) : null;
+    var adj = m.adjusted_target != null ? Math.round(m.adjusted_target) : null;
+    var lines = ['<strong>' + escapeHtml(label) + '</strong>'];
+    lines.push('Model forecast: ' + (fcst != null ? fcst : '—'));
+    if (adj != null && adj !== fcst) lines.push('Manual adjustment: ' + adj);
+    lines.push('Adjusted target: ' + (smth != null ? smth : '—'));
+    if (m.actual != null) {
+        lines.push('Actual: ' + m.actual);
+        if (smth != null) {
+            var v = m.actual - smth;
+            lines.push('Variance: ' + (v >= 0 ? '+' : '') + v);
+        }
+    }
+    return lines.join('<br>');
+}
+
+function buildExpandedRow(ts, colspan) {
+    var tr = document.createElement('tr');
+    tr.className = 'tracker-detail-row';
+    var td = document.createElement('td');
+    td.colSpan = colspan;
+    var pace = ts._pace;
+    var paceLabel = pace >= 999 ? 'On track' : pace + '%';
+    var problemLabel = ts.problem_type ? ts.problem_type.replace(/_/g, ' ') : 'On track';
+    problemLabel = problemLabel.charAt(0).toUpperCase() + problemLabel.slice(1);
+
+    var html = '<div class="detail-panel">';
+    html += '<div class="detail-summary">';
+    html += '<div class="detail-stat"><div class="detail-stat-val">' + Math.round(ts.bts_total) + '</div><div class="detail-stat-lbl">BTS Total</div></div>';
+    html += '<div class="detail-stat"><div class="detail-stat-val">' + Math.round(ts.run_rate) + '</div><div class="detail-stat-lbl">Run Rate</div></div>';
+    html += '<div class="detail-stat"><div class="detail-stat-val">' + Math.round(ts.actual_to_date) + '</div><div class="detail-stat-lbl">Actual to Date</div></div>';
+    html += '<div class="detail-stat"><div class="detail-stat-val">' + Math.round(ts.remaining_need) + '</div><div class="detail-stat-lbl">Remaining</div></div>';
+    html += '<div class="detail-stat"><div class="detail-stat-val">' + paceLabel + '</div><div class="detail-stat-lbl">Pace</div></div>';
+    html += '<div class="detail-stat"><div class="detail-stat-val">' + escapeHtml(problemLabel) + '</div><div class="detail-stat-lbl">Classification</div></div>';
+    if (ts.is_adjusted && ts.adjusted_months) {
+        html += '<div class="detail-stat"><div class="detail-stat-val">' + escapeHtml(ts.adjusted_months.join(', ')) + '</div><div class="detail-stat-lbl">Manually Adjusted</div></div>';
+    }
+    html += '</div>';
+
+    html += '<table class="detail-months-table"><thead><tr><th></th>';
+    var labels = ['Mar'];
+    ts.months.forEach(function(m) { labels.push(m.label); });
+    labels.forEach(function(l) { html += '<th>' + l + '</th>'; });
+    html += '</tr></thead><tbody>';
+
+    var mb = ts.march_baseline || {};
+    html += '<tr><td>Forecast</td><td>' + (mb.forecast != null ? mb.forecast : '—') + '</td>';
+    ts.months.forEach(function(m) {
+        var f = m.original_forecast != null ? Math.round(m.original_forecast) : '—';
+        html += '<td>' + f + '</td>';
+    });
+    html += '</tr>';
+
+    html += '<tr><td>Target</td><td style="color:#95a5a6">—</td>';
+    ts.months.forEach(function(m) {
+        var s = m.smoothed_target != null ? Math.round(m.smoothed_target) : '—';
+        html += '<td>' + s + '</td>';
+    });
+    html += '</tr>';
+
+    html += '<tr><td>Actual</td><td>' + (mb.actual != null ? mb.actual : '—') + '</td>';
+    ts.months.forEach(function(m) {
+        html += '<td>' + (m.actual != null ? m.actual : '—') + '</td>';
+    });
+    html += '</tr></tbody></table></div>';
+
+    td.innerHTML = html;
+    tr.appendChild(td);
+    return tr;
+}
+
+function initTrackerKey() {
+    var key = document.getElementById('tracker-key');
+    if (!key) return;
+    var stored = localStorage.getItem('tracker_key_closed');
+    if (stored === '1') {
+        key.removeAttribute('open');
+    } else {
+        key.setAttribute('open', '');
+    }
+    key.addEventListener('toggle', function() {
+        localStorage.setItem('tracker_key_closed', key.open ? '0' : '1');
+    });
+}
+
+var _openDetailSubject = null;
+
 function renderMonthlyTracker() {
     if (!trackerData.length) return;
     var filter = document.getElementById('tracker-filter').value;
@@ -617,91 +707,134 @@ function renderMonthlyTracker() {
     document.getElementById('tracker-count').innerHTML = 'Showing ' + filtered.length + ' of ' + trackerData.length + ' subjects &nbsp;·&nbsp; <span style="color:#e74c3c;font-weight:600">' + missCount + ' will miss</span> &nbsp;·&nbsp; <span style="color:#f39c12;font-weight:600">' + riskCount + ' at risk</span>';
     var tbody = document.getElementById('tracker-body');
     tbody.innerHTML = '';
-
-    var view = document.getElementById('tracker-view').value;
+    var totalCols = 13;
 
     filtered.forEach(function(ts) {
         var tr = document.createElement('tr');
+        tr.className = 'tracker-row';
         var pace = ts._pace;
-        if (pace < 80) tr.className = 'row-miss';
-        else if (pace < 100) tr.className = 'row-risk';
-        var cells = '<td><strong>' + escapeHtml(ts.subject) + '</strong></td>';
-        cells += '<td>' + Math.round(ts.run_rate) + '</td>';
+        if (pace < 80) tr.className += ' row-miss';
+        else if (pace < 100) tr.className += ' row-risk';
+
+        var cells = '<td class="col-left"><strong>' + escapeHtml(ts.subject) + '</strong></td>';
+        cells += '<td class="col-left">' + Math.round(ts.run_rate) + '</td>';
 
         var mb = ts.march_baseline || {};
+        var marTip = 'March Baseline';
+        if (mb.forecast != null) marTip += '\\nForecast: ' + mb.forecast;
+        if (mb.actual != null) marTip += '\\nActual: ' + mb.actual;
+        if (mb.variance != null) marTip += '\\nVariance: ' + (mb.variance >= 0 ? '+' : '') + mb.variance;
         var marContent = '<div class="month-cell">';
-        if (mb.actual !== null && mb.actual !== undefined) {
-            marContent += '<div class="mc-actual">' + mb.actual + '</div>';
-            if (mb.forecast !== null && mb.forecast !== undefined) {
-                marContent += '<div class="mc-target">fcst: ' + mb.forecast + '</div>';
-                var marVar = mb.variance || 0;
-                var marCls = marVar > 0 ? 'positive' : marVar < 0 ? 'negative' : 'zero';
-                marContent += '<div class="mc-var ' + marCls + '">' + (marVar > 0 ? '+' : '') + marVar + '</div>';
+        if (mb.actual != null) {
+            marContent += '<div class="mc-num">' + mb.actual + '</div>';
+            if (mb.variance != null) {
+                var marCls = mb.variance > 0 ? 'positive' : mb.variance < 0 ? 'negative' : 'zero';
+                marContent += '<div class="mc-var ' + marCls + '">' + (mb.variance > 0 ? '+' : '') + mb.variance + '</div>';
             }
         } else {
-            marContent += '<div class="mc-actual" style="color:#bdc3c7">—</div>';
+            marContent += '<div class="mc-num mc-empty">—</div>';
         }
         marContent += '</div>';
-        cells += '<td style="background:#f8f9fa;">' + marContent + '</td>';
+        cells += '<td class="col-month col-month-baseline" title="' + marTip + '">' + marContent + '</td>';
 
         ts.months.forEach(function(m) {
             var isInProgress = m.status === 'in_progress';
             var isFinal = m.status === 'final';
-            var cls = isFinal ? 'month-past' : (isInProgress ? 'month-in-progress' : '');
-            var content = '<div class="month-cell">';
-            var fcst = m.original_forecast !== null && m.original_forecast !== undefined ? Math.round(m.original_forecast) : null;
-            var smth = m.smoothed_target !== null && m.smoothed_target !== undefined ? Math.round(m.smoothed_target) : null;
-            var adj = m.adjusted_target !== null && m.adjusted_target !== undefined ? Math.round(m.adjusted_target) : null;
+            var smth = m.smoothed_target != null ? Math.round(m.smoothed_target) : null;
+            var cellCls = 'col-month';
+            if (isFinal) cellCls += ' month-past';
+            else if (isInProgress) cellCls += ' month-in-progress';
 
-            if (m.actual !== null && (isFinal || isInProgress)) {
-                content += '<div class="mc-actual">' + m.actual + '</div>';
-                if (view === 'both') {
-                    content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                    content += '<div class="mc-smoothed">target: ' + (smth !== null ? smth : '—') + '</div>';
-                } else if (view === 'forecast') {
-                    content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                } else {
-                    content += '<div class="mc-smoothed">target: ' + (smth !== null ? smth : '—') + '</div>';
-                }
-                if (isFinal) {
+            if (m.actual != null && smth != null && (isFinal || isInProgress)) {
+                if (m.actual >= smth) cellCls += ' cell-met';
+                else cellCls += ' cell-missed';
+            }
+
+            var content = '<div class="month-cell">';
+
+            if (m.actual != null && (isFinal || isInProgress)) {
+                content += '<div class="mc-num">' + m.actual + '</div>';
+                if (isFinal && m.variance != null) {
                     var varCls = m.variance > 0 ? 'positive' : m.variance < 0 ? 'negative' : 'zero';
-                    var varSign = m.variance > 0 ? '+' : '';
-                    content += '<div class="mc-var ' + varCls + '">' + varSign + Math.round(m.variance) + '</div>';
+                    content += '<div class="mc-var ' + varCls + '">' + (m.variance > 0 ? '+' : '') + Math.round(m.variance) + '</div>';
                 }
-                if (isInProgress) {
-                    var target = smth || 1;
-                    var pct = Math.min(Math.round(m.actual / target * 100), 100);
+                if (isInProgress && smth) {
+                    var pct = Math.min(Math.round(m.actual / smth * 100), 100);
                     content += '<div class="ip-progress-outer"><div class="ip-progress-fill" style="width:' + pct + '%"></div></div>';
                     content += '<div class="ip-badge">in progress</div>';
                 }
             } else {
-                if (view === 'both') {
-                    content += '<div class="mc-forecast">fcst: ' + (fcst !== null ? fcst : '—') + '</div>';
-                    content += '<div class="mc-actual">' + (smth !== null ? smth : '—') + '</div>';
-                    content += '<div class="mc-target">target</div>';
-                } else if (view === 'forecast') {
-                    content += '<div class="mc-actual">' + (fcst !== null ? fcst : '—') + '</div>';
-                    content += '<div class="mc-target">forecast</div>';
-                } else {
-                    content += '<div class="mc-actual">' + (smth !== null ? smth : '—') + '</div>';
-                    content += '<div class="mc-target">target</div>';
-                }
+                content += '<div class="mc-num mc-future">' + (smth != null ? smth : '—') + '</div>';
             }
             content += '</div>';
-            cells += '<td class="' + cls + '">' + content + '</td>';
+
+            var tipHtml = buildMonthTooltip(m, m.label);
+            cells += '<td class="' + cellCls + ' cell-tip" data-tip="' + escapeHtml(tipHtml) + '">' + content + '</td>';
         });
 
-        cells += '<td><strong>' + Math.round(ts.bts_total) + '</strong></td>';
-        cells += '<td>' + Math.round(ts.remaining_need) + '</td>';
+        cells += '<td class="col-right col-right-first"><strong>' + Math.round(ts.bts_total) + '</strong></td>';
+        cells += '<td class="col-right">' + Math.round(ts.remaining_need) + '</td>';
 
-        var pace = ts._pace;
         var paceCls = pace >= 100 ? 'pace-ok' : pace >= 80 ? 'pace-risk' : 'pace-miss';
         var paceWidth = Math.min(pace, 100);
-        var paceLabel = pace >= 999 ? '✓' : pace + '%';
-        cells += '<td><div class="pace-bar-wrap"><div class="pace-bar-outer"><div class="pace-bar-fill ' + paceCls + '" style="width:' + paceWidth + '%"></div></div><div class="pace-label ' + paceCls + '">' + paceLabel + '</div></div></td>';
+        var paceLabel = pace >= 999 ? '&#10003;' : pace + '%';
+        cells += '<td class="col-right"><div class="pace-bar-wrap"><div class="pace-bar-outer"><div class="pace-bar-fill ' + paceCls + '" style="width:' + paceWidth + '%"></div></div><div class="pace-label ' + paceCls + '">' + paceLabel + '</div></div></td>';
 
         tr.innerHTML = cells;
+
+        tr.addEventListener('click', function(e) {
+            if (e.target.closest('.cell-tip')) return;
+            var next = tr.nextElementSibling;
+            if (next && next.classList.contains('tracker-detail-row')) {
+                next.remove();
+                tr.classList.remove('tracker-row-expanded');
+                _openDetailSubject = null;
+                return;
+            }
+            var existing = tbody.querySelector('.tracker-detail-row');
+            if (existing) {
+                existing.previousElementSibling.classList.remove('tracker-row-expanded');
+                existing.remove();
+            }
+            tr.classList.add('tracker-row-expanded');
+            var detail = buildExpandedRow(ts, totalCols);
+            tr.parentNode.insertBefore(detail, tr.nextSibling);
+            _openDetailSubject = ts.subject;
+        });
+
         tbody.appendChild(tr);
+
+        if (_openDetailSubject === ts.subject) {
+            tr.classList.add('tracker-row-expanded');
+            tbody.appendChild(buildExpandedRow(ts, totalCols));
+        }
+    });
+
+    initCellTooltips();
+}
+
+function initCellTooltips() {
+    var tip = document.getElementById('cell-tooltip');
+    if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'cell-tooltip';
+        tip.className = 'cell-tooltip';
+        document.body.appendChild(tip);
+    }
+    var cells = document.querySelectorAll('.cell-tip');
+    cells.forEach(function(cell) {
+        cell.addEventListener('mouseenter', function(e) {
+            var html = cell.getAttribute('data-tip');
+            if (!html) return;
+            tip.innerHTML = html;
+            tip.style.display = 'block';
+            var rect = cell.getBoundingClientRect();
+            tip.style.left = (rect.left + rect.width / 2) + 'px';
+            tip.style.top = (rect.bottom + 6) + 'px';
+        });
+        cell.addEventListener('mouseleave', function() {
+            tip.style.display = 'none';
+        });
     });
 }
 
@@ -1376,7 +1509,6 @@ document.getElementById('filter-problem-month').addEventListener('change', rende
 document.getElementById('tracker-filter').addEventListener('change', renderMonthlyTracker);
 document.getElementById('tracker-search').addEventListener('input', debounce(renderMonthlyTracker, 200));
 document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
-document.getElementById('tracker-view').addEventListener('change', renderMonthlyTracker);
 
 /* ── Keyboard navigation for tabs ── */
 document.getElementById('main-tabs').addEventListener('keydown', function(e) {
