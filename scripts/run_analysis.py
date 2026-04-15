@@ -843,15 +843,77 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
     return tracker_subjects
 
 
-def generate_history(tracker_subjects, actuals):
-    """Generate month-by-month aggregate performance history with per-subject detail."""
+def generate_history(tracker_subjects, actuals, month_statuses=None):
+    """Generate month-by-month aggregate performance history with per-subject detail.
+    Only includes final months. March baseline is included as the first entry."""
+
+    if month_statuses is None:
+        month_statuses = {}
 
     history = []
     cumulative_target = 0
     cumulative_actual = 0
 
+    # --- March baseline entry ---
+    mar_subjects = []
+    mar_target = 0
+    mar_actual = 0
+    mar_met = 0
+    mar_missed = 0
+    for ts in tracker_subjects:
+        mb = ts.get('march_baseline', {})
+        act = mb.get('actual')
+        fcst = mb.get('forecast')
+        if act is None or fcst is None:
+            continue
+        variance = act - fcst
+        pct = round(act / fcst * 100, 1) if fcst > 0 else (100.0 if act == 0 else 999.0)
+        mar_target += fcst
+        mar_actual += act
+        if act >= fcst:
+            mar_met += 1
+        else:
+            mar_missed += 1
+        mar_subjects.append({
+            'subject': ts['subject'],
+            'category': ts.get('category', 'Other'),
+            'target': fcst,
+            'actual': act,
+            'variance': variance,
+            'pct_of_target': pct,
+        })
+
+    if mar_subjects:
+        cumulative_target += mar_target
+        cumulative_actual += mar_actual
+        mar_var_pct = round((mar_actual - mar_target) / mar_target * 100, 1) if mar_target > 0 else 0
+        mar_subjects.sort(key=lambda x: x['variance'])
+        mar_over = [s for s in reversed(mar_subjects) if s['variance'] >= 3]
+        mar_under = [s for s in mar_subjects if s['variance'] <= -3]
+        mar_total_subj = mar_met + mar_missed
+        mar_avg = round(sum(s['variance'] for s in mar_subjects) / mar_total_subj, 1) if mar_total_subj > 0 else 0
+        history.append({
+            'month': '2026-03',
+            'label': 'Mar',
+            'total_target': mar_target,
+            'total_actual': mar_actual,
+            'variance': mar_actual - mar_target,
+            'variance_pct': mar_var_pct,
+            'cumulative_target': cumulative_target,
+            'cumulative_actual': cumulative_actual,
+            'subjects_met': mar_met,
+            'subjects_missed': mar_missed,
+            'avg_variance': mar_avg,
+            'over_performers': mar_over[:5],
+            'under_performers': mar_under[:5],
+            'subjects': mar_subjects,
+        })
+
+    # --- BTS months (Apr–Oct), only final ---
     for i, month_key in enumerate(BTS_MONTH_KEYS):
         if month_key not in actuals:
+            continue
+        if month_statuses.get(month_key) != 'final':
             continue
 
         month_target = 0
@@ -1120,7 +1182,7 @@ def main():
         tracker_subjects = calculate_monthly_tracker(df_final, actuals, month_statuses)
 
         print("Generating performance history...")
-        history = generate_history(tracker_subjects, actuals)
+        history = generate_history(tracker_subjects, actuals, month_statuses)
 
         print("Building upload log...")
         uploads = build_upload_log(actuals_dir, forecasts_dir)

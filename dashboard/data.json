@@ -4,7 +4,7 @@
     "utilization_problems": 11,
     "supply_problems": 33,
     "on_track": 338,
-    "last_updated": "2026-04-15 12:55 PM CST",
+    "last_updated": "2026-04-15 12:58 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "portfolio_bts_total": 7317.0,
@@ -49647,1597 +49647,1133 @@
   ],
   "history": [
     {
-      "month": "2026-04",
-      "label": "Apr",
-      "total_target": 933.0,
-      "total_actual": 868,
-      "variance": -65.0,
-      "variance_pct": -7.0,
-      "cumulative_target": 933.0,
-      "cumulative_actual": 868,
-      "subjects_met": 130,
+      "month": "2026-03",
+      "label": "Mar",
+      "total_target": 433,
+      "total_actual": 581,
+      "variance": 148,
+      "variance_pct": 34.2,
+      "cumulative_target": 433,
+      "cumulative_actual": 581,
+      "subjects_met": 72,
       "subjects_missed": 57,
-      "avg_variance": -0.3,
+      "avg_variance": 1.1,
       "over_performers": [
         {
-          "subject": "High School Writing",
-          "category": "High School",
-          "target": 0.0,
-          "actual": 20,
-          "variance": 20.0,
-          "pct_of_target": 999.0
-        },
-        {
-          "subject": "Middle School Writing",
+          "subject": "Pre-Algebra",
           "category": "Middle School",
-          "target": 3.0,
-          "actual": 20,
-          "variance": 17.0,
-          "pct_of_target": 666.7
+          "target": 4,
+          "actual": 38,
+          "variance": 34,
+          "pct_of_target": 950.0
         },
         {
-          "subject": "Essay Editing",
-          "category": "Other",
-          "target": 4.0,
-          "actual": 20,
-          "variance": 16.0,
-          "pct_of_target": 500.0
-        },
-        {
-          "subject": "Phonics",
-          "category": "Elementary",
-          "target": 3.0,
-          "actual": 15,
-          "variance": 12.0,
-          "pct_of_target": 500.0
-        },
-        {
-          "subject": "High School English",
+          "subject": "High School Biology",
           "category": "High School",
-          "target": 7.0,
-          "actual": 19,
-          "variance": 12.0,
-          "pct_of_target": 271.4
-        }
-      ],
-      "under_performers": [
-        {
-          "subject": "Elementary School Reading",
-          "category": "Elementary",
-          "target": 71.0,
-          "actual": 21,
-          "variance": -50.0,
-          "pct_of_target": 29.6
-        },
-        {
-          "subject": "Elementary School Math",
-          "category": "Elementary",
-          "target": 63.0,
-          "actual": 27,
-          "variance": -36.0,
-          "pct_of_target": 42.9
-        },
-        {
-          "subject": "High School Chemistry",
-          "category": "High School",
-          "target": 36.0,
-          "actual": 12,
-          "variance": -24.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "Conversational Spanish",
-          "category": "Language",
-          "target": 23.0,
-          "actual": 3,
-          "variance": -20.0,
-          "pct_of_target": 13.0
-        },
-        {
-          "subject": "Algebra 2",
-          "category": "High School",
-          "target": 29.0,
-          "actual": 10,
-          "variance": -19.0,
-          "pct_of_target": 34.5
-        }
-      ],
-      "subjects": [
-        {
-          "subject": "Elementary School Reading",
-          "category": "Elementary",
-          "target": 71.0,
-          "actual": 21,
-          "variance": -50.0,
-          "pct_of_target": 29.6
-        },
-        {
-          "subject": "Elementary School Math",
-          "category": "Elementary",
-          "target": 63.0,
-          "actual": 27,
-          "variance": -36.0,
-          "pct_of_target": 42.9
-        },
-        {
-          "subject": "High School Chemistry",
-          "category": "High School",
-          "target": 36.0,
-          "actual": 12,
-          "variance": -24.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "Conversational Spanish",
-          "category": "Language",
-          "target": 23.0,
-          "actual": 3,
-          "variance": -20.0,
-          "pct_of_target": 13.0
-        },
-        {
-          "subject": "Algebra 2",
-          "category": "High School",
-          "target": 29.0,
-          "actual": 10,
-          "variance": -19.0,
-          "pct_of_target": 34.5
-        },
-        {
-          "subject": "SAT",
-          "category": "Test Prep",
-          "target": 28.0,
-          "actual": 10,
-          "variance": -18.0,
-          "pct_of_target": 35.7
-        },
-        {
-          "subject": "Pre-Calculus",
-          "category": "High School",
-          "target": 26.0,
-          "actual": 9,
-          "variance": -17.0,
-          "pct_of_target": 34.6
-        },
-        {
-          "subject": "AP Pre-Calculus",
-          "category": "AP",
-          "target": 25.0,
-          "actual": 9,
-          "variance": -16.0,
-          "pct_of_target": 36.0
-        },
-        {
-          "subject": "Middle School Math",
-          "category": "Middle School",
-          "target": 39.0,
-          "actual": 27,
-          "variance": -12.0,
-          "pct_of_target": 69.2
-        },
-        {
-          "subject": "Algebra",
-          "category": "High School",
-          "target": 32.0,
-          "actual": 20,
-          "variance": -12.0,
-          "pct_of_target": 62.5
-        },
-        {
-          "subject": "Geometry",
-          "category": "High School",
-          "target": 23.0,
-          "actual": 11,
-          "variance": -12.0,
-          "pct_of_target": 47.8
-        },
-        {
-          "subject": "AP Calculus AB",
-          "category": "AP",
-          "target": 15.0,
-          "actual": 4,
-          "variance": -11.0,
-          "pct_of_target": 26.7
-        },
-        {
-          "subject": "Executive Functioning",
-          "category": "Other",
-          "target": 13.0,
-          "actual": 3,
-          "variance": -10.0,
-          "pct_of_target": 23.1
-        },
-        {
-          "subject": "ACT",
-          "category": "Test Prep",
-          "target": 14.0,
-          "actual": 4,
-          "variance": -10.0,
-          "pct_of_target": 28.6
-        },
-        {
-          "subject": "AP Biology",
-          "category": "AP",
-          "target": 16.0,
-          "actual": 8,
-          "variance": -8.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "Organic Chemistry",
-          "category": "College",
-          "target": 11.0,
-          "actual": 4,
-          "variance": -7.0,
-          "pct_of_target": 36.4
-        },
-        {
-          "subject": "High School Physics",
-          "category": "High School",
-          "target": 9.0,
-          "actual": 3,
-          "variance": -6.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "LSAT",
-          "category": "Test Prep",
-          "target": 10.0,
-          "actual": 4,
-          "variance": -6.0,
-          "pct_of_target": 40.0
-        },
-        {
-          "subject": "Study Skills And Organization",
-          "category": "Other",
-          "target": 9.0,
-          "actual": 3,
-          "variance": -6.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "Public Speaking",
-          "category": "College",
-          "target": 9.0,
-          "actual": 3,
-          "variance": -6.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "College Chemistry",
-          "category": "College",
-          "target": 14.0,
-          "actual": 9,
-          "variance": -5.0,
-          "pct_of_target": 64.3
+          "target": 2,
+          "actual": 31,
+          "variance": 29,
+          "pct_of_target": 1550.0
         },
         {
           "subject": "College Application Essays",
           "category": "College",
-          "target": 8.0,
-          "actual": 3,
-          "variance": -5.0,
-          "pct_of_target": 37.5
+          "target": 1,
+          "actual": 27,
+          "variance": 26,
+          "pct_of_target": 2700.0
         },
         {
-          "subject": "AP Chemistry",
-          "category": "AP",
-          "target": 8.0,
-          "actual": 4,
-          "variance": -4.0,
+          "subject": "Calculus 1",
+          "category": "Other",
+          "target": 2,
+          "actual": 19,
+          "variance": 17,
+          "pct_of_target": 950.0
+        },
+        {
+          "subject": "ESL/ELL",
+          "category": "Language",
+          "target": 1,
+          "actual": 14,
+          "variance": 13,
+          "pct_of_target": 1400.0
+        }
+      ],
+      "under_performers": [
+        {
+          "subject": "LSAT",
+          "category": "Test Prep",
+          "target": 22,
+          "actual": 2,
+          "variance": -20,
+          "pct_of_target": 9.1
+        },
+        {
+          "subject": "SAT",
+          "category": "Test Prep",
+          "target": 33,
+          "actual": 15,
+          "variance": -18,
+          "pct_of_target": 45.5
+        },
+        {
+          "subject": "High School Chemistry",
+          "category": "High School",
+          "target": 28,
+          "actual": 14,
+          "variance": -14,
           "pct_of_target": 50.0
         },
         {
-          "subject": "AP Calculus BC",
+          "subject": "AP Pre-Calculus",
           "category": "AP",
-          "target": 6.0,
-          "actual": 2,
-          "variance": -4.0,
-          "pct_of_target": 33.3
+          "target": 19,
+          "actual": 9,
+          "variance": -10,
+          "pct_of_target": 47.4
         },
         {
-          "subject": "AP Human Geography",
-          "category": "AP",
-          "target": 5.0,
+          "subject": "Organic Chemistry",
+          "category": "College",
+          "target": 9,
           "actual": 1,
-          "variance": -4.0,
+          "variance": -8,
+          "pct_of_target": 11.1
+        }
+      ],
+      "subjects": [
+        {
+          "subject": "LSAT",
+          "category": "Test Prep",
+          "target": 22,
+          "actual": 2,
+          "variance": -20,
+          "pct_of_target": 9.1
+        },
+        {
+          "subject": "SAT",
+          "category": "Test Prep",
+          "target": 33,
+          "actual": 15,
+          "variance": -18,
+          "pct_of_target": 45.5
+        },
+        {
+          "subject": "High School Chemistry",
+          "category": "High School",
+          "target": 28,
+          "actual": 14,
+          "variance": -14,
+          "pct_of_target": 50.0
+        },
+        {
+          "subject": "AP Pre-Calculus",
+          "category": "AP",
+          "target": 19,
+          "actual": 9,
+          "variance": -10,
+          "pct_of_target": 47.4
+        },
+        {
+          "subject": "Organic Chemistry",
+          "category": "College",
+          "target": 9,
+          "actual": 1,
+          "variance": -8,
+          "pct_of_target": 11.1
+        },
+        {
+          "subject": "College Accounting",
+          "category": "College",
+          "target": 9,
+          "actual": 5,
+          "variance": -4,
+          "pct_of_target": 55.6
+        },
+        {
+          "subject": "AP Environmental Science",
+          "category": "AP",
+          "target": 4,
+          "actual": 0,
+          "variance": -4,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Mechanical Engineering",
+          "category": "College",
+          "target": 5,
+          "actual": 1,
+          "variance": -4,
           "pct_of_target": 20.0
         },
         {
-          "subject": "Basic Computer Literacy",
-          "category": "Technology",
-          "target": 10.0,
-          "actual": 6,
-          "variance": -4.0,
-          "pct_of_target": 60.0
-        },
-        {
-          "subject": "Coding",
-          "category": "College",
-          "target": 6.0,
-          "actual": 3,
-          "variance": -3.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "AP Computer Science A",
+          "subject": "AP Physics C: Mechanics",
           "category": "AP",
-          "target": 4.0,
+          "target": 4,
           "actual": 1,
-          "variance": -3.0,
+          "variance": -3,
           "pct_of_target": 25.0
         },
         {
-          "subject": "Financial Accounting",
+          "subject": "Biochemistry",
           "category": "College",
-          "target": 4.0,
+          "target": 4,
           "actual": 1,
-          "variance": -3.0,
+          "variance": -3,
           "pct_of_target": 25.0
+        },
+        {
+          "subject": "Managerial Accounting",
+          "category": "College",
+          "target": 3,
+          "actual": 0,
+          "variance": -3,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "ASVAB",
+          "category": "Test Prep",
+          "target": 3,
+          "actual": 0,
+          "variance": -3,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "College Statistics",
+          "category": "College",
+          "target": 5,
+          "actual": 2,
+          "variance": -3,
+          "pct_of_target": 40.0
+        },
+        {
+          "subject": "Business Calculus",
+          "category": "College",
+          "target": 3,
+          "actual": 0,
+          "variance": -3,
+          "pct_of_target": 0.0
         },
         {
           "subject": "Calculus 3",
           "category": "College",
-          "target": 4.0,
-          "actual": 2,
-          "variance": -2.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "Autocad",
-          "category": "Arts & Music",
-          "target": 3.0,
+          "target": 3,
           "actual": 1,
-          "variance": -2.0,
+          "variance": -2,
           "pct_of_target": 33.3
         },
         {
-          "subject": "IB Mathematics: Applications and Interpretation",
-          "category": "IB",
-          "target": 3.0,
-          "actual": 1,
-          "variance": -2.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "Artificial Intelligence (AI)",
+          "subject": "Multivariable Calculus",
           "category": "College",
-          "target": 3.0,
-          "actual": 1,
-          "variance": -2.0,
-          "pct_of_target": 33.3
+          "target": 2,
+          "actual": 0,
+          "variance": -2,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "Social Networking",
-          "category": "Technology",
-          "target": 3.0,
-          "actual": 1,
-          "variance": -2.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "Linear Algebra",
+          "subject": "College Algebra",
           "category": "College",
-          "target": 3.0,
-          "actual": 1,
-          "variance": -2.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "Math 2",
-          "category": "High School",
-          "target": 3.0,
-          "actual": 1,
-          "variance": -2.0,
-          "pct_of_target": 33.3
-        },
-        {
-          "subject": "College Biology",
-          "category": "College",
-          "target": 8.0,
-          "actual": 7,
-          "variance": -1.0,
-          "pct_of_target": 87.5
-        },
-        {
-          "subject": "Handwriting",
-          "category": "Elementary",
-          "target": 6.0,
-          "actual": 5,
-          "variance": -1.0,
-          "pct_of_target": 83.3
-        },
-        {
-          "subject": "AP Statistics",
-          "category": "AP",
-          "target": 4.0,
+          "target": 5,
           "actual": 3,
-          "variance": -1.0,
-          "pct_of_target": 75.0
+          "variance": -2,
+          "pct_of_target": 60.0
         },
         {
-          "subject": "SAT Math",
+          "subject": "Conversational German",
+          "category": "Language",
+          "target": 2,
+          "actual": 0,
+          "variance": -2,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "General Chemistry 2",
+          "category": "College",
+          "target": 2,
+          "actual": 0,
+          "variance": -2,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Conversational Italian",
+          "category": "Language",
+          "target": 2,
+          "actual": 0,
+          "variance": -2,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "GMAT",
           "category": "Test Prep",
-          "target": 3.0,
+          "target": 2,
+          "actual": 0,
+          "variance": -2,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "IB Mathematics: Analysis and Approaches",
+          "category": "IB",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "College Economics",
+          "category": "College",
+          "target": 3,
           "actual": 2,
-          "variance": -1.0,
+          "variance": -1,
           "pct_of_target": 66.7
         },
         {
           "subject": "Macroeconomics",
           "category": "College",
-          "target": 2.0,
+          "target": 2,
           "actual": 1,
-          "variance": -1.0,
+          "variance": -1,
           "pct_of_target": 50.0
         },
         {
-          "subject": "AP Environmental Science",
+          "subject": "AP Macroeconomics",
           "category": "AP",
-          "target": 3.0,
-          "actual": 2,
-          "variance": -1.0,
-          "pct_of_target": 66.7
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "Kindergarten Readiness",
-          "category": "Elementary",
-          "target": 5.0,
-          "actual": 4,
-          "variance": -1.0,
-          "pct_of_target": 80.0
+          "subject": "IB Mathematics: Applications and Interpretation",
+          "category": "IB",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "ASVAB",
+          "subject": "IB Chemistry",
+          "category": "IB",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Management",
+          "category": "College",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Viral Content Creation",
+          "category": "Other",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Social Networking",
+          "category": "Technology",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "MCAT",
           "category": "Test Prep",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "Piano",
-          "category": "Arts & Music",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "AP World History",
-          "category": "AP",
-          "target": 3.0,
+          "target": 3,
           "actual": 2,
-          "variance": -1.0,
+          "variance": -1,
           "pct_of_target": 66.7
         },
         {
           "subject": "Microeconomics",
           "category": "College",
-          "target": 2.0,
+          "target": 2,
           "actual": 1,
-          "variance": -1.0,
+          "variance": -1,
           "pct_of_target": 50.0
         },
         {
-          "subject": "French 2",
+          "subject": "AP Computer Science Principles",
+          "category": "AP",
+          "target": 3,
+          "actual": 2,
+          "variance": -1,
+          "pct_of_target": 66.7
+        },
+        {
+          "subject": "Vietnamese",
           "category": "Language",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "Competition Math",
-          "category": "High School",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
+          "subject": "Robotics",
+          "category": "Technology",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "French 3",
-          "category": "Language",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "Cyber Security",
+          "subject": "Business Analytics",
           "category": "College",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
+          "target": 3,
+          "actual": 2,
+          "variance": -1,
+          "pct_of_target": 66.7
         },
         {
-          "subject": "BCABA",
-          "category": "Professional/Cert",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "Statics and Dynamics",
+          "subject": "Cost Accounting",
           "category": "College",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
-        },
-        {
-          "subject": "Filmmaking",
-          "category": "Arts & Music",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
           "subject": "Linguistics",
           "category": "College",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
           "subject": "Structural Engineering",
           "category": "College",
-          "target": 2.0,
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Japanese",
+          "category": "Language",
+          "target": 2,
           "actual": 1,
-          "variance": -1.0,
+          "variance": -1,
           "pct_of_target": 50.0
+        },
+        {
+          "subject": "Organic Chemistry 2",
+          "category": "College",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Differential Equations",
+          "category": "College",
+          "target": 2,
+          "actual": 1,
+          "variance": -1,
+          "pct_of_target": 50.0
+        },
+        {
+          "subject": "Math 3",
+          "category": "High School",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "CogAT",
+          "category": "Test Prep",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Chemistry 2",
+          "category": "College",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Thermodynamics",
+          "category": "College",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Physical Chemistry",
+          "category": "College",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Physical Science",
+          "category": "High School",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "ACT Science",
+          "category": "Test Prep",
+          "target": 2,
+          "actual": 1,
+          "variance": -1,
+          "pct_of_target": 50.0
+        },
+        {
+          "subject": "Microsoft Power BI",
+          "category": "Technology",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Photography",
+          "category": "Arts & Music",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Electronics",
+          "category": "Other",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "Latin 4",
+          "category": "Language",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
+        },
+        {
+          "subject": "ACT",
+          "category": "Test Prep",
+          "target": 13,
+          "actual": 12,
+          "variance": -1,
+          "pct_of_target": 92.3
         },
         {
           "subject": "GRE",
           "category": "Test Prep",
-          "target": 2.0,
-          "actual": 1,
-          "variance": -1.0,
-          "pct_of_target": 50.0
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "Spanish 2",
-          "category": "Language",
-          "target": 4.0,
-          "actual": 4,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Adobe Illustrator",
-          "category": "Arts & Music",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "IB Chemistry",
-          "category": "IB",
-          "target": 2.0,
-          "actual": 2,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Digital Media",
-          "category": "Arts & Music",
-          "target": 3.0,
-          "actual": 3,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "MCAT",
+          "subject": "TEAS",
           "category": "Test Prep",
-          "target": 2.0,
-          "actual": 2,
-          "variance": 0.0,
-          "pct_of_target": 100.0
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "Python",
-          "category": "College",
-          "target": 2.0,
-          "actual": 2,
-          "variance": 0.0,
-          "pct_of_target": 100.0
+          "subject": "OAT",
+          "category": "Test Prep",
+          "target": 1,
+          "actual": 0,
+          "variance": -1,
+          "pct_of_target": 0.0
         },
         {
-          "subject": "High School Reading",
+          "subject": "Geometry",
           "category": "High School",
-          "target": 3.0,
-          "actual": 3,
-          "variance": 0.0,
+          "target": 15,
+          "actual": 15,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
-          "subject": "Multivariable Calculus",
+          "subject": "College Chemistry",
           "category": "College",
-          "target": 2.0,
+          "target": 10,
+          "actual": 10,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "AP Human Geography",
+          "category": "AP",
+          "target": 2,
           "actual": 2,
-          "variance": 0.0,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Artificial Intelligence (AI)",
+          "category": "College",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "French 2",
+          "category": "Language",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Linear Algebra",
+          "category": "College",
+          "target": 3,
+          "actual": 3,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Physics 2",
+          "category": "College",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "French 3",
+          "category": "Language",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Corporate Finance",
+          "category": "College",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Electrical and Computer Engineering",
+          "category": "College",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
           "subject": "Probability",
           "category": "College",
-          "target": 2.0,
-          "actual": 2,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Japanese",
-          "category": "Language",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
-          "subject": "Orton Gillingham",
-          "category": "Other",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Organic Chemistry 2",
+          "subject": "Financial Accounting",
           "category": "College",
-          "target": 2.0,
-          "actual": 2,
-          "variance": 0.0,
+          "target": 4,
+          "actual": 4,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "College Computer Science",
+          "category": "College",
+          "target": 6,
+          "actual": 6,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Portuguese",
+          "category": "Language",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
           "subject": "Spanish 4",
           "category": "Language",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "American Sign Language",
-          "category": "Language",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
           "subject": "Latin 1",
           "category": "Language",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "ACT Reading",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
           "subject": "ACT English",
           "category": "Test Prep",
-          "target": 2.0,
+          "target": 2,
           "actual": 2,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
-          "subject": "AP European History",
-          "category": "AP",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "PANCE",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Environmental Science",
-          "category": "Other",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Data Analysis",
+          "subject": "Microbiology",
           "category": "College",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
-          "subject": "Latin 2",
-          "category": "Language",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Grade 12 Physics",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "College Business",
-          "category": "College",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Machine Learning",
-          "category": "College",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Philosophy",
-          "category": "College",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Graphic Design",
+          "subject": "Autodesk Fusion 360",
           "category": "Arts & Music",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
-          "subject": "TOEFL",
-          "category": "Other",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Data Science",
+          "subject": "Finite Mathematics",
           "category": "College",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Civil Engineering",
-          "category": "College",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Physics 11",
-          "category": "Other",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Photoshop",
-          "category": "Arts & Music",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Microsoft Power BI",
-          "category": "Technology",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Photography",
-          "category": "Arts & Music",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
           "subject": "Inorganic Chemistry",
           "category": "College",
-          "target": 2.0,
-          "actual": 2,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "CPCE",
-          "category": "Other",
-          "target": 1.0,
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
         },
         {
-          "subject": "Tableau",
-          "category": "Technology",
-          "target": 1.0,
+          "subject": "Software",
+          "category": "College",
+          "target": 1,
           "actual": 1,
-          "variance": 0.0,
+          "variance": 0,
           "pct_of_target": 100.0
-        },
-        {
-          "subject": "Latin 4",
-          "category": "Language",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Agricultural Science",
-          "category": "College",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "TEFL",
-          "category": "Professional/Cert",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "GED",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 1,
-          "variance": 0.0,
-          "pct_of_target": 100.0
-        },
-        {
-          "subject": "Statistics",
-          "category": "College",
-          "target": 11.0,
-          "actual": 12,
-          "variance": 1.0,
-          "pct_of_target": 109.1
-        },
-        {
-          "subject": "Biochemistry",
-          "category": "College",
-          "target": 3.0,
-          "actual": 4,
-          "variance": 1.0,
-          "pct_of_target": 133.3
-        },
-        {
-          "subject": "High School World History",
-          "category": "High School",
-          "target": 2.0,
-          "actual": 3,
-          "variance": 1.0,
-          "pct_of_target": 150.0
-        },
-        {
-          "subject": "HSPT",
-          "category": "Test Prep",
-          "target": 2.0,
-          "actual": 3,
-          "variance": 1.0,
-          "pct_of_target": 150.0
-        },
-        {
-          "subject": "AP US History",
-          "category": "AP",
-          "target": 3.0,
-          "actual": 4,
-          "variance": 1.0,
-          "pct_of_target": 133.3
-        },
-        {
-          "subject": "Spanish 3",
-          "category": "Language",
-          "target": 2.0,
-          "actual": 3,
-          "variance": 1.0,
-          "pct_of_target": 150.0
-        },
-        {
-          "subject": "Technical Writing",
-          "category": "College",
-          "target": 2.0,
-          "actual": 3,
-          "variance": 1.0,
-          "pct_of_target": 150.0
-        },
-        {
-          "subject": "PSAT",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Computer Programming",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Portuguese",
-          "category": "Language",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Grade 11 Physics",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Middle School Social Studies",
-          "category": "Middle School",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Chemistry 2",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Music Theory",
-          "category": "Arts & Music",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Business Statistics",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Math 1",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "SSAT- Upper Level",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "ISEE- Middle Level",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Physical Science",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Marketing",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Pathophysiology",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "ISEE- Upper Level",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "SQL",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "MCAT Chemical and Physical Foundations of Biological Systems",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "HTML",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "AP Research",
-          "category": "AP",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "LSAT Logical Reasoning",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Medical Terminology",
-          "category": "College",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "High School Geography",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "LSAT Argumentative Writing",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "College Math",
-          "category": "College",
-          "target": 3.0,
-          "actual": 4,
-          "variance": 1.0,
-          "pct_of_target": 133.3
-        },
-        {
-          "subject": "SHSAT",
-          "category": "Test Prep",
-          "target": 1.0,
-          "actual": 2,
-          "variance": 1.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Middle School Reading",
-          "category": "Middle School",
-          "target": 16.0,
-          "actual": 18,
-          "variance": 2.0,
-          "pct_of_target": 112.5
-        },
-        {
-          "subject": "Spanish 1",
-          "category": "Language",
-          "target": 4.0,
-          "actual": 6,
-          "variance": 2.0,
-          "pct_of_target": 150.0
-        },
-        {
-          "subject": "Calculus 2",
-          "category": "College",
-          "target": 5.0,
-          "actual": 7,
-          "variance": 2.0,
-          "pct_of_target": 140.0
-        },
-        {
-          "subject": "Trigonometry",
-          "category": "High School",
-          "target": 4.0,
-          "actual": 6,
-          "variance": 2.0,
-          "pct_of_target": 150.0
-        },
-        {
-          "subject": "Management",
-          "category": "College",
-          "target": 3.0,
-          "actual": 5,
-          "variance": 2.0,
-          "pct_of_target": 166.7
-        },
-        {
-          "subject": "College and University Admissions",
-          "category": "College",
-          "target": 2.0,
-          "actual": 4,
-          "variance": 2.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Pharmacology",
-          "category": "College",
-          "target": 2.0,
-          "actual": 4,
-          "variance": 2.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "IB Biology",
-          "category": "IB",
-          "target": 2.0,
-          "actual": 4,
-          "variance": 2.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "Mac Basic Computer Skills",
-          "category": "Technology",
-          "target": 2.0,
-          "actual": 4,
-          "variance": 2.0,
-          "pct_of_target": 200.0
-        },
-        {
-          "subject": "General Chemistry 2",
-          "category": "College",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "Differential Equations",
-          "category": "College",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "High School Level American History",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "High School Computer Science",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "Neuroscience",
-          "category": "College",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "College Political Science",
-          "category": "College",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "Painting",
-          "category": "Arts & Music",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
-        },
-        {
-          "subject": "Expository Writing",
-          "category": "College",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
         },
         {
           "subject": "Biomedical Engineering",
           "category": "College",
-          "target": 1.0,
-          "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
         },
         {
-          "subject": "High School Government",
+          "subject": "College Math",
+          "category": "College",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "DAT",
+          "category": "Test Prep",
+          "target": 1,
+          "actual": 1,
+          "variance": 0,
+          "pct_of_target": 100.0
+        },
+        {
+          "subject": "Pre-Calculus",
           "category": "High School",
-          "target": 1.0,
+          "target": 16,
+          "actual": 17,
+          "variance": 1,
+          "pct_of_target": 106.2
+        },
+        {
+          "subject": "AP Chemistry",
+          "category": "AP",
+          "target": 7,
+          "actual": 8,
+          "variance": 1,
+          "pct_of_target": 114.3
+        },
+        {
+          "subject": "AP Calculus BC",
+          "category": "AP",
+          "target": 3,
+          "actual": 4,
+          "variance": 1,
+          "pct_of_target": 133.3
+        },
+        {
+          "subject": "Study Skills And Organization",
+          "category": "Other",
+          "target": 2,
           "actual": 3,
-          "variance": 2.0,
-          "pct_of_target": 300.0
+          "variance": 1,
+          "pct_of_target": 150.0
         },
         {
-          "subject": "Elementary School English",
-          "category": "Elementary",
-          "target": 18.0,
-          "actual": 21,
-          "variance": 3.0,
-          "pct_of_target": 116.7
+          "subject": "Autocad",
+          "category": "Arts & Music",
+          "target": 1,
+          "actual": 2,
+          "variance": 1,
+          "pct_of_target": 200.0
         },
         {
-          "subject": "Microsoft Excel",
-          "category": "Technology",
-          "target": 2.0,
-          "actual": 5,
-          "variance": 3.0,
-          "pct_of_target": 250.0
+          "subject": "Spanish 3",
+          "category": "Language",
+          "target": 2,
+          "actual": 3,
+          "variance": 1,
+          "pct_of_target": 150.0
         },
         {
-          "subject": "Psychology",
-          "category": "College",
-          "target": 2.0,
-          "actual": 5,
-          "variance": 3.0,
-          "pct_of_target": 250.0
+          "subject": "AP World History",
+          "category": "AP",
+          "target": 2,
+          "actual": 3,
+          "variance": 1,
+          "pct_of_target": 150.0
         },
         {
-          "subject": "Business Analytics",
-          "category": "College",
-          "target": 2.0,
-          "actual": 5,
-          "variance": 3.0,
-          "pct_of_target": 250.0
+          "subject": "Filmmaking",
+          "category": "Arts & Music",
+          "target": 1,
+          "actual": 2,
+          "variance": 1,
+          "pct_of_target": 200.0
         },
         {
-          "subject": "College Algebra",
-          "category": "College",
-          "target": 1.0,
+          "subject": "NPTE",
+          "category": "Professional/Cert",
+          "target": 1,
+          "actual": 2,
+          "variance": 1,
+          "pct_of_target": 200.0
+        },
+        {
+          "subject": "American Sign Language",
+          "category": "Language",
+          "target": 1,
+          "actual": 2,
+          "variance": 1,
+          "pct_of_target": 200.0
+        },
+        {
+          "subject": "ACT Reading",
+          "category": "Test Prep",
+          "target": 3,
           "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
+          "variance": 1,
+          "pct_of_target": 133.3
         },
         {
-          "subject": "Earth Science",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
-        },
-        {
-          "subject": "Microbiology",
+          "subject": "Statistics Graduate Level",
           "category": "College",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
+          "target": 1,
+          "actual": 2,
+          "variance": 1,
+          "pct_of_target": 200.0
         },
         {
-          "subject": "Elementary Social Studies",
-          "category": "Elementary",
-          "target": 1.0,
+          "subject": "Graphic Design",
+          "category": "Arts & Music",
+          "target": 3,
           "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
+          "variance": 1,
+          "pct_of_target": 133.3
+        },
+        {
+          "subject": "Conversational French",
+          "category": "Language",
+          "target": 2,
+          "actual": 3,
+          "variance": 1,
+          "pct_of_target": 150.0
         },
         {
           "subject": "Genetics",
           "category": "College",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
-        },
-        {
-          "subject": "Contract Law",
-          "category": "College",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
-        },
-        {
-          "subject": "Microsoft Word",
-          "category": "Technology",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
-        },
-        {
-          "subject": "Legal Writing",
-          "category": "College",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
-        },
-        {
-          "subject": "Grade 10 Math",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 4,
-          "variance": 3.0,
-          "pct_of_target": 400.0
-        },
-        {
-          "subject": "Anatomy & Physiology",
-          "category": "College",
-          "target": 2.0,
-          "actual": 6,
-          "variance": 4.0,
+          "target": 1,
+          "actual": 3,
+          "variance": 2,
           "pct_of_target": 300.0
         },
         {
-          "subject": "Drawing",
-          "category": "Arts & Music",
-          "target": 1.0,
+          "subject": "Korean",
+          "category": "Language",
+          "target": 1,
+          "actual": 3,
+          "variance": 2,
+          "pct_of_target": 300.0
+        },
+        {
+          "subject": "Statistics",
+          "category": "College",
+          "target": 9,
+          "actual": 12,
+          "variance": 3,
+          "pct_of_target": 133.3
+        },
+        {
+          "subject": "Spanish 2",
+          "category": "Language",
+          "target": 2,
           "actual": 5,
-          "variance": 4.0,
+          "variance": 3,
+          "pct_of_target": 250.0
+        },
+        {
+          "subject": "NCLEX-RN",
+          "category": "Professional/Cert",
+          "target": 1,
+          "actual": 4,
+          "variance": 3,
+          "pct_of_target": 400.0
+        },
+        {
+          "subject": "Marketing",
+          "category": "College",
+          "target": 3,
+          "actual": 6,
+          "variance": 3,
+          "pct_of_target": 200.0
+        },
+        {
+          "subject": "Executive Functioning",
+          "category": "Other",
+          "target": 5,
+          "actual": 9,
+          "variance": 4,
+          "pct_of_target": 180.0
+        },
+        {
+          "subject": "High School Physics",
+          "category": "High School",
+          "target": 2,
+          "actual": 6,
+          "variance": 4,
+          "pct_of_target": 300.0
+        },
+        {
+          "subject": "AP Physics 1",
+          "category": "AP",
+          "target": 1,
+          "actual": 5,
+          "variance": 4,
           "pct_of_target": 500.0
+        },
+        {
+          "subject": "Calculus 2",
+          "category": "College",
+          "target": 1,
+          "actual": 5,
+          "variance": 4,
+          "pct_of_target": 500.0
+        },
+        {
+          "subject": "AP US History",
+          "category": "AP",
+          "target": 1,
+          "actual": 5,
+          "variance": 4,
+          "pct_of_target": 500.0
+        },
+        {
+          "subject": "College Physics",
+          "category": "College",
+          "target": 1,
+          "actual": 5,
+          "variance": 4,
+          "pct_of_target": 500.0
+        },
+        {
+          "subject": "Social Work",
+          "category": "College",
+          "target": 2,
+          "actual": 6,
+          "variance": 4,
+          "pct_of_target": 300.0
+        },
+        {
+          "subject": "Finance",
+          "category": "College",
+          "target": 1,
+          "actual": 6,
+          "variance": 5,
+          "pct_of_target": 600.0
+        },
+        {
+          "subject": "Microsoft Excel",
+          "category": "Technology",
+          "target": 1,
+          "actual": 6,
+          "variance": 5,
+          "pct_of_target": 600.0
+        },
+        {
+          "subject": "AP Biology",
+          "category": "AP",
+          "target": 7,
+          "actual": 13,
+          "variance": 6,
+          "pct_of_target": 185.7
+        },
+        {
+          "subject": "AP Calculus AB",
+          "category": "AP",
+          "target": 8,
+          "actual": 14,
+          "variance": 6,
+          "pct_of_target": 175.0
+        },
+        {
+          "subject": "College Biology",
+          "category": "College",
+          "target": 5,
+          "actual": 11,
+          "variance": 6,
+          "pct_of_target": 220.0
+        },
+        {
+          "subject": "AP Statistics",
+          "category": "AP",
+          "target": 1,
+          "actual": 7,
+          "variance": 6,
+          "pct_of_target": 700.0
+        },
+        {
+          "subject": "HSPT",
+          "category": "Test Prep",
+          "target": 3,
+          "actual": 9,
+          "variance": 6,
+          "pct_of_target": 300.0
+        },
+        {
+          "subject": "SHSAT",
+          "category": "Test Prep",
+          "target": 1,
+          "actual": 8,
+          "variance": 7,
+          "pct_of_target": 800.0
         },
         {
           "subject": "SAT Writing and Language",
           "category": "Test Prep",
-          "target": 1.0,
-          "actual": 5,
-          "variance": 4.0,
+          "target": 2,
+          "actual": 10,
+          "variance": 8,
           "pct_of_target": 500.0
         },
         {
-          "subject": "College Statistics",
-          "category": "College",
-          "target": 4.0,
-          "actual": 8,
-          "variance": 4.0,
-          "pct_of_target": 200.0
+          "subject": "GED",
+          "category": "Test Prep",
+          "target": 2,
+          "actual": 10,
+          "variance": 8,
+          "pct_of_target": 500.0
         },
         {
-          "subject": "High School Science",
-          "category": "High School",
-          "target": 2.0,
-          "actual": 6,
-          "variance": 4.0,
-          "pct_of_target": 300.0
+          "subject": "SSAT- Upper Level",
+          "category": "Test Prep",
+          "target": 2,
+          "actual": 12,
+          "variance": 10,
+          "pct_of_target": 600.0
         },
         {
-          "subject": "High School Biology",
+          "subject": "SAT Math",
+          "category": "Test Prep",
+          "target": 4,
+          "actual": 15,
+          "variance": 11,
+          "pct_of_target": 375.0
+        },
+        {
+          "subject": "Conversational Spanish",
+          "category": "Language",
+          "target": 5,
+          "actual": 16,
+          "variance": 11,
+          "pct_of_target": 320.0
+        },
+        {
+          "subject": "Algebra 2",
           "category": "High School",
-          "target": 9.0,
+          "target": 15,
+          "actual": 28,
+          "variance": 13,
+          "pct_of_target": 186.7
+        },
+        {
+          "subject": "Spanish 1",
+          "category": "Language",
+          "target": 1,
           "actual": 14,
-          "variance": 5.0,
-          "pct_of_target": 155.6
+          "variance": 13,
+          "pct_of_target": 1400.0
         },
         {
           "subject": "ESL/ELL",
           "category": "Language",
-          "target": 2.0,
-          "actual": 7,
-          "variance": 5.0,
-          "pct_of_target": 350.0
-        },
-        {
-          "subject": "PC Basic Computer Skills",
-          "category": "Technology",
-          "target": 2.0,
-          "actual": 7,
-          "variance": 5.0,
-          "pct_of_target": 350.0
-        },
-        {
-          "subject": "AP Psychology",
-          "category": "AP",
-          "target": 1.0,
-          "actual": 6,
-          "variance": 5.0,
-          "pct_of_target": 600.0
-        },
-        {
-          "subject": "Elementary School Writing",
-          "category": "Elementary",
-          "target": 14.0,
-          "actual": 20,
-          "variance": 6.0,
-          "pct_of_target": 142.9
-        },
-        {
-          "subject": "Middle School English",
-          "category": "Middle School",
-          "target": 9.0,
-          "actual": 15,
-          "variance": 6.0,
-          "pct_of_target": 166.7
-        },
-        {
-          "subject": "Cell Biology",
-          "category": "College",
-          "target": 1.0,
-          "actual": 7,
-          "variance": 6.0,
-          "pct_of_target": 700.0
-        },
-        {
-          "subject": "Pre-Algebra",
-          "category": "Middle School",
-          "target": 8.0,
+          "target": 1,
           "actual": 14,
-          "variance": 6.0,
-          "pct_of_target": 175.0
-        },
-        {
-          "subject": "AP English Literature and Composition",
-          "category": "AP",
-          "target": 2.0,
-          "actual": 9,
-          "variance": 7.0,
-          "pct_of_target": 450.0
-        },
-        {
-          "subject": "Creative Writing",
-          "category": "College",
-          "target": 1.0,
-          "actual": 8,
-          "variance": 7.0,
-          "pct_of_target": 800.0
-        },
-        {
-          "subject": "College English",
-          "category": "College",
-          "target": 3.0,
-          "actual": 11,
-          "variance": 8.0,
-          "pct_of_target": 366.7
-        },
-        {
-          "subject": "AP English Language and Composition",
-          "category": "AP",
-          "target": 4.0,
-          "actual": 13,
-          "variance": 9.0,
-          "pct_of_target": 325.0
-        },
-        {
-          "subject": "English Grammar and Syntax",
-          "category": "High School",
-          "target": 1.0,
-          "actual": 10,
-          "variance": 9.0,
-          "pct_of_target": 1000.0
+          "variance": 13,
+          "pct_of_target": 1400.0
         },
         {
           "subject": "Calculus 1",
           "category": "Other",
-          "target": 3.0,
-          "actual": 13,
-          "variance": 10.0,
-          "pct_of_target": 433.3
-        },
-        {
-          "subject": "Middle School Science",
-          "category": "Middle School",
-          "target": 7.0,
-          "actual": 18,
-          "variance": 11.0,
-          "pct_of_target": 257.1
-        },
-        {
-          "subject": "High School English",
-          "category": "High School",
-          "target": 7.0,
+          "target": 2,
           "actual": 19,
-          "variance": 12.0,
-          "pct_of_target": 271.4
+          "variance": 17,
+          "pct_of_target": 950.0
         },
         {
-          "subject": "Phonics",
-          "category": "Elementary",
-          "target": 3.0,
-          "actual": 15,
-          "variance": 12.0,
-          "pct_of_target": 500.0
+          "subject": "College Application Essays",
+          "category": "College",
+          "target": 1,
+          "actual": 27,
+          "variance": 26,
+          "pct_of_target": 2700.0
         },
         {
-          "subject": "Essay Editing",
-          "category": "Other",
-          "target": 4.0,
-          "actual": 20,
-          "variance": 16.0,
-          "pct_of_target": 500.0
-        },
-        {
-          "subject": "Middle School Writing",
-          "category": "Middle School",
-          "target": 3.0,
-          "actual": 20,
-          "variance": 17.0,
-          "pct_of_target": 666.7
-        },
-        {
-          "subject": "High School Writing",
+          "subject": "High School Biology",
           "category": "High School",
-          "target": 0.0,
-          "actual": 20,
-          "variance": 20.0,
-          "pct_of_target": 999.0
+          "target": 2,
+          "actual": 31,
+          "variance": 29,
+          "pct_of_target": 1550.0
+        },
+        {
+          "subject": "Pre-Algebra",
+          "category": "Middle School",
+          "target": 4,
+          "actual": 38,
+          "variance": 34,
+          "pct_of_target": 950.0
         }
       ]
     }
@@ -51247,7 +50783,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-15 12:55 PM CST",
+      "uploaded_at": "2026-04-15 12:19 PM CST",
       "subjects_count": 383
     }
   ],
