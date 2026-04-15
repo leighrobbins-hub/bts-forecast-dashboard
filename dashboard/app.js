@@ -983,17 +983,25 @@ function renderHistoryCards() {
     var _openHistoryMonth = null;
 
     historyData.forEach(function(h) {
-        var headerClass = h.variance >= 0 ? 'met' : (h.variance_pct > -10 ? 'partial' : 'missed');
-        var statusLabel = h.variance >= 0 ? 'Target Met' : 'Target Missed';
+        var acc = Math.max(h.weighted_accuracy || 0, 0);
+        var accCls = acc >= 80 ? 'acc-good' : acc >= 60 ? 'acc-warn' : 'acc-bad';
+        var bias = h.forecast_bias || 0;
+        var biasDir = bias > 0 ? 'over' : bias < 0 ? 'under' : 'neutral';
+        var biasCls = Math.abs(bias) <= 15 ? 'bias-good' : 'bias-bad';
         var met = h.subjects_met || 0;
         var missed = h.subjects_missed || 0;
+        var total = met + missed;
+        var hitRate = h.hit_rate || 0;
 
         var card = document.createElement('div');
         card.className = 'history-card-v2';
 
-        var html = '<div class="hc-header ' + headerClass + '">';
+        var html = '<div class="hc-header ' + accCls + '">';
         html += '<div class="hc-title">' + h.label + ' 2026</div>';
-        html += '<div class="hc-status">' + statusLabel + '</div>';
+        html += '<div class="hc-bubbles">';
+        html += '<div class="hc-bubble ' + accCls + '"><div class="hc-bubble-val">' + Math.round(acc) + '%</div><div class="hc-bubble-lbl">accuracy</div></div>';
+        html += '<div class="hc-bubble ' + biasCls + '"><div class="hc-bubble-val">' + (bias >= 0 ? '+' : '') + bias + '%</div><div class="hc-bubble-lbl">bias (' + biasDir + ')</div></div>';
+        html += '</div>';
         html += '</div>';
 
         html += '<div class="hc-body">';
@@ -1002,13 +1010,14 @@ function renderHistoryCards() {
         html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.total_actual) + '</div><div class="hc-stat-lbl">Actual</div></div>';
         var vColor = h.variance >= 0 ? '#27ae60' : '#e74c3c';
         html += '<div class="hc-stat"><div class="hc-stat-val" style="color:' + vColor + '">' + (h.variance >= 0 ? '+' : '') + Math.round(h.variance) + '</div><div class="hc-stat-lbl">Variance (' + (h.variance_pct >= 0 ? '+' : '') + h.variance_pct + '%)</div></div>';
+        html += '<div class="hc-stat"><div class="hc-stat-val">' + hitRate + '%</div><div class="hc-stat-lbl">Hit Rate (' + met + '/' + total + ')</div></div>';
         html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.cumulative_actual) + ' / ' + Math.round(h.cumulative_target) + '</div><div class="hc-stat-lbl">Cumulative</div></div>';
         html += '</div>';
 
         html += '<div class="hc-subject-counts">';
-        html += '<span class="hc-met-count">' + met + ' met target</span>';
-        html += '<span class="hc-missed-count">' + missed + ' missed</span>';
-        if (h.avg_variance != null) html += '<span class="hc-avg">Avg variance: ' + (h.avg_variance >= 0 ? '+' : '') + h.avg_variance + '</span>';
+        html += '<span class="hc-met-count">' + met + ' met (' + Math.round(hitRate) + '%)</span>';
+        html += '<span class="hc-missed-count">' + missed + ' missed (' + Math.round(100 - hitRate) + '%)</span>';
+        html += '<span class="hc-avg">MAE: ' + (h.weighted_mae_pct || 0) + '%</span>';
         html += '</div>';
 
         html += '<div class="hc-performers-wrap">';
@@ -1028,7 +1037,7 @@ function renderHistoryCards() {
         }
         html += '</div>';
 
-        html += '<div class="hc-expand-cta">Click to view all subjects &#9662;</div>';
+        html += '<div class="hc-expand-cta">Click to view accuracy tiers + all subjects &#9662;</div>';
         html += '</div>';
 
         card.innerHTML = html;
@@ -1068,8 +1077,56 @@ function renderHistoryDetail(panel, h) {
     var missed = h.subjects_missed || 0;
     var total = met + missed;
 
-    var html = '<div class="hd-header">';
-    html += '<h3>' + h.label + ' 2026 — Subject Breakdown</h3>';
+    var html = '';
+
+    // --- Tiered accuracy breakdown ---
+    html += '<div class="hd-tiers">';
+    html += '<div class="hd-tiers-title">Forecast Accuracy Tiers</div>';
+    html += '<table class="hd-tier-table"><thead><tr><th>Metric</th><th>Tier</th><th>Value</th><th>Target</th><th></th></tr></thead><tbody>';
+
+    var acc = Math.max(h.weighted_accuracy || 0, 0);
+    var accPass = acc >= 80;
+    html += '<tr><td><strong>Weighted MAE</strong><div class="hd-tier-desc">Volume-weighted accuracy — high-demand subjects count more</div></td>';
+    html += '<td>1</td><td>' + Math.round(acc) + '% accuracy</td><td>&ge;80%</td>';
+    html += '<td class="' + (accPass ? 'tier-pass' : 'tier-fail') + '">' + (accPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+
+    var bias = h.forecast_bias || 0;
+    var biasPass = Math.abs(bias) <= 15;
+    var biasLabel = bias > 0 ? '+' + bias + '% over' : bias < 0 ? bias + '% under' : '0% neutral';
+    html += '<tr><td><strong>Forecast Bias</strong><div class="hd-tier-desc">Directional tendency — are we consistently over or under?</div></td>';
+    html += '<td>1 &amp; 2</td><td>' + biasLabel + '</td><td>within &plusmn;15%</td>';
+    html += '<td class="' + (biasPass ? 'tier-pass' : 'tier-fail') + '">' + (biasPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+
+    var clAcc = Math.max(h.cluster_accuracy || 0, 0);
+    var clPass = clAcc >= 75;
+    html += '<tr><td><strong>Cluster MAE</strong><div class="hd-tier-desc">Accuracy by category — how well does recruiting match demand at cluster level</div></td>';
+    html += '<td>2</td><td>' + Math.round(clAcc) + '% accuracy</td><td>&ge;75%</td>';
+    html += '<td class="' + (clPass ? 'tier-pass' : 'tier-fail') + '">' + (clPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+
+    var sr = h.surprise_rate || 0;
+    var srPass = sr <= 5;
+    html += '<tr><td><strong>Surprise Rate</strong><div class="hd-tier-desc">Long-tail subjects with real demand we completely missed</div></td>';
+    html += '<td>3</td><td>' + sr + '% (' + (h.surprise_count || 0) + '/' + (h.long_tail_count || 0) + ')</td><td>&le;5%</td>';
+    html += '<td class="' + (srPass ? 'tier-pass' : 'tier-fail') + '">' + (srPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+
+    html += '</tbody></table>';
+
+    // Cluster detail (collapsible)
+    if (h.cluster_details && h.cluster_details.length) {
+        html += '<details class="hd-cluster-detail"><summary>Cluster breakdown by category</summary>';
+        html += '<table class="hd-cluster-table"><thead><tr><th>Category</th><th>Target</th><th>Actual</th><th>Error</th></tr></thead><tbody>';
+        h.cluster_details.forEach(function(c) {
+            var errCls = c.error_pct <= 20 ? 'tier-pass' : c.error_pct <= 40 ? '' : 'tier-fail';
+            html += '<tr><td>' + escapeHtml(c.cluster) + '</td><td>' + Math.round(c.target) + '</td><td>' + Math.round(c.actual) + '</td>';
+            html += '<td class="' + errCls + '">' + c.error_pct + '%</td></tr>';
+        });
+        html += '</tbody></table></details>';
+    }
+    html += '</div>';
+
+    // --- Header and controls ---
+    html += '<div class="hd-header">';
+    html += '<h3>Subject Breakdown</h3>';
     html += '<div class="hd-summary-stats">';
     html += '<span class="hd-badge hd-met">' + met + ' met</span>';
     html += '<span class="hd-badge hd-missed">' + missed + ' missed</span>';

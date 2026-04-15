@@ -843,6 +843,76 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
     return tracker_subjects
 
 
+def _compute_accuracy_tiers(subjects_detail):
+    """Compute WBR-style tiered accuracy metrics from a list of subject dicts.
+    Volume-weighted: aggregate |errors| / aggregate targets, so high-demand
+    subjects naturally carry more weight (matches WBR methodology)."""
+    if not subjects_detail:
+        return {}
+
+    total_target = sum(s['target'] for s in subjects_detail)
+    total_actual = sum(s['actual'] for s in subjects_detail)
+    total_abs_error = sum(abs(s['actual'] - s['target']) for s in subjects_detail)
+    total_signed_error = total_actual - total_target
+
+    met = sum(1 for s in subjects_detail if s['actual'] >= s['target'])
+    total = len(subjects_detail)
+    hit_rate = round(met / total * 100, 1) if total else 0
+
+    # Tier 1: Weighted MAE = sum(|errors|) / sum(targets)
+    weighted_mae_pct = round(total_abs_error / total_target * 100, 1) if total_target > 0 else 0
+    weighted_accuracy = round(100 - weighted_mae_pct, 1)
+
+    # Tier 1&2: Forecast Bias = sum(signed errors) / sum(targets)
+    forecast_bias = round(total_signed_error / total_target * 100, 1) if total_target > 0 else 0
+
+    # Tier 2: Cluster MAE (group by category, compute aggregate error per cluster)
+    from collections import defaultdict
+    clusters = defaultdict(lambda: {'target': 0, 'actual': 0})
+    for s in subjects_detail:
+        cat = s.get('category', 'Other')
+        clusters[cat]['target'] += s['target']
+        clusters[cat]['actual'] += s['actual']
+
+    cluster_abs_errors = 0
+    cluster_total_target = 0
+    cluster_details = []
+    for cat, c in sorted(clusters.items()):
+        if c['target'] <= 0:
+            continue
+        abs_err = abs(c['actual'] - c['target'])
+        err_pct = round(abs_err / c['target'] * 100, 1)
+        cluster_abs_errors += abs_err
+        cluster_total_target += c['target']
+        cluster_details.append({
+            'cluster': cat,
+            'target': round(c['target'], 0),
+            'actual': round(c['actual'], 0),
+            'error_pct': err_pct,
+        })
+    cluster_mae_pct = round(cluster_abs_errors / cluster_total_target * 100, 1) if cluster_total_target > 0 else 0
+    cluster_accuracy = round(100 - cluster_mae_pct, 1)
+
+    # Tier 3: Surprise rate (subjects with target <= 1 that had real demand >= 2)
+    long_tail = [s for s in subjects_detail if s['target'] <= 1]
+    surprises = [s for s in long_tail if s['actual'] >= 2]
+    surprise_rate = round(len(surprises) / len(long_tail) * 100, 1) if long_tail else 0
+
+    return {
+        'weighted_accuracy': weighted_accuracy,
+        'weighted_mae_pct': weighted_mae_pct,
+        'forecast_bias': forecast_bias,
+        'bias_direction': 'over' if forecast_bias > 0 else ('under' if forecast_bias < 0 else 'neutral'),
+        'cluster_accuracy': cluster_accuracy,
+        'cluster_mae_pct': cluster_mae_pct,
+        'cluster_details': cluster_details,
+        'surprise_rate': surprise_rate,
+        'surprise_count': len(surprises),
+        'long_tail_count': len(long_tail),
+        'hit_rate': hit_rate,
+    }
+
+
 def generate_history(tracker_subjects, actuals, month_statuses=None):
     """Generate month-by-month aggregate performance history with per-subject detail.
     Only includes final months. March baseline is included as the first entry."""
@@ -854,12 +924,44 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
     cumulative_target = 0
     cumulative_actual = 0
 
+    def _build_entry(month_key, label, subjects_list):
+        nonlocal cumulative_target, cumulative_actual
+
+        total_t = sum(s['target'] for s in subjects_list)
+        total_a = sum(s['actual'] for s in subjects_list)
+        met = sum(1 for s in subjects_list if s['actual'] >= s['target'])
+        missed = len(subjects_list) - met
+        cumulative_target += total_t
+        cumulative_actual += total_a
+        var_pct = round((total_a - total_t) / total_t * 100, 1) if total_t > 0 else 0
+
+        sorted_subj = sorted(subjects_list, key=lambda x: x['variance'])
+        over = [s for s in reversed(sorted_subj) if s['variance'] >= 3]
+        under = [s for s in sorted_subj if s['variance'] <= -3]
+        avg_var = round(sum(s['variance'] for s in subjects_list) / len(subjects_list), 1) if subjects_list else 0
+
+        tiers = _compute_accuracy_tiers(subjects_list)
+
+        return {
+            'month': month_key,
+            'label': label,
+            'total_target': round(total_t, 0),
+            'total_actual': round(total_a, 0),
+            'variance': round(total_a - total_t, 0),
+            'variance_pct': var_pct,
+            'cumulative_target': round(cumulative_target, 0),
+            'cumulative_actual': round(cumulative_actual, 0),
+            'subjects_met': met,
+            'subjects_missed': missed,
+            'avg_variance': avg_var,
+            'over_performers': over[:5],
+            'under_performers': under[:5],
+            'subjects': sorted_subj,
+            **tiers,
+        }
+
     # --- March baseline entry ---
     mar_subjects = []
-    mar_target = 0
-    mar_actual = 0
-    mar_met = 0
-    mar_missed = 0
     for ts in tracker_subjects:
         mb = ts.get('march_baseline', {})
         act = mb.get('actual')
@@ -868,12 +970,6 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
             continue
         variance = act - fcst
         pct = round(act / fcst * 100, 1) if fcst > 0 else (100.0 if act == 0 else 999.0)
-        mar_target += fcst
-        mar_actual += act
-        if act >= fcst:
-            mar_met += 1
-        else:
-            mar_missed += 1
         mar_subjects.append({
             'subject': ts['subject'],
             'category': ts.get('category', 'Other'),
@@ -884,30 +980,7 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
         })
 
     if mar_subjects:
-        cumulative_target += mar_target
-        cumulative_actual += mar_actual
-        mar_var_pct = round((mar_actual - mar_target) / mar_target * 100, 1) if mar_target > 0 else 0
-        mar_subjects.sort(key=lambda x: x['variance'])
-        mar_over = [s for s in reversed(mar_subjects) if s['variance'] >= 3]
-        mar_under = [s for s in mar_subjects if s['variance'] <= -3]
-        mar_total_subj = mar_met + mar_missed
-        mar_avg = round(sum(s['variance'] for s in mar_subjects) / mar_total_subj, 1) if mar_total_subj > 0 else 0
-        history.append({
-            'month': '2026-03',
-            'label': 'Mar',
-            'total_target': mar_target,
-            'total_actual': mar_actual,
-            'variance': mar_actual - mar_target,
-            'variance_pct': mar_var_pct,
-            'cumulative_target': cumulative_target,
-            'cumulative_actual': cumulative_actual,
-            'subjects_met': mar_met,
-            'subjects_missed': mar_missed,
-            'avg_variance': mar_avg,
-            'over_performers': mar_over[:5],
-            'under_performers': mar_under[:5],
-            'subjects': mar_subjects,
-        })
+        history.append(_build_entry('2026-03', 'Mar', mar_subjects))
 
     # --- BTS months (Apr–Oct), only final ---
     for i, month_key in enumerate(BTS_MONTH_KEYS):
@@ -916,30 +989,16 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
         if month_statuses.get(month_key) != 'final':
             continue
 
-        month_target = 0
-        month_actual = 0
-        subjects_detail = []
-        subjects_met = 0
-        subjects_missed = 0
-
+        subj_list = []
         for ts in tracker_subjects:
             md = ts['months'][i]
             target = md['smoothed_target']
             actual = md['actual']
             if actual is None:
                 continue
-
-            month_target += target
-            month_actual += actual
             variance = actual - target
             pct_of_target = round(actual / target * 100, 1) if target > 0 else (100.0 if actual == 0 else 999.0)
-
-            if actual >= target:
-                subjects_met += 1
-            else:
-                subjects_missed += 1
-
-            subjects_detail.append({
+            subj_list.append({
                 'subject': ts['subject'],
                 'category': ts.get('category', 'Other'),
                 'target': round(target, 0),
@@ -948,32 +1007,8 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
                 'pct_of_target': pct_of_target,
             })
 
-        cumulative_target += month_target
-        cumulative_actual += month_actual
-        variance_pct = ((month_actual - month_target) / month_target * 100) if month_target > 0 else 0
-
-        subjects_detail.sort(key=lambda x: x['variance'])
-        over_performers = [s for s in reversed(subjects_detail) if s['variance'] >= 3]
-        under_performers = [s for s in subjects_detail if s['variance'] <= -3]
-        total_subjects = subjects_met + subjects_missed
-        avg_variance = round(sum(s['variance'] for s in subjects_detail) / total_subjects, 1) if total_subjects > 0 else 0
-
-        history.append({
-            'month': month_key,
-            'label': BTS_MONTH_LABELS[i],
-            'total_target': round(month_target, 0),
-            'total_actual': round(month_actual, 0),
-            'variance': round(month_actual - month_target, 0),
-            'variance_pct': round(variance_pct, 1),
-            'cumulative_target': round(cumulative_target, 0),
-            'cumulative_actual': round(cumulative_actual, 0),
-            'subjects_met': subjects_met,
-            'subjects_missed': subjects_missed,
-            'avg_variance': avg_variance,
-            'over_performers': over_performers[:5],
-            'under_performers': under_performers[:5],
-            'subjects': subjects_detail,
-        })
+        if subj_list:
+            history.append(_build_entry(month_key, BTS_MONTH_LABELS[i], subj_list))
 
     return history
 
