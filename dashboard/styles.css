@@ -1222,7 +1222,7 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
 
 .hc-stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 10px;
     margin-bottom: 14px;
 }
@@ -1531,6 +1531,11 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
 .tier-fail {
     color: #e74c3c;
     font-weight: 700;
+}
+
+.tier-ref td {
+    color: #95a5a6;
+    font-style: italic;
 }
 
 .hd-cluster-detail {

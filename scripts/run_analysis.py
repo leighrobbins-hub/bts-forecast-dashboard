@@ -898,6 +898,13 @@ def _compute_accuracy_tiers(subjects_detail):
     cluster_mae_pct = round(cluster_abs_errors / cluster_total_target * 100, 1) if cluster_total_target > 0 else 0
     cluster_accuracy = round(100 - cluster_mae_pct, 1)
 
+    # Tolerance accuracy: % of planned subjects within +/-2 tutors of target
+    within_band = sum(1 for s in planned if abs(s['actual'] - s['target']) <= 2)
+    tolerance_accuracy = round(within_band / len(planned) * 100, 1) if planned else 0
+
+    # Coverage gap: total tutors short (ignores over-delivery)
+    coverage_gap = int(sum(max(0, s['target'] - s['actual']) for s in planned))
+
     # --- Tier 3 uses ALL subjects (planned + excluded) ---
     long_tail = [s for s in subjects_detail if s['target'] <= 1]
     surprises = [s for s in long_tail if s['actual'] >= 2]
@@ -906,6 +913,8 @@ def _compute_accuracy_tiers(subjects_detail):
     return {
         'weighted_accuracy': weighted_accuracy,
         'weighted_mae_pct': weighted_mae_pct,
+        'tolerance_accuracy': tolerance_accuracy,
+        'coverage_gap': coverage_gap,
         'forecast_bias': forecast_bias,
         'bias_direction': 'over' if forecast_bias > 0 else ('under' if forecast_bias < 0 else 'neutral'),
         'cluster_accuracy': cluster_accuracy,

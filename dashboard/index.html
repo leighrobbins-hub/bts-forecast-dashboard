@@ -589,7 +589,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.9</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.0</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -985,6 +985,16 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.0 <span class="cl-date">Apr 15, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
+                <ul>
+                    <li>Headline accuracy replaced with Tolerance Accuracy: % of subjects within &plusmn;2 tutors of target (better suited for tutor-count data)</li>
+                    <li>New Coverage Gap metric: total tutors short across all subjects, ignoring over-delivery</li>
+                    <li>WMAPE retained as a reference metric in the tier detail table for continuity until hourly data is available</li>
+                    <li>Bias scoring updated: over-delivery always passes; only under-delivery beyond -15% is flagged</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.9 <span class="cl-date">Apr 15, 2026</span> <span class="cl-tag fix">Fix</span></div>
