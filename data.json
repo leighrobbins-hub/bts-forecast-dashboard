@@ -4,7 +4,7 @@
     "utilization_problems": 11,
     "supply_problems": 33,
     "on_track": 338,
-    "last_updated": "2026-04-15 12:58 PM CST",
+    "last_updated": "2026-04-15 01:37 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "portfolio_bts_total": 7317.0,
@@ -50775,7 +50775,85 @@
           "variance": 34,
           "pct_of_target": 950.0
         }
-      ]
+      ],
+      "weighted_accuracy": -3.5,
+      "weighted_mae_pct": 103.5,
+      "forecast_bias": 34.2,
+      "bias_direction": "over",
+      "cluster_accuracy": 64.4,
+      "cluster_mae_pct": 35.6,
+      "cluster_details": [
+        {
+          "cluster": "AP",
+          "target": 63,
+          "actual": 73,
+          "error_pct": 15.9
+        },
+        {
+          "cluster": "Arts & Music",
+          "target": 7,
+          "actual": 9,
+          "error_pct": 28.6
+        },
+        {
+          "cluster": "College",
+          "target": 129,
+          "actual": 138,
+          "error_pct": 7.0
+        },
+        {
+          "cluster": "High School",
+          "target": 80,
+          "actual": 111,
+          "error_pct": 38.8
+        },
+        {
+          "cluster": "IB",
+          "target": 3,
+          "actual": 0,
+          "error_pct": 100.0
+        },
+        {
+          "cluster": "Language",
+          "target": 28,
+          "actual": 66,
+          "error_pct": 135.7
+        },
+        {
+          "cluster": "Middle School",
+          "target": 4,
+          "actual": 38,
+          "error_pct": 850.0
+        },
+        {
+          "cluster": "Other",
+          "target": 11,
+          "actual": 31,
+          "error_pct": 181.8
+        },
+        {
+          "cluster": "Professional/Cert",
+          "target": 2,
+          "actual": 6,
+          "error_pct": 200.0
+        },
+        {
+          "cluster": "Technology",
+          "target": 4,
+          "actual": 6,
+          "error_pct": 50.0
+        },
+        {
+          "cluster": "Test Prep",
+          "target": 102,
+          "actual": 103,
+          "error_pct": 1.0
+        }
+      ],
+      "surprise_rate": 30.2,
+      "surprise_count": 19,
+      "long_tail_count": 63,
+      "hit_rate": 55.8
     }
   ],
   "uploads": [
@@ -50806,7 +50884,7 @@
     "Oct"
   ],
   "fetch_status": {
-    "fetched_at": "2026-04-15T17:55:16.608481+00:00",
+    "fetched_at": "2026-04-15T17:59:06.688744+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -50815,6 +50893,6 @@
       "actuals": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-15T17:55:16.608481+00:00"
+    "last_successful_fetch": "2026-04-15T17:59:06.688744+00:00"
   }
 }
