@@ -296,6 +296,31 @@
                 </div>
             </div>
 
+            <details class="tracker-key" id="tracker-key">
+                <summary>How to Read This Table</summary>
+                <div class="tracker-key-body">
+                    <div class="tracker-key-section">
+                        <h4>What the Numbers Mean</h4>
+                        <div class="tracker-key-item"><strong>Target</strong> &mdash; Adjusted monthly goal (after smoothing &amp; manual overrides). This is the number you're aiming for.</div>
+                        <div class="tracker-key-item"><strong>Forecast</strong> &mdash; Raw model output from Pierre's forecast. Shown on hover.</div>
+                        <div class="tracker-key-item"><strong>Actual</strong> &mdash; Real contracted tutor count from Looker. Shown for completed and in-progress months.</div>
+                        <div class="tracker-key-item"><strong>Run Rate</strong> &mdash; Max tutors that can be contracted per month based on historical capacity.</div>
+                    </div>
+                    <div class="tracker-key-section">
+                        <h4>Row &amp; Cell Colors</h4>
+                        <div class="tracker-key-item"><span class="key-swatch key-swatch-green"></span> <strong>On pace</strong> &mdash; projected to meet or exceed goal</div>
+                        <div class="tracker-key-item"><span class="key-swatch key-swatch-yellow"></span> <strong>At risk</strong> &mdash; 80&ndash;99% of goal reachable at current rate</div>
+                        <div class="tracker-key-item"><span class="key-swatch key-swatch-red"></span> <strong>Will miss</strong> &mdash; below 80% of goal at current rate</div>
+                        <div class="tracker-key-item"><span class="key-swatch key-swatch-cell-green"></span> Actual met or exceeded target &nbsp;&nbsp; <span class="key-swatch key-swatch-cell-red"></span> Actual below target</div>
+                    </div>
+                    <div class="tracker-key-section">
+                        <h4>Other Indicators</h4>
+                        <div class="tracker-key-item"><span class="key-badge-ip">in progress</span> Current month &mdash; actuals still accumulating, not yet counted toward totals</div>
+                        <div class="tracker-key-item"><strong>Pace</strong> = (Run Rate &times; Months Left) &divide; Remaining Need. Hover any cell for full detail.</div>
+                    </div>
+                </div>
+            </details>
+
             <div class="filters">
                 <div class="filter-group">
                     <label>Filter</label>
@@ -319,14 +344,6 @@
                     <label>Search</label>
                     <input type="text" id="tracker-search" placeholder="Type to search...">
                 </div>
-                <div class="filter-group">
-                    <label>Target View</label>
-                    <select id="tracker-view">
-                        <option value="both">Both (Forecast + Target)</option>
-                        <option value="smoothed">Target Only</option>
-                        <option value="forecast">Original Forecast Only</option>
-                    </select>
-                </div>
             </div>
 
             <div class="tracker-table-wrap">
@@ -337,19 +354,19 @@
                 <table id="tracker-table">
                     <thead>
                         <tr>
-                            <th class="sortable" onclick="sortTracker('subject')">Subject</th>
-                            <th class="sortable" onclick="sortTracker('run_rate')">Run Rate</th>
-                            <th style="background:#ecf0f1; color:#7f8c8d;">Mar (Baseline)</th>
-                            <th>Apr</th>
-                            <th>May</th>
-                            <th>Jun</th>
-                            <th>Jul</th>
-                            <th>Aug</th>
-                            <th>Sep</th>
-                            <th>Oct</th>
-                            <th class="sortable" onclick="sortTracker('bts_total')">BTS Total</th>
-                            <th class="sortable" onclick="sortTracker('remaining_need')">Remaining</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTracker('_pace')">Pace<span class="tooltip-text"><strong>Pace</strong> shows if a subject can meet its BTS goal at the current run rate.<br><br><strong>Formula:</strong> (Run Rate × Months Left) ÷ Remaining Need<br><br>🟢 ≥100% — On track<br>🟡 80–99% — At risk<br>🔴 &lt;80% — Will miss forecast<br><br><em>Note: Only finalized months reduce "Remaining Need." In-progress months are shown but don't shift targets or pace.</em></span></th>
+                            <th class="sortable col-left" onclick="sortTracker('subject')">Subject</th>
+                            <th class="sortable col-left" onclick="sortTracker('run_rate')">Run Rate</th>
+                            <th class="col-month col-month-baseline">Mar</th>
+                            <th class="col-month">Apr</th>
+                            <th class="col-month">May</th>
+                            <th class="col-month">Jun</th>
+                            <th class="col-month">Jul</th>
+                            <th class="col-month">Aug</th>
+                            <th class="col-month">Sep</th>
+                            <th class="col-month">Oct</th>
+                            <th class="sortable col-right col-right-first" onclick="sortTracker('bts_total')">BTS Total</th>
+                            <th class="sortable col-right" onclick="sortTracker('remaining_need')">Remaining</th>
+                            <th class="sortable col-right tooltip-wrap" onclick="sortTracker('_pace')">Pace<span class="tooltip-text"><strong>Pace</strong> = (Run Rate &times; Months Left) &divide; Remaining Need</span></th>
                         </tr>
                     </thead>
                     <tbody id="tracker-body"></tbody>
@@ -586,7 +603,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.6</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.7</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -982,6 +999,18 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v2.7 <span class="cl-date">Apr 15, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
+                <ul>
+                    <li>Monthly Tracker redesign: simplified cells with one prominent number, full detail on hover</li>
+                    <li>Added collapsible "How to Read This Table" key with visual legend for colors, labels, and indicators</li>
+                    <li>Click any subject row to expand an inline detail panel with full month-by-month breakdown</li>
+                    <li>Per-cell color coding: green for met/exceeded target, red for below target</li>
+                    <li>Visual column grouping: subject info, month data, and summary columns now visually separated</li>
+                    <li>Removed Target View dropdown — hover any cell for forecast, target, and actual details</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.6 <span class="cl-date">Apr 14, 2026</span> <span class="cl-tag improvement">Improvement</span></div>
