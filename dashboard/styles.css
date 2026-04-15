@@ -1266,6 +1266,14 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
     margin-left: auto;
 }
 
+.hc-excluded-note {
+    font-size: 12px;
+    color: #95a5a6;
+    font-style: italic;
+    padding: 4px 0 0;
+    text-align: center;
+}
+
 .hc-performers-wrap {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1448,7 +1456,37 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
     font-weight: 700;
     font-size: 14px;
     color: #2c3e50;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
+}
+
+.hd-tiers-note {
+    font-size: 12px;
+    color: #95a5a6;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.hd-excluded-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 0;
+}
+
+.hd-excluded-chip {
+    display: inline-block;
+    font-size: 12px;
+    background: #f7f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 3px 8px;
+    color: #7f8c8d;
+}
+
+.hd-excluded-chip em {
+    color: #bdc3c7;
+    font-style: normal;
+    font-size: 11px;
 }
 
 .hd-tier-table {

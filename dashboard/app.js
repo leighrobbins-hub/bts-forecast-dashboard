@@ -992,6 +992,8 @@ function renderHistoryCards() {
         var missed = h.subjects_missed || 0;
         var total = met + missed;
         var hitRate = h.hit_rate || 0;
+        var excludedCount = h.excluded_count || 0;
+        var evalCount = h.total_subjects_evaluated || total;
 
         var card = document.createElement('div');
         card.className = 'history-card-v2';
@@ -1019,6 +1021,9 @@ function renderHistoryCards() {
         html += '<span class="hc-missed-count">' + missed + ' missed (' + Math.round(100 - hitRate) + '%)</span>';
         html += '<span class="hc-avg">MAE: ' + (h.weighted_mae_pct || 0) + '%</span>';
         html += '</div>';
+        if (excludedCount > 0) {
+            html += '<div class="hc-excluded-note">' + excludedCount + ' subject' + (excludedCount > 1 ? 's' : '') + ' excluded from accuracy (manually adjusted to near-zero). Evaluated ' + evalCount + ' of ' + total + '.</div>';
+        }
 
         html += '<div class="hc-performers-wrap">';
         if (h.under_performers && h.under_performers.length) {
@@ -1080,8 +1085,15 @@ function renderHistoryDetail(panel, h) {
     var html = '';
 
     // --- Tiered accuracy breakdown ---
+    var excludedCount = h.excluded_count || 0;
+    var excludedSubjects = h.excluded_subjects || [];
+    var evalCount = h.total_subjects_evaluated || total;
+
     html += '<div class="hd-tiers">';
     html += '<div class="hd-tiers-title">Forecast Accuracy Tiers</div>';
+    if (excludedCount > 0) {
+        html += '<div class="hd-tiers-note">' + excludedCount + ' manually-adjusted subject' + (excludedCount > 1 ? 's' : '') + ' excluded from Tiers 1\u20132. Metrics below reflect ' + evalCount + ' planned subjects.</div>';
+    }
     html += '<table class="hd-tier-table"><thead><tr><th>Metric</th><th>Tier</th><th>Value</th><th>Target</th><th></th></tr></thead><tbody>';
 
     var acc = Math.max(h.weighted_accuracy || 0, 0);
@@ -1121,6 +1133,16 @@ function renderHistoryDetail(panel, h) {
             html += '<td class="' + errCls + '">' + c.error_pct + '%</td></tr>';
         });
         html += '</tbody></table></details>';
+    }
+    if (excludedSubjects.length) {
+        html += '<details class="hd-cluster-detail"><summary>Excluded subjects (' + excludedCount + ' manually adjusted to near-zero)</summary>';
+        html += '<div class="hd-excluded-list">';
+        excludedSubjects.forEach(function(name) {
+            var s = subjects.find(function(x) { return x.subject === name; });
+            var actVal = s ? Math.round(s.actual) : '?';
+            html += '<span class="hd-excluded-chip">' + escapeHtml(name) + (s ? ' <em>(actual: ' + actVal + ')</em>' : '') + '</span>';
+        });
+        html += '</div></details>';
     }
     html += '</div>';
 

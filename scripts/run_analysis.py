@@ -846,30 +846,35 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
 def _compute_accuracy_tiers(subjects_detail):
     """Compute WBR-style tiered accuracy metrics from a list of subject dicts.
     Volume-weighted: aggregate |errors| / aggregate targets, so high-demand
-    subjects naturally carry more weight (matches WBR methodology)."""
+    subjects naturally carry more weight (matches WBR methodology).
+
+    Subjects flagged as manually_excluded (intentionally zeroed via manual
+    adjustments) are excluded from Tiers 1-2 (MAE, Bias, Cluster MAE) but
+    included in Tier 3 (Surprise Rate)."""
     if not subjects_detail:
         return {}
 
-    total_target = sum(s['target'] for s in subjects_detail)
-    total_actual = sum(s['actual'] for s in subjects_detail)
-    total_abs_error = sum(abs(s['actual'] - s['target']) for s in subjects_detail)
+    planned = [s for s in subjects_detail if not s.get('manually_excluded')]
+    excluded = [s for s in subjects_detail if s.get('manually_excluded')]
+    excluded_names = sorted(s['subject'] for s in excluded)
+
+    # --- Tiers 1 & 2 use only planned subjects ---
+    total_target = sum(s['target'] for s in planned)
+    total_actual = sum(s['actual'] for s in planned)
+    total_abs_error = sum(abs(s['actual'] - s['target']) for s in planned)
     total_signed_error = total_actual - total_target
 
-    met = sum(1 for s in subjects_detail if s['actual'] >= s['target'])
-    total = len(subjects_detail)
-    hit_rate = round(met / total * 100, 1) if total else 0
+    met = sum(1 for s in planned if s['actual'] >= s['target'])
+    hit_rate = round(met / len(planned) * 100, 1) if planned else 0
 
-    # Tier 1: Weighted MAE = sum(|errors|) / sum(targets)
     weighted_mae_pct = round(total_abs_error / total_target * 100, 1) if total_target > 0 else 0
     weighted_accuracy = round(100 - weighted_mae_pct, 1)
 
-    # Tier 1&2: Forecast Bias = sum(signed errors) / sum(targets)
     forecast_bias = round(total_signed_error / total_target * 100, 1) if total_target > 0 else 0
 
-    # Tier 2: Cluster MAE (group by category, compute aggregate error per cluster)
     from collections import defaultdict
     clusters = defaultdict(lambda: {'target': 0, 'actual': 0})
-    for s in subjects_detail:
+    for s in planned:
         cat = s.get('category', 'Other')
         clusters[cat]['target'] += s['target']
         clusters[cat]['actual'] += s['actual']
@@ -893,7 +898,7 @@ def _compute_accuracy_tiers(subjects_detail):
     cluster_mae_pct = round(cluster_abs_errors / cluster_total_target * 100, 1) if cluster_total_target > 0 else 0
     cluster_accuracy = round(100 - cluster_mae_pct, 1)
 
-    # Tier 3: Surprise rate (subjects with target <= 1 that had real demand >= 2)
+    # --- Tier 3 uses ALL subjects (planned + excluded) ---
     long_tail = [s for s in subjects_detail if s['target'] <= 1]
     surprises = [s for s in long_tail if s['actual'] >= 2]
     surprise_rate = round(len(surprises) / len(long_tail) * 100, 1) if long_tail else 0
@@ -910,6 +915,9 @@ def _compute_accuracy_tiers(subjects_detail):
         'surprise_count': len(surprises),
         'long_tail_count': len(long_tail),
         'hit_rate': hit_rate,
+        'excluded_count': len(excluded),
+        'excluded_subjects': excluded_names,
+        'total_subjects_evaluated': len(planned),
     }
 
 
@@ -977,6 +985,7 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
             'actual': act,
             'variance': variance,
             'pct_of_target': pct,
+            'manually_excluded': fcst <= 1,
         })
 
     if mar_subjects:
@@ -998,6 +1007,9 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
                 continue
             variance = actual - target
             pct_of_target = round(actual / target * 100, 1) if target > 0 else (100.0 if actual == 0 else 999.0)
+            orig = md.get('original_forecast', target)
+            adj = md.get('adjusted_target', target)
+            excluded = (adj <= 1 and orig > adj)
             subj_list.append({
                 'subject': ts['subject'],
                 'category': ts.get('category', 'Other'),
@@ -1005,6 +1017,7 @@ def generate_history(tracker_subjects, actuals, month_statuses=None):
                 'actual': actual,
                 'variance': round(variance, 0),
                 'pct_of_target': pct_of_target,
+                'manually_excluded': excluded,
             })
 
         if subj_list:

@@ -4,7 +4,7 @@
     "utilization_problems": 11,
     "supply_problems": 33,
     "on_track": 338,
-    "last_updated": "2026-04-15 01:40 PM CST",
+    "last_updated": "2026-04-15 01:54 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "portfolio_bts_total": 7317.0,
@@ -49665,7 +49665,8 @@
           "target": 4,
           "actual": 38,
           "variance": 34,
-          "pct_of_target": 950.0
+          "pct_of_target": 950.0,
+          "manually_excluded": false
         },
         {
           "subject": "High School Biology",
@@ -49673,7 +49674,8 @@
           "target": 2,
           "actual": 31,
           "variance": 29,
-          "pct_of_target": 1550.0
+          "pct_of_target": 1550.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Application Essays",
@@ -49681,7 +49683,8 @@
           "target": 1,
           "actual": 27,
           "variance": 26,
-          "pct_of_target": 2700.0
+          "pct_of_target": 2700.0,
+          "manually_excluded": true
         },
         {
           "subject": "Calculus 1",
@@ -49689,7 +49692,8 @@
           "target": 2,
           "actual": 19,
           "variance": 17,
-          "pct_of_target": 950.0
+          "pct_of_target": 950.0,
+          "manually_excluded": false
         },
         {
           "subject": "ESL/ELL",
@@ -49697,7 +49701,8 @@
           "target": 1,
           "actual": 14,
           "variance": 13,
-          "pct_of_target": 1400.0
+          "pct_of_target": 1400.0,
+          "manually_excluded": true
         }
       ],
       "under_performers": [
@@ -49707,7 +49712,8 @@
           "target": 22,
           "actual": 2,
           "variance": -20,
-          "pct_of_target": 9.1
+          "pct_of_target": 9.1,
+          "manually_excluded": false
         },
         {
           "subject": "SAT",
@@ -49715,7 +49721,8 @@
           "target": 33,
           "actual": 15,
           "variance": -18,
-          "pct_of_target": 45.5
+          "pct_of_target": 45.5,
+          "manually_excluded": false
         },
         {
           "subject": "High School Chemistry",
@@ -49723,7 +49730,8 @@
           "target": 28,
           "actual": 14,
           "variance": -14,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Pre-Calculus",
@@ -49731,7 +49739,8 @@
           "target": 19,
           "actual": 9,
           "variance": -10,
-          "pct_of_target": 47.4
+          "pct_of_target": 47.4,
+          "manually_excluded": false
         },
         {
           "subject": "Organic Chemistry",
@@ -49739,7 +49748,8 @@
           "target": 9,
           "actual": 1,
           "variance": -8,
-          "pct_of_target": 11.1
+          "pct_of_target": 11.1,
+          "manually_excluded": false
         }
       ],
       "subjects": [
@@ -49749,7 +49759,8 @@
           "target": 22,
           "actual": 2,
           "variance": -20,
-          "pct_of_target": 9.1
+          "pct_of_target": 9.1,
+          "manually_excluded": false
         },
         {
           "subject": "SAT",
@@ -49757,7 +49768,8 @@
           "target": 33,
           "actual": 15,
           "variance": -18,
-          "pct_of_target": 45.5
+          "pct_of_target": 45.5,
+          "manually_excluded": false
         },
         {
           "subject": "High School Chemistry",
@@ -49765,7 +49777,8 @@
           "target": 28,
           "actual": 14,
           "variance": -14,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Pre-Calculus",
@@ -49773,7 +49786,8 @@
           "target": 19,
           "actual": 9,
           "variance": -10,
-          "pct_of_target": 47.4
+          "pct_of_target": 47.4,
+          "manually_excluded": false
         },
         {
           "subject": "Organic Chemistry",
@@ -49781,7 +49795,8 @@
           "target": 9,
           "actual": 1,
           "variance": -8,
-          "pct_of_target": 11.1
+          "pct_of_target": 11.1,
+          "manually_excluded": false
         },
         {
           "subject": "College Accounting",
@@ -49789,7 +49804,8 @@
           "target": 9,
           "actual": 5,
           "variance": -4,
-          "pct_of_target": 55.6
+          "pct_of_target": 55.6,
+          "manually_excluded": false
         },
         {
           "subject": "AP Environmental Science",
@@ -49797,7 +49813,8 @@
           "target": 4,
           "actual": 0,
           "variance": -4,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "Mechanical Engineering",
@@ -49805,7 +49822,8 @@
           "target": 5,
           "actual": 1,
           "variance": -4,
-          "pct_of_target": 20.0
+          "pct_of_target": 20.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Physics C: Mechanics",
@@ -49813,7 +49831,8 @@
           "target": 4,
           "actual": 1,
           "variance": -3,
-          "pct_of_target": 25.0
+          "pct_of_target": 25.0,
+          "manually_excluded": false
         },
         {
           "subject": "Biochemistry",
@@ -49821,7 +49840,8 @@
           "target": 4,
           "actual": 1,
           "variance": -3,
-          "pct_of_target": 25.0
+          "pct_of_target": 25.0,
+          "manually_excluded": false
         },
         {
           "subject": "Managerial Accounting",
@@ -49829,7 +49849,8 @@
           "target": 3,
           "actual": 0,
           "variance": -3,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "ASVAB",
@@ -49837,7 +49858,8 @@
           "target": 3,
           "actual": 0,
           "variance": -3,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Statistics",
@@ -49845,7 +49867,8 @@
           "target": 5,
           "actual": 2,
           "variance": -3,
-          "pct_of_target": 40.0
+          "pct_of_target": 40.0,
+          "manually_excluded": false
         },
         {
           "subject": "Business Calculus",
@@ -49853,7 +49876,8 @@
           "target": 3,
           "actual": 0,
           "variance": -3,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "Calculus 3",
@@ -49861,7 +49885,8 @@
           "target": 3,
           "actual": 1,
           "variance": -2,
-          "pct_of_target": 33.3
+          "pct_of_target": 33.3,
+          "manually_excluded": false
         },
         {
           "subject": "Multivariable Calculus",
@@ -49869,7 +49894,8 @@
           "target": 2,
           "actual": 0,
           "variance": -2,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Algebra",
@@ -49877,7 +49903,8 @@
           "target": 5,
           "actual": 3,
           "variance": -2,
-          "pct_of_target": 60.0
+          "pct_of_target": 60.0,
+          "manually_excluded": false
         },
         {
           "subject": "Conversational German",
@@ -49885,7 +49912,8 @@
           "target": 2,
           "actual": 0,
           "variance": -2,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "General Chemistry 2",
@@ -49893,7 +49921,8 @@
           "target": 2,
           "actual": 0,
           "variance": -2,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "Conversational Italian",
@@ -49901,7 +49930,8 @@
           "target": 2,
           "actual": 0,
           "variance": -2,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "GMAT",
@@ -49909,7 +49939,8 @@
           "target": 2,
           "actual": 0,
           "variance": -2,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": false
         },
         {
           "subject": "IB Mathematics: Analysis and Approaches",
@@ -49917,7 +49948,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "College Economics",
@@ -49925,7 +49957,8 @@
           "target": 3,
           "actual": 2,
           "variance": -1,
-          "pct_of_target": 66.7
+          "pct_of_target": 66.7,
+          "manually_excluded": false
         },
         {
           "subject": "Macroeconomics",
@@ -49933,7 +49966,8 @@
           "target": 2,
           "actual": 1,
           "variance": -1,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Macroeconomics",
@@ -49941,7 +49975,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "IB Mathematics: Applications and Interpretation",
@@ -49949,7 +49984,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "IB Chemistry",
@@ -49957,7 +49993,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Management",
@@ -49965,7 +50002,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Viral Content Creation",
@@ -49973,7 +50011,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Social Networking",
@@ -49981,7 +50020,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "MCAT",
@@ -49989,7 +50029,8 @@
           "target": 3,
           "actual": 2,
           "variance": -1,
-          "pct_of_target": 66.7
+          "pct_of_target": 66.7,
+          "manually_excluded": false
         },
         {
           "subject": "Microeconomics",
@@ -49997,7 +50038,8 @@
           "target": 2,
           "actual": 1,
           "variance": -1,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Computer Science Principles",
@@ -50005,7 +50047,8 @@
           "target": 3,
           "actual": 2,
           "variance": -1,
-          "pct_of_target": 66.7
+          "pct_of_target": 66.7,
+          "manually_excluded": false
         },
         {
           "subject": "Vietnamese",
@@ -50013,7 +50056,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Robotics",
@@ -50021,7 +50065,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Business Analytics",
@@ -50029,7 +50074,8 @@
           "target": 3,
           "actual": 2,
           "variance": -1,
-          "pct_of_target": 66.7
+          "pct_of_target": 66.7,
+          "manually_excluded": false
         },
         {
           "subject": "Cost Accounting",
@@ -50037,7 +50083,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Linguistics",
@@ -50045,7 +50092,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Structural Engineering",
@@ -50053,7 +50101,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Japanese",
@@ -50061,7 +50110,8 @@
           "target": 2,
           "actual": 1,
           "variance": -1,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "Organic Chemistry 2",
@@ -50069,7 +50119,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Differential Equations",
@@ -50077,7 +50128,8 @@
           "target": 2,
           "actual": 1,
           "variance": -1,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "Math 3",
@@ -50085,7 +50137,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "CogAT",
@@ -50093,7 +50146,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Chemistry 2",
@@ -50101,7 +50155,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Thermodynamics",
@@ -50109,7 +50164,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Physical Chemistry",
@@ -50117,7 +50173,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Physical Science",
@@ -50125,7 +50182,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "ACT Science",
@@ -50133,7 +50191,8 @@
           "target": 2,
           "actual": 1,
           "variance": -1,
-          "pct_of_target": 50.0
+          "pct_of_target": 50.0,
+          "manually_excluded": false
         },
         {
           "subject": "Microsoft Power BI",
@@ -50141,7 +50200,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Photography",
@@ -50149,7 +50209,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Electronics",
@@ -50157,7 +50218,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Latin 4",
@@ -50165,7 +50227,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "ACT",
@@ -50173,7 +50236,8 @@
           "target": 13,
           "actual": 12,
           "variance": -1,
-          "pct_of_target": 92.3
+          "pct_of_target": 92.3,
+          "manually_excluded": false
         },
         {
           "subject": "GRE",
@@ -50181,7 +50245,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "TEAS",
@@ -50189,7 +50254,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "OAT",
@@ -50197,7 +50263,8 @@
           "target": 1,
           "actual": 0,
           "variance": -1,
-          "pct_of_target": 0.0
+          "pct_of_target": 0.0,
+          "manually_excluded": true
         },
         {
           "subject": "Geometry",
@@ -50205,7 +50272,8 @@
           "target": 15,
           "actual": 15,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Chemistry",
@@ -50213,7 +50281,8 @@
           "target": 10,
           "actual": 10,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Human Geography",
@@ -50221,7 +50290,8 @@
           "target": 2,
           "actual": 2,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "Artificial Intelligence (AI)",
@@ -50229,7 +50299,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "French 2",
@@ -50237,7 +50308,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Linear Algebra",
@@ -50245,7 +50317,8 @@
           "target": 3,
           "actual": 3,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "Physics 2",
@@ -50253,7 +50326,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "French 3",
@@ -50261,7 +50335,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Corporate Finance",
@@ -50269,7 +50344,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Electrical and Computer Engineering",
@@ -50277,7 +50353,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Probability",
@@ -50285,7 +50362,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Financial Accounting",
@@ -50293,7 +50371,8 @@
           "target": 4,
           "actual": 4,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Computer Science",
@@ -50301,7 +50380,8 @@
           "target": 6,
           "actual": 6,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "Portuguese",
@@ -50309,7 +50389,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Spanish 4",
@@ -50317,7 +50398,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Latin 1",
@@ -50325,7 +50407,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "ACT English",
@@ -50333,7 +50416,8 @@
           "target": 2,
           "actual": 2,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": false
         },
         {
           "subject": "Microbiology",
@@ -50341,7 +50425,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Autodesk Fusion 360",
@@ -50349,7 +50434,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Finite Mathematics",
@@ -50357,7 +50443,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Inorganic Chemistry",
@@ -50365,7 +50452,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Software",
@@ -50373,7 +50461,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Biomedical Engineering",
@@ -50381,7 +50470,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "College Math",
@@ -50389,7 +50479,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "DAT",
@@ -50397,7 +50488,8 @@
           "target": 1,
           "actual": 1,
           "variance": 0,
-          "pct_of_target": 100.0
+          "pct_of_target": 100.0,
+          "manually_excluded": true
         },
         {
           "subject": "Pre-Calculus",
@@ -50405,7 +50497,8 @@
           "target": 16,
           "actual": 17,
           "variance": 1,
-          "pct_of_target": 106.2
+          "pct_of_target": 106.2,
+          "manually_excluded": false
         },
         {
           "subject": "AP Chemistry",
@@ -50413,7 +50506,8 @@
           "target": 7,
           "actual": 8,
           "variance": 1,
-          "pct_of_target": 114.3
+          "pct_of_target": 114.3,
+          "manually_excluded": false
         },
         {
           "subject": "AP Calculus BC",
@@ -50421,7 +50515,8 @@
           "target": 3,
           "actual": 4,
           "variance": 1,
-          "pct_of_target": 133.3
+          "pct_of_target": 133.3,
+          "manually_excluded": false
         },
         {
           "subject": "Study Skills And Organization",
@@ -50429,7 +50524,8 @@
           "target": 2,
           "actual": 3,
           "variance": 1,
-          "pct_of_target": 150.0
+          "pct_of_target": 150.0,
+          "manually_excluded": false
         },
         {
           "subject": "Autocad",
@@ -50437,7 +50533,8 @@
           "target": 1,
           "actual": 2,
           "variance": 1,
-          "pct_of_target": 200.0
+          "pct_of_target": 200.0,
+          "manually_excluded": true
         },
         {
           "subject": "Spanish 3",
@@ -50445,7 +50542,8 @@
           "target": 2,
           "actual": 3,
           "variance": 1,
-          "pct_of_target": 150.0
+          "pct_of_target": 150.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP World History",
@@ -50453,7 +50551,8 @@
           "target": 2,
           "actual": 3,
           "variance": 1,
-          "pct_of_target": 150.0
+          "pct_of_target": 150.0,
+          "manually_excluded": false
         },
         {
           "subject": "Filmmaking",
@@ -50461,7 +50560,8 @@
           "target": 1,
           "actual": 2,
           "variance": 1,
-          "pct_of_target": 200.0
+          "pct_of_target": 200.0,
+          "manually_excluded": true
         },
         {
           "subject": "NPTE",
@@ -50469,7 +50569,8 @@
           "target": 1,
           "actual": 2,
           "variance": 1,
-          "pct_of_target": 200.0
+          "pct_of_target": 200.0,
+          "manually_excluded": true
         },
         {
           "subject": "American Sign Language",
@@ -50477,7 +50578,8 @@
           "target": 1,
           "actual": 2,
           "variance": 1,
-          "pct_of_target": 200.0
+          "pct_of_target": 200.0,
+          "manually_excluded": true
         },
         {
           "subject": "ACT Reading",
@@ -50485,7 +50587,8 @@
           "target": 3,
           "actual": 4,
           "variance": 1,
-          "pct_of_target": 133.3
+          "pct_of_target": 133.3,
+          "manually_excluded": false
         },
         {
           "subject": "Statistics Graduate Level",
@@ -50493,7 +50596,8 @@
           "target": 1,
           "actual": 2,
           "variance": 1,
-          "pct_of_target": 200.0
+          "pct_of_target": 200.0,
+          "manually_excluded": true
         },
         {
           "subject": "Graphic Design",
@@ -50501,7 +50605,8 @@
           "target": 3,
           "actual": 4,
           "variance": 1,
-          "pct_of_target": 133.3
+          "pct_of_target": 133.3,
+          "manually_excluded": false
         },
         {
           "subject": "Conversational French",
@@ -50509,7 +50614,8 @@
           "target": 2,
           "actual": 3,
           "variance": 1,
-          "pct_of_target": 150.0
+          "pct_of_target": 150.0,
+          "manually_excluded": false
         },
         {
           "subject": "Genetics",
@@ -50517,7 +50623,8 @@
           "target": 1,
           "actual": 3,
           "variance": 2,
-          "pct_of_target": 300.0
+          "pct_of_target": 300.0,
+          "manually_excluded": true
         },
         {
           "subject": "Korean",
@@ -50525,7 +50632,8 @@
           "target": 1,
           "actual": 3,
           "variance": 2,
-          "pct_of_target": 300.0
+          "pct_of_target": 300.0,
+          "manually_excluded": true
         },
         {
           "subject": "Statistics",
@@ -50533,7 +50641,8 @@
           "target": 9,
           "actual": 12,
           "variance": 3,
-          "pct_of_target": 133.3
+          "pct_of_target": 133.3,
+          "manually_excluded": false
         },
         {
           "subject": "Spanish 2",
@@ -50541,7 +50650,8 @@
           "target": 2,
           "actual": 5,
           "variance": 3,
-          "pct_of_target": 250.0
+          "pct_of_target": 250.0,
+          "manually_excluded": false
         },
         {
           "subject": "NCLEX-RN",
@@ -50549,7 +50659,8 @@
           "target": 1,
           "actual": 4,
           "variance": 3,
-          "pct_of_target": 400.0
+          "pct_of_target": 400.0,
+          "manually_excluded": true
         },
         {
           "subject": "Marketing",
@@ -50557,7 +50668,8 @@
           "target": 3,
           "actual": 6,
           "variance": 3,
-          "pct_of_target": 200.0
+          "pct_of_target": 200.0,
+          "manually_excluded": false
         },
         {
           "subject": "Executive Functioning",
@@ -50565,7 +50677,8 @@
           "target": 5,
           "actual": 9,
           "variance": 4,
-          "pct_of_target": 180.0
+          "pct_of_target": 180.0,
+          "manually_excluded": false
         },
         {
           "subject": "High School Physics",
@@ -50573,7 +50686,8 @@
           "target": 2,
           "actual": 6,
           "variance": 4,
-          "pct_of_target": 300.0
+          "pct_of_target": 300.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Physics 1",
@@ -50581,7 +50695,8 @@
           "target": 1,
           "actual": 5,
           "variance": 4,
-          "pct_of_target": 500.0
+          "pct_of_target": 500.0,
+          "manually_excluded": true
         },
         {
           "subject": "Calculus 2",
@@ -50589,7 +50704,8 @@
           "target": 1,
           "actual": 5,
           "variance": 4,
-          "pct_of_target": 500.0
+          "pct_of_target": 500.0,
+          "manually_excluded": true
         },
         {
           "subject": "AP US History",
@@ -50597,7 +50713,8 @@
           "target": 1,
           "actual": 5,
           "variance": 4,
-          "pct_of_target": 500.0
+          "pct_of_target": 500.0,
+          "manually_excluded": true
         },
         {
           "subject": "College Physics",
@@ -50605,7 +50722,8 @@
           "target": 1,
           "actual": 5,
           "variance": 4,
-          "pct_of_target": 500.0
+          "pct_of_target": 500.0,
+          "manually_excluded": true
         },
         {
           "subject": "Social Work",
@@ -50613,7 +50731,8 @@
           "target": 2,
           "actual": 6,
           "variance": 4,
-          "pct_of_target": 300.0
+          "pct_of_target": 300.0,
+          "manually_excluded": false
         },
         {
           "subject": "Finance",
@@ -50621,7 +50740,8 @@
           "target": 1,
           "actual": 6,
           "variance": 5,
-          "pct_of_target": 600.0
+          "pct_of_target": 600.0,
+          "manually_excluded": true
         },
         {
           "subject": "Microsoft Excel",
@@ -50629,7 +50749,8 @@
           "target": 1,
           "actual": 6,
           "variance": 5,
-          "pct_of_target": 600.0
+          "pct_of_target": 600.0,
+          "manually_excluded": true
         },
         {
           "subject": "AP Biology",
@@ -50637,7 +50758,8 @@
           "target": 7,
           "actual": 13,
           "variance": 6,
-          "pct_of_target": 185.7
+          "pct_of_target": 185.7,
+          "manually_excluded": false
         },
         {
           "subject": "AP Calculus AB",
@@ -50645,7 +50767,8 @@
           "target": 8,
           "actual": 14,
           "variance": 6,
-          "pct_of_target": 175.0
+          "pct_of_target": 175.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Biology",
@@ -50653,7 +50776,8 @@
           "target": 5,
           "actual": 11,
           "variance": 6,
-          "pct_of_target": 220.0
+          "pct_of_target": 220.0,
+          "manually_excluded": false
         },
         {
           "subject": "AP Statistics",
@@ -50661,7 +50785,8 @@
           "target": 1,
           "actual": 7,
           "variance": 6,
-          "pct_of_target": 700.0
+          "pct_of_target": 700.0,
+          "manually_excluded": true
         },
         {
           "subject": "HSPT",
@@ -50669,7 +50794,8 @@
           "target": 3,
           "actual": 9,
           "variance": 6,
-          "pct_of_target": 300.0
+          "pct_of_target": 300.0,
+          "manually_excluded": false
         },
         {
           "subject": "SHSAT",
@@ -50677,7 +50803,8 @@
           "target": 1,
           "actual": 8,
           "variance": 7,
-          "pct_of_target": 800.0
+          "pct_of_target": 800.0,
+          "manually_excluded": true
         },
         {
           "subject": "SAT Writing and Language",
@@ -50685,7 +50812,8 @@
           "target": 2,
           "actual": 10,
           "variance": 8,
-          "pct_of_target": 500.0
+          "pct_of_target": 500.0,
+          "manually_excluded": false
         },
         {
           "subject": "GED",
@@ -50693,7 +50821,8 @@
           "target": 2,
           "actual": 10,
           "variance": 8,
-          "pct_of_target": 500.0
+          "pct_of_target": 500.0,
+          "manually_excluded": false
         },
         {
           "subject": "SSAT- Upper Level",
@@ -50701,7 +50830,8 @@
           "target": 2,
           "actual": 12,
           "variance": 10,
-          "pct_of_target": 600.0
+          "pct_of_target": 600.0,
+          "manually_excluded": false
         },
         {
           "subject": "SAT Math",
@@ -50709,7 +50839,8 @@
           "target": 4,
           "actual": 15,
           "variance": 11,
-          "pct_of_target": 375.0
+          "pct_of_target": 375.0,
+          "manually_excluded": false
         },
         {
           "subject": "Conversational Spanish",
@@ -50717,7 +50848,8 @@
           "target": 5,
           "actual": 16,
           "variance": 11,
-          "pct_of_target": 320.0
+          "pct_of_target": 320.0,
+          "manually_excluded": false
         },
         {
           "subject": "Algebra 2",
@@ -50725,7 +50857,8 @@
           "target": 15,
           "actual": 28,
           "variance": 13,
-          "pct_of_target": 186.7
+          "pct_of_target": 186.7,
+          "manually_excluded": false
         },
         {
           "subject": "Spanish 1",
@@ -50733,7 +50866,8 @@
           "target": 1,
           "actual": 14,
           "variance": 13,
-          "pct_of_target": 1400.0
+          "pct_of_target": 1400.0,
+          "manually_excluded": true
         },
         {
           "subject": "ESL/ELL",
@@ -50741,7 +50875,8 @@
           "target": 1,
           "actual": 14,
           "variance": 13,
-          "pct_of_target": 1400.0
+          "pct_of_target": 1400.0,
+          "manually_excluded": true
         },
         {
           "subject": "Calculus 1",
@@ -50749,7 +50884,8 @@
           "target": 2,
           "actual": 19,
           "variance": 17,
-          "pct_of_target": 950.0
+          "pct_of_target": 950.0,
+          "manually_excluded": false
         },
         {
           "subject": "College Application Essays",
@@ -50757,7 +50893,8 @@
           "target": 1,
           "actual": 27,
           "variance": 26,
-          "pct_of_target": 2700.0
+          "pct_of_target": 2700.0,
+          "manually_excluded": true
         },
         {
           "subject": "High School Biology",
@@ -50765,7 +50902,8 @@
           "target": 2,
           "actual": 31,
           "variance": 29,
-          "pct_of_target": 1550.0
+          "pct_of_target": 1550.0,
+          "manually_excluded": false
         },
         {
           "subject": "Pre-Algebra",
@@ -50773,51 +50911,46 @@
           "target": 4,
           "actual": 38,
           "variance": 34,
-          "pct_of_target": 950.0
+          "pct_of_target": 950.0,
+          "manually_excluded": false
         }
       ],
-      "weighted_accuracy": -3.5,
-      "weighted_mae_pct": 103.5,
-      "forecast_bias": 34.2,
+      "weighted_accuracy": 13.8,
+      "weighted_mae_pct": 86.2,
+      "forecast_bias": 19.2,
       "bias_direction": "over",
-      "cluster_accuracy": 64.4,
-      "cluster_mae_pct": 35.6,
+      "cluster_accuracy": 64.6,
+      "cluster_mae_pct": 35.4,
       "cluster_details": [
         {
           "cluster": "AP",
-          "target": 63,
-          "actual": 73,
-          "error_pct": 15.9
+          "target": 59,
+          "actual": 56,
+          "error_pct": 5.1
         },
         {
           "cluster": "Arts & Music",
-          "target": 7,
-          "actual": 9,
-          "error_pct": 28.6
+          "target": 3,
+          "actual": 4,
+          "error_pct": 33.3
         },
         {
           "cluster": "College",
-          "target": 129,
-          "actual": 138,
-          "error_pct": 7.0
+          "target": 104,
+          "actual": 79,
+          "error_pct": 24.0
         },
         {
           "cluster": "High School",
-          "target": 80,
+          "target": 78,
           "actual": 111,
-          "error_pct": 38.8
-        },
-        {
-          "cluster": "IB",
-          "target": 3,
-          "actual": 0,
-          "error_pct": 100.0
+          "error_pct": 42.3
         },
         {
           "cluster": "Language",
-          "target": 28,
-          "actual": 66,
-          "error_pct": 135.7
+          "target": 17,
+          "actual": 28,
+          "error_pct": 64.7
         },
         {
           "cluster": "Middle School",
@@ -50827,33 +50960,88 @@
         },
         {
           "cluster": "Other",
-          "target": 11,
+          "target": 9,
           "actual": 31,
-          "error_pct": 181.8
-        },
-        {
-          "cluster": "Professional/Cert",
-          "target": 2,
-          "actual": 6,
-          "error_pct": 200.0
-        },
-        {
-          "cluster": "Technology",
-          "target": 4,
-          "actual": 6,
-          "error_pct": 50.0
+          "error_pct": 244.4
         },
         {
           "cluster": "Test Prep",
-          "target": 102,
-          "actual": 103,
-          "error_pct": 1.0
+          "target": 96,
+          "actual": 94,
+          "error_pct": 2.1
         }
       ],
       "surprise_rate": 30.2,
       "surprise_count": 19,
       "long_tail_count": 63,
-      "hit_rate": 55.8
+      "hit_rate": 53.0,
+      "excluded_count": 63,
+      "excluded_subjects": [
+        "AP Macroeconomics",
+        "AP Physics 1",
+        "AP Statistics",
+        "AP US History",
+        "American Sign Language",
+        "Artificial Intelligence (AI)",
+        "Autocad",
+        "Autodesk Fusion 360",
+        "Biomedical Engineering",
+        "Calculus 2",
+        "Chemistry 2",
+        "CogAT",
+        "College Application Essays",
+        "College Math",
+        "College Physics",
+        "Corporate Finance",
+        "Cost Accounting",
+        "DAT",
+        "ESL/ELL",
+        "Electrical and Computer Engineering",
+        "Electronics",
+        "Filmmaking",
+        "Finance",
+        "Finite Mathematics",
+        "French 2",
+        "French 3",
+        "GRE",
+        "Genetics",
+        "IB Chemistry",
+        "IB Mathematics: Analysis and Approaches",
+        "IB Mathematics: Applications and Interpretation",
+        "Inorganic Chemistry",
+        "Korean",
+        "Latin 1",
+        "Latin 4",
+        "Linguistics",
+        "Management",
+        "Math 3",
+        "Microbiology",
+        "Microsoft Excel",
+        "Microsoft Power BI",
+        "NCLEX-RN",
+        "NPTE",
+        "OAT",
+        "Organic Chemistry 2",
+        "Photography",
+        "Physical Chemistry",
+        "Physical Science",
+        "Physics 2",
+        "Portuguese",
+        "Probability",
+        "Robotics",
+        "SHSAT",
+        "Social Networking",
+        "Software",
+        "Spanish 1",
+        "Spanish 4",
+        "Statistics Graduate Level",
+        "Structural Engineering",
+        "TEAS",
+        "Thermodynamics",
+        "Vietnamese",
+        "Viral Content Creation"
+      ],
+      "total_subjects_evaluated": 66
     }
   ],
   "uploads": [
@@ -50861,7 +51049,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-15 01:40 PM CST",
+      "uploaded_at": "2026-04-15 12:19 PM CST",
       "subjects_count": 383
     }
   ],
