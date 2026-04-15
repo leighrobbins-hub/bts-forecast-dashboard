@@ -987,7 +987,7 @@ function renderHistoryCards() {
         var accCls = acc >= 80 ? 'acc-good' : acc >= 60 ? 'acc-warn' : 'acc-bad';
         var bias = h.forecast_bias || 0;
         var biasDir = bias > 0 ? 'over' : bias < 0 ? 'under' : 'neutral';
-        var biasCls = Math.abs(bias) <= 15 ? 'bias-good' : 'bias-bad';
+        var biasCls = bias >= -15 ? 'bias-good' : 'bias-bad';
         var met = h.subjects_met || 0;
         var missed = h.subjects_missed || 0;
         var total = met + missed;
@@ -1103,10 +1103,10 @@ function renderHistoryDetail(panel, h) {
     html += '<td class="' + (accPass ? 'tier-pass' : 'tier-fail') + '">' + (accPass ? '&#10003;' : '&#10007;') + '</td></tr>';
 
     var bias = h.forecast_bias || 0;
-    var biasPass = Math.abs(bias) <= 15;
+    var biasPass = bias >= -15;
     var biasLabel = bias > 0 ? '+' + bias + '% over' : bias < 0 ? bias + '% under' : '0% neutral';
-    html += '<tr><td><strong>Forecast Bias</strong><div class="hd-tier-desc">Directional tendency — are we consistently over or under?</div></td>';
-    html += '<td>1 &amp; 2</td><td>' + biasLabel + '</td><td>within &plusmn;15%</td>';
+    html += '<tr><td><strong>Forecast Bias</strong><div class="hd-tier-desc">Directional tendency — over-delivery is preferred; only significant under-delivery is flagged</div></td>';
+    html += '<td>1 &amp; 2</td><td>' + biasLabel + '</td><td>&ge; &minus;15%</td>';
     html += '<td class="' + (biasPass ? 'tier-pass' : 'tier-fail') + '">' + (biasPass ? '&#10003;' : '&#10007;') + '</td></tr>';
 
     var clAcc = Math.max(h.cluster_accuracy || 0, 0);
