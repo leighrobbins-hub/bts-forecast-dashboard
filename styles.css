@@ -689,10 +689,10 @@ tr.nodata-problem {
 .col-right { background: #f8f9fa; }
 .col-right-first { border-left: 2px solid #e0e4e8; }
 
-th.col-left { background: #f7f9fb; }
-th.col-month { background: #f7f9fb; }
-th.col-month-baseline { background: #ecf0f1 !important; color: #7f8c8d; }
-th.col-right { background: #edf0f3; }
+th.col-left { background: #f7f9fb; font-weight: 700; color: #2c3e50; }
+th.col-month { background: #f7f9fb; font-weight: 700; font-size: 14px; color: #2c3e50; letter-spacing: 0.3px; }
+th.col-month-baseline { background: #ecf0f1 !important; font-weight: 700; font-size: 14px; color: #5a6c7d; }
+th.col-right { background: #edf0f3; font-weight: 700; color: #2c3e50; }
 
 .month-cell {
     font-size: 13px;
