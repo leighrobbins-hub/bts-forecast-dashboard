@@ -726,6 +726,7 @@ function renderMonthlyTracker() {
     renderCompletedMonthsBar(hiddenMonths);
 
     var thead = document.getElementById('tracker-head');
+    if (!thead) return;
     var headerRow = '<tr>';
     headerRow += '<th class="sortable col-left" onclick="sortTracker(\'subject\')">Subject</th>';
     headerRow += '<th class="sortable col-left" onclick="sortTracker(\'run_rate\')">Run Rate</th>';
@@ -973,6 +974,7 @@ function renderHistoryTab() {
 
 function renderHistoryCards() {
     var timeline = document.getElementById('history-timeline');
+    if (!timeline) return;
     if (!historyData.length) {
         timeline.innerHTML = '<div style="padding: 40px; text-align: center; color: #95a5a6;">No completed months yet. Months move here once finalized.</div>';
         return;
