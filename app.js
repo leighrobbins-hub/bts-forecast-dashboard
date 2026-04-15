@@ -983,8 +983,8 @@ function renderHistoryCards() {
     var _openHistoryMonth = null;
 
     historyData.forEach(function(h) {
-        var acc = Math.max(h.weighted_accuracy || 0, 0);
-        var accCls = acc >= 80 ? 'acc-good' : acc >= 60 ? 'acc-warn' : 'acc-bad';
+        var tolAcc = h.tolerance_accuracy || 0;
+        var accCls = tolAcc >= 80 ? 'acc-good' : tolAcc >= 60 ? 'acc-warn' : 'acc-bad';
         var bias = h.forecast_bias || 0;
         var biasDir = bias > 0 ? 'over' : bias < 0 ? 'under' : 'neutral';
         var biasCls = bias >= -15 ? 'bias-good' : 'bias-bad';
@@ -1001,7 +1001,7 @@ function renderHistoryCards() {
         var html = '<div class="hc-header ' + accCls + '">';
         html += '<div class="hc-title">' + h.label + ' 2026</div>';
         html += '<div class="hc-bubbles">';
-        html += '<div class="hc-bubble ' + accCls + '"><div class="hc-bubble-val">' + Math.round(acc) + '%</div><div class="hc-bubble-lbl">accuracy</div></div>';
+        html += '<div class="hc-bubble ' + accCls + '"><div class="hc-bubble-val">' + Math.round(tolAcc) + '%</div><div class="hc-bubble-lbl">on target (\u00b12)</div></div>';
         html += '<div class="hc-bubble ' + biasCls + '"><div class="hc-bubble-val">' + (bias >= 0 ? '+' : '') + bias + '%</div><div class="hc-bubble-lbl">bias (' + biasDir + ')</div></div>';
         html += '</div>';
         html += '</div>';
@@ -1012,14 +1012,16 @@ function renderHistoryCards() {
         html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.total_actual) + '</div><div class="hc-stat-lbl">Actual</div></div>';
         var vColor = h.variance >= 0 ? '#27ae60' : '#e74c3c';
         html += '<div class="hc-stat"><div class="hc-stat-val" style="color:' + vColor + '">' + (h.variance >= 0 ? '+' : '') + Math.round(h.variance) + '</div><div class="hc-stat-lbl">Variance (' + (h.variance_pct >= 0 ? '+' : '') + h.variance_pct + '%)</div></div>';
+        var gap = h.coverage_gap || 0;
+        var gapColor = gap === 0 ? '#27ae60' : '#e74c3c';
         html += '<div class="hc-stat"><div class="hc-stat-val">' + hitRate + '%</div><div class="hc-stat-lbl">Hit Rate (' + met + '/' + total + ')</div></div>';
+        html += '<div class="hc-stat"><div class="hc-stat-val" style="color:' + gapColor + '">' + gap + '</div><div class="hc-stat-lbl">Tutors Short</div></div>';
         html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.cumulative_actual) + ' / ' + Math.round(h.cumulative_target) + '</div><div class="hc-stat-lbl">Cumulative</div></div>';
         html += '</div>';
 
         html += '<div class="hc-subject-counts">';
         html += '<span class="hc-met-count">' + met + ' met (' + Math.round(hitRate) + '%)</span>';
         html += '<span class="hc-missed-count">' + missed + ' missed (' + Math.round(100 - hitRate) + '%)</span>';
-        html += '<span class="hc-avg">MAE: ' + (h.weighted_mae_pct || 0) + '%</span>';
         html += '</div>';
         if (excludedCount > 0) {
             html += '<div class="hc-excluded-note">' + excludedCount + ' subject' + (excludedCount > 1 ? 's' : '') + ' excluded from accuracy (manually adjusted to near-zero). Evaluated ' + evalCount + ' of ' + total + '.</div>';
@@ -1096,23 +1098,29 @@ function renderHistoryDetail(panel, h) {
     }
     html += '<table class="hd-tier-table"><thead><tr><th>Metric</th><th>Tier</th><th>Value</th><th>Target</th><th></th></tr></thead><tbody>';
 
-    var acc = Math.max(h.weighted_accuracy || 0, 0);
-    var accPass = acc >= 80;
-    html += '<tr><td><strong>Weighted MAE</strong><div class="hd-tier-desc">Volume-weighted accuracy — high-demand subjects count more</div></td>';
-    html += '<td>1</td><td>' + Math.round(acc) + '% accuracy</td><td>&ge;80%</td>';
-    html += '<td class="' + (accPass ? 'tier-pass' : 'tier-fail') + '">' + (accPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+    var tolAcc = h.tolerance_accuracy || 0;
+    var tolPass = tolAcc >= 80;
+    html += '<tr><td><strong>Tolerance Accuracy</strong><div class="hd-tier-desc">% of subjects within &plusmn;2 tutors of target</div></td>';
+    html += '<td>1</td><td>' + Math.round(tolAcc) + '%</td><td>&ge;80%</td>';
+    html += '<td class="' + (tolPass ? 'tier-pass' : 'tier-fail') + '">' + (tolPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+
+    var gap = h.coverage_gap || 0;
+    var gapPass = gap === 0;
+    html += '<tr><td><strong>Coverage Gap</strong><div class="hd-tier-desc">Total tutors short across all subjects (ignores over-delivery)</div></td>';
+    html += '<td>1</td><td>' + gap + ' tutors</td><td>0</td>';
+    html += '<td class="' + (gapPass ? 'tier-pass' : 'tier-fail') + '">' + (gapPass ? '&#10003;' : '&#10007;') + '</td></tr>';
 
     var bias = h.forecast_bias || 0;
     var biasPass = bias >= -15;
     var biasLabel = bias > 0 ? '+' + bias + '% over' : bias < 0 ? bias + '% under' : '0% neutral';
     html += '<tr><td><strong>Forecast Bias</strong><div class="hd-tier-desc">Directional tendency — over-delivery is preferred; only significant under-delivery is flagged</div></td>';
-    html += '<td>1 &amp; 2</td><td>' + biasLabel + '</td><td>&ge; &minus;15%</td>';
+    html += '<td>2</td><td>' + biasLabel + '</td><td>&ge; &minus;15%</td>';
     html += '<td class="' + (biasPass ? 'tier-pass' : 'tier-fail') + '">' + (biasPass ? '&#10003;' : '&#10007;') + '</td></tr>';
 
     var clAcc = Math.max(h.cluster_accuracy || 0, 0);
     var clPass = clAcc >= 75;
     html += '<tr><td><strong>Cluster MAE</strong><div class="hd-tier-desc">Accuracy by category — how well does recruiting match demand at cluster level</div></td>';
-    html += '<td>2</td><td>' + Math.round(clAcc) + '% accuracy</td><td>&ge;75%</td>';
+    html += '<td>2</td><td>' + Math.round(clAcc) + '%</td><td>&ge;75%</td>';
     html += '<td class="' + (clPass ? 'tier-pass' : 'tier-fail') + '">' + (clPass ? '&#10003;' : '&#10007;') + '</td></tr>';
 
     var sr = h.surprise_rate || 0;
@@ -1120,6 +1128,10 @@ function renderHistoryDetail(panel, h) {
     html += '<tr><td><strong>Surprise Rate</strong><div class="hd-tier-desc">Long-tail subjects with real demand we completely missed</div></td>';
     html += '<td>3</td><td>' + sr + '% (' + (h.surprise_count || 0) + '/' + (h.long_tail_count || 0) + ')</td><td>&le;5%</td>';
     html += '<td class="' + (srPass ? 'tier-pass' : 'tier-fail') + '">' + (srPass ? '&#10003;' : '&#10007;') + '</td></tr>';
+
+    var wmape = h.weighted_mae_pct || 0;
+    html += '<tr class="tier-ref"><td><strong>WMAPE</strong><div class="hd-tier-desc">Volume-weighted mean absolute error (reference — will replace tolerance accuracy once hourly data is available)</div></td>';
+    html += '<td>\u2014</td><td>' + wmape + '%</td><td>\u2014</td><td></td></tr>';
 
     html += '</tbody></table>';
 
