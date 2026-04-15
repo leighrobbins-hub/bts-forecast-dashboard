@@ -657,6 +657,51 @@ function initTrackerKey() {
 
 var _openDetailSubject = null;
 
+function getVisibleMonthIndices() {
+    if (!trackerData.length || !trackerData[0].months) return { visible: [], hidden: [] };
+    var months = trackerData[0].months;
+    var finalIndices = [];
+    for (var i = 0; i < months.length; i++) {
+        if (months[i].status === 'final') finalIndices.push(i);
+    }
+    var visible = [];
+    var hidden = [];
+    for (var j = 0; j < months.length; j++) {
+        var isFinal = months[j].status === 'final';
+        if (isFinal && finalIndices.length > 1 && j < finalIndices[finalIndices.length - 1]) {
+            hidden.push(j);
+        } else {
+            visible.push(j);
+        }
+    }
+    return { visible: visible, hidden: hidden };
+}
+
+function renderCompletedMonthsBar(hiddenIndices) {
+    var bar = document.getElementById('completed-months-bar');
+    if (!bar || !hiddenIndices.length) {
+        if (bar) bar.style.display = 'none';
+        return;
+    }
+    var chips = [];
+    hiddenIndices.forEach(function(idx) {
+        var totalTarget = 0, totalActual = 0;
+        trackerData.forEach(function(ts) {
+            var m = ts.months[idx];
+            if (m.actual != null) {
+                totalTarget += m.smoothed_target || 0;
+                totalActual += m.actual;
+            }
+        });
+        var variance = Math.round(totalActual - totalTarget);
+        var label = trackerData[0].months[idx].label;
+        var cls = variance >= 0 ? 'chip-met' : 'chip-missed';
+        chips.push('<span class="completed-chip ' + cls + '">' + label + ': <strong>' + (variance >= 0 ? '+' : '') + variance + '</strong></span>');
+    });
+    bar.innerHTML = '<span class="completed-bar-label">Completed months:</span> ' + chips.join(' ');
+    bar.style.display = 'flex';
+}
+
 function renderMonthlyTracker() {
     if (!trackerData.length) return;
     var filter = document.getElementById('tracker-filter').value;
@@ -673,6 +718,29 @@ function renderMonthlyTracker() {
         var projected = rr * monthsRem;
         ts._pace = rem > 0 ? Math.round(projected / rem * 100) : (rr > 0 ? 999 : 100);
     });
+
+    var mv = getVisibleMonthIndices();
+    var visibleMonths = mv.visible;
+    var hiddenMonths = mv.hidden;
+
+    renderCompletedMonthsBar(hiddenMonths);
+
+    var thead = document.getElementById('tracker-head');
+    var headerRow = '<tr>';
+    headerRow += '<th class="sortable col-left" onclick="sortTracker(\'subject\')">Subject</th>';
+    headerRow += '<th class="sortable col-left" onclick="sortTracker(\'run_rate\')">Run Rate</th>';
+    headerRow += '<th class="col-month col-month-baseline">Mar</th>';
+    visibleMonths.forEach(function(idx) {
+        var m = trackerData[0].months[idx];
+        headerRow += '<th class="col-month">' + m.label + '</th>';
+    });
+    headerRow += '<th class="sortable col-right col-right-first" onclick="sortTracker(\'bts_total\')">BTS Total</th>';
+    headerRow += '<th class="sortable col-right" onclick="sortTracker(\'remaining_need\')">Remaining</th>';
+    headerRow += '<th class="sortable col-right tooltip-wrap" onclick="sortTracker(\'_pace\')">Pace<span class="tooltip-text"><strong>Pace</strong> = (Run Rate &times; Months Left) &divide; Remaining Need</span></th>';
+    headerRow += '</tr>';
+    thead.innerHTML = headerRow;
+
+    var totalCols = 3 + visibleMonths.length + 3;
 
     var filtered = trackerData.filter(function(ts) {
         if (search && ts.subject.toLowerCase().indexOf(search) === -1) return false;
@@ -707,7 +775,6 @@ function renderMonthlyTracker() {
     document.getElementById('tracker-count').innerHTML = 'Showing ' + filtered.length + ' of ' + trackerData.length + ' subjects &nbsp;·&nbsp; <span style="color:#e74c3c;font-weight:600">' + missCount + ' will miss</span> &nbsp;·&nbsp; <span style="color:#f39c12;font-weight:600">' + riskCount + ' at risk</span>';
     var tbody = document.getElementById('tracker-body');
     tbody.innerHTML = '';
-    var totalCols = 13;
 
     filtered.forEach(function(ts) {
         var tr = document.createElement('tr');
@@ -737,7 +804,8 @@ function renderMonthlyTracker() {
         marContent += '</div>';
         cells += '<td class="col-month col-month-baseline" title="' + marTip + '">' + marContent + '</td>';
 
-        ts.months.forEach(function(m) {
+        visibleMonths.forEach(function(idx) {
+            var m = ts.months[idx];
             var isInProgress = m.status === 'in_progress';
             var isFinal = m.status === 'final';
             var smth = m.smoothed_target != null ? Math.round(m.smoothed_target) : null;
@@ -904,41 +972,187 @@ function renderHistoryTab() {
 }
 
 function renderHistoryCards() {
-    var grid = document.getElementById('history-grid');
+    var timeline = document.getElementById('history-timeline');
     if (!historyData.length) {
-        grid.innerHTML = '<div style="padding: 40px; text-align: center; color: #95a5a6; grid-column: 1/-1;">No actuals uploaded yet. Use the Upload Data tab to add monthly results.</div>';
+        timeline.innerHTML = '<div style="padding: 40px; text-align: center; color: #95a5a6;">No completed months yet. Months move here once finalized.</div>';
         return;
     }
-    grid.innerHTML = '';
+    timeline.innerHTML = '';
+    var _openHistoryMonth = null;
+
     historyData.forEach(function(h) {
         var headerClass = h.variance >= 0 ? 'met' : (h.variance_pct > -10 ? 'partial' : 'missed');
-        var card = document.createElement('div');
-        card.className = 'history-card';
-        var html = '<div class="history-card-header ' + headerClass + '">' + h.label + ' 2026</div>';
-        html += '<div class="history-card-body">';
-        html += '<div class="history-stat"><span>Target</span><span>' + Math.round(h.total_target) + '</span></div>';
-        html += '<div class="history-stat"><span>Actual</span><span><strong>' + Math.round(h.total_actual) + '</strong></span></div>';
-        html += '<div class="history-stat"><span>Variance</span><span style="color:' + (h.variance >= 0 ? '#27ae60' : '#e74c3c') + '; font-weight:700;">' + (h.variance >= 0 ? '+' : '') + Math.round(h.variance) + ' (' + (h.variance_pct >= 0 ? '+' : '') + h.variance_pct + '%)</span></div>';
-        html += '<div class="history-stat"><span>Cumulative</span><span>' + Math.round(h.cumulative_actual) + ' / ' + Math.round(h.cumulative_target) + '</span></div>';
+        var statusLabel = h.variance >= 0 ? 'Target Met' : 'Target Missed';
+        var met = h.subjects_met || 0;
+        var missed = h.subjects_missed || 0;
 
+        var card = document.createElement('div');
+        card.className = 'history-card-v2';
+
+        var html = '<div class="hc-header ' + headerClass + '">';
+        html += '<div class="hc-title">' + h.label + ' 2026</div>';
+        html += '<div class="hc-status">' + statusLabel + '</div>';
+        html += '</div>';
+
+        html += '<div class="hc-body">';
+        html += '<div class="hc-stats">';
+        html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.total_target) + '</div><div class="hc-stat-lbl">Target</div></div>';
+        html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.total_actual) + '</div><div class="hc-stat-lbl">Actual</div></div>';
+        var vColor = h.variance >= 0 ? '#27ae60' : '#e74c3c';
+        html += '<div class="hc-stat"><div class="hc-stat-val" style="color:' + vColor + '">' + (h.variance >= 0 ? '+' : '') + Math.round(h.variance) + '</div><div class="hc-stat-lbl">Variance (' + (h.variance_pct >= 0 ? '+' : '') + h.variance_pct + '%)</div></div>';
+        html += '<div class="hc-stat"><div class="hc-stat-val">' + Math.round(h.cumulative_actual) + ' / ' + Math.round(h.cumulative_target) + '</div><div class="hc-stat-lbl">Cumulative</div></div>';
+        html += '</div>';
+
+        html += '<div class="hc-subject-counts">';
+        html += '<span class="hc-met-count">' + met + ' met target</span>';
+        html += '<span class="hc-missed-count">' + missed + ' missed</span>';
+        if (h.avg_variance != null) html += '<span class="hc-avg">Avg variance: ' + (h.avg_variance >= 0 ? '+' : '') + h.avg_variance + '</span>';
+        html += '</div>';
+
+        html += '<div class="hc-performers-wrap">';
         if (h.under_performers && h.under_performers.length) {
-            html += '<div class="history-performers"><strong>Biggest gaps:</strong>';
+            html += '<div class="hc-perf-section"><div class="hc-perf-label missed-label">Biggest Gaps</div>';
             h.under_performers.slice(0, 3).forEach(function(p) {
-                html += escapeHtml(p.subject) + ' (' + Math.round(p.variance) + '), ';
+                html += '<div class="hc-perf-item missed-item">' + escapeHtml(p.subject) + ' <span>' + Math.round(p.variance) + '</span></div>';
             });
-            html = html.slice(0, -2) + '</div>';
+            html += '</div>';
         }
         if (h.over_performers && h.over_performers.length) {
-            html += '<div class="history-performers"><strong>Over-performed:</strong>';
+            html += '<div class="hc-perf-section"><div class="hc-perf-label met-label">Over-Performed</div>';
             h.over_performers.slice(0, 3).forEach(function(p) {
-                html += escapeHtml(p.subject) + ' (+' + Math.round(p.variance) + '), ';
+                html += '<div class="hc-perf-item met-item">' + escapeHtml(p.subject) + ' <span>+' + Math.round(p.variance) + '</span></div>';
             });
-            html = html.slice(0, -2) + '</div>';
+            html += '</div>';
         }
         html += '</div>';
+
+        html += '<div class="hc-expand-cta">Click to view all subjects &#9662;</div>';
+        html += '</div>';
+
         card.innerHTML = html;
-        grid.appendChild(card);
+
+        var detailPanel = document.createElement('div');
+        detailPanel.className = 'hc-detail-panel';
+        detailPanel.style.display = 'none';
+
+        card.addEventListener('click', function() {
+            if (detailPanel.style.display === 'none') {
+                if (_openHistoryMonth && _openHistoryMonth !== detailPanel) {
+                    _openHistoryMonth.style.display = 'none';
+                    _openHistoryMonth.previousElementSibling.querySelector('.hc-expand-cta').innerHTML = 'Click to view all subjects &#9662;';
+                }
+                detailPanel.style.display = 'block';
+                card.querySelector('.hc-expand-cta').innerHTML = 'Click to collapse &#9652;';
+                _openHistoryMonth = detailPanel;
+                if (!detailPanel.dataset.rendered) {
+                    renderHistoryDetail(detailPanel, h);
+                    detailPanel.dataset.rendered = '1';
+                }
+            } else {
+                detailPanel.style.display = 'none';
+                card.querySelector('.hc-expand-cta').innerHTML = 'Click to view all subjects &#9662;';
+                _openHistoryMonth = null;
+            }
+        });
+
+        timeline.appendChild(card);
+        timeline.appendChild(detailPanel);
     });
+}
+
+function renderHistoryDetail(panel, h) {
+    var subjects = h.subjects || [];
+    var met = h.subjects_met || 0;
+    var missed = h.subjects_missed || 0;
+    var total = met + missed;
+
+    var html = '<div class="hd-header">';
+    html += '<h3>' + h.label + ' 2026 — Subject Breakdown</h3>';
+    html += '<div class="hd-summary-stats">';
+    html += '<span class="hd-badge hd-met">' + met + ' met</span>';
+    html += '<span class="hd-badge hd-missed">' + missed + ' missed</span>';
+    html += '<span class="hd-badge hd-total">' + total + ' total</span>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="hd-controls">';
+    html += '<input type="text" class="hd-search" placeholder="Search subjects...">';
+    html += '<select class="hd-filter"><option value="all">All Subjects</option><option value="met">Met Target</option><option value="missed">Missed Target</option></select>';
+    html += '</div>';
+
+    html += '<div class="hd-table-wrap"><table class="hd-table">';
+    html += '<thead><tr>';
+    html += '<th class="hd-sortable" data-col="subject">Subject</th>';
+    html += '<th class="hd-sortable" data-col="category">Category</th>';
+    html += '<th class="hd-sortable" data-col="target">Target</th>';
+    html += '<th class="hd-sortable" data-col="actual">Actual</th>';
+    html += '<th class="hd-sortable" data-col="variance">Variance</th>';
+    html += '<th class="hd-sortable" data-col="pct_of_target">% of Target</th>';
+    html += '</tr></thead>';
+    html += '<tbody class="hd-tbody"></tbody></table></div>';
+
+    panel.innerHTML = html;
+
+    var sortKey = 'variance';
+    var sortAsc = true;
+    var tbody = panel.querySelector('.hd-tbody');
+    var searchInput = panel.querySelector('.hd-search');
+    var filterSelect = panel.querySelector('.hd-filter');
+
+    function renderRows() {
+        var q = searchInput.value.toLowerCase();
+        var f = filterSelect.value;
+        var rows = subjects.filter(function(s) {
+            if (q && s.subject.toLowerCase().indexOf(q) === -1) return false;
+            if (f === 'met') return s.actual >= s.target;
+            if (f === 'missed') return s.actual < s.target;
+            return true;
+        });
+
+        rows.sort(function(a, b) {
+            var av = a[sortKey], bv = b[sortKey];
+            if (typeof av === 'string') av = av.toLowerCase();
+            if (typeof bv === 'string') bv = bv.toLowerCase();
+            if (av == null) return 1;
+            if (bv == null) return -1;
+            if (av < bv) return sortAsc ? -1 : 1;
+            if (av > bv) return sortAsc ? 1 : -1;
+            return 0;
+        });
+
+        tbody.innerHTML = '';
+        rows.forEach(function(s) {
+            var rowCls = s.actual >= s.target ? 'hd-row-met' : 'hd-row-missed';
+            var vColor = s.variance >= 0 ? '#27ae60' : '#e74c3c';
+            var pctColor = s.pct_of_target >= 100 ? '#27ae60' : s.pct_of_target >= 80 ? '#f39c12' : '#e74c3c';
+            var row = '<tr class="' + rowCls + '">';
+            row += '<td>' + escapeHtml(s.subject) + '</td>';
+            row += '<td>' + escapeHtml(s.category) + '</td>';
+            row += '<td>' + Math.round(s.target) + '</td>';
+            row += '<td><strong>' + s.actual + '</strong></td>';
+            row += '<td style="color:' + vColor + '; font-weight:600;">' + (s.variance >= 0 ? '+' : '') + Math.round(s.variance) + '</td>';
+            row += '<td style="color:' + pctColor + '; font-weight:600;">' + s.pct_of_target + '%</td>';
+            row += '</tr>';
+            tbody.innerHTML += row;
+        });
+    }
+
+    panel.querySelectorAll('.hd-sortable').forEach(function(th) {
+        th.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var col = th.dataset.col;
+            if (sortKey === col) sortAsc = !sortAsc;
+            else { sortKey = col; sortAsc = true; }
+            renderRows();
+        });
+    });
+
+    searchInput.addEventListener('click', function(e) { e.stopPropagation(); });
+    filterSelect.addEventListener('click', function(e) { e.stopPropagation(); });
+    searchInput.addEventListener('input', debounce(renderRows, 200));
+    filterSelect.addEventListener('change', renderRows);
+
+    renderRows();
 }
 
 function renderUploadLog() {

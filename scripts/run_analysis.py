@@ -844,7 +844,7 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
 
 
 def generate_history(tracker_subjects, actuals):
-    """Generate month-by-month aggregate performance history."""
+    """Generate month-by-month aggregate performance history with per-subject detail."""
 
     history = []
     cumulative_target = 0
@@ -856,8 +856,9 @@ def generate_history(tracker_subjects, actuals):
 
         month_target = 0
         month_actual = 0
-        over_performers = []
-        under_performers = []
+        subjects_detail = []
+        subjects_met = 0
+        subjects_missed = 0
 
         for ts in tracker_subjects:
             md = ts['months'][i]
@@ -869,17 +870,31 @@ def generate_history(tracker_subjects, actuals):
             month_target += target
             month_actual += actual
             variance = actual - target
-            if variance >= 3:
-                over_performers.append({'subject': ts['subject'], 'variance': variance})
-            elif variance <= -3:
-                under_performers.append({'subject': ts['subject'], 'variance': variance})
+            pct_of_target = round(actual / target * 100, 1) if target > 0 else (100.0 if actual == 0 else 999.0)
+
+            if actual >= target:
+                subjects_met += 1
+            else:
+                subjects_missed += 1
+
+            subjects_detail.append({
+                'subject': ts['subject'],
+                'category': ts.get('category', 'Other'),
+                'target': round(target, 0),
+                'actual': actual,
+                'variance': round(variance, 0),
+                'pct_of_target': pct_of_target,
+            })
 
         cumulative_target += month_target
         cumulative_actual += month_actual
         variance_pct = ((month_actual - month_target) / month_target * 100) if month_target > 0 else 0
 
-        over_performers.sort(key=lambda x: -x['variance'])
-        under_performers.sort(key=lambda x: x['variance'])
+        subjects_detail.sort(key=lambda x: x['variance'])
+        over_performers = [s for s in reversed(subjects_detail) if s['variance'] >= 3]
+        under_performers = [s for s in subjects_detail if s['variance'] <= -3]
+        total_subjects = subjects_met + subjects_missed
+        avg_variance = round(sum(s['variance'] for s in subjects_detail) / total_subjects, 1) if total_subjects > 0 else 0
 
         history.append({
             'month': month_key,
@@ -890,8 +905,12 @@ def generate_history(tracker_subjects, actuals):
             'variance_pct': round(variance_pct, 1),
             'cumulative_target': round(cumulative_target, 0),
             'cumulative_actual': round(cumulative_actual, 0),
+            'subjects_met': subjects_met,
+            'subjects_missed': subjects_missed,
+            'avg_variance': avg_variance,
             'over_performers': over_performers[:5],
-            'under_performers': under_performers[:5]
+            'under_performers': under_performers[:5],
+            'subjects': subjects_detail,
         })
 
     return history

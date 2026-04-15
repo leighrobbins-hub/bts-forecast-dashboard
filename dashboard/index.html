@@ -346,29 +346,15 @@
                 </div>
             </div>
 
+            <div id="completed-months-bar" class="completed-months-bar" style="display:none;"></div>
+
             <div class="tracker-table-wrap">
                 <div class="table-toolbar">
                     <span class="row-count" id="tracker-count"></span>
                     <button class="export-btn" onclick="exportTable('tracker-table')">Export CSV</button>
                 </div>
                 <table id="tracker-table">
-                    <thead>
-                        <tr>
-                            <th class="sortable col-left" onclick="sortTracker('subject')">Subject</th>
-                            <th class="sortable col-left" onclick="sortTracker('run_rate')">Run Rate</th>
-                            <th class="col-month col-month-baseline">Mar</th>
-                            <th class="col-month">Apr</th>
-                            <th class="col-month">May</th>
-                            <th class="col-month">Jun</th>
-                            <th class="col-month">Jul</th>
-                            <th class="col-month">Aug</th>
-                            <th class="col-month">Sep</th>
-                            <th class="col-month">Oct</th>
-                            <th class="sortable col-right col-right-first" onclick="sortTracker('bts_total')">BTS Total</th>
-                            <th class="sortable col-right" onclick="sortTracker('remaining_need')">Remaining</th>
-                            <th class="sortable col-right tooltip-wrap" onclick="sortTracker('_pace')">Pace<span class="tooltip-text"><strong>Pace</strong> = (Run Rate &times; Months Left) &divide; Remaining Need</span></th>
-                        </tr>
-                    </thead>
+                    <thead id="tracker-head"></thead>
                     <tbody id="tracker-body"></tbody>
                 </table>
             </div>
@@ -573,9 +559,9 @@
 
             <div id="history-cards-container">
                 <div class="section-header">Monthly Performance</div>
-                <div class="history-grid" id="history-grid">
-                    <div style="padding: 40px; text-align: center; color: #95a5a6; grid-column: 1/-1;">
-                        No actuals uploaded yet. Use the Upload Data tab to add monthly results.
+                <div class="history-timeline" id="history-timeline">
+                    <div style="padding: 40px; text-align: center; color: #95a5a6;">
+                        No completed months yet. Months move here once finalized.
                     </div>
                 </div>
             </div>
@@ -603,7 +589,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.7</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 2.8</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -999,6 +985,17 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v2.8 <span class="cl-date">Apr 15, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>History tab overhaul: clickable month cards with expanded subject-level breakdown, search, filter, and sortable columns</li>
+                    <li>Completed months auto-transition from Monthly Tracker to History tab (most recent final month remains visible for context)</li>
+                    <li>"Completed Months" summary bar above the tracker shows variance for months that have moved to history</li>
+                    <li>Per-subject detail in history: target, actual, variance, % of target with color-coded met/missed rows</li>
+                    <li>Dynamic tracker columns: table headers now adjust automatically as months finalize</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v2.7 <span class="cl-date">Apr 15, 2026</span> <span class="cl-tag improvement">Improvement</span></div>

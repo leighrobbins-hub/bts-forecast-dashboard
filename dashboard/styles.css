@@ -1112,56 +1112,309 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
 .status-msg.error { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 .status-msg.info { display: block; background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
 
-.history-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
+/* ── Completed Months Bar (above Monthly Tracker) ── */
+.completed-months-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.completed-bar-label {
+    font-weight: 600;
+    color: #5a6c7d;
+    white-space: nowrap;
+}
+
+.completed-chip {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.completed-chip.chip-met {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.completed-chip.chip-missed {
+    background: #fce4ec;
+    color: #c62828;
+}
+
+/* ── History Timeline ── */
+.history-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     margin-bottom: 25px;
 }
 
-.history-card {
+/* ── History Card V2 ── */
+.history-card-v2 {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.15s;
 }
 
-.history-card-header {
-    padding: 15px 20px;
-    font-weight: 600;
-    font-size: 16px;
+.history-card-v2:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.hc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
     color: white;
 }
 
-.history-card-header.met { background: #27ae60; }
-.history-card-header.missed { background: #e74c3c; }
-.history-card-header.partial { background: #f39c12; }
+.hc-header.met { background: #27ae60; }
+.hc-header.missed { background: #e74c3c; }
+.hc-header.partial { background: #f39c12; }
 
-.history-card-body {
-    padding: 20px;
+.hc-title {
+    font-weight: 700;
+    font-size: 17px;
 }
 
-.history-stat {
+.hc-status {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+}
+
+.hc-body {
+    padding: 18px 20px 14px;
+}
+
+.hc-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.hc-stat {
+    text-align: center;
+}
+
+.hc-stat-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.hc-stat-lbl {
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-top: 2px;
+}
+
+.hc-subject-counts {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 12px;
+}
+
+.hc-met-count {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.hc-missed-count {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.hc-avg {
+    color: #7f8c8d;
+    margin-left: auto;
+}
+
+.hc-performers-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.hc-perf-section {
+    font-size: 12px;
+}
+
+.hc-perf-label {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+}
+
+.hc-perf-label.missed-label { color: #e74c3c; }
+.hc-perf-label.met-label { color: #27ae60; }
+
+.hc-perf-item {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
-    font-size: 14px;
+    padding: 3px 0;
+    color: #34495e;
+}
+
+.hc-perf-item.missed-item span { color: #e74c3c; font-weight: 600; }
+.hc-perf-item.met-item span { color: #27ae60; font-weight: 600; }
+
+.hc-expand-cta {
+    text-align: center;
+    color: #3498db;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 0 2px;
+    letter-spacing: 0.3px;
+}
+
+/* ── History Detail Panel (expanded) ── */
+.hc-detail-panel {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0 0 10px 10px;
+    margin-top: -8px;
+    padding: 20px;
+    animation: hcSlideDown 0.2s ease;
+}
+
+@keyframes hcSlideDown {
+    from { opacity: 0; max-height: 0; }
+    to { opacity: 1; max-height: 2000px; }
+}
+
+.hd-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hd-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.hd-summary-stats {
+    display: flex;
+    gap: 8px;
+}
+
+.hd-badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.hd-badge.hd-met {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.hd-badge.hd-missed {
+    background: #fce4ec;
+    color: #c62828;
+}
+
+.hd-badge.hd-total {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.hd-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.hd-search {
+    flex: 1;
+    max-width: 260px;
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.hd-filter {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background: white;
+}
+
+.hd-table-wrap {
+    max-height: 420px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.hd-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.hd-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.hd-table th {
+    background: #34495e;
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.hd-table th:hover {
+    background: #2c3e50;
+}
+
+.hd-table td {
+    padding: 7px 12px;
     border-bottom: 1px solid #f0f0f0;
 }
 
-.history-stat:last-child { border-bottom: none; }
-
-.history-performers {
-    margin-top: 12px;
-    font-size: 12px;
-    color: #7f8c8d;
+.hd-row-met {
+    background: #f6fdf6;
 }
 
-.history-performers strong {
-    display: block;
-    margin-bottom: 4px;
-    color: #2c3e50;
-    font-size: 13px;
+.hd-row-missed {
+    background: #fef6f6;
 }
 
 .upload-log-table {
