@@ -31,6 +31,7 @@
         <button class="tab" role="tab" aria-selected="false" aria-controls="all-subjects" onclick="showTab('all-subjects', this)">All Subjects (<span id="tab-count-all">-</span>)</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="problem-subjects" onclick="showTab('problem-subjects', this)">Problem Subjects (<span id="tab-count-problems">-</span>)</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="monthly-tracker" onclick="showTab('monthly-tracker', this)">Monthly Tracker</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="actions" onclick="showTab('actions', this)">Actions (<span id="tab-count-actions">-</span>)</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="upload-data" onclick="showTab('upload-data', this)">Upload Data</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="performance-history" onclick="showTab('performance-history', this)">History</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="methodology" onclick="showTab('methodology', this)">Methodology</button>
@@ -65,9 +66,9 @@
                 </div>
                 
                 <div class="stat-card purple">
-                    <div class="stat-label">Low Utilization Watch</div>
+                    <div class="stat-label">Over-Supplied</div>
                     <div class="stat-value" id="lowutil-subjects">-</div>
-                    <div class="stat-detail">On track but utilization &lt;50% — monitor closely</div>
+                    <div class="stat-detail">Supply exceeds demand but &lt;50% utilized — consider reducing forecast</div>
                 </div>
             </div>
 
@@ -125,8 +126,8 @@
             </div>
 
             <div class="callout purple" style="margin-top: 30px;">
-                <strong>Low Utilization Watch List (<span id="lowutil-count-callout">-</span> subjects)</strong>
-                These subjects are currently on track for capacity but have utilization rates below 50%. If utilization doesn't improve, they risk becoming capacity problems — recruiting more tutors without fixing assignment barriers wastes budget. Top examples: <span id="lowutil-examples"></span>
+                <strong>Over-Supplied Subjects (<span id="lowutil-count-callout">-</span> subjects)</strong>
+                These subjects have enough contracted supply to meet demand, but less than half of those tutors are being utilized. This suggests we may be over-forecasting these subjects. Consider reducing future forecast targets. Top examples: <span id="lowutil-examples"></span>
             </div>
         </div>
         
@@ -138,11 +139,11 @@
                     <select id="filter-type-all">
                         <option value="all">All Subjects</option>
                         <option value="all-problems">All Problems (Supply + Util)</option>
-                        <option value="utilization">Possible Placement Issues</option>
+                        <option value="placement">Placement Bottleneck</option>
                         <option value="true-supply">True Supply Problems</option>
                         <option value="no-util-data">Supply — No Util Data</option>
                         <option value="on-track">On Track</option>
-                        <option value="low-util">On Track (Low Utilization)</option>
+                        <option value="over-supplied">Over-Supplied</option>
                     </select>
                 </div>
                 
@@ -196,8 +197,8 @@
         <!-- PROBLEM SUBJECTS TAB (Combined Supply + Utilization) -->
         <div id="problem-subjects" class="tab-content" role="tabpanel">
             <div class="callout warning">
-                <strong>Important: Utilization problems may be masking real supply gaps.</strong>
-                Subjects flagged as "Possible Placement Issue" have low tutor assignment rates — new tutors were contracted but not assigned to students. This may be caused by placement algorithm behavior or inaccurate forecasting. Root cause is not yet confirmed. Until utilization improves, it's difficult to know which subjects also need more recruiting. Treat these as <em>potential</em> supply problems that need investigation first.
+                <strong>Placement Bottleneck: demand exists, supply exists, but they aren't connecting.</strong>
+                Subjects flagged as "Placement Bottleneck" have demand exceeding supply, yet less than half of contracted tutors are being utilized. Before recruiting more, investigate placement algorithm, geographic mismatch, or scheduling barriers. These are potential supply problems that need matching fixes first.
             </div>
 
             <div class="methodology" style="margin-bottom: 20px; padding: 25px;">
@@ -214,7 +215,7 @@
                     <label>Problem Type</label>
                     <select id="filter-problem-type">
                         <option value="all">All Problems</option>
-                        <option value="utilization">Possible Placement Issue</option>
+                        <option value="placement">Placement Bottleneck</option>
                         <option value="true-supply">True Supply</option>
                         <option value="no-util-data">No Util Data</option>
                     </select>
@@ -357,6 +358,45 @@
                     <thead id="tracker-head"></thead>
                     <tbody id="tracker-body"></tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- ACTIONS TAB -->
+        <div id="actions" class="tab-content" role="tabpanel">
+            <h2>Recommended Actions</h2>
+            <div id="actions-summary" class="actions-summary-banner">
+                <span id="actions-total">-</span> actions recommended &bull;
+                <span id="actions-high" class="priority-high-text">-</span> high priority &bull;
+                <span id="actions-med" class="priority-med-text">-</span> medium
+            </div>
+            <div class="filter-bar" style="margin-bottom:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                <select id="filter-action-priority" onchange="renderRecommendations()">
+                    <option value="all">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+                <select id="filter-action-type" onchange="renderRecommendations()">
+                    <option value="all">All Action Types</option>
+                    <option value="investigate_placement">Investigate Placement</option>
+                    <option value="increase_recruiting">Increase Recruiting</option>
+                    <option value="reduce_forecast">Reduce Forecast</option>
+                    <option value="review_performance">Review Performance</option>
+                </select>
+                <input type="text" id="search-actions" placeholder="Search subjects..." oninput="renderRecommendations()" style="padding:6px 10px; border:1px solid #ddd; border-radius:4px; width:180px;">
+            </div>
+            <div id="actions-cards" class="actions-cards-container"></div>
+
+            <details class="decision-history-panel" style="margin-top:32px;">
+                <summary style="cursor:pointer;font-weight:600;font-size:15px;">Decision History</summary>
+                <div id="decision-history-list" style="margin-top:12px;"></div>
+            </details>
+
+            <div class="weekly-summary-section" style="margin-top:32px;">
+                <h3>Weekly Summary</h3>
+                <p style="color:#7f8c8d; margin-bottom:8px;">Generate a copy-paste-ready summary for your WBR.</p>
+                <button id="btn-generate-summary" class="btn btn-primary" onclick="generateWeeklySummary()" style="margin-bottom:12px;">Generate Summary</button>
+                <div id="weekly-summary-output" class="weekly-summary-block" style="display:none;"></div>
             </div>
         </div>
 
@@ -589,7 +629,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.0</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.1</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -985,6 +1025,19 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.1 <span class="cl-date">Apr 17, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Smoothing overshoot fix: manual adjustment floors no longer cause total to exceed BTS Total</li>
+                    <li>Tooltip clarity: month tooltips now show Model forecast, Manual override (if any), and Target instead of confusing adjusted_target</li>
+                    <li>Renamed "Possible Placement Issue" to "Placement Bottleneck" and "On Track (Low Util)" to "Over-Supplied" for clearer categorization</li>
+                    <li>Problem type badges now include tooltip descriptions explaining each category</li>
+                    <li>New Actions tab with prioritized, actionable recommendations per subject (investigate placement, increase recruiting, reduce forecast, review performance)</li>
+                    <li>Decision history: mark actions as reviewed with Will Act / Won't Act / Defer and optional notes, persisted in browser</li>
+                    <li>Weekly summary generator: one-click copy-paste-ready WBR narrative with key metrics</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.0 <span class="cl-date">Apr 15, 2026</span> <span class="cl-tag improvement">Improvement</span></div>

@@ -387,6 +387,21 @@ def apply_group_smoothing(monthly_targets, run_rate, manual_floors, adjusted_for
             monthly_targets[1] += absorb
     _floor(0)
 
+    # Clamp total: manual floors can push the sum above the original demand.
+    # Reduce non-floor months proportionally to bring it back in line.
+    original_total = sum(adjusted_forecasts)
+    if original_total > 0:
+        current_total = sum(monthly_targets)
+        overshoot = current_total - original_total
+        if overshoot > 1:
+            flexible = [(i, monthly_targets[i]) for i in range(7)
+                        if manual_floors[i] is None and monthly_targets[i] > 0]
+            flex_total = sum(v for _, v in flexible)
+            if flex_total > 0:
+                for idx, val in flexible:
+                    reduction = min(val, overshoot * (val / flex_total))
+                    monthly_targets[idx] = max(0, val - reduction)
+
     return monthly_targets
 
 
@@ -481,6 +496,13 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             'Aug_Smoothed': round(monthly_targets[4], 0),
             'Sep_Smoothed': round(monthly_targets[5], 0),
             'Oct_Smoothed': round(monthly_targets[6], 0),
+            'Apr_ManualOverride': manual_floors[0],
+            'May_ManualOverride': manual_floors[1],
+            'Jun_ManualOverride': manual_floors[2],
+            'Jul_ManualOverride': manual_floors[3],
+            'Aug_ManualOverride': manual_floors[4],
+            'Sep_ManualOverride': manual_floors[5],
+            'Oct_ManualOverride': manual_floors[6],
             'Mar_Actual': round(march_overrides[subject]['actual'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['actual'] is not None else (round(mar_actual, 0) if pd.notna(mar_actual) else None),
             'Mar_Forecast': round(march_overrides[subject]['forecast'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['forecast'] is not None else (round(mar_forecast, 0) if mar_forecast is not None else None)
         })
@@ -550,6 +572,13 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
                 'Aug_Smoothed': round(monthly_targets[4], 0),
                 'Sep_Smoothed': round(monthly_targets[5], 0),
                 'Oct_Smoothed': round(monthly_targets[6], 0),
+                'Apr_ManualOverride': manual_floors[0],
+                'May_ManualOverride': manual_floors[1],
+                'Jun_ManualOverride': manual_floors[2],
+                'Jul_ManualOverride': manual_floors[3],
+                'Aug_ManualOverride': manual_floors[4],
+                'Sep_ManualOverride': manual_floors[5],
+                'Oct_ManualOverride': manual_floors[6],
                 'Mar_Actual': round(march_overrides[subject]['actual'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['actual'] is not None else (round(mar_actual, 0) if mar_actual is not None else None),
                 'Mar_Forecast': round(march_overrides[subject]['forecast'], 0) if march_overrides and subject in march_overrides and march_overrides[subject]['forecast'] is not None else None
             })
@@ -723,9 +752,9 @@ def classify_problems(df_analysis, df_utilization):
 
         if util_rate < 50:
             if needs_external:
-                return "Possible Placement Issue"
+                return "Placement Bottleneck"
             else:
-                return "On Track (Low Util)"
+                return "Over-Supplied"
         else:
             if needs_external:
                 return "True Supply Problem"
@@ -769,6 +798,10 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
                          'Jul_Smoothed', 'Aug_Smoothed', 'Sep_Smoothed', 'Oct_Smoothed']
         per_month_smoothed = [float(row.get(k, 0)) if pd.notna(row.get(k, 0)) else 0 for k in smoothed_keys]
 
+        override_keys = ['Apr_ManualOverride', 'May_ManualOverride', 'Jun_ManualOverride',
+                         'Jul_ManualOverride', 'Aug_ManualOverride', 'Sep_ManualOverride', 'Oct_ManualOverride']
+        manual_overrides = [float(row.get(k)) if pd.notna(row.get(k, None)) else None for k in override_keys]
+
         months_data = []
         final_actual_sum = 0
         final_months_count = 0
@@ -788,6 +821,7 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
                 'label': BTS_MONTH_LABELS[i],
                 'original_forecast': originals[i],
                 'smoothed_target': per_month_smoothed[i],
+                'manual_override': manual_overrides[i],
                 'actual': actual,
                 'status': status,
                 'adjusted_target': None,
@@ -1066,7 +1100,157 @@ def build_upload_log(actuals_dir, forecasts_dir):
     return uploads
 
 
-def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
+def generate_recommendations(df_final, tracker_subjects):
+    """Produce prioritised action items by scanning all subjects."""
+    recs = []
+
+    tracker_by_subj = {ts['subject']: ts for ts in tracker_subjects}
+
+    for _, row in df_final.iterrows():
+        subject = row['Subject']
+        ptype = row.get('Problem_Type', 'On Track')
+        util = row.get('Util_Rate')
+        util_val = float(util) if pd.notna(util) else None
+        run_rate = float(row.get('Run_Rate', 0)) if pd.notna(row.get('Run_Rate', 0)) else 0
+        raw_gap = float(row.get('Raw_Gap', 0)) if pd.notna(row.get('Raw_Gap', 0)) else 0
+        bts_total = float(row.get('BTS_Total', 0)) if pd.notna(row.get('BTS_Total', 0)) else 0
+        category = row.get('Category', 'Other')
+        ts = tracker_by_subj.get(subject)
+
+        if ptype == 'Placement Bottleneck':
+            recs.append({
+                'subject': subject, 'category': category,
+                'priority': 'high',
+                'action_type': 'investigate_placement',
+                'reason': f'Demand exceeds supply but only {util_val or 0:.0f}% of contracted tutors are being placed. Fix matching before recruiting.',
+                'data_points': {'util_rate': util_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+            })
+
+        elif ptype == 'True Supply Problem':
+            priority = 'high' if abs(raw_gap) > 20 else 'medium'
+            recs.append({
+                'subject': subject, 'category': category,
+                'priority': priority,
+                'action_type': 'increase_recruiting',
+                'reason': f'{abs(round(raw_gap))} tutors short with {util_val or "N/A"}% utilization. Deploy recruiting levers.',
+                'data_points': {'util_rate': util_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+            })
+
+        elif ptype == 'Supply Problem (No Util Data)':
+            recs.append({
+                'subject': subject, 'category': category,
+                'priority': 'medium',
+                'action_type': 'increase_recruiting',
+                'reason': f'{abs(round(raw_gap))} tutors short (no utilization data). Recruit while gathering util info.',
+                'data_points': {'gap': round(raw_gap), 'run_rate': run_rate}
+            })
+
+        elif ptype == 'Over-Supplied':
+            if run_rate >= 3 and util_val is not None and util_val < 30:
+                recs.append({
+                    'subject': subject, 'category': category,
+                    'priority': 'medium',
+                    'action_type': 'reduce_forecast',
+                    'reason': f'Only {util_val:.0f}% utilized with run rate {run_rate:.0f}/mo. Consider reducing forecast.',
+                    'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
+                })
+            elif run_rate >= 3:
+                recs.append({
+                    'subject': subject, 'category': category,
+                    'priority': 'low',
+                    'action_type': 'reduce_forecast',
+                    'reason': f'{util_val or 0:.0f}% utilized — supply exceeds demand. Monitor and consider reducing forecast.',
+                    'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
+                })
+
+        # Behind-pace check for in-progress months
+        if ts:
+            for md in ts['months']:
+                if md['status'] == 'in_progress' and md['actual'] is not None and md['smoothed_target'] > 0:
+                    pace = md['actual'] / md['smoothed_target'] * 100
+                    if pace < 60:
+                        recs.append({
+                            'subject': subject, 'category': category,
+                            'priority': 'high',
+                            'action_type': 'review_performance',
+                            'reason': f'{md["label"]}: {md["actual"]} actual vs {round(md["smoothed_target"])} target ({pace:.0f}% of pace).',
+                            'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'pace': round(pace)}
+                        })
+                    elif pace < 80:
+                        recs.append({
+                            'subject': subject, 'category': category,
+                            'priority': 'medium',
+                            'action_type': 'review_performance',
+                            'reason': f'{md["label"]}: {md["actual"]} actual vs {round(md["smoothed_target"])} target ({pace:.0f}% of pace). At risk.',
+                            'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'pace': round(pace)}
+                        })
+
+    # Surprise demand: excluded subjects that have actuals
+    for ts in tracker_subjects:
+        for md in ts['months']:
+            if md['status'] == 'in_progress' and md['actual'] is not None and md['actual'] >= 3 and md['smoothed_target'] <= 0:
+                recs.append({
+                    'subject': ts['subject'], 'category': ts.get('category', 'Other'),
+                    'priority': 'low',
+                    'action_type': 'review_performance',
+                    'reason': f'Unexpected demand: {md["actual"]} tutors contracted in {md["label"]} with no forecast. Consider adding to next forecast.',
+                    'data_points': {'month': md['label'], 'actual': md['actual']}
+                })
+
+    priority_order = {'high': 0, 'medium': 1, 'low': 2}
+    recs.sort(key=lambda r: (priority_order.get(r['priority'], 9), r['subject']))
+    return recs
+
+
+def generate_weekly_summary(tracker_subjects, history, recommendations):
+    """Build a structured summary for WBR narratives."""
+    total_subjects = len(tracker_subjects)
+    on_track = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'On Track')
+    over_supplied = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Over-Supplied')
+    bottlenecks = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Placement Bottleneck')
+
+    total_target = sum(ts['bts_total'] for ts in tracker_subjects)
+    total_actual = sum(ts['actual_to_date'] for ts in tracker_subjects)
+
+    high_actions = [r for r in recommendations if r['priority'] == 'high']
+    med_actions = [r for r in recommendations if r['priority'] == 'medium']
+
+    behind_pace = []
+    on_pace = []
+    for ts in tracker_subjects:
+        for md in ts['months']:
+            if md['status'] == 'in_progress' and md['actual'] is not None and md['smoothed_target'] > 0:
+                pace = md['actual'] / md['smoothed_target'] * 100
+                if pace < 80:
+                    behind_pace.append({'subject': ts['subject'], 'pace': round(pace), 'month': md['label']})
+                else:
+                    on_pace.append({'subject': ts['subject'], 'pace': round(pace), 'month': md['label']})
+
+    biggest_gaps = sorted(
+        [ts for ts in tracker_subjects if ts.get('problem_type') in ('True Supply Problem', 'Placement Bottleneck')],
+        key=lambda ts: ts.get('remaining_need', 0), reverse=True
+    )[:5]
+
+    return {
+        'total_subjects': total_subjects,
+        'on_track': on_track,
+        'over_supplied': over_supplied,
+        'bottlenecks': bottlenecks,
+        'total_target': round(total_target),
+        'total_actual': round(total_actual),
+        'progress_pct': round(total_actual / total_target * 100, 1) if total_target > 0 else 0,
+        'high_priority_actions': len(high_actions),
+        'medium_priority_actions': len(med_actions),
+        'total_actions': len(recommendations),
+        'behind_pace_count': len(behind_pace),
+        'behind_pace_subjects': behind_pace[:10],
+        'on_pace_count': len(on_pace),
+        'biggest_gaps': [{'subject': ts['subject'], 'remaining': round(ts.get('remaining_need', 0))} for ts in biggest_gaps],
+        'generated_at': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
+    }
+
+
+def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recommendations=None, weekly_summary=None):
     """Generate JSON data for dashboard including monthly tracker."""
 
     supply_mask = df_final['Problem_Type'].isin(['True Supply Problem', 'Supply Problem (No Util Data)'])
@@ -1074,9 +1258,10 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
     total_subjects = len(df_final)
     summary = {
         'total_subjects': total_subjects,
-        'utilization_problems': len(df_final[df_final['Problem_Type'] == 'Possible Placement Issue']),
+        'placement_bottlenecks': len(df_final[df_final['Problem_Type'] == 'Placement Bottleneck']),
+        'over_supplied': len(df_final[df_final['Problem_Type'] == 'Over-Supplied']),
         'supply_problems': int(supply_mask.sum()),
-        'on_track': len(df_final[df_final['Problem_Type'].str.contains('On Track')]),
+        'on_track': len(df_final[df_final['Problem_Type'] == 'On Track']),
         'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
         'subjects_with_util_data': subjects_with_util,
         'util_coverage_pct': round(subjects_with_util / total_subjects * 100, 1) if total_subjects > 0 else 0,
@@ -1111,15 +1296,18 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads):
             if isinstance(v, float) and np.isnan(v):
                 rec[k] = None
 
-    return {
+    result = {
         'summary': summary,
         'subjects': records,
         'monthly_tracker': tracker_subjects,
         'history': history,
         'uploads': uploads,
         'bts_months': BTS_MONTH_KEYS,
-        'bts_month_labels': BTS_MONTH_LABELS
+        'bts_month_labels': BTS_MONTH_LABELS,
+        'recommendations': recommendations or [],
+        'weekly_summary': weekly_summary or {},
     }
+    return result
 
 
 def version_forecast(forecast_path, forecasts_dir):
@@ -1244,8 +1432,15 @@ def main():
         print("Building upload log...")
         uploads = build_upload_log(actuals_dir, forecasts_dir)
 
+        print("Generating recommendations...")
+        recommendations = generate_recommendations(df_final, tracker_subjects)
+        print(f"  {len(recommendations)} action items generated")
+
+        print("Generating weekly summary...")
+        weekly_summary = generate_weekly_summary(tracker_subjects, history, recommendations)
+
         print("Generating dashboard data...")
-        dashboard_data = generate_dashboard_data(df_final, tracker_subjects, history, uploads)
+        dashboard_data = generate_dashboard_data(df_final, tracker_subjects, history, uploads, recommendations, weekly_summary)
 
         # Attach Looker fetch status so dashboard can warn about stale data
         fetch_status_path = 'data/fetch_status.json'
@@ -1275,7 +1470,8 @@ def main():
     summary = dashboard_data['summary']
     print(f"\nAnalysis complete!")
     print(f"  {summary['total_subjects']} subjects analyzed")
-    print(f"  {summary['utilization_problems']} utilization problems")
+    print(f"  {summary['placement_bottlenecks']} placement bottlenecks")
+    print(f"  {summary['over_supplied']} over-supplied")
     print(f"  {summary['supply_problems']} true supply problems")
     print(f"  BTS Total: {summary['portfolio_bts_total']}")
     print(f"  Actual to date: {summary['portfolio_actual_to_date']}")

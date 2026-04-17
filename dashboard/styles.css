@@ -1573,6 +1573,157 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
     width: 100%;
 }
 
+/* --- Actions Tab --- */
+
+.actions-summary-banner {
+    background: #f0f3f8;
+    border-left: 4px solid #3498db;
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: 600;
+}
+.priority-high-text { color: #e74c3c; }
+.priority-med-text  { color: #e67e22; }
+
+.actions-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.action-card {
+    background: #fff;
+    border: 1px solid #e8eaed;
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: box-shadow 0.15s;
+}
+.action-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+
+.action-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.action-card-subject {
+    font-weight: 700;
+    font-size: 15px;
+}
+.action-card-reason {
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.action-card-data {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #7f8c8d;
+}
+.action-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.badge-priority {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-priority.high   { background: #fce4e4; color: #c0392b; }
+.badge-priority.medium { background: #fdf2e9; color: #d35400; }
+.badge-priority.low    { background: #ebf5fb; color: #2980b9; }
+
+.badge-action-type {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #f0f0f0;
+    color: #555;
+}
+
+.btn { border: none; cursor: pointer; border-radius: 6px; font-size: 13px; padding: 6px 14px; }
+.btn-primary { background: #3498db; color: #fff; }
+.btn-primary:hover { background: #2980b9; }
+.btn-sm { font-size: 12px; padding: 4px 10px; }
+.btn-outline { background: transparent; border: 1px solid #bbb; color: #555; }
+.btn-outline:hover { background: #f5f5f5; }
+.btn-reviewed { background: #27ae60; color: #fff; }
+
+.action-card.reviewed {
+    opacity: 0.7;
+    border-left: 3px solid #27ae60;
+}
+
+.decision-history-panel { margin-top: 24px; }
+.decision-entry {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.decision-entry .de-subject { font-weight: 600; min-width: 150px; }
+.decision-entry .de-decision { min-width: 80px; }
+.decision-entry .de-note { color: #7f8c8d; flex: 1; }
+.decision-entry .de-date { color: #95a5a6; font-size: 12px; min-width: 100px; text-align: right; }
+
+.weekly-summary-block {
+    background: #fafbfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 13px;
+    line-height: 1.7;
+    position: relative;
+}
+.weekly-summary-block .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+}
+.weekly-summary-block .copy-btn:hover { background: #f0f0f0; }
+
+/* Review modal */
+.review-modal-overlay {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,.35); z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+}
+.review-modal {
+    background: #fff; border-radius: 10px; padding: 24px;
+    width: 380px; max-width: 90vw; box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+.review-modal h4 { margin: 0 0 12px; }
+.review-modal select, .review-modal textarea {
+    width: 100%; margin-bottom: 12px; padding: 8px;
+    border: 1px solid #ddd; border-radius: 6px; font-size: 13px;
+}
+.review-modal textarea { resize: vertical; min-height: 60px; }
+.review-modal-buttons { display: flex; gap: 8px; justify-content: flex-end; }
+
 @keyframes spin {
     to { transform: rotate(360deg); }
 }

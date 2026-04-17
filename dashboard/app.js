@@ -22,6 +22,8 @@ var trackerData = [];
 var historyData = [];
 var uploadsData = [];
 var summaryData = {};
+var recommendationsData = [];
+var weeklySummaryData = {};
 var pendingActualsCSV = null;
 var pendingForecastFile = null;
 var pendingRunRatesFile = null;
@@ -37,14 +39,23 @@ var currentSorts = {
 };
 var trackerSort = { key: 'subject', asc: true };
 
+var PROBLEM_TIPS = {
+    'placement': 'Demand exceeds supply, but less than half of contracted tutors are being utilized. Investigate placement algorithm, geographic mismatch, or scheduling before recruiting more.',
+    'over-supplied': 'Supply meets or exceeds demand, but utilization is below 50%. Consider reducing forecast for this subject — we may be over-forecasting.',
+    'true-supply': 'Genuine supply shortage — existing tutors are well-utilized but we need more. Deploy recruiting levers.',
+    'no-util-data': 'Supply gap detected but no utilization data available to classify root cause.',
+    'on-track': 'Supply meets demand and utilization is healthy. No action needed.'
+};
+
 function classifyType(problemType) {
     if (!problemType) return 'on-track';
     var pt = problemType.toLowerCase();
-    if (pt.includes('possible placement')) return 'utilization';
-    if (pt.includes('utilization problem')) return 'utilization';
+    if (pt.includes('placement bottleneck')) return 'placement';
+    if (pt.includes('possible placement')) return 'placement';
+    if (pt.includes('over-supplied')) return 'over-supplied';
     if (pt.includes('true supply')) return 'true-supply';
     if (pt.includes('no util data')) return 'no-util-data';
-    if (pt.includes('low util')) return 'low-util';
+    if (pt.includes('low util')) return 'over-supplied';
     return 'on-track';
 }
 
@@ -91,6 +102,8 @@ fetch('data.json?v=' + Date.now())
         historyData = data.history || [];
         uploadsData = data.uploads || [];
         summaryData = data.summary || {};
+        recommendationsData = data.recommendations || [];
+        weeklySummaryData = data.weekly_summary || {};
         updateSummary(summaryData);
         updateTabCounts();
         populateCategoryDropdowns();
@@ -100,6 +113,7 @@ fetch('data.json?v=' + Date.now())
         renderMarchBaseline(summaryData);
         renderProgressBar(summaryData);
         renderHistoryTab();
+        renderRecommendations();
         lockFinalizedMonths();
         showFetchStatusBanner(data.fetch_status);
         populateLookerSyncBanner(data.fetch_status);
@@ -204,18 +218,18 @@ function lockFinalizedMonths() {
 /* ── Summary + tab counts ── */
 function updateSummary(summary) {
     var clientTotal = allData.length;
-    var clientUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; }).length;
+    var clientPlacement = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'placement'; }).length;
     var clientSupply = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
     var clientNoUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
-    var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track' || t === 'low-util'; }).length;
-    var lowUtilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'low-util'; }).length;
+    var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track'; }).length;
+    var overSuppliedCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; }).length;
 
     document.getElementById('total-subjects').textContent = clientTotal;
-    document.getElementById('util-problems').textContent = clientUtil;
+    document.getElementById('util-problems').textContent = clientPlacement;
     document.getElementById('stat-supply-problems').textContent = clientSupply + clientNoUtil;
     document.getElementById('ontrack-subjects').textContent = clientOnTrack;
-    document.getElementById('lowutil-subjects').textContent = lowUtilCount;
-    document.getElementById('lowutil-count-callout').textContent = lowUtilCount;
+    document.getElementById('lowutil-subjects').textContent = overSuppliedCount;
+    document.getElementById('lowutil-count-callout').textContent = overSuppliedCount;
 
     document.getElementById('footer-time').textContent = 'Last updated: ' + summary.last_updated;
     document.getElementById('method-updated').textContent = summary.last_updated;
@@ -232,26 +246,26 @@ function updateSummary(summary) {
 
     var discrepancies = [];
     if (clientTotal !== (summary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + summary.total_subjects);
-    if (clientUtil !== (summary.utilization_problems || 0)) discrepancies.push('Placement issues: card=' + clientUtil + ' vs data=' + summary.utilization_problems);
+    if (clientPlacement !== (summary.placement_bottlenecks || 0)) discrepancies.push('Placement bottlenecks: card=' + clientPlacement + ' vs data=' + summary.placement_bottlenecks);
     var serverSupply = (summary.supply_problems || 0);
     if ((clientSupply + clientNoUtil) !== serverSupply) discrepancies.push('Supply: card=' + (clientSupply + clientNoUtil) + ' vs data=' + serverSupply);
     if (discrepancies.length > 0) {
         console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
     }
 
-    var topLowUtil = allData
-        .filter(function(r) { return classifyType(r.Problem_Type) === 'low-util'; })
+    var topOverSupplied = allData
+        .filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; })
         .sort(function(a, b) { return (b.Run_Rate || 0) - (a.Run_Rate || 0); })
         .slice(0, 5)
         .map(function(r) { return r.Subject + ' (' + (r.Util_Rate || 0) + '% util, run rate ' + r.Run_Rate + '/mo)'; });
-    document.getElementById('lowutil-examples').textContent = topLowUtil.join('; ');
+    document.getElementById('lowutil-examples').textContent = topOverSupplied.join('; ');
 }
 
 function updateTabCounts() {
     document.getElementById('tab-count-all').textContent = allData.length;
     var problemCount = allData.filter(function(r) {
         var t = classifyType(r.Problem_Type);
-        return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+        return t === 'placement' || t === 'true-supply' || t === 'no-util-data';
     }).length;
     document.getElementById('tab-count-problems').textContent = problemCount;
 }
@@ -283,12 +297,12 @@ function populateCategoryDropdowns() {
 function renderCriticalFindings() {
     var flagged = allData.filter(function(r) {
         var t = classifyType(r.Problem_Type);
-        return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+        return t === 'placement' || t === 'true-supply' || t === 'no-util-data';
     });
-    var utilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'utilization'; }).length;
+    var placementCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'placement'; }).length;
     var supplyCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
     var noUtilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
-    var utilPct = flagged.length > 0 ? Math.round(utilCount / flagged.length * 100) : 0;
+    var placementPct = flagged.length > 0 ? Math.round(placementCount / flagged.length * 100) : 0;
     var trueSupplyTotal = supplyCount + noUtilCount;
 
     var topSupply = allData
@@ -302,9 +316,9 @@ function renderCriticalFindings() {
 
     var findings = [
         {
-            finding: utilPct + '% of flagged subjects are utilization problems',
-            impact: utilCount + ' subjects exhibit low utilization — enough tutors contracted, but algorithmic barriers may prevent assignments',
-            action: 'Investigate placement/assignment barriers before recruiting more tutors.'
+            finding: placementPct + '% of flagged subjects are placement bottlenecks',
+            impact: placementCount + ' subjects have demand but contracted tutors aren\'t being matched — investigate placement algorithm, geography, or scheduling',
+            action: 'Fix matching for these subjects before recruiting more tutors.'
         },
         {
             finding: 'Only ' + trueSupplyTotal + ' subjects are true supply shortages',
@@ -353,7 +367,7 @@ function renderBarChart() {
         var absGap = Math.abs(row.Raw_Gap);
         var pct = Math.min(100, (absGap / maxGap) * 100);
         var type = classifyType(row.Problem_Type);
-        var barClass = type === 'utilization' ? 'util-bar' : type === 'no-util-data' ? 'nodata-bar' : 'supply-bar';
+        var barClass = type === 'placement' ? 'util-bar' : type === 'no-util-data' ? 'nodata-bar' : 'supply-bar';
         var covPct = row.Coverage_Pct != null ? row.Coverage_Pct : 0;
         var div = document.createElement('div');
         div.className = 'bar-row';
@@ -367,7 +381,7 @@ function renderBarChart() {
 function renderPriorityTable() {
     var priority = allData.filter(function(r) {
         var t = classifyType(r.Problem_Type);
-        return t === 'true-supply' || t === 'utilization' || t === 'no-util-data';
+        return t === 'true-supply' || t === 'placement' || t === 'no-util-data';
     }).sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); }).slice(0, 15);
     var tbody = document.getElementById('priority-body');
     tbody.innerHTML = '';
@@ -375,20 +389,20 @@ function renderPriorityTable() {
     priority.forEach(function(row) {
         var tr = document.createElement('tr');
         var type = classifyType(row.Problem_Type);
-        if (type === 'utilization') tr.className = 'util-problem';
+        if (type === 'placement') tr.className = 'util-problem';
         else if (type === 'true-supply') tr.className = 'supply-problem';
         else if (type === 'no-util-data') tr.className = 'nodata-problem';
         var utilDisplay = buildUtilDisplay(row);
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapClass = covPct < 50 ? 'gap-critical' : covPct < 80 ? 'gap-high' : 'gap-medium';
         var action = '', badgeClass = '', badgeText = '';
-        if (type === 'utilization') { action = 'Possible supply gap masked by placement issues'; badgeClass = 'util'; badgeText = 'Placement Issue'; }
+        if (type === 'placement') { action = 'Fix matching before recruiting — tutors contracted but not placed'; badgeClass = 'util'; badgeText = 'Placement Bottleneck'; }
         else if (type === 'no-util-data') { action = 'Gather utilization data'; badgeClass = 'nodata'; badgeText = 'No Util Data'; }
         else if (covPct < 50) { action = 'CRITICAL: External levers now'; badgeClass = 'supply'; badgeText = 'Supply'; }
         else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-            tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
+            tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
             tbody.appendChild(tr);
         });
     }
@@ -424,28 +438,28 @@ function filterAllSubjects() {
     filtered.forEach(function(row) {
         var tr = document.createElement('tr');
         var type = classifyType(row.Problem_Type);
-        if (type === 'utilization') tr.className = 'util-problem';
+        if (type === 'placement') tr.className = 'util-problem';
         else if (type === 'true-supply') tr.className = 'supply-problem';
         else if (type === 'no-util-data') tr.className = 'nodata-problem';
         var utilDisplay = buildUtilDisplay(row);
         var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
         var badgeClass = 'ontrack', badgeText = 'On Track';
-        if (type === 'utilization') { badgeClass = 'util'; badgeText = 'Placement Issue'; }
+        if (type === 'placement') { badgeClass = 'util'; badgeText = 'Placement Bottleneck'; }
         else if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'Supply'; }
         else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
-        else if (type === 'low-util') { badgeClass = 'lowutil'; badgeText = 'Low Util'; }
+        else if (type === 'over-supplied') { badgeClass = 'lowutil'; badgeText = 'Over-Supplied'; }
         var rec = 'No action needed';
-        if (type === 'utilization') rec = 'Possible placement issue — tutors contracted but not assigned';
+        if (type === 'placement') rec = 'Fix matching before recruiting — tutors contracted but not placed';
         else if (type === 'true-supply') rec = 'External recruitment levers';
         else if (type === 'no-util-data') rec = 'Gather utilization data';
-        else if (type === 'low-util') rec = 'Monitor utilization';
+        else if (type === 'over-supplied') rec = 'Consider reducing forecast — supply exceeds demand';
         var adjMonths = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
         var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + escapeHtml(adjMonths) + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
         var adjNote = row.Is_Adjusted ? '<span class="adj-note">Adj: ' + escapeHtml(adjMonths) + ' (model: ' + row.Original_Model_Total + ')</span>' : '';
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + adjNote + '</td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
+        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + adjNote + '</td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
         tbody.appendChild(tr);
     });
 }
@@ -467,7 +481,7 @@ function renderProblemSubjects() {
     } else {
         problems = allData.filter(function(r) {
             var t = classifyType(r.Problem_Type);
-            return t === 'utilization' || t === 'true-supply' || t === 'no-util-data';
+            return t === 'placement' || t === 'true-supply' || t === 'no-util-data';
         });
     }
     var totalProblems = problems.length;
@@ -486,16 +500,16 @@ function renderProblemSubjects() {
         var utilDisplay = buildUtilDisplay(row);
         var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
 
-        var badgeClass = 'util', badgeText = 'Placement Issue';
+        var badgeClass = 'util', badgeText = 'Placement Bottleneck';
         if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'True Supply'; }
         else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
 
         var assessment = '';
-        if (type === 'utilization') {
+        if (type === 'placement') {
             var utilPct = row.Util_Rate || 0;
-            if (utilPct === 0) assessment = 'Zero assignment rate — possible placement issue or supply gap';
-            else if (utilPct < 25) assessment = 'Very low assignment rate — placement issue likely masking true supply need';
-            else assessment = 'Low assignment rate — possible placement issue, investigate before recruiting';
+            if (utilPct === 0) assessment = 'Zero assignment rate — demand exists but tutors aren\'t being matched';
+            else if (utilPct < 25) assessment = 'Very low placement — investigate matching algorithm, geography, or scheduling';
+            else assessment = 'Low placement rate — fix matching before recruiting more tutors';
         } else if (type === 'true-supply') {
             if (row.Gap_Pct > 200) assessment = 'CRITICAL: External recruitment levers needed immediately';
             else if (row.Gap_Pct > 100) assessment = 'Moderate gap — InMail + opt-in campaigns';
@@ -514,7 +528,7 @@ function renderProblemSubjects() {
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + '</td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
+        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + '</td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
         tbody.appendChild(tr);
     });
 }
@@ -571,11 +585,11 @@ function exportTable(tableId) {
 function buildMonthTooltip(m, label) {
     var fcst = m.original_forecast != null ? Math.round(m.original_forecast) : null;
     var smth = m.smoothed_target != null ? Math.round(m.smoothed_target) : null;
-    var adj = m.adjusted_target != null ? Math.round(m.adjusted_target) : null;
+    var ovr = m.manual_override != null ? Math.round(m.manual_override) : null;
     var lines = ['<strong>' + escapeHtml(label) + '</strong>'];
-    lines.push('Model forecast: ' + (fcst != null ? fcst : '—'));
-    if (adj != null && adj !== fcst) lines.push('Manual adjustment: ' + adj);
-    lines.push('Adjusted target: ' + (smth != null ? smth : '—'));
+    lines.push('Model forecast: ' + (fcst != null ? fcst : '\u2014'));
+    if (ovr != null) lines.push('Manual override: ' + ovr);
+    lines.push('Target: ' + (smth != null ? smth : '\u2014'));
     if (m.actual != null) {
         lines.push('Actual: ' + m.actual);
         if (smth != null) {
@@ -1802,6 +1816,227 @@ function showStatus(id, msg, type) {
     var el = document.getElementById(id);
     el.textContent = msg;
     el.className = 'status-msg ' + type;
+}
+
+/* ── Actions Tab ── */
+
+var ACTION_TYPE_LABELS = {
+    'investigate_placement': 'Investigate Placement',
+    'increase_recruiting': 'Increase Recruiting',
+    'reduce_forecast': 'Reduce Forecast',
+    'review_performance': 'Review Performance',
+    'no_action': 'No Action'
+};
+
+function getDecisionKey(rec) {
+    return 'decision_' + rec.subject + '_' + rec.action_type + '_' + (rec.data_points && rec.data_points.month || 'all');
+}
+
+function getDecision(rec) {
+    try {
+        var raw = localStorage.getItem(getDecisionKey(rec));
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+
+function saveDecision(rec, decision, note) {
+    var obj = { decision: decision, note: note || '', date: new Date().toISOString(), subject: rec.subject, action_type: rec.action_type, reason: rec.reason };
+    localStorage.setItem(getDecisionKey(rec), JSON.stringify(obj));
+}
+
+function renderRecommendations() {
+    var priorityFilter = document.getElementById('filter-action-priority').value;
+    var typeFilter = document.getElementById('filter-action-type').value;
+    var searchTerm = (document.getElementById('search-actions').value || '').toLowerCase();
+
+    var filtered = recommendationsData.filter(function(r) {
+        if (priorityFilter !== 'all' && r.priority !== priorityFilter) return false;
+        if (typeFilter !== 'all' && r.action_type !== typeFilter) return false;
+        if (searchTerm && r.subject.toLowerCase().indexOf(searchTerm) === -1) return false;
+        return true;
+    });
+
+    var high = recommendationsData.filter(function(r) { return r.priority === 'high'; }).length;
+    var med = recommendationsData.filter(function(r) { return r.priority === 'medium'; }).length;
+    document.getElementById('actions-total').textContent = recommendationsData.length;
+    document.getElementById('actions-high').textContent = high;
+    document.getElementById('actions-med').textContent = med;
+    var countEl = document.getElementById('tab-count-actions');
+    if (countEl) countEl.textContent = recommendationsData.length;
+
+    var container = document.getElementById('actions-cards');
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:#95a5a6;">No actions match the current filters.</div>';
+        renderDecisionHistory();
+        return;
+    }
+
+    filtered.forEach(function(rec, idx) {
+        var decision = getDecision(rec);
+        var card = document.createElement('div');
+        card.className = 'action-card' + (decision ? ' reviewed' : '');
+
+        var dataHtml = '';
+        if (rec.data_points) {
+            var pts = [];
+            if (rec.data_points.util_rate != null) pts.push('Util: ' + Math.round(rec.data_points.util_rate) + '%');
+            if (rec.data_points.gap != null) pts.push('Gap: ' + rec.data_points.gap);
+            if (rec.data_points.run_rate != null) pts.push('Run Rate: ' + rec.data_points.run_rate);
+            if (rec.data_points.pace != null) pts.push('Pace: ' + rec.data_points.pace + '%');
+            if (rec.data_points.actual != null) pts.push('Actual: ' + rec.data_points.actual);
+            if (rec.data_points.target != null) pts.push('Target: ' + rec.data_points.target);
+            dataHtml = '<div class="action-card-data">' + pts.join(' &bull; ') + '</div>';
+        }
+
+        var reviewBtn = decision
+            ? '<span class="btn btn-sm btn-reviewed">\u2713 Reviewed: ' + escapeHtml(decision.decision) + '</span>'
+            : '<button class="btn btn-sm btn-outline" onclick="openReviewModal(' + idx + ')">Mark as Reviewed</button>';
+
+        card.innerHTML =
+            '<div class="action-card-header">' +
+                '<span class="action-card-subject">' + escapeHtml(rec.subject) + '</span>' +
+                '<span class="badge-priority ' + rec.priority + '">' + rec.priority + '</span>' +
+                '<span class="badge-action-type">' + (ACTION_TYPE_LABELS[rec.action_type] || rec.action_type) + '</span>' +
+            '</div>' +
+            '<div class="action-card-reason">' + escapeHtml(rec.reason) + '</div>' +
+            dataHtml +
+            '<div class="action-card-footer">' + reviewBtn + '</div>';
+
+        container.appendChild(card);
+    });
+
+    renderDecisionHistory();
+}
+
+var _currentReviewIdx = null;
+
+function openReviewModal(idx) {
+    _currentReviewIdx = idx;
+    var overlay = document.createElement('div');
+    overlay.className = 'review-modal-overlay';
+    overlay.id = 'review-modal-overlay';
+    overlay.onclick = function(e) { if (e.target === overlay) closeReviewModal(); };
+    overlay.innerHTML =
+        '<div class="review-modal">' +
+            '<h4>Mark as Reviewed</h4>' +
+            '<label style="font-size:13px;font-weight:600;">Decision</label>' +
+            '<select id="review-decision"><option value="Will Act">Will Act</option><option value="Won\'t Act">Won\'t Act</option><option value="Defer">Defer</option></select>' +
+            '<label style="font-size:13px;font-weight:600;">Note (optional)</label>' +
+            '<textarea id="review-note" placeholder="Any context for this decision..."></textarea>' +
+            '<div class="review-modal-buttons">' +
+                '<button class="btn btn-outline" onclick="closeReviewModal()">Cancel</button>' +
+                '<button class="btn btn-primary" onclick="submitReview()">Save</button>' +
+            '</div>' +
+        '</div>';
+    document.body.appendChild(overlay);
+}
+
+function closeReviewModal() {
+    var el = document.getElementById('review-modal-overlay');
+    if (el) el.remove();
+    _currentReviewIdx = null;
+}
+
+function submitReview() {
+    if (_currentReviewIdx == null) return;
+    var priorityFilter = document.getElementById('filter-action-priority').value;
+    var typeFilter = document.getElementById('filter-action-type').value;
+    var searchTerm = (document.getElementById('search-actions').value || '').toLowerCase();
+    var filtered = recommendationsData.filter(function(r) {
+        if (priorityFilter !== 'all' && r.priority !== priorityFilter) return false;
+        if (typeFilter !== 'all' && r.action_type !== typeFilter) return false;
+        if (searchTerm && r.subject.toLowerCase().indexOf(searchTerm) === -1) return false;
+        return true;
+    });
+    var rec = filtered[_currentReviewIdx];
+    if (!rec) { closeReviewModal(); return; }
+    var decision = document.getElementById('review-decision').value;
+    var note = document.getElementById('review-note').value;
+    saveDecision(rec, decision, note);
+    closeReviewModal();
+    renderRecommendations();
+}
+
+function renderDecisionHistory() {
+    var container = document.getElementById('decision-history-list');
+    if (!container) return;
+    var entries = [];
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (key && key.indexOf('decision_') === 0) {
+            try {
+                var d = JSON.parse(localStorage.getItem(key));
+                if (d && d.subject) entries.push(d);
+            } catch (e) {}
+        }
+    }
+    entries.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+
+    if (entries.length === 0) {
+        container.innerHTML = '<div style="color:#95a5a6;font-size:13px;padding:8px;">No decisions recorded yet.</div>';
+        return;
+    }
+
+    container.innerHTML = entries.map(function(d) {
+        var dateStr = d.date ? new Date(d.date).toLocaleDateString() : '';
+        return '<div class="decision-entry">' +
+            '<span class="de-subject">' + escapeHtml(d.subject) + '</span>' +
+            '<span class="de-decision"><strong>' + escapeHtml(d.decision) + '</strong></span>' +
+            '<span class="de-note">' + (d.note ? escapeHtml(d.note) : '\u2014') + '</span>' +
+            '<span class="de-date">' + dateStr + '</span>' +
+        '</div>';
+    }).join('');
+}
+
+function generateWeeklySummary() {
+    var ws = weeklySummaryData;
+    if (!ws || !ws.total_subjects) {
+        document.getElementById('weekly-summary-output').style.display = 'block';
+        document.getElementById('weekly-summary-output').textContent = 'No summary data available. Run the analysis pipeline first.';
+        return;
+    }
+
+    var lines = [];
+    lines.push('BTS Tutor Supply \u2014 Weekly Summary');
+    lines.push('Generated: ' + (ws.generated_at || new Date().toLocaleDateString()));
+    lines.push('');
+    lines.push('OVERVIEW');
+    lines.push(ws.total_subjects + ' subjects tracked | ' + ws.on_track + ' on track | ' + ws.bottlenecks + ' placement bottlenecks | ' + ws.over_supplied + ' over-supplied');
+    lines.push('Progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted (' + ws.progress_pct + '%)');
+    lines.push('');
+    lines.push('ACTIONS');
+    lines.push(ws.total_actions + ' recommended actions: ' + ws.high_priority_actions + ' high priority, ' + ws.medium_priority_actions + ' medium priority');
+    if (ws.behind_pace_count > 0) {
+        lines.push(ws.behind_pace_count + ' subjects behind pace in current month');
+        var examples = (ws.behind_pace_subjects || []).slice(0, 5).map(function(s) {
+            return s.subject + ' (' + s.pace + '% of target in ' + s.month + ')';
+        });
+        if (examples.length) lines.push('  Examples: ' + examples.join(', '));
+    }
+    lines.push('');
+    if (ws.biggest_gaps && ws.biggest_gaps.length > 0) {
+        lines.push('BIGGEST GAPS');
+        ws.biggest_gaps.forEach(function(g) {
+            lines.push('  ' + g.subject + ': ' + g.remaining + ' tutors remaining');
+        });
+    }
+
+    var output = lines.join('\n');
+    var block = document.getElementById('weekly-summary-output');
+    block.style.display = 'block';
+    block.innerHTML = '<button class="copy-btn" onclick="copyWeeklySummary()">Copy</button>' + escapeHtml(output);
+    block.dataset.rawText = output;
+}
+
+function copyWeeklySummary() {
+    var block = document.getElementById('weekly-summary-output');
+    var text = block.dataset.rawText || block.textContent;
+    navigator.clipboard.writeText(text).then(function() {
+        var btn = block.querySelector('.copy-btn');
+        if (btn) { btn.textContent = 'Copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 1500); }
+    });
 }
 
 /* ── Event listeners ── */
