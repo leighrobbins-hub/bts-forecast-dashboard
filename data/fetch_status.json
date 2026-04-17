@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-04-16T08:00:13.434454+00:00",
+  "fetched_at": "2026-04-17T08:01:33.401951+00:00",
   "dry_run": false,
   "skipped": false,
   "sources": {
@@ -8,5 +8,5 @@
     "actuals": true
   },
   "any_failed": false,
-  "last_successful_fetch": "2026-04-16T08:00:13.434454+00:00"
+  "last_successful_fetch": "2026-04-17T08:01:33.401951+00:00"
 }
