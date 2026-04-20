@@ -660,8 +660,7 @@ ARTS_AND_MUSIC = {
     'Drawing', 'Painting', 'Photography', 'Fine arts', 'Graphic Design',
     'Animation', 'Filmmaking', 'Music Theory', 'Music Recording',
     'Piano', 'Guitar', 'Trumpet', 'Singing', 'Voice',
-    'Adobe Illustrator', 'Photoshop', 'Sketchup', 'Rhino',
-    'Autocad', 'Autodesk Fusion 360', 'Autodesk Maya', 'Autodesk Revit',
+    'Adobe Illustrator', 'Photoshop',
     'Audio Engineering', 'Digital Media',
 }
 
@@ -671,6 +670,9 @@ TECHNOLOGY = {
     'Microsoft Power BI', 'Mac Basic Computer Skills',
     'PC Basic Computer Skills', 'Basic Computer Literacy',
     'Social Networking',
+    # CAD / 3D modeling / engineering software (previously miscategorized as Arts)
+    'Sketchup', 'Rhino', 'Autocad',
+    'Autodesk Fusion 360', 'Autodesk Maya', 'Autodesk Revit',
 }
 
 LANGUAGES = {
@@ -731,6 +733,43 @@ def classify_category(subject):
     return 'Other'
 
 
+# Subject-volume tier thresholds (based on BTS_Total forecast Apr-Oct).
+# Used to distinguish "inferno fire" core subjects from niche long-tail subjects
+# so stakeholders can prioritize attention appropriately.
+TIER_THRESHOLDS = {
+    'CORE':   150,  # SAT, HS Chemistry, large AP subjects
+    'HIGH':    75,
+    'MEDIUM':  30,
+    'LOW':     10,
+    # anything below LOW threshold => 'NICHE'
+}
+
+
+def assign_tier(bts_total):
+    """Assign a volume tier based on total Apr-Oct forecasted headcount.
+
+    Tiers: CORE > HIGH > MEDIUM > LOW > NICHE
+
+    Rationale: Darren/Kevin feedback that a supply miss on SAT is not
+    equivalent to a supply miss on Vietnamese or Rhino. Tiering lets the
+    dashboard surface "inferno fire" core subjects separately from
+    long-tail niche subjects. Thresholds can be tuned via TIER_THRESHOLDS.
+    """
+    try:
+        v = float(bts_total) if bts_total is not None else 0
+    except (TypeError, ValueError):
+        v = 0
+    if v >= TIER_THRESHOLDS['CORE']:
+        return 'CORE'
+    if v >= TIER_THRESHOLDS['HIGH']:
+        return 'HIGH'
+    if v >= TIER_THRESHOLDS['MEDIUM']:
+        return 'MEDIUM'
+    if v >= TIER_THRESHOLDS['LOW']:
+        return 'LOW'
+    return 'NICHE'
+
+
 def classify_problems(df_analysis, df_utilization):
     """Classify subjects as supply vs utilization problems"""
 
@@ -752,7 +791,16 @@ def classify_problems(df_analysis, df_utilization):
 
         if util_rate < 50:
             if needs_external:
-                return "Placement Bottleneck"
+                # Classification: low subject-level util AND target exceeds
+                # organic capacity. "Under-Used" flags this as an anomaly
+                # requiring investigation — the root cause could be a
+                # placement or algorithm issue, low real demand, multi-subject
+                # tutor utilized on other subjects, scheduling mismatch, or a
+                # combination. Deliberately neutral because any single-cause
+                # label would mislead. Darren's flowchart work will disambiguate.
+                # Earlier names in repo history: Placement Bottleneck,
+                # Placement Suspect, Possible Placement Issue.
+                return "Under-Used"
             else:
                 return "Over-Supplied"
         else:
@@ -764,6 +812,9 @@ def classify_problems(df_analysis, df_utilization):
     df_merged['Problem_Type'] = df_merged.apply(get_problem_type, axis=1)
     df_merged['Util_Rate'] = df_merged['Util_Rate'].round(0)
     df_merged['Category'] = df_merged['Subject'].apply(classify_category)
+    # Tier classification based on BTS_Total (Apr-Oct forecasted headcount).
+    # See assign_tier() and TIER_THRESHOLDS for rationale and thresholds.
+    df_merged['Tier'] = df_merged['BTS_Total'].apply(assign_tier)
 
     return df_merged
 
@@ -870,6 +921,7 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
             'months_completed': final_months_count,
             'problem_type': row.get('Problem_Type', 'On Track'),
             'category': row.get('Category', 'Other'),
+            'tier': assign_tier(bts_total),
             'march_baseline': mar_baseline,
             'months': months_data
         })
@@ -1117,22 +1169,24 @@ def generate_recommendations(df_final, tracker_subjects):
         category = row.get('Category', 'Other')
         ts = tracker_by_subj.get(subject)
 
-        if ptype == 'Placement Bottleneck':
+        if ptype == 'Under-Used':
+            util_display = f'{util_val:.0f}%' if util_val is not None else 'unknown'
             recs.append({
                 'subject': subject, 'category': category,
                 'priority': 'high',
                 'action_type': 'investigate_placement',
-                'reason': f'Demand exceeds supply but only {util_val or 0:.0f}% of contracted tutors are being placed. Fix matching before recruiting.',
+                'reason': f'Only {util_display} of recently contracted tutors assigned within 30 days and target exceeds capacity — an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.',
                 'data_points': {'util_rate': util_val, 'gap': round(raw_gap), 'run_rate': run_rate}
             })
 
         elif ptype == 'True Supply Problem':
             priority = 'high' if abs(raw_gap) > 20 else 'medium'
+            util_display = f'{util_val:.0f}%' if util_val is not None else 'unknown'
             recs.append({
                 'subject': subject, 'category': category,
                 'priority': priority,
                 'action_type': 'increase_recruiting',
-                'reason': f'{abs(round(raw_gap))} tutors short with {util_val or "N/A"}% utilization. Deploy recruiting levers.',
+                'reason': f'Tutors well-utilized ({util_display}) but target exceeds run rate by {abs(round(raw_gap))} tutors. Supply genuinely short — deploy recruiting levers (paid spend, InMail, opt-in).',
                 'data_points': {'util_rate': util_val, 'gap': round(raw_gap), 'run_rate': run_rate}
             })
 
@@ -1141,7 +1195,7 @@ def generate_recommendations(df_final, tracker_subjects):
                 'subject': subject, 'category': category,
                 'priority': 'medium',
                 'action_type': 'increase_recruiting',
-                'reason': f'{abs(round(raw_gap))} tutors short (no utilization data). Recruit while gathering util info.',
+                'reason': f'Target exceeds run rate by {abs(round(raw_gap))} tutors but no utilization data available. Recruit while gathering util info to confirm it\'s a supply issue and not a placement one.',
                 'data_points': {'gap': round(raw_gap), 'run_rate': run_rate}
             })
 
@@ -1151,7 +1205,7 @@ def generate_recommendations(df_final, tracker_subjects):
                     'subject': subject, 'category': category,
                     'priority': 'medium',
                     'action_type': 'reduce_forecast',
-                    'reason': f'Only {util_val:.0f}% utilized with run rate {run_rate:.0f}/mo. Consider reducing forecast.',
+                    'reason': f'Run rate meets or exceeds target but only {util_val:.0f}% of tutors utilized. Consider reducing forecast — demand may be overestimated.',
                     'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
                 })
             elif run_rate >= 3:
@@ -1159,7 +1213,7 @@ def generate_recommendations(df_final, tracker_subjects):
                     'subject': subject, 'category': category,
                     'priority': 'low',
                     'action_type': 'reduce_forecast',
-                    'reason': f'{util_val or 0:.0f}% utilized — supply exceeds demand. Monitor and consider reducing forecast.',
+                    'reason': f'Run rate meets target but tutors only {util_val or 0:.0f}% utilized. Monitor and consider reducing forecast — demand may be overestimated.',
                     'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
                 })
 
@@ -1207,7 +1261,7 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
     total_subjects = len(tracker_subjects)
     on_track = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'On Track')
     over_supplied = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Over-Supplied')
-    bottlenecks = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Placement Bottleneck')
+    bottlenecks = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Under-Used')
 
     total_target = sum(ts['bts_total'] for ts in tracker_subjects)
     total_actual = sum(ts['actual_to_date'] for ts in tracker_subjects)
@@ -1227,7 +1281,7 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
                     on_pace.append({'subject': ts['subject'], 'pace': round(pace), 'month': md['label']})
 
     biggest_gaps = sorted(
-        [ts for ts in tracker_subjects if ts.get('problem_type') in ('True Supply Problem', 'Placement Bottleneck')],
+        [ts for ts in tracker_subjects if ts.get('problem_type') in ('True Supply Problem', 'Under-Used')],
         key=lambda ts: ts.get('remaining_need', 0), reverse=True
     )[:5]
 
@@ -1256,15 +1310,21 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
     supply_mask = df_final['Problem_Type'].isin(['True Supply Problem', 'Supply Problem (No Util Data)'])
     subjects_with_util = int(df_final['Util_Rate'].notna().sum())
     total_subjects = len(df_final)
+    # Tier distribution across full portfolio — lets the Overview show
+    # counts of CORE / HIGH / MEDIUM / LOW / NICHE subjects so stakeholders
+    # can see "5 inferno-fire core subjects" separate from long-tail niche.
+    tier_distribution = {t: int((df_final['Tier'] == t).sum())
+                         for t in ('CORE', 'HIGH', 'MEDIUM', 'LOW', 'NICHE')}
     summary = {
         'total_subjects': total_subjects,
-        'placement_bottlenecks': len(df_final[df_final['Problem_Type'] == 'Placement Bottleneck']),
+        'placement_bottlenecks': len(df_final[df_final['Problem_Type'] == 'Under-Used']),
         'over_supplied': len(df_final[df_final['Problem_Type'] == 'Over-Supplied']),
         'supply_problems': int(supply_mask.sum()),
         'on_track': len(df_final[df_final['Problem_Type'] == 'On Track']),
         'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
         'subjects_with_util_data': subjects_with_util,
         'util_coverage_pct': round(subjects_with_util / total_subjects * 100, 1) if total_subjects > 0 else 0,
+        'tier_distribution': tier_distribution,
     }
 
     portfolio_bts_total = sum(ts['bts_total'] for ts in tracker_subjects)
@@ -1470,9 +1530,14 @@ def main():
     summary = dashboard_data['summary']
     print(f"\nAnalysis complete!")
     print(f"  {summary['total_subjects']} subjects analyzed")
-    print(f"  {summary['placement_bottlenecks']} placement bottlenecks")
+    print(f"  {summary['placement_bottlenecks']} under-used")
     print(f"  {summary['over_supplied']} over-supplied")
     print(f"  {summary['supply_problems']} true supply problems")
+    td = summary.get('tier_distribution', {})
+    if td:
+        print(f"  Tier distribution: "
+              f"CORE={td.get('CORE',0)} HIGH={td.get('HIGH',0)} "
+              f"MEDIUM={td.get('MEDIUM',0)} LOW={td.get('LOW',0)} NICHE={td.get('NICHE',0)}")
     print(f"  BTS Total: {summary['portfolio_bts_total']}")
     print(f"  Actual to date: {summary['portfolio_actual_to_date']}")
     print(f"  Months completed: {summary['months_completed']} / {len(BTS_MONTH_KEYS)}")

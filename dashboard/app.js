@@ -24,6 +24,9 @@ var uploadsData = [];
 var summaryData = {};
 var recommendationsData = [];
 var weeklySummaryData = {};
+var btsMonths = [];        // e.g. ['2026-04', '2026-05', ...]
+var btsMonthLabels = [];   // e.g. ['Apr', 'May', ...]
+var fetchStatus = {};      // pipeline run metadata from data.fetch_status
 var pendingActualsCSV = null;
 var pendingForecastFile = null;
 var pendingRunRatesFile = null;
@@ -35,23 +38,53 @@ var REPO_NAME = 'bts-forecast-dashboard';
 
 var currentSorts = {
     all: { col: 4, asc: false },
-    problems: { col: 4, asc: false }
+    problems: { col: 4, asc: false },
+    priority: { col: 5, asc: false }  // default sort by Raw_Gap desc
 };
 var trackerSort = { key: 'subject', asc: true };
 
 var PROBLEM_TIPS = {
-    'placement': 'Demand exceeds supply, but less than half of contracted tutors are being utilized. Investigate placement algorithm, geographic mismatch, or scheduling before recruiting more.',
-    'over-supplied': 'Supply meets or exceeds demand, but utilization is below 50%. Consider reducing forecast for this subject — we may be over-forecasting.',
-    'true-supply': 'Genuine supply shortage — existing tutors are well-utilized but we need more. Deploy recruiting levers.',
-    'no-util-data': 'Supply gap detected but no utilization data available to classify root cause.',
+    'placement': 'Anomaly: low subject-level utilization (<50%) coincident with a demand gap. Investigation needed — could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.',
+    'over-supplied': 'Run rate meets or exceeds target but tutors under 50% utilized. Consider reducing forecast — demand may be overestimated.',
+    'true-supply': 'Tutors well-utilized (>50%) and target exceeds run rate. Supply is genuinely short — deploy recruiting levers.',
+    'no-util-data': 'Target exceeds run rate but no utilization data available. Gather data to determine root cause.',
     'on-track': 'Supply meets demand and utilization is healthy. No action needed.'
 };
+
+// Volume tier metadata. Badge class maps to styles.css rules.
+var TIER_META = {
+    'CORE':   { label: 'Core',   badge: 'tier-core'   },
+    'HIGH':   { label: 'High',   badge: 'tier-high'   },
+    'MEDIUM': { label: 'Medium', badge: 'tier-medium' },
+    'LOW':    { label: 'Low',    badge: 'tier-low'    },
+    'NICHE':  { label: 'Niche',  badge: 'tier-niche'  }
+};
+var TIER_ORDER = { 'CORE': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'NICHE': 4 };
+
+function renderTierBadge(tier, btsTotal) {
+    if (!tier) return '';
+    var meta = TIER_META[tier];
+    if (!meta) return '';
+    var tip;
+    switch (tier) {
+        case 'CORE':   tip = 'CORE — 150+ tutors forecasted for BTS.\nLargest business impact if we miss.'; break;
+        case 'HIGH':   tip = 'HIGH — 75 to 149 tutors forecasted for BTS.'; break;
+        case 'MEDIUM': tip = 'MEDIUM — 30 to 74 tutors forecasted for BTS.'; break;
+        case 'LOW':    tip = 'LOW — 10 to 29 tutors forecasted for BTS.'; break;
+        case 'NICHE':  tip = 'NICHE — fewer than 10 tutors forecasted for BTS.\nSmall-volume long-tail subject.'; break;
+        default:       tip = 'Volume tier based on total BTS forecast.';
+    }
+    if (btsTotal != null) tip += '\nThis subject: ' + btsTotal + ' total.';
+    return '<span class="badge ' + meta.badge + '" data-tip="' + escapeHtml(tip) + '">' + meta.label + '</span>';
+}
 
 function classifyType(problemType) {
     if (!problemType) return 'on-track';
     var pt = problemType.toLowerCase();
-    if (pt.includes('placement bottleneck')) return 'placement';
-    if (pt.includes('possible placement')) return 'placement';
+    if (pt.includes('under-used') || pt.includes('under used')) return 'placement';
+    if (pt.includes('placement suspect')) return 'placement';      // back-compat
+    if (pt.includes('placement bottleneck')) return 'placement';   // back-compat
+    if (pt.includes('possible placement')) return 'placement';     // back-compat
     if (pt.includes('over-supplied')) return 'over-supplied';
     if (pt.includes('true supply')) return 'true-supply';
     if (pt.includes('no util data')) return 'no-util-data';
@@ -104,6 +137,9 @@ fetch('data.json?v=' + Date.now())
         summaryData = data.summary || {};
         recommendationsData = data.recommendations || [];
         weeklySummaryData = data.weekly_summary || {};
+        btsMonths = data.bts_months || [];
+        btsMonthLabels = data.bts_month_labels || [];
+        fetchStatus = data.fetch_status || {};
         updateSummary(summaryData);
         updateTabCounts();
         populateCategoryDropdowns();
@@ -113,7 +149,8 @@ fetch('data.json?v=' + Date.now())
         renderMarchBaseline(summaryData);
         renderProgressBar(summaryData);
         renderHistoryTab();
-        renderRecommendations();
+        renderSubjectsAndActions();
+        renderDecisionHistory();
         lockFinalizedMonths();
         showFetchStatusBanner(data.fetch_status);
         populateLookerSyncBanner(data.fetch_status);
@@ -216,21 +253,13 @@ function lockFinalizedMonths() {
 }
 
 /* ── Summary + tab counts ── */
+var _lastSummary = null; // cache so refreshOverviewLive() can reuse it
+
 function updateSummary(summary) {
-    var clientTotal = allData.length;
-    var clientPlacement = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'placement'; }).length;
-    var clientSupply = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
-    var clientNoUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
-    var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track'; }).length;
-    var overSuppliedCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; }).length;
+    _lastSummary = summary;
+    refreshOverviewLive();
 
-    document.getElementById('total-subjects').textContent = clientTotal;
-    document.getElementById('util-problems').textContent = clientPlacement;
-    document.getElementById('stat-supply-problems').textContent = clientSupply + clientNoUtil;
-    document.getElementById('ontrack-subjects').textContent = clientOnTrack;
-    document.getElementById('lowutil-subjects').textContent = overSuppliedCount;
-    document.getElementById('lowutil-count-callout').textContent = overSuppliedCount;
-
+    // One-time updates (don't depend on live decisions)
     document.getElementById('footer-time').textContent = 'Last updated: ' + summary.last_updated;
     document.getElementById('method-updated').textContent = summary.last_updated;
 
@@ -243,14 +272,67 @@ function updateSummary(summary) {
         qualityEl.textContent = pct + '% (' + withUtil + '/' + total + ' subjects have util data)';
         qualityEl.className = 'util-coverage-badge ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warn' : 'bad');
     }
+}
 
-    var discrepancies = [];
-    if (clientTotal !== (summary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + summary.total_subjects);
-    if (clientPlacement !== (summary.placement_bottlenecks || 0)) discrepancies.push('Placement bottlenecks: card=' + clientPlacement + ' vs data=' + summary.placement_bottlenecks);
-    var serverSupply = (summary.supply_problems || 0);
-    if ((clientSupply + clientNoUtil) !== serverSupply) discrepancies.push('Supply: card=' + (clientSupply + clientNoUtil) + ' vs data=' + serverSupply);
-    if (discrepancies.length > 0) {
-        console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
+// Live-refreshed counts — called on initial load AND every time a decision
+// is saved or revoked. Updates the Overview stat cards + the Priority Table
+// so the dashboard reflects current state of Leigh's review workflow.
+function refreshOverviewLive() {
+    if (!allData || !allData.length) return;
+
+    var clientTotal = allData.length;
+    var clientPlacement = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'placement'; }).length;
+    var clientSupply = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
+    var clientNoUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
+    var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track'; }).length;
+    var overSuppliedCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; }).length;
+
+    // Pending counts: for each flagged-problem subject, check if it has any
+    // recommendation without a decision yet. Subjects with 0 open decisions
+    // have been "worked through" — they still exist in the count but pending
+    // drops to 0.
+    function pendingFor(predicate) {
+        var count = 0;
+        allData.forEach(function(r) {
+            if (!predicate(classifyType(r.Problem_Type))) return;
+            var recs = recommendationsData.filter(function(rec) { return rec.subject === r.Subject; });
+            if (recs.length === 0) return; // no rec means no pending
+            var anyPending = recs.some(function(rec) { return !getDecision(rec); });
+            if (anyPending) count++;
+        });
+        return count;
+    }
+    var placementPending = pendingFor(function(t) { return t === 'placement'; });
+    var supplyPending = pendingFor(function(t) { return t === 'true-supply' || t === 'no-util-data'; });
+    var overSuppliedPending = pendingFor(function(t) { return t === 'over-supplied'; });
+
+    document.getElementById('total-subjects').textContent = clientTotal;
+    document.getElementById('util-problems').textContent = clientPlacement;
+    document.getElementById('stat-supply-problems').textContent = clientSupply + clientNoUtil;
+    document.getElementById('ontrack-subjects').textContent = clientOnTrack;
+    document.getElementById('lowutil-subjects').textContent = overSuppliedCount;
+    var callout = document.getElementById('lowutil-count-callout');
+    if (callout) callout.textContent = overSuppliedCount;
+
+    // Update pending sub-text (elements added to index.html; use if-exists guard)
+    function setPending(elId, n) {
+        var el = document.getElementById(elId);
+        if (!el) return;
+        el.textContent = n === 0 ? 'All reviewed \u2714' : n + ' pending review';
+        el.className = 'stat-pending' + (n === 0 ? ' all-done' : '');
+    }
+    setPending('pending-underused', placementPending);
+    setPending('pending-supply', supplyPending);
+    setPending('pending-oversupplied', overSuppliedPending);
+
+    // Reconciliation check (dev-console only)
+    if (_lastSummary) {
+        var discrepancies = [];
+        if (clientTotal !== (_lastSummary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + _lastSummary.total_subjects);
+        if (clientPlacement !== (_lastSummary.placement_bottlenecks || 0)) discrepancies.push('Under-Used: card=' + clientPlacement + ' vs data=' + _lastSummary.placement_bottlenecks);
+        var serverSupply = (_lastSummary.supply_problems || 0);
+        if ((clientSupply + clientNoUtil) !== serverSupply) discrepancies.push('Supply Problems: card=' + (clientSupply + clientNoUtil) + ' vs data=' + serverSupply);
+        if (discrepancies.length > 0) console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
     }
 
     var topOverSupplied = allData
@@ -258,16 +340,24 @@ function updateSummary(summary) {
         .sort(function(a, b) { return (b.Run_Rate || 0) - (a.Run_Rate || 0); })
         .slice(0, 5)
         .map(function(r) { return r.Subject + ' (' + (r.Util_Rate || 0) + '% util, run rate ' + r.Run_Rate + '/mo)'; });
-    document.getElementById('lowutil-examples').textContent = topOverSupplied.join('; ');
+    var lowutilExamplesEl = document.getElementById('lowutil-examples');
+    if (lowutilExamplesEl) lowutilExamplesEl.textContent = topOverSupplied.join('; ');
+
+    // Priority table + Critical Findings refresh too so the Overview tab
+    // reflects decision state everywhere
+    if (typeof renderPriorityTable === 'function') {
+        try { renderPriorityTable(); } catch (e) {}
+    }
+    if (typeof renderCriticalFindings === 'function') {
+        try { renderCriticalFindings(); } catch (e) {}
+    }
 }
 
 function updateTabCounts() {
-    document.getElementById('tab-count-all').textContent = allData.length;
-    var problemCount = allData.filter(function(r) {
-        var t = classifyType(r.Problem_Type);
-        return t === 'placement' || t === 'true-supply' || t === 'no-util-data';
-    }).length;
-    document.getElementById('tab-count-problems').textContent = problemCount;
+    // Subjects & Actions tab shows total subject count
+    var saCount = document.getElementById('tab-count-sa');
+    if (saCount) saCount.textContent = allData.length;
+    // Decision History count is managed by renderDecisionHistory() itself.
 }
 
 var CATEGORY_ORDER = [
@@ -303,7 +393,7 @@ function renderCriticalFindings() {
     var supplyCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
     var noUtilCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
     var placementPct = flagged.length > 0 ? Math.round(placementCount / flagged.length * 100) : 0;
-    var trueSupplyTotal = supplyCount + noUtilCount;
+    var supplyTotal = supplyCount + noUtilCount;
 
     var topSupply = allData
         .filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; })
@@ -314,16 +404,23 @@ function renderCriticalFindings() {
         return escapeHtml(r.Subject) + ' (' + Math.abs(Math.round(r.Gap_Pct || 0)) + '% gap)';
     }).join(', ');
 
+    // Honest framing for the Supply Problems line: supplyCount are confirmed
+    // (high util + gap) while noUtilCount are suspected (gap but no util data
+    // to confirm). Only mention the split when there's actually a No-Util-Data
+    // contingent, otherwise keep the line clean.
+    var supplyFindingText = supplyTotal + ' subjects need recruiting levers'
+        + (noUtilCount > 0 ? ' (' + supplyCount + ' confirmed, ' + noUtilCount + ' suspected — no util data)' : '');
+
     var findings = [
         {
-            finding: placementPct + '% of flagged subjects are placement bottlenecks',
-            impact: placementCount + ' subjects have demand but contracted tutors aren\'t being matched — investigate placement algorithm, geography, or scheduling',
-            action: 'Fix matching for these subjects before recruiting more tutors.'
+            finding: placementPct + '% of flagged subjects are under-used (anomaly — low util with a demand gap, needs investigation)',
+            impact: placementCount + ' subjects have contracted tutors that aren\'t being assigned — an anomaly that could be placement/algorithm, low real demand, multi-subject tutors used elsewhere, or scheduling',
+            action: 'Investigate root cause before recruiting more — matching, demand, multi-subject use, or scheduling.'
         },
         {
-            finding: 'Only ' + trueSupplyTotal + ' subjects are true supply shortages',
-            impact: topExamples ? topExamples + ' have good utilization but insufficient organic pipeline' : 'These subjects have confirmed supply gaps',
-            action: 'Deploy external recruitment levers for these ' + trueSupplyTotal + ' only (paid spend, InMail, opt-in)'
+            finding: supplyFindingText,
+            impact: topExamples ? topExamples + ' have good utilization but insufficient organic pipeline' : 'These subjects have confirmed or suspected supply gaps',
+            action: 'Deploy external recruitment levers (paid spend, InMail, opt-in).'
         }
     ];
 
@@ -351,8 +448,6 @@ function showTab(tabName, el) {
 function renderAllTables() {
     renderBarChart();
     renderPriorityTable();
-    renderAllSubjects();
-    renderProblemSubjects();
 }
 
 function renderBarChart() {
@@ -379,10 +474,51 @@ function renderBarChart() {
 }
 
 function renderPriorityTable() {
+    // Tier filter (default: hide NICHE — small subjects like Rhino, Vietnamese
+    // shouldn't crowd out "inferno fire" CORE subjects at the top)
+    var tierFilterEl = document.getElementById('filter-tier-priority');
+    var tierFilter = tierFilterEl ? tierFilterEl.value : 'hide-niche';
+
+    // Recommendation filter — map each problem-type to its recommendation
+    // bucket so stakeholders can slice "show me just the things I should
+    // investigate" vs "show me just the things where I should recruit more"
+    var recFilterEl = document.getElementById('filter-recommendation-priority');
+    var recFilter = recFilterEl ? recFilterEl.value : 'all';
+
+    function recForRow(r) {
+        var t = classifyType(r.Problem_Type);
+        if (t === 'placement') return 'investigate_placement';
+        if (t === 'true-supply') return 'increase_recruiting';
+        if (t === 'no-util-data') return 'gather_data';
+        if (t === 'over-supplied') return 'reduce_forecast';
+        return null;
+    }
+
     var priority = allData.filter(function(r) {
         var t = classifyType(r.Problem_Type);
-        return t === 'true-supply' || t === 'placement' || t === 'no-util-data';
-    }).sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); }).slice(0, 15);
+        // Expand the set of candidate rows based on the selected recommendation.
+        // "All" keeps the original problem-only view; specific recs let the user
+        // drill into over-supplied etc. without leaving the Overview.
+        if (recFilter === 'all') {
+            if (!(t === 'true-supply' || t === 'placement' || t === 'no-util-data')) return false;
+        } else {
+            if (recForRow(r) !== recFilter) return false;
+        }
+        if (tierFilter === 'all') return true;
+        if (tierFilter === 'hide-niche') return r.Tier !== 'NICHE';
+        if (tierFilter === 'core-only') return r.Tier === 'CORE';
+        return r.Tier === tierFilter;
+    });
+
+    // Apply user sort if present, otherwise default to gap size desc
+    var s = currentSorts.priority;
+    if (s && s.col !== undefined && s.col !== null) {
+        priority = sortData(priority, s.col, s.asc, 'priority');
+    } else {
+        priority = priority.sort(function(a, b) { return (b.Raw_Gap || 0) - (a.Raw_Gap || 0); });
+    }
+    priority = priority.slice(0, 15);
+
     var tbody = document.getElementById('priority-body');
     tbody.innerHTML = '';
     document.getElementById('priority-count').textContent = 'Showing top ' + priority.length + ' problem subjects';
@@ -396,142 +532,52 @@ function renderPriorityTable() {
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapClass = covPct < 50 ? 'gap-critical' : covPct < 80 ? 'gap-high' : 'gap-medium';
         var action = '', badgeClass = '', badgeText = '';
-        if (type === 'placement') { action = 'Fix matching before recruiting — tutors contracted but not placed'; badgeClass = 'util'; badgeText = 'Placement Bottleneck'; }
+        if (type === 'placement') { action = 'Anomaly — investigate: placement/algo, demand, multi-subject, or scheduling'; badgeClass = 'util'; badgeText = 'Under-Used'; }
         else if (type === 'no-util-data') { action = 'Gather utilization data'; badgeClass = 'nodata'; badgeText = 'No Util Data'; }
+        else if (type === 'over-supplied') { action = 'Consider reducing forecast — demand may be overestimated'; badgeClass = 'lowutil'; badgeText = 'Over-Supplied'; }
         else if (covPct < 50) { action = 'CRITICAL: External levers now'; badgeClass = 'supply'; badgeText = 'Supply'; }
         else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-            tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td><td><small>' + action + '</small></td>';
-            tbody.appendChild(tr);
-        });
-    }
-
-    function renderAllSubjects() { filterAllSubjects(); }
+        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td>'
+            + '<td>' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
+            + '<td>' + row.Run_Rate + '</td>'
+            + '<td>' + row.Smoothed_Target + '</td>'
+            + '<td>' + utilDisplay + '</td>'
+            + '<td class="' + gapClass + '">' + gapDisplay + '</td>'
+            + '<td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td>'
+            + '<td><small>' + action + '</small></td>';
+        tbody.appendChild(tr);
+    });
+}
 
 function matchesFilter(problemType, filter) {
+    // Filter values must match classifyType()'s return values:
+    //   'placement' | 'true-supply' | 'no-util-data' | 'over-supplied' | 'on-track'
+    // (older values 'utilization', 'low-util' were stale from pre-rename eras.)
     var type = classifyType(problemType);
     if (filter === 'all') return true;
-    if (filter === 'all-problems') return type === 'utilization' || type === 'true-supply' || type === 'no-util-data';
-    if (filter === 'utilization') return type === 'utilization';
+    if (filter === 'all-problems') return type === 'placement' || type === 'true-supply' || type === 'no-util-data';
+    if (filter === 'placement') return type === 'placement';
     if (filter === 'true-supply') return type === 'true-supply';
     if (filter === 'no-util-data') return type === 'no-util-data';
     if (filter === 'on-track') return type === 'on-track';
-    if (filter === 'low-util') return type === 'low-util';
+    if (filter === 'over-supplied') return type === 'over-supplied';
     return false;
 }
 
-function filterAllSubjects() {
-    var typeFilter = document.getElementById('filter-type-all').value;
-    var searchTerm = document.getElementById('search-all').value.toLowerCase();
-    var gapFilter = parseInt(document.getElementById('filter-gap').value);
-    var catFilter = document.getElementById('filter-category-all').value;
-    var filtered = allData.filter(function(row) {
-        var gapOk = gapFilter === 0 || (row.Gap_Pct || 0) >= gapFilter;
-        var catOk = catFilter === 'all' || row.Category === catFilter;
-        return matchesFilter(row.Problem_Type, typeFilter) && (!searchTerm || row.Subject.toLowerCase().indexOf(searchTerm) !== -1) && gapOk && catOk;
-    });
-    filtered = sortData(filtered, currentSorts.all.col, currentSorts.all.asc);
-    document.getElementById('all-subjects-count').textContent = 'Showing ' + filtered.length + ' of ' + allData.length + ' subjects';
-    var tbody = document.getElementById('all-subjects-body');
-    tbody.innerHTML = '';
-    filtered.forEach(function(row) {
-        var tr = document.createElement('tr');
-        var type = classifyType(row.Problem_Type);
-        if (type === 'placement') tr.className = 'util-problem';
-        else if (type === 'true-supply') tr.className = 'supply-problem';
-        else if (type === 'no-util-data') tr.className = 'nodata-problem';
-        var utilDisplay = buildUtilDisplay(row);
-        var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
-        var badgeClass = 'ontrack', badgeText = 'On Track';
-        if (type === 'placement') { badgeClass = 'util'; badgeText = 'Placement Bottleneck'; }
-        else if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'Supply'; }
-        else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
-        else if (type === 'over-supplied') { badgeClass = 'lowutil'; badgeText = 'Over-Supplied'; }
-        var rec = 'No action needed';
-        if (type === 'placement') rec = 'Fix matching before recruiting — tutors contracted but not placed';
-        else if (type === 'true-supply') rec = 'External recruitment levers';
-        else if (type === 'no-util-data') rec = 'Gather utilization data';
-        else if (type === 'over-supplied') rec = 'Consider reducing forecast — supply exceeds demand';
-        var adjMonths = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
-        var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + escapeHtml(adjMonths) + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
-        var adjNote = row.Is_Adjusted ? '<span class="adj-note">Adj: ' + escapeHtml(adjMonths) + ' (model: ' + row.Original_Model_Total + ')</span>' : '';
-        var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
-        var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
-        var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + adjNote + '</td><td>' + (row.Run_Rate || '-') + '</td><td>' + (row.Smoothed_Target || '-') + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + rec + '</small></td>';
-        tbody.appendChild(tr);
-    });
+// Map a row to its top-level recommendation bucket. Used by the Recommendation
+// filter on the All Subjects tab so stakeholders can slice "show me things to
+// investigate" vs "things to recruit for" vs "things to reduce" directly.
+function recommendationFor(row) {
+    var t = classifyType(row.Problem_Type);
+    if (t === 'placement') return 'investigate';
+    if (t === 'true-supply' || t === 'no-util-data') return 'recruit';
+    if (t === 'over-supplied') return 'reduce';
+    return 'none';
 }
 
-function renderProblemSubjects() {
-    var typeFilter = document.getElementById('filter-problem-type').value;
-    var catFilter = document.getElementById('filter-category-problems').value;
-    var searchTerm = document.getElementById('search-problems').value.toLowerCase();
-    var monthFilter = document.getElementById('filter-problem-month').value;
 
-    var problems;
-    if (monthFilter !== 'all') {
-        var mi = parseInt(monthFilter);
-        problems = allData.filter(function(r) {
-            var ts = trackerData.find(function(t) { return t.subject === r.Subject; });
-            if (!ts || !ts.months || !ts.months[mi]) return false;
-            return ts.months[mi].smoothed_target > ts.run_rate;
-        });
-    } else {
-        problems = allData.filter(function(r) {
-            var t = classifyType(r.Problem_Type);
-            return t === 'placement' || t === 'true-supply' || t === 'no-util-data';
-        });
-    }
-    var totalProblems = problems.length;
-
-    if (typeFilter !== 'all') problems = problems.filter(function(r) { return classifyType(r.Problem_Type) === typeFilter; });
-    if (catFilter !== 'all') problems = problems.filter(function(r) { return r.Category === catFilter; });
-    if (searchTerm) problems = problems.filter(function(r) { return r.Subject.toLowerCase().indexOf(searchTerm) !== -1; });
-
-    problems = sortData(problems, currentSorts.problems.col, currentSorts.problems.asc);
-    document.getElementById('problems-count').textContent = 'Showing ' + problems.length + ' of ' + totalProblems + ' problem subjects';
-
-    var tbody = document.getElementById('problems-body');
-    tbody.innerHTML = '';
-    problems.forEach(function(row) {
-        var type = classifyType(row.Problem_Type);
-        var utilDisplay = buildUtilDisplay(row);
-        var gapClass = row.Gap_Pct > 200 ? 'gap-critical' : row.Gap_Pct > 100 ? 'gap-high' : row.Gap_Pct > 50 ? 'gap-medium' : 'gap-low';
-
-        var badgeClass = 'util', badgeText = 'Placement Bottleneck';
-        if (type === 'true-supply') { badgeClass = 'supply'; badgeText = 'True Supply'; }
-        else if (type === 'no-util-data') { badgeClass = 'nodata'; badgeText = 'No Util Data'; }
-
-        var assessment = '';
-        if (type === 'placement') {
-            var utilPct = row.Util_Rate || 0;
-            if (utilPct === 0) assessment = 'Zero assignment rate — demand exists but tutors aren\'t being matched';
-            else if (utilPct < 25) assessment = 'Very low placement — investigate matching algorithm, geography, or scheduling';
-            else assessment = 'Low placement rate — fix matching before recruiting more tutors';
-        } else if (type === 'true-supply') {
-            if (row.Gap_Pct > 200) assessment = 'CRITICAL: External recruitment levers needed immediately';
-            else if (row.Gap_Pct > 100) assessment = 'Moderate gap — InMail + opt-in campaigns';
-            else assessment = 'Manageable gap — targeted outreach';
-        } else {
-            assessment = 'No utilization data — could be supply or algorithm issue, gather data';
-        }
-
-        var tr = document.createElement('tr');
-        if (type === 'utilization') tr.className = 'util-problem';
-        else if (type === 'true-supply') tr.className = 'supply-problem';
-        else tr.className = 'nodata-problem';
-
-        var adjMonthsP = row.Adjusted_Months ? row.Adjusted_Months.join(', ') : '';
-        var adjMark = row.Is_Adjusted ? '<span class="badge adjusted" title="Adjusted months: ' + escapeHtml(adjMonthsP) + ' | Model total: ' + row.Original_Model_Total + '">ADJ</span>' : '';
-        var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
-        var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
-        var gapDisplay = '<div>' + rawGap + ' gap</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% coverage)</div>';
-        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong>' + adjMark + '</td><td>' + row.Run_Rate + '</td><td>' + row.Smoothed_Target + '</td><td>' + utilDisplay + '</td><td class="' + gapClass + '">' + gapDisplay + '</td><td><span class="badge ' + badgeClass + '" title="' + (PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td><td>' + escapeHtml(row.Category || 'Other') + '</td><td><small>' + assessment + '</small></td>';
-        tbody.appendChild(tr);
-    });
-}
 
 function sortTracker(key) {
     if (trackerSort.key === key) { trackerSort.asc = !trackerSort.asc; }
@@ -541,18 +587,36 @@ function sortTracker(key) {
 
 function sortTable(tableType, colIndex) {
     var sort = currentSorts[tableType];
+    if (!sort) return;
     if (sort.col === colIndex) { sort.asc = !sort.asc; } else { sort.col = colIndex; sort.asc = false; }
-    if (tableType === 'all') filterAllSubjects();
-    else if (tableType === 'problems') renderProblemSubjects();
+    if (tableType === 'priority') renderPriorityTable();
 }
 
-function sortData(data, colIndex, asc) {
-    var keysAll = ['Subject', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Util_Trend', 'Util_Trend_Delta', 'Raw_Gap', 'Problem_Type', 'Category'];
-    var key = keysAll[colIndex] || keysAll[0];
+function sortData(data, colIndex, asc, tableType) {
+    // Per-table column-index → field-key mappings. Kept explicit to avoid the
+    // column/index drift problem when tables evolve. Must stay in lockstep
+    // with the <th onclick="sortTable(...)"> indices in index.html.
+    // After Pass 2, only the priority table uses sortTable; the Subjects &
+    // Actions tab uses sortSA, and Decision History uses sortDH.
+    var columnMaps = {
+        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Raw_Gap', 'Problem_Type', 'Problem_Type']
+    };
+    var map = columnMaps[tableType] || columnMaps['priority'];
+    var key = map[colIndex] || 'Subject';
     return data.slice().sort(function(a, b) {
         var aVal = a[key], bVal = b[key];
-        if (aVal === null || aVal === undefined) return 1;
-        if (bVal === null || bVal === undefined) return -1;
+        // Tier sorts by defined volume order, not alphabetically
+        if (key === 'Tier') {
+            aVal = (aVal != null && TIER_ORDER[aVal] !== undefined) ? TIER_ORDER[aVal] : 99;
+            bVal = (bVal != null && TIER_ORDER[bVal] !== undefined) ? TIER_ORDER[bVal] : 99;
+        }
+        // Null/undefined values always sort to the bottom regardless of asc/desc
+        // (without this, descending sort puts nulls at the top which feels buggy)
+        var aNull = (aVal === null || aVal === undefined);
+        var bNull = (bVal === null || bVal === undefined);
+        if (aNull && bNull) return 0;
+        if (aNull) return 1;
+        if (bNull) return -1;
         if (aVal < bVal) return asc ? -1 : 1;
         if (aVal > bVal) return asc ? 1 : -1;
         return 0;
@@ -744,10 +808,10 @@ function renderMonthlyTracker() {
     var headerRow = '<tr>';
     headerRow += '<th class="sortable col-left" onclick="sortTracker(\'subject\')">Subject</th>';
     headerRow += '<th class="sortable col-left" onclick="sortTracker(\'run_rate\')">Run Rate</th>';
-    headerRow += '<th class="col-month col-month-baseline">Mar</th>';
+    headerRow += '<th class="sortable col-month col-month-baseline" onclick="sortTracker(\'march_baseline:actual\')">Mar</th>';
     visibleMonths.forEach(function(idx) {
         var m = trackerData[0].months[idx];
-        headerRow += '<th class="col-month">' + m.label + '</th>';
+        headerRow += '<th class="sortable col-month" onclick="sortTracker(\'month:' + idx + '\')">' + m.label + '</th>';
     });
     headerRow += '<th class="sortable col-right col-right-first" onclick="sortTracker(\'bts_total\')">BTS Total</th>';
     headerRow += '<th class="sortable col-right" onclick="sortTracker(\'remaining_need\')">Remaining</th>';
@@ -778,8 +842,25 @@ function renderMonthlyTracker() {
 
     var sk = trackerSort.key;
     var sa = trackerSort.asc;
+
+    // Nested-key lookup: "month:N" sorts by months[N].actual (fallback to
+    // smoothed_target if no actual yet). "march_baseline:actual" sorts by
+    // the March baseline actual. Plain keys do a direct property lookup.
+    function getSortVal(ts) {
+        if (typeof sk === 'string' && sk.indexOf('month:') === 0) {
+            var idx = parseInt(sk.split(':')[1], 10);
+            var m = ts.months && ts.months[idx];
+            if (!m) return null;
+            return m.actual !== null && m.actual !== undefined ? m.actual : m.smoothed_target;
+        }
+        if (sk === 'march_baseline:actual') {
+            return ts.march_baseline && ts.march_baseline.actual;
+        }
+        return ts[sk];
+    }
+
     filtered.sort(function(a, b) {
-        var av = a[sk], bv = b[sk];
+        var av = getSortVal(a), bv = getSortVal(b);
         if (av === null || av === undefined) return 1;
         if (bv === null || bv === undefined) return -1;
         if (av < bv) return sa ? -1 : 1;
@@ -1844,213 +1925,853 @@ function saveDecision(rec, decision, note) {
     localStorage.setItem(getDecisionKey(rec), JSON.stringify(obj));
 }
 
-function renderRecommendations() {
-    var priorityFilter = document.getElementById('filter-action-priority').value;
-    var typeFilter = document.getElementById('filter-action-type').value;
-    var searchTerm = (document.getElementById('search-actions').value || '').toLowerCase();
 
-    var filtered = recommendationsData.filter(function(r) {
-        if (priorityFilter !== 'all' && r.priority !== priorityFilter) return false;
-        if (typeFilter !== 'all' && r.action_type !== typeFilter) return false;
-        if (searchTerm && r.subject.toLowerCase().indexOf(searchTerm) === -1) return false;
-        return true;
-    });
+// Decision History tab (replaces the old Actions tab). Renders every saved
+// Will Act / Won't Act / Defer as a filterable, sortable table.
+var _dh_sort = { col: 0, asc: false }; // Default: date descending (newest first)
 
-    var high = recommendationsData.filter(function(r) { return r.priority === 'high'; }).length;
-    var med = recommendationsData.filter(function(r) { return r.priority === 'medium'; }).length;
-    document.getElementById('actions-total').textContent = recommendationsData.length;
-    document.getElementById('actions-high').textContent = high;
-    document.getElementById('actions-med').textContent = med;
-    var countEl = document.getElementById('tab-count-actions');
-    if (countEl) countEl.textContent = recommendationsData.length;
-
-    var container = document.getElementById('actions-cards');
-    container.innerHTML = '';
-
-    if (filtered.length === 0) {
-        container.innerHTML = '<div style="text-align:center;padding:40px;color:#95a5a6;">No actions match the current filters.</div>';
-        renderDecisionHistory();
-        return;
-    }
-
-    filtered.forEach(function(rec, idx) {
-        var decision = getDecision(rec);
-        var card = document.createElement('div');
-        card.className = 'action-card' + (decision ? ' reviewed' : '');
-
-        var dataHtml = '';
-        if (rec.data_points) {
-            var pts = [];
-            if (rec.data_points.util_rate != null) pts.push('Util: ' + Math.round(rec.data_points.util_rate) + '%');
-            if (rec.data_points.gap != null) pts.push('Gap: ' + rec.data_points.gap);
-            if (rec.data_points.run_rate != null) pts.push('Run Rate: ' + rec.data_points.run_rate);
-            if (rec.data_points.pace != null) pts.push('Pace: ' + rec.data_points.pace + '%');
-            if (rec.data_points.actual != null) pts.push('Actual: ' + rec.data_points.actual);
-            if (rec.data_points.target != null) pts.push('Target: ' + rec.data_points.target);
-            dataHtml = '<div class="action-card-data">' + pts.join(' &bull; ') + '</div>';
-        }
-
-        var reviewBtn = decision
-            ? '<span class="btn btn-sm btn-reviewed">\u2713 Reviewed: ' + escapeHtml(decision.decision) + '</span>'
-            : '<button class="btn btn-sm btn-outline" onclick="openReviewModal(' + idx + ')">Mark as Reviewed</button>';
-
-        card.innerHTML =
-            '<div class="action-card-header">' +
-                '<span class="action-card-subject">' + escapeHtml(rec.subject) + '</span>' +
-                '<span class="badge-priority ' + rec.priority + '">' + rec.priority + '</span>' +
-                '<span class="badge-action-type">' + (ACTION_TYPE_LABELS[rec.action_type] || rec.action_type) + '</span>' +
-            '</div>' +
-            '<div class="action-card-reason">' + escapeHtml(rec.reason) + '</div>' +
-            dataHtml +
-            '<div class="action-card-footer">' + reviewBtn + '</div>';
-
-        container.appendChild(card);
-    });
-
-    renderDecisionHistory();
-}
-
-var _currentReviewIdx = null;
-
-function openReviewModal(idx) {
-    _currentReviewIdx = idx;
-    var overlay = document.createElement('div');
-    overlay.className = 'review-modal-overlay';
-    overlay.id = 'review-modal-overlay';
-    overlay.onclick = function(e) { if (e.target === overlay) closeReviewModal(); };
-    overlay.innerHTML =
-        '<div class="review-modal">' +
-            '<h4>Mark as Reviewed</h4>' +
-            '<label style="font-size:13px;font-weight:600;">Decision</label>' +
-            '<select id="review-decision"><option value="Will Act">Will Act</option><option value="Won\'t Act">Won\'t Act</option><option value="Defer">Defer</option></select>' +
-            '<label style="font-size:13px;font-weight:600;">Note (optional)</label>' +
-            '<textarea id="review-note" placeholder="Any context for this decision..."></textarea>' +
-            '<div class="review-modal-buttons">' +
-                '<button class="btn btn-outline" onclick="closeReviewModal()">Cancel</button>' +
-                '<button class="btn btn-primary" onclick="submitReview()">Save</button>' +
-            '</div>' +
-        '</div>';
-    document.body.appendChild(overlay);
-}
-
-function closeReviewModal() {
-    var el = document.getElementById('review-modal-overlay');
-    if (el) el.remove();
-    _currentReviewIdx = null;
-}
-
-function submitReview() {
-    if (_currentReviewIdx == null) return;
-    var priorityFilter = document.getElementById('filter-action-priority').value;
-    var typeFilter = document.getElementById('filter-action-type').value;
-    var searchTerm = (document.getElementById('search-actions').value || '').toLowerCase();
-    var filtered = recommendationsData.filter(function(r) {
-        if (priorityFilter !== 'all' && r.priority !== priorityFilter) return false;
-        if (typeFilter !== 'all' && r.action_type !== typeFilter) return false;
-        if (searchTerm && r.subject.toLowerCase().indexOf(searchTerm) === -1) return false;
-        return true;
-    });
-    var rec = filtered[_currentReviewIdx];
-    if (!rec) { closeReviewModal(); return; }
-    var decision = document.getElementById('review-decision').value;
-    var note = document.getElementById('review-note').value;
-    saveDecision(rec, decision, note);
-    closeReviewModal();
-    renderRecommendations();
-}
-
-function renderDecisionHistory() {
-    var container = document.getElementById('decision-history-list');
-    if (!container) return;
+function _dh_entries() {
     var entries = [];
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
         if (key && key.indexOf('decision_') === 0) {
             try {
                 var d = JSON.parse(localStorage.getItem(key));
-                if (d && d.subject) entries.push(d);
+                if (d && d.subject) { d._storageKey = key; entries.push(d); }
             } catch (e) {}
         }
     }
-    entries.sort(function(a, b) { return (b.date || '').localeCompare(a.date || ''); });
+    return entries;
+}
 
-    if (entries.length === 0) {
-        container.innerHTML = '<div style="color:#95a5a6;font-size:13px;padding:8px;">No decisions recorded yet.</div>';
+function renderDecisionHistory() {
+    var body = document.getElementById('dh-body');
+    if (!body) return; // Decision History tab not in DOM (shouldn't happen, but safe)
+
+    var decisionFilter = document.getElementById('dh-filter-decision');
+    var searchEl       = document.getElementById('dh-search');
+    var decisionValue  = decisionFilter ? decisionFilter.value : 'all';
+    var searchValue    = (searchEl && searchEl.value || '').toLowerCase();
+
+    var all = _dh_entries();
+
+    // Top-of-tab counts (use all, not filtered)
+    var willAct = 0, wontAct = 0, defer = 0;
+    all.forEach(function(d) {
+        if (d.decision === 'Will Act') willAct++;
+        else if (d.decision === "Won't Act") wontAct++;
+        else if (d.decision === 'Defer') defer++;
+    });
+    var totalEl = document.getElementById('dh-total');
+    if (totalEl) totalEl.textContent = all.length;
+    var willEl  = document.getElementById('dh-will-act');   if (willEl)  willEl.textContent  = willAct;
+    var wontEl  = document.getElementById('dh-wont-act');   if (wontEl)  wontEl.textContent  = wontAct;
+    var deferEl = document.getElementById('dh-defer');      if (deferEl) deferEl.textContent = defer;
+
+    // Tab count badge in nav
+    var tabCount = document.getElementById('tab-count-dh');
+    if (tabCount) tabCount.textContent = all.length;
+
+    // Apply filters
+    var rows = all.filter(function(d) {
+        if (decisionValue !== 'all' && d.decision !== decisionValue) return false;
+        if (searchValue && (d.subject || '').toLowerCase().indexOf(searchValue) === -1) return false;
+        return true;
+    });
+
+    // Sort
+    var col = _dh_sort.col, asc = _dh_sort.asc;
+    rows.sort(function(a, b) {
+        var av, bv;
+        switch (col) {
+            case 0: av = a.date || ''; bv = b.date || ''; break;
+            case 1: av = a.subject || ''; bv = b.subject || ''; break;
+            case 2: av = a.action_type || ''; bv = b.action_type || ''; break;
+            case 3: av = a.decision || ''; bv = b.decision || ''; break;
+            default: av = a.date || ''; bv = b.date || '';
+        }
+        if (av < bv) return asc ? -1 : 1;
+        if (av > bv) return asc ? 1 : -1;
+        return 0;
+    });
+
+    if (rows.length === 0) {
+        body.innerHTML = '<tr><td colspan="6" class="dh-empty">'
+            + (all.length === 0
+                ? 'No decisions recorded yet. Use the Subjects &amp; Actions tab to review action items and save Will Act / Won\'t Act / Defer decisions.'
+                : 'No decisions match the current filters.')
+            + '</td></tr>';
         return;
     }
 
-    container.innerHTML = entries.map(function(d) {
-        var dateStr = d.date ? new Date(d.date).toLocaleDateString() : '';
-        return '<div class="decision-entry">' +
-            '<span class="de-subject">' + escapeHtml(d.subject) + '</span>' +
-            '<span class="de-decision"><strong>' + escapeHtml(d.decision) + '</strong></span>' +
-            '<span class="de-note">' + (d.note ? escapeHtml(d.note) : '\u2014') + '</span>' +
-            '<span class="de-date">' + dateStr + '</span>' +
-        '</div>';
+    body.innerHTML = rows.map(function(d) {
+        var dateStr = d.date ? new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+        var typeLabel = (ACTION_TYPE_LABELS && ACTION_TYPE_LABELS[d.action_type]) || d.action_type || '—';
+        var statusCls = d.decision === 'Will Act' ? 'will-act'
+                      : d.decision === "Won't Act" ? 'wont-act'
+                      : d.decision === 'Defer' ? 'defer' : 'pending';
+        var keyAttr = d._storageKey.replace(/'/g, '&#39;');
+        return '<tr>'
+            + '<td>' + dateStr + '</td>'
+            + '<td><strong>' + escapeHtml(d.subject) + '</strong></td>'
+            + '<td style="color:#7f8c8d;font-size:12px;">' + escapeHtml(typeLabel) + '</td>'
+            + '<td><span class="badge-status ' + statusCls + '">' + escapeHtml(d.decision) + '</span></td>'
+            + '<td style="color:#555;font-size:13px;">' + (d.note ? escapeHtml(d.note) : '<span style="color:#bdc3c7;">—</span>') + '</td>'
+            + '<td><button class="btn btn-sm btn-outline" onclick="dhRevoke(\'' + keyAttr + '\')">Revoke</button></td>'
+        + '</tr>';
     }).join('');
 }
 
+function sortDH(colIndex) {
+    if (_dh_sort.col === colIndex) _dh_sort.asc = !_dh_sort.asc;
+    else { _dh_sort.col = colIndex; _dh_sort.asc = colIndex === 0 ? false : true; } // date defaults to desc, others asc
+    renderDecisionHistory();
+}
+
+function dhRevoke(storageKey) {
+    if (!confirm('Remove this decision from the history? The underlying recommendation will return to pending.')) return;
+    try { localStorage.removeItem(storageKey); } catch (e) {}
+    renderDecisionHistory();
+    if (typeof renderSubjectsAndActions === 'function') {
+        try { renderSubjectsAndActions(); } catch (e) {}
+    }
+    if (typeof refreshOverviewLive === 'function') {
+        try { refreshOverviewLive(); } catch (e) {}
+    }
+}
+
 function generateWeeklySummary() {
+    var block = document.getElementById('sa-weekly-summary-output');
+    if (!block) return;
     var ws = weeklySummaryData;
+
     if (!ws || !ws.total_subjects) {
-        document.getElementById('weekly-summary-output').style.display = 'block';
-        document.getElementById('weekly-summary-output').textContent = 'No summary data available. Run the analysis pipeline first.';
+        block.style.display = 'block';
+        block.innerHTML = '<div style="padding:20px;color:#7f8c8d;">No summary data available. Run the analysis pipeline first.</div>';
         return;
     }
 
-    var lines = [];
-    lines.push('BTS Tutor Supply \u2014 Weekly Summary');
-    lines.push('Generated: ' + (ws.generated_at || new Date().toLocaleDateString()));
-    lines.push('');
-    lines.push('OVERVIEW');
-    lines.push(ws.total_subjects + ' subjects tracked | ' + ws.on_track + ' on track | ' + ws.bottlenecks + ' placement bottlenecks | ' + ws.over_supplied + ' over-supplied');
-    lines.push('Progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted (' + ws.progress_pct + '%)');
-    lines.push('');
-    lines.push('ACTIONS');
-    lines.push(ws.total_actions + ' recommended actions: ' + ws.high_priority_actions + ' high priority, ' + ws.medium_priority_actions + ' medium priority');
-    if (ws.behind_pace_count > 0) {
-        lines.push(ws.behind_pace_count + ' subjects behind pace in current month');
-        var examples = (ws.behind_pace_subjects || []).slice(0, 5).map(function(s) {
-            return s.subject + ' (' + s.pace + '% of target in ' + s.month + ')';
-        });
-        if (examples.length) lines.push('  Examples: ' + examples.join(', '));
-    }
-    lines.push('');
-    if (ws.biggest_gaps && ws.biggest_gaps.length > 0) {
-        lines.push('BIGGEST GAPS');
-        ws.biggest_gaps.forEach(function(g) {
-            lines.push('  ' + g.subject + ': ' + g.remaining + ' tutors remaining');
-        });
+    // Build WBR-styled HTML. Inline styles on every element so the
+    // clipboard-paste path into Google Docs / Gmail / Word preserves
+    // the formatting (external CSS does not travel via clipboard).
+    var sty = {
+        section:   'background:#202344;color:#ffffff;padding:14px 24px;text-align:center;font-size:16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;',
+        sub:       'background:#596087;color:#ffffff;padding:10px 24px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin:0;font-family:Arial,Helvetica,sans-serif;',
+        body:      'padding:18px 24px;color:#2c3e50;font-size:14px;line-height:1.65;font-family:Arial,Helvetica,sans-serif;background:#ffffff;',
+        meta:      'padding:12px 24px;background:#F9FAFB;border-left:3px solid #202344;font-size:12px;color:#7f8c8d;font-family:Arial,Helvetica,sans-serif;',
+        p:         'margin:0 0 12px 0;',
+        lead:      'color:#202344;font-weight:700;',
+        good:      'color:#27ae60;font-weight:600;',
+        watch:     'color:#f39c12;font-weight:600;',
+        alert:     'color:#c0392b;font-weight:600;'
+    };
+    var generated = ws.generated_at || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+    // Compose prose with bold lead-ins, no bullets. Conditional colour
+    // on "behind pace" and "on track" aligns with WBR red/yellow/green.
+    var progressCls = ws.progress_pct >= 95 ? sty.good : ws.progress_pct >= 85 ? sty.watch : sty.alert;
+    var behindCls   = (ws.behind_pace_count || 0) > 5 ? sty.alert : (ws.behind_pace_count || 0) > 0 ? sty.watch : sty.good;
+
+    var behindExamples = '';
+    if ((ws.behind_pace_subjects || []).length) {
+        var ex = ws.behind_pace_subjects.slice(0, 5).map(function(s) {
+            return escapeHtml(s.subject) + ' (' + s.pace + '% of target in ' + s.month + ')';
+        }).join(', ');
+        behindExamples = ' <span style="color:#7f8c8d;">Examples: ' + ex + '.</span>';
     }
 
-    var output = lines.join('\n');
-    var block = document.getElementById('weekly-summary-output');
+    var gapsBody = '';
+    if ((ws.biggest_gaps || []).length) {
+        var gapRows = ws.biggest_gaps.map(function(g) {
+            return '<p style="' + sty.p + '"><span style="' + sty.lead + '">' + escapeHtml(g.subject) + ':</span> ' + g.remaining + ' tutors remaining.</p>';
+        }).join('');
+        gapsBody = '<div style="' + sty.sub + '">Biggest Gaps</div><div style="' + sty.body + '">' + gapRows + '</div>';
+    }
+
+    var html =
+        '<div class="wbr-summary-content">'
+        + '<div style="' + sty.section + '">BTS Tutor Supply &mdash; Weekly Summary</div>'
+        + '<div style="' + sty.meta + '">Generated: ' + escapeHtml(generated) + '</div>'
+
+        + '<div style="' + sty.sub + '">Overview</div>'
+        + '<div style="' + sty.body + '">'
+            + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Portfolio health:</span> '
+            + ws.total_subjects + ' subjects tracked. '
+            + ws.on_track + ' on track, '
+            + ws.bottlenecks + ' under-used, '
+            + ws.over_supplied + ' over-supplied.</p>'
+            + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Contracting progress:</span> '
+            + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted to date '
+            + '(<span style="' + progressCls + '">' + ws.progress_pct + '%</span>).</p>'
+        + '</div>'
+
+        + '<div style="' + sty.sub + '">Actions</div>'
+        + '<div style="' + sty.body + '">'
+            + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Open recommendations:</span> '
+            + ws.total_actions + ' total &mdash; '
+            + ws.high_priority_actions + ' high priority, '
+            + ws.medium_priority_actions + ' medium priority.</p>'
+            + ((ws.behind_pace_count || 0) > 0
+                ? '<p style="' + sty.p + '"><span style="' + sty.lead + '">Behind pace:</span> '
+                    + '<span style="' + behindCls + '">' + ws.behind_pace_count + ' subjects</span> behind pace in current month.'
+                    + behindExamples + '</p>'
+                : '<p style="' + sty.p + '"><span style="' + sty.lead + '">Pace:</span> '
+                    + '<span style="' + sty.good + '">All subjects on or ahead of pace</span> in current month.</p>')
+        + '</div>'
+
+        + gapsBody
+        + '</div>';
+
+    // Toolbar with Copy button (the toolbar is stripped when we copy — only the content HTML is copied)
+    block.innerHTML =
+        '<div class="wbr-summary-toolbar">'
+            + '<button class="btn btn-sm btn-outline" onclick="copyWeeklySummary(\'html\')">Copy (styled)</button>'
+            + '<button class="btn btn-sm btn-outline" onclick="copyWeeklySummary(\'text\')">Copy (plain text)</button>'
+        + '</div>'
+        + html;
+    block.dataset.htmlContent = html;
+    block.dataset.textContent = weeklySummaryPlainText(ws, generated);
     block.style.display = 'block';
-    block.innerHTML = '<button class="copy-btn" onclick="copyWeeklySummary()">Copy</button>' + escapeHtml(output);
-    block.dataset.rawText = output;
+
+    // Scroll into view for UX continuity
+    setTimeout(function() { block.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
 }
 
-function copyWeeklySummary() {
-    var block = document.getElementById('weekly-summary-output');
-    var text = block.dataset.rawText || block.textContent;
-    navigator.clipboard.writeText(text).then(function() {
-        var btn = block.querySelector('.copy-btn');
-        if (btn) { btn.textContent = 'Copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 1500); }
+// Plain-text fallback for clipboard targets that don't support HTML (Slack, etc.)
+function weeklySummaryPlainText(ws, generated) {
+    var lines = [];
+    lines.push('BTS TUTOR SUPPLY \u2014 WEEKLY SUMMARY');
+    lines.push('Generated: ' + generated);
+    lines.push('');
+    lines.push('OVERVIEW');
+    lines.push('Portfolio health: ' + ws.total_subjects + ' subjects tracked. ' + ws.on_track + ' on track, ' + ws.bottlenecks + ' under-used, ' + ws.over_supplied + ' over-supplied.');
+    lines.push('Contracting progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted to date (' + ws.progress_pct + '%).');
+    lines.push('');
+    lines.push('ACTIONS');
+    lines.push('Open recommendations: ' + ws.total_actions + ' total \u2014 ' + ws.high_priority_actions + ' high priority, ' + ws.medium_priority_actions + ' medium priority.');
+    if ((ws.behind_pace_count || 0) > 0) {
+        var ex = (ws.behind_pace_subjects || []).slice(0, 5).map(function(s) {
+            return s.subject + ' (' + s.pace + '% of target in ' + s.month + ')';
+        }).join(', ');
+        lines.push('Behind pace: ' + ws.behind_pace_count + ' subjects behind pace in current month.' + (ex ? ' Examples: ' + ex + '.' : ''));
+    } else {
+        lines.push('Pace: All subjects on or ahead of pace in current month.');
+    }
+    if ((ws.biggest_gaps || []).length) {
+        lines.push('');
+        lines.push('BIGGEST GAPS');
+        ws.biggest_gaps.forEach(function(g) {
+            lines.push(g.subject + ': ' + g.remaining + ' tutors remaining.');
+        });
+    }
+    return lines.join('\n');
+}
+
+function copyWeeklySummary(mode) {
+    var block = document.getElementById('sa-weekly-summary-output');
+    if (!block) return;
+    var htmlContent = block.dataset.htmlContent || '';
+    var textContent = block.dataset.textContent || '';
+    var btns = block.querySelectorAll('.wbr-summary-toolbar .btn');
+    var btn = mode === 'text' ? btns[1] : btns[0];
+
+    function feedback(msg) {
+        if (!btn) return;
+        var orig = btn.textContent;
+        btn.textContent = msg;
+        setTimeout(function() { btn.textContent = orig; }, 1500);
+    }
+
+    if (mode === 'text') {
+        navigator.clipboard.writeText(textContent).then(function() { feedback('Copied!'); });
+        return;
+    }
+
+    // Rich HTML copy: pastes into Docs/Gmail/Word with formatting intact.
+    // Fall back to plain text if ClipboardItem isn't supported.
+    if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+        var item = new ClipboardItem({
+            'text/html': new Blob([htmlContent], { type: 'text/html' }),
+            'text/plain': new Blob([textContent], { type: 'text/plain' })
+        });
+        navigator.clipboard.write([item])
+            .then(function() { feedback('Copied!'); })
+            .catch(function() {
+                navigator.clipboard.writeText(textContent).then(function() { feedback('Copied (plain)'); });
+            });
+    } else {
+        navigator.clipboard.writeText(textContent).then(function() { feedback('Copied (plain)'); });
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Subjects & Actions tab (merged view — Pass 1)
+   One row per subject, inline row-expansion shows action detail +
+   decision buttons. Reuses existing getDecision/saveDecision storage
+   so history stays continuous across old Actions tab and this tab.
+   ───────────────────────────────────────────────────────────── */
+
+var currentSorts_sa = { col: 6, asc: true }; // Default: Gap ascending (biggest problems first)
+var _sa_expanded = {}; // which subjects are expanded
+
+var REC_META = {
+    'investigate': { label: 'Investigate', cls: 'investigate' },
+    'recruit':     { label: 'Recruit',     cls: 'recruit' },
+    'reduce':      { label: 'Reduce Fcst', cls: 'reduce' },
+    'review':      { label: 'Review',      cls: 'review' },
+    'none':        { label: 'No action',   cls: 'none' }
+};
+
+// Map a subject row to its recs from recommendationsData (keyed by Subject)
+function saGetRecsForSubject(subject) {
+    if (!recommendationsData || !recommendationsData.length) return [];
+    return recommendationsData.filter(function(r) { return r.subject === subject; });
+}
+
+// Compute highest priority and aggregate status for a subject
+function saAggregate(row) {
+    var recs = saGetRecsForSubject(row.Subject);
+    var rec = recommendationFor(row);
+    // Priority: take max(high > medium > low) across recs
+    var priority = 'none';
+    var prioOrder = { 'high': 3, 'medium': 2, 'low': 1 };
+    recs.forEach(function(r) {
+        if ((prioOrder[r.priority] || 0) > (prioOrder[priority] || 0)) priority = r.priority;
+    });
+    // Status: if any rec is pending → pending; if all reviewed → take the one-or-any decision
+    var statuses = recs.map(function(r) { var d = getDecision(r); return d ? d.decision : 'pending'; });
+    var status;
+    if (recs.length === 0) status = 'no-action';
+    else if (statuses.indexOf('pending') !== -1) status = 'pending';
+    else if (statuses.every(function(s) { return s === statuses[0]; })) status = statuses[0];
+    else status = 'mixed';
+    return { recs: recs, priority: priority, status: status, rec: rec };
+}
+
+function saStatusBadge(status) {
+    var cls, label;
+    switch (status) {
+        case 'pending':    cls = 'pending';   label = 'Pending';    break;
+        case 'Will Act':   cls = 'will-act';  label = 'Will Act';   break;
+        case "Won't Act":  cls = 'wont-act';  label = "Won't Act";  break;
+        case 'Defer':      cls = 'defer';     label = 'Defer';      break;
+        case 'no-action':  cls = 'no-action'; label = 'No action';  break;
+        default:           cls = 'no-action'; label = status || '—';
+    }
+    return '<span class="badge-status ' + cls + '">' + label + '</span>';
+}
+
+function saPriorityBadge(priority, recs) {
+    var p = priority || 'none';
+    var label = p === 'none' ? '—' : p.charAt(0).toUpperCase() + p.slice(1);
+    var tip;
+    switch (p) {
+        case 'high':
+            tip = 'HIGH priority — needs immediate attention. Big gap vs capacity, CORE/HIGH tier subject, or both.'; break;
+        case 'medium':
+            tip = 'MEDIUM priority — address this week. Moderate gap, or under-used signal requiring investigation.'; break;
+        case 'low':
+            tip = 'LOW priority — monitor. Small gap or lower-volume subject; not urgent.'; break;
+        case 'none':
+        default:
+            tip = 'No recommended action for this subject. On track, or no flagged problem.'; break;
+    }
+    if (recs && recs.length) {
+        var types = recs.map(function(r) { return (ACTION_TYPE_LABELS && ACTION_TYPE_LABELS[r.action_type]) || r.action_type; })
+                        .filter(Boolean);
+        if (types.length) {
+            tip += ' ' + recs.length + ' action' + (recs.length === 1 ? '' : 's') + ' on this subject: ' + types.slice(0, 3).join(', ') + '.';
+        }
+    }
+    return '<span class="badge-priority ' + p + '" data-tip="' + escapeHtml(tip) + '">' + label + '</span>';
+}
+
+function saRecBadge(rec) {
+    var meta = REC_META[rec] || REC_META['none'];
+    return '<span class="badge-rec ' + meta.cls + '">' + meta.label + '</span>';
+}
+
+function saProblemTypeBadge(type) {
+    if (type === 'placement')      return '<span class="badge util">Under-Used</span>';
+    if (type === 'true-supply')    return '<span class="badge supply">True Supply</span>';
+    if (type === 'no-util-data')   return '<span class="badge nodata">No Util Data</span>';
+    if (type === 'over-supplied')  return '<span class="badge lowutil">Over-Supplied</span>';
+    if (type === 'on-track')       return '<span class="badge ontrack">On Track</span>';
+    return '<span class="badge">—</span>';
+}
+
+// Current in-progress month detection. Uses the real calendar via new Date()
+// instead of the pipeline-set `status: 'in_progress'` flag, so the column is
+// always correct regardless of pipeline-run freshness. Returns:
+//   { state: 'in-bts',  label: 'Apr', month: '2026-04' }     — current month is in BTS range
+//   { state: 'pre-bts', firstLabel: 'Apr', firstMonth: '2026-04' }  — today before BTS starts
+//   { state: 'post-bts', lastLabel: 'Oct', lastMonth: '2026-10' }   — today after BTS ends
+//   null                                                      — no BTS data loaded
+function saGetCurrentMonth() {
+    if (!btsMonths || !btsMonths.length) return null;
+
+    var now = new Date();
+    var currentYm = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    var idx = btsMonths.indexOf(currentYm);
+
+    if (idx >= 0) {
+        return { state: 'in-bts', label: btsMonthLabels[idx] || currentYm, month: currentYm };
+    }
+    if (currentYm < btsMonths[0]) {
+        return { state: 'pre-bts', firstMonth: btsMonths[0], firstLabel: btsMonthLabels[0] };
+    }
+    return { state: 'post-bts', lastMonth: btsMonths[btsMonths.length - 1], lastLabel: btsMonthLabels[btsMonthLabels.length - 1] };
+}
+
+// Build an index: subject → current-month data, so per-row lookup is O(1).
+// Target uses manual_override if set, else smoothed_target.
+//
+// KEY: when the pipeline has already fetched actuals for this month,
+// null actual = 0 contracted — NOT "data pending." This is confirmed by
+// fetch_status showing actuals fetched (sources.actuals === true) within the
+// current BTS month. 192 of 382 subjects came back null in April 2026 because
+// they had zero contracting rows, not because data is missing.
+// If the pipeline hasn't run for this month yet, null stays as null → renders
+// as "Awaiting {month} data."
+function saBuildCurrentMonthIndex(currentMonth) {
+    var idx = {};
+    if (!currentMonth || currentMonth.state !== 'in-bts' || !trackerData || !trackerData.length) return idx;
+
+    // Decide whether null actual means 0 or "unknown"
+    var actualsLoaded = false;
+    if (fetchStatus && fetchStatus.sources && fetchStatus.sources.actuals === true && fetchStatus.fetched_at) {
+        var fetchedYm = fetchStatus.fetched_at.slice(0, 7); // "2026-04"
+        actualsLoaded = (fetchedYm === currentMonth.month);
+    }
+
+    trackerData.forEach(function(ts) {
+        var m = (ts.months || []).find(function(x) { return x.month === currentMonth.month; });
+        if (!m) { idx[ts.subject] = null; return; }
+        var target = (m.manual_override != null) ? m.manual_override : m.smoothed_target;
+        var raw = m.actual;
+        // If pipeline has confirmed actuals for this month, null → 0
+        var actual = (raw == null && actualsLoaded) ? 0 : raw;
+        var pace = (target != null && target > 0 && actual != null) ? Math.round((actual / target) * 100) : null;
+        var variance = (target != null && actual != null) ? (actual - target) : null;
+        idx[ts.subject] = { target: target, actual: actual, pace: pace, variance: variance, actualsLoaded: actualsLoaded };
+    });
+    return idx;
+}
+
+// Render the Current Month cell. States:
+//   - Has actual + target:  "9 / 25" + colored variance ("-16 vs target")
+//                           Color is PACE-AWARE — accounts for how far into
+//                           the month we are, so Day 1 with 0 isn't red.
+//   - Zero contracted:      Same as above but with "0 contracted" callout,
+//                           always colored red once past day 2.
+//   - Target but no actual: "Target 25 / Awaiting Apr data" (italic gray).
+//                           True "pipeline hasn't populated" state.
+//   - No target (or 0):     "Not in Apr" (subject has BTS footprint but
+//                           no target this specific month).
+//   - Pre-BTS / Post-BTS:   Column-wide state.
+function saRenderCurrentMonthCell(cmd, currentMonth) {
+    // Column-wide states override per-cell rendering
+    if (!currentMonth) {
+        return '<td style="color:#bdc3c7;text-align:center;font-style:italic;font-size:12px;">No BTS data</td>';
+    }
+    if (currentMonth.state === 'pre-bts') {
+        return '<td style="color:#7f8c8d;text-align:center;font-size:12px;">BTS starts ' + currentMonth.firstLabel + '</td>';
+    }
+    if (currentMonth.state === 'post-bts') {
+        return '<td style="color:#7f8c8d;text-align:center;font-size:12px;">BTS closed</td>';
+    }
+
+    // No target for this month — subject may be active other months
+    // Treating target == 0 the same way because in the model a zero target
+    // means "subject skips this month" (vs null which means "missing data").
+    if (!cmd || cmd.target == null || cmd.target === 0) {
+        return '<td style="color:#95a5a6;text-align:center;font-size:12px;font-style:italic;" data-tip="No target for this subject in ' + currentMonth.label + '. It may have targets in other months.">Not in ' + currentMonth.label + '</td>';
+    }
+
+    var target = cmd.target;
+    var actual = cmd.actual;
+
+    // After null-as-zero normalization in saBuildCurrentMonthIndex, this branch
+    // only fires when the pipeline genuinely has NOT yet fetched actuals for this
+    // month (fetched_at is in a prior month). Rare, but handled gracefully.
+    if (actual == null) {
+        return '<td data-tip="Pipeline has not yet loaded ' + currentMonth.label + ' actuals. Check Upload Data tab.">'
+            + '<div style="font-size:12px;color:#7f8c8d;">Target ' + target + '</div>'
+            + '<div style="font-size:11px;color:#bdc3c7;font-style:italic;">Awaiting ' + currentMonth.label + ' data</div>'
+            + '</td>';
+    }
+
+    // We have a number. Compute pace-aware color — don't panic on day 1 if
+    // actual is 0 or below target; expect that. But by day 7+, below-pace is
+    // a real signal.
+    var now = new Date();
+    var dayOfMonth = now.getDate();
+    var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    var fractionThroughMonth = dayOfMonth / lastDay;
+    var expectedAtPace = target * fractionThroughMonth;
+    var variance = actual - target;
+    var paceDelta = actual - expectedAtPace;
+
+    // Projection-based pace: if we keep contracting at today's daily rate,
+    // where do we end up by month-end? Answers "will we make it?" rather
+    // than just "are we behind right now?".
+    //
+    // Examples (target = 50):
+    //   Day  7 (23%), actual 25 → projected 107 → likely to make it → green
+    //   Day 15 (50%), actual 25 → projected  50 → just on pace       → green
+    //   Day 24 (80%), actual 25 → projected  31 → won't make it      → red
+    //   Day 28 (93%), actual 45 → projected  48 → close but at risk  → yellow
+    var projectedEOM = fractionThroughMonth > 0 ? Math.round(actual / fractionThroughMonth) : actual;
+    var projectionRatio = target > 0 ? projectedEOM / target : 1;
+
+    // Thresholds:
+    //   ≥ 100% projected  → green  (on pace or ahead)
+    //   ≥  85% projected  → yellow (at risk — likely to miss by <15%)
+    //   <  85% projected  → red    (off pace — significant miss expected)
+    var cls, subLabel;
+
+    if (dayOfMonth <= 2 && actual < target) {
+        // Days 1-2: too early for projection to mean much, don't alarm
+        cls = '';
+        subLabel = variance + ' vs target';
+    } else if (actual === 0 && dayOfMonth >= 3) {
+        // Zero contracted with time elapsed — always red, zero projected
+        cls = 'wbr-status-alert';
+        subLabel = '0 projected \u00b7 zero contracted';
+    } else if (actual >= target) {
+        // Already hit the monthly target
+        cls = 'wbr-status-good';
+        subLabel = variance === 0 ? 'On target' : '+' + variance + ' ahead of target';
+    } else if (projectionRatio >= 1.0) {
+        // On pace to hit or beat target
+        cls = 'wbr-status-good';
+        subLabel = 'On pace \u00b7 ~' + projectedEOM + ' projected';
+    } else if (projectionRatio >= 0.85) {
+        // At risk — close but current pace falls short
+        cls = 'wbr-status-watch';
+        subLabel = 'At risk \u00b7 ~' + projectedEOM + ' projected';
+    } else {
+        // Off pace — meaningful miss expected at current rate
+        cls = 'wbr-status-alert';
+        subLabel = 'Off pace \u00b7 ~' + projectedEOM + ' projected';
+    }
+
+    var tooltip = currentMonth.label + ' \u2014 day ' + dayOfMonth + ' of ' + lastDay + ' (' + Math.round(fractionThroughMonth * 100) + '% through month)\n'
+                + 'Target: ' + target + '\n'
+                + 'Actual: ' + actual + '\n'
+                + 'Daily rate: ' + (fractionThroughMonth > 0 ? (actual / fractionThroughMonth / lastDay).toFixed(1) : '0') + '/day\n'
+                + 'Projected by month-end: ~' + projectedEOM + '\n'
+                + 'Projection vs target: ' + Math.round(projectionRatio * 100) + '%';
+
+    var isZeroAlert = (actual === 0 && target > 0 && dayOfMonth >= 3);
+    return '<td data-tip="' + escapeHtml(tooltip) + '">'
+        + '<div style="font-size:13px;font-weight:' + (isZeroAlert ? '700' : '600') + ';' + (isZeroAlert ? 'color:#c0392b;' : '') + '">' + actual + ' / ' + target + '</div>'
+        + '<div class="' + cls + '" style="font-size:11px;">' + subLabel + '</div>'
+        + '</td>';
+}
+
+function renderSubjectsAndActions() {
+    if (!allData || !allData.length) return;
+
+    // Populate category dropdown (once)
+    var catSelect = document.getElementById('sa-filter-category');
+    if (catSelect && catSelect.options.length <= 1) {
+        var cats = {};
+        allData.forEach(function(r) { if (r.Category) cats[r.Category] = true; });
+        Object.keys(cats).sort().forEach(function(c) {
+            var opt = document.createElement('option');
+            opt.value = c; opt.textContent = c;
+            catSelect.appendChild(opt);
+        });
+    }
+
+    // Current-month context (shared across all rows this render)
+    var currentMonth = saGetCurrentMonth();
+    var cmIdx = saBuildCurrentMonthIndex(currentMonth);
+    var cmLabelEl = document.getElementById('sa-current-month-label');
+    if (cmLabelEl) {
+        var lbl, color;
+        if (!currentMonth) { lbl = '(—)'; color = '#bdc3c7'; }
+        else if (currentMonth.state === 'in-bts')   { lbl = '(' + currentMonth.label + ')'; color = '#2c3e50'; }
+        else if (currentMonth.state === 'pre-bts')  { lbl = '(pre-BTS)'; color = '#7f8c8d'; }
+        else if (currentMonth.state === 'post-bts') { lbl = '(closed)'; color = '#7f8c8d'; }
+        else { lbl = '(—)'; color = '#bdc3c7'; }
+        cmLabelEl.textContent = lbl;
+        cmLabelEl.style.color = color;
+        cmLabelEl.style.fontWeight = '500';
+    }
+
+    var typeFilter   = document.getElementById('sa-filter-type').value;
+    var recFilter    = document.getElementById('sa-filter-rec').value;
+    var prioFilter   = document.getElementById('sa-filter-priority').value;
+    var statusFilter = document.getElementById('sa-filter-status').value;
+    var tierFilter   = document.getElementById('sa-filter-tier').value;
+    var catFilter    = document.getElementById('sa-filter-category').value;
+    var searchTerm   = (document.getElementById('sa-search').value || '').toLowerCase();
+    var gapFilter    = parseInt(document.getElementById('sa-filter-gap').value, 10) || 0;
+
+    // Build augmented rows (subject + aggregate info)
+    var rows = allData.map(function(row) {
+        var agg = saAggregate(row);
+        return {
+            row: row,
+            recs: agg.recs,
+            priority: agg.priority,
+            status: agg.status,
+            rec: agg.rec,
+            _type: classifyType(row.Problem_Type)
+        };
+    });
+
+    // Apply filters
+    rows = rows.filter(function(x) {
+        var r = x.row;
+        if (!matchesFilter(r.Problem_Type, typeFilter)) return false;
+        if (recFilter !== 'all' && x.rec !== recFilter) return false;
+        if (prioFilter !== 'all' && x.priority !== prioFilter) return false;
+        if (statusFilter !== 'all' && x.status !== statusFilter) return false;
+        if (tierFilter === 'hide-niche' && r.Tier === 'NICHE') return false;
+        else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && r.Tier !== tierFilter) return false;
+        if (catFilter !== 'all' && r.Category !== catFilter) return false;
+        if (searchTerm && r.Subject.toLowerCase().indexOf(searchTerm) === -1) return false;
+        if (gapFilter > 0 && (r.Gap_Pct || 0) < gapFilter) return false;
+        return true;
+    });
+
+    // Sort
+    var col = currentSorts_sa.col, asc = currentSorts_sa.asc;
+    var PRIO_ORDER = { 'high': 3, 'medium': 2, 'low': 1, 'none': 0 };
+    var STATUS_ORDER = { 'pending': 1, 'Will Act': 2, "Won't Act": 3, 'Defer': 4, 'mixed': 5, 'no-action': 6 };
+    rows.sort(function(a, b) {
+        var av, bv;
+        switch (col) {
+            case 0: av = a.row.Subject; bv = b.row.Subject; break;
+            case 1: av = TIER_ORDER[a.row.Tier] || 99; bv = TIER_ORDER[b.row.Tier] || 99; break;
+            case 2: av = PRIO_ORDER[a.priority] || 0; bv = PRIO_ORDER[b.priority] || 0; break;
+            case 3: av = a.row.Run_Rate; bv = b.row.Run_Rate; break;
+            case 4: av = a.row.Smoothed_Target; bv = b.row.Smoothed_Target; break;
+            case 5: av = a.row.Util_Rate; bv = b.row.Util_Rate; break;
+            case 6: av = a.row.Raw_Gap; bv = b.row.Raw_Gap; break;
+            case 7: // Current month: sort by variance, most-behind first when asc (counter-intuitive but useful)
+                var acm = cmIdx[a.row.Subject], bcm = cmIdx[b.row.Subject];
+                av = (acm && acm.variance != null) ? acm.variance : null;
+                bv = (bcm && bcm.variance != null) ? bcm.variance : null;
+                break;
+            case 8: av = a.row.Problem_Type; bv = b.row.Problem_Type; break;
+            case 9: av = a.rec; bv = b.rec; break;
+            case 10: av = STATUS_ORDER[a.status] || 99; bv = STATUS_ORDER[b.status] || 99; break;
+            default: av = a.row.Subject; bv = b.row.Subject;
+        }
+        var aNull = av === null || av === undefined;
+        var bNull = bv === null || bv === undefined;
+        if (aNull && bNull) return 0;
+        if (aNull) return 1;
+        if (bNull) return -1;
+        if (av < bv) return asc ? -1 : 1;
+        if (av > bv) return asc ? 1 : -1;
+        return 0;
+    });
+
+    // Top-bar summary counts
+    var totalSubjects = allData.length;
+    var totalActions = recommendationsData.length;
+    var pendingCount = 0, reviewedCount = 0;
+    recommendationsData.forEach(function(r) {
+        if (getDecision(r)) reviewedCount++; else pendingCount++;
+    });
+    document.getElementById('sa-stat-total').textContent = totalSubjects;
+    document.getElementById('sa-stat-actions').textContent = totalActions;
+    document.getElementById('sa-stat-pending').textContent = pendingCount;
+    document.getElementById('sa-stat-reviewed').textContent = reviewedCount;
+    document.getElementById('sa-row-count').textContent = 'Showing ' + rows.length + ' of ' + totalSubjects + ' subjects';
+
+    // Render table body
+    var tbody = document.getElementById('sa-body');
+    tbody.innerHTML = '';
+    rows.forEach(function(x, idx) {
+        var r = x.row;
+        var type = classifyType(r.Problem_Type);
+        var isExpanded = _sa_expanded[r.Subject];
+        var actionCount = x.recs.length;
+        var expandIndicator = actionCount > 0
+            ? '<span class="sa-expand-toggle">\u25B6</span>'
+            : '<span class="sa-expand-toggle" style="opacity:0.3">\u00B7</span>';
+
+        var utilText = (r.Util_Rate != null) ? Math.round(r.Util_Rate) + '%' : '—';
+        var gapClass = (r.Gap_Pct || 0) > 200 ? 'gap-critical'
+                     : (r.Gap_Pct || 0) > 100 ? 'gap-high'
+                     : (r.Gap_Pct || 0) > 50  ? 'gap-medium' : 'gap-low';
+
+        var tr = document.createElement('tr');
+        tr.className = 'sa-row' + (isExpanded ? ' expanded' : '');
+        tr.onclick = function(e) {
+            // Ignore clicks on buttons/links inside the row
+            if (e.target.closest('button, a, select, input')) return;
+            toggleSARow(r.Subject);
+        };
+        tr.innerHTML =
+              '<td>' + expandIndicator + '</td>'
+            + '<td><strong>' + escapeHtml(r.Subject) + '</strong>'
+                + (actionCount > 1 ? ' <small style="color:#7f8c8d;">(' + actionCount + ' actions)</small>' : '')
+            + '</td>'
+            + '<td>' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
+            + '<td>' + saPriorityBadge(x.priority, x.recs) + '</td>'
+            + '<td>' + (r.Run_Rate != null ? r.Run_Rate : '—') + '</td>'
+            + '<td>' + (r.Smoothed_Target != null ? r.Smoothed_Target : '—') + '</td>'
+            + '<td>' + utilText + '</td>'
+            + '<td class="' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '—') + '</td>'
+            + saRenderCurrentMonthCell(cmIdx[r.Subject], currentMonth)
+            + '<td>' + saProblemTypeBadge(type) + '</td>'
+            + '<td>' + saRecBadge(x.rec) + '</td>'
+            + '<td>' + saStatusBadge(x.status) + '</td>';
+        tbody.appendChild(tr);
+
+        if (isExpanded && actionCount > 0) {
+            var detailTr = document.createElement('tr');
+            detailTr.className = 'sa-detail-row';
+            var inner = '<div class="sa-detail-inner">';
+            x.recs.forEach(function(rec, ridx) {
+                var decision = getDecision(rec);
+                var cardCls = 'sa-action-card' + (decision ? ' reviewed' : '');
+                var priorityBadge = '<span class="badge-priority ' + (rec.priority || 'low') + '">' + (rec.priority || 'low') + '</span>';
+                var typeLabel = (ACTION_TYPE_LABELS && ACTION_TYPE_LABELS[rec.action_type]) || rec.action_type || '';
+
+                var dataHtml = '';
+                if (rec.data_points) {
+                    var pts = [];
+                    if (rec.data_points.util_rate != null) pts.push('Util: ' + Math.round(rec.data_points.util_rate) + '%');
+                    if (rec.data_points.gap != null) pts.push('Gap: ' + rec.data_points.gap);
+                    if (rec.data_points.run_rate != null) pts.push('Run Rate: ' + rec.data_points.run_rate);
+                    if (rec.data_points.pace != null) pts.push('Pace: ' + rec.data_points.pace + '%');
+                    if (rec.data_points.actual != null) pts.push('Actual: ' + rec.data_points.actual);
+                    if (rec.data_points.target != null) pts.push('Target: ' + rec.data_points.target);
+                    if (pts.length) dataHtml = '<div class="sa-action-data">' + pts.join(' \u2022 ') + '</div>';
+                }
+
+                var footer = decision
+                    ? '<div class="sa-action-footer"><span class="badge-status will-act">\u2713 ' + escapeHtml(decision.decision) + '</span>'
+                        + (decision.note ? ' <small style="color:#7f8c8d;">\u2014 ' + escapeHtml(decision.note) + '</small>' : '')
+                        + ' <button class="btn btn-sm btn-outline" onclick="saReopenDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ')">Change</button></div>'
+                    : '<div class="sa-action-footer">'
+                        + '<button class="btn btn-sm btn-primary" onclick="saSetDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ',\'Will Act\')">Will Act</button>'
+                        + '<button class="btn btn-sm btn-outline" onclick="saSetDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ',\'Won\\\'t Act\')">Won\'t Act</button>'
+                        + '<button class="btn btn-sm btn-outline" onclick="saSetDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ',\'Defer\')">Defer</button>'
+                    + '</div>';
+
+                inner += '<div class="' + cardCls + '">'
+                    + '<div class="sa-action-header">' + priorityBadge
+                    + '<span style="color:#7f8c8d;font-size:12px;">' + escapeHtml(typeLabel) + '</span></div>'
+                    + '<div class="sa-action-reason">' + escapeHtml(rec.reason || '') + '</div>'
+                    + dataHtml + footer + '</div>';
+            });
+            inner += '</div>';
+            detailTr.innerHTML = '<td colspan="12">' + inner + '</td>';
+            tbody.appendChild(detailTr);
+        }
     });
 }
 
+function sortSA(colIndex) {
+    if (currentSorts_sa.col === colIndex) currentSorts_sa.asc = !currentSorts_sa.asc;
+    else { currentSorts_sa.col = colIndex; currentSorts_sa.asc = true; }
+    renderSubjectsAndActions();
+}
+
+function toggleSARow(subject) {
+    _sa_expanded[subject] = !_sa_expanded[subject];
+    renderSubjectsAndActions();
+}
+
+function saSetDecision(subject, ridx, decision) {
+    var recs = saGetRecsForSubject(subject);
+    var rec = recs[ridx];
+    if (!rec) return;
+    saveDecision(rec, decision, '');
+    renderSubjectsAndActions();
+    if (typeof renderDecisionHistory === 'function') {
+        try { renderDecisionHistory(); } catch (e) {}
+    }
+    if (typeof refreshOverviewLive === 'function') {
+        try { refreshOverviewLive(); } catch (e) {}
+    }
+}
+
+function saReopenDecision(subject, ridx) {
+    var recs = saGetRecsForSubject(subject);
+    var rec = recs[ridx];
+    if (!rec) return;
+    try { localStorage.removeItem(getDecisionKey(rec)); } catch (e) {}
+    renderSubjectsAndActions();
+    if (typeof renderDecisionHistory === 'function') {
+        try { renderDecisionHistory(); } catch (e) {}
+    }
+    if (typeof refreshOverviewLive === 'function') {
+        try { refreshOverviewLive(); } catch (e) {}
+    }
+}
+
+function openSubjectsActionsWeeklySummary() {
+    generateWeeklySummary();
+}
+
 /* ── Event listeners ── */
-document.getElementById('filter-type-all').addEventListener('change', filterAllSubjects);
-document.getElementById('search-all').addEventListener('input', debounce(filterAllSubjects, 200));
-document.getElementById('filter-gap').addEventListener('change', filterAllSubjects);
-document.getElementById('filter-category-all').addEventListener('change', filterAllSubjects);
-document.getElementById('filter-problem-type').addEventListener('change', renderProblemSubjects);
-document.getElementById('filter-category-problems').addEventListener('change', renderProblemSubjects);
-document.getElementById('search-problems').addEventListener('input', debounce(renderProblemSubjects, 200));
-document.getElementById('filter-problem-month').addEventListener('change', renderProblemSubjects);
 document.getElementById('tracker-filter').addEventListener('change', renderMonthlyTracker);
 document.getElementById('tracker-search').addEventListener('input', debounce(renderMonthlyTracker, 200));
 document.getElementById('filter-category-tracker').addEventListener('change', renderMonthlyTracker);
+
+/* ── Subjects & Actions tab filters ── */
+['sa-filter-type','sa-filter-rec','sa-filter-priority','sa-filter-status',
+ 'sa-filter-tier','sa-filter-category','sa-filter-gap'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('change', renderSubjectsAndActions);
+});
+var _saSearch = document.getElementById('sa-search');
+if (_saSearch) _saSearch.addEventListener('input', debounce(renderSubjectsAndActions, 200));
+
+/* ── Decision History tab filters ── */
+var _dhFilterDecision = document.getElementById('dh-filter-decision');
+if (_dhFilterDecision) _dhFilterDecision.addEventListener('change', renderDecisionHistory);
+var _dhSearch = document.getElementById('dh-search');
+if (_dhSearch) _dhSearch.addEventListener('input', debounce(renderDecisionHistory, 200));
+
+/* ── Fast JS tooltip — triggered by any element with data-tip attribute ── */
+(function() {
+    var tip = document.getElementById('dash-tooltip');
+    if (!tip) return;
+
+    document.addEventListener('mouseover', function(e) {
+        var el = e.target.closest('[data-tip]');
+        if (!el) { tip.style.display = 'none'; return; }
+        var text = el.getAttribute('data-tip');
+        if (!text) { tip.style.display = 'none'; return; }
+        tip.textContent = text;
+        tip.style.display = 'block';
+        positionTip(e);
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (tip.style.display === 'block') positionTip(e);
+    });
+
+    document.addEventListener('mouseout', function(e) {
+        var el = e.target.closest('[data-tip]');
+        if (el && !el.contains(e.relatedTarget)) {
+            tip.style.display = 'none';
+        }
+    });
+
+    function positionTip(e) {
+        var x = e.clientX + 14;
+        var y = e.clientY + 14;
+        // Prevent clipping at right/bottom edges
+        var w = tip.offsetWidth || 220;
+        var h = tip.offsetHeight || 60;
+        if (x + w > window.innerWidth  - 8) x = e.clientX - w - 8;
+        if (y + h > window.innerHeight - 8) y = e.clientY - h - 8;
+        tip.style.left = x + 'px';
+        tip.style.top  = y + 'px';
+    }
+})();
 
 /* ── Keyboard navigation for tabs ── */
 document.getElementById('main-tabs').addEventListener('keydown', function(e) {
