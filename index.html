@@ -681,7 +681,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.1</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.2</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -1077,6 +1077,19 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.2 <span class="cl-date">Apr 20, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Volume tiering: subjects classified as Core (150+), High (75-149), Medium (30-74), Low (10-29), or Niche (&lt;10) based on BTS Total so stakeholders can prioritize high-impact subjects</li>
+                    <li>Renamed "Placement Bottleneck" to "Under-Used" with neutral framing &mdash; root cause (placement, demand, multi-subject, scheduling) requires investigation</li>
+                    <li>Combined All Subjects, Problem Subjects, and Actions into a unified "Subjects &amp; Actions" tab with inline recommendations, action status, and decision flow</li>
+                    <li>Dedicated Decision History tab with filters, search, and CSV export</li>
+                    <li>Moved CAD/3D software (Sketchup, Rhino, Autocad, Autodesk products) from Arts &amp; Music to Technology category</li>
+                    <li>Improved recommendation text with more descriptive, actionable language</li>
+                    <li>Fixed fractionThrough bug that could crash the page during monthly tracker rendering</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.1 <span class="cl-date">Apr 17, 2026</span> <span class="cl-tag feature">Feature</span></div>
