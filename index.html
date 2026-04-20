@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTS Forecast Dashboard - Varsity Tutors</title>
+    <title>Tutor Forecast &amp; Action Dashboard - Varsity Tutors</title>
     <link rel="icon" href="https://www.varsitytutors.com/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,10 +11,10 @@
     <div class="header">
         <img src="varsity_tutors_logo.jpeg" alt="Varsity Tutors" class="header-logo">
         <div>
-            <h1>Back-to-School Forecast Dashboard</h1>
-            <div class="subtitle">April-October 2026 | Clean Run Rates (Dec 2025 - Mar 2026) | Supply vs. Utilization Classification</div>
+            <h1>Tutor Forecast &amp; Action Dashboard</h1>
         </div>
     </div>
+    <div id="dash-tooltip" class="dash-tooltip" style="display:none;"></div>
     
     <div id="loading-overlay" style="display:flex; justify-content:center; align-items:center; padding:80px 20px; flex-direction:column; gap:16px;">
         <div style="width:40px; height:40px; border:4px solid #e0e0e0; border-top-color:#4A4BB6; border-radius:50%; animation:spin 0.8s linear infinite;"></div>
@@ -28,10 +28,9 @@
 
     <div class="tabs" id="main-tabs" role="tablist" style="display:none;">
         <button class="tab active" role="tab" aria-selected="true" aria-controls="overview" onclick="showTab('overview', this)">Overview</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="all-subjects" onclick="showTab('all-subjects', this)">All Subjects (<span id="tab-count-all">-</span>)</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="problem-subjects" onclick="showTab('problem-subjects', this)">Problem Subjects (<span id="tab-count-problems">-</span>)</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="subjects-and-actions" onclick="showTab('subjects-and-actions', this)">Subjects &amp; Actions (<span id="tab-count-sa">-</span>)</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="monthly-tracker" onclick="showTab('monthly-tracker', this)">Monthly Tracker</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="actions" onclick="showTab('actions', this)">Actions (<span id="tab-count-actions">-</span>)</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="decision-history" onclick="showTab('decision-history', this)">Decision History (<span id="tab-count-dh">-</span>)</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="upload-data" onclick="showTab('upload-data', this)">Upload Data</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="performance-history" onclick="showTab('performance-history', this)">History</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="methodology" onclick="showTab('methodology', this)">Methodology</button>
@@ -48,15 +47,17 @@
                 </div>
                 
                 <div class="stat-card orange">
-                    <div class="stat-label">Possible Supply (Masked by Utilization)</div>
+                    <div class="stat-label">Under-Used (Anomaly)</div>
                     <div class="stat-value" id="util-problems">-</div>
-                    <div class="stat-detail">May be real supply gaps hidden by algorithm/placement issues</div>
+                    <div class="stat-pending" id="pending-underused">&nbsp;</div>
+                    <div class="stat-detail">Low util with a demand gap — investigate placement/algorithm, demand, multi-subject, or scheduling</div>
                 </div>
                 
                 <div class="stat-card red">
-                    <div class="stat-label">True Supply Problems</div>
+                    <div class="stat-label">Supply Problems</div>
                     <div class="stat-value" id="stat-supply-problems">-</div>
-                    <div class="stat-detail">Need external recruitment levers</div>
+                    <div class="stat-pending" id="pending-supply">&nbsp;</div>
+                    <div class="stat-detail">Need external recruitment levers (tutors well-utilized, or no util data available)</div>
                 </div>
                 
                 <div class="stat-card green">
@@ -68,6 +69,7 @@
                 <div class="stat-card purple">
                     <div class="stat-label">Over-Supplied</div>
                     <div class="stat-value" id="lowutil-subjects">-</div>
+                    <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
                     <div class="stat-detail">Supply exceeds demand but &lt;50% utilized — consider reducing forecast</div>
                 </div>
             </div>
@@ -81,8 +83,8 @@
                 <h3>Top Capacity Gaps by Subject</h3>
                 <div id="gap-chart"></div>
                 <div class="chart-legend">
-                    <div class="legend-item"><div class="legend-dot supply-bar"></div> True Supply Problem</div>
-                    <div class="legend-item"><div class="legend-dot util-bar"></div> Utilization Problem</div>
+                    <div class="legend-item"><div class="legend-dot supply-bar"></div> True Supply</div>
+                    <div class="legend-item"><div class="legend-dot util-bar"></div> Under-Used</div>
                     <div class="legend-item"><div class="legend-dot nodata-bar"></div> No Util Data</div>
                 </div>
             </div>
@@ -101,22 +103,81 @@
                     </tbody>
                 </table>
             </div>
-            
+
+            <details class="methodology dashboard-key" open style="margin-top: 30px;">
+                <summary style="cursor: pointer; font-weight: 600; font-size: 16px; color: #2c3e50; margin-bottom: 10px;">
+                    Key: What each column means
+                </summary>
+                <dl class="key-list">
+                    <dt>Run Rate</dt>
+                    <dd>Historical monthly new-tutor contracting capacity, averaged across the clean baseline period (Dec 2025 – Mar 2026). The number of tutors we can realistically contract per month through the organic pipeline at current acceptance rates.</dd>
+
+                    <dt>Target / Target&nbsp;/Mo</dt>
+                    <dd>The smoothed monthly forecast goal for that subject — model output, with 3-month group smoothing applied, and manual overrides respected as a floor. What we're aiming for.</dd>
+
+                    <dt>Gap</dt>
+                    <dd>Raw difference in tutors between target and run rate, plus coverage % (run rate ÷ target). A 78% coverage means the run rate covers 78% of what the forecast is asking for. Color-coded: green/yellow = manageable, red = large shortfall.</dd>
+
+                    <dt>Category</dt>
+                    <dd>Grade level or subject grouping: AP, IB, Test Prep, Elementary, Middle School, High School, College, Professional/Cert, Arts &amp; Music, Technology, Language, or Other.</dd>
+
+                    <dt>Tier</dt>
+                    <dd>Volume tier based on total BTS (Apr–Oct) forecasted headcount. <strong>CORE</strong> ≥ 150, <strong>HIGH</strong> ≥ 75, <strong>MEDIUM</strong> ≥ 30, <strong>LOW</strong> ≥ 10, <strong>NICHE</strong> &lt; 10. Tier helps prioritize — a miss on a CORE subject is a bigger business problem than a miss on a NICHE subject.</dd>
+
+                    <dt>Util % (30-day)</dt>
+                    <dd>Percentage of recently contracted tutors who received at least one assignment within 30 days of contracting, averaged over the most recent 3 months. Trend arrow shows whether this rate is improving (↑), declining (↓), or stable (→) vs. older months. Counts (e.g. "8 of 17 recent") show the underlying volume.</dd>
+
+                    <dt>Problem Type</dt>
+                    <dd>
+                        <strong style="color:#e67e22;">Under-Used</strong> — Util &lt; 50% coincident with a demand gap. Anomaly requiring investigation (placement/algorithm, low real demand, multi-subject tutor used elsewhere, or scheduling mismatch).<br>
+                        <strong style="color:#e74c3c;">True Supply</strong> — Util ≥ 50% and target exceeds run rate. Genuine supply shortage — recruit.<br>
+                        <strong style="color:#95a5a6;">No Util Data</strong> — Target exceeds run rate but no utilization data available. Gather data to classify.<br>
+                        <strong style="color:#9b59b6;">Over-Supplied</strong> — Run rate meets or exceeds target but tutors under 50% utilized. Consider reducing forecast.<br>
+                        <strong style="color:#27ae60;">On Track</strong> — Supply meets demand with healthy utilization. No action needed.
+                    </dd>
+                </dl>
+            </details>
+
             <div class="section-header" style="margin-top: 30px;">Top Priority Subjects</div>
             <div class="table-container">
                 <div class="table-toolbar">
                     <span class="row-count" id="priority-count"></span>
+                    <div class="filter-group inline-filter">
+                        <label for="filter-recommendation-priority">Recommendation</label>
+                        <select id="filter-recommendation-priority" onchange="renderPriorityTable()">
+                            <option value="all">All Recommendations</option>
+                            <option value="investigate_placement">Investigate (Under-Used)</option>
+                            <option value="increase_recruiting">Increase Recruiting (Supply)</option>
+                            <option value="gather_data">Gather Data (No Util)</option>
+                            <option value="reduce_forecast">Reduce Forecast (Over-Supplied)</option>
+                            <option value="review_performance">Review Performance (Behind Pace)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group inline-filter">
+                        <label for="filter-tier-priority">Volume Tier</label>
+                        <select id="filter-tier-priority" onchange="renderPriorityTable()">
+                            <option value="hide-niche">Hide Niche (default)</option>
+                            <option value="all">All Tiers</option>
+                            <option value="core-only">Core only</option>
+                            <option value="CORE">Core</option>
+                            <option value="HIGH">High</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="LOW">Low</option>
+                            <option value="NICHE">Niche</option>
+                        </select>
+                    </div>
                     <button class="export-btn" onclick="exportTable('top-priorities')">Export CSV</button>
                 </div>
                 <table id="top-priorities">
                     <thead>
                         <tr>
-                            <th>Subject</th>
-                            <th>Run Rate</th>
-                            <th>Target/Mo</th>
-                            <th class="tooltip-wrap">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
-                            <th>Gap</th>
-                            <th>Problem Type</th>
+                            <th class="sortable" onclick="sortTable('priority', 0)">Subject</th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('priority', 1)">Tier<span class="tooltip-text">Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.</span></th>
+                            <th class="sortable" onclick="sortTable('priority', 2)">Run Rate</th>
+                            <th class="sortable" onclick="sortTable('priority', 3)">Target/Mo</th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('priority', 4)">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
+                            <th class="sortable" onclick="sortTable('priority', 5)">Gap</th>
+                            <th class="sortable" onclick="sortTable('priority', 6)">Problem Type</th>
                             <th>Priority Action</th>
                         </tr>
                     </thead>
@@ -131,37 +192,88 @@
             </div>
         </div>
         
-        <!-- ALL SUBJECTS TAB -->
-        <div id="all-subjects" class="tab-content" role="tabpanel">
+        <!-- SUBJECTS & ACTIONS TAB (merged All Subjects + Problem Subjects + Actions) -->
+        <div id="subjects-and-actions" class="tab-content" role="tabpanel">
+            <div class="sa-topbar">
+                <div class="sa-summary-stats">
+                    <div class="sa-stat"><span class="sa-stat-value" id="sa-stat-total">-</span><span class="sa-stat-label">subjects</span></div>
+                    <div class="sa-stat"><span class="sa-stat-value" id="sa-stat-actions">-</span><span class="sa-stat-label">actions recommended</span></div>
+                    <div class="sa-stat"><span class="sa-stat-value" id="sa-stat-pending">-</span><span class="sa-stat-label">pending review</span></div>
+                    <div class="sa-stat"><span class="sa-stat-value" id="sa-stat-reviewed">-</span><span class="sa-stat-label">reviewed</span></div>
+                </div>
+                <button class="btn btn-primary" id="sa-weekly-summary-btn" onclick="openSubjectsActionsWeeklySummary()">Weekly Summary</button>
+            </div>
+
             <div class="filters">
                 <div class="filter-group">
-                    <label>Filter by Problem Type</label>
-                    <select id="filter-type-all">
+                    <label>Problem Type</label>
+                    <select id="sa-filter-type">
                         <option value="all">All Subjects</option>
-                        <option value="all-problems">All Problems (Supply + Util)</option>
-                        <option value="placement">Placement Bottleneck</option>
-                        <option value="true-supply">True Supply Problems</option>
-                        <option value="no-util-data">Supply — No Util Data</option>
-                        <option value="on-track">On Track</option>
+                        <option value="all-problems">All Problems</option>
+                        <option value="placement">Under-Used</option>
+                        <option value="true-supply">True Supply</option>
+                        <option value="no-util-data">No Util Data</option>
                         <option value="over-supplied">Over-Supplied</option>
+                        <option value="on-track">On Track</option>
                     </select>
                 </div>
-                
                 <div class="filter-group">
-                    <label>Search Subject</label>
-                    <input type="text" id="search-all" placeholder="Type to search...">
+                    <label>Recommendation</label>
+                    <select id="sa-filter-rec">
+                        <option value="all">All Recommendations</option>
+                        <option value="investigate">Investigate</option>
+                        <option value="recruit">Recruit</option>
+                        <option value="reduce">Reduce Forecast</option>
+                        <option value="review">Review Performance</option>
+                        <option value="none">No Action</option>
+                    </select>
                 </div>
-                
+                <div class="filter-group">
+                    <label>Priority</label>
+                    <select id="sa-filter-priority">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                        <option value="none">No Action</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Action Status</label>
+                    <select id="sa-filter-status">
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="Will Act">Will Act</option>
+                        <option value="Won't Act">Won't Act</option>
+                        <option value="Defer">Defer</option>
+                        <option value="no-action">No Action Needed</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Volume Tier</label>
+                    <select id="sa-filter-tier">
+                        <option value="all">All Tiers</option>
+                        <option value="hide-niche">Hide Niche</option>
+                        <option value="CORE">Core only</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                        <option value="NICHE">Niche</option>
+                    </select>
+                </div>
                 <div class="filter-group">
                     <label>Category</label>
-                    <select id="filter-category-all" class="category-dropdown">
+                    <select id="sa-filter-category" class="category-dropdown">
                         <option value="all">All Categories</option>
                     </select>
                 </div>
-                
+                <div class="filter-group">
+                    <label>Search Subject</label>
+                    <input type="text" id="sa-search" placeholder="Type to search...">
+                </div>
                 <div class="filter-group">
                     <label>Min Gap %</label>
-                    <select id="filter-gap">
+                    <select id="sa-filter-gap">
                         <option value="0">All</option>
                         <option value="50">50%+</option>
                         <option value="100">100%+</option>
@@ -169,106 +281,36 @@
                     </select>
                 </div>
             </div>
-            
-            <div class="table-container">
-                <div class="table-toolbar">
-                    <span class="row-count" id="all-subjects-count"></span>
-                    <button class="export-btn" onclick="exportTable('all-subjects-table')">Export CSV</button>
-                </div>
-                <table id="all-subjects-table">
-                    <thead>
-                        <tr>
-                            <th class="sortable" onclick="sortTable('all', 0)">Subject</th>
-                            <th class="sortable" onclick="sortTable('all', 1)">Run Rate</th>
-                            <th class="sortable" onclick="sortTable('all', 2)">Target/Mo</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('all', 3)">Util % (30d)<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
-                            <th class="sortable" onclick="sortTable('all', 4)">Gap</th>
-                            <th class="sortable" onclick="sortTable('all', 5)">Problem Type</th>
-                            <th class="sortable" onclick="sortTable('all', 6)">Category</th>
-                            <th>Recommendation</th>
-                        </tr>
-                    </thead>
-                    <tbody id="all-subjects-body">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- PROBLEM SUBJECTS TAB (Combined Supply + Utilization) -->
-        <div id="problem-subjects" class="tab-content" role="tabpanel">
-            <div class="callout warning">
-                <strong>Placement Bottleneck: demand exists, supply exists, but they aren't connecting.</strong>
-                Subjects flagged as "Placement Bottleneck" have demand exceeding supply, yet less than half of contracted tutors are being utilized. Before recruiting more, investigate placement algorithm, geographic mismatch, or scheduling barriers. These are potential supply problems that need matching fixes first.
-            </div>
-
-            <div class="methodology" style="margin-bottom: 20px; padding: 25px;">
-                <h3 style="margin-top: 0;">How to Read This Table</h3>
-                <ul>
-                    <li><strong style="color:#e67e22;">Utilization / Algorithm</strong> — Low tutor assignment rates suggest placement barriers (LSAT pattern). These could be hiding real supply shortages. Investigate algorithm before recruiting.</li>
-                    <li><strong style="color:#e74c3c;">True Supply</strong> — High utilization confirms the pipeline is genuinely short. External recruitment levers needed.</li>
-                    <li><strong style="color:#95a5a6;">No Util Data</strong> — No utilization data available to classify. Could be either problem type. Gather data to determine next steps.</li>
-                </ul>
-            </div>
-
-            <div class="filters">
-                <div class="filter-group">
-                    <label>Problem Type</label>
-                    <select id="filter-problem-type">
-                        <option value="all">All Problems</option>
-                        <option value="placement">Placement Bottleneck</option>
-                        <option value="true-supply">True Supply</option>
-                        <option value="no-util-data">No Util Data</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Category</label>
-                    <select id="filter-category-problems" class="category-dropdown">
-                        <option value="all">All Categories</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Search Subject</label>
-                    <input type="text" id="search-problems" placeholder="Type to search...">
-                </div>
-                <div class="filter-group">
-                    <label>Problem Month</label>
-                    <select id="filter-problem-month">
-                        <option value="all">All Months</option>
-                        <option value="0">Apr</option>
-                        <option value="1">May</option>
-                        <option value="2">Jun</option>
-                        <option value="3">Jul</option>
-                        <option value="4">Aug</option>
-                        <option value="5">Sep</option>
-                        <option value="6">Oct</option>
-                    </select>
-                </div>
-            </div>
 
             <div class="table-container">
                 <div class="table-toolbar">
-                    <span class="row-count" id="problems-count"></span>
-                    <button class="export-btn" onclick="exportTable('problems-table')">Export CSV</button>
+                    <span class="row-count" id="sa-row-count"></span>
+                    <button class="export-btn" onclick="exportTable('sa-table')">Export CSV</button>
                 </div>
-                <table id="problems-table">
+                <table id="sa-table">
                     <thead>
                         <tr>
-                            <th class="sortable" onclick="sortTable('problems', 0)">Subject</th>
-                            <th class="sortable" onclick="sortTable('problems', 1)">Run Rate</th>
-                            <th class="sortable" onclick="sortTable('problems', 2)">Target/Mo</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('problems', 3)">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
-                            <th class="sortable" onclick="sortTable('problems', 4)">Gap</th>
-                            <th class="sortable" onclick="sortTable('problems', 5)">Type</th>
-                            <th>Category</th>
-                            <th>Assessment</th>
+                            <th style="width:24px;"></th>
+                            <th class="sortable" onclick="sortSA(0)">Subject</th>
+                            <th class="sortable" onclick="sortSA(1)" title="Volume tier based on total BTS forecast: CORE (150+), HIGH (75+), MEDIUM (30+), LOW (10+), NICHE (<10). A miss on a CORE subject has much bigger business impact than a miss on a NICHE subject.">Tier</th>
+                            <th class="sortable" onclick="sortSA(2)" title="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor. Dash = no recommended action.">Priority</th>
+                            <th class="sortable" onclick="sortSA(3)">Run Rate</th>
+                            <th class="sortable" onclick="sortSA(4)">Target</th>
+                            <th class="sortable" onclick="sortSA(5)">Util %</th>
+                            <th class="sortable" onclick="sortSA(6)">Gap</th>
+                            <th class="sortable sa-current-col" onclick="sortSA(7)" title="Current in-progress month: actual vs target">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
+                            <th class="sortable" onclick="sortSA(8)">Problem Type</th>
+                            <th class="sortable" onclick="sortSA(9)">Recommendation</th>
+                            <th class="sortable" onclick="sortSA(10)">Action Status</th>
                         </tr>
                     </thead>
-                    <tbody id="problems-body">
-                    </tbody>
+                    <tbody id="sa-body"></tbody>
                 </table>
             </div>
+
+            <div id="sa-weekly-summary-output" class="wbr-summary" style="display:none;"></div>
         </div>
-        
+
         <!-- MONTHLY TRACKER TAB -->
         <div id="monthly-tracker" class="tab-content" role="tabpanel">
             <div class="progress-container" id="march-baseline-card" style="display:none; margin-bottom:15px; background:#f8f9fa; border-left:4px solid #95a5a6;">
@@ -303,7 +345,7 @@
                     <div class="tracker-key-section">
                         <h4>What the Numbers Mean</h4>
                         <div class="tracker-key-item"><strong>Target</strong> &mdash; Adjusted monthly goal (after smoothing &amp; manual overrides). This is the number you're aiming for.</div>
-                        <div class="tracker-key-item"><strong>Forecast</strong> &mdash; Raw model output from Pierre's forecast. Shown on hover.</div>
+                        <div class="tracker-key-item"><strong>Forecast</strong> &mdash; Raw model output. Shown on hover.</div>
                         <div class="tracker-key-item"><strong>Actual</strong> &mdash; Real contracted tutor count from Looker. Shown for completed and in-progress months.</div>
                         <div class="tracker-key-item"><strong>Run Rate</strong> &mdash; Max tutors that can be contracted per month based on historical capacity.</div>
                     </div>
@@ -362,41 +404,51 @@
         </div>
 
         <!-- ACTIONS TAB -->
-        <div id="actions" class="tab-content" role="tabpanel">
-            <h2>Recommended Actions</h2>
-            <div id="actions-summary" class="actions-summary-banner">
-                <span id="actions-total">-</span> actions recommended &bull;
-                <span id="actions-high" class="priority-high-text">-</span> high priority &bull;
-                <span id="actions-med" class="priority-med-text">-</span> medium
-            </div>
+        <div id="decision-history" class="tab-content" role="tabpanel">
+            <h2>Decision History</h2>
+            <p style="color:#7f8c8d; margin-top:4px; margin-bottom:20px;">A log of every Will Act / Won't Act / Defer decision saved on the Subjects &amp; Actions tab.</p>
+
             <div class="filter-bar" style="margin-bottom:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-                <select id="filter-action-priority" onchange="renderRecommendations()">
-                    <option value="all">All Priorities</option>
-                    <option value="high">High</option>
-                    <option value="medium">Medium</option>
-                    <option value="low">Low</option>
-                </select>
-                <select id="filter-action-type" onchange="renderRecommendations()">
-                    <option value="all">All Action Types</option>
-                    <option value="investigate_placement">Investigate Placement</option>
-                    <option value="increase_recruiting">Increase Recruiting</option>
-                    <option value="reduce_forecast">Reduce Forecast</option>
-                    <option value="review_performance">Review Performance</option>
-                </select>
-                <input type="text" id="search-actions" placeholder="Search subjects..." oninput="renderRecommendations()" style="padding:6px 10px; border:1px solid #ddd; border-radius:4px; width:180px;">
+                <div class="filter-group">
+                    <label>Decision</label>
+                    <select id="dh-filter-decision">
+                        <option value="all">All Decisions</option>
+                        <option value="Will Act">Will Act</option>
+                        <option value="Won't Act">Won't Act</option>
+                        <option value="Defer">Defer</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search Subject</label>
+                    <input type="text" id="dh-search" placeholder="Type to search...">
+                </div>
+                <div class="filter-group">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-outline" onclick="exportTable('dh-table')" style="height:36px;">Export CSV</button>
+                </div>
             </div>
-            <div id="actions-cards" class="actions-cards-container"></div>
 
-            <details class="decision-history-panel" style="margin-top:32px;">
-                <summary style="cursor:pointer;font-weight:600;font-size:15px;">Decision History</summary>
-                <div id="decision-history-list" style="margin-top:12px;"></div>
-            </details>
+            <div class="dh-summary-bar">
+                <span><strong id="dh-total">0</strong> total decisions</span>
+                <span class="dh-dot will-act"><strong id="dh-will-act">0</strong> Will Act</span>
+                <span class="dh-dot wont-act"><strong id="dh-wont-act">0</strong> Won't Act</span>
+                <span class="dh-dot defer"><strong id="dh-defer">0</strong> Defer</span>
+            </div>
 
-            <div class="weekly-summary-section" style="margin-top:32px;">
-                <h3>Weekly Summary</h3>
-                <p style="color:#7f8c8d; margin-bottom:8px;">Generate a copy-paste-ready summary for your WBR.</p>
-                <button id="btn-generate-summary" class="btn btn-primary" onclick="generateWeeklySummary()" style="margin-bottom:12px;">Generate Summary</button>
-                <div id="weekly-summary-output" class="weekly-summary-block" style="display:none;"></div>
+            <div class="table-container">
+                <table id="dh-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortDH(0)">Date</th>
+                            <th class="sortable" onclick="sortDH(1)">Subject</th>
+                            <th class="sortable" onclick="sortDH(2)">Action Type</th>
+                            <th class="sortable" onclick="sortDH(3)">Decision</th>
+                            <th>Note</th>
+                            <th style="width:80px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dh-body"></tbody>
+                </table>
             </div>
         </div>
 

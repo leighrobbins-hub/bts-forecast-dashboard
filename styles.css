@@ -271,6 +271,72 @@ tr.nodata-problem {
 .badge.adjusted { background: #3498db; color: white; font-size: 10px; padding: 2px 6px; margin-left: 6px; }
 .adj-note { display: block; font-size: 11px; color: #7f8c8d; font-weight: normal; }
 
+/* Volume tier badges — CORE is the "inferno fire" top bucket, NICHE is long-tail.
+   Sized slightly smaller than problem-type badges so they don't dominate visually
+   when both appear side-by-side in a row. */
+.badge.tier-core   { background: #c0392b; color: white; font-size: 10px; padding: 3px 7px; }
+.badge.tier-high   { background: #e67e22; color: white; font-size: 10px; padding: 3px 7px; }
+.badge.tier-medium { background: #f39c12; color: white; font-size: 10px; padding: 3px 7px; }
+.badge.tier-low    { background: #3498db; color: white; font-size: 10px; padding: 3px 7px; }
+.badge.tier-niche  { background: #bdc3c7; color: #555;  font-size: 10px; padding: 3px 7px; }
+
+/* Inline filter (for Overview priority table toolbar — compact form) */
+.inline-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+}
+.inline-filter label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    margin: 0;
+}
+.inline-filter select {
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+/* Dashboard Key / legend on Overview — stakeholder onboarding + reference.
+   Uses <details>/<summary> so users can collapse once they know the terms.
+   Overrides .methodology (which is designed for the long Methodology tab)
+   so the Key card visually matches the .table-container cards above it. */
+.dashboard-key.methodology {
+    max-width: none;
+    padding: 25px 30px;
+    line-height: 1.5;
+}
+.dashboard-key summary {
+    list-style: none;
+    outline: none;
+}
+.dashboard-key summary::-webkit-details-marker { display: none; }
+.dashboard-key summary::before {
+    content: '▾ ';
+    color: #7f8c8d;
+    margin-right: 4px;
+    font-size: 12px;
+}
+.dashboard-key:not([open]) summary::before { content: '▸ '; }
+.key-list {
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+.key-list dt {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-top: 12px;
+    font-size: 14px;
+}
+.key-list dt:first-child { margin-top: 0; }
+.key-list dd {
+    margin: 4px 0 0 0;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
 .gap-critical { color: #c0392b; font-weight: bold; }
 .gap-high { color: #e67e22; font-weight: bold; }
 .gap-medium { color: #f39c12; }
@@ -484,15 +550,18 @@ tr.nodata-problem {
 }
 
 .bar-label {
-    width: 180px;
-    min-width: 180px;
+    width: 240px;
+    min-width: 240px;
     font-size: 13px;
     font-weight: 500;
     text-align: right;
     padding-right: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* Allow wrapping so long subject names (e.g. "IB Mathematics:
+       Analysis and Approaches SL") are fully visible instead of truncated
+       with an ellipsis. Darren called this out directly. */
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.25;
     color: #2c3e50;
 }
 
@@ -1727,3 +1796,306 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Subjects & Actions tab (merged from All Subjects + Problem
+   Subjects + Actions). Pass 1: lives alongside the old three tabs.
+   Pass 2 will retire them after stakeholder validation.
+   ───────────────────────────────────────────────────────────── */
+.tab.tab-new {
+    background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+    color: white;
+}
+.tab.tab-new.active { background: white; color: #2c3e50; }
+.tab.tab-new.active .tab-new-badge { background: #3498db; color: white; }
+.tab-new-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+.sa-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.sa-summary-stats {
+    display: flex;
+    gap: 28px;
+}
+.sa-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.sa-stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #202344;
+    line-height: 1;
+}
+.sa-stat-label {
+    font-size: 11px;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+
+/* Row expansion for inline action detail */
+.sa-row {
+    cursor: pointer;
+}
+.sa-row:hover { background: #f8f9fb; }
+.sa-row td { vertical-align: middle; }
+.sa-expand-toggle {
+    display: inline-block;
+    width: 18px;
+    text-align: center;
+    color: #95a5a6;
+    font-size: 11px;
+    transition: transform 0.15s;
+}
+.sa-row.expanded .sa-expand-toggle {
+    transform: rotate(90deg);
+    color: #3498db;
+}
+.sa-detail-row {
+    background: #f8f9fb;
+}
+.sa-detail-row td {
+    padding: 0 !important;
+    border-bottom: 1px solid #e1e8ed;
+}
+.sa-detail-inner {
+    padding: 18px 24px 22px 52px;
+}
+.sa-action-card {
+    background: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+}
+.sa-action-card:last-child { margin-bottom: 0; }
+.sa-action-card.reviewed {
+    background: #f0f7f4;
+    border-color: #27ae60;
+}
+.sa-action-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.sa-action-reason {
+    font-size: 13px;
+    color: #2c3e50;
+    line-height: 1.5;
+    margin: 6px 0;
+}
+.sa-action-data {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin: 6px 0;
+}
+.sa-action-footer {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.sa-action-footer .btn { font-size: 12px; padding: 5px 12px; }
+
+/* Priority and recommendation badges used only on this tab */
+.badge-priority {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-priority.high { background: #e74c3c; color: white; }
+.badge-priority.medium { background: #f39c12; color: white; }
+.badge-priority.low { background: #95a5a6; color: white; }
+.badge-priority.none { background: #ecf0f1; color: #7f8c8d; }
+
+.badge-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+}
+.badge-status.pending { background: #fff3cd; color: #856404; }
+.badge-status.will-act { background: #d4edda; color: #155724; }
+.badge-status.wont-act { background: #f8d7da; color: #721c24; }
+.badge-status.defer { background: #d1ecf1; color: #0c5460; }
+.badge-status.no-action { background: #ecf0f1; color: #7f8c8d; }
+.badge-rec {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+.badge-rec.investigate { background: #fef4e6; color: #e67e22; }
+.badge-rec.recruit { background: #fbeaea; color: #c0392b; }
+.badge-rec.reduce { background: #f3eafb; color: #8e44ad; }
+.badge-rec.review { background: #e8f4fc; color: #2980b9; }
+.badge-rec.none { background: #ecf0f1; color: #95a5a6; }
+
+/* ─────────────────────────────────────────────────────────────
+   WBR-style Weekly Summary (rendered inline on Subjects & Actions)
+   Matches the WBR Style Guide v2: VT navy #202344, slate #596087,
+   Arial, three-tier headers, bold lead-ins, no bullets. Inline styles
+   on the copy path so clipboard-paste to Docs/Gmail retains the look.
+   ───────────────────────────────────────────────────────────── */
+.wbr-summary {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+}
+.wbr-summary-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #F9FAFB;
+    border-bottom: 1px solid #e1e8ed;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.wbr-summary-content {
+    padding: 0;
+}
+.wbr-section-header {
+    background: #202344;
+    color: white;
+    padding: 14px 24px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.wbr-subheader {
+    background: #596087;
+    color: white;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 0;
+}
+.wbr-body {
+    padding: 18px 24px;
+    color: #2c3e50;
+    font-size: 14px;
+    line-height: 1.65;
+}
+.wbr-body p { margin: 0 0 12px 0; }
+.wbr-body p:last-child { margin-bottom: 0; }
+.wbr-body strong { color: #202344; }
+.wbr-meta {
+    padding: 12px 24px;
+    background: #F9FAFB;
+    border-left: 3px solid #202344;
+    font-size: 12px;
+    color: #7f8c8d;
+}
+.wbr-status-good   { color: #27ae60; font-weight: 600; }
+.wbr-status-watch  { color: #f39c12; font-weight: 600; }
+.wbr-status-alert  { color: #c0392b; font-weight: 600; }
+
+/* Decision History tab */
+.dh-summary-bar {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    background: white;
+    padding: 14px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+.dh-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.dh-dot::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.dh-dot.will-act::before { background: #27ae60; }
+.dh-dot.wont-act::before { background: #c0392b; }
+.dh-dot.defer::before    { background: #3498db; }
+.dh-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* Live-updating pending-review count under stat-card value on Overview.
+   Refreshes every time a decision is saved or revoked. */
+.stat-pending {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #e67e22;
+    margin-top: 2px;
+    margin-bottom: 6px;
+    min-height: 14px;
+}
+.stat-pending.all-done {
+    color: #27ae60;
+}
+
+/* ── Fast JS tooltip (replaces slow browser title attribute) ──
+   Used by tier badges, priority badges, and current-month cells.
+   Elements set data-tip="..." to opt in. No delay, no browser quirks. */
+.dash-tooltip {
+    position: fixed;
+    background: #202344;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 260px;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    word-break: break-word;
+    white-space: pre-line;
+}
+[data-tip] { cursor: help; }
