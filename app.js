@@ -488,6 +488,8 @@ function renderMonthSnapshot() {
     });
 
     setText('ov-month-contracted', totalActual.toLocaleString());
+    var ut = (_lastSummary || {}).unique_tutors_contracted;
+    setText('ov-month-unique-tutors', ut != null ? ut.toLocaleString() : '—');
     setText('ov-month-target', Math.round(totalTarget).toLocaleString());
     setText('ov-month-behind', behindCount);
     setText('ov-month-onpace', onPaceCount);
