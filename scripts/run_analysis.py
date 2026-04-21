@@ -474,7 +474,7 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
         results.append({
             'Subject': subject,
             'Run_Rate': round(run_rate, 0),
-            'Smoothed_Target': round(target_per_month, 0),
+            'Smoothed_Target': max(1, round(target_per_month)) if total_demand > 0 else 0,
             'Max_Capacity': round(max_capacity, 0),
             'Gap_Pct': round(gap_pct, 0),
             'Raw_Gap': raw_gap,
@@ -555,7 +555,7 @@ def calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments=Non
             results.append({
                 'Subject': subject,
                 'Run_Rate': round(run_rate, 0),
-                'Smoothed_Target': round(target_per_month, 0),
+                'Smoothed_Target': max(1, round(target_per_month)) if total_demand > 0 else 0,
                 'Max_Capacity': round(max_capacity, 0),
                 'Gap_Pct': round(gap_pct, 0),
                 'Raw_Gap': raw_gap,
