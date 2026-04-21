@@ -1201,7 +1201,9 @@ def generate_recommendations(df_final, tracker_subjects):
             })
 
         elif ptype == 'Over-Supplied':
-            if run_rate >= 3 and util_val is not None and util_val < 30:
+            if not bts_total or bts_total == 0:
+                pass
+            elif run_rate >= 3 and util_val is not None and util_val < 30:
                 recs.append({
                     'subject': subject, 'category': category,
                     'priority': 'medium',
@@ -1259,7 +1261,7 @@ def generate_recommendations(df_final, tracker_subjects):
                     'subject': ts['subject'], 'category': ts.get('category', 'Other'),
                     'priority': 'low',
                     'action_type': 'review_performance',
-                    'reason': f'Unexpected demand: {md["actual"]} tutors contracted in {md["label"]} with no forecast. Consider adding to next forecast.',
+                    'reason': f'Unexpected demand: {md["actual"]} tutors contracted in {md["label"]} with no active forecast. Do not automatically add to the model — verify whether this demand is real and sustained before updating the forecast.',
                     'data_points': {'month': md['label'], 'actual': md['actual']}
                 })
 

@@ -444,6 +444,16 @@ function showTab(tabName, el) {
     el.setAttribute('aria-selected', 'true');
 }
 
+function navigateToFiltered(filterValue) {
+    var tab = document.querySelector('[aria-controls="subjects-and-actions"]');
+    if (tab) showTab('subjects-and-actions', tab);
+    var el = document.getElementById('sa-filter-type');
+    if (el) el.value = filterValue;
+    renderSubjectsAndActions();
+    var content = document.getElementById('subjects-and-actions');
+    if (content) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 /* ── Original table renderers ── */
 function renderAllTables() {
     renderBarChart();
@@ -454,7 +464,7 @@ function renderBarChart() {
     var problems = allData
         .filter(function(r) { var t = classifyType(r.Problem_Type); return (t === 'true-supply' || t === 'placement' || t === 'no-util-data') && r.Raw_Gap != null && r.Raw_Gap < 0; })
         .sort(function(a, b) { return a.Raw_Gap - b.Raw_Gap; })
-        .slice(0, 12);
+        .slice(0, 15);
     var maxGap = problems.length > 0 ? Math.abs(problems[0].Raw_Gap) : 100;
     var container = document.getElementById('gap-chart');
     container.innerHTML = '';
@@ -2536,7 +2546,7 @@ function renderSubjectsAndActions() {
         else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && r.Tier !== tierFilter) return false;
         if (catFilter !== 'all' && r.Category !== catFilter) return false;
         if (searchTerm && r.Subject.toLowerCase().indexOf(searchTerm) === -1) return false;
-        if (gapFilter > 0 && (r.Gap_Pct || 0) < gapFilter) return false;
+        if (gapFilter > 0 && Math.abs(r.Raw_Gap || 0) < gapFilter) return false;
         return true;
     });
 

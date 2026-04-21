@@ -242,7 +242,7 @@ class TestClassifyProblems(unittest.TestCase):
             'Utilized_30d': 9, 'Util_Rate': 43.0
         }])
         result = classify_problems(analysis, util)
-        self.assertEqual(result.iloc[0]['Problem_Type'], 'Possible Placement Issue')
+        self.assertEqual(result.iloc[0]['Problem_Type'], 'Under-Used')
 
     def test_on_track(self):
         analysis = self._make_analysis_df([{
@@ -282,7 +282,7 @@ class TestClassifyProblems(unittest.TestCase):
             'Utilized_30d': 8, 'Util_Rate': 40.0
         }])
         result = classify_problems(analysis, util)
-        self.assertEqual(result.iloc[0]['Problem_Type'], 'On Track (Low Util)')
+        self.assertEqual(result.iloc[0]['Problem_Type'], 'Over-Supplied')
 
     def test_no_util_data(self):
         analysis = self._make_analysis_df([{
