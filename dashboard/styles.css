@@ -2039,8 +2039,9 @@ th.sa-current-col { background: #2c3e50; }
     white-space: pre-line;
 }
 [data-tip] { cursor: help; }
-.stat-value[onclick]:hover {
-    opacity: 0.75;
-    text-decoration: underline dotted;
-    transition: opacity 0.15s;
+.stat-card[onclick]:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
 }

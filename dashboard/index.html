@@ -40,35 +40,35 @@
         <!-- OVERVIEW TAB -->
         <div id="overview" class="tab-content active" role="tabpanel">
             <div class="summary-grid">
-                <div class="stat-card blue">
+                <div class="stat-card blue" onclick="navigateToFiltered('all')" style="cursor:pointer;" title="Click to view all subjects">
                     <div class="stat-label">Total Subjects Analyzed</div>
-                    <div class="stat-value" id="total-subjects" onclick="navigateToFiltered('all')" style="cursor:pointer;" title="Click to view all subjects">-</div>
+                    <div class="stat-value" id="total-subjects">-</div>
                     <div class="stat-detail">April-October 2026 forecast period</div>
                 </div>
                 
-                <div class="stat-card orange">
+                <div class="stat-card orange" onclick="navigateToFiltered('placement')" style="cursor:pointer;" title="Click to filter by Under-Used">
                     <div class="stat-label">Under-Used (Anomaly)</div>
-                    <div class="stat-value" id="util-problems" onclick="navigateToFiltered('placement')" style="cursor:pointer;" title="Click to filter by Under-Used">-</div>
+                    <div class="stat-value" id="util-problems">-</div>
                     <div class="stat-pending" id="pending-underused">&nbsp;</div>
                     <div class="stat-detail">Low util with a demand gap — investigate placement/algorithm, demand, multi-subject, or scheduling</div>
                 </div>
                 
-                <div class="stat-card red">
+                <div class="stat-card red" onclick="navigateToFiltered('true-supply')" style="cursor:pointer;" title="Click to filter by Supply Problems">
                     <div class="stat-label">Supply Problems</div>
-                    <div class="stat-value" id="stat-supply-problems" onclick="navigateToFiltered('true-supply')" style="cursor:pointer;" title="Click to filter by Supply Problems">-</div>
+                    <div class="stat-value" id="stat-supply-problems">-</div>
                     <div class="stat-pending" id="pending-supply">&nbsp;</div>
                     <div class="stat-detail">Need external recruitment levers (tutors well-utilized, or no util data available)</div>
                 </div>
                 
-                <div class="stat-card green">
+                <div class="stat-card green" onclick="navigateToFiltered('on-track')" style="cursor:pointer;" title="Click to filter by On Track">
                     <div class="stat-label">On Track</div>
-                    <div class="stat-value" id="ontrack-subjects" onclick="navigateToFiltered('on-track')" style="cursor:pointer;" title="Click to filter by On Track">-</div>
+                    <div class="stat-value" id="ontrack-subjects">-</div>
                     <div class="stat-detail">No action required</div>
                 </div>
                 
-                <div class="stat-card purple">
+                <div class="stat-card purple" onclick="navigateToFiltered('over-supplied')" style="cursor:pointer;" title="Click to filter by Over-Supplied">
                     <div class="stat-label">Over-Supplied</div>
-                    <div class="stat-value" id="lowutil-subjects" onclick="navigateToFiltered('over-supplied')" style="cursor:pointer;" title="Click to filter by Over-Supplied">-</div>
+                    <div class="stat-value" id="lowutil-subjects">-</div>
                     <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
                     <div class="stat-detail">Supply exceeds demand but &lt;50% utilized — consider reducing forecast</div>
                 </div>
