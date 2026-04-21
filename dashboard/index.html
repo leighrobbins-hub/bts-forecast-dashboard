@@ -752,7 +752,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.4</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.6</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -1148,6 +1148,20 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.6 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Replaced Will Act / Won't Act / Defer buttons with Action / No Action system</li>
+                    <li>Action button opens inline note form with required Who dropdown and action description</li>
+                    <li>Who field persists across sessions so you don't re-pick every time</li>
+                    <li>Decision History now shows full date+time and a Who column</li>
+                    <li>Legacy decisions (Will Act, Won't Act, Defer) display correctly with new labels</li>
+                    <li>Relabeled portfolio metrics from "tutors contracted" to "tutor-subject combinations"</li>
+                    <li>Added unique tutors count card to This Month snapshot (pulled from Looker Look 26320)</li>
+                    <li>Wired P90 NAT hours into Over-Supplied classification — subjects with P90 &ge; 24h reclassified as Under-Used</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.5 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag improvement">Redesign</span></div>
