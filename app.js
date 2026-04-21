@@ -2149,8 +2149,16 @@ function getDecision(rec) {
     } catch (e) { return null; }
 }
 
-function saveDecision(rec, decision, note) {
-    var obj = { decision: decision, note: note || '', date: new Date().toISOString(), subject: rec.subject, action_type: rec.action_type, reason: rec.reason };
+function saveDecision(rec, decision, note, who) {
+    var obj = {
+        decision: decision,
+        note: note || '',
+        date: new Date().toISOString(),
+        who: who || localStorage.getItem('bts_active_user') || '',
+        subject: rec.subject,
+        action_type: rec.action_type,
+        reason: rec.reason
+    };
     localStorage.setItem(getDecisionKey(rec), JSON.stringify(obj));
 }
 
@@ -2187,9 +2195,8 @@ function renderDecisionHistory() {
     // Top-of-tab counts (use all, not filtered)
     var willAct = 0, wontAct = 0, defer = 0;
     all.forEach(function(d) {
-        if (d.decision === 'Will Act') willAct++;
-        else if (d.decision === "Won't Act") wontAct++;
-        else if (d.decision === 'Defer') defer++;
+        if (d.decision === 'Action' || d.decision === 'Will Act') willAct++;
+        else if (d.decision === 'No Action' || d.decision === "Won't Act" || d.decision === 'Defer') wontAct++;
     });
     var totalEl = document.getElementById('dh-total');
     if (totalEl) totalEl.textContent = all.length;
@@ -2203,7 +2210,11 @@ function renderDecisionHistory() {
 
     // Apply filters
     var rows = all.filter(function(d) {
-        if (decisionValue !== 'all' && d.decision !== decisionValue) return false;
+        if (decisionValue !== 'all') {
+            if (decisionValue === 'Action' && d.decision !== 'Action' && d.decision !== 'Will Act') return false;
+            if (decisionValue === 'No Action' && d.decision !== 'No Action' && d.decision !== "Won't Act" && d.decision !== 'Defer') return false;
+            if (decisionValue !== 'Action' && decisionValue !== 'No Action' && d.decision !== decisionValue) return false;
+        }
         if (searchValue && (d.subject || '').toLowerCase().indexOf(searchValue) === -1) return false;
         return true;
     });
@@ -2225,26 +2236,34 @@ function renderDecisionHistory() {
     });
 
     if (rows.length === 0) {
-        body.innerHTML = '<tr><td colspan="6" class="dh-empty">'
+        body.innerHTML = '<tr><td colspan="7" class="dh-empty">'
             + (all.length === 0
-                ? 'No decisions recorded yet. Use the Subjects &amp; Actions tab to review action items and save Will Act / Won\'t Act / Defer decisions.'
+                ? 'No decisions recorded yet. Use the Subjects &amp; Actions tab to review action items and save Action / No Action decisions.'
                 : 'No decisions match the current filters.')
             + '</td></tr>';
         return;
     }
 
     body.innerHTML = rows.map(function(d) {
-        var dateStr = d.date ? new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+        var dateStr = d.date ? new Date(d.date).toLocaleString('en-US', {
+            month: 'short', day: 'numeric', year: 'numeric',
+            hour: 'numeric', minute: '2-digit', hour12: true
+        }) : '';
         var typeLabel = (ACTION_TYPE_LABELS && ACTION_TYPE_LABELS[d.action_type]) || d.action_type || '—';
-        var statusCls = d.decision === 'Will Act' ? 'will-act'
-                      : d.decision === "Won't Act" ? 'wont-act'
-                      : d.decision === 'Defer' ? 'defer' : 'pending';
+        var statusCls = (d.decision === 'Action' || d.decision === 'Will Act') ? 'will-act'
+                      : (d.decision === 'No Action' || d.decision === "Won't Act") ? 'no-action'
+                      : d.decision === 'Defer' ? 'defer'
+                      : 'pending';
+        var statusLabel = d.decision === 'Will Act' ? 'Action'
+                        : d.decision === "Won't Act" ? 'No Action'
+                        : d.decision;
         var keyAttr = d._storageKey.replace(/'/g, '&#39;');
         return '<tr>'
             + '<td>' + dateStr + '</td>'
             + '<td><strong>' + escapeHtml(d.subject) + '</strong></td>'
             + '<td style="color:#7f8c8d;font-size:12px;">' + escapeHtml(typeLabel) + '</td>'
-            + '<td><span class="badge-status ' + statusCls + '">' + escapeHtml(d.decision) + '</span></td>'
+            + '<td><span class="badge-status ' + statusCls + '">' + escapeHtml(statusLabel) + '</span></td>'
+            + '<td style="color:#7f8c8d;font-size:12px;">' + escapeHtml(d.who || '—') + '</td>'
             + '<td style="color:#555;font-size:13px;">' + (d.note ? escapeHtml(d.note) : '<span style="color:#bdc3c7;">—</span>') + '</td>'
             + '<td><button class="btn btn-sm btn-outline" onclick="dhRevoke(\'' + keyAttr + '\')">Revoke</button></td>'
         + '</tr>';
@@ -2442,6 +2461,7 @@ function copyWeeklySummary(mode) {
 
 var currentSorts_sa = { col: 6, asc: true }; // Default: Gap ascending (biggest problems first)
 var _sa_expanded = {}; // which subjects are expanded
+var _sa_pending_note = null; // { subject: string, ridx: number }
 
 var REC_META = {
     'investigate': { label: 'Investigate', cls: 'investigate' },
@@ -2480,10 +2500,12 @@ function saStatusBadge(status) {
     var cls, label;
     switch (status) {
         case 'pending':    cls = 'pending';   label = 'Pending';    break;
-        case 'Will Act':   cls = 'will-act';  label = 'Will Act';   break;
-        case "Won't Act":  cls = 'wont-act';  label = "Won't Act";  break;
-        case 'Defer':      cls = 'defer';     label = 'Defer';      break;
-        case 'no-action':  cls = 'no-action'; label = 'No action';  break;
+        case 'Action':     cls = 'will-act';  label = 'Action';     break;
+        case 'No Action':  cls = 'no-action'; label = 'No Action';  break;
+        case 'Will Act':   cls = 'will-act';  label = 'Action';     break;
+        case "Won't Act":  cls = 'no-action'; label = 'No Action';  break;
+        case 'Defer':      cls = 'defer';     label = 'Deferred';   break;
+        case 'no-action':  cls = 'no-action'; label = 'No Action';  break;
         default:           cls = 'no-action'; label = status || '—';
     }
     return '<span class="badge-status ' + cls + '">' + label + '</span>';
@@ -2756,7 +2778,11 @@ function renderSubjectsAndActions() {
         if (!matchesFilter(r.Problem_Type, typeFilter)) return false;
         if (recFilter !== 'all' && x.rec !== recFilter) return false;
         if (prioFilter !== 'all' && x.priority !== prioFilter) return false;
-        if (statusFilter !== 'all' && x.status !== statusFilter) return false;
+        if (statusFilter !== 'all') {
+            if (statusFilter === 'Action' && x.status !== 'Action' && x.status !== 'Will Act') return false;
+            else if (statusFilter === 'No Action' && x.status !== 'No Action' && x.status !== "Won't Act" && x.status !== 'Defer') return false;
+            else if (statusFilter !== 'Action' && statusFilter !== 'No Action' && x.status !== statusFilter) return false;
+        }
         if (tierFilter === 'hide-niche' && r.Tier === 'NICHE') return false;
         else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && r.Tier !== tierFilter) return false;
         if (catFilter !== 'all' && r.Category !== catFilter) return false;
@@ -2768,7 +2794,14 @@ function renderSubjectsAndActions() {
     // Sort
     var col = currentSorts_sa.col, asc = currentSorts_sa.asc;
     var PRIO_ORDER = { 'high': 3, 'medium': 2, 'low': 1, 'none': 0 };
-    var STATUS_ORDER = { 'pending': 1, 'Will Act': 2, "Won't Act": 3, 'Defer': 4, 'mixed': 5, 'no-action': 6 };
+    var STATUS_ORDER = {
+        'pending': 1,
+        'Action': 2, 'Will Act': 2,
+        'No Action': 3, "Won't Act": 3,
+        'Defer': 4,
+        'mixed': 5,
+        'no-action': 6
+    };
     rows.sort(function(a, b) {
         var av, bv;
         switch (col) {
@@ -2875,15 +2908,41 @@ function renderSubjectsAndActions() {
                     if (pts.length) dataHtml = '<div class="sa-action-data">' + pts.join(' \u2022 ') + '</div>';
                 }
 
-                var footer = decision
-                    ? '<div class="sa-action-footer"><span class="badge-status will-act">\u2713 ' + escapeHtml(decision.decision) + '</span>'
-                        + (decision.note ? ' <small style="color:#7f8c8d;">\u2014 ' + escapeHtml(decision.note) + '</small>' : '')
-                        + ' <button class="btn btn-sm btn-outline" onclick="saReopenDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ')">Change</button></div>'
-                    : '<div class="sa-action-footer">'
-                        + '<button class="btn btn-sm btn-primary" onclick="saSetDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ',\'Will Act\')">Will Act</button>'
-                        + '<button class="btn btn-sm btn-outline" onclick="saSetDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ',\'Won\\\'t Act\')">Won\'t Act</button>'
-                        + '<button class="btn btn-sm btn-outline" onclick="saSetDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ',\'Defer\')">Defer</button>'
-                    + '</div>';
+                var footer;
+                if (decision) {
+                    var decisionCls = decision.decision === 'Action' ? 'will-act' : 'no-action';
+                    var decisionLabel = decision.decision === 'Action' ? '\u2713 Action taken' : '\u2715 No action';
+                    footer = '<div class="sa-action-footer">'
+                        + '<span class="badge-status ' + decisionCls + '">' + decisionLabel + '</span>'
+                        + (decision.note ? ' <small style="color:#555;font-style:italic;">\u2014 ' + escapeHtml(decision.note) + '</small>' : '')
+                        + ' <button class="btn btn-sm btn-outline" onclick="saReopenDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ')">Change</button>'
+                        + '</div>';
+                } else if (_sa_pending_note && _sa_pending_note.subject === r.Subject && _sa_pending_note.ridx === ridx) {
+                    var safeSubj = escapeHtml(r.Subject).replace(/'/g, "\\'");
+                    var savedWho = localStorage.getItem('bts_active_user') || '';
+                    var whoOpts = ['Leigh','Darren','Kevin','Reina','Cindy'].map(function(n) {
+                        return '<option value="' + n + '"' + (n === savedWho ? ' selected' : '') + '>' + n + '</option>';
+                    }).join('');
+                    footer = '<div class="sa-note-form">'
+                        + '<div class="sa-note-who-row">'
+                            + '<label class="sa-note-label" style="margin-bottom:0;">Who is taking this action? <span style="color:#c0392b;">*</span></label>'
+                            + '<select id="sa-note-who" class="sa-note-who"><option value="">Select name...</option>' + whoOpts + '</select>'
+                        + '</div>'
+                        + '<label class="sa-note-label" style="margin-top:10px;">What action are you taking? <span style="color:#c0392b;">*</span></label>'
+                        + '<textarea id="sa-note-textarea" class="sa-note-textarea" placeholder="e.g. LinkedIn campaign with Cindy, InMail push this week, escalating to Kevin..."></textarea>'
+                        + '<div id="sa-note-error" class="sa-note-error" style="display:none;"></div>'
+                        + '<div class="sa-note-buttons">'
+                            + '<button class="btn btn-primary btn-sm" onclick="saSubmitNote(\'' + safeSubj + '\',' + ridx + ')">Submit</button>'
+                            + '<button class="btn btn-outline btn-sm" onclick="saCancelNote()">Cancel</button>'
+                        + '</div>'
+                        + '</div>';
+                } else {
+                    var safeSubj = escapeHtml(r.Subject).replace(/'/g, "\\'");
+                    footer = '<div class="sa-action-footer">'
+                        + '<button class="btn btn-sm btn-primary" onclick="saShowNoteForm(\'' + safeSubj + '\',' + ridx + ')">Action</button>'
+                        + '<button class="btn btn-sm btn-outline" onclick="saSetNoAction(\'' + safeSubj + '\',' + ridx + ')">No Action</button>'
+                        + '</div>';
+                }
 
                 inner += '<div class="' + cardCls + '">'
                     + '<div class="sa-action-header">' + priorityBadge
@@ -2910,6 +2969,7 @@ function toggleSARow(subject) {
 }
 
 function saSetDecision(subject, ridx, decision) {
+    _sa_pending_note = null;
     var recs = saGetRecsForSubject(subject);
     var rec = recs[ridx];
     if (!rec) return;
@@ -2928,6 +2988,67 @@ function saReopenDecision(subject, ridx) {
     var rec = recs[ridx];
     if (!rec) return;
     try { localStorage.removeItem(getDecisionKey(rec)); } catch (e) {}
+    renderSubjectsAndActions();
+    if (typeof renderDecisionHistory === 'function') {
+        try { renderDecisionHistory(); } catch (e) {}
+    }
+    if (typeof refreshOverviewLive === 'function') {
+        try { refreshOverviewLive(); } catch (e) {}
+    }
+}
+
+function saShowNoteForm(subject, ridx) {
+    _sa_pending_note = { subject: subject, ridx: ridx };
+    renderSubjectsAndActions();
+    setTimeout(function() {
+        var ta = document.getElementById('sa-note-textarea');
+        if (ta) ta.focus();
+    }, 50);
+}
+
+function saSubmitNote(subject, ridx) {
+    var whoEl = document.getElementById('sa-note-who');
+    var ta    = document.getElementById('sa-note-textarea');
+    var who   = whoEl ? whoEl.value.trim() : '';
+    var note  = ta    ? ta.value.trim()    : '';
+    var errEl = document.getElementById('sa-note-error');
+    if (!who) {
+        if (errEl) { errEl.textContent = 'Please select who is taking this action.'; errEl.style.display = 'block'; }
+        if (whoEl) whoEl.focus();
+        return;
+    }
+    if (!note) {
+        if (errEl) { errEl.textContent = 'Please describe the action being taken before submitting.'; errEl.style.display = 'block'; }
+        if (ta) ta.focus();
+        return;
+    }
+    localStorage.setItem('bts_active_user', who);
+    _sa_pending_note = null;
+    var recs = saGetRecsForSubject(subject);
+    var rec = recs[ridx];
+    if (!rec) return;
+    saveDecision(rec, 'Action', note, who);
+    renderSubjectsAndActions();
+    if (typeof renderDecisionHistory === 'function') {
+        try { renderDecisionHistory(); } catch (e) {}
+    }
+    if (typeof refreshOverviewLive === 'function') {
+        try { refreshOverviewLive(); } catch (e) {}
+    }
+}
+
+function saCancelNote() {
+    _sa_pending_note = null;
+    renderSubjectsAndActions();
+}
+
+function saSetNoAction(subject, ridx) {
+    _sa_pending_note = null;
+    var recs = saGetRecsForSubject(subject);
+    var rec = recs[ridx];
+    if (!rec) return;
+    var who = localStorage.getItem('bts_active_user') || '';
+    saveDecision(rec, 'No Action', '', who);
     renderSubjectsAndActions();
     if (typeof renderDecisionHistory === 'function') {
         try { renderDecisionHistory(); } catch (e) {}

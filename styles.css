@@ -1897,6 +1897,65 @@ th.sa-current-col { background: #2c3e50; }
 .badge-rec.review { background: #e8f4fc; color: #2980b9; }
 .badge-rec.none { background: #ecf0f1; color: #95a5a6; }
 
+/* ── Inline note form — appears in expanded action card when "Action" is clicked ── */
+.sa-note-form {
+    margin-top: 12px;
+    padding: 14px;
+    background: #f8f9fb;
+    border: 1px solid #d1e8ff;
+    border-radius: 6px;
+}
+.sa-note-who-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+.sa-note-who {
+    padding: 5px 8px;
+    font-size: 13px;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    color: #2c3e50;
+    min-width: 130px;
+}
+.sa-note-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+.sa-note-textarea {
+    width: 100%;
+    min-height: 72px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    resize: vertical;
+    box-sizing: border-box;
+    line-height: 1.5;
+    color: #2c3e50;
+}
+.sa-note-textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+}
+.sa-note-error {
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 6px;
+}
+.sa-note-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.badge-status.action { background: #d4edda; color: #155724; }
+
 /* ─────────────────────────────────────────────────────────────
    WBR-style Weekly Summary (rendered inline on Subjects & Actions)
    Matches the WBR Style Guide v2: VT navy #202344, slate #596087,

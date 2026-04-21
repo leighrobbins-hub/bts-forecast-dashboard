@@ -315,10 +315,9 @@
                     <select id="sa-filter-status">
                         <option value="all">All Statuses</option>
                         <option value="pending">Pending Review</option>
-                        <option value="Will Act">Will Act</option>
-                        <option value="Won't Act">Won't Act</option>
-                        <option value="Defer">Defer</option>
-                        <option value="no-action">No Action Needed</option>
+                        <option value="Action">Action Taken</option>
+                        <option value="No Action">No Action</option>
+                        <option value="no-action">No Action Needed (On Track)</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -479,16 +478,15 @@
         <!-- DECISION HISTORY TAB -->
         <div id="decision-history" class="tab-content" role="tabpanel">
             <h2>Decision History</h2>
-            <p style="color:#7f8c8d; margin-top:4px; margin-bottom:20px;">A log of every Will Act / Won't Act / Defer decision saved on the Subjects &amp; Actions tab.</p>
+            <p style="color:#7f8c8d; margin-top:4px; margin-bottom:20px;">A log of every Action / No Action decision saved on the Subjects &amp; Actions tab. Each Action entry includes a note describing what was done.</p>
 
             <div class="filter-bar" style="margin-bottom:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
                 <div class="filter-group">
                     <label>Decision</label>
                     <select id="dh-filter-decision">
                         <option value="all">All Decisions</option>
-                        <option value="Will Act">Will Act</option>
-                        <option value="Won't Act">Won't Act</option>
-                        <option value="Defer">Defer</option>
+                        <option value="Action">Action</option>
+                        <option value="No Action">No Action</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -503,19 +501,19 @@
 
             <div class="dh-summary-bar">
                 <span><strong id="dh-total">0</strong> total decisions</span>
-                <span class="dh-dot will-act"><strong id="dh-will-act">0</strong> Will Act</span>
-                <span class="dh-dot wont-act"><strong id="dh-wont-act">0</strong> Won't Act</span>
-                <span class="dh-dot defer"><strong id="dh-defer">0</strong> Defer</span>
+                <span class="dh-dot will-act"><strong id="dh-will-act">0</strong> Action</span>
+                <span class="dh-dot wont-act"><strong id="dh-wont-act">0</strong> No Action</span>
             </div>
 
             <div class="table-container">
                 <table id="dh-table">
                     <thead>
                         <tr>
-                            <th class="sortable" onclick="sortDH(0)">Date</th>
+                            <th class="sortable" onclick="sortDH(0)">Date &amp; Time</th>
                             <th class="sortable" onclick="sortDH(1)">Subject</th>
                             <th class="sortable" onclick="sortDH(2)">Action Type</th>
                             <th class="sortable" onclick="sortDH(3)">Decision</th>
+                            <th>Who</th>
                             <th>Note</th>
                             <th style="width:80px;">Actions</th>
                         </tr>
