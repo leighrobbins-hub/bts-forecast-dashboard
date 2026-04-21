@@ -2461,7 +2461,7 @@ function copyWeeklySummary(mode) {
 
 var currentSorts_sa = { col: 6, asc: true }; // Default: Gap ascending (biggest problems first)
 var _sa_expanded = {}; // which subjects are expanded
-var _sa_pending_note = null; // { subject: string, ridx: number }
+var _sa_pending_note = null; // { subject: string, ridx: number, type: 'action'|'noaction' }
 
 var REC_META = {
     'investigate': { label: 'Investigate', cls: 'investigate' },
@@ -2912,8 +2912,10 @@ function renderSubjectsAndActions() {
                 if (decision) {
                     var decisionCls = decision.decision === 'Action' ? 'will-act' : 'no-action';
                     var decisionLabel = decision.decision === 'Action' ? '\u2713 Action taken' : '\u2715 No action';
+                    var whoInfo = decision.who ? ' <small style="color:#888;font-size:11px;">by ' + escapeHtml(decision.who) + '</small>' : '';
                     footer = '<div class="sa-action-footer">'
                         + '<span class="badge-status ' + decisionCls + '">' + decisionLabel + '</span>'
+                        + whoInfo
                         + (decision.note ? ' <small style="color:#555;font-style:italic;">\u2014 ' + escapeHtml(decision.note) + '</small>' : '')
                         + ' <button class="btn btn-sm btn-outline" onclick="saReopenDecision(\'' + escapeHtml(r.Subject).replace(/'/g, "\\'") + '\',' + ridx + ')">Change</button>'
                         + '</div>';
@@ -2923,23 +2925,50 @@ function renderSubjectsAndActions() {
                     var whoOpts = ['Leigh','Darren','Kevin','Reina','Cindy'].map(function(n) {
                         return '<option value="' + n + '"' + (n === savedWho ? ' selected' : '') + '>' + n + '</option>';
                     }).join('');
-                    footer = '<div class="sa-note-form">'
-                        + '<div class="sa-note-who-row">'
-                            + '<label class="sa-note-label" style="margin-bottom:0;">Who is taking this action? <span style="color:#c0392b;">*</span></label>'
-                            + '<select id="sa-note-who" class="sa-note-who"><option value="">Select name...</option>' + whoOpts + '</select>'
-                        + '</div>'
-                        + '<label class="sa-note-label" style="margin-top:10px;">What action are you taking? <span style="color:#c0392b;">*</span></label>'
-                        + '<textarea id="sa-note-textarea" class="sa-note-textarea" placeholder="e.g. LinkedIn campaign with Cindy, InMail push this week, escalating to Kevin..."></textarea>'
-                        + '<div id="sa-note-error" class="sa-note-error" style="display:none;"></div>'
-                        + '<div class="sa-note-buttons">'
-                            + '<button class="btn btn-primary btn-sm" onclick="saSubmitNote(\'' + safeSubj + '\',' + ridx + ')">Submit</button>'
-                            + '<button class="btn btn-outline btn-sm" onclick="saCancelNote()">Cancel</button>'
-                        + '</div>'
-                        + '</div>';
+                    var isNoAction = _sa_pending_note.type === 'noaction';
+                    if (isNoAction) {
+                        footer = '<div class="sa-note-form">'
+                            + '<div class="sa-note-who-row">'
+                                + '<label class="sa-note-label" style="margin-bottom:0;">Who is making this decision? <span style="color:#c0392b;">*</span></label>'
+                                + '<select id="sa-note-who" class="sa-note-who"><option value="">Select name...</option>' + whoOpts + '</select>'
+                            + '</div>'
+                            + '<label class="sa-note-label" style="margin-top:10px;">Reason for no action</label>'
+                            + '<select id="sa-noaction-reason" class="sa-note-who" style="margin-bottom:8px;">'
+                                + '<option value="">Select a reason (optional)...</option>'
+                                + '<option value="Not enough budget">Not enough budget</option>'
+                                + '<option value="Low priority right now">Low priority right now</option>'
+                                + '<option value="Already being handled">Already being handled</option>'
+                                + '<option value="Expecting natural resolution">Expecting natural resolution</option>'
+                                + '<option value="Need more data">Need more data</option>'
+                                + '<option value="Other">Other</option>'
+                            + '</select>'
+                            + '<label class="sa-note-label">Additional notes</label>'
+                            + '<textarea id="sa-note-textarea" class="sa-note-textarea" placeholder="Optional — add context for your team..."></textarea>'
+                            + '<div id="sa-note-error" class="sa-note-error" style="display:none;"></div>'
+                            + '<div class="sa-note-buttons">'
+                                + '<button class="btn btn-primary btn-sm" onclick="saSubmitNoAction(\'' + safeSubj + '\',' + ridx + ')">Submit</button>'
+                                + '<button class="btn btn-outline btn-sm" onclick="saCancelNote()">Cancel</button>'
+                            + '</div>'
+                            + '</div>';
+                    } else {
+                        footer = '<div class="sa-note-form">'
+                            + '<div class="sa-note-who-row">'
+                                + '<label class="sa-note-label" style="margin-bottom:0;">Who is taking this action? <span style="color:#c0392b;">*</span></label>'
+                                + '<select id="sa-note-who" class="sa-note-who"><option value="">Select name...</option>' + whoOpts + '</select>'
+                            + '</div>'
+                            + '<label class="sa-note-label" style="margin-top:10px;">What action are you taking? <span style="color:#c0392b;">*</span></label>'
+                            + '<textarea id="sa-note-textarea" class="sa-note-textarea" placeholder="e.g. LinkedIn campaign with Cindy, InMail push this week, escalating to Kevin..."></textarea>'
+                            + '<div id="sa-note-error" class="sa-note-error" style="display:none;"></div>'
+                            + '<div class="sa-note-buttons">'
+                                + '<button class="btn btn-primary btn-sm" onclick="saSubmitNote(\'' + safeSubj + '\',' + ridx + ')">Submit</button>'
+                                + '<button class="btn btn-outline btn-sm" onclick="saCancelNote()">Cancel</button>'
+                            + '</div>'
+                            + '</div>';
+                    }
                 } else {
                     var safeSubj = escapeHtml(r.Subject).replace(/'/g, "\\'");
                     footer = '<div class="sa-action-footer">'
-                        + '<button class="btn btn-sm btn-primary" onclick="saShowNoteForm(\'' + safeSubj + '\',' + ridx + ')">Action</button>'
+                        + '<button class="btn btn-sm btn-primary" onclick="saShowNoteForm(\'' + safeSubj + '\',' + ridx + ',\'action\')">Action</button>'
                         + '<button class="btn btn-sm btn-outline" onclick="saSetNoAction(\'' + safeSubj + '\',' + ridx + ')">No Action</button>'
                         + '</div>';
                 }
@@ -2997,8 +3026,8 @@ function saReopenDecision(subject, ridx) {
     }
 }
 
-function saShowNoteForm(subject, ridx) {
-    _sa_pending_note = { subject: subject, ridx: ridx };
+function saShowNoteForm(subject, ridx, type) {
+    _sa_pending_note = { subject: subject, ridx: ridx, type: type || 'action' };
     renderSubjectsAndActions();
     setTimeout(function() {
         var ta = document.getElementById('sa-note-textarea');
@@ -3043,12 +3072,31 @@ function saCancelNote() {
 }
 
 function saSetNoAction(subject, ridx) {
+    saShowNoteForm(subject, ridx, 'noaction');
+}
+
+function saSubmitNoAction(subject, ridx) {
+    var whoEl = document.getElementById('sa-note-who');
+    var reasonEl = document.getElementById('sa-noaction-reason');
+    var ta    = document.getElementById('sa-note-textarea');
+    var who   = whoEl ? whoEl.value.trim() : '';
+    var reason = reasonEl ? reasonEl.value.trim() : '';
+    var note  = ta ? ta.value.trim() : '';
+    var errEl = document.getElementById('sa-note-error');
+    if (!who) {
+        if (errEl) { errEl.textContent = 'Please select who is making this decision.'; errEl.style.display = 'block'; }
+        if (whoEl) whoEl.focus();
+        return;
+    }
+    var fullNote = reason && note ? reason + ' — ' + note
+                 : reason ? reason
+                 : note ? note : '';
+    localStorage.setItem('bts_active_user', who);
     _sa_pending_note = null;
     var recs = saGetRecsForSubject(subject);
     var rec = recs[ridx];
     if (!rec) return;
-    var who = localStorage.getItem('bts_active_user') || '';
-    saveDecision(rec, 'No Action', '', who);
+    saveDecision(rec, 'No Action', fullNote, who);
     renderSubjectsAndActions();
     if (typeof renderDecisionHistory === 'function') {
         try { renderDecisionHistory(); } catch (e) {}
