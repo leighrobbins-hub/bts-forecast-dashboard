@@ -5,7 +5,7 @@
     "over_supplied": 135,
     "supply_problems": 33,
     "on_track": 203,
-    "last_updated": "2026-04-21 09:47 AM CST",
+    "last_updated": "2026-04-21 11:19 AM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "tier_distribution": {
@@ -16,8 +16,8 @@
       "NICHE": 229
     },
     "portfolio_bts_total": 7317.0,
-    "portfolio_actual_to_date": 887,
-    "portfolio_remaining": 6430.0,
+    "portfolio_actual_to_date": 888,
+    "portfolio_remaining": 6429.0,
     "months_completed": 0,
     "months_remaining": 7,
     "march_baseline": {
@@ -44633,7 +44633,7 @@
       "run_rate": 1.0,
       "bts_total": 7.0,
       "smoothed_target": 1.0,
-      "actual_to_date": 0,
+      "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
       "problem_type": "On Track",
@@ -44651,10 +44651,10 @@
           "original_forecast": 1.0,
           "smoothed_target": 1.0,
           "manual_override": null,
-          "actual": null,
-          "status": null,
+          "actual": 1,
+          "status": "in_progress",
           "adjusted_target": 1.0,
-          "variance": null
+          "variance": 0.0
         },
         {
           "month": "2026-05",
@@ -58985,7 +58985,7 @@
       "category": "High School",
       "priority": "low",
       "action_type": "review_performance",
-      "reason": "Unexpected demand: 21 tutors contracted in Apr with no forecast. Consider adding to next forecast.",
+      "reason": "Unexpected demand: 21 tutors contracted in Apr with no active forecast. Do not automatically add to the model \u2014 verify whether this demand is real and sustained before updating the forecast.",
       "data_points": {
         "month": "Apr",
         "actual": 21
@@ -59238,65 +59238,65 @@
     "over_supplied": 135,
     "under_used": 11,
     "total_target": 7317,
-    "total_actual": 887,
+    "total_actual": 888,
     "progress_pct": 12.1,
     "high_priority_actions": 36,
     "medium_priority_actions": 71,
     "total_actions": 165,
-    "behind_pace_count": 55,
+    "behind_pace_count": 47,
     "behind_pace_subjects": [
       {
-        "subject": "Middle School Math",
-        "pace": 69,
-        "month": "Apr"
-      },
-      {
         "subject": "High School Chemistry",
-        "pace": 33,
+        "pace": 48,
         "month": "Apr"
       },
       {
         "subject": "Elementary School Math",
-        "pace": 43,
+        "pace": 61,
         "month": "Apr"
       },
       {
         "subject": "SAT",
-        "pace": 36,
+        "pace": 51,
         "month": "Apr"
       },
       {
         "subject": "Pre-Calculus",
-        "pace": 35,
+        "pace": 49,
         "month": "Apr"
       },
       {
         "subject": "Elementary School Reading",
-        "pace": 30,
+        "pace": 42,
         "month": "Apr"
       },
       {
         "subject": "Algebra 2",
-        "pace": 34,
-        "month": "Apr"
-      },
-      {
-        "subject": "Algebra",
-        "pace": 62,
+        "pace": 49,
         "month": "Apr"
       },
       {
         "subject": "AP Biology",
-        "pace": 50,
+        "pace": 71,
         "month": "Apr"
       },
       {
         "subject": "Geometry",
-        "pace": 48,
+        "pace": 68,
+        "month": "Apr"
+      },
+      {
+        "subject": "AP Calculus AB",
+        "pace": 38,
+        "month": "Apr"
+      },
+      {
+        "subject": "Organic Chemistry",
+        "pace": 52,
         "month": "Apr"
       }
     ],
-    "on_pace_count": 134,
+    "on_pace_count": 143,
     "biggest_gaps": [
       {
         "subject": "High School Chemistry",
@@ -59319,7 +59319,7 @@
         "remaining": 111
       }
     ],
-    "generated_at": "2026-04-21 09:47 AM CST"
+    "generated_at": "2026-04-21 11:19 AM CST"
   },
   "fetch_status": {
     "fetched_at": "2026-04-17T08:01:33.401951+00:00",

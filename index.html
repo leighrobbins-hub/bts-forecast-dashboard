@@ -42,33 +42,33 @@
             <div class="summary-grid">
                 <div class="stat-card blue">
                     <div class="stat-label">Total Subjects Analyzed</div>
-                    <div class="stat-value" id="total-subjects">-</div>
+                    <div class="stat-value" id="total-subjects" onclick="navigateToFiltered('all')" style="cursor:pointer;" title="Click to view all subjects">-</div>
                     <div class="stat-detail">April-October 2026 forecast period</div>
                 </div>
                 
                 <div class="stat-card orange">
                     <div class="stat-label">Under-Used (Anomaly)</div>
-                    <div class="stat-value" id="util-problems">-</div>
+                    <div class="stat-value" id="util-problems" onclick="navigateToFiltered('placement')" style="cursor:pointer;" title="Click to filter by Under-Used">-</div>
                     <div class="stat-pending" id="pending-underused">&nbsp;</div>
                     <div class="stat-detail">Low util with a demand gap — investigate placement/algorithm, demand, multi-subject, or scheduling</div>
                 </div>
                 
                 <div class="stat-card red">
                     <div class="stat-label">Supply Problems</div>
-                    <div class="stat-value" id="stat-supply-problems">-</div>
+                    <div class="stat-value" id="stat-supply-problems" onclick="navigateToFiltered('true-supply')" style="cursor:pointer;" title="Click to filter by Supply Problems">-</div>
                     <div class="stat-pending" id="pending-supply">&nbsp;</div>
                     <div class="stat-detail">Need external recruitment levers (tutors well-utilized, or no util data available)</div>
                 </div>
                 
                 <div class="stat-card green">
                     <div class="stat-label">On Track</div>
-                    <div class="stat-value" id="ontrack-subjects">-</div>
+                    <div class="stat-value" id="ontrack-subjects" onclick="navigateToFiltered('on-track')" style="cursor:pointer;" title="Click to filter by On Track">-</div>
                     <div class="stat-detail">No action required</div>
                 </div>
                 
                 <div class="stat-card purple">
                     <div class="stat-label">Over-Supplied</div>
-                    <div class="stat-value" id="lowutil-subjects">-</div>
+                    <div class="stat-value" id="lowutil-subjects" onclick="navigateToFiltered('over-supplied')" style="cursor:pointer;" title="Click to filter by Over-Supplied">-</div>
                     <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
                     <div class="stat-detail">Supply exceeds demand but &lt;50% utilized — consider reducing forecast</div>
                 </div>
@@ -104,9 +104,9 @@
                 </table>
             </div>
 
-            <details class="methodology dashboard-key" open style="margin-top: 30px;">
-                <summary style="cursor: pointer; font-weight: 600; font-size: 16px; color: #2c3e50; margin-bottom: 10px;">
-                    Key: What each column means
+            <details class="methodology dashboard-key" style="margin-top: 30px;">
+                <summary style="cursor: pointer; font-weight: 600; font-size: 13px; color: #7f8c8d; margin-bottom: 10px;">
+                    ▸ Column definitions (hover any column header for quick reference)
                 </summary>
                 <dl class="key-list">
                     <dt>Run Rate</dt>
@@ -138,7 +138,7 @@
                 </dl>
             </details>
 
-            <div class="section-header" style="margin-top: 30px;">Top Priority Subjects</div>
+            <div class="section-header" style="margin-top: 30px;">Top 15 Problem Subjects — BTS Season Tutor Gap</div>
             <div class="table-container">
                 <div class="table-toolbar">
                     <span class="row-count" id="priority-count"></span>
@@ -174,7 +174,7 @@
                             <th class="sortable" onclick="sortTable('priority', 0)">Subject</th>
                             <th class="sortable tooltip-wrap" onclick="sortTable('priority', 1)">Tier<span class="tooltip-text">Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.</span></th>
                             <th class="sortable" onclick="sortTable('priority', 2)">Run Rate</th>
-                            <th class="sortable" onclick="sortTable('priority', 3)">Target/Mo</th>
+                            <th class="sortable" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
                             <th class="sortable tooltip-wrap" onclick="sortTable('priority', 4)">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
                             <th class="sortable" onclick="sortTable('priority', 5)">Gap</th>
                             <th class="sortable" onclick="sortTable('priority', 6)">Problem Type</th>
@@ -272,12 +272,13 @@
                     <input type="text" id="sa-search" placeholder="Type to search...">
                 </div>
                 <div class="filter-group">
-                    <label>Min Gap %</label>
+                    <label>Min Tutor Gap</label>
                     <select id="sa-filter-gap">
-                        <option value="0">All</option>
-                        <option value="50">50%+</option>
-                        <option value="100">100%+</option>
-                        <option value="200">200%+</option>
+                        <option value="0">Any gap</option>
+                        <option value="5">5+ tutors</option>
+                        <option value="10">10+ tutors</option>
+                        <option value="20">20+ tutors</option>
+                        <option value="50">50+ tutors</option>
                     </select>
                 </div>
             </div>
@@ -294,10 +295,10 @@
                             <th class="sortable" onclick="sortSA(0)">Subject</th>
                             <th class="sortable" onclick="sortSA(1)" title="Volume tier based on total BTS forecast: CORE (150+), HIGH (75+), MEDIUM (30+), LOW (10+), NICHE (<10). A miss on a CORE subject has much bigger business impact than a miss on a NICHE subject.">Tier</th>
                             <th class="sortable" onclick="sortSA(2)" title="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor. Dash = no recommended action.">Priority</th>
-                            <th class="sortable" onclick="sortSA(3)">Run Rate</th>
-                            <th class="sortable" onclick="sortSA(4)">Target</th>
-                            <th class="sortable" onclick="sortSA(5)">Util %</th>
-                            <th class="sortable" onclick="sortSA(6)">Gap</th>
+                            <th class="sortable" onclick="sortSA(3)" data-tip="Historical monthly new-tutor contracting capacity, averaged across Dec 2025–Mar 2026. The number we can realistically contract per month through the organic pipeline.">Run Rate</th>
+                            <th class="sortable" onclick="sortSA(4)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
+                            <th class="sortable" onclick="sortSA(5)" data-tip="Percentage of recently contracted tutors who received at least one assignment within 30 days, averaged over the most recent 3 months. Below 50% = anomaly worth investigating.">Util %</th>
+                            <th class="sortable" onclick="sortSA(6)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically). Color: green/yellow = manageable, red = significant shortfall.">Gap</th>
                             <th class="sortable sa-current-col" onclick="sortSA(7)" title="Current in-progress month: actual vs target">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
                             <th class="sortable" onclick="sortSA(8)">Problem Type</th>
                             <th class="sortable" onclick="sortSA(9)">Recommendation</th>
