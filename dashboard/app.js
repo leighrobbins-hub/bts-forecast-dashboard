@@ -2497,7 +2497,7 @@ function renderSubjectsAndActions() {
     if (cmLabelEl) {
         var lbl, color;
         if (!currentMonth) { lbl = '(—)'; color = '#bdc3c7'; }
-        else if (currentMonth.state === 'in-bts')   { lbl = '(' + currentMonth.label + ')'; color = '#2c3e50'; }
+        else if (currentMonth.state === 'in-bts')   { lbl = '(' + currentMonth.label + ')'; color = '#ffffff'; }
         else if (currentMonth.state === 'pre-bts')  { lbl = '(pre-BTS)'; color = '#7f8c8d'; }
         else if (currentMonth.state === 'post-bts') { lbl = '(closed)'; color = '#7f8c8d'; }
         else { lbl = '(—)'; color = '#bdc3c7'; }
