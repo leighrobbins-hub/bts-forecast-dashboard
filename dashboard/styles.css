@@ -746,6 +746,17 @@ tr.nodata-problem {
 .tracker-row:hover td:first-child { background: #f5f7fa; }
 .tracker-row-expanded { background: #eef3f8; }
 .tracker-row-expanded td:first-child { background: #eef3f8; }
+.tracker-chevron {
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 10px;
+    color: #95a5a6;
+    transition: transform 0.2s;
+}
+.tracker-row:hover .tracker-chevron { color: #3498db; }
+.tracker-row-expanded .tracker-chevron { transform: rotate(90deg); color: #2c3e50; }
+.tracker-subject strong { border-bottom: 1px dotted #bdc3c7; }
+.tracker-row:hover .tracker-subject strong { border-bottom-color: #3498db; color: #2c3e50; }
 
 .col-left { background: white; }
 .col-month { }
@@ -828,21 +839,6 @@ th.col-right { background: #edf0f3; font-weight: 700; color: #2c3e50; }
     transition: width 0.3s;
 }
 
-.cell-tooltip {
-    display: none;
-    position: fixed;
-    background: #2c3e50;
-    color: #fff;
-    font-size: 12px;
-    line-height: 1.6;
-    padding: 10px 14px;
-    border-radius: 6px;
-    z-index: 9999;
-    pointer-events: none;
-    transform: translateX(-50%);
-    max-width: 250px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-}
 
 .pace-bar-wrap { width: 80px; display: inline-block; vertical-align: middle; }
 .pace-bar-outer { height: 10px; background: #ecf0f1; border-radius: 5px; overflow: hidden; }
