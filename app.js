@@ -23,6 +23,7 @@ var historyData = [];
 var uploadsData = [];
 var summaryData = {};
 var recommendationsData = [];
+var recsBySubject = {};
 var weeklySummaryData = {};
 var btsMonths = [];        // e.g. ['2026-04', '2026-05', ...]
 var btsMonthLabels = [];   // e.g. ['Apr', 'May', ...]
@@ -37,9 +38,7 @@ var REPO_OWNER = 'leighrobbins-hub';
 var REPO_NAME = 'bts-forecast-dashboard';
 
 var currentSorts = {
-    all: { col: 4, asc: false },
-    problems: { col: 4, asc: false },
-    priority: { col: 5, asc: false }  // default sort by Raw_Gap desc
+    priority: { col: 5, asc: false }
 };
 var trackerSort = { key: 'subject', asc: true };
 
@@ -92,11 +91,6 @@ function classifyType(problemType) {
     return 'on-track';
 }
 
-function isSupplyRelated(problemType) {
-    if (!problemType) return false;
-    return problemType.includes('True Supply') || problemType.includes('No Util Data');
-}
-
 function buildUtilDisplay(row) {
     if (row.Util_Rate === null || row.Util_Rate === undefined) return 'N/A';
     var html = Math.round(row.Util_Rate) + '%';
@@ -136,6 +130,11 @@ fetch('data.json?v=' + Date.now())
         uploadsData = data.uploads || [];
         summaryData = data.summary || {};
         recommendationsData = data.recommendations || [];
+        recsBySubject = {};
+        recommendationsData.forEach(function(r) {
+            if (!recsBySubject[r.subject]) recsBySubject[r.subject] = [];
+            recsBySubject[r.subject].push(r);
+        });
         weeklySummaryData = data.weekly_summary || {};
         btsMonths = data.bts_months || [];
         btsMonthLabels = data.bts_month_labels || [];
@@ -295,8 +294,8 @@ function refreshOverviewLive() {
         var count = 0;
         allData.forEach(function(r) {
             if (!predicate(classifyType(r.Problem_Type))) return;
-            var recs = recommendationsData.filter(function(rec) { return rec.subject === r.Subject; });
-            if (recs.length === 0) return; // no rec means no pending
+            var recs = recsBySubject[r.Subject];
+            if (!recs || recs.length === 0) return;
             var anyPending = recs.some(function(rec) { return !getDecision(rec); });
             if (anyPending) count++;
         });
@@ -329,7 +328,7 @@ function refreshOverviewLive() {
     if (_lastSummary) {
         var discrepancies = [];
         if (clientTotal !== (_lastSummary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + _lastSummary.total_subjects);
-        if (clientPlacement !== (_lastSummary.placement_bottlenecks || 0)) discrepancies.push('Under-Used: card=' + clientPlacement + ' vs data=' + _lastSummary.placement_bottlenecks);
+        if (clientPlacement !== (_lastSummary.under_used || 0)) discrepancies.push('Under-Used: card=' + clientPlacement + ' vs data=' + _lastSummary.under_used);
         var serverSupply = (_lastSummary.supply_problems || 0);
         if ((clientSupply + clientNoUtil) !== serverSupply) discrepancies.push('Supply Problems: card=' + (clientSupply + clientNoUtil) + ' vs data=' + serverSupply);
         if (discrepancies.length > 0) console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
@@ -434,12 +433,14 @@ function renderCriticalFindings() {
 }
 
 function showTab(tabName, el) {
+    var target = document.getElementById(tabName);
+    if (!target) return;
     document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
     document.querySelectorAll('.tab').forEach(function(t) {
         t.classList.remove('active');
         t.setAttribute('aria-selected', 'false');
     });
-    document.getElementById(tabName).classList.add('active');
+    target.classList.add('active');
     el.classList.add('active');
     el.setAttribute('aria-selected', 'true');
 }
@@ -452,7 +453,7 @@ function renderAllTables() {
 
 function renderBarChart() {
     var problems = allData
-        .filter(function(r) { return r.Problem_Type && r.Problem_Type.includes('Problem') && r.Raw_Gap != null && r.Raw_Gap < 0; })
+        .filter(function(r) { var t = classifyType(r.Problem_Type); return (t === 'true-supply' || t === 'placement' || t === 'no-util-data') && r.Raw_Gap != null && r.Raw_Gap < 0; })
         .sort(function(a, b) { return a.Raw_Gap - b.Raw_Gap; })
         .slice(0, 12);
     var maxGap = problems.length > 0 ? Math.abs(problems[0].Raw_Gap) : 100;
@@ -494,13 +495,22 @@ function renderPriorityTable() {
         return null;
     }
 
+    function hasRecType(subject, actionType) {
+        if (!recommendationsData) return false;
+        var recs = recsBySubject[subject];
+        if (!recs) return false;
+        for (var i = 0; i < recs.length; i++) {
+            if (recs[i].action_type === actionType) return true;
+        }
+        return false;
+    }
+
     var priority = allData.filter(function(r) {
         var t = classifyType(r.Problem_Type);
-        // Expand the set of candidate rows based on the selected recommendation.
-        // "All" keeps the original problem-only view; specific recs let the user
-        // drill into over-supplied etc. without leaving the Overview.
         if (recFilter === 'all') {
             if (!(t === 'true-supply' || t === 'placement' || t === 'no-util-data')) return false;
+        } else if (recFilter === 'review_performance') {
+            if (!hasRecType(r.Subject, 'review_performance')) return false;
         } else {
             if (recForRow(r) !== recFilter) return false;
         }
@@ -566,9 +576,7 @@ function matchesFilter(problemType, filter) {
     return false;
 }
 
-// Map a row to its top-level recommendation bucket. Used by the Recommendation
-// filter on the All Subjects tab so stakeholders can slice "show me things to
-// investigate" vs "things to recruit for" vs "things to reduce" directly.
+// Map a row to its top-level recommendation bucket for the Recommendation filter.
 function recommendationFor(row) {
     var t = classifyType(row.Problem_Type);
     if (t === 'placement') return 'investigate';
@@ -593,13 +601,10 @@ function sortTable(tableType, colIndex) {
 }
 
 function sortData(data, colIndex, asc, tableType) {
-    // Per-table column-index → field-key mappings. Kept explicit to avoid the
-    // column/index drift problem when tables evolve. Must stay in lockstep
-    // with the <th onclick="sortTable(...)"> indices in index.html.
-    // After Pass 2, only the priority table uses sortTable; the Subjects &
-    // Actions tab uses sortSA, and Decision History uses sortDH.
+    // Column-index → field-key mapping for the priority table. Must stay in
+    // lockstep with the <th onclick="sortTable(...)"> indices in index.html.
     var columnMaps = {
-        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Raw_Gap', 'Problem_Type', 'Problem_Type']
+        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Raw_Gap', 'Problem_Type']
     };
     var map = columnMaps[tableType] || columnMaps['priority'];
     var key = map[colIndex] || 'Subject';
@@ -824,7 +829,7 @@ function renderMonthlyTracker() {
     var filtered = trackerData.filter(function(ts) {
         if (search && ts.subject.toLowerCase().indexOf(search) === -1) return false;
         if (catFilter !== 'all' && ts.category !== catFilter) return false;
-        if (filter === 'problems') return classifyType(ts.problem_type) !== 'on-track' && classifyType(ts.problem_type) !== 'low-util';
+        if (filter === 'problems') return classifyType(ts.problem_type) !== 'on-track' && classifyType(ts.problem_type) !== 'over-supplied';
         if (filter === 'will-miss') return ts._pace < 80;
         if (filter === 'at-risk') return ts._pace >= 80 && ts._pace < 100;
         if (filter === 'has-actuals') return ts.actual_to_date > 0;
@@ -2098,7 +2103,7 @@ function generateWeeklySummary() {
             + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Portfolio health:</span> '
             + ws.total_subjects + ' subjects tracked. '
             + ws.on_track + ' on track, '
-            + ws.bottlenecks + ' under-used, '
+            + ws.under_used + ' under-used, '
             + ws.over_supplied + ' over-supplied.</p>'
             + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Contracting progress:</span> '
             + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted to date '
@@ -2144,7 +2149,7 @@ function weeklySummaryPlainText(ws, generated) {
     lines.push('Generated: ' + generated);
     lines.push('');
     lines.push('OVERVIEW');
-    lines.push('Portfolio health: ' + ws.total_subjects + ' subjects tracked. ' + ws.on_track + ' on track, ' + ws.bottlenecks + ' under-used, ' + ws.over_supplied + ' over-supplied.');
+    lines.push('Portfolio health: ' + ws.total_subjects + ' subjects tracked. ' + ws.on_track + ' on track, ' + ws.under_used + ' under-used, ' + ws.over_supplied + ' over-supplied.');
     lines.push('Contracting progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted to date (' + ws.progress_pct + '%).');
     lines.push('');
     lines.push('ACTIONS');
@@ -2224,8 +2229,7 @@ var REC_META = {
 
 // Map a subject row to its recs from recommendationsData (keyed by Subject)
 function saGetRecsForSubject(subject) {
-    if (!recommendationsData || !recommendationsData.length) return [];
-    return recommendationsData.filter(function(r) { return r.subject === subject; });
+    return recsBySubject[subject] || [];
 }
 
 // Compute highest priority and aggregate status for a subject
