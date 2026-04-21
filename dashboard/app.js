@@ -156,6 +156,7 @@ fetch('data.json?v=' + Date.now())
         showFetchStatusBanner(data.fetch_status);
         populateLookerSyncBanner(data.fetch_status);
         initTrackerKey();
+        loadSharedDecisions();
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-tabs').style.display = '';
         document.getElementById('main-content').style.display = '';
@@ -2138,15 +2139,26 @@ var ACTION_TYPE_LABELS = {
     'no_action': 'No Action'
 };
 
+var _sharedDecisions = {};
+
 function getDecisionKey(rec) {
     return 'decision_' + rec.subject + '_' + rec.action_type + '_' + (rec.data_points && rec.data_points.month || 'all');
 }
 
 function getDecision(rec) {
+    var key = getDecisionKey(rec);
+    if (_sharedDecisions[key]) return _sharedDecisions[key];
     try {
-        var raw = localStorage.getItem(getDecisionKey(rec));
+        var raw = localStorage.getItem(key);
         return raw ? JSON.parse(raw) : null;
     } catch (e) { return null; }
+}
+
+function _getAuthHeader() {
+    if (typeof netlifyIdentity === 'undefined') return null;
+    var user = netlifyIdentity.currentUser();
+    if (!user || !user.token || !user.token.access_token) return null;
+    return 'Bearer ' + user.token.access_token;
 }
 
 function saveDecision(rec, decision, note, who) {
@@ -2159,7 +2171,58 @@ function saveDecision(rec, decision, note, who) {
         action_type: rec.action_type,
         reason: rec.reason
     };
-    localStorage.setItem(getDecisionKey(rec), JSON.stringify(obj));
+    var key = getDecisionKey(rec);
+    localStorage.setItem(key, JSON.stringify(obj));
+    _sharedDecisions[key] = obj;
+
+    var auth = _getAuthHeader();
+    if (auth) {
+        fetch('/.netlify/functions/decisions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': auth },
+            body: JSON.stringify({ key: key, decision: obj })
+        }).catch(function(e) { console.warn('Failed to sync decision to server:', e); });
+    }
+}
+
+function removeDecision(rec) {
+    var key = getDecisionKey(rec);
+    try { localStorage.removeItem(key); } catch (e) {}
+    delete _sharedDecisions[key];
+
+    var auth = _getAuthHeader();
+    if (auth) {
+        fetch('/.netlify/functions/decisions', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': auth },
+            body: JSON.stringify({ key: key })
+        }).catch(function(e) { console.warn('Failed to delete decision on server:', e); });
+    }
+}
+
+function loadSharedDecisions() {
+    var auth = _getAuthHeader();
+    if (!auth) return;
+    fetch('/.netlify/functions/decisions', {
+        headers: { 'Authorization': auth }
+    })
+    .then(function(r) { return r.ok ? r.json() : {}; })
+    .then(function(decisions) {
+        _sharedDecisions = decisions || {};
+        Object.keys(_sharedDecisions).forEach(function(key) {
+            localStorage.setItem(key, JSON.stringify(_sharedDecisions[key]));
+        });
+        if (typeof renderSubjectsAndActions === 'function') {
+            try { renderSubjectsAndActions(); } catch (e) {}
+        }
+        if (typeof renderDecisionHistory === 'function') {
+            try { renderDecisionHistory(); } catch (e) {}
+        }
+        if (typeof refreshOverviewLive === 'function') {
+            try { refreshOverviewLive(); } catch (e) {}
+        }
+    })
+    .catch(function(e) { console.warn('Failed to load shared decisions:', e); });
 }
 
 
@@ -2921,18 +2984,15 @@ function renderSubjectsAndActions() {
                         + '</div>';
                 } else if (_sa_pending_note && _sa_pending_note.subject === r.Subject && _sa_pending_note.ridx === ridx) {
                     var safeSubj = escapeHtml(r.Subject).replace(/'/g, "\\'");
-                    var savedWho = localStorage.getItem('bts_active_user') || '';
-                    var whoOpts = ['Leigh','Darren','Kevin','Reina','Cindy'].map(function(n) {
-                        return '<option value="' + n + '"' + (n === savedWho ? ' selected' : '') + '>' + n + '</option>';
-                    }).join('');
+                    var loggedInUser = localStorage.getItem('bts_active_user') || 'Unknown';
+                    var whoDisplay = '<div class="sa-note-who-row" style="margin-bottom:8px;">'
+                        + '<span style="color:#555; font-size:13px;">Logged in as: <strong>' + escapeHtml(loggedInUser) + '</strong></span>'
+                        + '</div>';
                     var isNoAction = _sa_pending_note.type === 'noaction';
                     if (isNoAction) {
                         footer = '<div class="sa-note-form">'
-                            + '<div class="sa-note-who-row">'
-                                + '<label class="sa-note-label" style="margin-bottom:0;">Who is making this decision? <span style="color:#c0392b;">*</span></label>'
-                                + '<select id="sa-note-who" class="sa-note-who"><option value="">Select name...</option>' + whoOpts + '</select>'
-                            + '</div>'
-                            + '<label class="sa-note-label" style="margin-top:10px;">Reason for no action</label>'
+                            + whoDisplay
+                            + '<label class="sa-note-label">Reason for no action</label>'
                             + '<select id="sa-noaction-reason" class="sa-note-who" style="margin-bottom:8px;">'
                                 + '<option value="">Select a reason (optional)...</option>'
                                 + '<option value="Not enough budget">Not enough budget</option>'
@@ -2952,11 +3012,8 @@ function renderSubjectsAndActions() {
                             + '</div>';
                     } else {
                         footer = '<div class="sa-note-form">'
-                            + '<div class="sa-note-who-row">'
-                                + '<label class="sa-note-label" style="margin-bottom:0;">Who is taking this action? <span style="color:#c0392b;">*</span></label>'
-                                + '<select id="sa-note-who" class="sa-note-who"><option value="">Select name...</option>' + whoOpts + '</select>'
-                            + '</div>'
-                            + '<label class="sa-note-label" style="margin-top:10px;">What action are you taking? <span style="color:#c0392b;">*</span></label>'
+                            + whoDisplay
+                            + '<label class="sa-note-label">What action are you taking? <span style="color:#c0392b;">*</span></label>'
                             + '<textarea id="sa-note-textarea" class="sa-note-textarea" placeholder="e.g. LinkedIn campaign with Cindy, InMail push this week, escalating to Kevin..."></textarea>'
                             + '<div id="sa-note-error" class="sa-note-error" style="display:none;"></div>'
                             + '<div class="sa-note-buttons">'
@@ -3016,7 +3073,7 @@ function saReopenDecision(subject, ridx) {
     var recs = saGetRecsForSubject(subject);
     var rec = recs[ridx];
     if (!rec) return;
-    try { localStorage.removeItem(getDecisionKey(rec)); } catch (e) {}
+    removeDecision(rec);
     renderSubjectsAndActions();
     if (typeof renderDecisionHistory === 'function') {
         try { renderDecisionHistory(); } catch (e) {}
@@ -3036,22 +3093,15 @@ function saShowNoteForm(subject, ridx, type) {
 }
 
 function saSubmitNote(subject, ridx) {
-    var whoEl = document.getElementById('sa-note-who');
     var ta    = document.getElementById('sa-note-textarea');
-    var who   = whoEl ? whoEl.value.trim() : '';
+    var who   = localStorage.getItem('bts_active_user') || 'Unknown';
     var note  = ta    ? ta.value.trim()    : '';
     var errEl = document.getElementById('sa-note-error');
-    if (!who) {
-        if (errEl) { errEl.textContent = 'Please select who is taking this action.'; errEl.style.display = 'block'; }
-        if (whoEl) whoEl.focus();
-        return;
-    }
     if (!note) {
         if (errEl) { errEl.textContent = 'Please describe the action being taken before submitting.'; errEl.style.display = 'block'; }
         if (ta) ta.focus();
         return;
     }
-    localStorage.setItem('bts_active_user', who);
     _sa_pending_note = null;
     var recs = saGetRecsForSubject(subject);
     var rec = recs[ridx];
@@ -3076,22 +3126,14 @@ function saSetNoAction(subject, ridx) {
 }
 
 function saSubmitNoAction(subject, ridx) {
-    var whoEl = document.getElementById('sa-note-who');
     var reasonEl = document.getElementById('sa-noaction-reason');
     var ta    = document.getElementById('sa-note-textarea');
-    var who   = whoEl ? whoEl.value.trim() : '';
+    var who   = localStorage.getItem('bts_active_user') || 'Unknown';
     var reason = reasonEl ? reasonEl.value.trim() : '';
     var note  = ta ? ta.value.trim() : '';
-    var errEl = document.getElementById('sa-note-error');
-    if (!who) {
-        if (errEl) { errEl.textContent = 'Please select who is making this decision.'; errEl.style.display = 'block'; }
-        if (whoEl) whoEl.focus();
-        return;
-    }
     var fullNote = reason && note ? reason + ' — ' + note
                  : reason ? reason
                  : note ? note : '';
-    localStorage.setItem('bts_active_user', who);
     _sa_pending_note = null;
     var recs = saGetRecsForSubject(subject);
     var rec = recs[ridx];
