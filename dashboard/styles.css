@@ -1697,19 +1697,6 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
     margin-top: 4px;
 }
 
-.badge-priority {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 12px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-.badge-priority.high   { background: #fce4e4; color: #c0392b; }
-.badge-priority.medium { background: #fdf2e9; color: #d35400; }
-.badge-priority.low    { background: #ebf5fb; color: #2980b9; }
-
 .badge-action-type {
     display: inline-block;
     padding: 2px 10px;
@@ -1720,9 +1707,6 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
     color: #555;
 }
 
-.btn { border: none; cursor: pointer; border-radius: 6px; font-size: 13px; padding: 6px 14px; }
-.btn-primary { background: #3498db; color: #fff; }
-.btn-primary:hover { background: #2980b9; }
 .btn-sm { font-size: 12px; padding: 4px 10px; }
 .btn-outline { background: transparent; border: 1px solid #bbb; color: #555; }
 .btn-outline:hover { background: #f5f5f5; }
@@ -1809,6 +1793,8 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
 }
 
 /* Row expansion for inline action detail */
+th.sa-current-col { background: #2c3e50; }
+
 .sa-row {
     cursor: pointer;
 }

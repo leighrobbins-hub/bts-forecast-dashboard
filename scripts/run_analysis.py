@@ -11,7 +11,9 @@ import glob
 import os
 import shutil
 import calendar
+from collections import defaultdict
 from datetime import datetime, timezone
+import re as _re
 from zoneinfo import ZoneInfo
 import sys
 
@@ -94,7 +96,6 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
 
     # Detect month columns dynamically from CSV headers instead of hard-coding Feb/Mar.
     # Looker exports duplicate column names as YYYY-MM (total) and YYYY-MM.1 (30-day util).
-    import re as _re
     _month_pat = _re.compile(r'^\d{4}-\d{2}$')
     detected_month_pairs = [
         (col, col + '.1')
@@ -198,7 +199,7 @@ def load_actuals(actuals_dir):
                 continue
             month_data = {}
             for _, row in df.iterrows():
-                subject = str(row['Subject']).strip()
+                subject = _norm_subject(row['Subject'])
                 val = pd.to_numeric(row['Actual_Contracted'], errors='coerce')
                 if pd.notna(val):
                     month_data[subject] = int(val)
@@ -612,11 +613,11 @@ HIGH_SCHOOL_SUBJECTS = {
     'Algebra', 'Algebra 2', 'Geometry', 'Pre-Calculus', 'Trigonometry',
     'Math 1', 'Math 2', 'Math 3', 'Earth Science', 'Physical Science',
     'Chemistry', 'Physics', 'Competition Math', 'Functions',
-    'English Grammar and Syntax', 'European History',
+    'English', 'English Grammar and Syntax', 'European History',
 }
 
 COLLEGE_SUBJECTS = {
-    'Calculus 2', 'Calculus 3', 'Multivariable Calculus', 'Business Calculus',
+    'Calculus', 'Calculus 2', 'Calculus 3', 'Multivariable Calculus', 'Business Calculus',
     'Differential Equations', 'Linear Algebra', 'Real Analysis',
     'Discrete Math', 'Discrete Structures', 'Numerical Analysis',
     'Probability', 'Applied Mathematics', 'Finite Mathematics',
@@ -626,7 +627,7 @@ COLLEGE_SUBJECTS = {
     'Organic Chemistry', 'Organic Chemistry 2', 'Inorganic Chemistry',
     'Analytical Chemistry', 'Physical Chemistry', 'General Chemistry 2',
     'Chemistry 2', 'Physics 2',
-    'Biochemistry', 'Molecular Biology', 'Cell Biology', 'Genetics',
+    'Biology', 'Biochemistry', 'Molecular Biology', 'Cell Biology', 'Genetics',
     'Microbiology', 'Immunology', 'Neuroscience', 'Evolutionary Biology',
     'Anatomy & Physiology', 'Pathophysiology', 'Pharmacology', 'Kinesiology',
     'Biomechanics', 'Cardiology', 'Nutrition', 'Public Health',
@@ -653,7 +654,7 @@ COLLEGE_SUBJECTS = {
     'SQL', 'MATLAB', 'HTML', 'Relational Databases', 'Linux',
     'Computer Programming', 'Web Development', 'Web Design',
     'Software', 'Coding',
-    'Technical Writing', 'Expository Writing', 'Creative Writing',
+    'Writing', 'Reading', 'Technical Writing', 'Expository Writing', 'Creative Writing',
     'Fiction Writing', 'Public Speaking',
 }
 
@@ -959,7 +960,6 @@ def _compute_accuracy_tiers(subjects_detail):
 
     forecast_bias = round(total_signed_error / total_target * 100, 1) if total_target > 0 else 0
 
-    from collections import defaultdict
     clusters = defaultdict(lambda: {'target': 0, 'actual': 0})
     for s in planned:
         cat = s.get('category', 'Other')
@@ -1283,10 +1283,18 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
 
     behind_pace = []
     on_pace = []
+    now = datetime.now(tz=CST)
     for ts in tracker_subjects:
         for md in ts['months']:
             if md['status'] == 'in_progress' and md['actual'] is not None and md['smoothed_target'] > 0:
-                pace = md['actual'] / md['smoothed_target'] * 100
+                try:
+                    year, month_num = int(md['month'][:4]), int(md['month'][5:7])
+                    dim = calendar.monthrange(year, month_num)[1]
+                except (ValueError, IndexError):
+                    dim = 30
+                fraction = min(now.day / dim, 1.0)
+                expected = md['smoothed_target'] * fraction
+                pace = (md['actual'] / expected * 100) if expected > 0 else 100
                 if pace < 80:
                     behind_pace.append({'subject': ts['subject'], 'pace': round(pace), 'month': md['label']})
                 else:
@@ -1468,7 +1476,7 @@ def main():
             march_overrides = {}
             for _, row in df_march.iterrows():
                 if pd.notna(row['Subject']) and row['Subject']:
-                    march_overrides[row['Subject']] = {
+                    march_overrides[_norm_subject(row['Subject'])] = {
                         'forecast': float(row['Mar_Forecast_Final']) if pd.notna(row['Mar_Forecast_Final']) else None,
                         'actual': float(row['Mar_Actual_Final']) if pd.notna(row['Mar_Actual_Final']) else None
                     }
