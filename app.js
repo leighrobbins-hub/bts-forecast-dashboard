@@ -696,8 +696,9 @@ function buildExpandedRow(ts, colspan) {
     html += '<div class="detail-stat"><div class="detail-stat-val">' + Math.round(ts.remaining_need) + '</div><div class="detail-stat-lbl">Remaining</div></div>';
     html += '<div class="detail-stat"><div class="detail-stat-val">' + paceLabel + '</div><div class="detail-stat-lbl">Pace</div></div>';
     html += '<div class="detail-stat"><div class="detail-stat-val">' + escapeHtml(problemLabel) + '</div><div class="detail-stat-lbl">Classification</div></div>';
-    if (ts.is_adjusted && ts.adjusted_months) {
-        html += '<div class="detail-stat"><div class="detail-stat-val">' + escapeHtml(ts.adjusted_months.join(', ')) + '</div><div class="detail-stat-lbl">Manually Adjusted</div></div>';
+    var overrideCount = ts.months.filter(function(m) { return m.manual_override != null; }).length;
+    if (overrideCount > 0) {
+        html += '<div class="detail-stat"><div class="detail-stat-val" style="color:#e67e22;">' + overrideCount + ' mo</div><div class="detail-stat-lbl">Manual Adj</div></div>';
     }
     html += '</div>';
 
@@ -714,6 +715,21 @@ function buildExpandedRow(ts, colspan) {
         html += '<td>' + f + '</td>';
     });
     html += '</tr>';
+
+    var hasOverrides = ts.months.some(function(m) { return m.manual_override != null; });
+    if (hasOverrides) {
+        html += '<tr><td>Manual Adj</td><td style="color:#95a5a6">—</td>';
+        ts.months.forEach(function(m) {
+            if (m.manual_override != null) {
+                var diff = Math.round(m.manual_override) - (m.original_forecast != null ? Math.round(m.original_forecast) : 0);
+                var diffLabel = diff > 0 ? '+' + diff : diff === 0 ? '0' : '' + diff;
+                html += '<td style="color:#e67e22;font-weight:600;" title="Override: ' + Math.round(m.manual_override) + ' (forecast was ' + (m.original_forecast != null ? Math.round(m.original_forecast) : 0) + ')">' + diffLabel + '</td>';
+            } else {
+                html += '<td style="color:#bdc3c7;">—</td>';
+            }
+        });
+        html += '</tr>';
+    }
 
     html += '<tr><td>Target</td><td style="color:#95a5a6">—</td>';
     ts.months.forEach(function(m) {
@@ -893,7 +909,7 @@ function renderMonthlyTracker() {
         if (pace < 80) tr.className += ' row-miss';
         else if (pace < 100) tr.className += ' row-risk';
 
-        var cells = '<td class="col-left"><strong>' + escapeHtml(ts.subject) + '</strong></td>';
+        var cells = '<td class="col-left tracker-subject"><span class="tracker-chevron">&#9656;</span><strong>' + escapeHtml(ts.subject) + '</strong></td>';
         cells += '<td class="col-left">' + Math.round(ts.run_rate) + '</td>';
 
         var mb = ts.march_baseline || {};
@@ -988,32 +1004,6 @@ function renderMonthlyTracker() {
         }
     });
 
-    initCellTooltips();
-}
-
-function initCellTooltips() {
-    var tip = document.getElementById('cell-tooltip');
-    if (!tip) {
-        tip = document.createElement('div');
-        tip.id = 'cell-tooltip';
-        tip.className = 'cell-tooltip';
-        document.body.appendChild(tip);
-    }
-    var cells = document.querySelectorAll('.cell-tip');
-    cells.forEach(function(cell) {
-        cell.addEventListener('mouseenter', function(e) {
-            var html = cell.getAttribute('data-tip');
-            if (!html) return;
-            tip.innerHTML = html;
-            tip.style.display = 'block';
-            var rect = cell.getBoundingClientRect();
-            tip.style.left = (rect.left + rect.width / 2) + 'px';
-            tip.style.top = (rect.bottom + 6) + 'px';
-        });
-        cell.addEventListener('mouseleave', function() {
-            tip.style.display = 'none';
-        });
-    });
 }
 
 function renderMarchBaseline(summary) {
@@ -2756,7 +2746,7 @@ if (_dhSearch) _dhSearch.addEventListener('input', debounce(renderDecisionHistor
         if (!el) { tip.style.display = 'none'; return; }
         var text = el.getAttribute('data-tip');
         if (!text) { tip.style.display = 'none'; return; }
-        tip.textContent = text;
+        tip.innerHTML = text;
         tip.style.display = 'block';
         positionTip(e);
     });
