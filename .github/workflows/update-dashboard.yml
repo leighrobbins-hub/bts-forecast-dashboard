@@ -48,6 +48,7 @@ jobs:
           LOOKER_RUN_RATE_LOOK_ID: ${{ secrets.LOOKER_RUN_RATE_LOOK_ID }}
           LOOKER_UTILIZATION_LOOK_ID: ${{ secrets.LOOKER_UTILIZATION_LOOK_ID }}
           LOOKER_ACTUALS_LOOK_ID: ${{ secrets.LOOKER_ACTUALS_LOOK_ID }}
+          LOOKER_NAT_P90_LOOK_ID: ${{ secrets.LOOKER_NAT_P90_LOOK_ID }}
         run: |
           python scripts/fetch_looker_data.py
         continue-on-error: true
