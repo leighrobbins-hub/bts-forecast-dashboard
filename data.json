@@ -5,7 +5,7 @@
     "over_supplied": 66,
     "supply_problems": 34,
     "on_track": 208,
-    "last_updated": "2026-04-21 01:59 PM CST",
+    "last_updated": "2026-04-21 02:09 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "tier_distribution": {
@@ -57554,7 +57554,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-21 01:59 PM CST",
+      "uploaded_at": "2026-04-21 02:09 PM CST",
       "subjects_count": 414
     }
   ],
@@ -60036,10 +60036,10 @@
         "remaining": 125
       }
     ],
-    "generated_at": "2026-04-21 01:59 PM CST"
+    "generated_at": "2026-04-21 02:09 PM CST"
   },
   "fetch_status": {
-    "fetched_at": "2026-04-21T18:59:51.818832+00:00",
+    "fetched_at": "2026-04-21T19:09:46.697310+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -60050,6 +60050,6 @@
       "unique_tutors": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-21T18:59:51.818832+00:00"
+    "last_successful_fetch": "2026-04-21T19:09:46.697310+00:00"
   }
 }

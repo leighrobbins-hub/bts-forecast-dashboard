@@ -6,12 +6,30 @@
     <title>Tutor Forecast &amp; Action Dashboard - Varsity Tutors</title>
     <link rel="icon" href="https://www.varsitytutors.com/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+    <!-- Login gate: shown when not authenticated -->
+    <div id="login-gate" style="display:none; min-height:100vh; background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); display:flex; justify-content:center; align-items:center;">
+        <div style="background:#fff; border-radius:12px; padding:48px 40px; max-width:420px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+            <img src="varsity_tutors_logo.jpeg" alt="Varsity Tutors" style="height:48px; margin-bottom:24px;">
+            <h2 style="margin:0 0 8px; color:#2c3e50; font-size:22px;">Tutor Forecast Dashboard</h2>
+            <p style="color:#7f8c8d; font-size:14px; margin:0 0 28px;">Sign in with your Varsity Tutors account to continue.</p>
+            <button id="login-btn" onclick="netlifyIdentity.open('login')" style="background:#4A4BB6; color:#fff; border:none; padding:14px 32px; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; width:100%; transition:background 0.2s;">Sign in with Google</button>
+            <p style="color:#bdc3c7; font-size:12px; margin:20px 0 0;">Restricted to @varsitytutors.com accounts</p>
+        </div>
+    </div>
+
+    <!-- Main app: hidden until authenticated -->
+    <div id="app-wrapper" style="display:none;">
     <div class="header">
         <img src="varsity_tutors_logo.jpeg" alt="Varsity Tutors" class="header-logo">
         <div>
             <h1>Tutor Forecast &amp; Action Dashboard</h1>
+        </div>
+        <div id="user-bar" style="margin-left:auto; display:flex; align-items:center; gap:12px; padding-right:20px;">
+            <span id="user-name" style="color:#ecf0f1; font-size:13px; font-weight:500;"></span>
+            <button onclick="netlifyIdentity.logout()" style="background:rgba(255,255,255,0.15); color:#ecf0f1; border:1px solid rgba(255,255,255,0.25); padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer;">Sign out</button>
         </div>
     </div>
     <div id="dash-tooltip" class="dash-tooltip" style="display:none;"></div>
@@ -752,7 +770,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.6</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.7</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -1150,6 +1168,17 @@ ELSE:
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v3.7 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>Migrated dashboard to Netlify with Google OAuth login — restricted to @varsitytutors.com accounts</li>
+                    <li>Decisions (Action / No Action) now sync to shared backend via Netlify Functions + Blobs — visible to all team members</li>
+                    <li>User identity auto-detected from Google login — removed manual name dropdown from decision forms</li>
+                    <li>Added sign-out button and logged-in user display in header</li>
+                    <li>No Action form now captures reason dropdown and optional notes</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v3.6 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag feature">Feature</span></div>
                 <ul>
                     <li>Replaced Will Act / Won't Act / Defer buttons with Action / No Action system</li>
@@ -1444,6 +1473,46 @@ ELSE:
         </div>
     </div>
     
+    </div><!-- end #app-wrapper -->
+
+    <script>
+    var _netlifyUser = null;
+
+    function getNetlifyToken() {
+        var user = netlifyIdentity.currentUser();
+        if (!user) return null;
+        return user.token && user.token.access_token ? user.token.access_token : null;
+    }
+
+    function onLogin(user) {
+        _netlifyUser = user;
+        var name = (user.user_metadata && user.user_metadata.full_name) || user.email.split('@')[0];
+        document.getElementById('login-gate').style.display = 'none';
+        document.getElementById('app-wrapper').style.display = '';
+        document.getElementById('user-name').textContent = name;
+        localStorage.setItem('bts_active_user', name);
+    }
+
+    function onLogout() {
+        _netlifyUser = null;
+        document.getElementById('app-wrapper').style.display = 'none';
+        document.getElementById('login-gate').style.display = 'flex';
+    }
+
+    netlifyIdentity.on('init', function(user) {
+        if (user) {
+            onLogin(user);
+        } else {
+            document.getElementById('login-gate').style.display = 'flex';
+        }
+    });
+    netlifyIdentity.on('login', function(user) {
+        onLogin(user);
+        netlifyIdentity.close();
+    });
+    netlifyIdentity.on('logout', onLogout);
+    netlifyIdentity.init();
+    </script>
     <script src="app.js"></script>
 </body>
 </html>
