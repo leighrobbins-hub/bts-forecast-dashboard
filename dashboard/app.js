@@ -2468,9 +2468,10 @@ function saRenderCurrentMonthCell(cmd, currentMonth) {
                 + 'Projection vs target: ' + Math.round(projectionRatio * 100) + '%';
 
     var isZeroAlert = (actual === 0 && target > 0 && dayOfMonth >= 3);
+    var numColor = isZeroAlert ? '#c0392b' : '#1a1a2e';
     return '<td data-tip="' + escapeHtml(tooltip) + '">'
-        + '<div style="font-size:13px;font-weight:' + (isZeroAlert ? '700' : '600') + ';' + (isZeroAlert ? 'color:#c0392b;' : '') + '">' + actual + ' / ' + target + '</div>'
-        + '<div class="' + cls + '" style="font-size:11px;">' + subLabel + '</div>'
+        + '<div style="font-size:13px;font-weight:700;color:' + numColor + ';">' + actual + ' / ' + target + '</div>'
+        + '<div class="' + cls + '" style="font-size:11px;' + (cls ? '' : 'color:#5a6c7d;') + '">' + subLabel + '</div>'
         + '</td>';
 }
 
