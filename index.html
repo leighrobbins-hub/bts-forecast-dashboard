@@ -681,7 +681,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.3</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.4</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview & Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
@@ -1077,6 +1077,20 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.4 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag improvement">Quality</span></div>
+                <ul>
+                    <li>Fixed actuals and March overrides not normalizing subject names — could cause silent data mismatches</li>
+                    <li>Fixed weekly summary pace calculation to be calendar-prorated (consistent with recommendations engine)</li>
+                    <li>Fixed actuals template CSV not escaping subject names containing commas</li>
+                    <li>Added missing subjects to category classifier: Calculus, Biology, English, Writing, Reading</li>
+                    <li>Moved inline imports (<code>re</code>, <code>collections</code>) to module level for cleaner startup</li>
+                    <li>Removed dead variables (<code>paceDelta</code>, unused <code>covPct</code>)</li>
+                    <li>Fixed duplicate CSS rules for <code>.btn-primary</code> and <code>.badge-priority</code> (conflicting colors)</li>
+                    <li>Added missing <code>.sa-current-col</code> CSS rule for current-month column header styling</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.3 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag fix">Fix</span></div>

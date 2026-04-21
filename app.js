@@ -399,7 +399,6 @@ function renderCriticalFindings() {
         .sort(function(a, b) { return (a.Raw_Gap || 0) - (b.Raw_Gap || 0); })
         .slice(0, 2);
     var topExamples = topSupply.map(function(r) {
-        var covPct = r.Coverage_Pct !== null && r.Coverage_Pct !== undefined ? r.Coverage_Pct : 0;
         return escapeHtml(r.Subject) + ' (' + Math.abs(Math.round(r.Gap_Pct || 0)) + '% gap)';
     }).join(', ');
 
@@ -1643,7 +1642,7 @@ document.getElementById('adjustments-month').addEventListener('change', function
 
 function downloadActualsTemplate() {
     var lines = ['Subject,Actual_Contracted'];
-    allData.forEach(function(r) { lines.push(r.Subject + ','); });
+    allData.forEach(function(r) { lines.push(csvEscapeField(r.Subject) + ','); });
     var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -2412,9 +2411,7 @@ function saRenderCurrentMonthCell(cmd, currentMonth) {
     var dayOfMonth = now.getDate();
     var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     var fractionThroughMonth = dayOfMonth / lastDay;
-    var expectedAtPace = target * fractionThroughMonth;
     var variance = actual - target;
-    var paceDelta = actual - expectedAtPace;
 
     // Projection-based pace: if we keep contracting at today's daily rate,
     // where do we end up by month-end? Answers "will we make it?" rather
