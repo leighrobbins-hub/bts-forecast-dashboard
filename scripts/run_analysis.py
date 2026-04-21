@@ -746,6 +746,12 @@ TIER_THRESHOLDS = {
     # anything below LOW threshold => 'NICHE'
 }
 
+# Operational target: P90 time-on-NAT should be below this threshold.
+# Subjects with P90 below this AND low utilization are confirmed Over-Supplied.
+# Subjects at or above this despite low utilization are placement anomalies
+# (students ARE waiting, tutors just aren't being matched) — classify as Under-Used.
+NAT_P90_GOAL_HOURS = 24
+
 
 def assign_tier(bts_total):
     """Assign a volume tier based on total Apr-Oct forecasted headcount.
@@ -781,9 +787,20 @@ def classify_problems(df_analysis, df_utilization):
     df_utilization['Subject'] = df_utilization['Subject'].map(_norm_subject)
     df_merged = df_analysis.merge(df_utilization, on='Subject', how='left')
 
+    nat_p90_path = 'data/nat_p90.csv'
+    if os.path.exists(nat_p90_path):
+        df_nat = pd.read_csv(nat_p90_path)
+        df_nat['Subject'] = df_nat['Subject'].map(_norm_subject)
+        df_merged = df_merged.merge(df_nat[['Subject', 'P90_NAT_Hours']], on='Subject', how='left')
+        print(f"  Merged P90 NAT data: {df_nat['Subject'].nunique()} subjects")
+    else:
+        df_merged['P90_NAT_Hours'] = None
+        print("  ⚠  No nat_p90.csv found — P90 NAT will not be used in classification")
+
     def get_problem_type(row):
         util_rate = row['Util_Rate']
         needs_external = row['Needs_External_Levers']
+        p90 = row.get('P90_NAT_Hours')
 
         if pd.isna(util_rate):
             if needs_external:
@@ -793,17 +810,16 @@ def classify_problems(df_analysis, df_utilization):
 
         if util_rate < 50:
             if needs_external:
-                # Classification: low subject-level util AND target exceeds
-                # organic capacity. "Under-Used" flags this as an anomaly
-                # requiring investigation — the root cause could be a
-                # placement or algorithm issue, low real demand, multi-subject
-                # tutor utilized on other subjects, scheduling mismatch, or a
-                # combination. Deliberately neutral because any single-cause
-                # label would mislead. Darren's flowchart work will disambiguate.
-                # Earlier names in repo history: Placement Bottleneck,
-                # Placement Suspect, Possible Placement Issue.
                 return "Under-Used"
             else:
+                # Cross-check with P90 NAT before confirming Over-Supplied.
+                # If P90 >= our 24h goal, students are waiting beyond the goal
+                # despite low tutor utilization — that's a placement anomaly,
+                # not genuine over-supply. Don't tell the team to reduce forecast.
+                # If no P90 data available, fall back to util-only classification.
+                p90_val = None if (p90 is None or pd.isna(p90)) else float(p90)
+                if p90_val is not None and p90_val >= NAT_P90_GOAL_HOURS:
+                    return "Under-Used"
                 return "Over-Supplied"
         else:
             if needs_external:
@@ -1204,19 +1220,23 @@ def generate_recommendations(df_final, tracker_subjects):
             if not bts_total or bts_total == 0:
                 pass
             elif run_rate >= 3 and util_val is not None and util_val < 30:
+                p90_raw = row.get('P90_NAT_Hours')
+                p90_context = f' P90 NAT {p90_raw:.0f}h (within {NAT_P90_GOAL_HOURS}h goal — confirms low demand).' if (p90_raw is not None and not pd.isna(p90_raw)) else ''
                 recs.append({
                     'subject': subject, 'category': category,
                     'priority': 'medium',
                     'action_type': 'reduce_forecast',
-                    'reason': f'Run rate meets or exceeds target but only {util_val:.0f}% of tutors utilized. Consider reducing forecast — demand may be overestimated.',
+                    'reason': f'Run rate meets or exceeds target but only {util_val:.0f}% of tutors utilized.{p90_context} Consider reducing forecast — demand may be overestimated.',
                     'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
                 })
             elif run_rate >= 3:
+                p90_raw = row.get('P90_NAT_Hours')
+                p90_context = f' P90 NAT {p90_raw:.0f}h (within {NAT_P90_GOAL_HOURS}h goal — confirms low demand).' if (p90_raw is not None and not pd.isna(p90_raw)) else ''
                 recs.append({
                     'subject': subject, 'category': category,
                     'priority': 'low',
                     'action_type': 'reduce_forecast',
-                    'reason': f'Run rate meets target but tutors only {util_val or 0:.0f}% utilized. Monitor and consider reducing forecast — demand may be overestimated.',
+                    'reason': f'Run rate meets target but tutors only {util_val or 0:.0f}% utilized.{p90_context} Monitor and consider reducing forecast — demand may be overestimated.',
                     'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
                 })
 

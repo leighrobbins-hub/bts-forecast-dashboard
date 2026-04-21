@@ -25,6 +25,8 @@ BACKOFF_BASE = 2  # seconds; delays will be 2, 4, 8 …
 RUN_RATE_SUBJECT_PATTERNS = ['subject name', 'subject']
 RUN_RATE_VALUE_PATTERNS = ['attain', 'run rate', 'total count']
 UTILIZATION_SUBJECT_PATTERNS = ['tutor start month', 'subject name', 'subject']
+NAT_P90_SUBJECT_PATTERNS = ['subject name', 'subject']
+NAT_P90_VALUE_PATTERNS   = ['p90', 'hours to assign']
 
 
 class LookerAPI:
@@ -347,6 +349,49 @@ def fetch_actuals(api, *, dry_run=False):
         return False
 
 
+def fetch_nat_p90(api, *, dry_run=False):
+    """Fetch P90 time-on-NAT by subject from Looker Look 26319.
+
+    Used to confirm Over-Supplied classification:
+      P90 < 24h  → placements filling within operational goal → confirmed Over-Supplied
+      P90 >= 24h → students waiting beyond goal → placement anomaly → reclassify as Under-Used
+
+    The Look is pre-filtered in Looker to remove noise subjects (stale campaigns,
+    legacy subject IDs) so no additional filtering is needed here.
+    """
+    look_id = os.getenv("LOOKER_NAT_P90_LOOK_ID", "26319").strip() or None
+
+    if not look_id:
+        print("⚠  No LOOKER_NAT_P90_LOOK_ID set — using default Look 26319")
+        look_id = "26319"
+
+    print("Fetching P90 NAT hours from Looker...")
+    try:
+        df = _fetch(api, look_id, None, "nat_p90")
+        subj_col = _find_column(df, NAT_P90_SUBJECT_PATTERNS, "nat_p90 subject")
+        p90_col  = _find_column(df, NAT_P90_VALUE_PATTERNS,   "nat_p90 value")
+
+        if subj_col and p90_col:
+            df = df.rename(columns={subj_col: 'Subject', p90_col: 'P90_NAT_Hours'})
+            df = df[['Subject', 'P90_NAT_Hours']].copy()
+            df['P90_NAT_Hours'] = pd.to_numeric(df['P90_NAT_Hours'], errors='coerce')
+            print(f"  Normalized columns: {subj_col!r} → Subject, {p90_col!r} → P90_NAT_Hours")
+        else:
+            print("  ⚠  Could not auto-detect columns; saving raw output")
+
+        if dry_run:
+            print(f"  [dry-run] Would save {len(df)} rows to data/nat_p90.csv")
+        else:
+            os.makedirs('data', exist_ok=True)
+            df.to_csv("data/nat_p90.csv", index=False)
+            print(f"✓ P90 NAT data saved: {len(df)} subjects")
+        return True
+    except Exception as exc:
+        print(f"⚠  Could not fetch NAT P90: {exc}")
+        print("   Using existing data/nat_p90.csv if available")
+        return False
+
+
 def _normalize_month(val):
     """Convert month values like '2026-04', '2026-04-01', 'April 2026' to 'YYYY-MM'."""
     s = str(val).strip()
@@ -428,7 +473,10 @@ def main(argv=None):
         print("⚠  Looker credentials not found in environment")
         print("   Set LOOKER_CLIENT_ID and LOOKER_CLIENT_SECRET, then re-run.")
         print("   Skipping API fetch — will use existing CSV files")
-        _write_fetch_status({'run_rates': False, 'utilization': False}, dry_run=args.dry_run, skipped=True)
+        _write_fetch_status(
+            {'run_rates': False, 'utilization': False, 'actuals': False, 'nat_p90': False},
+            dry_run=args.dry_run, skipped=True
+        )
         return
 
     api = LookerAPI(api_url, client_id, client_secret)
@@ -436,12 +484,14 @@ def main(argv=None):
     if args.dry_run:
         api.authenticate()  # verify creds are valid
 
-    rr_ok = fetch_run_rates(api, dry_run=args.dry_run)
-    util_ok = fetch_utilization(api, dry_run=args.dry_run)
+    rr_ok      = fetch_run_rates(api, dry_run=args.dry_run)
+    util_ok    = fetch_utilization(api, dry_run=args.dry_run)
     actuals_ok = fetch_actuals(api, dry_run=args.dry_run)
+    nat_ok     = fetch_nat_p90(api, dry_run=args.dry_run)
 
     _write_fetch_status(
-        {'run_rates': rr_ok, 'utilization': util_ok, 'actuals': actuals_ok},
+        {'run_rates': rr_ok, 'utilization': util_ok,
+         'actuals': actuals_ok, 'nat_p90': nat_ok},
         dry_run=args.dry_run,
     )
 
