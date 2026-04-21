@@ -27,6 +27,7 @@ RUN_RATE_VALUE_PATTERNS = ['attain', 'run rate', 'total count']
 UTILIZATION_SUBJECT_PATTERNS = ['tutor start month', 'subject name', 'subject']
 NAT_P90_SUBJECT_PATTERNS = ['subject name', 'subject']
 NAT_P90_VALUE_PATTERNS   = ['p90', 'hours to assign']
+UNIQUE_TUTORS_VALUE_PATTERNS = ['tutor count', 'count']
 
 
 class LookerAPI:
@@ -392,6 +393,47 @@ def fetch_nat_p90(api, *, dry_run=False):
         return False
 
 
+def fetch_unique_tutors(api, *, dry_run=False):
+    """Fetch unique tutor count for the current month from Looker Look 26320.
+
+    This Look returns a single row with the count of distinct tutors contracted
+    this month (as opposed to tutor-subject combinations which can be higher
+    since one tutor may be matched to multiple subjects).
+
+    The Look is pre-filtered in Looker to exclude certain states.
+    """
+    look_id = os.getenv("LOOKER_UNIQUE_TUTORS_LOOK_ID", "26320").strip() or None
+
+    if not look_id:
+        print("⚠  No LOOKER_UNIQUE_TUTORS_LOOK_ID set — using default Look 26320")
+        look_id = "26320"
+
+    print("Fetching unique tutor count from Looker...")
+    try:
+        df = _fetch(api, look_id, None, "unique_tutors")
+        count_col = _find_column(df, UNIQUE_TUTORS_VALUE_PATTERNS, "unique_tutors count")
+
+        if count_col:
+            val = pd.to_numeric(df[count_col].iloc[0], errors='coerce')
+            result_df = pd.DataFrame([{'Unique_Tutors': int(val) if pd.notna(val) else 0}])
+            print(f"  Normalized column: {count_col!r} → Unique_Tutors = {result_df['Unique_Tutors'].iloc[0]}")
+        else:
+            result_df = df
+            print("  ⚠  Could not auto-detect count column; saving raw output")
+
+        if dry_run:
+            print(f"  [dry-run] Would save unique tutor count to data/unique_tutors.csv")
+        else:
+            os.makedirs('data', exist_ok=True)
+            result_df.to_csv("data/unique_tutors.csv", index=False)
+            print(f"✓ Unique tutor count saved")
+        return True
+    except Exception as exc:
+        print(f"⚠  Could not fetch unique tutors: {exc}")
+        print("   Using existing data/unique_tutors.csv if available")
+        return False
+
+
 def _normalize_month(val):
     """Convert month values like '2026-04', '2026-04-01', 'April 2026' to 'YYYY-MM'."""
     s = str(val).strip()
@@ -474,7 +516,7 @@ def main(argv=None):
         print("   Set LOOKER_CLIENT_ID and LOOKER_CLIENT_SECRET, then re-run.")
         print("   Skipping API fetch — will use existing CSV files")
         _write_fetch_status(
-            {'run_rates': False, 'utilization': False, 'actuals': False, 'nat_p90': False},
+            {'run_rates': False, 'utilization': False, 'actuals': False, 'nat_p90': False, 'unique_tutors': False},
             dry_run=args.dry_run, skipped=True
         )
         return
@@ -488,10 +530,11 @@ def main(argv=None):
     util_ok    = fetch_utilization(api, dry_run=args.dry_run)
     actuals_ok = fetch_actuals(api, dry_run=args.dry_run)
     nat_ok     = fetch_nat_p90(api, dry_run=args.dry_run)
+    ut_ok      = fetch_unique_tutors(api, dry_run=args.dry_run)
 
     _write_fetch_status(
         {'run_rates': rr_ok, 'utilization': util_ok,
-         'actuals': actuals_ok, 'nat_p90': nat_ok},
+         'actuals': actuals_ok, 'nat_p90': nat_ok, 'unique_tutors': ut_ok},
         dry_run=args.dry_run,
     )
 

@@ -1391,6 +1391,19 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
         'subjects_with_data': len(mar_matched)
     }
 
+    unique_tutors_path = 'data/unique_tutors.csv'
+    if os.path.exists(unique_tutors_path):
+        try:
+            df_ut = pd.read_csv(unique_tutors_path)
+            if 'Unique_Tutors' in df_ut.columns:
+                summary['unique_tutors_contracted'] = int(df_ut['Unique_Tutors'].iloc[0])
+            else:
+                summary['unique_tutors_contracted'] = None
+        except Exception:
+            summary['unique_tutors_contracted'] = None
+    else:
+        summary['unique_tutors_contracted'] = None
+
     records = df_final.to_dict('records')
     # Scrub NaN → None so json.dump writes null instead of NaN (which breaks JS)
     for rec in records:
