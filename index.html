@@ -39,38 +39,105 @@
     <div class="content" id="main-content" style="display:none;">
         <!-- OVERVIEW TAB -->
         <div id="overview" class="tab-content active" role="tabpanel">
+
+            <!-- BTS Season Pulse -->
+            <div class="ov-pulse" id="ov-pulse">
+                <div class="ov-pulse-left">
+                    <div class="ov-pulse-title">BTS Season Pulse</div>
+                    <div class="ov-pulse-subtitle">Apr–Oct 2026 &nbsp;|&nbsp; <span id="ov-pulse-updated">-</span></div>
+                    <div class="ov-pulse-progress">
+                        <div class="ov-pulse-nums">
+                            <span id="ov-pulse-actual">-</span> <span class="ov-pulse-of">of</span> <span id="ov-pulse-total">-</span> <span class="ov-pulse-label">tutors contracted</span>
+                        </div>
+                        <div class="ov-pulse-bar-wrap">
+                            <div class="ov-pulse-bar" id="ov-pulse-bar" style="width:0%"></div>
+                        </div>
+                        <div class="ov-pulse-meta">
+                            <span id="ov-pulse-pct">-</span> complete &nbsp;·&nbsp; <span id="ov-pulse-months">-</span> of 7 months done
+                        </div>
+                    </div>
+                </div>
+                <div class="ov-pulse-right">
+                    <div class="ov-pulse-kpi">
+                        <div class="ov-pulse-kpi-val" id="ov-pulse-actions">-</div>
+                        <div class="ov-pulse-kpi-lbl">open actions</div>
+                    </div>
+                    <div class="ov-pulse-kpi">
+                        <div class="ov-pulse-kpi-val ov-kpi-alert" id="ov-pulse-high">-</div>
+                        <div class="ov-pulse-kpi-lbl">high priority</div>
+                    </div>
+                    <div class="ov-pulse-kpi">
+                        <div class="ov-pulse-kpi-val" id="ov-pulse-behind">-</div>
+                        <div class="ov-pulse-kpi-lbl">behind pace</div>
+                    </div>
+                    <div class="ov-pulse-kpi">
+                        <div class="ov-pulse-kpi-val ov-kpi-good" id="ov-pulse-onpace">-</div>
+                        <div class="ov-pulse-kpi-lbl">on pace</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This Month snapshot -->
+            <div class="ov-month-header">
+                <div class="section-header" style="margin:0">This Month — <span id="ov-current-month-label">April</span></div>
+                <span class="ov-month-hint" id="ov-month-active-filter"></span>
+            </div>
+            <div class="ov-month-snapshot" id="ov-month-snapshot">
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" title="Show all subjects in table below">
+                    <div class="ov-month-val" id="ov-month-contracted">-</div>
+                    <div class="ov-month-lbl">tutors contracted</div>
+                </div>
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" title="Show all subjects in table below">
+                    <div class="ov-month-val" id="ov-month-target">-</div>
+                    <div class="ov-month-lbl">monthly target</div>
+                </div>
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-behind')" title="Show subjects behind pace">
+                    <div class="ov-month-val" id="ov-month-behind">-</div>
+                    <div class="ov-month-lbl">subjects behind pace</div>
+                </div>
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-onpace')" title="Show subjects on pace">
+                    <div class="ov-month-val ov-good" id="ov-month-onpace">-</div>
+                    <div class="ov-month-lbl">subjects on pace</div>
+                </div>
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-nodata')" title="Show subjects awaiting data">
+                    <div class="ov-month-val" id="ov-month-nodata">-</div>
+                    <div class="ov-month-lbl">awaiting data</div>
+                </div>
+            </div>
+
+            <!-- Problem type stat cards -->
             <div class="summary-grid">
-                <div class="stat-card blue" onclick="navigateToFiltered('all')" style="cursor:pointer;" title="Click to view all subjects">
-                    <div class="stat-label">Total Subjects Analyzed</div>
+                <div class="stat-card blue" onclick="overviewFilter('all')" style="cursor:pointer;" title="Show all subjects">
+                    <div class="stat-label">Total Subjects</div>
                     <div class="stat-value" id="total-subjects">-</div>
-                    <div class="stat-detail">April-October 2026 forecast period</div>
+                    <div class="stat-detail">Forecast period: Apr–Oct 2026</div>
                 </div>
                 
-                <div class="stat-card orange" onclick="navigateToFiltered('placement')" style="cursor:pointer;" title="Click to filter by Under-Used">
-                    <div class="stat-label">Under-Used (Anomaly)</div>
+                <div class="stat-card orange" onclick="overviewFilter('placement')" style="cursor:pointer;" title="Filter to Under-Used subjects">
+                    <div class="stat-label">Under-Used</div>
                     <div class="stat-value" id="util-problems">-</div>
                     <div class="stat-pending" id="pending-underused">&nbsp;</div>
-                    <div class="stat-detail">Low util with a demand gap — investigate placement/algorithm, demand, multi-subject, or scheduling</div>
+                    <div class="stat-detail">Low util + demand gap — investigate</div>
                 </div>
                 
-                <div class="stat-card red" onclick="navigateToFiltered('true-supply')" style="cursor:pointer;" title="Click to filter by Supply Problems">
+                <div class="stat-card red" onclick="overviewFilter('true-supply')" style="cursor:pointer;" title="Filter to Supply Problems">
                     <div class="stat-label">Supply Problems</div>
                     <div class="stat-value" id="stat-supply-problems">-</div>
                     <div class="stat-pending" id="pending-supply">&nbsp;</div>
-                    <div class="stat-detail">Need external recruitment levers (tutors well-utilized, or no util data available)</div>
+                    <div class="stat-detail">Need recruiting levers</div>
                 </div>
                 
-                <div class="stat-card green" onclick="navigateToFiltered('on-track')" style="cursor:pointer;" title="Click to filter by On Track">
+                <div class="stat-card green" onclick="overviewFilter('on-track')" style="cursor:pointer;" title="Filter to On Track subjects">
                     <div class="stat-label">On Track</div>
                     <div class="stat-value" id="ontrack-subjects">-</div>
                     <div class="stat-detail">No action required</div>
                 </div>
                 
-                <div class="stat-card purple" onclick="navigateToFiltered('over-supplied')" style="cursor:pointer;" title="Click to filter by Over-Supplied">
+                <div class="stat-card purple" onclick="overviewFilter('over-supplied')" style="cursor:pointer;" title="Filter to Over-Supplied subjects">
                     <div class="stat-label">Over-Supplied</div>
                     <div class="stat-value" id="lowutil-subjects">-</div>
                     <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
-                    <div class="stat-detail">Supply exceeds demand but &lt;50% utilized — consider reducing forecast</div>
+                    <div class="stat-detail">Consider reducing forecast</div>
                 </div>
             </div>
 
@@ -79,29 +146,18 @@
                 <span id="util-coverage-badge" class="util-coverage-badge">Loading…</span>
             </div>
 
+            <!-- Bar chart — BTS season projected gaps + current month -->
             <div class="bar-chart">
-                <h3>Top Capacity Gaps by Subject</h3>
+                <h3>Top Capacity Gaps — Season vs. This Month</h3>
+                <p class="chart-subtitle">Top bar = projected shortfall across the full BTS season (Apr–Oct). Bottom bar = how this month is tracking against target.</p>
                 <div id="gap-chart"></div>
                 <div class="chart-legend">
                     <div class="legend-item"><div class="legend-dot supply-bar"></div> True Supply</div>
                     <div class="legend-item"><div class="legend-dot util-bar"></div> Under-Used</div>
                     <div class="legend-item"><div class="legend-dot nodata-bar"></div> No Util Data</div>
+                    <div class="legend-item"><div class="legend-dot month-behind-bar"></div> This Month Behind</div>
+                    <div class="legend-item"><div class="legend-dot month-ok-bar"></div> This Month On/Ahead</div>
                 </div>
-            </div>
-            
-            <div class="section-header">Critical Findings</div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Finding</th>
-                            <th>Impact</th>
-                            <th>Recommended Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="critical-findings-body">
-                    </tbody>
-                </table>
             </div>
 
             <details class="methodology dashboard-key" style="margin-top: 30px;">
@@ -138,19 +194,29 @@
                 </dl>
             </details>
 
-            <div class="section-header" style="margin-top: 30px;">Top 15 Problem Subjects — BTS Season Tutor Gap</div>
+            <div class="section-header" style="margin-top: 30px;" id="ov-table-header">Subjects — BTS Season Tutor Gap</div>
             <div class="table-container">
                 <div class="table-toolbar">
                     <span class="row-count" id="priority-count"></span>
                     <div class="filter-group inline-filter">
-                        <label for="filter-recommendation-priority">Recommendation</label>
-                        <select id="filter-recommendation-priority" onchange="renderPriorityTable()">
-                            <option value="all">All Recommendations</option>
-                            <option value="investigate_placement">Investigate (Under-Used)</option>
-                            <option value="increase_recruiting">Increase Recruiting (Supply)</option>
-                            <option value="gather_data">Gather Data (No Util)</option>
-                            <option value="reduce_forecast">Reduce Forecast (Over-Supplied)</option>
-                            <option value="review_performance">Review Performance (Behind Pace)</option>
+                        <label for="filter-problemtype-priority">BTS Status</label>
+                        <select id="filter-problemtype-priority" onchange="renderPriorityTable()">
+                            <option value="all-problems">All Problems</option>
+                            <option value="all">All Subjects</option>
+                            <option value="placement">Under-Used</option>
+                            <option value="true-supply">True Supply</option>
+                            <option value="no-util-data">No Util Data</option>
+                            <option value="over-supplied">Over-Supplied</option>
+                            <option value="on-track">On Track</option>
+                        </select>
+                    </div>
+                    <div class="filter-group inline-filter">
+                        <label for="filter-pace-priority">Pace</label>
+                        <select id="filter-pace-priority" onchange="renderPriorityTable()">
+                            <option value="all">All</option>
+                            <option value="behind">Behind Pace</option>
+                            <option value="onpace">On Pace</option>
+                            <option value="nodata">Awaiting Data</option>
                         </select>
                     </div>
                     <div class="filter-group inline-filter">
@@ -166,6 +232,7 @@
                             <option value="NICHE">Niche</option>
                         </select>
                     </div>
+                    <button class="export-btn" onclick="clearOverviewFilters()" id="ov-clear-btn" style="display:none;">Clear Filters</button>
                     <button class="export-btn" onclick="exportTable('top-priorities')">Export CSV</button>
                 </div>
                 <table id="top-priorities">
@@ -176,9 +243,10 @@
                             <th class="sortable" onclick="sortTable('priority', 2)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
                             <th class="sortable tooltip-wrap" onclick="sortTable('priority', 4)">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
-                            <th class="sortable" onclick="sortTable('priority', 5)">Gap</th>
-                            <th class="sortable" onclick="sortTable('priority', 6)">Problem Type</th>
-                            <th>Priority Action</th>
+                            <th class="sortable" onclick="sortTable('priority', 5)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
+                            <th class="sortable" onclick="sortTable('priority', 6)" data-tip="Season-level classification based on full BTS (Apr–Oct) data. This may differ from the current month's pace.">BTS Status</th>
+                            <th class="sa-current-col" id="priority-current-month-header" data-tip="This month's actual contracting vs target, with pace-aware projection.">Current Month</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="priority-body">
@@ -1078,6 +1146,17 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.5 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag improvement">Redesign</span></div>
+                <ul>
+                    <li>Redesigned Overview page for executive quick-glance: added BTS Season Pulse hero with portfolio progress, open actions, and pace indicators</li>
+                    <li>Added "This Month" snapshot showing current-month contracted, target, behind/on pace, and awaiting data counts</li>
+                    <li>Clarified bar chart title: "Top Capacity Gaps — Full BTS Season (Apr–Oct)" with subtitle explaining these are projected season gaps, not current month</li>
+                    <li>Shortened stat card descriptions for cleaner layout</li>
+                    <li>Removed Critical Findings table (redundant with new pulse and stat cards)</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.4 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag improvement">Quality</span></div>
