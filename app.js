@@ -1242,8 +1242,8 @@ function renderMarchBaseline(summary) {
     document.getElementById('mar-subject-count').textContent = mb.subjects_with_data;
     var pct = Math.round(v / mb.total_forecast * 100);
     var insight = v >= 0
-        ? 'March contracted ' + pct + '% above forecast — strong baseline heading into BTS.'
-        : 'March contracted ' + Math.abs(pct) + '% below forecast — gap to watch entering BTS.';
+        ? 'March saw ' + pct + '% more tutor-subject combos than forecast — strong baseline heading into BTS.'
+        : 'March saw ' + Math.abs(pct) + '% fewer tutor-subject combos than forecast — gap to watch entering BTS.';
     document.getElementById('mar-insight').textContent = insight;
 }
 
@@ -1262,7 +1262,7 @@ function renderProgressBar(summary) {
     var expectedPct = Math.round(monthsDone / monthsTotal * 100);
     var paceClass = pct >= expectedPct ? 'ahead' : 'behind';
 
-    document.getElementById('progress-label').textContent = actual + ' of ' + Math.round(total) + ' contracted';
+    document.getElementById('progress-label').textContent = actual + ' of ' + Math.round(total) + ' tutor-subject combos';
     document.getElementById('progress-pct').textContent = pct + '% complete';
     var fill = document.getElementById('progress-fill');
     fill.style.width = Math.max(pct, 2) + '%';
@@ -2310,7 +2310,7 @@ function generateWeeklySummary() {
     var gapsBody = '';
     if ((ws.biggest_gaps || []).length) {
         var gapRows = ws.biggest_gaps.map(function(g) {
-            return '<p style="' + sty.p + '"><span style="' + sty.lead + '">' + escapeHtml(g.subject) + ':</span> ' + g.remaining + ' tutors remaining.</p>';
+            return '<p style="' + sty.p + '"><span style="' + sty.lead + '">' + escapeHtml(g.subject) + ':</span> ' + g.remaining + ' tutor-subject combos remaining.</p>';
         }).join('');
         gapsBody = '<div style="' + sty.sub + '">Biggest Gaps</div><div style="' + sty.body + '">' + gapRows + '</div>';
     }
@@ -2328,7 +2328,7 @@ function generateWeeklySummary() {
             + ws.under_used + ' under-used, '
             + ws.over_supplied + ' over-supplied.</p>'
             + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Contracting progress:</span> '
-            + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted to date '
+            + ws.total_actual + ' of ' + ws.total_target + ' tutor-subject combos to date '
             + '(<span style="' + progressCls + '">' + ws.progress_pct + '%</span>).</p>'
         + '</div>'
 
@@ -2372,7 +2372,7 @@ function weeklySummaryPlainText(ws, generated) {
     lines.push('');
     lines.push('OVERVIEW');
     lines.push('Portfolio health: ' + ws.total_subjects + ' subjects tracked. ' + ws.on_track + ' on track, ' + ws.under_used + ' under-used, ' + ws.over_supplied + ' over-supplied.');
-    lines.push('Contracting progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutors contracted to date (' + ws.progress_pct + '%).');
+    lines.push('Contracting progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutor-subject combos to date (' + ws.progress_pct + '%).');
     lines.push('');
     lines.push('ACTIONS');
     lines.push('Open recommendations: ' + ws.total_actions + ' total \u2014 ' + ws.high_priority_actions + ' high priority, ' + ws.medium_priority_actions + ' medium priority.');
@@ -2388,7 +2388,7 @@ function weeklySummaryPlainText(ws, generated) {
         lines.push('');
         lines.push('BIGGEST GAPS');
         ws.biggest_gaps.forEach(function(g) {
-            lines.push(g.subject + ': ' + g.remaining + ' tutors remaining.');
+            lines.push(g.subject + ': ' + g.remaining + ' tutor-subject combos remaining.');
         });
     }
     return lines.join('\n');
