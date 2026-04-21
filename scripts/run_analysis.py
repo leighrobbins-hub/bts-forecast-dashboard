@@ -10,6 +10,7 @@ import json
 import glob
 import os
 import shutil
+import calendar
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 import sys
@@ -1217,26 +1218,37 @@ def generate_recommendations(df_final, tracker_subjects):
                     'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
                 })
 
-        # Behind-pace check for in-progress months
-        if ts:
+        # Behind-pace check for in-progress months (calendar-prorated).
+        # Skip for Over-Supplied: "reduce forecast" + "behind pace" contradict.
+        if ts and ptype != 'Over-Supplied':
+            now = datetime.now(tz=CST)
             for md in ts['months']:
                 if md['status'] == 'in_progress' and md['actual'] is not None and md['smoothed_target'] > 0:
-                    pace = md['actual'] / md['smoothed_target'] * 100
+                    try:
+                        year, month_num = int(md['month'][:4]), int(md['month'][5:7])
+                        days_in_month = calendar.monthrange(year, month_num)[1]
+                    except (ValueError, IndexError):
+                        days_in_month = 30
+                    fraction = min(now.day / days_in_month, 1.0)
+                    expected = md['smoothed_target'] * fraction
+                    if expected <= 0:
+                        continue
+                    pace = md['actual'] / expected * 100
                     if pace < 60:
                         recs.append({
                             'subject': subject, 'category': category,
                             'priority': 'high',
                             'action_type': 'review_performance',
-                            'reason': f'{md["label"]}: {md["actual"]} actual vs {round(md["smoothed_target"])} target ({pace:.0f}% of pace).',
-                            'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'pace': round(pace)}
+                            'reason': f'{md["label"]}: {md["actual"]} actual vs {round(expected)} expected by day {now.day} ({pace:.0f}% of pace). Target: {round(md["smoothed_target"])}.',
+                            'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'expected': round(expected), 'pace': round(pace)}
                         })
                     elif pace < 80:
                         recs.append({
                             'subject': subject, 'category': category,
                             'priority': 'medium',
                             'action_type': 'review_performance',
-                            'reason': f'{md["label"]}: {md["actual"]} actual vs {round(md["smoothed_target"])} target ({pace:.0f}% of pace). At risk.',
-                            'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'pace': round(pace)}
+                            'reason': f'{md["label"]}: {md["actual"]} actual vs {round(expected)} expected by day {now.day} ({pace:.0f}% of pace). At risk. Target: {round(md["smoothed_target"])}.',
+                            'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'expected': round(expected), 'pace': round(pace)}
                         })
 
     # Surprise demand: excluded subjects that have actuals
@@ -1261,7 +1273,7 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
     total_subjects = len(tracker_subjects)
     on_track = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'On Track')
     over_supplied = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Over-Supplied')
-    bottlenecks = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Under-Used')
+    under_used = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Under-Used')
 
     total_target = sum(ts['bts_total'] for ts in tracker_subjects)
     total_actual = sum(ts['actual_to_date'] for ts in tracker_subjects)
@@ -1289,7 +1301,7 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
         'total_subjects': total_subjects,
         'on_track': on_track,
         'over_supplied': over_supplied,
-        'bottlenecks': bottlenecks,
+        'under_used': under_used,
         'total_target': round(total_target),
         'total_actual': round(total_actual),
         'progress_pct': round(total_actual / total_target * 100, 1) if total_target > 0 else 0,
@@ -1317,7 +1329,7 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
                          for t in ('CORE', 'HIGH', 'MEDIUM', 'LOW', 'NICHE')}
     summary = {
         'total_subjects': total_subjects,
-        'placement_bottlenecks': len(df_final[df_final['Problem_Type'] == 'Under-Used']),
+        'under_used': len(df_final[df_final['Problem_Type'] == 'Under-Used']),
         'over_supplied': len(df_final[df_final['Problem_Type'] == 'Over-Supplied']),
         'supply_problems': int(supply_mask.sum()),
         'on_track': len(df_final[df_final['Problem_Type'] == 'On Track']),
@@ -1530,7 +1542,7 @@ def main():
     summary = dashboard_data['summary']
     print(f"\nAnalysis complete!")
     print(f"  {summary['total_subjects']} subjects analyzed")
-    print(f"  {summary['placement_bottlenecks']} under-used")
+    print(f"  {summary['under_used']} under-used")
     print(f"  {summary['over_supplied']} over-supplied")
     print(f"  {summary['supply_problems']} true supply problems")
     td = summary.get('tier_distribution', {})
