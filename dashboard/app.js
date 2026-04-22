@@ -2429,89 +2429,268 @@ function dhRevoke(storageKey) {
     }
 }
 
+function _wbrComputeMetrics() {
+    var ws = weeklySummaryData || {};
+    var tracker = trackerData || [];
+    var now = new Date();
+    var dayOfMonth = now.getDate();
+    var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    var monthFraction = dayOfMonth / daysInMonth;
+    var monthPctLabel = Math.round(monthFraction * 100);
+    var currentMonthKey = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+
+    var subjects = [];
+    tracker.forEach(function(ts) {
+        var cm = null;
+        (ts.months || []).forEach(function(m) { if (m.month === currentMonthKey && m.status === 'in_progress') cm = m; });
+        if (!cm || cm.smoothed_target <= 0) return;
+        var actual = cm.actual || 0;
+        var target = cm.smoothed_target;
+        var paceTarget = target * monthFraction;
+        var pacePct = paceTarget > 0 ? (actual / paceTarget * 100) : 100;
+        var remaining = Math.max(0, Math.round(target - actual));
+        var velocity7d = actual;
+        var daysToClose = velocity7d > 0 && remaining > 0 ? Math.round(remaining / (velocity7d / dayOfMonth)) : (remaining === 0 ? 0 : 999);
+        subjects.push({
+            subject: ts.subject, category: ts.category || '', tier: ts.tier || '',
+            actual: actual, target: target, paceTarget: Math.round(paceTarget),
+            pacePct: Math.round(pacePct), remaining: remaining,
+            velocity7d: Math.round(velocity7d / Math.max(dayOfMonth, 1) * 7 * 10) / 10,
+            daysToClose: daysToClose,
+            problemType: ts.problem_type || ''
+        });
+    });
+
+    var totalActual = 0, totalTarget = 0;
+    subjects.forEach(function(s) { totalActual += s.actual; totalTarget += s.target; });
+    var contractingPct = totalTarget > 0 ? Math.round(totalActual / totalTarget * 100 * 10) / 10 : 0;
+    var paceTargetTotal = Math.round(totalTarget * monthFraction);
+
+    var onTrack = subjects.filter(function(s) { return s.pacePct >= 80; });
+    var behind = subjects.filter(function(s) { return s.pacePct < 80; });
+    behind.sort(function(a, b) { return a.pacePct - b.pacePct; });
+
+    var zeroVelocity = subjects.filter(function(s) { return s.actual === 0 && s.target > 0; });
+    zeroVelocity.sort(function(a, b) { return b.target - a.target; });
+
+    var decisionsThisWeek = [];
+    var decisionsByUser = {};
+    var decisionsByTheme = {};
+    var openOld = 0;
+    var sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    Object.keys(_sharedDecisions).forEach(function(key) {
+        var d = _sharedDecisions[key];
+        if (!d || !d.date) return;
+        var dt = new Date(d.date);
+        if (dt >= sevenDaysAgo) {
+            decisionsThisWeek.push(d);
+            var who = d.who || 'Unknown';
+            decisionsByUser[who] = (decisionsByUser[who] || 0) + 1;
+            var theme = d.decision || 'Other';
+            decisionsByTheme[theme] = (decisionsByTheme[theme] || 0) + 1;
+        }
+    });
+    Object.keys(_sharedDecisions).forEach(function(key) {
+        var d = _sharedDecisions[key];
+        if (!d || !d.date) return;
+        if (d.decision && d.decision.toLowerCase().indexOf('no action') === -1) {
+            var dt = new Date(d.date);
+            if ((now.getTime() - dt.getTime()) > 7 * 24 * 60 * 60 * 1000) openOld++;
+        }
+    });
+
+    var movers = onTrack.filter(function(s) { return s.pacePct >= 90; })
+        .sort(function(a, b) { return b.velocity7d - a.velocity7d; }).slice(0, 5);
+    var velocityLeaders = subjects.filter(function(s) { return s.velocity7d > 0; })
+        .sort(function(a, b) { return b.velocity7d - a.velocity7d; }).slice(0, 5);
+
+    var catPerf = {};
+    subjects.forEach(function(s) {
+        if (!catPerf[s.category]) catPerf[s.category] = { on: 0, total: 0 };
+        catPerf[s.category].total++;
+        if (s.pacePct >= 80) catPerf[s.category].on++;
+    });
+    var improvingCats = [];
+    Object.keys(catPerf).forEach(function(c) {
+        var p = catPerf[c];
+        if (p.total >= 3 && (p.on / p.total) >= 0.7) improvingCats.push({ cat: c, pct: Math.round(p.on / p.total * 100) });
+    });
+    improvingCats.sort(function(a, b) { return b.pct - a.pct; });
+
+    var biggest = behind.length > 0 ? behind[0].subject : null;
+
+    return {
+        ws: ws, now: now, dayOfMonth: dayOfMonth, daysInMonth: daysInMonth,
+        monthFraction: monthFraction, monthPctLabel: monthPctLabel,
+        subjects: subjects, totalActual: totalActual, totalTarget: totalTarget,
+        contractingPct: contractingPct, paceTargetTotal: paceTargetTotal,
+        onTrack: onTrack, behind: behind, zeroVelocity: zeroVelocity,
+        decisionsThisWeek: decisionsThisWeek, decisionsByUser: decisionsByUser,
+        decisionsByTheme: decisionsByTheme, openOld: openOld,
+        movers: movers, velocityLeaders: velocityLeaders, improvingCats: improvingCats,
+        biggest: biggest
+    };
+}
+
 function generateWeeklySummary() {
     var block = document.getElementById('sa-weekly-summary-output');
     if (!block) return;
-    var ws = weeklySummaryData;
 
-    if (!ws || !ws.total_subjects) {
+    if (!trackerData || !trackerData.length) {
         block.style.display = 'block';
         block.innerHTML = '<div style="padding:20px;color:#7f8c8d;">No summary data available. Run the analysis pipeline first.</div>';
         return;
     }
 
-    // Build WBR-styled HTML. Inline styles on every element so the
-    // clipboard-paste path into Google Docs / Gmail / Word preserves
-    // the formatting (external CSS does not travel via clipboard).
+    var m = _wbrComputeMetrics();
     var sty = {
-        section:   'background:#202344;color:#ffffff;padding:14px 24px;text-align:center;font-size:16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;',
-        sub:       'background:#596087;color:#ffffff;padding:10px 24px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin:0;font-family:Arial,Helvetica,sans-serif;',
-        body:      'padding:18px 24px;color:#2c3e50;font-size:14px;line-height:1.65;font-family:Arial,Helvetica,sans-serif;background:#ffffff;',
-        meta:      'padding:12px 24px;background:#F9FAFB;border-left:3px solid #202344;font-size:12px;color:#7f8c8d;font-family:Arial,Helvetica,sans-serif;',
-        p:         'margin:0 0 12px 0;',
-        lead:      'color:#202344;font-weight:700;',
-        good:      'color:#27ae60;font-weight:600;',
-        watch:     'color:#f39c12;font-weight:600;',
-        alert:     'color:#c0392b;font-weight:600;'
+        section: 'background:#202344;color:#ffffff;padding:14px 24px;text-align:center;font-size:16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;',
+        sub:     'background:#596087;color:#ffffff;padding:10px 24px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin:0;font-family:Arial,Helvetica,sans-serif;',
+        body:    'padding:18px 24px;color:#2c3e50;font-size:14px;line-height:1.65;font-family:Arial,Helvetica,sans-serif;background:#ffffff;',
+        meta:    'padding:12px 24px;background:#F9FAFB;border-left:3px solid #202344;font-size:12px;color:#7f8c8d;font-family:Arial,Helvetica,sans-serif;',
+        p:       'margin:0 0 12px 0;',
+        th:      'background:#f0f2f5;padding:8px 12px;text-align:left;font-size:12px;font-weight:600;color:#555;border-bottom:2px solid #ddd;font-family:Arial,Helvetica,sans-serif;',
+        td:      'padding:8px 12px;font-size:13px;border-bottom:1px solid #eee;font-family:Arial,Helvetica,sans-serif;',
+        tbl:     'width:100%;border-collapse:collapse;margin:12px 0;',
+        green:   'background:#d4edda;color:#155724;font-weight:600;',
+        yellow:  'background:#fff3cd;color:#856404;font-weight:600;',
+        red:     'background:#f8d7da;color:#721c24;font-weight:600;'
     };
-    var generated = ws.generated_at || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    var generated = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
 
-    // Compose prose with bold lead-ins, no bullets. Conditional colour
-    // on "behind pace" and "on track" aligns with WBR red/yellow/green.
-    var progressCls = ws.progress_pct >= 95 ? sty.good : ws.progress_pct >= 85 ? sty.watch : sty.alert;
-    var behindCls   = (ws.behind_pace_count || 0) > 5 ? sty.alert : (ws.behind_pace_count || 0) > 0 ? sty.watch : sty.good;
+    function statusColor(val, target, inverse) {
+        var ratio = target > 0 ? val / target : 1;
+        if (inverse) ratio = 2 - ratio;
+        if (ratio >= 1.0) return sty.green;
+        if (ratio >= 0.99) return sty.yellow;
+        return sty.red;
+    }
 
-    var behindExamples = '';
-    if ((ws.behind_pace_subjects || []).length) {
-        var ex = ws.behind_pace_subjects.slice(0, 5).map(function(s) {
-            return escapeHtml(s.subject) + ' (' + s.pace + '% of target in ' + s.month + ')';
+    var paceDelta = m.totalActual - m.paceTargetTotal;
+    var paceDeltaSign = paceDelta >= 0 ? '+' : '';
+    var biggestConcern = m.behind.length > 0
+        ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace'
+        : 'no critical gaps';
+
+    // --- 1. HEADLINE ---
+    var headline = '<p style="' + sty.p + 'font-size:15px;">'
+        + 'We have contracted <strong>' + m.totalActual + '</strong> of <strong>' + m.totalTarget + '</strong> tutor-subject combos this month (<strong>' + m.contractingPct + '%</strong>). '
+        + 'With ' + m.monthPctLabel + '% of the month elapsed, we are <strong>' + paceDeltaSign + paceDelta + ' combos</strong> vs pace target. '
+        + 'Biggest concern: <strong>' + biggestConcern + '</strong>.'
+        + '</p>';
+
+    // --- 2. PACE & MOMENTUM TABLE ---
+    var onTrackPct = m.subjects.length > 0 ? Math.round(m.onTrack.length / m.subjects.length * 100) : 0;
+    var behindPct = m.subjects.length > 0 ? Math.round(m.behind.length / m.subjects.length * 100) : 0;
+    var dailyVelocity = m.dayOfMonth > 0 ? Math.round(m.totalActual / m.dayOfMonth * 10) / 10 : 0;
+    var neededDaily = (m.daysInMonth - m.dayOfMonth) > 0 ? Math.round((m.totalTarget - m.totalActual) / (m.daysInMonth - m.dayOfMonth) * 10) / 10 : 0;
+
+    function paceRow(label, value, statusStyle) {
+        return '<tr><td style="' + sty.td + '">' + label + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + value + '</td>'
+            + '<td style="' + sty.td + statusStyle + 'text-align:center;padding:6px 12px;border-radius:4px;">'
+            + (statusStyle === sty.green ? 'On Track' : statusStyle === sty.yellow ? 'Watch' : 'Behind') + '</td></tr>';
+    }
+
+    var combosStatus = m.totalActual >= m.paceTargetTotal ? sty.green : (m.totalActual >= m.paceTargetTotal * 0.99 ? sty.yellow : sty.red);
+    var velStatus = dailyVelocity >= neededDaily ? sty.green : (dailyVelocity >= neededDaily * 0.9 ? sty.yellow : sty.red);
+    var onTrackStatus = onTrackPct >= 70 ? sty.green : (onTrackPct >= 60 ? sty.yellow : sty.red);
+    var behindStatus = behindPct <= 15 ? sty.green : (behindPct <= 25 ? sty.yellow : sty.red);
+    var decisionsStatus = m.decisionsThisWeek.length > 0 ? sty.green : sty.yellow;
+
+    var paceTable = '<table style="' + sty.tbl + '">'
+        + '<tr><th style="' + sty.th + '">Metric</th><th style="' + sty.th + 'text-align:right;">Value</th><th style="' + sty.th + 'text-align:center;">Status</th></tr>'
+        + paceRow('New combos contracted', m.totalActual + ' of ' + m.totalTarget + ' (' + m.contractingPct + '%)', combosStatus)
+        + paceRow('Daily velocity', dailyVelocity + '/day (need ' + neededDaily + '/day)', velStatus)
+        + paceRow('Subjects on track', m.onTrack.length + ' of ' + m.subjects.length + ' (' + onTrackPct + '%)', onTrackStatus)
+        + paceRow('Subjects behind pace', m.behind.length + ' (' + behindPct + '%)', behindStatus)
+        + paceRow('Decisions logged this week', m.decisionsThisWeek.length, decisionsStatus)
+        + '</table>';
+
+    // --- 3. BIGGEST MOVERS ---
+    var moversHtml = '';
+    if (m.movers.length > 0) {
+        moversHtml += '<p style="' + sty.p + '"><strong>Velocity leaders:</strong> '
+            + m.movers.map(function(s) { return escapeHtml(s.subject) + ' (' + s.velocity7d + '/wk, ' + s.pacePct + '% of pace)'; }).join(', ')
+            + '.</p>';
+    }
+    if (m.improvingCats.length > 0) {
+        moversHtml += '<p style="' + sty.p + '"><strong>Strong categories:</strong> '
+            + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', ')
+            + '.</p>';
+    }
+    if (!moversHtml) moversHtml = '<p style="' + sty.p + 'color:#7f8c8d;">No standout movers this period.</p>';
+
+    // --- 4. BEHIND PACE TOP 10 ---
+    var behindRows = m.behind.slice(0, 10).map(function(s) {
+        var dtc = s.daysToClose >= 999 ? 'N/A' : s.daysToClose + 'd';
+        return '<tr>'
+            + '<td style="' + sty.td + '">' + escapeHtml(s.subject) + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + s.velocity7d + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + dtc + '</td>'
+            + '</tr>';
+    }).join('');
+    var behindTable = '<table style="' + sty.tbl + '">'
+        + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + 'text-align:right;">% of Pace Target</th>'
+        + '<th style="' + sty.th + 'text-align:right;">Combos Remaining</th>'
+        + '<th style="' + sty.th + 'text-align:right;">7-Day Velocity</th>'
+        + '<th style="' + sty.th + 'text-align:right;">Days to Close</th></tr>'
+        + behindRows + '</table>';
+
+    // --- 5. ZERO-VELOCITY WATCH LIST ---
+    var zeroRows = m.zeroVelocity.slice(0, 15).map(function(s) {
+        return '<tr><td style="' + sty.td + '">' + escapeHtml(s.subject) + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + s.target + '</td>'
+            + '<td style="' + sty.td + '">' + (s.tier || '-') + '</td>'
+            + '<td style="' + sty.td + '">' + escapeHtml(s.category) + '</td></tr>';
+    }).join('');
+    var zeroTable = m.zeroVelocity.length > 0
+        ? '<table style="' + sty.tbl + '">'
+            + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + 'text-align:right;">Monthly Target</th>'
+            + '<th style="' + sty.th + '">Tier</th><th style="' + sty.th + '">Category</th></tr>'
+            + zeroRows + '</table>'
+        : '<p style="' + sty.p + 'color:#27ae60;">All subjects have contracting activity this month.</p>';
+
+    // --- 6. DECISIONS ACTIVITY ---
+    var decBody = '';
+    if (m.decisionsThisWeek.length > 0) {
+        var byUserHtml = Object.keys(m.decisionsByUser).map(function(u) {
+            return escapeHtml(u) + ': ' + m.decisionsByUser[u];
         }).join(', ');
-        behindExamples = ' <span style="color:#7f8c8d;">Examples: ' + ex + '.</span>';
+        var byThemeHtml = Object.keys(m.decisionsByTheme).map(function(t) {
+            return escapeHtml(t) + ': ' + m.decisionsByTheme[t];
+        }).join(', ');
+        decBody = '<p style="' + sty.p + '"><strong>' + m.decisionsThisWeek.length + ' decisions logged this week.</strong></p>'
+            + '<p style="' + sty.p + '"><strong>By team member:</strong> ' + byUserHtml + '</p>'
+            + '<p style="' + sty.p + '"><strong>By type:</strong> ' + byThemeHtml + '</p>';
+    } else {
+        decBody = '<p style="' + sty.p + 'color:#7f8c8d;">No decisions logged in the past 7 days.</p>';
+    }
+    if (m.openOld > 0) {
+        decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decisions open &gt; 7 days</span> — may need follow-up.</p>';
     }
 
-    var gapsBody = '';
-    if ((ws.biggest_gaps || []).length) {
-        var gapRows = ws.biggest_gaps.map(function(g) {
-            return '<p style="' + sty.p + '"><span style="' + sty.lead + '">' + escapeHtml(g.subject) + ':</span> ' + g.remaining + ' tutor-subject combos remaining.</p>';
-        }).join('');
-        gapsBody = '<div style="' + sty.sub + '">Biggest Gaps</div><div style="' + sty.body + '">' + gapRows + '</div>';
-    }
-
+    // --- ASSEMBLE ---
     var html =
         '<div class="wbr-summary-content">'
-        + '<div style="' + sty.section + '">BTS Tutor Supply &mdash; Weekly Summary</div>'
-        + '<div style="' + sty.meta + '">Generated: ' + escapeHtml(generated) + '</div>'
-
-        + '<div style="' + sty.sub + '">Overview</div>'
-        + '<div style="' + sty.body + '">'
-            + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Portfolio health:</span> '
-            + ws.total_subjects + ' subjects tracked. '
-            + ws.on_track + ' on track, '
-            + ws.under_used + ' under-used, '
-            + ws.over_supplied + ' over-supplied.</p>'
-            + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Contracting progress:</span> '
-            + ws.total_actual + ' of ' + ws.total_target + ' tutor-subject combos to date '
-            + '(<span style="' + progressCls + '">' + ws.progress_pct + '%</span>).</p>'
-        + '</div>'
-
-        + '<div style="' + sty.sub + '">Actions</div>'
-        + '<div style="' + sty.body + '">'
-            + '<p style="' + sty.p + '"><span style="' + sty.lead + '">Open recommendations:</span> '
-            + ws.total_actions + ' total &mdash; '
-            + ws.high_priority_actions + ' high priority, '
-            + ws.medium_priority_actions + ' medium priority.</p>'
-            + ((ws.behind_pace_count || 0) > 0
-                ? '<p style="' + sty.p + '"><span style="' + sty.lead + '">Behind pace:</span> '
-                    + '<span style="' + behindCls + '">' + ws.behind_pace_count + ' subjects</span> behind pace in current month.'
-                    + behindExamples + '</p>'
-                : '<p style="' + sty.p + '"><span style="' + sty.lead + '">Pace:</span> '
-                    + '<span style="' + sty.good + '">All subjects on or ahead of pace</span> in current month.</p>')
-        + '</div>'
-
-        + gapsBody
+        + '<div style="' + sty.section + '">BTS Tutor Supply &mdash; Weekly Business Review</div>'
+        + '<div style="' + sty.meta + '">Generated: ' + escapeHtml(generated) + ' &bull; Month progress: Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)</div>'
+        + '<div style="' + sty.sub + '">Headline</div>'
+        + '<div style="' + sty.body + '">' + headline + '</div>'
+        + '<div style="' + sty.sub + '">Pace &amp; Momentum</div>'
+        + '<div style="' + sty.body + '">' + paceTable + '</div>'
+        + '<div style="' + sty.sub + '">Biggest Movers</div>'
+        + '<div style="' + sty.body + '">' + moversHtml + '</div>'
+        + '<div style="' + sty.sub + '">Behind Pace &mdash; Top 10</div>'
+        + '<div style="' + sty.body + '">' + (m.behind.length > 0 ? behindTable : '<p style="' + sty.p + 'color:#27ae60;">All subjects on or ahead of pace.</p>') + '</div>'
+        + '<div style="' + sty.sub + '">Zero-Velocity Watch List</div>'
+        + '<div style="' + sty.body + '">' + zeroTable + '</div>'
+        + '<div style="' + sty.sub + '">Decisions Activity</div>'
+        + '<div style="' + sty.body + '">' + decBody + '</div>'
         + '</div>';
 
-    // Toolbar with Copy button (the toolbar is stripped when we copy — only the content HTML is copied)
     block.innerHTML =
         '<div class="wbr-summary-toolbar">'
             + '<button class="btn btn-sm btn-outline" onclick="copyWeeklySummary(\'html\')">Copy (styled)</button>'
@@ -2519,40 +2698,71 @@ function generateWeeklySummary() {
         + '</div>'
         + html;
     block.dataset.htmlContent = html;
-    block.dataset.textContent = weeklySummaryPlainText(ws, generated);
+    block.dataset.textContent = _wbrPlainText(m, generated);
     block.style.display = 'block';
-
-    // Scroll into view for UX continuity
     setTimeout(function() { block.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
 }
 
-// Plain-text fallback for clipboard targets that don't support HTML (Slack, etc.)
-function weeklySummaryPlainText(ws, generated) {
+function _wbrPlainText(m, generated) {
     var lines = [];
-    lines.push('BTS TUTOR SUPPLY \u2014 WEEKLY SUMMARY');
-    lines.push('Generated: ' + generated);
+    lines.push('BTS TUTOR SUPPLY \u2014 WEEKLY BUSINESS REVIEW');
+    lines.push('Generated: ' + generated + ' | Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)');
     lines.push('');
-    lines.push('OVERVIEW');
-    lines.push('Portfolio health: ' + ws.total_subjects + ' subjects tracked. ' + ws.on_track + ' on track, ' + ws.under_used + ' under-used, ' + ws.over_supplied + ' over-supplied.');
-    lines.push('Contracting progress: ' + ws.total_actual + ' of ' + ws.total_target + ' tutor-subject combos to date (' + ws.progress_pct + '%).');
+
+    var paceDelta = m.totalActual - m.paceTargetTotal;
+    var sign = paceDelta >= 0 ? '+' : '';
+    lines.push('HEADLINE');
+    lines.push('We have contracted ' + m.totalActual + ' of ' + m.totalTarget + ' combos (' + m.contractingPct + '%). '
+        + sign + paceDelta + ' combos vs pace target. '
+        + 'Biggest concern: ' + (m.behind.length > 0 ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace' : 'no critical gaps') + '.');
     lines.push('');
-    lines.push('ACTIONS');
-    lines.push('Open recommendations: ' + ws.total_actions + ' total \u2014 ' + ws.high_priority_actions + ' high priority, ' + ws.medium_priority_actions + ' medium priority.');
-    if ((ws.behind_pace_count || 0) > 0) {
-        var ex = (ws.behind_pace_subjects || []).slice(0, 5).map(function(s) {
-            return s.subject + ' (' + s.pace + '% of target in ' + s.month + ')';
-        }).join(', ');
-        lines.push('Behind pace: ' + ws.behind_pace_count + ' subjects behind pace in current month.' + (ex ? ' Examples: ' + ex + '.' : ''));
-    } else {
-        lines.push('Pace: All subjects on or ahead of pace in current month.');
-    }
-    if ((ws.biggest_gaps || []).length) {
+
+    var dailyVel = m.dayOfMonth > 0 ? Math.round(m.totalActual / m.dayOfMonth * 10) / 10 : 0;
+    var neededDaily = (m.daysInMonth - m.dayOfMonth) > 0 ? Math.round((m.totalTarget - m.totalActual) / (m.daysInMonth - m.dayOfMonth) * 10) / 10 : 0;
+    lines.push('PACE & MOMENTUM');
+    lines.push('New combos: ' + m.totalActual + '/' + m.totalTarget + ' (' + m.contractingPct + '%)');
+    lines.push('Daily velocity: ' + dailyVel + '/day (need ' + neededDaily + '/day)');
+    lines.push('On track: ' + m.onTrack.length + '/' + m.subjects.length + ' | Behind: ' + m.behind.length);
+    lines.push('Decisions this week: ' + m.decisionsThisWeek.length);
+    lines.push('');
+
+    if (m.movers.length > 0 || m.improvingCats.length > 0) {
+        lines.push('BIGGEST MOVERS');
+        if (m.movers.length) lines.push('Velocity leaders: ' + m.movers.map(function(s) { return s.subject + ' (' + s.velocity7d + '/wk)'; }).join(', '));
+        if (m.improvingCats.length) lines.push('Strong categories: ' + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', '));
         lines.push('');
-        lines.push('BIGGEST GAPS');
-        ws.biggest_gaps.forEach(function(g) {
-            lines.push(g.subject + ': ' + g.remaining + ' tutor-subject combos remaining.');
-        });
     }
+
+    if (m.behind.length > 0) {
+        lines.push('BEHIND PACE \u2014 TOP 10');
+        lines.push('Subject | % of Pace | Remaining | Velocity | Days to Close');
+        m.behind.slice(0, 10).forEach(function(s) {
+            var dtc = s.daysToClose >= 999 ? 'N/A' : s.daysToClose + 'd';
+            lines.push(s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + s.velocity7d + '/wk | ' + dtc);
+        });
+        lines.push('');
+    }
+
+    if (m.zeroVelocity.length > 0) {
+        lines.push('ZERO-VELOCITY WATCH LIST');
+        m.zeroVelocity.slice(0, 15).forEach(function(s) {
+            lines.push(s.subject + ' (target: ' + s.target + ', ' + s.tier + ')');
+        });
+        lines.push('');
+    }
+
+    lines.push('DECISIONS ACTIVITY');
+    if (m.decisionsThisWeek.length > 0) {
+        lines.push(m.decisionsThisWeek.length + ' decisions logged this week');
+        var byUser = Object.keys(m.decisionsByUser).map(function(u) { return u + ': ' + m.decisionsByUser[u]; }).join(', ');
+        lines.push('By team member: ' + byUser);
+        var byTheme = Object.keys(m.decisionsByTheme).map(function(t) { return t + ': ' + m.decisionsByTheme[t]; }).join(', ');
+        lines.push('By type: ' + byTheme);
+    } else {
+        lines.push('No decisions logged in the past 7 days.');
+    }
+    if (m.openOld > 0) lines.push(m.openOld + ' action decisions open > 7 days');
+
     return lines.join('\n');
 }
 
