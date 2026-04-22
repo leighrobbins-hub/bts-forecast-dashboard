@@ -808,6 +808,10 @@ def classify_problems(df_analysis, df_utilization):
     if os.path.exists(tutor_hours_path):
         df_thu = pd.read_csv(tutor_hours_path)
         df_thu['Subject'] = df_thu['Subject'].map(_norm_subject)
+        # Source data is a ratio (0–N); convert to percentage (0–N*100) so
+        # classification thresholds (e.g. 60%, 115%) work correctly.
+        if 'Tutor_Hours_Util_Pct' in df_thu.columns and df_thu['Tutor_Hours_Util_Pct'].max() < 10:
+            df_thu['Tutor_Hours_Util_Pct'] = df_thu['Tutor_Hours_Util_Pct'] * 100
         merge_cols = ['Subject', 'Tutor_Hours_Util_Pct']
         if 'Defaulted_Pct' in df_thu.columns:
             merge_cols.append('Defaulted_Pct')
