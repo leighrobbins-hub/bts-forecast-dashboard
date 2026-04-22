@@ -106,6 +106,7 @@ body {
 .stat-card.amber { border-color: #e67e22; }
 .stat-card.blue { border-color: #4A4BB6; }
 .stat-card.purple { border-color: #6366F1; }
+.stat-card.grey { border-color: #95a5a6; }
 
 .data-quality-bar {
     display: flex;

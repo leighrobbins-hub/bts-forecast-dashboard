@@ -842,6 +842,23 @@ function renderMonthlyHeroCards() {
 
     var labelEl = document.getElementById('ov-current-month-label');
     if (labelEl) labelEl.textContent = d.label;
+
+    var actionCounts = { investigate: 0, recruit: 0, 'on-track': 0, 'wait-times': 0, 'reduce-forecast': 0, 'insufficient-data': 0 };
+    allData.forEach(function(r) {
+        var t = classifyType(r.Primary_Action || r.Problem_Type);
+        if (t === 'hidden-supply' || t === 'capacity-available') actionCounts.investigate++;
+        else if (t === 'recruit-urgent' || t === 'recruit') actionCounts.recruit++;
+        else if (t === 'on-track') actionCounts['on-track']++;
+        else if (t === 'wait-times') actionCounts['wait-times']++;
+        else if (t === 'reduce-forecast') actionCounts['reduce-forecast']++;
+        else if (t === 'insufficient-data') actionCounts['insufficient-data']++;
+    });
+    setText('mo-investigate', actionCounts.investigate);
+    setText('mo-recruit', actionCounts.recruit);
+    setText('mo-ontrack-action', actionCounts['on-track']);
+    setText('mo-waittimes', actionCounts['wait-times']);
+    setText('mo-reduce', actionCounts['reduce-forecast']);
+    setText('mo-insuff', actionCounts['insufficient-data']);
 }
 
 function renderMonthlyBarChart() {
@@ -942,6 +959,12 @@ function sortMonthly(colIndex) {
 function moFilter(paceVal) {
     var el = document.getElementById('mo-filter-pace');
     if (el) el.value = paceVal;
+    renderMonthlyTable();
+}
+
+function moActionFilter(actionVal) {
+    var el = document.getElementById('mo-filter-action');
+    if (el) el.value = actionVal;
     renderMonthlyTable();
 }
 
