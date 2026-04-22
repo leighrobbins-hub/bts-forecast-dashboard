@@ -45,7 +45,7 @@ var trackerSort = { key: 'subject', asc: true };
 
 var PROBLEM_TIPS = {
     'recruit-urgent': 'Run rate short of target AND All Tutor Hours Util above 115% — existing pool is cracking. Deploy recruiting levers immediately.',
-    'recruit': 'Run rate short of target, tutor hours within normal range. Standard recruiting levers needed.',
+    'recruit': 'Run rate short of target. May include paper supply subjects where low THU appears idle but high P90 proves current supply isn\u2019t handling demand.',
     'hidden-supply': 'Existing tutors overworked (hours util \u2265 115%) but new tutors not getting assigned (<30%). Capacity exists on paper but isn\u2019t absorbed — investigate before recruiting.',
     'capacity-available': 'Run rate suggests gap but existing pool has headroom (hours util < 60%). Understand if additional tutors are needed or capacity can be unlocked.',
     'wait-times': 'P90 Time-to-Assign exceeds goal for this tier. Students waiting too long despite normal utilization. Examine assignment flow.',
@@ -178,11 +178,13 @@ function renderStressFlags(flags) {
     if (!flags || !flags.length) return '';
     var COLORS = {
         burnout_risk: '#e74c3c', idle_pool: '#3498db', new_tutor_stuck: '#e67e22',
-        high_wait: '#f39c12', critical_wait: '#c0392b', healthy_p90_override: '#27ae60'
+        high_wait: '#f39c12', critical_wait: '#c0392b', healthy_p90_override: '#27ae60',
+        paper_supply: '#8e44ad'
     };
     var LABELS = {
         burnout_risk: 'burnout risk', idle_pool: 'idle pool', new_tutor_stuck: 'new tutor stuck',
-        high_wait: 'high wait', critical_wait: 'critical wait', healthy_p90_override: 'healthy P90 override'
+        high_wait: 'high wait', critical_wait: 'critical wait', healthy_p90_override: 'healthy P90 override',
+        paper_supply: 'paper supply'
     };
     return flags.map(function(f) {
         var c = COLORS[f] || '#7f8c8d';
