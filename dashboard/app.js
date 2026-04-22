@@ -2169,8 +2169,8 @@ var ACTION_TYPE_LABELS = {
 };
 
 var _sharedDecisions = {};
-var _syncPending = 0;
 var _syncRefreshInterval = null;
+var DECISIONS_API = '/api/decisions';
 
 function getDecisionKey(rec) {
     return 'decision_' + rec.subject + '_' + rec.action_type + '_' + (rec.data_points && rec.data_points.month || 'all');
@@ -2213,46 +2213,6 @@ function _updateSyncStatus(state) {
     }
 }
 
-function _syncToServer(method, body, retryCount) {
-    if (retryCount === undefined) retryCount = 0;
-    _syncPending++;
-    _updateSyncStatus('pending');
-    return _getAuthToken().then(function(token) {
-        if (!token) {
-            if (retryCount < 2) {
-                return new Promise(function(resolve) {
-                    setTimeout(function() {
-                        resolve(_syncToServer(method, body, retryCount + 1));
-                    }, 2000);
-                });
-            }
-            _syncPending--;
-            _updateSyncStatus('error');
-            console.warn('Decision sync: no auth token after retries');
-            return { ok: false };
-        }
-        return fetch('/.netlify/functions/decisions', {
-            method: method,
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-            body: JSON.stringify(body)
-        }).then(function(r) {
-            _syncPending--;
-            if (r.ok) {
-                _updateSyncStatus(_syncPending > 0 ? 'pending' : 'synced');
-            } else {
-                _updateSyncStatus('error');
-                console.warn('Decision sync failed:', r.status);
-            }
-            return r;
-        }).catch(function(e) {
-            _syncPending--;
-            _updateSyncStatus('error');
-            console.warn('Decision sync error:', e);
-            return { ok: false };
-        });
-    });
-}
-
 function saveDecision(rec, decision, note, who) {
     var obj = {
         decision: decision,
@@ -2266,41 +2226,58 @@ function saveDecision(rec, decision, note, who) {
     var key = getDecisionKey(rec);
     localStorage.setItem(key, JSON.stringify(obj));
     _sharedDecisions[key] = obj;
-    _syncToServer('POST', { key: key, decision: obj });
+    _updateSyncStatus('pending');
+    _getAuthToken().then(function(token) {
+        if (!token) { _updateSyncStatus('error'); return; }
+        fetch(DECISIONS_API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ key: key, decision: obj })
+        }).then(function(r) {
+            _updateSyncStatus(r.ok ? 'synced' : 'error');
+            if (!r.ok) console.warn('Decision save failed:', r.status);
+        }).catch(function(e) {
+            _updateSyncStatus('error');
+            console.warn('Decision save error:', e);
+        });
+    });
 }
 
 function removeDecision(rec) {
     var key = getDecisionKey(rec);
     try { localStorage.removeItem(key); } catch (e) {}
     delete _sharedDecisions[key];
-    _syncToServer('DELETE', { key: key });
+    _updateSyncStatus('pending');
+    _getAuthToken().then(function(token) {
+        if (!token) { _updateSyncStatus('error'); return; }
+        fetch(DECISIONS_API, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ key: key })
+        }).then(function(r) {
+            _updateSyncStatus(r.ok ? 'synced' : 'error');
+            if (!r.ok) console.warn('Decision delete failed:', r.status);
+        }).catch(function(e) {
+            _updateSyncStatus('error');
+            console.warn('Decision delete error:', e);
+        });
+    });
 }
 
 function loadSharedDecisions() {
     _getAuthToken().then(function(token) {
-        if (!token) {
-            setTimeout(function() {
-                _getAuthToken().then(function(t) {
-                    if (t) loadSharedDecisions();
-                });
-            }, 3000);
-            return;
-        }
-        fetch('/.netlify/functions/decisions', {
+        if (!token) return;
+        fetch(DECISIONS_API, {
             headers: { 'Authorization': 'Bearer ' + token }
         })
         .then(function(r) { return r.ok ? r.json() : {}; })
         .then(function(serverDecisions) {
             serverDecisions = serverDecisions || {};
-            Object.keys(serverDecisions).forEach(function(key) {
-                _sharedDecisions[key] = serverDecisions[key];
-                localStorage.setItem(key, JSON.stringify(serverDecisions[key]));
-            });
+            _sharedDecisions = serverDecisions;
             Object.keys(_sharedDecisions).forEach(function(key) {
-                if (!serverDecisions[key] && _sharedDecisions[key]._localPending) return;
-                if (!serverDecisions[key]) delete _sharedDecisions[key];
+                localStorage.setItem(key, JSON.stringify(_sharedDecisions[key]));
             });
-            _updateSyncStatus(_syncPending > 0 ? 'pending' : 'synced');
+            _updateSyncStatus('synced');
             _refreshDecisionViews();
 
             if (!_syncRefreshInterval) {
