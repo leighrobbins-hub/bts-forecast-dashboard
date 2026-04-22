@@ -269,6 +269,10 @@ tr.nodata-problem {
 .util-trend-label { font-size: 11px; font-weight: 600; margin-left: 4px; cursor: help; }
 .util-trend-key { display: flex; align-items: center; gap: 12px; font-size: 12px; padding: 6px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; }
 .util-trend-key-title { font-weight: 600; color: #555; margin-right: 2px; }
+.sync-status { font-size: 11px; padding: 3px 10px; border-radius: 10px; font-weight: 500; }
+.sync-status.synced { background: rgba(39,174,96,0.2); color: #2ecc71; }
+.sync-status.pending { background: rgba(241,196,15,0.2); color: #f1c40f; }
+.sync-status.error { background: rgba(231,76,60,0.2); color: #e74c3c; }
 .badge.adjusted { background: #3498db; color: white; font-size: 10px; padding: 2px 6px; margin-left: 6px; }
 .adj-note { display: block; font-size: 11px; color: #7f8c8d; font-weight: normal; }
 
