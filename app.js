@@ -564,8 +564,9 @@ function renderOverviewPulse() {
     (trackerData || []).forEach(function(ts) {
         (ts.months || []).forEach(function(m) {
             if (m.actual != null) {
+                var target = (m.manual_override != null) ? m.manual_override : (m.smoothed_target || 0);
                 rawActual += m.actual;
-                cappedActual += Math.min(m.actual, m.smoothed_target || 0);
+                cappedActual += Math.min(m.actual, target);
             }
         });
     });
@@ -781,9 +782,8 @@ function buildMonthlyData() {
             } else {
                 noDataCount++;
             }
-        } else if (actual != null) {
+        } else if (actual != null && actual > 0) {
             totalActualRaw += actual;
-            totalActual += actual;
             pace = 'onpace';
         }
 
