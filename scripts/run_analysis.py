@@ -796,6 +796,19 @@ def classify_problems(df_analysis, df_utilization):
         df_merged['P90_NAT_Hours'] = None
         print("  ⚠  No nat_p90.csv found — P90 NAT will not be used in classification")
 
+    tutor_hours_path = 'data/tutor_hours_util.csv'
+    if os.path.exists(tutor_hours_path):
+        df_thu = pd.read_csv(tutor_hours_path)
+        df_thu['Subject'] = df_thu['Subject'].map(_norm_subject)
+        merge_cols = ['Subject', 'Tutor_Hours_Util_Pct']
+        if 'Defaulted_Pct' in df_thu.columns:
+            merge_cols.append('Defaulted_Pct')
+        df_merged = df_merged.merge(df_thu[merge_cols], on='Subject', how='left')
+        print(f"  Merged Tutor Hours Util data: {df_thu['Subject'].nunique()} subjects")
+    else:
+        df_merged['Tutor_Hours_Util_Pct'] = None
+        print("  ⚠  No tutor_hours_util.csv found — All Tutor Hours Util will not be used in classification")
+
     def get_problem_type(row):
         util_rate = row['Util_Rate']
         needs_external = row['Needs_External_Levers']

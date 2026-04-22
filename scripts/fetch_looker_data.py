@@ -28,6 +28,9 @@ UTILIZATION_SUBJECT_PATTERNS = ['tutor start month', 'subject name', 'subject']
 NAT_P90_SUBJECT_PATTERNS = ['subject name', 'subject']
 NAT_P90_VALUE_PATTERNS   = ['p90', 'hours to assign']
 UNIQUE_TUTORS_VALUE_PATTERNS = ['tutor count', 'count']
+TUTOR_HOURS_SUBJECT_PATTERNS = ['subject name', 'subject']
+TUTOR_HOURS_UTIL_PATTERNS = ['utilization', 'util', 'hours util']
+TUTOR_HOURS_DEFAULTED_PATTERNS = ['default', 'null']
 
 
 class LookerAPI:
@@ -436,6 +439,59 @@ def fetch_unique_tutors(api, *, dry_run=False):
         return False
 
 
+def fetch_tutor_hours_utilization(api, *, dry_run=False):
+    """Fetch all-tutor hours utilization by subject from Looker.
+
+    Measures actual hours worked / desired hours across ALL tutors (not just new
+    ones). Above 100% means tutors working more than desired; below means idle
+    capacity. Env var LOOKER_TUTOR_HOURS_UTIL_LOOK_ID required (no default).
+    """
+    look_id = (os.getenv("LOOKER_TUTOR_HOURS_UTIL_LOOK_ID") or "").strip() or None
+
+    if not look_id:
+        print("ℹ  LOOKER_TUTOR_HOURS_UTIL_LOOK_ID not set — skipping tutor hours util fetch")
+        return True
+
+    print("Fetching All Tutor Hours Utilization from Looker...")
+    try:
+        df = _fetch(api, look_id, None, "tutor_hours_util")
+        subj_col = _find_column(df, TUTOR_HOURS_SUBJECT_PATTERNS, "tutor_hours_util subject")
+        util_col = _find_column(df, TUTOR_HOURS_UTIL_PATTERNS, "tutor_hours_util value")
+
+        keep_cols = {}
+        if subj_col and util_col:
+            df = df.rename(columns={subj_col: 'Subject', util_col: 'Tutor_Hours_Util_Pct'})
+            df['Tutor_Hours_Util_Pct'] = pd.to_numeric(df['Tutor_Hours_Util_Pct'], errors='coerce')
+            keep_cols['Subject'] = True
+            keep_cols['Tutor_Hours_Util_Pct'] = True
+            print(f"  Normalized columns: {subj_col!r} → Subject, {util_col!r} → Tutor_Hours_Util_Pct")
+
+            defaulted_col = _find_column(df, TUTOR_HOURS_DEFAULTED_PATTERNS, "tutor_hours_util defaulted_pct")
+            if defaulted_col:
+                df = df.rename(columns={defaulted_col: 'Defaulted_Pct'})
+                df['Defaulted_Pct'] = pd.to_numeric(df['Defaulted_Pct'], errors='coerce')
+                keep_cols['Defaulted_Pct'] = True
+                print(f"  Also captured: {defaulted_col!r} → Defaulted_Pct")
+            else:
+                print("  ⚠  No defaulted-hours column found — skipping Defaulted_Pct")
+
+            df = df[list(keep_cols.keys())].copy()
+        else:
+            print("  ⚠  Could not auto-detect columns; saving raw output")
+
+        if dry_run:
+            print(f"  [dry-run] Would save {len(df)} rows to data/tutor_hours_util.csv")
+        else:
+            os.makedirs('data', exist_ok=True)
+            df.to_csv("data/tutor_hours_util.csv", index=False)
+            print(f"✓ Tutor hours utilization saved: {len(df)} subjects")
+        return True
+    except Exception as exc:
+        print(f"⚠  Could not fetch tutor hours utilization: {exc}")
+        print("   Using existing data/tutor_hours_util.csv if available")
+        return False
+
+
 def _normalize_month(val):
     """Convert month values like '2026-04', '2026-04-01', 'April 2026' to 'YYYY-MM'."""
     s = str(val).strip()
@@ -518,7 +574,8 @@ def main(argv=None):
         print("   Set LOOKER_CLIENT_ID and LOOKER_CLIENT_SECRET, then re-run.")
         print("   Skipping API fetch — will use existing CSV files")
         _write_fetch_status(
-            {'run_rates': False, 'utilization': False, 'actuals': False, 'nat_p90': False, 'unique_tutors': False},
+            {'run_rates': False, 'utilization': False, 'actuals': False, 'nat_p90': False,
+             'unique_tutors': False, 'tutor_hours_util': False},
             dry_run=args.dry_run, skipped=True
         )
         return
@@ -533,10 +590,12 @@ def main(argv=None):
     actuals_ok = fetch_actuals(api, dry_run=args.dry_run)
     nat_ok     = fetch_nat_p90(api, dry_run=args.dry_run)
     ut_ok      = fetch_unique_tutors(api, dry_run=args.dry_run)
+    thu_ok     = fetch_tutor_hours_utilization(api, dry_run=args.dry_run)
 
     _write_fetch_status(
         {'run_rates': rr_ok, 'utilization': util_ok,
-         'actuals': actuals_ok, 'nat_p90': nat_ok, 'unique_tutors': ut_ok},
+         'actuals': actuals_ok, 'nat_p90': nat_ok, 'unique_tutors': ut_ok,
+         'tutor_hours_util': thu_ok},
         dry_run=args.dry_run,
     )
 
