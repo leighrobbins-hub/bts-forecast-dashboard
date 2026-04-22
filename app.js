@@ -2683,15 +2683,72 @@ function generateWeeklySummary() {
     if (!m.decisionsLoaded) {
         decBody = '<p style="' + sty.p + sty.pending + '">' + escapeHtml(P) + ' &mdash; not signed in or decisions have not synced from server. Sign in and wait for sync to complete.</p>';
     } else if (m.decisionsThisWeek.length > 0) {
+        var actionLabel = { increase_recruiting: 'Recruit', reduce_forecast: 'Reduce Forecast', investigate_placement: 'Investigate Placement', review_performance: 'Review Performance' };
+        var acted = m.decisionsThisWeek.filter(function(d) { return d.decision === 'Action'; });
+        var passed = m.decisionsThisWeek.filter(function(d) { return d.decision !== 'Action'; });
+
+        decBody = '<p style="' + sty.p + '"><strong>' + m.decisionsThisWeek.length + ' decisions logged this week</strong> '
+            + '(' + acted.length + ' acted on, ' + passed.length + ' passed).</p>';
+
         var byUserHtml = Object.keys(m.decisionsByUser).map(function(u) {
             return escapeHtml(u) + ': ' + m.decisionsByUser[u];
         }).join(', ');
-        var byThemeHtml = Object.keys(m.decisionsByTheme).map(function(t) {
-            return escapeHtml(t) + ': ' + m.decisionsByTheme[t];
-        }).join(', ');
-        decBody = '<p style="' + sty.p + '"><strong>' + m.decisionsThisWeek.length + ' decisions logged this week.</strong></p>'
-            + '<p style="' + sty.p + '"><strong>By team member:</strong> ' + byUserHtml + '</p>'
-            + '<p style="' + sty.p + '"><strong>By type:</strong> ' + byThemeHtml + '</p>';
+        decBody += '<p style="' + sty.p + '"><strong>By team member:</strong> ' + byUserHtml + '</p>';
+
+        if (acted.length > 0) {
+            var actRows = acted.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).map(function(d) {
+                var typeLabel = actionLabel[d.action_type] || d.action_type || 'Other';
+                var noteText = d.note ? escapeHtml(d.note) : '<span style="' + sty.pending + '">no note</span>';
+                return '<tr>'
+                    + '<td style="' + sty.td + '">' + escapeHtml(d.subject || '?') + '</td>'
+                    + '<td style="' + sty.td + '"><span style="color:#27ae60;font-weight:600;">\u2713 Action</span></td>'
+                    + '<td style="' + sty.td + '">' + escapeHtml(typeLabel) + '</td>'
+                    + '<td style="' + sty.td + 'font-size:12px;">' + noteText + '</td>'
+                    + '<td style="' + sty.td + 'font-size:11px;color:#888;">' + escapeHtml(d.who || '?') + '</td>'
+                    + '</tr>';
+            }).join('');
+            decBody += '<p style="' + sty.p + 'margin-top:14px;"><strong>Actions Taken' + (acted.length > 10 ? ' (showing 10 of ' + acted.length + ')' : '') + ':</strong></p>'
+                + '<table style="' + sty.tbl + '">'
+                + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + '">Decision</th><th style="' + sty.th + '">Type</th><th style="' + sty.th + '">Notes</th><th style="' + sty.th + '">Who</th></tr>'
+                + actRows + '</table>';
+        }
+
+        if (passed.length > 0) {
+            var passRows = passed.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).map(function(d) {
+                var typeLabel = actionLabel[d.action_type] || d.action_type || 'Other';
+                var noteText = d.note ? escapeHtml(d.note) : '<span style="' + sty.pending + '">no reason given</span>';
+                return '<tr>'
+                    + '<td style="' + sty.td + '">' + escapeHtml(d.subject || '?') + '</td>'
+                    + '<td style="' + sty.td + '"><span style="color:#e74c3c;font-weight:600;">\u2715 No Action</span></td>'
+                    + '<td style="' + sty.td + '">' + escapeHtml(typeLabel) + '</td>'
+                    + '<td style="' + sty.td + 'font-size:12px;">' + noteText + '</td>'
+                    + '<td style="' + sty.td + 'font-size:11px;color:#888;">' + escapeHtml(d.who || '?') + '</td>'
+                    + '</tr>';
+            }).join('');
+            decBody += '<p style="' + sty.p + 'margin-top:14px;"><strong>Passed On' + (passed.length > 10 ? ' (showing 10 of ' + passed.length + ')' : '') + ':</strong></p>'
+                + '<table style="' + sty.tbl + '">'
+                + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + '">Decision</th><th style="' + sty.th + '">Type</th><th style="' + sty.th + '">Reason</th><th style="' + sty.th + '">Who</th></tr>'
+                + passRows + '</table>';
+        }
+
+        var themeCounts = {};
+        m.decisionsThisWeek.forEach(function(d) {
+            var t = actionLabel[d.action_type] || d.action_type || 'Other';
+            if (!themeCounts[t]) themeCounts[t] = { action: 0, noAction: 0 };
+            if (d.decision === 'Action') themeCounts[t].action++;
+            else themeCounts[t].noAction++;
+        });
+        var themeRows = Object.keys(themeCounts).map(function(t) {
+            var c = themeCounts[t];
+            return '<tr><td style="' + sty.td + '">' + escapeHtml(t) + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + c.action + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + c.noAction + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;font-weight:600;">' + (c.action + c.noAction) + '</td></tr>';
+        }).join('');
+        decBody += '<p style="' + sty.p + 'margin-top:14px;"><strong>By Recommendation Theme:</strong></p>'
+            + '<table style="' + sty.tbl + '">'
+            + '<tr><th style="' + sty.th + '">Theme</th><th style="' + sty.th + 'text-align:right;">Acted</th><th style="' + sty.th + 'text-align:right;">Passed</th><th style="' + sty.th + 'text-align:right;">Total</th></tr>'
+            + themeRows + '</table>';
     } else {
         decBody = '<p style="' + sty.p + 'color:#7f8c8d;">No decisions logged in the past 7 days.</p>';
     }
@@ -2790,15 +2847,45 @@ function _wbrPlainText(m, generated) {
         lines.push('');
     }
 
+    var actionLabel = { increase_recruiting: 'Recruit', reduce_forecast: 'Reduce Forecast', investigate_placement: 'Investigate Placement', review_performance: 'Review Performance' };
     lines.push('DECISIONS ACTIVITY');
     if (!m.decisionsLoaded) {
         lines.push(P + ' \u2014 not signed in or decisions have not synced from server.');
     } else if (m.decisionsThisWeek.length > 0) {
-        lines.push(m.decisionsThisWeek.length + ' decisions logged this week');
+        var acted = m.decisionsThisWeek.filter(function(d) { return d.decision === 'Action'; });
+        var passed = m.decisionsThisWeek.filter(function(d) { return d.decision !== 'Action'; });
+        lines.push(m.decisionsThisWeek.length + ' decisions logged this week (' + acted.length + ' acted on, ' + passed.length + ' passed).');
         var byUser = Object.keys(m.decisionsByUser).map(function(u) { return u + ': ' + m.decisionsByUser[u]; }).join(', ');
         lines.push('By team member: ' + byUser);
-        var byTheme = Object.keys(m.decisionsByTheme).map(function(t) { return t + ': ' + m.decisionsByTheme[t]; }).join(', ');
-        lines.push('By type: ' + byTheme);
+        lines.push('');
+        if (acted.length > 0) {
+            lines.push('Actions Taken:');
+            acted.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).forEach(function(d) {
+                var t = actionLabel[d.action_type] || d.action_type || 'Other';
+                lines.push('  \u2713 ' + (d.subject || '?') + ' \u2014 ' + t + (d.note ? ': ' + d.note : '') + ' (' + (d.who || '?') + ')');
+            });
+            lines.push('');
+        }
+        if (passed.length > 0) {
+            lines.push('Passed On:');
+            passed.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).forEach(function(d) {
+                var t = actionLabel[d.action_type] || d.action_type || 'Other';
+                lines.push('  \u2715 ' + (d.subject || '?') + ' \u2014 ' + t + (d.note ? ': ' + d.note : '') + ' (' + (d.who || '?') + ')');
+            });
+            lines.push('');
+        }
+        lines.push('By Recommendation Theme:');
+        var themeCounts = {};
+        m.decisionsThisWeek.forEach(function(d) {
+            var t = actionLabel[d.action_type] || d.action_type || 'Other';
+            if (!themeCounts[t]) themeCounts[t] = { action: 0, noAction: 0 };
+            if (d.decision === 'Action') themeCounts[t].action++;
+            else themeCounts[t].noAction++;
+        });
+        Object.keys(themeCounts).forEach(function(t) {
+            var c = themeCounts[t];
+            lines.push('  ' + t + ': ' + c.action + ' acted, ' + c.noAction + ' passed (' + (c.action + c.noAction) + ' total)');
+        });
     } else {
         lines.push('No decisions logged in the past 7 days.');
     }
