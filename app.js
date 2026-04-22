@@ -28,6 +28,7 @@ var weeklySummaryData = {};
 var btsMonths = [];        // e.g. ['2026-04', '2026-05', ...]
 var btsMonthLabels = [];   // e.g. ['Apr', 'May', ...]
 var fetchStatus = {};      // pipeline run metadata from data.fetch_status
+var _priorWeekSnapshot = null;
 var pendingActualsCSV = null;
 var pendingForecastFile = null;
 var pendingRunRatesFile = null;
@@ -180,6 +181,7 @@ fetch('data.json?v=' + Date.now())
         populateLookerSyncBanner(data.fetch_status);
         initTrackerKey();
         loadSharedDecisions();
+        _loadPriorWeekSnapshot();
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-tabs').style.display = '';
         document.getElementById('main-content').style.display = '';
@@ -2431,6 +2433,29 @@ function dhRevoke(storageKey) {
 
 var _WBR_PENDING = '\u2014 (data source pending)';
 
+function _loadPriorWeekSnapshot() {
+    fetch('snapshots/manifest.json?v=' + Date.now())
+        .then(function(r) { return r.ok ? r.json() : []; })
+        .then(function(dates) {
+            if (!dates || !dates.length) return;
+            var now = new Date();
+            var target = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            var targetStr = target.toISOString().slice(0, 10);
+            var best = null;
+            dates.forEach(function(d) {
+                if (d <= targetStr && (!best || d > best)) best = d;
+            });
+            if (!best && dates.length > 1) best = dates[dates.length - 2];
+            if (!best || best === now.toISOString().slice(0, 10)) return;
+            return fetch('snapshots/' + best + '.json?v=' + Date.now());
+        })
+        .then(function(r) { return r && r.ok ? r.json() : null; })
+        .then(function(snap) {
+            if (snap) _priorWeekSnapshot = snap;
+        })
+        .catch(function() {});
+}
+
 function _wbrComputeMetrics() {
     var ws = weeklySummaryData || {};
     var tracker = trackerData || [];
@@ -2512,8 +2537,39 @@ function _wbrComputeMetrics() {
         }
     });
 
+    // --- WoW snapshot computation ---
+    var snap = _priorWeekSnapshot;
+    var hasSnap = !!snap;
+    var lw = {};
+    var prevOnTrackSet = {};
+    if (hasSnap) {
+        var snapActual = snap.summary ? (snap.summary.portfolio_actual_to_date || 0) : 0;
+        var snapTarget = snap.summary ? (snap.summary.portfolio_bts_total || 0) : 0;
+        var snapWs = snap.weekly_summary || {};
+        var snapDate = new Date(snap.snapshot_date + 'T12:00:00');
+        var snapDay = snapDate.getDate();
+        var snapDim = new Date(snapDate.getFullYear(), snapDate.getMonth() + 1, 0).getDate();
+        lw.totalActual = snapActual;
+        lw.totalTarget = snapTarget;
+        lw.contractingPct = snapTarget > 0 ? Math.round(snapActual / snapTarget * 100 * 10) / 10 : 0;
+        lw.dailyVelocity = snapDay > 0 ? Math.round(snapActual / snapDay * 10) / 10 : 0;
+        lw.onTrack = snapWs.on_track != null ? snapWs.on_track : null;
+        lw.behindPace = snapWs.behind_pace_count != null ? snapWs.behind_pace_count : null;
+        lw.subjectsCount = snapWs.total_subjects || 0;
+        (snap.tracker || []).forEach(function(ts) {
+            var pt = ts.problem_type || '';
+            if (pt === 'On Track' || pt.indexOf('High Wait') !== -1) prevOnTrackSet[ts.subject] = true;
+        });
+    }
+
+    var movedIntoOnTrack = [];
     var movers = onTrack.filter(function(s) { return s.pacePct >= 90 && s.estVelocity7d != null; })
         .sort(function(a, b) { return (b.estVelocity7d || 0) - (a.estVelocity7d || 0); }).slice(0, 5);
+    if (hasSnap) {
+        onTrack.forEach(function(s) {
+            if (!prevOnTrackSet[s.subject]) movedIntoOnTrack.push(s);
+        });
+    }
 
     var catPerf = {};
     subjects.forEach(function(s) {
@@ -2538,8 +2594,8 @@ function _wbrComputeMetrics() {
         decisionsLoaded: decisionsLoaded,
         decisionsThisWeek: decisionsThisWeek, decisionsByUser: decisionsByUser,
         decisionsByTheme: decisionsByTheme, openOld: openOld,
-        movers: movers, improvingCats: improvingCats,
-        hasWoWSnapshot: false
+        movers: movers, movedIntoOnTrack: movedIntoOnTrack, improvingCats: improvingCats,
+        hasWoWSnapshot: hasSnap, lw: lw, snapDate: hasSnap ? snap.snapshot_date : null
     };
 }
 
@@ -2586,8 +2642,14 @@ function generateWeeklySummary() {
     } else {
         headlineParts.push(pHtml + ' &mdash; no in-progress month found in tracker data.');
     }
-    headlineParts.push('WoW combos added: ' + pHtml + ' (no prior-week snapshot available). '
-        + 'Biggest concern: <strong>' + biggestConcern + '</strong>.');
+    if (m.hasWoWSnapshot) {
+        var wowDelta = m.totalActual - m.lw.totalActual;
+        var wowSign = wowDelta >= 0 ? '+' : '';
+        headlineParts.push('WoW change: <strong>' + wowSign + wowDelta + ' combos</strong> since ' + m.snapDate + '.');
+    } else {
+        headlineParts.push('WoW combos added: ' + pHtml + ' (no prior-week snapshot available yet).');
+    }
+    headlineParts.push('Biggest concern: <strong>' + biggestConcern + '</strong>.');
     var headline = '<p style="' + sty.p + 'font-size:15px;">' + headlineParts.join(' ') + '</p>';
 
     // --- 2. PACE & MOMENTUM TABLE ---
@@ -2612,23 +2674,54 @@ function generateWeeklySummary() {
     var decVal = m.decisionsLoaded ? String(m.decisionsThisWeek.length) : pHtml;
     var decisionsStatus = !m.decisionsLoaded ? sty.pending : (m.decisionsThisWeek.length > 0 ? sty.green : sty.yellow);
 
+    function fmtDelta(val) { return (val >= 0 ? '+' : '') + val; }
+    var lwCombos, lwVel, lwOnTrack, lwBehind, dCombos, dVel, dOnTrack, dBehind;
+    if (m.hasWoWSnapshot) {
+        lwCombos = m.lw.totalActual + ' (' + m.lw.contractingPct + '%)';
+        lwVel = m.lw.dailyVelocity + '/day';
+        lwOnTrack = m.lw.onTrack != null ? String(m.lw.onTrack) : pHtml;
+        lwBehind = m.lw.behindPace != null ? String(m.lw.behindPace) : pHtml;
+        dCombos = fmtDelta(m.totalActual - m.lw.totalActual);
+        dVel = fmtDelta(Math.round((dailyVelocity - m.lw.dailyVelocity) * 10) / 10);
+        dOnTrack = m.lw.onTrack != null ? fmtDelta(m.onTrack.length - m.lw.onTrack) : pHtml;
+        dBehind = m.lw.behindPace != null ? fmtDelta(m.behind.length - m.lw.behindPace) : pHtml;
+    } else {
+        lwCombos = lwVel = lwOnTrack = lwBehind = pHtml;
+        dCombos = dVel = dOnTrack = dBehind = pHtml;
+    }
+
     var paceTable = '<table style="' + sty.tbl + '">'
         + '<tr><th style="' + sty.th + '">Metric</th>'
         + '<th style="' + sty.th + 'text-align:right;">This Week</th>'
         + '<th style="' + sty.th + 'text-align:right;">Last Week</th>'
         + '<th style="' + sty.th + 'text-align:right;">\u0394</th>'
         + '<th style="' + sty.th + 'text-align:center;">Status</th></tr>'
-        + paceRow('New combos contracted', m.totalActual + ' of ' + m.totalTarget + ' (' + m.contractingPct + '%)', pHtml, pHtml, combosStatus)
-        + paceRow('Daily velocity (MTD avg)', dailyVelocity + '/day (need ' + neededDaily + '/day)', pHtml, pHtml, velStatus)
-        + paceRow('Subjects on track', m.onTrack.length + ' of ' + m.subjects.length + ' (' + onTrackPct + '%)', pHtml, pHtml, onTrackStatus)
-        + paceRow('Subjects behind pace', m.behind.length + ' (' + behindPct + '%)', pHtml, pHtml, behindStatus)
+        + paceRow('New combos contracted', m.totalActual + ' of ' + m.totalTarget + ' (' + m.contractingPct + '%)', lwCombos, dCombos, combosStatus)
+        + paceRow('Daily velocity (MTD avg)', dailyVelocity + '/day (need ' + neededDaily + '/day)', lwVel, dVel, velStatus)
+        + paceRow('Subjects on track', m.onTrack.length + ' of ' + m.subjects.length + ' (' + onTrackPct + '%)', lwOnTrack, dOnTrack, onTrackStatus)
+        + paceRow('Subjects behind pace', m.behind.length + ' (' + behindPct + '%)', lwBehind, dBehind, behindStatus)
         + paceRow('Decisions logged this week', decVal, pHtml, pHtml, decisionsStatus)
-        + '</table>'
-        + '<p style="' + sty.p + sty.pending + 'font-size:11px;">Last Week and \u0394 columns require a weekly data snapshot (not yet implemented). Velocity is MTD average, not a true 7-day rolling window.</p>';
+        + '</table>';
+    if (!m.hasWoWSnapshot) {
+        paceTable += '<p style="' + sty.p + sty.pending + 'font-size:11px;">Last Week and \u0394 columns will populate once a prior-week snapshot is available (snapshots saved daily).</p>';
+    } else {
+        paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">Compared to snapshot from ' + escapeHtml(m.snapDate) + '. Velocity is MTD average.</p>';
+    }
 
     // --- 3. BIGGEST MOVERS ---
     var moversHtml = '';
-    moversHtml += '<p style="' + sty.p + sty.pending + '">Subjects that moved into on-track this week: ' + escapeHtml(P) + ' (requires prior-week status snapshot).</p>';
+    if (m.hasWoWSnapshot) {
+        if (m.movedIntoOnTrack.length > 0) {
+            moversHtml += '<p style="' + sty.p + '"><strong>Moved into on-track since ' + escapeHtml(m.snapDate) + ':</strong> '
+                + m.movedIntoOnTrack.slice(0, 8).map(function(s) { return escapeHtml(s.subject); }).join(', ')
+                + (m.movedIntoOnTrack.length > 8 ? ' (+' + (m.movedIntoOnTrack.length - 8) + ' more)' : '')
+                + '.</p>';
+        } else {
+            moversHtml += '<p style="' + sty.p + 'color:#7f8c8d;">No subjects moved into on-track since ' + escapeHtml(m.snapDate) + '.</p>';
+        }
+    } else {
+        moversHtml += '<p style="' + sty.p + sty.pending + '">Subjects that moved into on-track this week: ' + escapeHtml(P) + ' (will populate once prior-week snapshot is available).</p>';
+    }
     if (m.movers.length > 0) {
         moversHtml += '<p style="' + sty.p + '"><strong>Velocity leaders (MTD avg):</strong> '
             + m.movers.map(function(s) { return escapeHtml(s.subject) + ' (~' + s.estVelocity7d + '/wk est., ' + s.pacePct + '% of pace)'; }).join(', ')
@@ -2639,7 +2732,7 @@ function generateWeeklySummary() {
             + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', ')
             + '.</p>';
     }
-    if (m.movers.length === 0 && m.improvingCats.length === 0) {
+    if (m.movers.length === 0 && m.improvingCats.length === 0 && (!m.hasWoWSnapshot || m.movedIntoOnTrack.length === 0)) {
         moversHtml += '<p style="' + sty.p + 'color:#7f8c8d;">No standout movers this period.</p>';
     }
 
@@ -2678,82 +2771,97 @@ function generateWeeklySummary() {
             + zeroRows + '</table>' + zeroNote
         : '<p style="' + sty.p + 'color:#27ae60;">All subjects have contracting activity this month.</p>';
 
-    // --- 6. DECISIONS ACTIVITY ---
+    // --- 6. DECISIONS ACTIVITY (Narrative + Collapsible Detail) ---
+    var AL = { increase_recruiting: 'recruiting', reduce_forecast: 'forecast reduction', investigate_placement: 'placement investigation', review_performance: 'performance review' };
     var decBody = '';
     if (!m.decisionsLoaded) {
         decBody = '<p style="' + sty.p + sty.pending + '">' + escapeHtml(P) + ' &mdash; not signed in or decisions have not synced from server. Sign in and wait for sync to complete.</p>';
     } else if (m.decisionsThisWeek.length > 0) {
-        var actionLabel = { increase_recruiting: 'Recruit', reduce_forecast: 'Reduce Forecast', investigate_placement: 'Investigate Placement', review_performance: 'Review Performance' };
         var acted = m.decisionsThisWeek.filter(function(d) { return d.decision === 'Action'; });
         var passed = m.decisionsThisWeek.filter(function(d) { return d.decision !== 'Action'; });
+        var teamCount = Object.keys(m.decisionsByUser).length;
+        var teamList = Object.keys(m.decisionsByUser).map(function(u) { return escapeHtml(u) + ': ' + m.decisionsByUser[u]; }).join(', ');
 
-        decBody = '<p style="' + sty.p + '"><strong>' + m.decisionsThisWeek.length + ' decisions logged this week</strong> '
-            + '(' + acted.length + ' acted on, ' + passed.length + ' passed).</p>';
-
-        var byUserHtml = Object.keys(m.decisionsByUser).map(function(u) {
-            return escapeHtml(u) + ': ' + m.decisionsByUser[u];
-        }).join(', ');
-        decBody += '<p style="' + sty.p + '"><strong>By team member:</strong> ' + byUserHtml + '</p>';
-
-        if (acted.length > 0) {
-            var actRows = acted.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).map(function(d) {
-                var typeLabel = actionLabel[d.action_type] || d.action_type || 'Other';
-                var noteText = d.note ? escapeHtml(d.note) : '<span style="' + sty.pending + '">no note</span>';
-                return '<tr>'
-                    + '<td style="' + sty.td + '">' + escapeHtml(d.subject || '?') + '</td>'
-                    + '<td style="' + sty.td + '"><span style="color:#27ae60;font-weight:600;">\u2713 Action</span></td>'
-                    + '<td style="' + sty.td + '">' + escapeHtml(typeLabel) + '</td>'
-                    + '<td style="' + sty.td + 'font-size:12px;">' + noteText + '</td>'
-                    + '<td style="' + sty.td + 'font-size:11px;color:#888;">' + escapeHtml(d.who || '?') + '</td>'
-                    + '</tr>';
-            }).join('');
-            decBody += '<p style="' + sty.p + 'margin-top:14px;"><strong>Actions Taken' + (acted.length > 10 ? ' (showing 10 of ' + acted.length + ')' : '') + ':</strong></p>'
-                + '<table style="' + sty.tbl + '">'
-                + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + '">Decision</th><th style="' + sty.th + '">Type</th><th style="' + sty.th + '">Notes</th><th style="' + sty.th + '">Who</th></tr>'
-                + actRows + '</table>';
-        }
-
-        if (passed.length > 0) {
-            var passRows = passed.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).map(function(d) {
-                var typeLabel = actionLabel[d.action_type] || d.action_type || 'Other';
-                var noteText = d.note ? escapeHtml(d.note) : '<span style="' + sty.pending + '">no reason given</span>';
-                return '<tr>'
-                    + '<td style="' + sty.td + '">' + escapeHtml(d.subject || '?') + '</td>'
-                    + '<td style="' + sty.td + '"><span style="color:#e74c3c;font-weight:600;">\u2715 No Action</span></td>'
-                    + '<td style="' + sty.td + '">' + escapeHtml(typeLabel) + '</td>'
-                    + '<td style="' + sty.td + 'font-size:12px;">' + noteText + '</td>'
-                    + '<td style="' + sty.td + 'font-size:11px;color:#888;">' + escapeHtml(d.who || '?') + '</td>'
-                    + '</tr>';
-            }).join('');
-            decBody += '<p style="' + sty.p + 'margin-top:14px;"><strong>Passed On' + (passed.length > 10 ? ' (showing 10 of ' + passed.length + ')' : '') + ':</strong></p>'
-                + '<table style="' + sty.tbl + '">'
-                + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + '">Decision</th><th style="' + sty.th + '">Type</th><th style="' + sty.th + '">Reason</th><th style="' + sty.th + '">Who</th></tr>'
-                + passRows + '</table>';
-        }
+        // --- NARRATIVE PROSE ---
+        var prose = '';
+        prose += '<p style="' + sty.p + '"><strong>This week, ' + m.decisionsThisWeek.length + ' decisions were logged by '
+            + teamCount + ' team member' + (teamCount !== 1 ? 's' : '') + ' (' + teamList + ') &mdash; '
+            + acted.length + ' acted on, ' + passed.length + ' passed.</strong></p>';
 
         var themeCounts = {};
         m.decisionsThisWeek.forEach(function(d) {
-            var t = actionLabel[d.action_type] || d.action_type || 'Other';
-            if (!themeCounts[t]) themeCounts[t] = { action: 0, noAction: 0 };
-            if (d.decision === 'Action') themeCounts[t].action++;
-            else themeCounts[t].noAction++;
+            var t = d.action_type || 'other';
+            if (!themeCounts[t]) themeCounts[t] = { action: [], noAction: [], total: 0 };
+            themeCounts[t].total++;
+            if (d.decision === 'Action') themeCounts[t].action.push(d);
+            else themeCounts[t].noAction.push(d);
         });
-        var themeRows = Object.keys(themeCounts).map(function(t) {
-            var c = themeCounts[t];
-            return '<tr><td style="' + sty.td + '">' + escapeHtml(t) + '</td>'
-                + '<td style="' + sty.td + 'text-align:right;">' + c.action + '</td>'
-                + '<td style="' + sty.td + 'text-align:right;">' + c.noAction + '</td>'
-                + '<td style="' + sty.td + 'text-align:right;font-weight:600;">' + (c.action + c.noAction) + '</td></tr>';
+
+        var themesSorted = Object.keys(themeCounts).sort(function(a, b) { return themeCounts[b].total - themeCounts[a].total; });
+
+        themesSorted.forEach(function(theme) {
+            var tc = themeCounts[theme];
+            var label = AL[theme] || theme;
+            var sentences = [];
+
+            if (tc.action.length > 0) {
+                var withNotes = tc.action.filter(function(d) { return d.note; });
+                var highlights = (withNotes.length > 0 ? withNotes : tc.action).slice(0, 3);
+                var subjectBits = highlights.map(function(d) {
+                    var bit = escapeHtml(d.who || 'Team') + ' committed to ' + escapeHtml(label) + ' for ' + escapeHtml(d.subject || '?');
+                    if (d.note) bit += ', noting &ldquo;' + escapeHtml(d.note) + '&rdquo;';
+                    return bit;
+                });
+                if (tc.action.length <= 3) {
+                    sentences.push(subjectBits.join('. ') + '.');
+                } else {
+                    sentences.push(subjectBits.join('. ') + ', plus ' + (tc.action.length - 3) + ' more.');
+                }
+            }
+
+            if (tc.noAction.length > 0) {
+                var passedWithNotes = tc.noAction.filter(function(d) { return d.note; });
+                if (passedWithNotes.length > 0) {
+                    var sample = passedWithNotes[0];
+                    sentences.push('The team passed on ' + tc.noAction.length + ' ' + escapeHtml(label) + ' recommendation' + (tc.noAction.length !== 1 ? 's' : '')
+                        + ' &mdash; ' + escapeHtml(sample.who || 'team') + ' noted &ldquo;' + escapeHtml(sample.note) + '&rdquo;'
+                        + (passedWithNotes.length > 1 ? ' (and ' + (passedWithNotes.length - 1) + ' similar)' : '') + '.');
+                } else {
+                    sentences.push(tc.noAction.length + ' ' + escapeHtml(label) + ' recommendation' + (tc.noAction.length !== 1 ? 's were' : ' was') + ' passed on without notes.');
+                }
+            }
+
+            prose += '<p style="' + sty.p + '"><strong>' + escapeHtml(label.charAt(0).toUpperCase() + label.slice(1)) + '</strong> (' + tc.total + ' decision' + (tc.total !== 1 ? 's' : '') + '): ' + sentences.join(' ') + '</p>';
+        });
+
+        if (m.openOld > 0) {
+            prose += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decision' + (m.openOld !== 1 ? 's' : '') + ' open longer than 7 days</span> &mdash; may need follow-up.</p>';
+        }
+
+        // --- COLLAPSIBLE DETAIL TABLES ---
+        var detailHtml = '';
+        var allRows = m.decisionsThisWeek.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).map(function(d) {
+            var typeLabel = AL[d.action_type] || d.action_type || 'Other';
+            var decColor = d.decision === 'Action' ? 'color:#27ae60;' : 'color:#e74c3c;';
+            var noteText = d.note ? escapeHtml(d.note) : '<span style="' + sty.pending + '">-</span>';
+            return '<tr>'
+                + '<td style="' + sty.td + '">' + escapeHtml(d.subject || '?') + '</td>'
+                + '<td style="' + sty.td + decColor + 'font-weight:600;">' + escapeHtml(d.decision) + '</td>'
+                + '<td style="' + sty.td + '">' + escapeHtml(typeLabel) + '</td>'
+                + '<td style="' + sty.td + 'font-size:12px;">' + noteText + '</td>'
+                + '<td style="' + sty.td + 'font-size:11px;color:#888;">' + escapeHtml(d.who || '?') + '</td></tr>';
         }).join('');
-        decBody += '<p style="' + sty.p + 'margin-top:14px;"><strong>By Recommendation Theme:</strong></p>'
-            + '<table style="' + sty.tbl + '">'
-            + '<tr><th style="' + sty.th + '">Theme</th><th style="' + sty.th + 'text-align:right;">Acted</th><th style="' + sty.th + 'text-align:right;">Passed</th><th style="' + sty.th + 'text-align:right;">Total</th></tr>'
-            + themeRows + '</table>';
+        detailHtml = '<details style="margin-top:12px;"><summary style="cursor:pointer;color:#596087;font-weight:600;font-size:13px;">View all ' + m.decisionsThisWeek.length + ' decisions detail</summary>'
+            + '<table style="' + sty.tbl + 'margin-top:8px;">'
+            + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + '">Decision</th><th style="' + sty.th + '">Type</th><th style="' + sty.th + '">Notes</th><th style="' + sty.th + '">Who</th></tr>'
+            + allRows + '</table></details>';
+
+        decBody = prose + detailHtml;
     } else {
         decBody = '<p style="' + sty.p + 'color:#7f8c8d;">No decisions logged in the past 7 days.</p>';
-    }
-    if (m.decisionsLoaded && m.openOld > 0) {
-        decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decisions open &gt; 7 days</span> &mdash; may need follow-up.</p>';
+        if (m.openOld > 0) {
+            decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decision' + (m.openOld !== 1 ? 's' : '') + ' open longer than 7 days</span> &mdash; may need follow-up.</p>';
+        }
     }
 
     // --- ASSEMBLE ---
@@ -2789,6 +2897,8 @@ function generateWeeklySummary() {
 
 function _wbrPlainText(m, generated) {
     var P = _WBR_PENDING;
+    var AL = { increase_recruiting: 'recruiting', reduce_forecast: 'forecast reduction', investigate_placement: 'placement investigation', review_performance: 'performance review' };
+    function fmtD(v) { return (v >= 0 ? '+' : '') + v; }
     var lines = [];
     lines.push('BTS TUTOR SUPPLY \u2014 WEEKLY BUSINESS REVIEW');
     lines.push('Generated: ' + generated + ' | Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)');
@@ -2797,31 +2907,47 @@ function _wbrPlainText(m, generated) {
     lines.push('HEADLINE');
     if (m.hasCurrentMonth) {
         var paceDelta = m.totalActual - m.paceTargetTotal;
-        var sign = paceDelta >= 0 ? '+' : '';
         lines.push('We have contracted ' + m.totalActual + ' of ' + m.totalTarget + ' combos (' + m.contractingPct + '%). '
-            + sign + paceDelta + ' combos vs pace target.');
+            + fmtD(paceDelta) + ' combos vs pace target.');
     } else {
         lines.push(P + ' \u2014 no in-progress month found in tracker data.');
     }
-    lines.push('WoW combos added: ' + P + ' (no prior-week snapshot available). '
-        + 'Biggest concern: ' + (m.behind.length > 0 ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace' : 'no critical gaps') + '.');
+    if (m.hasWoWSnapshot) {
+        lines.push('WoW change: ' + fmtD(m.totalActual - m.lw.totalActual) + ' combos since ' + m.snapDate + '.');
+    } else {
+        lines.push('WoW combos added: ' + P + ' (no prior-week snapshot available yet).');
+    }
+    lines.push('Biggest concern: ' + (m.behind.length > 0 ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace' : 'no critical gaps') + '.');
     lines.push('');
 
     var dailyVel = m.dayOfMonth > 0 ? Math.round(m.totalActual / m.dayOfMonth * 10) / 10 : 0;
     var neededDaily = (m.daysInMonth - m.dayOfMonth) > 0 ? Math.round((m.totalTarget - m.totalActual) / (m.daysInMonth - m.dayOfMonth) * 10) / 10 : 0;
     lines.push('PACE & MOMENTUM');
-    lines.push('                          This Week       | Last Week | \u0394');
-    lines.push('New combos:               ' + m.totalActual + '/' + m.totalTarget + ' (' + m.contractingPct + '%) | ' + P + ' | ' + P);
-    lines.push('Daily velocity (MTD avg): ' + dailyVel + '/day (need ' + neededDaily + '/day)  | ' + P + ' | ' + P);
-    lines.push('On track:                 ' + m.onTrack.length + '/' + m.subjects.length + '           | ' + P + ' | ' + P);
-    lines.push('Behind pace:              ' + m.behind.length + '              | ' + P + ' | ' + P);
-    lines.push('Decisions this week:      ' + (m.decisionsLoaded ? m.decisionsThisWeek.length : P) + '              | ' + P + ' | ' + P);
-    lines.push('* Last Week and \u0394 require a weekly data snapshot (not yet implemented).');
-    lines.push('* Velocity is MTD average, not a true 7-day rolling window.');
+    if (m.hasWoWSnapshot) {
+        lines.push('New combos: ' + m.totalActual + '/' + m.totalTarget + ' (' + m.contractingPct + '%) | LW: ' + m.lw.totalActual + ' (' + m.lw.contractingPct + '%) | \u0394 ' + fmtD(m.totalActual - m.lw.totalActual));
+        lines.push('Daily velocity: ' + dailyVel + '/day (need ' + neededDaily + ') | LW: ' + m.lw.dailyVelocity + '/day | \u0394 ' + fmtD(Math.round((dailyVel - m.lw.dailyVelocity) * 10) / 10));
+        lines.push('On track: ' + m.onTrack.length + '/' + m.subjects.length + (m.lw.onTrack != null ? ' | LW: ' + m.lw.onTrack + ' | \u0394 ' + fmtD(m.onTrack.length - m.lw.onTrack) : ''));
+        lines.push('Behind: ' + m.behind.length + (m.lw.behindPace != null ? ' | LW: ' + m.lw.behindPace + ' | \u0394 ' + fmtD(m.behind.length - m.lw.behindPace) : ''));
+        lines.push('Compared to snapshot from ' + m.snapDate + '. Velocity is MTD average.');
+    } else {
+        lines.push('New combos: ' + m.totalActual + '/' + m.totalTarget + ' (' + m.contractingPct + '%) | LW: ' + P);
+        lines.push('Daily velocity: ' + dailyVel + '/day (need ' + neededDaily + ') | LW: ' + P);
+        lines.push('On track: ' + m.onTrack.length + '/' + m.subjects.length + ' | LW: ' + P);
+        lines.push('Behind: ' + m.behind.length + ' | LW: ' + P);
+    }
+    lines.push('Decisions this week: ' + (m.decisionsLoaded ? m.decisionsThisWeek.length : P));
     lines.push('');
 
     lines.push('BIGGEST MOVERS');
-    lines.push('Moved into on-track this week: ' + P + ' (requires prior-week status snapshot).');
+    if (m.hasWoWSnapshot) {
+        if (m.movedIntoOnTrack.length > 0) {
+            lines.push('Moved into on-track since ' + m.snapDate + ': ' + m.movedIntoOnTrack.slice(0, 8).map(function(s) { return s.subject; }).join(', '));
+        } else {
+            lines.push('No subjects moved into on-track since ' + m.snapDate + '.');
+        }
+    } else {
+        lines.push('Moved into on-track: ' + P + ' (will populate once prior-week snapshot is available).');
+    }
     if (m.movers.length) lines.push('Velocity leaders (MTD avg): ' + m.movers.map(function(s) { return s.subject + ' (~' + s.estVelocity7d + '/wk est.)'; }).join(', '));
     if (m.improvingCats.length) lines.push('Strong categories: ' + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', '));
     lines.push('');
@@ -2834,7 +2960,6 @@ function _wbrPlainText(m, generated) {
             var dtc = s.daysToClose != null ? (s.daysToClose === 0 ? '0d' : s.daysToClose + 'd') : P;
             lines.push(s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + vel + ' | ' + dtc);
         });
-        lines.push('* Velocity estimated from MTD daily avg x 7. True 7-day data not yet available.');
         lines.push('');
     }
 
@@ -2843,53 +2968,56 @@ function _wbrPlainText(m, generated) {
         m.zeroVelocity.slice(0, 15).forEach(function(s) {
             lines.push(s.subject + ' (target: ' + s.target + ', ' + s.tier + ')');
         });
-        lines.push('* Based on zero MTD actuals, not true 7-day inactivity. Daily-granularity data needed.');
         lines.push('');
     }
 
-    var actionLabel = { increase_recruiting: 'Recruit', reduce_forecast: 'Reduce Forecast', investigate_placement: 'Investigate Placement', review_performance: 'Review Performance' };
     lines.push('DECISIONS ACTIVITY');
     if (!m.decisionsLoaded) {
         lines.push(P + ' \u2014 not signed in or decisions have not synced from server.');
     } else if (m.decisionsThisWeek.length > 0) {
         var acted = m.decisionsThisWeek.filter(function(d) { return d.decision === 'Action'; });
         var passed = m.decisionsThisWeek.filter(function(d) { return d.decision !== 'Action'; });
-        lines.push(m.decisionsThisWeek.length + ' decisions logged this week (' + acted.length + ' acted on, ' + passed.length + ' passed).');
-        var byUser = Object.keys(m.decisionsByUser).map(function(u) { return u + ': ' + m.decisionsByUser[u]; }).join(', ');
-        lines.push('By team member: ' + byUser);
+        var teamList = Object.keys(m.decisionsByUser).map(function(u) { return u + ': ' + m.decisionsByUser[u]; }).join(', ');
+        lines.push(m.decisionsThisWeek.length + ' decisions by ' + Object.keys(m.decisionsByUser).length + ' team members (' + teamList + ') \u2014 ' + acted.length + ' acted on, ' + passed.length + ' passed.');
         lines.push('');
-        if (acted.length > 0) {
-            lines.push('Actions Taken:');
-            acted.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).forEach(function(d) {
-                var t = actionLabel[d.action_type] || d.action_type || 'Other';
-                lines.push('  \u2713 ' + (d.subject || '?') + ' \u2014 ' + t + (d.note ? ': ' + d.note : '') + ' (' + (d.who || '?') + ')');
-            });
-            lines.push('');
-        }
-        if (passed.length > 0) {
-            lines.push('Passed On:');
-            passed.sort(function(a, b) { return new Date(b.date) - new Date(a.date); }).slice(0, 10).forEach(function(d) {
-                var t = actionLabel[d.action_type] || d.action_type || 'Other';
-                lines.push('  \u2715 ' + (d.subject || '?') + ' \u2014 ' + t + (d.note ? ': ' + d.note : '') + ' (' + (d.who || '?') + ')');
-            });
-            lines.push('');
-        }
-        lines.push('By Recommendation Theme:');
+
         var themeCounts = {};
         m.decisionsThisWeek.forEach(function(d) {
-            var t = actionLabel[d.action_type] || d.action_type || 'Other';
-            if (!themeCounts[t]) themeCounts[t] = { action: 0, noAction: 0 };
-            if (d.decision === 'Action') themeCounts[t].action++;
-            else themeCounts[t].noAction++;
+            var t = d.action_type || 'other';
+            if (!themeCounts[t]) themeCounts[t] = { action: [], noAction: [] };
+            if (d.decision === 'Action') themeCounts[t].action.push(d);
+            else themeCounts[t].noAction.push(d);
         });
-        Object.keys(themeCounts).forEach(function(t) {
-            var c = themeCounts[t];
-            lines.push('  ' + t + ': ' + c.action + ' acted, ' + c.noAction + ' passed (' + (c.action + c.noAction) + ' total)');
+        Object.keys(themeCounts).sort(function(a, b) {
+            return (themeCounts[b].action.length + themeCounts[b].noAction.length) - (themeCounts[a].action.length + themeCounts[a].noAction.length);
+        }).forEach(function(theme) {
+            var tc = themeCounts[theme];
+            var label = AL[theme] || theme;
+            var total = tc.action.length + tc.noAction.length;
+            var parts = [];
+            if (tc.action.length > 0) {
+                var highlights = tc.action.filter(function(d) { return d.note; }).slice(0, 2);
+                if (highlights.length === 0) highlights = tc.action.slice(0, 2);
+                highlights.forEach(function(d) {
+                    parts.push('  ' + (d.who || 'Team') + ' \u2192 ' + label + ' for ' + (d.subject || '?') + (d.note ? ': "' + d.note + '"' : ''));
+                });
+                if (tc.action.length > 2) parts.push('  + ' + (tc.action.length - 2) + ' more actions');
+            }
+            if (tc.noAction.length > 0) {
+                var passNote = tc.noAction.filter(function(d) { return d.note; });
+                if (passNote.length > 0) {
+                    parts.push('  Passed on ' + tc.noAction.length + ' \u2014 ' + (passNote[0].who || 'team') + ' noted: "' + passNote[0].note + '"');
+                } else {
+                    parts.push('  Passed on ' + tc.noAction.length + ' (no notes)');
+                }
+            }
+            lines.push(label.charAt(0).toUpperCase() + label.slice(1) + ' (' + total + '):');
+            parts.forEach(function(p) { lines.push(p); });
         });
     } else {
         lines.push('No decisions logged in the past 7 days.');
     }
-    if (m.decisionsLoaded && m.openOld > 0) lines.push(m.openOld + ' action decisions open > 7 days');
+    if (m.decisionsLoaded && m.openOld > 0) lines.push(m.openOld + ' action decisions open > 7 days \u2014 may need follow-up.');
 
     return lines.join('\n');
 }
