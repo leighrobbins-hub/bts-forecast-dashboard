@@ -735,6 +735,7 @@ function buildMonthlyData() {
     var cmIdx = saBuildCurrentMonthIndex(currentMonth);
 
     var totalTarget = 0, totalActual = 0, totalActualRaw = 0;
+    var excessTotal = 0, overContractedCount = 0;
     var behindCount = 0, onPaceCount = 0, noDataCount = 0;
     var rows = [];
 
@@ -750,6 +751,10 @@ function buildMonthlyData() {
             if (actual != null) {
                 totalActualRaw += actual;
                 totalActual += Math.min(actual, target);
+                if (actual > target) {
+                    excessTotal += actual - target;
+                    overContractedCount++;
+                }
                 if (actual >= target) {
                     pace = 'onpace'; onPaceCount++;
                 } else if (dayOfMonth <= 2) {
@@ -796,6 +801,8 @@ function buildMonthlyData() {
         totalTarget: totalTarget,
         totalActual: totalActual,
         totalActualRaw: totalActualRaw,
+        excessTotal: excessTotal,
+        overContractedCount: overContractedCount,
         behindCount: behindCount,
         onPaceCount: onPaceCount,
         noDataCount: noDataCount,
@@ -823,13 +830,33 @@ function renderMonthlyHeroCards() {
         else nodataDetail.textContent = 'Check Looker data feeds';
     }
 
+    var contractedCard = document.getElementById('mo-contracted');
+    if (contractedCard && d.excessTotal > 0) {
+        contractedCard.parentElement.setAttribute('data-tip',
+            'Capped at target per subject to avoid over-counting. Raw total: ' + d.totalActualRaw.toLocaleString() +
+            ' (' + d.overContractedCount + ' subject' + (d.overContractedCount !== 1 ? 's' : '') + ' over-contracted by ' + d.excessTotal + ' total)');
+    }
     var detailEl = document.getElementById('mo-contracted-detail');
     if (detailEl) {
         var pct = d.totalTarget > 0 ? Math.round(d.totalActual / d.totalTarget * 100) : 0;
-        detailEl.textContent = pct + '% of target';
+        if (d.excessTotal > 0) {
+            detailEl.innerHTML = pct + '% of target &nbsp;·&nbsp; <span style="color:#e67e22;">+' + d.excessTotal + ' excess</span>';
+        } else {
+            detailEl.textContent = pct + '% of target';
+        }
     }
 
-    setText('mo-pulse-actual', d.totalActual.toLocaleString());
+    var pulseActualEl = document.getElementById('mo-pulse-actual');
+    if (pulseActualEl) {
+        if (d.excessTotal > 0) {
+            pulseActualEl.innerHTML = d.totalActual.toLocaleString() +
+                ' <span style="font-size:13px;color:#e67e22;font-weight:500;" data-tip="' +
+                d.excessTotal + ' over-contracted across ' + d.overContractedCount + ' subject' +
+                (d.overContractedCount !== 1 ? 's' : '') + ' (raw: ' + d.totalActualRaw.toLocaleString() + ')">(+' + d.excessTotal + ' excess)</span>';
+        } else {
+            pulseActualEl.textContent = d.totalActual.toLocaleString();
+        }
+    }
     setText('mo-pulse-target', Math.round(d.totalTarget).toLocaleString());
     var pctBar = d.totalTarget > 0 ? Math.round(d.totalActual / d.totalTarget * 100) : 0;
     setText('mo-pulse-pct', pctBar + '%');
