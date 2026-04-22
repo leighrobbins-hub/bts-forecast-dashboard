@@ -14,7 +14,7 @@
       "Recruit More": 11,
       "Insufficient Data": 4
     },
-    "last_updated": "2026-04-22 02:44 PM CST",
+    "last_updated": "2026-04-22 02:53 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "tier_distribution": {
@@ -61139,7 +61139,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-22 02:42 PM CST",
+      "uploaded_at": "2026-04-22 09:26 AM CST",
       "subjects_count": 428
     }
   ],
@@ -64490,10 +64490,13 @@
       "category": "Other",
       "priority": "low",
       "action_type": "increase_recruiting",
-      "reason": "No utilization or tutor hours data available. Cannot classify confidently. Gather data before making supply decisions.",
+      "reason": "Missing: New Tutor 30d Placement Rate, All Tutor Hours Utilization, P90 Time-to-Assign. Cannot classify without these signals. Available: Run Rate 1; Avg Target 1; Gap +6; NICHE tier. Gather Looker data for this subject before making supply decisions.",
       "data_points": {
         "gap": 6,
-        "run_rate": 1.0
+        "run_rate": 1.0,
+        "p90_nat": null,
+        "util_rate": null,
+        "tutor_hours_util": null
       }
     },
     {
@@ -64512,10 +64515,13 @@
       "category": "Other",
       "priority": "low",
       "action_type": "increase_recruiting",
-      "reason": "No utilization or tutor hours data available. Cannot classify confidently. Gather data before making supply decisions.",
+      "reason": "Missing: New Tutor 30d Placement Rate, All Tutor Hours Utilization, P90 Time-to-Assign. Cannot classify without these signals. Available: Run Rate 1; Avg Target 1; Gap +6; NICHE tier. Gather Looker data for this subject before making supply decisions.",
       "data_points": {
         "gap": 6,
-        "run_rate": 1.0
+        "run_rate": 1.0,
+        "p90_nat": null,
+        "util_rate": null,
+        "tutor_hours_util": null
       }
     },
     {
@@ -64523,10 +64529,13 @@
       "category": "Professional/Cert",
       "priority": "low",
       "action_type": "increase_recruiting",
-      "reason": "No utilization or tutor hours data available. Cannot classify confidently. Gather data before making supply decisions.",
+      "reason": "Missing: New Tutor 30d Placement Rate, All Tutor Hours Utilization, P90 Time-to-Assign. Cannot classify without these signals. Available: Run Rate 1; Avg Target 1; Gap +6; NICHE tier. Gather Looker data for this subject before making supply decisions.",
       "data_points": {
         "gap": 6,
-        "run_rate": 1.0
+        "run_rate": 1.0,
+        "p90_nat": null,
+        "util_rate": null,
+        "tutor_hours_util": null
       }
     },
     {
@@ -64534,10 +64543,13 @@
       "category": "Other",
       "priority": "low",
       "action_type": "increase_recruiting",
-      "reason": "No utilization or tutor hours data available. Cannot classify confidently. Gather data before making supply decisions.",
+      "reason": "Missing: New Tutor 30d Placement Rate, All Tutor Hours Utilization, P90 Time-to-Assign. Cannot classify without these signals. Available: Run Rate 1; Avg Target 1; Gap +2; NICHE tier. Gather Looker data for this subject before making supply decisions.",
       "data_points": {
         "gap": 2,
-        "run_rate": 1.0
+        "run_rate": 1.0,
+        "p90_nat": null,
+        "util_rate": null,
+        "tutor_hours_util": null
       }
     }
   ],
@@ -64629,10 +64641,10 @@
         "remaining": 111
       }
     ],
-    "generated_at": "2026-04-22 02:44 PM CST"
+    "generated_at": "2026-04-22 02:53 PM CST"
   },
   "fetch_status": {
-    "fetched_at": "2026-04-22T19:44:32.271785+00:00",
+    "fetched_at": "2026-04-22T19:48:51.396527+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -64644,6 +64656,6 @@
       "tutor_hours_util": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-22T19:44:32.271785+00:00"
+    "last_successful_fetch": "2026-04-22T19:48:51.396527+00:00"
   }
 }
