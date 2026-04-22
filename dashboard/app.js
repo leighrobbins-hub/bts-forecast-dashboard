@@ -558,16 +558,28 @@ function renderOverviewPulse() {
     var ws = weeklySummaryData || {};
 
     var total = s.portfolio_bts_total || 0;
-    var rawActual = s.portfolio_actual_to_date || 0;
-    var capped = s.portfolio_actual_to_date_capped;
-    var actual = (capped != null) ? capped : rawActual;
     var monthsDone = s.months_completed || 0;
+
+    var rawActual = 0, cappedActual = 0;
+    (trackerData || []).forEach(function(ts) {
+        (ts.months || []).forEach(function(m) {
+            if (m.actual != null) {
+                rawActual += m.actual;
+                cappedActual += Math.min(m.actual, m.smoothed_target || 0);
+            }
+        });
+    });
+    if (rawActual === 0 && cappedActual === 0) {
+        rawActual = s.portfolio_actual_to_date || 0;
+        cappedActual = (s.portfolio_actual_to_date_capped != null) ? s.portfolio_actual_to_date_capped : rawActual;
+    }
+    var actual = cappedActual;
     var pct = total > 0 ? Math.round(actual / total * 100) : 0;
 
     var actualEl = document.getElementById('ov-pulse-actual');
     if (actualEl) {
         actualEl.textContent = actual.toLocaleString();
-        if (capped != null && rawActual !== capped) {
+        if (rawActual !== cappedActual) {
             actualEl.setAttribute('data-tip', rawActual.toLocaleString() + ' contracted (' + actual.toLocaleString() + ' toward target)');
         }
     }
