@@ -1555,7 +1555,7 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
         for md in ts.get('months', []):
             actual = md.get('actual')
             if actual is not None:
-                target = md.get('smoothed_target') or 0
+                target = md.get('manual_override') if md.get('manual_override') is not None else (md.get('smoothed_target') or 0)
                 portfolio_actual_capped += min(actual, target)
 
     summary['portfolio_bts_total'] = round(portfolio_bts_total, 0)
