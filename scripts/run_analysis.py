@@ -1011,8 +1011,15 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
                 'variance': None
             })
 
-        remaining_need = bts_total - final_actual_sum
-        months_left = len(BTS_MONTH_KEYS) - final_months_count
+        total_actual = final_actual_sum
+        in_progress_count = 0
+        for md in months_data:
+            if md['status'] == 'in_progress' and md['actual'] is not None:
+                total_actual += md['actual']
+                in_progress_count += 1
+
+        remaining_need = bts_total - total_actual
+        months_left = len(BTS_MONTH_KEYS) - final_months_count - in_progress_count
 
         for md in months_data:
             if md['status'] == 'final' and md['actual'] is not None:
@@ -1020,20 +1027,12 @@ def calculate_monthly_tracker(df_final, actuals, month_statuses=None):
                 md['adjusted_target'] = md['smoothed_target']
             elif md['status'] == 'in_progress' and md['actual'] is not None:
                 md['variance'] = md['actual'] - md['smoothed_target']
-                if months_left > 0:
-                    md['adjusted_target'] = round(remaining_need / months_left, 1)
-                else:
-                    md['adjusted_target'] = md['smoothed_target']
+                md['adjusted_target'] = md['smoothed_target']
             else:
                 if months_left > 0:
                     md['adjusted_target'] = round(remaining_need / months_left, 1)
                 else:
                     md['adjusted_target'] = 0
-
-        total_actual = final_actual_sum
-        for md in months_data:
-            if md['status'] == 'in_progress' and md['actual'] is not None:
-                total_actual += md['actual']
 
         mar_actual = row.get('Mar_Actual')
         mar_forecast = row.get('Mar_Forecast')
@@ -1551,8 +1550,17 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
     portfolio_actual = sum(ts['actual_to_date'] for ts in tracker_subjects)
     months_with_data = max((ts['months_completed'] for ts in tracker_subjects), default=0)
 
+    portfolio_actual_capped = 0
+    for ts in tracker_subjects:
+        for md in ts.get('months', []):
+            actual = md.get('actual')
+            if actual is not None:
+                target = md.get('smoothed_target') or 0
+                portfolio_actual_capped += min(actual, target)
+
     summary['portfolio_bts_total'] = round(portfolio_bts_total, 0)
     summary['portfolio_actual_to_date'] = round(portfolio_actual, 0)
+    summary['portfolio_actual_to_date_capped'] = round(portfolio_actual_capped, 0)
     summary['portfolio_remaining'] = round(portfolio_bts_total - portfolio_actual, 0)
     summary['months_completed'] = months_with_data
     summary['months_remaining'] = len(BTS_MONTH_KEYS) - months_with_data

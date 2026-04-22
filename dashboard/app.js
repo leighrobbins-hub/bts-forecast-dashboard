@@ -217,8 +217,19 @@ function actionBadgeHtml(row) {
         'on-track': 'badge ontrack', 'insufficient-data': 'badge nodata'
     };
     var cls = BADGE_CLASSES[type] || 'badge ontrack';
-    return '<span class="' + cls + '"' + (tip ? ' data-tip="' + escapeHtml(tip) + '"' : '') + '>' + escapeHtml(label) + '</span>'
-        + renderStressFlags(row.Stress_Flags);
+    return '<span class="' + cls + '"' + (tip ? ' data-tip="' + escapeHtml(tip) + '"' : '') + '>' + escapeHtml(label) + '</span>';
+}
+
+var FLAG_SEVERITY = {
+    burnout_risk: 6, critical_wait: 5, paper_supply: 4,
+    high_wait: 3, idle_pool: 2, new_tutor_stuck: 1
+};
+
+function flagSortWeight(flags) {
+    if (!flags || !flags.length) return 0;
+    var w = 0;
+    for (var i = 0; i < flags.length; i++) w += (FLAG_SEVERITY[flags[i]] || 0);
+    return w;
 }
 
 /* ── Load saved PAT ── */
@@ -516,11 +527,19 @@ function renderOverviewPulse() {
     var ws = weeklySummaryData || {};
 
     var total = s.portfolio_bts_total || 0;
-    var actual = s.portfolio_actual_to_date || 0;
+    var rawActual = s.portfolio_actual_to_date || 0;
+    var capped = s.portfolio_actual_to_date_capped;
+    var actual = (capped != null) ? capped : rawActual;
     var monthsDone = s.months_completed || 0;
     var pct = total > 0 ? Math.round(actual / total * 100) : 0;
 
-    setText('ov-pulse-actual', actual.toLocaleString());
+    var actualEl = document.getElementById('ov-pulse-actual');
+    if (actualEl) {
+        actualEl.textContent = actual.toLocaleString();
+        if (capped != null && rawActual !== capped) {
+            actualEl.setAttribute('data-tip', rawActual.toLocaleString() + ' contracted (' + actual.toLocaleString() + ' toward target)');
+        }
+    }
     setText('ov-pulse-total', Math.round(total).toLocaleString());
     setText('ov-pulse-pct', pct + '%');
     setText('ov-pulse-months', monthsDone);
@@ -560,6 +579,7 @@ function renderMonthSnapshot() {
 
     var totalTarget = 0;
     var totalActual = 0;
+    var totalActualRaw = 0;
     var behindCount = 0;
     var onPaceCount = 0;
     var noDataCount = 0;
@@ -569,6 +589,7 @@ function renderMonthSnapshot() {
         if (!cmd || cmd.target == null || cmd.target === 0) {
             if (cmd && cmd.actual != null) {
                 totalActual += cmd.actual;
+                totalActualRaw += cmd.actual;
             } else {
                 var curMonth = null;
                 ts.months.forEach(function(m) { if (m.label === currentLabel) curMonth = m; });
@@ -587,7 +608,8 @@ function renderMonthSnapshot() {
             return;
         }
 
-        totalActual += actual;
+        totalActualRaw += actual;
+        totalActual += Math.min(actual, target);
 
         if (actual >= target) {
             onPaceCount++;
@@ -606,7 +628,13 @@ function renderMonthSnapshot() {
         }
     });
 
-    setText('ov-month-contracted', totalActual.toLocaleString());
+    var monthEl = document.getElementById('ov-month-contracted');
+    if (monthEl) {
+        monthEl.textContent = totalActual.toLocaleString();
+        if (totalActualRaw !== totalActual) {
+            monthEl.setAttribute('data-tip', totalActualRaw.toLocaleString() + ' contracted (' + totalActual.toLocaleString() + ' toward target)');
+        }
+    }
     var ut = (_lastSummary || {}).unique_tutors_contracted;
     setText('ov-month-unique-tutors', ut != null ? ut.toLocaleString() : '—');
     setText('ov-month-target', Math.round(totalTarget).toLocaleString());
@@ -773,9 +801,12 @@ function renderPriorityTable() {
     var paceFilterEl = document.getElementById('filter-pace-priority');
     var paceFilter = paceFilterEl ? paceFilterEl.value : 'all';
 
+    var flagFilterEl = document.getElementById('filter-flag-priority');
+    var flagFilter = flagFilterEl ? flagFilterEl.value : 'all';
+
     var paceIdx = buildPaceIndex();
 
-    var isFiltered = (ptFilter !== 'all-problems') || (paceFilter !== 'all') || (tierFilter !== 'hide-niche');
+    var isFiltered = (ptFilter !== 'all-problems') || (paceFilter !== 'all') || (tierFilter !== 'hide-niche') || (flagFilter !== 'all');
     var clearBtn = document.getElementById('ov-clear-btn');
     if (clearBtn) clearBtn.style.display = isFiltered ? '' : 'none';
 
@@ -787,6 +818,12 @@ function renderPriorityTable() {
         if (paceFilter !== 'all') {
             var pace = paceIdx[r.Subject] || 'nodata';
             if (pace !== paceFilter) return false;
+        }
+
+        if (flagFilter !== 'all') {
+            var flags = r.Stress_Flags || [];
+            if (flagFilter === 'any') { if (flags.length === 0) return false; }
+            else { if (flags.indexOf(flagFilter) === -1) return false; }
         }
 
         if (tierFilter === 'all') return true;
@@ -840,6 +877,7 @@ function renderPriorityTable() {
             + renderP90Cell(row)
             + '<td class="tc ' + gapClass + '">' + gapDisplay + '</td>'
             + '<td class="tc">' + actionBadgeHtml(row) + '</td>'
+            + '<td class="tc">' + renderStressFlags(row.Stress_Flags) + '</td>'
             + cmCell;
         tbody.appendChild(tr);
     });
@@ -893,10 +931,12 @@ function clearOverviewFilters() {
     var ptEl = document.getElementById('filter-problemtype-priority');
     var paceEl = document.getElementById('filter-pace-priority');
     var tierEl = document.getElementById('filter-tier-priority');
+    var flagEl = document.getElementById('filter-flag-priority');
     var hintEl = document.getElementById('ov-month-active-filter');
     if (ptEl) ptEl.value = 'all-problems';
     if (paceEl) paceEl.value = 'all';
     if (tierEl) tierEl.value = 'hide-niche';
+    if (flagEl) flagEl.value = 'all';
     if (hintEl) hintEl.textContent = '';
     _ovPaceIndex = null;
     renderPriorityTable();
@@ -946,22 +986,23 @@ function sortTable(tableType, colIndex) {
 }
 
 function sortData(data, colIndex, asc, tableType) {
-    // Column-index → field-key mapping for the priority table. Must stay in
-    // lockstep with the <th onclick="sortTable(...)"> indices in index.html.
     var columnMaps = {
-        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Tutor_Hours_Util_Pct', 'P90_NAT_Hours', 'Raw_Gap', 'Primary_Action']
+        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Tutor_Hours_Util_Pct', 'P90_NAT_Hours', 'Raw_Gap', 'Primary_Action', 'Stress_Flags']
     };
     var map = columnMaps[tableType] || columnMaps['priority'];
     var key = map[colIndex] || 'Subject';
     return data.slice().sort(function(a, b) {
-        var aVal = a[key], bVal = b[key];
-        // Tier sorts by defined volume order, not alphabetically
+        var aVal, bVal;
+        if (key === 'Stress_Flags') {
+            aVal = flagSortWeight(a.Stress_Flags);
+            bVal = flagSortWeight(b.Stress_Flags);
+        } else {
+            aVal = a[key]; bVal = b[key];
+        }
         if (key === 'Tier') {
             aVal = (aVal != null && TIER_ORDER[aVal] !== undefined) ? TIER_ORDER[aVal] : 99;
             bVal = (bVal != null && TIER_ORDER[bVal] !== undefined) ? TIER_ORDER[bVal] : 99;
         }
-        // Null/undefined values always sort to the bottom regardless of asc/desc
-        // (without this, descending sort puts nulls at the top which feels buggy)
         var aNull = (aVal === null || aVal === undefined);
         var bNull = (bVal === null || bVal === undefined);
         if (aNull && bNull) return 0;
@@ -3460,6 +3501,8 @@ function renderSubjectsAndActions() {
     var catFilter    = document.getElementById('sa-filter-category').value;
     var searchTerm   = (document.getElementById('sa-search').value || '').toLowerCase();
     var gapFilter    = parseInt(document.getElementById('sa-filter-gap').value, 10) || 0;
+    var saFlagEl     = document.getElementById('sa-filter-flag');
+    var flagFilter   = saFlagEl ? saFlagEl.value : 'all';
 
     // Build augmented rows (subject + aggregate info)
     var rows = allData.map(function(row) {
@@ -3490,6 +3533,11 @@ function renderSubjectsAndActions() {
         if (catFilter !== 'all' && r.Category !== catFilter) return false;
         if (searchTerm && r.Subject.toLowerCase().indexOf(searchTerm) === -1) return false;
         if (gapFilter > 0 && Math.abs(r.Raw_Gap || 0) < gapFilter) return false;
+        if (flagFilter !== 'all') {
+            var flags = r.Stress_Flags || [];
+            if (flagFilter === 'any') { if (flags.length === 0) return false; }
+            else { if (flags.indexOf(flagFilter) === -1) return false; }
+        }
         return true;
     });
 
@@ -3522,8 +3570,9 @@ function renderSubjectsAndActions() {
                 bv = (bcm && bcm.variance != null) ? bcm.variance : null;
                 break;
             case 10: av = a.row.Primary_Action || a.row.Problem_Type; bv = b.row.Primary_Action || b.row.Problem_Type; break;
-            case 11: av = a.rec; bv = b.rec; break;
-            case 12: av = STATUS_ORDER[a.status] || 99; bv = STATUS_ORDER[b.status] || 99; break;
+            case 11: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
+            case 12: av = a.rec; bv = b.rec; break;
+            case 13: av = STATUS_ORDER[a.status] || 99; bv = STATUS_ORDER[b.status] || 99; break;
             default: av = a.row.Subject; bv = b.row.Subject;
         }
         var aNull = av === null || av === undefined;
@@ -3586,6 +3635,7 @@ function renderSubjectsAndActions() {
             + '<td class="tc ' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '\u2014') + '</td>'
             + saRenderCurrentMonthCell(cmIdx[r.Subject], currentMonth)
             + '<td class="tc">' + actionBadgeHtml(r) + '</td>'
+            + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>'
             + '<td class="tc">' + saRecBadge(x.rec) + '</td>'
             + '<td class="tc">' + saStatusBadge(x.status) + '</td>';
         tbody.appendChild(tr);
@@ -3678,7 +3728,7 @@ function renderSubjectsAndActions() {
                     + dataHtml + footer + '</div>';
             });
             inner += '</div>';
-            detailTr.innerHTML = '<td colspan="14">' + inner + '</td>';
+            detailTr.innerHTML = '<td colspan="15">' + inner + '</td>';
             tbody.appendChild(detailTr);
         }
     });
@@ -3800,7 +3850,7 @@ document.getElementById('filter-category-tracker').addEventListener('change', re
 
 /* ── Subjects & Actions tab filters ── */
 ['sa-filter-type','sa-filter-rec','sa-filter-priority','sa-filter-status',
- 'sa-filter-tier','sa-filter-category','sa-filter-gap'].forEach(function(id) {
+ 'sa-filter-tier','sa-filter-category','sa-filter-gap','sa-filter-flag'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('change', renderSubjectsAndActions);
 });
