@@ -396,11 +396,8 @@ def fetch_nat_p90(api, *, dry_run=False):
 def fetch_unique_tutors(api, *, dry_run=False):
     """Fetch unique tutor count for the current month from Looker Look 26320.
 
-    This Look returns a single row with the count of distinct tutors contracted
-    this month (as opposed to tutor-subject combinations which can be higher
-    since one tutor may be matched to multiple subjects).
-
-    The Look is pre-filtered in Looker to exclude certain states.
+    The Look returns one row per day with columns for date and tutor count.
+    We sum the count column to get total unique tutors for the month.
     """
     look_id = os.getenv("LOOKER_UNIQUE_TUTORS_LOOK_ID", "26320").strip() or None
 
@@ -414,9 +411,10 @@ def fetch_unique_tutors(api, *, dry_run=False):
         count_col = _find_column(df, UNIQUE_TUTORS_VALUE_PATTERNS, "unique_tutors count")
 
         if count_col:
-            val = pd.to_numeric(df[count_col].iloc[0], errors='coerce')
-            result_df = pd.DataFrame([{'Unique_Tutors': int(val) if pd.notna(val) else 0}])
-            print(f"  Normalized column: {count_col!r} → Unique_Tutors = {result_df['Unique_Tutors'].iloc[0]}")
+            total = pd.to_numeric(df[count_col], errors='coerce').sum()
+            total = int(total) if pd.notna(total) else 0
+            result_df = pd.DataFrame([{'Unique_Tutors': total}])
+            print(f"  Summed {len(df)} daily rows from {count_col!r} → Unique_Tutors = {total}")
         else:
             result_df = df
             print("  ⚠  Could not auto-detect count column; saving raw output")
