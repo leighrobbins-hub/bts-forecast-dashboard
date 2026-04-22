@@ -28,6 +28,7 @@
             <h1>Tutor Forecast &amp; Action Dashboard</h1>
         </div>
         <div id="user-bar" style="margin-left:auto; display:flex; align-items:center; gap:12px; padding-right:20px;">
+            <span id="sync-status" class="sync-status" title="Decision sync status"></span>
             <span id="user-name" style="color:#ecf0f1; font-size:13px; font-weight:500;"></span>
             <button onclick="netlifyIdentity.logout()" style="background:rgba(255,255,255,0.15); color:#ecf0f1; border:1px solid rgba(255,255,255,0.25); padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer;">Sign out</button>
         </div>
@@ -1533,6 +1534,7 @@ ELSE:
         document.getElementById('app-wrapper').style.display = '';
         document.getElementById('user-name').textContent = name;
         localStorage.setItem('bts_active_user', name);
+        if (typeof loadSharedDecisions === 'function') loadSharedDecisions();
     }
 
     function onLogout() {

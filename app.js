@@ -544,6 +544,9 @@ function showTab(tabName, el) {
     target.classList.add('active');
     el.classList.add('active');
     el.setAttribute('aria-selected', 'true');
+    if (tabName === 'subjects-and-actions' || tabName === 'decision-history') {
+        loadSharedDecisions();
+    }
 }
 
 function navigateToFiltered(filterValue) {
@@ -2166,6 +2169,8 @@ var ACTION_TYPE_LABELS = {
 };
 
 var _sharedDecisions = {};
+var _syncPending = 0;
+var _syncRefreshInterval = null;
 
 function getDecisionKey(rec) {
     return 'decision_' + rec.subject + '_' + rec.action_type + '_' + (rec.data_points && rec.data_points.month || 'all');
@@ -2193,6 +2198,61 @@ function _getAuthToken() {
     return Promise.resolve(null);
 }
 
+function _updateSyncStatus(state) {
+    var el = document.getElementById('sync-status');
+    if (!el) return;
+    if (state === 'synced') {
+        el.textContent = 'Synced';
+        el.className = 'sync-status synced';
+    } else if (state === 'pending') {
+        el.textContent = 'Syncing…';
+        el.className = 'sync-status pending';
+    } else if (state === 'error') {
+        el.textContent = 'Sync failed';
+        el.className = 'sync-status error';
+    }
+}
+
+function _syncToServer(method, body, retryCount) {
+    if (retryCount === undefined) retryCount = 0;
+    _syncPending++;
+    _updateSyncStatus('pending');
+    return _getAuthToken().then(function(token) {
+        if (!token) {
+            if (retryCount < 2) {
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        resolve(_syncToServer(method, body, retryCount + 1));
+                    }, 2000);
+                });
+            }
+            _syncPending--;
+            _updateSyncStatus('error');
+            console.warn('Decision sync: no auth token after retries');
+            return { ok: false };
+        }
+        return fetch('/.netlify/functions/decisions', {
+            method: method,
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify(body)
+        }).then(function(r) {
+            _syncPending--;
+            if (r.ok) {
+                _updateSyncStatus(_syncPending > 0 ? 'pending' : 'synced');
+            } else {
+                _updateSyncStatus('error');
+                console.warn('Decision sync failed:', r.status);
+            }
+            return r;
+        }).catch(function(e) {
+            _syncPending--;
+            _updateSyncStatus('error');
+            console.warn('Decision sync error:', e);
+            return { ok: false };
+        });
+    });
+}
+
 function saveDecision(rec, decision, note, who) {
     var obj = {
         decision: decision,
@@ -2206,56 +2266,64 @@ function saveDecision(rec, decision, note, who) {
     var key = getDecisionKey(rec);
     localStorage.setItem(key, JSON.stringify(obj));
     _sharedDecisions[key] = obj;
-
-    _getAuthToken().then(function(token) {
-        if (!token) return;
-        fetch('/.netlify/functions/decisions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-            body: JSON.stringify({ key: key, decision: obj })
-        }).catch(function(e) { console.warn('Failed to sync decision to server:', e); });
-    });
+    _syncToServer('POST', { key: key, decision: obj });
 }
 
 function removeDecision(rec) {
     var key = getDecisionKey(rec);
     try { localStorage.removeItem(key); } catch (e) {}
     delete _sharedDecisions[key];
-
-    _getAuthToken().then(function(token) {
-        if (!token) return;
-        fetch('/.netlify/functions/decisions', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-            body: JSON.stringify({ key: key })
-        }).catch(function(e) { console.warn('Failed to delete decision on server:', e); });
-    });
+    _syncToServer('DELETE', { key: key });
 }
 
 function loadSharedDecisions() {
     _getAuthToken().then(function(token) {
-        if (!token) return;
+        if (!token) {
+            setTimeout(function() {
+                _getAuthToken().then(function(t) {
+                    if (t) loadSharedDecisions();
+                });
+            }, 3000);
+            return;
+        }
         fetch('/.netlify/functions/decisions', {
             headers: { 'Authorization': 'Bearer ' + token }
         })
         .then(function(r) { return r.ok ? r.json() : {}; })
-        .then(function(decisions) {
-            _sharedDecisions = decisions || {};
-            Object.keys(_sharedDecisions).forEach(function(key) {
-                localStorage.setItem(key, JSON.stringify(_sharedDecisions[key]));
+        .then(function(serverDecisions) {
+            serverDecisions = serverDecisions || {};
+            Object.keys(serverDecisions).forEach(function(key) {
+                _sharedDecisions[key] = serverDecisions[key];
+                localStorage.setItem(key, JSON.stringify(serverDecisions[key]));
             });
-            if (typeof renderSubjectsAndActions === 'function') {
-                try { renderSubjectsAndActions(); } catch (e) {}
-            }
-            if (typeof renderDecisionHistory === 'function') {
-                try { renderDecisionHistory(); } catch (e) {}
-            }
-            if (typeof refreshOverviewLive === 'function') {
-                try { refreshOverviewLive(); } catch (e) {}
+            Object.keys(_sharedDecisions).forEach(function(key) {
+                if (!serverDecisions[key] && _sharedDecisions[key]._localPending) return;
+                if (!serverDecisions[key]) delete _sharedDecisions[key];
+            });
+            _updateSyncStatus(_syncPending > 0 ? 'pending' : 'synced');
+            _refreshDecisionViews();
+
+            if (!_syncRefreshInterval) {
+                _syncRefreshInterval = setInterval(loadSharedDecisions, 60000);
             }
         })
-        .catch(function(e) { console.warn('Failed to load shared decisions:', e); });
+        .catch(function(e) {
+            console.warn('Failed to load shared decisions:', e);
+            _updateSyncStatus('error');
+        });
     });
+}
+
+function _refreshDecisionViews() {
+    if (typeof renderSubjectsAndActions === 'function') {
+        try { renderSubjectsAndActions(); } catch (e) {}
+    }
+    if (typeof renderDecisionHistory === 'function') {
+        try { renderDecisionHistory(); } catch (e) {}
+    }
+    if (typeof refreshOverviewLive === 'function') {
+        try { refreshOverviewLive(); } catch (e) {}
+    }
 }
 
 
