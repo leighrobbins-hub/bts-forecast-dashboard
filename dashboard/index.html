@@ -294,15 +294,15 @@
                     <thead>
                         <tr>
                             <th class="sortable" onclick="sortTable('priority', 0)">Subject</th>
-                            <th class="sortable" onclick="sortTable('priority', 1)" data-tip="Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.">Tier</th>
-                            <th class="sortable" onclick="sortTable('priority', 2)">Run Rate</th>
-                            <th class="sortable" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
-                            <th class="sortable" onclick="sortTable('priority', 4)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
-                            <th class="sortable" onclick="sortTable('priority', 5)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
-                            <th class="sortable" onclick="sortTable('priority', 6)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
-                            <th class="sortable" onclick="sortTable('priority', 7)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
-                            <th class="sortable" onclick="sortTable('priority', 8)" data-tip="Classification based on three signals: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
-                            <th class="sa-current-col" id="priority-current-month-header" data-tip="This month's actual contracting vs target, with pace-aware projection.">Current Month</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 1)" data-tip="Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.">Tier</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 2)">Run Rate</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 4)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 5)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 6)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 7)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 8)" data-tip="Classification based on three signals: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
+                            <th class="sa-current-col tc" id="priority-current-month-header" data-tip="This month's actual contracting vs target, with pace-aware projection.">Current Month</th>
                         </tr>
                     </thead>
                     <tbody id="priority-body">
@@ -424,20 +424,20 @@
                 <table id="sa-table">
                     <thead>
                         <tr>
-                            <th style="width:24px;"></th>
+                            <th style="width:24px;" class="tc"></th>
                             <th class="sortable" onclick="sortSA(0)">Subject</th>
-                            <th class="sortable" onclick="sortSA(1)" data-tip="Volume tier based on total BTS forecast: CORE (150+), HIGH (75+), MEDIUM (30+), LOW (10+), NICHE (<10). A miss on a CORE subject has much bigger business impact than a miss on a NICHE subject.">Tier</th>
-                            <th class="sortable" onclick="sortSA(2)" data-tip="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor.">Priority</th>
-                            <th class="sortable" onclick="sortSA(3)" data-tip="Historical monthly new-tutor contracting capacity, averaged across Dec 2025–Mar 2026. The number we can realistically contract per month through the organic pipeline.">Run Rate</th>
-                            <th class="sortable" onclick="sortSA(4)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
-                            <th class="sortable" onclick="sortSA(5)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
-                            <th class="sortable" onclick="sortSA(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
-                            <th class="sortable" onclick="sortSA(7)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
-                            <th class="sortable" onclick="sortSA(8)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically).">Gap</th>
-                            <th class="sortable sa-current-col" onclick="sortSA(9)" data-tip="Current in-progress month: actual vs target with pace projection.">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
-                            <th class="sortable" onclick="sortSA(10)" data-tip="Classification based on three signals: new tutor placement, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
-                            <th class="sortable" onclick="sortSA(11)">Recommendation</th>
-                            <th class="sortable" onclick="sortSA(12)">Action Status</th>
+                            <th class="sortable tc" onclick="sortSA(1)" data-tip="Volume tier based on total BTS forecast: CORE (150+), HIGH (75+), MEDIUM (30+), LOW (10+), NICHE (<10). A miss on a CORE subject has much bigger business impact than a miss on a NICHE subject.">Tier</th>
+                            <th class="sortable tc" onclick="sortSA(2)" data-tip="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor.">Priority</th>
+                            <th class="sortable tc" onclick="sortSA(3)" data-tip="Historical monthly new-tutor contracting capacity, averaged across Dec 2025–Mar 2026. The number we can realistically contract per month through the organic pipeline.">Run Rate</th>
+                            <th class="sortable tc" onclick="sortSA(4)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
+                            <th class="sortable tc" onclick="sortSA(5)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
+                            <th class="sortable tc" onclick="sortSA(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
+                            <th class="sortable tc" onclick="sortSA(7)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
+                            <th class="sortable tc" onclick="sortSA(8)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically).">Gap</th>
+                            <th class="sortable sa-current-col tc" onclick="sortSA(9)" data-tip="Current in-progress month: actual vs target with pace projection.">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
+                            <th class="sortable tc" onclick="sortSA(10)" data-tip="Classification based on three signals: new tutor placement, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
+                            <th class="sortable tc" onclick="sortSA(11)">Recommendation</th>
+                            <th class="sortable tc" onclick="sortSA(12)">Action Status</th>
                         </tr>
                     </thead>
                     <tbody id="sa-body"></tbody>

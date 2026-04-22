@@ -148,30 +148,36 @@ function buildUtilDisplay(row) {
 
 function renderThuCell(row) {
     var val = row.Tutor_Hours_Util_Pct;
-    if (val == null) return '<td style="text-align:right;color:#aaa">\u2014</td>';
+    if (val == null) return '<td class="tc" style="color:#aaa">\u2014</td>';
     var pct = Math.round(val);
-    var cls = '';
-    if (pct > 120 || pct < 50) cls = ' style="text-align:right;background:#f8d7da;color:#721c24;font-weight:600"';
-    else if ((pct >= 110 && pct <= 120) || (pct >= 50 && pct <= 60)) cls = ' style="text-align:right;background:#fff3cd;color:#856404;font-weight:600"';
-    else cls = ' style="text-align:right"';
-    return '<td' + cls + '>' + pct + '%</td>';
+    var bg = '';
+    if (pct > 120 || pct < 50) bg = 'background:#f8d7da;color:#721c24;font-weight:600';
+    else if ((pct >= 110 && pct <= 120) || (pct >= 50 && pct <= 60)) bg = 'background:#fff3cd;color:#856404;font-weight:600';
+    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + pct + '%</td>';
 }
 
 function renderP90Cell(row) {
     var val = row.P90_NAT_Hours;
-    if (val == null) return '<td style="text-align:right;color:#aaa">\u2014</td>';
+    if (val == null) return '<td class="tc" style="color:#aaa">\u2014</td>';
     var hrs = Math.round(val);
     var goal = row.P90_Goal || 48;
-    var cls = hrs > goal ? ' style="text-align:right;background:#f8d7da;color:#721c24;font-weight:600"' : ' style="text-align:right"';
-    return '<td' + cls + '>' + hrs + 'h</td>';
+    var bg = hrs > goal ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
+    var goalHint = '<div style="font-size:11px;color:#7f8c8d;font-weight:400">goal ' + Math.round(goal) + 'h</div>';
+    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + hrs + 'h' + goalHint + '</td>';
 }
 
 function renderNewTutor30dCell(row) {
     var val = row.Util_Rate;
-    if (val == null) return '<td style="text-align:right;color:#aaa">\u2014</td>';
+    if (val == null) return '<td class="tc" style="color:#aaa">\u2014</td>';
     var pct = Math.round(val);
-    var cls = pct < 30 ? ' style="text-align:right;background:#f8d7da;color:#721c24;font-weight:600"' : ' style="text-align:right"';
-    return '<td' + cls + '>' + pct + '%</td>';
+    var bg = pct < 30 ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
+    var detail = '';
+    if (row.Util_Recent_Contracted != null && row.Util_Recent_Utilized != null) {
+        detail = '<div style="font-size:11px;color:#7f8c8d;font-weight:400">' + Math.round(row.Util_Recent_Utilized) + ' of ' + Math.round(row.Util_Recent_Contracted) + '</div>';
+    } else if (row.Total_Contracted != null && row.Utilized_30d != null) {
+        detail = '<div style="font-size:11px;color:#7f8c8d;font-weight:400">' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + '</div>';
+    }
+    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + pct + '%' + detail + '</td>';
 }
 
 function renderStressFlags(flags) {
@@ -826,14 +832,14 @@ function renderPriorityTable() {
         var cmCell = saRenderCurrentMonthCell(cmd, currentMonth);
 
         tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td>'
-            + '<td>' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
-            + '<td>' + row.Run_Rate + '</td>'
-            + '<td>' + row.Smoothed_Target + '</td>'
+            + '<td class="tc">' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
+            + '<td class="tc">' + row.Run_Rate + '</td>'
+            + '<td class="tc">' + row.Smoothed_Target + '</td>'
             + renderNewTutor30dCell(row)
             + renderThuCell(row)
             + renderP90Cell(row)
-            + '<td class="' + gapClass + '">' + gapDisplay + '</td>'
-            + '<td>' + actionBadgeHtml(row) + '</td>'
+            + '<td class="tc ' + gapClass + '">' + gapDisplay + '</td>'
+            + '<td class="tc">' + actionBadgeHtml(row) + '</td>'
             + cmCell;
         tbody.appendChild(tr);
     });
@@ -3566,22 +3572,22 @@ function renderSubjectsAndActions() {
             toggleSARow(r.Subject);
         };
         tr.innerHTML =
-              '<td>' + expandIndicator + '</td>'
+              '<td class="tc">' + expandIndicator + '</td>'
             + '<td><strong>' + escapeHtml(r.Subject) + '</strong>'
                 + (actionCount > 1 ? ' <small style="color:#7f8c8d;">(' + actionCount + ' actions)</small>' : '')
             + '</td>'
-            + '<td>' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
-            + '<td>' + saPriorityBadge(x.priority, x.recs) + '</td>'
-            + '<td>' + (r.Run_Rate != null ? r.Run_Rate : '\u2014') + '</td>'
-            + '<td>' + (r.Smoothed_Target != null ? r.Smoothed_Target : '\u2014') + '</td>'
+            + '<td class="tc">' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
+            + '<td class="tc">' + saPriorityBadge(x.priority, x.recs) + '</td>'
+            + '<td class="tc">' + (r.Run_Rate != null ? r.Run_Rate : '\u2014') + '</td>'
+            + '<td class="tc">' + (r.Smoothed_Target != null ? r.Smoothed_Target : '\u2014') + '</td>'
             + renderNewTutor30dCell(r)
             + renderThuCell(r)
             + renderP90Cell(r)
-            + '<td class="' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '\u2014') + '</td>'
+            + '<td class="tc ' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '\u2014') + '</td>'
             + saRenderCurrentMonthCell(cmIdx[r.Subject], currentMonth)
-            + '<td>' + actionBadgeHtml(r) + '</td>'
-            + '<td>' + saRecBadge(x.rec) + '</td>'
-            + '<td>' + saStatusBadge(x.status) + '</td>';
+            + '<td class="tc">' + actionBadgeHtml(r) + '</td>'
+            + '<td class="tc">' + saRecBadge(x.rec) + '</td>'
+            + '<td class="tc">' + saStatusBadge(x.status) + '</td>';
         tbody.appendChild(tr);
 
         if (isExpanded && actionCount > 0) {

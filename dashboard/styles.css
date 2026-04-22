@@ -226,6 +226,11 @@ td {
     padding: 12px 14px;
     border-bottom: 1px solid #ecf0f1;
     font-size: 14px;
+    vertical-align: middle;
+}
+
+td.tc, th.tc {
+    text-align: center;
 }
 
 tr:hover {
