@@ -43,11 +43,11 @@ var currentSorts = {
 var trackerSort = { key: 'subject', asc: true };
 
 var PROBLEM_TIPS = {
-    'placement': 'Anomaly: low subject-level utilization (<50%) coincident with a demand gap. Investigation needed — could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.',
-    'over-supplied': 'Run rate meets or exceeds target but tutors under 50% utilized. Consider reducing forecast — demand may be overestimated.',
-    'true-supply': 'Tutors well-utilized (>50%) and target exceeds run rate. Supply is genuinely short — deploy recruiting levers.',
-    'no-util-data': 'Target exceeds run rate but no utilization data available. Gather data to determine root cause.',
-    'on-track': 'Supply meets demand and utilization is healthy. No action needed.',
+    'placement': 'Anomaly: low new tutor placement rate (<50%) coincident with a demand gap. Investigation needed — could be a placement or algorithm issue, low real demand, multi-subject tutors placed on other subjects, or scheduling mismatch.',
+    'over-supplied': 'Run rate meets or exceeds target but new tutors under 50% placed. Consider reducing forecast — demand may be overestimated.',
+    'true-supply': 'New tutors well-placed (>50%) and target exceeds run rate. Supply is genuinely short — deploy recruiting levers.',
+    'no-util-data': 'Target exceeds run rate but no new tutor placement data available. Gather data to determine root cause.',
+    'on-track': 'Supply meets demand and placement rate is healthy. No action needed.',
     'on-track-highwait': 'Supply meets demand on paper, but P90 wait time exceeds 24h — students are waiting too long. Investigate matching/placement delays.'
 };
 
@@ -294,7 +294,7 @@ function updateSummary(summary) {
         var pct = summary.util_coverage_pct;
         var withUtil = summary.subjects_with_util_data || 0;
         var total = summary.total_subjects || 0;
-        qualityEl.textContent = pct + '% (' + withUtil + '/' + total + ' subjects have util data)';
+        qualityEl.textContent = pct + '% (' + withUtil + '/' + total + ' subjects have placement data)';
         qualityEl.className = 'util-coverage-badge ' + (pct >= 80 ? 'good' : pct >= 50 ? 'warn' : 'bad');
     }
 }
@@ -367,7 +367,7 @@ function refreshOverviewLive() {
         .filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; })
         .sort(function(a, b) { return (b.Run_Rate || 0) - (a.Run_Rate || 0); })
         .slice(0, 5)
-        .map(function(r) { return r.Subject + ' (' + (r.Util_Rate || 0) + '% util, run rate ' + r.Run_Rate + '/mo)'; });
+        .map(function(r) { return r.Subject + ' (' + (r.Util_Rate || 0) + '% placed, run rate ' + r.Run_Rate + '/mo)'; });
     var lowutilExamplesEl = document.getElementById('lowutil-examples');
     if (lowutilExamplesEl) lowutilExamplesEl.textContent = topOverSupplied.join('; ');
 
@@ -741,7 +741,7 @@ function renderPriorityTable() {
         var gapClass = covPct < 50 ? 'gap-critical' : covPct < 80 ? 'gap-high' : 'gap-medium';
         var action = '', badgeClass = '', badgeText = '';
         if (type === 'placement') { action = 'Investigate placement/algo'; badgeClass = 'util'; badgeText = 'Under-Used'; }
-        else if (type === 'no-util-data') { action = 'Gather data'; badgeClass = 'nodata'; badgeText = 'No Util Data'; }
+        else if (type === 'no-util-data') { action = 'Gather data'; badgeClass = 'nodata'; badgeText = 'No Placement Data'; }
         else if (type === 'over-supplied') { action = 'Reduce forecast'; badgeClass = 'lowutil'; badgeText = 'Over-Supplied'; }
         else if (type === 'on-track') { action = 'No action needed'; badgeClass = 'ontrack'; badgeText = 'On Track'; }
         else if (type === 'on-track-highwait') { action = 'Investigate wait times'; badgeClass = 'highwait'; badgeText = 'High Wait'; }
@@ -2109,7 +2109,7 @@ function publishUtilization() {
         var content = ev.target.result;
         commitFile('data/utilization.csv', content, 'Update utilization data - ' + new Date().toISOString().slice(0, 10))
             .then(function() {
-                showStatus('utilization-status', 'Utilization data committed. Dashboard will update in ~2 minutes.', 'success');
+                showStatus('utilization-status', 'Placement data committed. Dashboard will update in ~2 minutes.', 'success');
             })
             .catch(function(err) {
                 showStatus('utilization-status', 'Error: ' + err + '. Use the Download button instead.', 'error');
@@ -2640,7 +2640,7 @@ function saRecBadge(rec) {
 function saProblemTypeBadge(type) {
     if (type === 'placement')      return '<span class="badge util">Under-Used</span>';
     if (type === 'true-supply')    return '<span class="badge supply">True Supply</span>';
-    if (type === 'no-util-data')   return '<span class="badge nodata">No Util Data</span>';
+    if (type === 'no-util-data')   return '<span class="badge nodata">No Placement Data</span>';
     if (type === 'over-supplied')  return '<span class="badge lowutil">Over-Supplied</span>';
     if (type === 'on-track')       return '<span class="badge ontrack">On Track</span>';
     if (type === 'on-track-highwait') return '<span class="badge highwait">On Track — High Wait</span>';
@@ -2996,7 +2996,7 @@ function renderSubjectsAndActions() {
                 var dataHtml = '';
                 if (rec.data_points) {
                     var pts = [];
-                    if (rec.data_points.util_rate != null) pts.push('Util: ' + Math.round(rec.data_points.util_rate) + '%');
+                    if (rec.data_points.util_rate != null) pts.push('Placement: ' + Math.round(rec.data_points.util_rate) + '%');
                     if (rec.data_points.gap != null) pts.push('Gap: ' + rec.data_points.gap);
                     if (rec.data_points.run_rate != null) pts.push('Run Rate: ' + rec.data_points.run_rate);
                     if (rec.data_points.pace != null) pts.push('Pace: ' + rec.data_points.pace + '%');
