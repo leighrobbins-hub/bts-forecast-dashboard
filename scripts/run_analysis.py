@@ -745,11 +745,19 @@ TIER_THRESHOLDS = {
     # anything below LOW threshold => 'NICHE'
 }
 
-# Operational target: P90 time-on-NAT should be below this threshold.
-# Subjects with P90 below this AND low utilization are confirmed Over-Supplied.
-# Subjects at or above this despite low utilization are placement anomalies
-# (students ARE waiting, tutors just aren't being matched) — classify as Under-Used.
-NAT_P90_GOAL_HOURS = 24
+# Tiered P90 goals: higher-volume subjects should fill faster.
+# CORE subjects have the tightest SLA; NICHE subjects get more slack.
+NAT_P90_GOAL_BY_TIER = {
+    'CORE': 24, 'HIGH': 36, 'MEDIUM': 48, 'LOW': 60, 'NICHE': 72,
+}
+
+def get_p90_goal(row):
+    """Return the P90 NAT goal for a subject row. Per-subject override wins if present."""
+    override = row.get('Healthy_P90_Hours')
+    if override is not None and not (isinstance(override, float) and np.isnan(override)) and override > 0:
+        return float(override)
+    tier = row.get('Tier', '')
+    return NAT_P90_GOAL_BY_TIER.get(tier, 48)
 
 
 def assign_tier(bts_total):
@@ -809,45 +817,94 @@ def classify_problems(df_analysis, df_utilization):
         df_merged['Tutor_Hours_Util_Pct'] = None
         print("  ⚠  No tutor_hours_util.csv found — All Tutor Hours Util will not be used in classification")
 
-    def get_problem_type(row):
-        util_rate = row['Util_Rate']
-        needs_external = row['Needs_External_Levers']
-        p90 = row.get('P90_NAT_Hours')
-
-        if pd.isna(util_rate):
-            if needs_external:
-                return "Supply Problem (No Util Data)"
-            else:
-                return "On Track"
-
-        if util_rate < 50:
-            if needs_external:
-                return "Under-Used"
-            else:
-                # Cross-check with P90 NAT before confirming Over-Supplied.
-                # If P90 >= our 24h goal, students are waiting beyond the goal
-                # despite low tutor utilization — that's a placement anomaly,
-                # not genuine over-supply. Don't tell the team to reduce forecast.
-                # If no P90 data available, fall back to util-only classification.
-                p90_val = None if (p90 is None or pd.isna(p90)) else float(p90)
-                if p90_val is not None and p90_val >= NAT_P90_GOAL_HOURS:
-                    return "Under-Used"
-                return "Over-Supplied"
-        else:
-            if needs_external:
-                return "True Supply Problem"
-            else:
-                p90_val = None if (p90 is None or pd.isna(p90)) else float(p90)
-                if p90_val is not None and p90_val >= NAT_P90_GOAL_HOURS:
-                    return "On Track — High Wait"
-                return "On Track"
-
-    df_merged['Problem_Type'] = df_merged.apply(get_problem_type, axis=1)
-    df_merged['Util_Rate'] = df_merged['Util_Rate'].round(0)
+    # Assign Tier and Category early so classification functions can use them
     df_merged['Category'] = df_merged['Subject'].apply(classify_category)
-    # Tier classification based on BTS_Total (Apr-Oct forecasted headcount).
-    # See assign_tier() and TIER_THRESHOLDS for rationale and thresholds.
     df_merged['Tier'] = df_merged['BTS_Total'].apply(assign_tier)
+    df_merged['P90_Goal'] = df_merged.apply(get_p90_goal, axis=1)
+
+    def _safe_float(val):
+        if val is None or (isinstance(val, float) and pd.isna(val)):
+            return None
+        return float(val)
+
+    def get_primary_action(row):
+        util = _safe_float(row.get('Util_Rate'))
+        thu = _safe_float(row.get('Tutor_Hours_Util_Pct'))
+        p90 = _safe_float(row.get('P90_NAT_Hours'))
+        goal = row.get('P90_Goal', 48)
+        needs_ext = row.get('Needs_External_Levers', False)
+
+        # Data gate
+        if util is None and thu is None:
+            return "Insufficient Data"
+
+        # Hidden Supply — crushed pool + idle new tutors (the LSAT pattern)
+        if thu is not None and thu >= 115 and util is not None and util < 30:
+            return "Investigate \u2014 Hidden Supply"
+
+        # Supply-gap branch
+        if needs_ext:
+            if thu is not None and thu >= 115:
+                return "Recruit More \u2014 Urgent"
+            elif thu is not None and thu < 60:
+                return "Investigate \u2014 Capacity Available"
+            else:
+                return "Recruit More"
+
+        # Over-supply / reduce forecast
+        run_rate = _safe_float(row.get('Run_Rate')) or 0
+        target = _safe_float(row.get('Smoothed_Target')) or 0
+        if (run_rate >= target and target > 0
+                and util is not None and util < 30
+                and thu is not None and thu < 60
+                and p90 is not None and p90 < goal):
+            return "Reduce Forecast"
+
+        # Wait times
+        if p90 is not None and p90 > goal:
+            return "Investigate \u2014 Wait Times"
+
+        return "On Track"
+
+    def get_stress_flags(row):
+        flags = []
+        thu = _safe_float(row.get('Tutor_Hours_Util_Pct'))
+        util = _safe_float(row.get('Util_Rate'))
+        p90 = _safe_float(row.get('P90_NAT_Hours'))
+        goal = row.get('P90_Goal', 48)
+
+        if thu is not None and thu > 120:
+            flags.append('burnout_risk')
+        if thu is not None and thu < 50:
+            flags.append('idle_pool')
+        if util is not None and util < 30:
+            flags.append('new_tutor_stuck')
+        if p90 is not None and p90 > goal * 2.0:
+            flags.append('critical_wait')
+        elif p90 is not None and p90 > goal * 1.5:
+            flags.append('high_wait')
+
+        override = row.get('Healthy_P90_Hours')
+        if override is not None and not (isinstance(override, float) and pd.isna(override)) and override > 0:
+            flags.append('healthy_p90_override')
+        return flags
+
+    df_merged['Primary_Action'] = df_merged.apply(get_primary_action, axis=1)
+    df_merged['Stress_Flags'] = df_merged.apply(get_stress_flags, axis=1)
+
+    # DEPRECATED: Problem_Type kept for backward compatibility. Use Primary_Action.
+    _ACTION_TO_LEGACY = {
+        'Recruit More \u2014 Urgent': 'True Supply Problem',
+        'Recruit More': 'True Supply Problem',
+        'Investigate \u2014 Hidden Supply': 'Under-Used',
+        'Investigate \u2014 Capacity Available': 'Under-Used',
+        'Investigate \u2014 Wait Times': 'On Track \u2014 High Wait',
+        'Reduce Forecast': 'Over-Supplied',
+        'On Track': 'On Track',
+        'Insufficient Data': 'Supply Problem (No Util Data)',
+    }
+    df_merged['Problem_Type'] = df_merged['Primary_Action'].map(_ACTION_TO_LEGACY)
+    df_merged['Util_Rate'] = df_merged['Util_Rate'].round(0)
 
     return df_merged
 
