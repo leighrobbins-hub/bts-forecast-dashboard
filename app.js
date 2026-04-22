@@ -156,6 +156,35 @@ function renderThuCell(row) {
     return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + pct + '%</td>';
 }
 
+function p90TrendLabel(row) {
+    if (!row.Util_Trend || row.Util_Trend_Delta == null) return '';
+    var delta = row.Util_Trend_Delta > 0 ? '+' + Math.round(row.Util_Trend_Delta) : '' + Math.round(row.Util_Trend_Delta);
+    var p90 = row.P90_NAT_Hours;
+    var highP90 = p90 != null && p90 >= 24;
+    var label, color, tip;
+    if (row.Util_Trend === 'up') {
+        if (highP90) {
+            label = 'Stress'; color = '#e74c3c';
+            tip = delta + '% vs prior \u2014 Tutors consumed fast but P90 is ' + Math.round(p90) + 'h \u2014 students still waiting';
+        } else {
+            label = 'Healthy'; color = '#27ae60';
+            tip = delta + '% vs prior \u2014 Demand being met efficiently, students matched quickly';
+        }
+    } else if (row.Util_Trend === 'down') {
+        if (highP90) {
+            label = 'Watch'; color = '#e67e22';
+            tip = delta + '% vs prior \u2014 P90 is ' + Math.round(p90) + 'h but new tutors not being matched \u2014 placement issue';
+        } else {
+            label = 'Easing'; color = '#3498db';
+            tip = delta + '% vs prior \u2014 Demand cooling, less pressure on supply';
+        }
+    } else {
+        label = 'Stable'; color = '#7f8c8d';
+        tip = delta + '% vs prior \u2014 No meaningful change';
+    }
+    return '<div style="font-size:10px;font-weight:600;color:' + color + '" data-tip="' + escapeHtml(tip) + '">' + label + '</div>';
+}
+
 function renderP90Cell(row) {
     var val = row.P90_NAT_Hours;
     if (val == null) return '<td class="tc" style="color:#aaa">\u2014<div style="font-size:10px;">no data</div></td>';
@@ -163,7 +192,8 @@ function renderP90Cell(row) {
     var goal = row.P90_Goal || 48;
     var bg = hrs > goal ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
     var goalHint = '<div style="font-size:11px;color:#7f8c8d;font-weight:400">goal ' + Math.round(goal) + 'h</div>';
-    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + hrs + 'h' + goalHint + '</td>';
+    var trend = p90TrendLabel(row);
+    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + hrs + 'h' + goalHint + trend + '</td>';
 }
 
 function renderNewTutor30dCell(row) {
