@@ -13,6 +13,8 @@ from run_analysis import (
     classify_category,
     classify_problems,
     _norm_subject,
+    get_p90_goal,
+    NAT_P90_GOAL_BY_TIER,
 )
 
 
@@ -52,11 +54,10 @@ class TestClassifyProblemsWithMismatchedCase(unittest.TestCase):
     def test_trailing_space_in_util_subject_still_matches(self):
         analysis = pd.DataFrame([self._subject_row('SAT')])
         util = pd.DataFrame([{
-            'Subject': 'SAT ',  # trailing space — should still match after normalization
+            'Subject': 'SAT ',
             'Total_Contracted': 29, 'Utilized_30d': 18, 'Util_Rate': 62.0
         }])
         result = classify_problems(analysis, util)
-        # Should match and classify as True Supply Problem (util 62% >= 50)
         self.assertEqual(result.iloc[0]['Problem_Type'], 'True Supply Problem')
         self.assertAlmostEqual(result.iloc[0]['Util_Rate'], 62.0)
 
@@ -85,7 +86,6 @@ class TestApplyGroupSmoothing(unittest.TestCase):
         floors = [None] * 7
         adjusted = list(targets)
         result = apply_group_smoothing(targets, 10, floors, adjusted)
-        # Group 1 (Aug/Sep/Oct): 15+12+18=45 -> 15, 15, 15
         self.assertEqual(result[4], 15)
         self.assertEqual(result[5], 15)
         self.assertEqual(result[6], 15)
@@ -96,7 +96,6 @@ class TestApplyGroupSmoothing(unittest.TestCase):
         floors = [None] * 7
         adjusted = list(targets)
         result = apply_group_smoothing(targets, 10, floors, adjusted)
-        # Group 2 (May/Jun/Jul): 15+12+18=45 -> 15, 15, 15
         self.assertEqual(result[1], 15)
         self.assertEqual(result[2], 15)
         self.assertEqual(result[3], 15)
@@ -107,8 +106,6 @@ class TestApplyGroupSmoothing(unittest.TestCase):
         floors = [None, None, None, None, 18, None, None]
         adjusted = list(targets)
         result = apply_group_smoothing(targets, 10, floors, adjusted)
-        # Group 1 total = 50, base = 16, middle gets remainder
-        # But floor for Aug is 18, so it should be at least 18
         self.assertGreaterEqual(result[4], 18)
 
     def test_april_cascade_to_may(self):
@@ -116,8 +113,6 @@ class TestApplyGroupSmoothing(unittest.TestCase):
         floors = [None] * 7
         adjusted = list(targets)
         result = apply_group_smoothing(targets, 10, floors, adjusted)
-        # Group 2 not corrected (all <= 10), Apr > 10
-        # Excess = 15-10=5, room in May = 10-5=5, absorb all 5
         self.assertEqual(result[0], 10)
         self.assertEqual(result[1], 10)
 
@@ -126,7 +121,6 @@ class TestApplyGroupSmoothing(unittest.TestCase):
         floors = [None] * 7
         adjusted = list(targets)
         result = apply_group_smoothing(targets, 10, floors, adjusted)
-        # Group 2 was corrected, so April is left alone
         self.assertEqual(result[0], 15)
 
     def test_zero_run_rate_no_change(self):
@@ -195,8 +189,217 @@ class TestClassifyCategory(unittest.TestCase):
         self.assertEqual(classify_category('Underwater Basket Weaving'), 'Other')
 
 
-class TestClassifyProblems(unittest.TestCase):
-    """Tests for the utilization-based problem classification."""
+# ── Helpers for new classification tests ─────────────────────────
+
+def _base_row(**overrides):
+    """Build a minimal analysis row with sensible defaults."""
+    row = {
+        'Subject': 'Test Subject', 'Run_Rate': 10, 'Smoothed_Target': 30,
+        'Max_Capacity': 12, 'Gap_Pct': 200, 'Raw_Gap': -140,
+        'Coverage_Pct': 33, 'Needs_External_Levers': True,
+        'BTS_Total': 210, 'Is_Adjusted': False, 'Adjusted_Months': None,
+        'Original_Model_Total': 210,
+        'Apr_Original': 30, 'May_Original': 30, 'Jun_Original': 30,
+        'Jul_Original': 30, 'Aug_Original': 30, 'Sep_Original': 30, 'Oct_Original': 30,
+        'Apr_Smoothed': 30, 'May_Smoothed': 30, 'Jun_Smoothed': 30,
+        'Jul_Smoothed': 30, 'Aug_Smoothed': 30, 'Sep_Smoothed': 30, 'Oct_Smoothed': 30,
+        'Mar_Actual': None, 'Mar_Forecast': None,
+    }
+    row.update(overrides)
+    return row
+
+
+def _util_row(subject, util_rate):
+    return {'Subject': subject, 'Total_Contracted': 20, 'Utilized_30d': int(20 * util_rate / 100), 'Util_Rate': util_rate}
+
+
+def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None):
+    """Run classify_problems and return the single result row as a dict."""
+    row = _base_row(**analysis_overrides)
+    analysis = pd.DataFrame([row])
+    if util_rate is not None:
+        util = pd.DataFrame([_util_row(row['Subject'], util_rate)])
+    else:
+        util = pd.DataFrame({'Subject': pd.Series(dtype='str'), 'Total_Contracted': pd.Series(dtype='float'),
+                             'Utilized_30d': pd.Series(dtype='float'), 'Util_Rate': pd.Series(dtype='float')})
+
+    # Write temp CSVs for P90 and THU if provided
+    import tempfile, shutil
+    tmpdir = tempfile.mkdtemp()
+    orig_cwd = os.getcwd()
+    os.chdir(tmpdir)
+    os.makedirs('data', exist_ok=True)
+    try:
+        if p90 is not None:
+            pd.DataFrame([{'Subject': row['Subject'], 'P90_NAT_Hours': p90}]).to_csv('data/nat_p90.csv', index=False)
+        if thu_pct is not None:
+            pd.DataFrame([{'Subject': row['Subject'], 'Tutor_Hours_Util_Pct': thu_pct}]).to_csv('data/tutor_hours_util.csv', index=False)
+        result = classify_problems(analysis, util)
+    finally:
+        os.chdir(orig_cwd)
+        shutil.rmtree(tmpdir)
+    return result.iloc[0].to_dict()
+
+
+class TestTieredP90Goals(unittest.TestCase):
+    """Tests for get_p90_goal and NAT_P90_GOAL_BY_TIER."""
+
+    def test_core_tier_goal(self):
+        self.assertEqual(NAT_P90_GOAL_BY_TIER['CORE'], 24)
+
+    def test_high_tier_goal(self):
+        self.assertEqual(NAT_P90_GOAL_BY_TIER['HIGH'], 36)
+
+    def test_medium_tier_goal(self):
+        self.assertEqual(NAT_P90_GOAL_BY_TIER['MEDIUM'], 48)
+
+    def test_low_tier_goal(self):
+        self.assertEqual(NAT_P90_GOAL_BY_TIER['LOW'], 60)
+
+    def test_niche_tier_goal(self):
+        self.assertEqual(NAT_P90_GOAL_BY_TIER['NICHE'], 72)
+
+    def test_get_p90_goal_uses_tier(self):
+        row = {'Tier': 'CORE', 'Healthy_P90_Hours': None}
+        self.assertEqual(get_p90_goal(row), 24)
+
+    def test_get_p90_goal_defaults_to_48(self):
+        row = {'Tier': 'UNKNOWN', 'Healthy_P90_Hours': None}
+        self.assertEqual(get_p90_goal(row), 48)
+
+    def test_get_p90_goal_override_wins(self):
+        row = {'Tier': 'CORE', 'Healthy_P90_Hours': 12}
+        self.assertEqual(get_p90_goal(row), 12.0)
+
+    def test_get_p90_goal_ignores_nan_override(self):
+        row = {'Tier': 'HIGH', 'Healthy_P90_Hours': float('nan')}
+        self.assertEqual(get_p90_goal(row), 36)
+
+    def test_get_p90_goal_ignores_zero_override(self):
+        row = {'Tier': 'LOW', 'Healthy_P90_Hours': 0}
+        self.assertEqual(get_p90_goal(row), 60)
+
+
+class TestPrimaryAction(unittest.TestCase):
+    """Tests for each Primary_Action classification branch."""
+
+    def test_insufficient_data(self):
+        r = _run_classify({'Subject': 'NoData', 'Needs_External_Levers': True}, util_rate=None, thu_pct=None)
+        self.assertEqual(r['Primary_Action'], 'Insufficient Data')
+        self.assertEqual(r['Problem_Type'], 'Supply Problem (No Util Data)')
+
+    def test_hidden_supply(self):
+        r = _run_classify({'Subject': 'Hidden', 'Needs_External_Levers': False, 'BTS_Total': 200},
+                          util_rate=25, thu_pct=120)
+        self.assertEqual(r['Primary_Action'], 'Investigate \u2014 Hidden Supply')
+        self.assertEqual(r['Problem_Type'], 'Under-Used')
+
+    def test_recruit_more_urgent(self):
+        r = _run_classify({'Subject': 'Urgent', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=120)
+        self.assertEqual(r['Primary_Action'], 'Recruit More \u2014 Urgent')
+        self.assertEqual(r['Problem_Type'], 'True Supply Problem')
+
+    def test_investigate_capacity_available(self):
+        r = _run_classify({'Subject': 'Capacity', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=55)
+        self.assertEqual(r['Primary_Action'], 'Investigate \u2014 Capacity Available')
+        self.assertEqual(r['Problem_Type'], 'Under-Used')
+
+    def test_recruit_more_standard(self):
+        r = _run_classify({'Subject': 'Recruit', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=80)
+        self.assertEqual(r['Primary_Action'], 'Recruit More')
+        self.assertEqual(r['Problem_Type'], 'True Supply Problem')
+
+    def test_reduce_forecast(self):
+        r = _run_classify({
+            'Subject': 'Reduce', 'Run_Rate': 35, 'Smoothed_Target': 30,
+            'Needs_External_Levers': False, 'BTS_Total': 200,
+        }, util_rate=25, thu_pct=45, p90=10)
+        self.assertEqual(r['Primary_Action'], 'Reduce Forecast')
+        self.assertEqual(r['Problem_Type'], 'Over-Supplied')
+
+    def test_investigate_wait_times(self):
+        r = _run_classify({
+            'Subject': 'Waits', 'Run_Rate': 20, 'Smoothed_Target': 15,
+            'Needs_External_Levers': False, 'BTS_Total': 200,
+        }, util_rate=60, thu_pct=80, p90=100)
+        self.assertEqual(r['Primary_Action'], 'Investigate \u2014 Wait Times')
+        self.assertEqual(r['Problem_Type'], 'On Track \u2014 High Wait')
+
+    def test_on_track(self):
+        r = _run_classify({
+            'Subject': 'Good', 'Run_Rate': 20, 'Smoothed_Target': 15,
+            'Needs_External_Levers': False, 'BTS_Total': 200,
+        }, util_rate=60, thu_pct=80, p90=10)
+        self.assertEqual(r['Primary_Action'], 'On Track')
+        self.assertEqual(r['Problem_Type'], 'On Track')
+
+    def test_on_track_when_no_p90_data(self):
+        r = _run_classify({
+            'Subject': 'NOP90', 'Run_Rate': 20, 'Smoothed_Target': 15,
+            'Needs_External_Levers': False, 'BTS_Total': 200,
+        }, util_rate=60, thu_pct=80, p90=None)
+        self.assertEqual(r['Primary_Action'], 'On Track')
+
+    def test_needs_external_no_thu_recruits(self):
+        r = _run_classify({'Subject': 'NoTHU', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=None)
+        self.assertEqual(r['Primary_Action'], 'Recruit More')
+
+
+class TestStressFlags(unittest.TestCase):
+    """Tests for Stress_Flags assignment."""
+
+    def test_burnout_risk(self):
+        r = _run_classify({'Subject': 'Burn', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=125)
+        self.assertIn('burnout_risk', r['Stress_Flags'])
+
+    def test_idle_pool(self):
+        r = _run_classify({'Subject': 'Idle', 'Needs_External_Levers': False, 'BTS_Total': 200,
+                           'Run_Rate': 20, 'Smoothed_Target': 15},
+                          util_rate=60, thu_pct=40)
+        self.assertIn('idle_pool', r['Stress_Flags'])
+
+    def test_new_tutor_stuck(self):
+        r = _run_classify({'Subject': 'Stuck', 'Needs_External_Levers': False, 'BTS_Total': 200},
+                          util_rate=25, thu_pct=120)
+        self.assertIn('new_tutor_stuck', r['Stress_Flags'])
+
+    def test_critical_wait(self):
+        r = _run_classify({'Subject': 'CritW', 'Needs_External_Levers': False, 'BTS_Total': 200,
+                           'Run_Rate': 20, 'Smoothed_Target': 15},
+                          util_rate=60, thu_pct=80, p90=200)
+        self.assertIn('critical_wait', r['Stress_Flags'])
+        self.assertNotIn('high_wait', r['Stress_Flags'])
+
+    def test_high_wait_but_not_critical(self):
+        # BTS_Total=200 → CORE tier → P90 goal=24. P90=40 > 24*1.5=36 but < 24*2=48.
+        r = _run_classify({'Subject': 'HiW', 'Needs_External_Levers': False, 'BTS_Total': 200,
+                           'Run_Rate': 20, 'Smoothed_Target': 15},
+                          util_rate=60, thu_pct=80, p90=40)
+        self.assertIn('high_wait', r['Stress_Flags'])
+        self.assertNotIn('critical_wait', r['Stress_Flags'])
+
+    def test_no_flags_when_healthy(self):
+        r = _run_classify({
+            'Subject': 'Healthy', 'Run_Rate': 20, 'Smoothed_Target': 15,
+            'Needs_External_Levers': False, 'BTS_Total': 200,
+        }, util_rate=60, thu_pct=80, p90=10)
+        self.assertEqual(r['Stress_Flags'], [])
+
+    def test_multiple_flags_can_stack(self):
+        r = _run_classify({'Subject': 'Multi', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=25, thu_pct=125, p90=200)
+        self.assertIn('burnout_risk', r['Stress_Flags'])
+        self.assertIn('new_tutor_stuck', r['Stress_Flags'])
+        self.assertIn('critical_wait', r['Stress_Flags'])
+
+
+class TestClassifyProblemsLegacy(unittest.TestCase):
+    """Legacy tests: verify backward-compat Problem_Type mapping."""
 
     def _make_analysis_df(self, rows):
         return pd.DataFrame(rows)
@@ -205,106 +408,32 @@ class TestClassifyProblems(unittest.TestCase):
         return pd.DataFrame(rows)
 
     def test_true_supply_problem(self):
-        analysis = self._make_analysis_df([{
-            'Subject': 'SAT', 'Run_Rate': 10, 'Smoothed_Target': 30,
-            'Max_Capacity': 12, 'Gap_Pct': 200, 'Raw_Gap': -140,
-            'Coverage_Pct': 33, 'Needs_External_Levers': True,
-            'BTS_Total': 210, 'Is_Adjusted': False, 'Adjusted_Months': None,
-            'Original_Model_Total': 210,
-            'Apr_Original': 30, 'May_Original': 30, 'Jun_Original': 30,
-            'Jul_Original': 30, 'Aug_Original': 30, 'Sep_Original': 30, 'Oct_Original': 30,
-            'Apr_Smoothed': 30, 'May_Smoothed': 30, 'Jun_Smoothed': 30,
-            'Jul_Smoothed': 30, 'Aug_Smoothed': 30, 'Sep_Smoothed': 30, 'Oct_Smoothed': 30,
-            'Mar_Actual': None, 'Mar_Forecast': None,
-        }])
-        util = self._make_util_df([{
-            'Subject': 'SAT', 'Total_Contracted': 29,
-            'Utilized_30d': 18, 'Util_Rate': 62.0
-        }])
+        analysis = self._make_analysis_df([_base_row(Subject='SAT')])
+        util = self._make_util_df([_util_row('SAT', 62.0)])
         result = classify_problems(analysis, util)
         self.assertEqual(result.iloc[0]['Problem_Type'], 'True Supply Problem')
 
-    def test_placement_issue(self):
-        analysis = self._make_analysis_df([{
-            'Subject': 'Chemistry', 'Run_Rate': 14, 'Smoothed_Target': 30,
-            'Max_Capacity': 16.8, 'Gap_Pct': 114, 'Raw_Gap': -112,
-            'Coverage_Pct': 47, 'Needs_External_Levers': True,
-            'BTS_Total': 210, 'Is_Adjusted': False, 'Adjusted_Months': None,
-            'Original_Model_Total': 210,
-            'Apr_Original': 30, 'May_Original': 30, 'Jun_Original': 30,
-            'Jul_Original': 30, 'Aug_Original': 30, 'Sep_Original': 30, 'Oct_Original': 30,
-            'Apr_Smoothed': 30, 'May_Smoothed': 30, 'Jun_Smoothed': 30,
-            'Jul_Smoothed': 30, 'Aug_Smoothed': 30, 'Sep_Smoothed': 30, 'Oct_Smoothed': 30,
-            'Mar_Actual': None, 'Mar_Forecast': None,
-        }])
-        util = self._make_util_df([{
-            'Subject': 'Chemistry', 'Total_Contracted': 21,
-            'Utilized_30d': 9, 'Util_Rate': 43.0
-        }])
-        result = classify_problems(analysis, util)
-        self.assertEqual(result.iloc[0]['Problem_Type'], 'Under-Used')
-
     def test_on_track(self):
-        analysis = self._make_analysis_df([{
-            'Subject': 'Algebra', 'Run_Rate': 20, 'Smoothed_Target': 15,
-            'Max_Capacity': 24, 'Gap_Pct': -25, 'Raw_Gap': 35,
-            'Coverage_Pct': 133, 'Needs_External_Levers': False,
-            'BTS_Total': 105, 'Is_Adjusted': False, 'Adjusted_Months': None,
-            'Original_Model_Total': 105,
-            'Apr_Original': 15, 'May_Original': 15, 'Jun_Original': 15,
-            'Jul_Original': 15, 'Aug_Original': 15, 'Sep_Original': 15, 'Oct_Original': 15,
-            'Apr_Smoothed': 15, 'May_Smoothed': 15, 'Jun_Smoothed': 15,
-            'Jul_Smoothed': 15, 'Aug_Smoothed': 15, 'Sep_Smoothed': 15, 'Oct_Smoothed': 15,
-            'Mar_Actual': None, 'Mar_Forecast': None,
-        }])
-        util = self._make_util_df([{
-            'Subject': 'Algebra', 'Total_Contracted': 40,
-            'Utilized_30d': 30, 'Util_Rate': 75.0
-        }])
+        analysis = self._make_analysis_df([_base_row(
+            Subject='Algebra', Run_Rate=20, Smoothed_Target=15, Raw_Gap=35,
+            Coverage_Pct=133, Needs_External_Levers=False, BTS_Total=105,
+        )])
+        util = self._make_util_df([_util_row('Algebra', 75.0)])
         result = classify_problems(analysis, util)
         self.assertEqual(result.iloc[0]['Problem_Type'], 'On Track')
 
-    def test_low_util_on_track(self):
-        analysis = self._make_analysis_df([{
-            'Subject': 'Physics', 'Run_Rate': 20, 'Smoothed_Target': 15,
-            'Max_Capacity': 24, 'Gap_Pct': -25, 'Raw_Gap': 35,
-            'Coverage_Pct': 133, 'Needs_External_Levers': False,
-            'BTS_Total': 105, 'Is_Adjusted': False, 'Adjusted_Months': None,
-            'Original_Model_Total': 105,
-            'Apr_Original': 15, 'May_Original': 15, 'Jun_Original': 15,
-            'Jul_Original': 15, 'Aug_Original': 15, 'Sep_Original': 15, 'Oct_Original': 15,
-            'Apr_Smoothed': 15, 'May_Smoothed': 15, 'Jun_Smoothed': 15,
-            'Jul_Smoothed': 15, 'Aug_Smoothed': 15, 'Sep_Smoothed': 15, 'Oct_Smoothed': 15,
-            'Mar_Actual': None, 'Mar_Forecast': None,
-        }])
-        util = self._make_util_df([{
-            'Subject': 'Physics', 'Total_Contracted': 20,
-            'Utilized_30d': 8, 'Util_Rate': 40.0
-        }])
-        result = classify_problems(analysis, util)
-        self.assertEqual(result.iloc[0]['Problem_Type'], 'Over-Supplied')
-
     def test_no_util_data(self):
-        analysis = self._make_analysis_df([{
-            'Subject': 'NewSubject', 'Run_Rate': 5, 'Smoothed_Target': 20,
-            'Max_Capacity': 6, 'Gap_Pct': 300, 'Raw_Gap': -105,
-            'Coverage_Pct': 25, 'Needs_External_Levers': True,
-            'BTS_Total': 140, 'Is_Adjusted': False, 'Adjusted_Months': None,
-            'Original_Model_Total': 140,
-            'Apr_Original': 20, 'May_Original': 20, 'Jun_Original': 20,
-            'Jul_Original': 20, 'Aug_Original': 20, 'Sep_Original': 20, 'Oct_Original': 20,
-            'Apr_Smoothed': 20, 'May_Smoothed': 20, 'Jun_Smoothed': 20,
-            'Jul_Smoothed': 20, 'Aug_Smoothed': 20, 'Sep_Smoothed': 20, 'Oct_Smoothed': 20,
-            'Mar_Actual': None, 'Mar_Forecast': None,
-        }])
-        util = pd.DataFrame({
-            'Subject': pd.Series(dtype='str'),
-            'Total_Contracted': pd.Series(dtype='float'),
-            'Utilized_30d': pd.Series(dtype='float'),
-            'Util_Rate': pd.Series(dtype='float'),
-        })
+        analysis = self._make_analysis_df([_base_row(Subject='NewSubject', BTS_Total=140)])
+        util = pd.DataFrame({'Subject': pd.Series(dtype='str'), 'Total_Contracted': pd.Series(dtype='float'),
+                             'Utilized_30d': pd.Series(dtype='float'), 'Util_Rate': pd.Series(dtype='float')})
         result = classify_problems(analysis, util)
         self.assertEqual(result.iloc[0]['Problem_Type'], 'Supply Problem (No Util Data)')
+
+    def test_p90_goal_column_present(self):
+        analysis = self._make_analysis_df([_base_row(Subject='PGoal', BTS_Total=200)])
+        util = self._make_util_df([_util_row('PGoal', 60.0)])
+        result = classify_problems(analysis, util)
+        self.assertIn('P90_Goal', result.columns)
 
 
 if __name__ == '__main__':
