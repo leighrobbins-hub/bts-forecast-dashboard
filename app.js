@@ -2510,17 +2510,23 @@ function _wbrComputeMetrics() {
     var zeroVelocity = subjects.filter(function(s) { return s.actual === 0 && s.target > 0; });
     zeroVelocity.sort(function(a, b) { return b.target - a.target; });
 
+    // Compute last complete week: Sunday 00:00 to Saturday 23:59:59
+    var dayOfWeek = now.getDay(); // 0=Sun
+    var lastSatEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek, 0, 0, 0);
+    var lastSunStart = new Date(lastSatEnd.getTime() - 7 * 24 * 60 * 60 * 1000);
+    var weekLabel = lastSunStart.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+        + ' \u2013 ' + new Date(lastSatEnd.getTime() - 1).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
     var decisionsLoaded = Object.keys(_sharedDecisions).length > 0 || (typeof netlifyIdentity !== 'undefined' && netlifyIdentity.currentUser && netlifyIdentity.currentUser());
     var decisionsThisWeek = [];
     var decisionsByUser = {};
     var decisionsByTheme = {};
     var openOld = 0;
-    var sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     Object.keys(_sharedDecisions).forEach(function(key) {
         var d = _sharedDecisions[key];
         if (!d || !d.date) return;
         var dt = new Date(d.date);
-        if (dt >= sevenDaysAgo) {
+        if (dt >= lastSunStart && dt < lastSatEnd) {
             decisionsThisWeek.push(d);
             var who = d.who || 'Unknown';
             decisionsByUser[who] = (decisionsByUser[who] || 0) + 1;
@@ -2533,7 +2539,7 @@ function _wbrComputeMetrics() {
         if (!d || !d.date) return;
         if (d.decision && d.decision.toLowerCase().indexOf('no action') === -1) {
             var dt = new Date(d.date);
-            if ((now.getTime() - dt.getTime()) > 7 * 24 * 60 * 60 * 1000) openOld++;
+            if (dt < lastSunStart) openOld++;
         }
     });
 
@@ -2593,7 +2599,7 @@ function _wbrComputeMetrics() {
         onTrack: onTrack, behind: behind, zeroVelocity: zeroVelocity,
         decisionsLoaded: decisionsLoaded,
         decisionsThisWeek: decisionsThisWeek, decisionsByUser: decisionsByUser,
-        decisionsByTheme: decisionsByTheme, openOld: openOld,
+        decisionsByTheme: decisionsByTheme, openOld: openOld, weekLabel: weekLabel,
         movers: movers, movedIntoOnTrack: movedIntoOnTrack, improvingCats: improvingCats,
         hasWoWSnapshot: hasSnap, lw: lw, snapDate: hasSnap ? snap.snapshot_date : null
     };
@@ -2692,7 +2698,7 @@ function generateWeeklySummary() {
 
     var paceTable = '<table style="' + sty.tbl + '">'
         + '<tr><th style="' + sty.th + '">Metric</th>'
-        + '<th style="' + sty.th + 'text-align:right;">This Week</th>'
+        + '<th style="' + sty.th + 'text-align:right;">Current</th>'
         + '<th style="' + sty.th + 'text-align:right;">Last Week</th>'
         + '<th style="' + sty.th + 'text-align:right;">\u0394</th>'
         + '<th style="' + sty.th + 'text-align:center;">Status</th></tr>'
@@ -2700,7 +2706,7 @@ function generateWeeklySummary() {
         + paceRow('Daily velocity (MTD avg)', dailyVelocity + '/day (need ' + neededDaily + '/day)', lwVel, dVel, velStatus)
         + paceRow('Subjects on track', m.onTrack.length + ' of ' + m.subjects.length + ' (' + onTrackPct + '%)', lwOnTrack, dOnTrack, onTrackStatus)
         + paceRow('Subjects behind pace', m.behind.length + ' (' + behindPct + '%)', lwBehind, dBehind, behindStatus)
-        + paceRow('Decisions logged this week', decVal, pHtml, pHtml, decisionsStatus)
+        + paceRow('Decisions (' + escapeHtml(m.weekLabel) + ')', decVal, pHtml, pHtml, decisionsStatus)
         + '</table>';
     if (!m.hasWoWSnapshot) {
         paceTable += '<p style="' + sty.p + sty.pending + 'font-size:11px;">Last Week and \u0394 columns will populate once a prior-week snapshot is available (snapshots saved daily).</p>';
@@ -2784,7 +2790,7 @@ function generateWeeklySummary() {
 
         // --- NARRATIVE PROSE ---
         var prose = '';
-        prose += '<p style="' + sty.p + '"><strong>This week, ' + m.decisionsThisWeek.length + ' decisions were logged by '
+        prose += '<p style="' + sty.p + '"><strong>Week of ' + escapeHtml(m.weekLabel) + ': ' + m.decisionsThisWeek.length + ' decisions were logged by '
             + teamCount + ' team member' + (teamCount !== 1 ? 's' : '') + ' (' + teamList + ') &mdash; '
             + acted.length + ' acted on, ' + passed.length + ' passed.</strong></p>';
 
@@ -2835,7 +2841,7 @@ function generateWeeklySummary() {
         });
 
         if (m.openOld > 0) {
-            prose += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decision' + (m.openOld !== 1 ? 's' : '') + ' open longer than 7 days</span> &mdash; may need follow-up.</p>';
+            prose += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decision' + (m.openOld !== 1 ? 's' : '') + ' from before this week</span> &mdash; may need follow-up.</p>';
         }
 
         // --- COLLAPSIBLE DETAIL TABLES ---
@@ -2858,9 +2864,9 @@ function generateWeeklySummary() {
 
         decBody = prose + detailHtml;
     } else {
-        decBody = '<p style="' + sty.p + 'color:#7f8c8d;">No decisions logged in the past 7 days.</p>';
+        decBody = '<p style="' + sty.p + 'color:#7f8c8d;">No decisions logged for the week of ' + escapeHtml(m.weekLabel) + '.</p>';
         if (m.openOld > 0) {
-            decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decision' + (m.openOld !== 1 ? 's' : '') + ' open longer than 7 days</span> &mdash; may need follow-up.</p>';
+            decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decision' + (m.openOld !== 1 ? 's' : '') + ' from before this week</span> &mdash; may need follow-up.</p>';
         }
     }
 
@@ -2868,7 +2874,7 @@ function generateWeeklySummary() {
     var html =
         '<div class="wbr-summary-content">'
         + '<div style="' + sty.section + '">BTS Tutor Supply &mdash; Weekly Business Review</div>'
-        + '<div style="' + sty.meta + '">Generated: ' + escapeHtml(generated) + ' &bull; Month progress: Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)</div>'
+        + '<div style="' + sty.meta + '">Generated: ' + escapeHtml(generated) + ' &bull; Review week: ' + escapeHtml(m.weekLabel) + ' &bull; Month progress: Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)</div>'
         + '<div style="' + sty.sub + '">Headline</div>'
         + '<div style="' + sty.body + '">' + headline + '</div>'
         + '<div style="' + sty.sub + '">Pace &amp; Momentum</div>'
@@ -2879,7 +2885,7 @@ function generateWeeklySummary() {
         + '<div style="' + sty.body + '">' + (m.behind.length > 0 ? behindTable : '<p style="' + sty.p + 'color:#27ae60;">All subjects on or ahead of pace.</p>') + '</div>'
         + '<div style="' + sty.sub + '">Zero-Velocity Watch List</div>'
         + '<div style="' + sty.body + '">' + zeroTable + '</div>'
-        + '<div style="' + sty.sub + '">Decisions Activity</div>'
+        + '<div style="' + sty.sub + '">Decisions Activity &mdash; ' + escapeHtml(m.weekLabel) + '</div>'
         + '<div style="' + sty.body + '">' + decBody + '</div>'
         + '</div>';
 
@@ -2901,7 +2907,7 @@ function _wbrPlainText(m, generated) {
     function fmtD(v) { return (v >= 0 ? '+' : '') + v; }
     var lines = [];
     lines.push('BTS TUTOR SUPPLY \u2014 WEEKLY BUSINESS REVIEW');
-    lines.push('Generated: ' + generated + ' | Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)');
+    lines.push('Generated: ' + generated + ' | Review week: ' + m.weekLabel + ' | Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)');
     lines.push('');
 
     lines.push('HEADLINE');
@@ -2935,7 +2941,7 @@ function _wbrPlainText(m, generated) {
         lines.push('On track: ' + m.onTrack.length + '/' + m.subjects.length + ' | LW: ' + P);
         lines.push('Behind: ' + m.behind.length + ' | LW: ' + P);
     }
-    lines.push('Decisions this week: ' + (m.decisionsLoaded ? m.decisionsThisWeek.length : P));
+    lines.push('Decisions (' + m.weekLabel + '): ' + (m.decisionsLoaded ? m.decisionsThisWeek.length : P));
     lines.push('');
 
     lines.push('BIGGEST MOVERS');
@@ -2971,7 +2977,7 @@ function _wbrPlainText(m, generated) {
         lines.push('');
     }
 
-    lines.push('DECISIONS ACTIVITY');
+    lines.push('DECISIONS ACTIVITY \u2014 ' + m.weekLabel);
     if (!m.decisionsLoaded) {
         lines.push(P + ' \u2014 not signed in or decisions have not synced from server.');
     } else if (m.decisionsThisWeek.length > 0) {
@@ -3015,9 +3021,9 @@ function _wbrPlainText(m, generated) {
             parts.forEach(function(p) { lines.push(p); });
         });
     } else {
-        lines.push('No decisions logged in the past 7 days.');
+        lines.push('No decisions logged for ' + m.weekLabel + '.');
     }
-    if (m.decisionsLoaded && m.openOld > 0) lines.push(m.openOld + ' action decisions open > 7 days \u2014 may need follow-up.');
+    if (m.decisionsLoaded && m.openOld > 0) lines.push(m.openOld + ' action decisions from before this week \u2014 may need follow-up.');
 
     return lines.join('\n');
 }
