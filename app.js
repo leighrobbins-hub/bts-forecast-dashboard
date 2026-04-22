@@ -298,7 +298,8 @@ fetch('data.json?v=' + Date.now())
         populateCategoryDropdowns();
         renderCriticalFindings();
         renderOverviewPulse();
-        renderMonthSnapshot();
+        buildMonthlyData();
+        renderMonthChipOnBTS();
         renderAllTables();
         renderMonthlyTracker();
         renderMarchBaseline(summaryData);
@@ -703,6 +704,331 @@ function navigateToFiltered(filterValue) {
     overviewFilter(filterValue);
 }
 
+/* ── Overview sub-tab toggle ── */
+function showOverviewSubTab(tabId, btn) {
+    var bts = document.getElementById('ov-bts');
+    var monthly = document.getElementById('ov-monthly');
+    if (!bts || !monthly) return;
+    bts.style.display = tabId === 'ov-bts' ? '' : 'none';
+    monthly.style.display = tabId === 'ov-monthly' ? '' : 'none';
+    document.querySelectorAll('.ov-subtab').forEach(function(b) { b.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    if (tabId === 'ov-monthly') {
+        renderMonthlyHeroCards();
+        renderMonthlyBarChart();
+        renderMonthlyTable();
+    }
+}
+
+/* ── Monthly Overview rendering ── */
+var _monthlyCache = null;
+
+function buildMonthlyData() {
+    var monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var now = new Date();
+    var currentLabel = monthNames[now.getMonth()];
+    var dayOfMonth = now.getDate();
+    var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    var fractionThrough = dayOfMonth / lastDay;
+
+    var currentMonth = saGetCurrentMonth();
+    var cmIdx = saBuildCurrentMonthIndex(currentMonth);
+
+    var totalTarget = 0, totalActual = 0, totalActualRaw = 0;
+    var behindCount = 0, onPaceCount = 0, noDataCount = 0;
+    var rows = [];
+
+    allData.forEach(function(r) {
+        var cmd = cmIdx[r.Subject];
+        var target = (cmd && cmd.target != null) ? cmd.target : 0;
+        var actual = (cmd && cmd.actual != null) ? cmd.actual : null;
+        var pace = 'nodata';
+        var projectedEOM = null;
+
+        if (target > 0) {
+            totalTarget += target;
+            if (actual != null) {
+                totalActualRaw += actual;
+                totalActual += Math.min(actual, target);
+                if (actual >= target) {
+                    pace = 'onpace'; onPaceCount++;
+                } else if (dayOfMonth <= 2) {
+                    pace = 'onpace'; onPaceCount++;
+                } else if (actual === 0) {
+                    pace = 'behind'; behindCount++;
+                } else {
+                    projectedEOM = fractionThrough > 0 ? Math.round(actual / fractionThrough) : actual;
+                    pace = (projectedEOM / target >= 0.85) ? 'onpace' : 'behind';
+                    if (pace === 'onpace') onPaceCount++; else behindCount++;
+                }
+            } else {
+                noDataCount++;
+            }
+        } else if (actual != null) {
+            totalActualRaw += actual;
+            totalActual += actual;
+            pace = 'onpace';
+        }
+
+        if (projectedEOM == null && actual != null && actual > 0 && fractionThrough > 0) {
+            projectedEOM = Math.round(actual / fractionThrough);
+        }
+
+        rows.push({
+            row: r,
+            target: target,
+            actual: actual,
+            variance: actual != null ? actual - target : null,
+            projectedEOM: projectedEOM,
+            pace: pace
+        });
+    });
+
+    var remaining = totalTarget - totalActual;
+    var daysLeft = lastDay - dayOfMonth;
+    var dailyRate = daysLeft > 0 ? Math.ceil(remaining / daysLeft) : 0;
+    var projectedTotal = fractionThrough > 0 && totalActual > 0 ? Math.round(totalActual / fractionThrough) : totalActual;
+
+    _monthlyCache = {
+        label: currentLabel,
+        dayOfMonth: dayOfMonth,
+        lastDay: lastDay,
+        totalTarget: totalTarget,
+        totalActual: totalActual,
+        totalActualRaw: totalActualRaw,
+        behindCount: behindCount,
+        onPaceCount: onPaceCount,
+        noDataCount: noDataCount,
+        remaining: remaining,
+        dailyRate: dailyRate,
+        projectedTotal: projectedTotal,
+        rows: rows
+    };
+    return _monthlyCache;
+}
+
+function renderMonthlyHeroCards() {
+    var d = buildMonthlyData();
+    setText('mo-target', Math.round(d.totalTarget).toLocaleString());
+    setText('mo-contracted', d.totalActual.toLocaleString());
+    var ut = (_lastSummary || {}).unique_tutors_contracted;
+    setText('mo-unique-tutors', ut != null ? ut.toLocaleString() : '\u2014');
+    setText('mo-behind', d.behindCount);
+    setText('mo-onpace', d.onPaceCount);
+    setText('mo-nodata', d.noDataCount);
+
+    var detailEl = document.getElementById('mo-contracted-detail');
+    if (detailEl) {
+        var pct = d.totalTarget > 0 ? Math.round(d.totalActual / d.totalTarget * 100) : 0;
+        detailEl.textContent = pct + '% of target';
+    }
+
+    setText('mo-pulse-actual', d.totalActual.toLocaleString());
+    setText('mo-pulse-target', Math.round(d.totalTarget).toLocaleString());
+    var pctBar = d.totalTarget > 0 ? Math.round(d.totalActual / d.totalTarget * 100) : 0;
+    setText('mo-pulse-pct', pctBar + '%');
+    var bar = document.getElementById('mo-pulse-bar');
+    if (bar) bar.style.width = Math.max(pctBar, 1) + '%';
+    setText('mo-pulse-day', d.dayOfMonth);
+    setText('mo-pulse-days-total', d.lastDay);
+    setText('mo-pulse-projected', d.projectedTotal.toLocaleString());
+    setText('mo-pulse-remaining', d.remaining > 0 ? d.remaining.toLocaleString() : '0');
+    setText('mo-pulse-daily-rate', d.dailyRate > 0 ? d.dailyRate : '\u2014');
+
+    var titleEl = document.getElementById('mo-pulse-title');
+    if (titleEl) titleEl.textContent = d.label + ' Progress';
+    var updEl = document.getElementById('ov-monthly-updated');
+    if (updEl && _lastSummary) updEl.textContent = 'Updated: ' + (_lastSummary.last_updated || '');
+
+    var labelEl = document.getElementById('ov-current-month-label');
+    if (labelEl) labelEl.textContent = d.label;
+}
+
+function renderMonthlyBarChart() {
+    var d = _monthlyCache || buildMonthlyData();
+
+    var behindRows = d.rows
+        .filter(function(x) { return x.variance != null && x.variance < 0 && x.target > 0; })
+        .sort(function(a, b) { return a.variance - b.variance; })
+        .slice(0, 15);
+
+    var maxGap = 10;
+    behindRows.forEach(function(x) {
+        var abs = Math.abs(x.variance);
+        if (abs > maxGap) maxGap = abs;
+    });
+
+    var ACTION_DOT = {
+        'recruit-urgent': { color: '#e74c3c', label: 'Recruit — Urgent' },
+        'recruit':        { color: '#e74c3c', label: 'Recruit More' },
+        'hidden-supply':  { color: '#e67e22', label: 'Hidden Supply' },
+        'capacity-available': { color: '#e67e22', label: 'Capacity Available' },
+        'wait-times':     { color: '#e67e22', label: 'Wait Times' },
+        'reduce-forecast': { color: '#9b59b6', label: 'Reduce Forecast' },
+        'on-track':       { color: '#27ae60', label: 'On Track' },
+        'insufficient-data': { color: '#95a5a6', label: 'Insufficient Data' }
+    };
+
+    var container = document.getElementById('mo-gap-chart');
+    if (!container) return;
+    container.innerHTML = '';
+
+    var header = document.createElement('div');
+    header.className = 'bar-row bar-header';
+    header.innerHTML =
+        '<div class="bar-label bar-col-head" data-tip="Subject name">Subject</div>' +
+        '<div class="bar-track bar-col-head" data-tip="How far behind target this month. Longer bar = bigger shortfall.">Monthly Gap</div>' +
+        '<div class="bar-value bar-col-head" data-tip="Variance this month (actual / target)">Variance (Act/Tgt)</div>' +
+        '<div class="bar-month-dot bar-col-head" data-tip="BTS season classification for this subject. Hover for projected end-of-month total.">BTS Action</div>';
+    container.appendChild(header);
+
+    behindRows.forEach(function(x) {
+        var absVar = Math.abs(x.variance);
+        var pct = Math.min(100, (absVar / maxGap) * 100);
+        var type = classifyType(x.row.Primary_Action || x.row.Problem_Type);
+        var dot = ACTION_DOT[type] || { color: '#95a5a6', label: type };
+        var projected = x.projectedEOM != null ? x.projectedEOM : '?';
+
+        var div = document.createElement('div');
+        div.className = 'bar-row';
+        div.innerHTML =
+            '<div class="bar-label" data-tip="' + escapeHtml(x.row.Subject) + '">' + escapeHtml(x.row.Subject) + '</div>' +
+            '<div class="bar-track"><div class="bar-fill month-behind-bar" style="width:' + pct + '%"></div></div>' +
+            '<div class="bar-value">' + x.variance + ' <span class="bar-coverage">(' + x.actual + '/' + x.target + ')</span></div>' +
+            '<div class="bar-month-dot" data-tip="BTS: ' + escapeHtml(dot.label) + ' · Projected EOM: ~' + projected + '">' +
+                '<span class="bar-dot" style="background:' + dot.color + '"></span>' +
+                '<span class="bar-dot-label">' + escapeHtml(dot.label.split(' ')[0]) + '</span>' +
+            '</div>';
+        container.appendChild(div);
+    });
+
+    if (behindRows.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#27ae60;padding:20px;font-weight:600;">All subjects on pace this month!</div>';
+    }
+}
+
+function renderMonthChipOnBTS() {
+    var d = _monthlyCache || buildMonthlyData();
+    setText('ov-chip-month-label', d.label);
+    setText('ov-chip-actual', d.totalActual.toLocaleString());
+    setText('ov-chip-target', Math.round(d.totalTarget).toLocaleString());
+    setText('ov-chip-behind', d.behindCount);
+    setText('ov-chip-onpace', d.onPaceCount);
+
+    var badge = document.getElementById('ov-chip-badge');
+    if (badge) {
+        var pct = d.totalTarget > 0 ? d.totalActual / d.totalTarget * 100 : 0;
+        if (d.behindCount <= 5 && pct >= 40) {
+            badge.textContent = 'On Track';
+            badge.className = 'ov-chip-badge chip-on-track';
+        } else if (d.behindCount <= 15 || pct >= 25) {
+            badge.textContent = 'At Risk';
+            badge.className = 'ov-chip-badge chip-at-risk';
+        } else {
+            badge.textContent = 'Behind';
+            badge.className = 'ov-chip-badge chip-behind';
+        }
+    }
+}
+
+var _monthlySort = { col: 4, asc: true };
+
+function sortMonthly(colIndex) {
+    if (_monthlySort.col === colIndex) _monthlySort.asc = !_monthlySort.asc;
+    else { _monthlySort.col = colIndex; _monthlySort.asc = true; }
+    renderMonthlyTable();
+}
+
+function moFilter(paceVal) {
+    var el = document.getElementById('mo-filter-pace');
+    if (el) el.value = paceVal;
+    renderMonthlyTable();
+}
+
+function renderMonthlyTable() {
+    var d = _monthlyCache || buildMonthlyData();
+    var paceFilter = (document.getElementById('mo-filter-pace') || {}).value || 'all';
+    var actionFilter = (document.getElementById('mo-filter-action') || {}).value || 'all';
+    var tierFilter = (document.getElementById('mo-filter-tier') || {}).value || 'hide-niche';
+    var flagFilter = (document.getElementById('mo-filter-flag') || {}).value || 'all';
+    var searchTerm = (document.getElementById('mo-search') || {}).value || '';
+    searchTerm = searchTerm.toLowerCase();
+
+    var rows = d.rows.filter(function(x) {
+        if (paceFilter !== 'all' && x.pace !== paceFilter) return false;
+        if (actionFilter !== 'all' && !matchesFilter(x.row.Primary_Action || x.row.Problem_Type, actionFilter)) return false;
+        if (tierFilter === 'hide-niche' && x.row.Tier === 'NICHE') return false;
+        else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && x.row.Tier !== tierFilter) return false;
+        if (flagFilter !== 'all') {
+            var flags = x.row.Stress_Flags || [];
+            if (flagFilter === 'any') { if (flags.length === 0) return false; }
+            else { if (flags.indexOf(flagFilter) === -1) return false; }
+        }
+        if (searchTerm && x.row.Subject.toLowerCase().indexOf(searchTerm) === -1) return false;
+        return true;
+    });
+
+    var col = _monthlySort.col, asc = _monthlySort.asc;
+    var PACE_ORDER = { behind: 1, nodata: 2, onpace: 3 };
+    rows.sort(function(a, b) {
+        var av, bv;
+        switch (col) {
+            case 0: av = a.row.Subject; bv = b.row.Subject; break;
+            case 1: av = TIER_ORDER[a.row.Tier] || 99; bv = TIER_ORDER[b.row.Tier] || 99; break;
+            case 2: av = a.target; bv = b.target; break;
+            case 3: av = a.actual; bv = b.actual; break;
+            case 4: av = a.variance; bv = b.variance; break;
+            case 5: av = a.projectedEOM; bv = b.projectedEOM; break;
+            case 6: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
+            case 7: av = a.row.Primary_Action || a.row.Problem_Type; bv = b.row.Primary_Action || b.row.Problem_Type; break;
+            case 8: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
+            default: av = a.row.Subject; bv = b.row.Subject;
+        }
+        var aN = av === null || av === undefined, bN = bv === null || bv === undefined;
+        if (aN && bN) return 0;
+        if (aN) return 1;
+        if (bN) return -1;
+        if (av < bv) return asc ? -1 : 1;
+        if (av > bv) return asc ? 1 : -1;
+        return 0;
+    });
+
+    var tbody = document.getElementById('mo-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    var countEl = document.getElementById('mo-table-count');
+    if (countEl) countEl.textContent = 'Showing ' + rows.length + ' subjects';
+
+    rows.forEach(function(x) {
+        var r = x.row;
+        var tr = document.createElement('tr');
+        var varianceDisplay = x.variance != null ? x.variance : '\u2014';
+        var varianceClass = '';
+        if (x.variance != null) {
+            varianceClass = x.variance >= 0 ? 'color:#27ae60;font-weight:600' : 'color:#e74c3c;font-weight:600';
+            varianceDisplay = (x.variance >= 0 ? '+' : '') + x.variance;
+        }
+        var projDisplay = x.projectedEOM != null ? x.projectedEOM : '\u2014';
+
+        var paceBadge;
+        if (x.pace === 'behind') paceBadge = '<span class="badge supply">Behind</span>';
+        else if (x.pace === 'onpace') paceBadge = '<span class="badge ontrack">On Pace</span>';
+        else paceBadge = '<span class="badge nodata">No Data</span>';
+
+        tr.innerHTML = '<td><strong>' + escapeHtml(r.Subject) + '</strong></td>'
+            + '<td class="tc">' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
+            + '<td class="tc">' + (x.target || '\u2014') + '</td>'
+            + '<td class="tc">' + (x.actual != null ? x.actual : '\u2014') + '</td>'
+            + '<td class="tc" style="' + varianceClass + '">' + varianceDisplay + '</td>'
+            + '<td class="tc">' + projDisplay + '</td>'
+            + '<td class="tc">' + paceBadge + '</td>'
+            + '<td class="tc">' + actionBadgeHtml(r) + '</td>'
+            + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>';
+        tbody.appendChild(tr);
+    });
+}
+
 /* ── Original table renderers ── */
 function renderAllTables() {
     renderBarChart();
@@ -719,19 +1045,28 @@ function renderBarChart() {
     var cmIdx = saBuildCurrentMonthIndex(currentMonth);
     var monthLabel = (currentMonth && currentMonth.label) || 'Apr';
 
+    var now = new Date();
+    var dayOfMonth = now.getDate();
+    var lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    var fractionThrough = dayOfMonth / lastDay;
+
     var maxGap = 100;
     problems.forEach(function(row) {
         var abs = Math.abs(row.Raw_Gap);
         if (abs > maxGap) maxGap = abs;
-        var cm = cmIdx[row.Subject];
-        if (cm && cm.variance != null) {
-            var cmAbs = Math.abs(cm.variance);
-            if (cmAbs > maxGap) maxGap = cmAbs;
-        }
     });
 
     var container = document.getElementById('gap-chart');
     container.innerHTML = '';
+
+    var header = document.createElement('div');
+    header.className = 'bar-row bar-header';
+    header.innerHTML =
+        '<div class="bar-label bar-col-head" data-tip="Subject name">Subject</div>' +
+        '<div class="bar-track bar-col-head" data-tip="Season shortfall: run rate minus average monthly target across Apr\u2013Oct. Longer bar = bigger gap.">Season Gap</div>' +
+        '<div class="bar-value bar-col-head" data-tip="Raw gap number and coverage percentage (run rate \u00F7 target)">Gap (Cov%)</div>' +
+        '<div class="bar-month-dot bar-col-head" data-tip="This month\u2019s pacing: actual/target with colored dot (green = on pace, red = behind, gray = no data)">' + monthLabel + ' Pace</div>';
+    container.appendChild(header);
 
     problems.forEach(function(row) {
         var absGap = Math.abs(row.Raw_Gap);
@@ -741,34 +1076,36 @@ function renderBarChart() {
         var covPct = row.Coverage_Pct != null ? row.Coverage_Pct : 0;
 
         var cm = cmIdx[row.Subject];
-        var cmGap = (cm && cm.variance != null) ? cm.variance : null;
-        var cmPct = (cmGap != null) ? Math.min(100, (Math.abs(cmGap) / maxGap) * 100) : 0;
-        var cmLabel = '';
-        if (cmGap != null) {
-            if (cmGap >= 0) {
-                cmLabel = '<span class="bar-cm-ok">+' + cmGap + ' ahead</span>';
-            } else {
-                cmLabel = '<span class="bar-cm-behind">' + cmGap + ' gap</span>';
-            }
+        var cmActual = (cm && cm.actual != null) ? cm.actual : null;
+        var cmTarget = (cm && cm.target != null) ? cm.target : null;
+        var dotColor, dotTip, dotLabel;
+        if (cmActual == null || cmTarget == null || cmTarget === 0) {
+            dotColor = '#bdc3c7'; dotLabel = '\u2014';
+            dotTip = monthLabel + ': no data yet';
+        } else if (cmActual >= cmTarget) {
+            dotColor = '#27ae60'; dotLabel = cmActual + '/' + cmTarget;
+            dotTip = monthLabel + ': ' + cmActual + ' of ' + cmTarget + ' \u2014 on pace';
         } else {
-            cmLabel = '<span class="bar-cm-nodata">—</span>';
+            var projected = fractionThrough > 0 ? Math.round(cmActual / fractionThrough) : cmActual;
+            var ratio = projected / cmTarget;
+            if (dayOfMonth <= 2 || ratio >= 0.85) {
+                dotColor = '#27ae60'; dotLabel = cmActual + '/' + cmTarget;
+                dotTip = monthLabel + ': ' + cmActual + ' of ' + cmTarget + ' (~' + projected + ' projected) \u2014 on pace';
+            } else {
+                dotColor = '#e74c3c'; dotLabel = cmActual + '/' + cmTarget;
+                dotTip = monthLabel + ': ' + cmActual + ' of ' + cmTarget + ' (~' + projected + ' projected) \u2014 behind';
+            }
         }
 
         var div = document.createElement('div');
-        div.className = 'bar-row bar-row-combo';
+        div.className = 'bar-row';
         div.innerHTML =
             '<div class="bar-label" data-tip="' + escapeHtml(row.Subject) + '">' + escapeHtml(row.Subject) + '</div>' +
-            '<div class="bar-combo-tracks">' +
-                '<div class="bar-combo-line">' +
-                    '<span class="bar-combo-tag">Season</span>' +
-                    '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width:' + seasonPct + '%"></div></div>' +
-                    '<div class="bar-value">' + row.Raw_Gap + ' <span class="bar-coverage">(' + covPct + '%)</span></div>' +
-                '</div>' +
-                '<div class="bar-combo-line bar-combo-month">' +
-                    '<span class="bar-combo-tag">' + monthLabel + '</span>' +
-                    '<div class="bar-track"><div class="bar-fill ' + (cmGap != null && cmGap >= 0 ? 'month-ok-bar' : 'month-behind-bar') + '" style="width:' + cmPct + '%"></div></div>' +
-                    '<div class="bar-value">' + cmLabel + '</div>' +
-                '</div>' +
+            '<div class="bar-track"><div class="bar-fill ' + barClass + '" style="width:' + seasonPct + '%"></div></div>' +
+            '<div class="bar-value">' + row.Raw_Gap + ' <span class="bar-coverage">(' + covPct + '%)</span></div>' +
+            '<div class="bar-month-dot" data-tip="' + escapeHtml(dotTip) + '">' +
+                '<span class="bar-dot" style="background:' + dotColor + '"></span>' +
+                '<span class="bar-dot-label">' + dotLabel + '</span>' +
             '</div>';
         container.appendChild(div);
     });
@@ -3886,6 +4223,14 @@ document.getElementById('filter-category-tracker').addEventListener('change', re
 });
 var _saSearch = document.getElementById('sa-search');
 if (_saSearch) _saSearch.addEventListener('input', debounce(renderSubjectsAndActions, 200));
+
+/* ── Monthly Overview tab filters ── */
+['mo-filter-pace','mo-filter-action','mo-filter-tier','mo-filter-flag'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('change', renderMonthlyTable);
+});
+var _moSearch = document.getElementById('mo-search');
+if (_moSearch) _moSearch.addEventListener('input', debounce(renderMonthlyTable, 200));
 
 /* ── Decision History tab filters ── */
 var _dhFilterDecision = document.getElementById('dh-filter-decision');
