@@ -816,6 +816,12 @@ function renderMonthlyHeroCards() {
     setText('mo-behind', d.behindCount);
     setText('mo-onpace', d.onPaceCount);
     setText('mo-nodata', d.noDataCount);
+    var nodataDetail = document.getElementById('mo-nodata-detail');
+    if (nodataDetail) {
+        if (d.dayOfMonth <= 5) nodataDetail.textContent = 'Early in month — data arriving soon';
+        else if (d.noDataCount === 0) nodataDetail.textContent = 'All subjects reporting';
+        else nodataDetail.textContent = 'Check Looker data feeds';
+    }
 
     var detailEl = document.getElementById('mo-contracted-detail');
     if (detailEl) {
