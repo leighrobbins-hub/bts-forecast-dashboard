@@ -14,7 +14,7 @@
       "Recruit More": 11,
       "Insufficient Data": 4
     },
-    "last_updated": "2026-04-22 02:53 PM CST",
+    "last_updated": "2026-04-22 02:54 PM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "tier_distribution": {
@@ -61139,7 +61139,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-22 09:26 AM CST",
+      "uploaded_at": "2026-04-22 02:54 PM CST",
       "subjects_count": 428
     }
   ],
@@ -64641,10 +64641,10 @@
         "remaining": 111
       }
     ],
-    "generated_at": "2026-04-22 02:53 PM CST"
+    "generated_at": "2026-04-22 02:54 PM CST"
   },
   "fetch_status": {
-    "fetched_at": "2026-04-22T19:48:51.396527+00:00",
+    "fetched_at": "2026-04-22T19:54:24.836828+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -64656,6 +64656,6 @@
       "tutor_hours_util": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-22T19:48:51.396527+00:00"
+    "last_successful_fetch": "2026-04-22T19:54:24.836828+00:00"
   }
 }
