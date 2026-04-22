@@ -195,37 +195,46 @@
                 </summary>
                 <dl class="key-list">
                     <dt>Run Rate</dt>
-                    <dd>Historical monthly new-tutor contracting capacity, averaged across the clean baseline period (Dec 2025 – Mar 2026). The number of tutors we can realistically contract per month through the organic pipeline at current acceptance rates.</dd>
+                    <dd>Historical monthly new-tutor contracting capacity, averaged across the clean baseline period (Dec 2025 – Mar 2026).</dd>
 
-                    <dt>Target / Target&nbsp;/Mo</dt>
-                    <dd>The smoothed monthly forecast goal for that subject — model output, with 3-month group smoothing applied, and manual overrides respected as a floor. What we're aiming for.</dd>
+                    <dt>Avg Target</dt>
+                    <dd>Smoothed average monthly target across the full BTS season (Apr–Oct), after 3-month group smoothing and manual override floors.</dd>
 
-                    <dt>Gap</dt>
-                    <dd>Raw difference in tutors between target and run rate, plus coverage % (run rate ÷ target). A 78% coverage means the run rate covers 78% of what the forecast is asking for. Color-coded: green/yellow = manageable, red = large shortfall.</dd>
+                    <dt>New Tutor 30d %</dt>
+                    <dd>Of tutors newly contracted, the percentage who got any assignment within 30 days. Red when below 30%.</dd>
 
-                    <dt>Category</dt>
-                    <dd>Grade level or subject grouping: AP, IB, Test Prep, Elementary, Middle School, High School, College, Professional/Cert, Arts &amp; Music, Technology, Language, or Other.</dd>
+                    <dt>All Tutor Hrs Util %</dt>
+                    <dd>Across ALL tutors on this subject, actual hours worked ÷ hours they told us they wanted. Above 100% means overworked; below means idle capacity. Red when &gt; 120% or &lt; 50%, yellow when 110–120% or 50–60%.</dd>
+
+                    <dt>P90 Assign (hrs)</dt>
+                    <dd>90th percentile of time to fill a placement request (in hours). Red when above the tiered goal for that subject's volume tier (CORE: 24h, HIGH: 36h, MEDIUM: 48h, LOW: 60h, NICHE: 72h).</dd>
+
+                    <dt>Season Gap</dt>
+                    <dd>Run rate minus avg target across the full BTS season. Negative = shortfall. Coverage % in parentheses.</dd>
 
                     <dt>Tier</dt>
-                    <dd>Volume tier based on total BTS (Apr–Oct) forecasted headcount. <strong>CORE</strong> ≥ 150, <strong>HIGH</strong> ≥ 75, <strong>MEDIUM</strong> ≥ 30, <strong>LOW</strong> ≥ 10, <strong>NICHE</strong> &lt; 10. Tier helps prioritize — a miss on a CORE subject is a bigger business problem than a miss on a NICHE subject.</dd>
+                    <dd>Volume tier based on total BTS (Apr–Oct) forecast. CORE ≥ 150, HIGH ≥ 75, MEDIUM ≥ 30, LOW ≥ 10, NICHE &lt; 10.</dd>
 
-                    <dt>New Tutor Placement % (30-day)</dt>
-                    <dd>Percentage of recently contracted tutors who received at least one assignment within 30 days of contracting, averaged over the most recent 3 months. Counts (e.g. "8 of 17 recent") show the underlying volume. The trend label combines placement rate direction with P90 NAT wait time:
-                        <br><strong style="color:#27ae60;">Healthy</strong> — Placement rate rising, students matched quickly (P90 &lt; 24h)
-                        <br><strong style="color:#e74c3c;">Stress</strong> — Placement rate rising but students still waiting 24h+ (high P90)
-                        <br><strong style="color:#e67e22;">Watch</strong> — Placement rate falling while students still wait 24h+ — possible placement issue
-                        <br><strong style="color:#3498db;">Easing</strong> — Placement rate falling, demand cooling naturally (P90 &lt; 24h)
-                        <br><strong style="color:#7f8c8d;">Stable</strong> — No meaningful change
+                    <dt>Action (Primary Action)</dt>
+                    <dd>
+                        <strong style="color:#e74c3c;">Recruit — Urgent</strong> — Supply gap AND existing pool cracking (&gt; 115% hours util).<br>
+                        <strong style="color:#e74c3c;">Recruit More</strong> — Supply gap, normal hours utilization.<br>
+                        <strong style="color:#e67e22;">Hidden Supply</strong> — Existing tutors overworked but new tutors not placed. Investigate before recruiting.<br>
+                        <strong style="color:#e67e22;">Capacity Available</strong> — Supply gap but idle pool exists. Unlock capacity first.<br>
+                        <strong style="color:#e67e22;">Wait Times</strong> — P90 exceeds tier goal. Examine assignment flow.<br>
+                        <strong style="color:#9b59b6;">Reduce Forecast</strong> — All signals show surplus. Consider lowering the target.<br>
+                        <strong style="color:#27ae60;">On Track</strong> — No issues detected.<br>
+                        <strong style="color:#95a5a6;">Insufficient Data</strong> — Cannot classify — missing data.
                     </dd>
 
-                    <dt>Problem Type</dt>
+                    <dt>Stress Flags (colored pills)</dt>
                     <dd>
-                        <strong style="color:#e67e22;">Under-Used</strong> — Placement &lt; 50% coincident with a demand gap. Anomaly requiring investigation (placement/algorithm, low real demand, multi-subject tutor used elsewhere, or scheduling mismatch).<br>
-                        <strong style="color:#e74c3c;">True Supply</strong> — Placement ≥ 50% and target exceeds run rate. Genuine supply shortage — recruit.<br>
-                        <strong style="color:#95a5a6;">No Placement Data</strong> — Target exceeds run rate but no new tutor placement data available. Gather data to classify.<br>
-                        <strong style="color:#9b59b6;">Over-Supplied</strong> — Run rate meets or exceeds target but new tutors under 50% placed. Consider reducing forecast.<br>
-                        <strong style="color:#27ae60;">On Track</strong> — Supply meets demand with healthy placement rate. No action needed.<br>
-                        <strong style="color:#e67e22;">On Track — High Wait</strong> — Supply math is fine, but P90 wait time exceeds 24h. Students are waiting too long — investigate matching/placement delays.
+                        <span style="color:#e74c3c;font-weight:600;">burnout risk</span> — hours util &gt; 120%<br>
+                        <span style="color:#3498db;font-weight:600;">idle pool</span> — hours util &lt; 50%<br>
+                        <span style="color:#e67e22;font-weight:600;">new tutor stuck</span> — placement &lt; 30%<br>
+                        <span style="color:#c0392b;font-weight:600;">critical wait</span> — P90 &gt; 2× goal<br>
+                        <span style="color:#f39c12;font-weight:600;">high wait</span> — P90 &gt; 1.5× goal<br>
+                        <span style="color:#27ae60;font-weight:600;">healthy P90 override</span> — custom goal active
                     </dd>
                 </dl>
             </details>
@@ -804,107 +813,79 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 3.7</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 4.0</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
-                <h2>Overview & Purpose</h2>
-                <p>This analysis compares back-to-school forecast demand (April-October 2026) against organic recruiting capacity to identify subjects requiring intervention. The critical innovation is distinguishing between true supply shortages and utilization problems where contracted tutors sit idle due to algorithmic barriers.</p>
+                <h2>Overview &amp; Purpose</h2>
+                <p>This analysis compares back-to-school forecast demand (April&ndash;October 2026) against organic recruiting capacity using a <strong>three-signal classification system</strong>: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign. The combination pinpoints whether a subject needs recruiting, placement investigation, forecast reduction, or no action at all.</p>
                 
-                <p><strong>Key Innovation:</strong> Utilization-based problem classification extends the LSAT investigation methodology across the entire subject portfolio, identifying 24 subjects with the same algorithmic root causes.</p>
+                <p><strong>Key Innovation:</strong> Multi-signal classification replaces the earlier single-metric approach. Each subject receives a <em>Primary Action</em> (one of eight categories) plus zero or more <em>Stress Flags</em> that can stack independently. This separates "what to do" from "what to watch," enabling more targeted weekly decisions.</p>
                 
-                <h2>Data Sources & Quality</h2>
+                <h2>Data Sources &amp; Quality</h2>
                 
-                <h3>1. Run Rate Baseline (Dec 2025 - Mar 2026)</h3>
-                
-                <p><strong>Source:</strong> Looker query tracking new tutor contracting by subject by month</p>
+                <h3>1. Run Rate Baseline (Dec 2025&ndash;Mar 2026)</h3>
+                <p><strong>Source:</strong> Looker Look for new tutor contracting by subject by month.</p>
                 <p><strong>Calculation:</strong> <code>Run_Rate = Mean(Dec 2025, Jan 2026, Feb 2026, Mar 2026)</code></p>
-                
                 <div class="callout warning">
-                    <strong>Why Dec-Mar 2026 Only?</strong>
+                    <strong>Why Dec&ndash;Mar 2026 Only?</strong>
                     <ul style="margin-top: 10px;">
-                        <li><strong>Excludes Nov 2025:</strong> Manual subject adds (adding subjects to existing tutors without consent) artificially inflated supply through January 2026. This practice ended February 2026.</li>
-                        <li><strong>Excludes Pre-Dec 2025:</strong> Paid spend campaigns were active in earlier months, inflating run rates above organic baseline.</li>
-                        <li><strong>TVA Stabilization:</strong> Late 2025 contracting process change (HireVue → Micro1 → TVA) reduced acceptance rates from ~50% to ~15%. Dec 2025 forward represents post-transition baseline.</li>
-                        <li><strong>Strict SOP:</strong> February 2026 implemented stricter subject approval policy, affecting which subjects can be added.</li>
+                        <li><strong>Excludes Nov 2025:</strong> Manual subject adds inflated supply through January 2026.</li>
+                        <li><strong>Excludes Pre-Dec 2025:</strong> Paid-spend campaigns inflated run rates above organic baseline.</li>
+                        <li><strong>TVA Stabilization:</strong> Late 2025 process change (HireVue &rarr; Micro1 &rarr; TVA) reduced acceptance rates from ~50% to ~15%. Dec 2025 forward = post-transition baseline.</li>
+                        <li><strong>Strict SOP:</strong> February 2026 implemented stricter subject approval.</li>
                     </ul>
                 </div>
                 
-                <p><strong>Data Quality Concerns:</strong></p>
-                <ul>
-                    <li><strong>High volatility:</strong> Month-to-month coefficient of variation ranges 32-51% for key subjects (Chemistry: 7-24 contracts/month)</li>
-                    <li><strong>Small sample:</strong> Only 4 months of clean data limits confidence in averages</li>
-                    <li><strong>Declining trend:</strong> Portfolio capacity down 15% from Nov-Feb to Dec-Mar (concerning trajectory)</li>
-                </ul>
-                
-                <p><strong>Validation:</strong> Feb-Mar 2026 data shows consistent patterns with Dec-Jan 2026, suggesting baseline is stable despite volatility.</p>
-                
                 <h3>2. Forecast Data (V1.4 Model)</h3>
+                <p><strong>Source:</strong> <code>monitoring_table_wide.xlsx</code> (Pierre&rsquo;s forecast model).</p>
+                <p><strong>Metric:</strong> <code>forecasted_headcount</code> &mdash; predicted new tutor contracting need by subject by month.</p>
                 
-                <p><strong>Source:</strong> Pierre's monitoring_table_wide.xlsx</p>
-                <p><strong>Metric:</strong> <code>forecasted_headcount</code> - predicted new tutor contracting need by subject by month</p>
-                <p><strong>Model Version:</strong> V1.4 (as of Week 13, 2026)</p>
+                <h3>3. New Tutor 30-Day Placement Rate</h3>
+                <p><strong>Source:</strong> Looker Look for tutor assignment timing.</p>
+                <p><strong>Metric:</strong> Of tutors newly contracted, what percentage received any assignment within 30 days. Displayed in the UI as <strong>New Tutor 30d %</strong> (formerly &ldquo;Util %&rdquo;).</p>
+                <p><strong>Interpretation:</strong> Below 30% signals new tutors aren&rsquo;t being absorbed into active work &mdash; a placement or algorithm issue.</p>
                 
-                <p><strong>Known Model Characteristics:</strong></p>
+                <h3>4. All Tutor Hours Utilization</h3>
+                <p><strong>Source:</strong> Looker Look (<code>LOOKER_TUTOR_HOURS_UTIL_LOOK_ID</code> environment variable). Written to <code>data/tutor_hours_util.csv</code>.</p>
+                <p><strong>Metric:</strong> Across ALL tutors on a subject (not just newly contracted ones), actual hours worked divided by the hours tutors said they wanted. Above 100% means tutors are carrying more load than requested; below 100% means idle capacity exists.</p>
+                <p><strong>Thresholds used in classification:</strong></p>
                 <ul>
-                    <li>4-month backtest (Nov 2025 - Feb 2026) showed ~31% MAE improvement over manual forecasts</li>
-                    <li>Buffered version showed ~46% improvement</li>
-                    <li>Buffer logic: If P90 time-on-net > 24 hours, select higher of buffer/non-buffer forecast</li>
-                    <li><strong>Pending enhancement:</strong> Existing tutor capacity feature (will adjust forecasts based on tutors who can add subjects)</li>
+                    <li>&ge; 115% &rarr; pool is overworked (&ldquo;cracking&rdquo;)</li>
+                    <li>&lt; 60% &rarr; substantial idle capacity exists</li>
+                    <li>&gt; 120% &rarr; <em>burnout_risk</em> stress flag</li>
+                    <li>&lt; 50% &rarr; <em>idle_pool</em> stress flag</li>
                 </ul>
                 
-                <div class="callout info">
-                    <strong>Forecast Interpretation:</strong> The <code>forecasted_headcount</code> metric predicts how many NEW tutors need to be contracted to meet demand, not how many will be utilized. This is why utilization classification is critical.
-                </div>
+                <h3>5. P90 Time-to-Assign (NAT Hours)</h3>
+                <p><strong>Source:</strong> Looker Look 26319. Written to <code>data/nat_p90.csv</code>.</p>
+                <p><strong>Metric:</strong> The 90th-percentile time (in hours) from a student requesting a placement to being matched with a tutor. The worst 10% of placements wait at least this long.</p>
+                <p><strong>Tiered goals by subject volume:</strong></p>
+                <table style="width:auto;">
+                    <tr><th>Tier</th><th>BTS Total</th><th>P90 Goal (hrs)</th></tr>
+                    <tr><td>CORE</td><td>150+</td><td>24</td></tr>
+                    <tr><td>HIGH</td><td>75&ndash;149</td><td>36</td></tr>
+                    <tr><td>MEDIUM</td><td>30&ndash;74</td><td>48</td></tr>
+                    <tr><td>LOW</td><td>10&ndash;29</td><td>60</td></tr>
+                    <tr><td>NICHE</td><td>&lt; 10</td><td>72</td></tr>
+                </table>
+                <p>A per-subject override (<code>Healthy_P90_Hours</code>) can be set in the data to adjust individual goals.</p>
                 
-                <h3>3. Utilization Data (Feb-Mar 2026)</h3>
+                <h3>6. Unique Tutors</h3>
+                <p><strong>Source:</strong> Looker Look 26320. Written to <code>data/unique_tutors.csv</code>.</p>
+                <p>Distinguishes unique tutors from tutor-subject combos. Used in the monthly hero stats.</p>
                 
-                <p><strong>Source:</strong> Looker query tracking tutor assignment timing</p>
-                <p><strong>Metrics:</strong></p>
-                <ul>
-                    <li><code>Total_Contracted</code> = New tutors contracted in Feb-Mar 2026</li>
-                    <li><code>Utilized_30d</code> = Contracted tutors with ≥1 assignment within 30 days</li>
-                    <li><code>Util_Rate = (Utilized_30d / Total_Contracted) × 100</code></li>
-                </ul>
-                
-                <p><strong>Period Rationale:</strong> Feb-Mar 2026 is cleanest period (post-manual-adds, post-TVA stabilization). Provides most honest view of current tutor utilization patterns.</p>
-                
-                <p><strong>Alternative Windows:</strong> Also calculated 60-day and 90-day utilization. 30-day chosen as primary metric because tutors should receive first assignment quickly (longer windows mask algorithm issues).</p>
+                <h3>7. Daily Snapshots</h3>
+                <p><strong>Location:</strong> <code>dashboard/snapshots/YYYY-MM-DD.json</code>, with a <code>manifest.json</code> index.</p>
+                <p>A compressed snapshot of all dashboard data (summary, subjects, tracker, recommendations) is written daily by <code>run_analysis.py</code>. Up to 30 days are retained. This enables week-over-week comparisons in the WBR tab.</p>
                 
                 <h2>Analysis Steps</h2>
                 
                 <h3>Step 1: Demand Adjustment (3-Month Group Smoothing)</h3>
                 
-                <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand (e.g., SAT ramping from 27 in April to 46 in October). Additionally, tutors recruited too early are likely to attrit before they are actually needed.</p>
+                <p><strong>Problem:</strong> Original forecasts show volatile month-to-month demand. Tutors recruited too early are likely to attrit before needed.</p>
                 
-                <p><strong>Solution:</strong> Smooth demand within fixed 3-month groups. If any month in a group exceeds the run-rate cap, the group's total is averaged across its three months. This keeps demand concentrated near peak while preventing spikes that exceed contracting capacity.</p>
+                <p><strong>Solution:</strong> Smooth demand within fixed 3-month groups (Aug/Sep/Oct, May/Jun/Jul, standalone Apr). If any month in a group exceeds the run-rate cap, the group total is averaged across its three months. Manual floors are always respected.</p>
                 
-                <p><strong>Algorithm:</strong></p>
-                <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">
-Group 1: Aug + Sep + Oct
-Group 2: May + Jun + Jul
-Standalone: Apr
-
-For each group:
-    IF any month in group > Run_Rate:
-        total = sum of group
-        each month = floor(total / 3)
-        middle month gets remainder
-        enforce manual adjustment floors
-
-April: left unchanged if Group 2 needed correction.
-    If Group 2 did NOT need correction and Apr > Run_Rate,
-    cascade Apr excess to May (up to May's available room).
-</pre>
-                
-                <p><strong>Benefits:</strong></p>
-                <ul>
-                    <li>Keeps demand concentrated near peak months (no leaking back to April)</li>
-                    <li>Reduces tutor attrition risk (smoothing stays within 90-day windows)</li>
-                    <li>Total demand is preserved across each group</li>
-                    <li>Manual forecast adjustments are always respected as the floor</li>
-                    <li>Months that don't need correction are left untouched</li>
-                </ul>
-                
-                <p><strong>Example - SAT (Run Rate: 11/mo):</strong></p>
+                <p><strong>Example &mdash; SAT (Run Rate: 11/mo):</strong></p>
                 <table style="width: 100%;">
                     <tr>
                         <th>Month</th>
@@ -938,65 +919,56 @@ April: left unchanged if Group 2 needed correction.
                     <li>If <code>Adjusted_Target ≤ Max_Capacity</code> → "On Track" (achievable with organic pipeline)</li>
                 </ul>
                 
-                <h3>Step 3: Utilization-Based Problem Classification</h3>
+                <h3>Step 3: Multi-Signal Classification (Primary Action + Stress Flags)</h3>
                 
-                <p><strong>Innovation:</strong> This step separates supply problems from utilization problems using actual tutor usage data.</p>
+                <p>Each subject receives exactly one <strong>Primary Action</strong> (what to do) and zero or more <strong>Stress Flags</strong> (what to watch). The three input signals are:</p>
+                <ol>
+                    <li><strong>New Tutor 30d %</strong> &mdash; are newly contracted tutors getting assigned?</li>
+                    <li><strong>All Tutor Hours Util %</strong> &mdash; is the existing pool overworked or idle?</li>
+                    <li><strong>P90 Time-to-Assign</strong> &mdash; are students waiting too long?</li>
+                </ol>
+                <p>Plus a derived flag: <strong>Needs External Levers</strong> = <code>target_per_month &gt; run_rate &times; 1.2</code> (monthly target exceeds 120% of organic run rate).</p>
                 
-                <p><strong>Classification Algorithm:</strong></p>
-                <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">
-IF Util_Rate < 50% AND Gap > 20%:
-    → POSSIBLE PLACEMENT ISSUE
-    → Recommendation: Investigate placement/assignment before recruiting
-    → Note: New tutors contracted but not assigned — may be algorithm or forecast issue
-    
-ELSE IF Util_Rate >= 50% AND Gap > 20%:
-    → TRUE SUPPLY PROBLEM
-    → Recommendation: External recruitment levers
-    
-ELSE:
-    → ON TRACK
-    → Recommendation: No action needed
-</pre>
+                <h4>Primary Action (evaluated in priority order; first match wins)</h4>
+                <table style="width: 100%;">
+                    <tr><th>#</th><th>Action</th><th>Condition</th></tr>
+                    <tr><td>1</td><td><strong>Insufficient Data</strong></td><td>Both new-tutor placement and all-tutor hours util are null</td></tr>
+                    <tr><td>2</td><td><strong>Investigate &mdash; Hidden Supply</strong></td><td>Hours util &ge; 115% AND new-tutor placement &lt; 30%</td></tr>
+                    <tr><td>3</td><td><strong>Recruit More &mdash; Urgent</strong></td><td>Needs external + hours util &ge; 115%</td></tr>
+                    <tr><td>4</td><td><strong>Investigate &mdash; Capacity Available</strong></td><td>Needs external + hours util &lt; 60%</td></tr>
+                    <tr><td>5</td><td><strong>Recruit More</strong></td><td>Needs external, normal hours util</td></tr>
+                    <tr><td>6</td><td><strong>Reduce Forecast</strong></td><td>Run rate &ge; target, placement &lt; 30%, hours util &lt; 60%, P90 &lt; tiered goal</td></tr>
+                    <tr><td>7</td><td><strong>Investigate &mdash; Wait Times</strong></td><td>P90 &gt; tiered goal</td></tr>
+                    <tr><td>8</td><td><strong>On Track</strong></td><td>Default &mdash; no issues detected</td></tr>
+                </table>
                 
-                <p><strong>Rationale for 50% Threshold:</strong></p>
+                <h4>Stress Flags (evaluated independently; can stack)</h4>
+                <table style="width: 100%;">
+                    <tr><th>Flag</th><th>Condition</th><th>Meaning</th></tr>
+                    <tr><td style="color:#e74c3c;font-weight:600;">burnout_risk</td><td>Hours util &gt; 120%</td><td>Existing tutors working more than they asked for</td></tr>
+                    <tr><td style="color:#3498db;font-weight:600;">idle_pool</td><td>Hours util &lt; 50%</td><td>Substantial idle capacity in existing pool</td></tr>
+                    <tr><td style="color:#e67e22;font-weight:600;">new_tutor_stuck</td><td>Placement &lt; 30%</td><td>Recently contracted tutors not getting assigned</td></tr>
+                    <tr><td style="color:#c0392b;font-weight:600;">critical_wait</td><td>P90 &gt; 2&times; tiered goal</td><td>Extreme assignment delays</td></tr>
+                    <tr><td style="color:#f39c12;font-weight:600;">high_wait</td><td>P90 &gt; 1.5&times; goal (not critical)</td><td>Assignment delays above comfort zone</td></tr>
+                    <tr><td style="color:#27ae60;font-weight:600;">healthy_p90_override</td><td>Per-subject override active</td><td>Custom P90 goal set for this subject</td></tr>
+                </table>
+                
+                <h4>Backward Compatibility</h4>
+                <p>A legacy <code>Problem_Type</code> field is still computed from <code>Primary_Action</code> for older code paths. The mapping: Recruit &rarr; True Supply Problem, Investigate (Hidden/Capacity) &rarr; Under-Used, Wait Times &rarr; On Track &mdash; High Wait, Reduce Forecast &rarr; Over-Supplied, On Track &rarr; On Track, Insufficient Data &rarr; Supply Problem (No Util Data).</p>
+                
+                <h3>Step 4: Recommendations Engine</h3>
+                <p>Each subject&rsquo;s Primary Action drives a specific recommendation with a detailed reason string citing the actual per-row metrics:</p>
                 <ul>
-                    <li>Utilization <50% within 30 days indicates systemic barriers (tutors should get first assignment quickly)</li>
-                    <li>LSAT investigation showed 22% new tutor utilization (well below 50%) correlated with algorithmic issues</li>
-                    <li>Industry standard for tutor marketplaces: 60-80% utilization within 30 days</li>
-                    <li>Below 50% signals algorithm prioritizing wrong tutors or capacity routing failure</li>
+                    <li><strong>Recruit More / Urgent:</strong> Cites run rate gap and hours util. Recommends deploying recruiting levers.</li>
+                    <li><strong>Investigate &mdash; Hidden Supply:</strong> Cites both hours util and placement rate. Asks team to investigate before recruiting.</li>
+                    <li><strong>Investigate &mdash; Capacity Available:</strong> Cites low hours util despite supply gap. Asks whether capacity can be unlocked first.</li>
+                    <li><strong>Investigate &mdash; Wait Times:</strong> Cites P90 vs tiered goal. Asks to examine assignment flow.</li>
+                    <li><strong>Reduce Forecast:</strong> Cites all three metrics. Recommends considering forecast reduction.</li>
+                    <li><strong>Behind-pace alerts</strong> are layered on top for in-progress months using calendar-prorated targets.</li>
                 </ul>
                 
-                <h2>Key Findings Explained</h2>
-                
-                <h3>Finding 1: 53% of Flagged Subjects Are Utilization Problems</h3>
-                
-                <p><strong>What we found:</strong> Of 45 subjects flagged as "needs external levers" based on gap analysis, 24 (53%) have utilization rates below 50%.</p>
-                
-                <p><strong>What this means:</strong> More than half of perceived "supply shortages" are actually algorithm failures. We're contracting tutors but they're not getting work.</p>
-                
-                <p><strong>Example - High School Chemistry:</strong></p>
-                <ul>
-                    <li>Feb-Mar contracted: 21 tutors</li>
-                    <li>Utilized within 30 days: 9 tutors (43%)</li>
-                    <li>Forecast says need: 38 tutors/month</li>
-                    <li><strong>Analysis:</strong> If we contract 38/month at 43% utilization, only 16 will get used. We're not short on tutors - we're short on algorithm efficiency.</li>
-                    <li><strong>Correct solution:</strong> Fix utilization to 75% → current 14/month run rate yields 10-11 utilized (vs. current 6)</li>
-                </ul>
-                
-                <h3>Finding 2: Only 10 Subjects Are True Supply Shortages</h3>
-                
-                <p><strong>What we found:</strong> Only 10 subjects have both (a) good utilization (>50%) AND (b) insufficient run rate capacity.</p>
-                
-                <p><strong>What this means:</strong> External recruitment spend should be targeted to these 10 only. Other subjects need algorithm fixes, not more tutors.</p>
-                
-                <p><strong>Example - SAT:</strong></p>
-                <ul>
-                    <li>Feb-Mar contracted: 29 tutors</li>
-                    <li>Utilized within 30 days: 18 tutors (62% - GOOD!)</li>
-                    <li>Run rate: 11/month, Target: 36/month → Gap: 227%</li>
-                    <li><strong>Analysis:</strong> Tutors ARE getting work when contracted (62% is healthy). Problem is we can't contract enough through organic pipeline.</li>
-                    <li><strong>Correct solution:</strong> External recruitment levers (paid spend, InMail, opt-in)</li>
-                </ul>
+                <h2>Key Findings</h2>
+                <p>Findings are dynamic &mdash; the dashboard hero board and WBR show current counts by Primary Action category. Refer to the Overview tab for the latest distribution across Recruit, Investigate, On Track, Wait Times, and Reduce Forecast buckets.</p>
                 
                 <h2>Limitations & Caveats</h2>
                 
@@ -1093,19 +1065,34 @@ ELSE:
                         <th>Rationale</th>
                     </tr>
                     <tr>
-                        <td>Utilization Classification</td>
+                        <td>Multi-Signal Classification</td>
                         <td><span class="badge ontrack">HIGH</span></td>
-                        <td>Validated against LSAT investigation. 50% threshold conservative. Data quality good (Feb-Mar 2026).</td>
+                        <td>Three independent signals cross-validate each other. Validated against LSAT investigation.</td>
                     </tr>
                     <tr>
-                        <td>Adjustment Methodology</td>
+                        <td>New Tutor Placement Rate</td>
+                        <td><span class="badge ontrack">HIGH</span></td>
+                        <td>Direct observation from Looker. Well understood metric since LSAT deep-dive.</td>
+                    </tr>
+                    <tr>
+                        <td>All Tutor Hours Utilization</td>
                         <td><span class="badge util">MEDIUM</span></td>
-                        <td>Mathematically sound. Assumes even distribution optimal (likely true but unvalidated).</td>
+                        <td>New data source. Needs validation against actual hours logs. Depends on tutor-reported desired hours.</td>
+                    </tr>
+                    <tr>
+                        <td>P90 Time-to-Assign</td>
+                        <td><span class="badge ontrack">HIGH</span></td>
+                        <td>Directly measured from placement system. Tiered goals validated against operational experience.</td>
+                    </tr>
+                    <tr>
+                        <td>Demand Smoothing</td>
+                        <td><span class="badge util">MEDIUM</span></td>
+                        <td>Mathematically sound. Assumes even distribution optimal (unvalidated).</td>
                     </tr>
                     <tr>
                         <td>Run Rate Stability</td>
                         <td><span class="badge supply">LOW</span></td>
-                        <td>High volatility (CV 32-51%). Only 4 months clean data. Declining trend concerning.</td>
+                        <td>High volatility (CV 32&ndash;51%). Limited clean data months.</td>
                     </tr>
                     <tr>
                         <td>Forecast Accuracy</td>
@@ -1114,27 +1101,54 @@ ELSE:
                     </tr>
                 </table>
                 
-                <h2>Recommended Use & Interpretation</h2>
+                <h2>Recommended Use &amp; Interpretation</h2>
                 
-                <h3>Primary Use Cases:</h3>
-                
+                <h3>Primary Use Cases</h3>
                 <ol>
-                    <li><strong>WBR Preparation:</strong> Weekly review of subjects requiring intervention</li>
-                    <li><strong>Resource Allocation:</strong> Prioritize algorithmic fixes vs. recruitment spend</li>
-                    <li><strong>Supply Team Planning:</strong> Consistent monthly targets for recruiting</li>
-                    <li><strong>Trend Monitoring:</strong> Track run rate and utilization changes over time</li>
+                    <li><strong>WBR Preparation:</strong> Review the Weekly Summary tab for the six-section WBR report covering headline, pace, movers, behind-pace subjects, zero-velocity watch list, and decisions narrative.</li>
+                    <li><strong>Resource Allocation:</strong> Use Primary Action to decide whether to recruit, investigate, reduce forecast, or take no action.</li>
+                    <li><strong>Risk Monitoring:</strong> Stress Flags (shown as colored pills) highlight subjects that need watching even if their Primary Action is benign.</li>
+                    <li><strong>Trend Monitoring:</strong> Week-over-week comparisons powered by daily snapshots.</li>
                 </ol>
                 
-                <h3>Interpretation Guidelines:</h3>
-                
+                <h3>Interpretation by Primary Action</h3>
                 <ul>
-                    <li><strong>Utilization Problems:</strong> Do NOT recruit more tutors. Investigate algorithm barriers first. Expected ROI of fixes: 50-100% improvement in utilization.</li>
-                    <li><strong>True Supply Problems:</strong> External levers required. Prioritize by gap size (>200% = critical).</li>
-                    <li><strong>High Variance Subjects:</strong> Treat capacity estimates with caution. May need wider confidence bands.</li>
-                    <li><strong>Declining Run Rates:</strong> If subject run rate declining month-over-month, investigate root cause before assuming forecast achievable.</li>
+                    <li><strong>Recruit More / Urgent:</strong> Deploy recruiting levers. Gap is real and pipeline is the bottleneck.</li>
+                    <li><strong>Investigate &mdash; Hidden Supply / Capacity Available:</strong> Do NOT blindly recruit. Capacity may already exist &mdash; investigate placement, algorithm, or scheduling first.</li>
+                    <li><strong>Investigate &mdash; Wait Times:</strong> Students waiting too long. Examine matching flow, credential checks, scheduling.</li>
+                    <li><strong>Reduce Forecast:</strong> Demand may be overestimated. All signals show surplus. Consider lowering the target.</li>
+                    <li><strong>On Track:</strong> No action needed. Monitor stress flags for early warning.</li>
+                    <li><strong>Insufficient Data:</strong> Cannot classify. Prioritize getting data for this subject.</li>
                 </ul>
                 
-                <h2>Update Cadence & Maintenance</h2>
+                <h3>Stress Flag Guidance</h3>
+                <ul>
+                    <li><strong>burnout_risk</strong> (red): Tutors carrying &gt; 120% of desired hours. May lead to attrition.</li>
+                    <li><strong>idle_pool</strong> (blue): Existing tutors have substantial unused capacity. Check if routing is efficient.</li>
+                    <li><strong>new_tutor_stuck</strong> (orange): &lt; 30% of new tutors placed. Likely a placement/algorithm issue.</li>
+                    <li><strong>critical_wait / high_wait</strong> (red/amber): P90 exceeds 2&times; or 1.5&times; the tier goal. Students experience frustrating delays.</li>
+                    <li><strong>healthy_p90_override</strong> (green): A per-subject P90 goal override is active.</li>
+                </ul>
+                
+                <h2>Weekly Business Review (WBR)</h2>
+                <p>The Weekly Summary tab generates a six-section WBR report designed for copy-paste into documents or presentations:</p>
+                <ol>
+                    <li><strong>Headline:</strong> Auto-generated 3-sentence summary with contracting %, pace-vs-target delta, WoW combos added, and biggest concern.</li>
+                    <li><strong>Pace &amp; Momentum:</strong> Table with This Week / Last Week / &Delta; / Status columns for key KPIs. Conditional cell coloring.</li>
+                    <li><strong>Biggest Movers:</strong> Positive framing &mdash; subjects that moved into on-track, velocity leaders.</li>
+                    <li><strong>Behind Pace &mdash; Top 10:</strong> Subjects sorted ascending by % of monthly target. Includes combos remaining and days-to-close at current velocity.</li>
+                    <li><strong>Zero-Velocity Watch List:</strong> Top 10&ndash;15 subjects with zero contracting in the review period.</li>
+                    <li><strong>Decisions Activity:</strong> Narrative summary of decisions logged during the last complete Sunday&ndash;Saturday week, synthesizing notes, action types, and recommendations.</li>
+                </ol>
+                <p>WoW comparisons use daily snapshots. The review window is the last complete Sunday&ndash;Saturday week, displayed explicitly (e.g., &ldquo;Sun, Apr 12 &ndash; Sat, Apr 18&rdquo;).</p>
+                
+                <h2>Decision Tracking</h2>
+                <p>Each recommended action can be marked with a decision (Action or No Action) via a dropdown in the Subjects &amp; Actions tab. Decisions include who decided, when, and freeform notes. Data is persisted via Netlify Blobs and synced across all signed-in users.</p>
+                
+                <h2>Monthly Tracker</h2>
+                <p>The Monthly Tracker tab shows per-subject, per-month progress. Targets are calendar-prorated: on day 22 of a 30-day month, the expected pace is 22/30 = 73.3% of the monthly goal. Subjects are flagged as behind-pace (&lt; 80%), at-risk (80&ndash;99%), or on-pace (&ge; 100%). A March baseline column shows actual vs. forecast for the pre-BTS month.</p>
+                
+                <h2>Update Cadence &amp; Maintenance</h2>
                 
                 <h3>Automated Weekly Updates:</h3>
                 <p>Every Monday 6:00 AM UTC (1:00 AM CST):</p>
