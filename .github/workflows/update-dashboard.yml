@@ -50,6 +50,7 @@ jobs:
           LOOKER_ACTUALS_LOOK_ID: ${{ secrets.LOOKER_ACTUALS_LOOK_ID }}
           LOOKER_NAT_P90_LOOK_ID: ${{ secrets.LOOKER_NAT_P90_LOOK_ID }}
           LOOKER_UNIQUE_TUTORS_LOOK_ID: ${{ secrets.LOOKER_UNIQUE_TUTORS_COUNT }}
+          LOOKER_TUTOR_HOURS_UTIL_LOOK_ID: ${{ secrets.LOOKER_TUTOR_HOURS_UTIL_LOOK_ID }}
         run: |
           python scripts/fetch_looker_data.py
         continue-on-error: true
