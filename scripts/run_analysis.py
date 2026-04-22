@@ -143,10 +143,10 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
         trail_total, trail_util = _sum_pairs(trailing_pairs)
 
         if all_total > 0:
-            current_rate = (rec_util / rec_total * 100) if rec_total > 0 else None
+            current_rate = (rec_util / rec_total * 100) if rec_total > 0 else 0
             trailing_rate = (trail_util / trail_total * 100) if trail_total > 0 else None
 
-            if current_rate is not None and trailing_rate is not None:
+            if trailing_rate is not None:
                 delta = round(current_rate - trailing_rate, 1)
                 trend = 'up' if delta > 3 else ('down' if delta < -3 else 'flat')
             else:
@@ -157,9 +157,8 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
                 'Subject': subject,
                 'Total_Contracted': all_total,
                 'Utilized_30d': all_util,
-                'Util_Rate': (current_rate if current_rate is not None
-                              else (all_util / all_total * 100)),
-                'Util_Rate_Current': round(current_rate, 1) if current_rate is not None else None,
+                'Util_Rate': current_rate,
+                'Util_Rate_Current': round(current_rate, 1),
                 'Util_Rate_Trailing': round(trailing_rate, 1) if trailing_rate is not None else None,
                 'Util_Trend': trend,
                 'Util_Trend_Delta': delta,
