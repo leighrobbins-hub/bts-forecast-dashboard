@@ -266,6 +266,8 @@ tr.nodata-problem {
 .badge.lowutil::before { content: "\25BC "; }
 .badge.highwait { background: #e67e22; color: white; }
 .badge.highwait::before { content: "\26A0 "; }
+.badge.oversupplied { background: #9b59b6; color: white; }
+.badge.oversupplied::before { content: "\25BC "; }
 .util-trend-label { font-size: 11px; font-weight: 600; margin-left: 4px; cursor: help; }
 .util-trend-key { display: flex; align-items: center; gap: 12px; font-size: 12px; padding: 6px 12px; background: #f8f9fa; border-radius: 6px; margin-bottom: 10px; flex-wrap: wrap; }
 .util-trend-key-title { font-weight: 600; color: #555; margin-right: 2px; }
@@ -930,6 +932,8 @@ tr.row-risk td.col-left:first-child { border-left: 3px solid #f39c12; }
     color: #2c3e50;
 }
 
+/* DEPRECATED: tooltip-wrap system replaced by data-tip JS tooltips.
+   Kept briefly for safety; remove after confirming no remaining references. */
 .tooltip-wrap { position: relative; cursor: help; }
 .tooltip-wrap .tooltip-text {
     visibility: hidden; opacity: 0;

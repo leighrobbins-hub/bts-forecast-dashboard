@@ -28,7 +28,7 @@
             <h1>Tutor Forecast &amp; Action Dashboard</h1>
         </div>
         <div id="user-bar" style="margin-left:auto; display:flex; align-items:center; gap:12px; padding-right:20px;">
-            <span id="sync-status" class="sync-status" title="Decision sync status"></span>
+            <span id="sync-status" class="sync-status" data-tip="Decision sync status"></span>
             <span id="user-name" style="color:#ecf0f1; font-size:13px; font-weight:500;"></span>
             <button onclick="netlifyIdentity.logout()" style="background:rgba(255,255,255,0.15); color:#ecf0f1; border:1px solid rgba(255,255,255,0.25); padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer;">Sign out</button>
         </div>
@@ -102,27 +102,27 @@
                 <span class="ov-month-hint" id="ov-month-active-filter"></span>
             </div>
             <div class="ov-month-snapshot" id="ov-month-snapshot">
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" title="Show all subjects in table below">
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" data-tip="Show all subjects in table below">
                     <div class="ov-month-val" id="ov-month-contracted">-</div>
                     <div class="ov-month-lbl">tutor-subject combos this month</div>
                 </div>
-                <div class="ov-month-stat" title="Unique tutors contracted this month (one tutor matched to multiple subjects counts once)">
+                <div class="ov-month-stat" data-tip="Unique tutors contracted this month (one tutor matched to multiple subjects counts once)">
                     <div class="ov-month-val" id="ov-month-unique-tutors">-</div>
                     <div class="ov-month-lbl">unique tutors</div>
                 </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" title="Show all subjects in table below">
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" data-tip="Show all subjects in table below">
                     <div class="ov-month-val" id="ov-month-target">-</div>
                     <div class="ov-month-lbl">monthly target</div>
                 </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-behind')" title="Show subjects behind pace">
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-behind')" data-tip="Show subjects behind pace">
                     <div class="ov-month-val" id="ov-month-behind">-</div>
                     <div class="ov-month-lbl">subjects behind pace</div>
                 </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-onpace')" title="Show subjects on pace">
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-onpace')" data-tip="Show subjects on pace">
                     <div class="ov-month-val ov-good" id="ov-month-onpace">-</div>
                     <div class="ov-month-lbl">subjects on pace</div>
                 </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-nodata')" title="Show subjects awaiting data">
+                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-nodata')" data-tip="Show subjects awaiting data">
                     <div class="ov-month-val" id="ov-month-nodata">-</div>
                     <div class="ov-month-lbl">awaiting data</div>
                 </div>
@@ -130,40 +130,40 @@
 
             <!-- Problem type stat cards -->
             <div class="summary-grid">
-                <div class="stat-card blue" onclick="overviewFilter('all')" style="cursor:pointer;" title="Show all subjects">
+                <div class="stat-card blue" onclick="overviewFilter('all')" style="cursor:pointer;" data-tip="Show all subjects">
                     <div class="stat-label">Total Subjects</div>
                     <div class="stat-value" id="total-subjects">-</div>
                     <div class="stat-detail">Forecast period: Apr–Oct 2026</div>
                 </div>
                 
-                <div class="stat-card orange" onclick="overviewFilter('placement')" style="cursor:pointer;" title="Filter to Under-Used subjects">
-                    <div class="stat-label">Under-Used</div>
+                <div class="stat-card orange" onclick="overviewFilter('investigate')" style="cursor:pointer;" data-tip="Filter to Investigate subjects (Hidden Supply, Capacity Available)">
+                    <div class="stat-label">Investigate</div>
                     <div class="stat-value" id="util-problems">-</div>
                     <div class="stat-pending" id="pending-underused">&nbsp;</div>
-                    <div class="stat-detail">Low placement + demand gap — investigate</div>
+                    <div class="stat-detail">Capacity or placement anomaly — investigate</div>
                 </div>
                 
-                <div class="stat-card red" onclick="overviewFilter('true-supply')" style="cursor:pointer;" title="Filter to Supply Problems">
-                    <div class="stat-label">Supply Problems</div>
+                <div class="stat-card red" onclick="overviewFilter('recruit')" style="cursor:pointer;" data-tip="Filter to Recruit subjects">
+                    <div class="stat-label">Recruit</div>
                     <div class="stat-value" id="stat-supply-problems">-</div>
                     <div class="stat-pending" id="pending-supply">&nbsp;</div>
                     <div class="stat-detail">Need recruiting levers</div>
                 </div>
                 
-                <div class="stat-card green" onclick="overviewFilter('on-track')" style="cursor:pointer;" title="Filter to On Track subjects">
+                <div class="stat-card green" onclick="overviewFilter('on-track')" style="cursor:pointer;" data-tip="Filter to On Track subjects">
                     <div class="stat-label">On Track</div>
                     <div class="stat-value" id="ontrack-subjects">-</div>
                     <div class="stat-detail">No action required</div>
                 </div>
 
-                <div class="stat-card amber" onclick="overviewFilter('on-track-highwait')" style="cursor:pointer;" title="Filter to On Track subjects with high wait times">
-                    <div class="stat-label">High Wait</div>
+                <div class="stat-card amber" onclick="overviewFilter('investigate')" style="cursor:pointer;" data-tip="Filter to subjects with high wait times">
+                    <div class="stat-label">Wait Times</div>
                     <div class="stat-value" id="highwait-subjects">-</div>
-                    <div class="stat-detail">On Track but P90 wait &gt; 24h</div>
+                    <div class="stat-detail">P90 above tier goal</div>
                 </div>
                 
-                <div class="stat-card purple" onclick="overviewFilter('over-supplied')" style="cursor:pointer;" title="Filter to Over-Supplied subjects">
-                    <div class="stat-label">Over-Supplied</div>
+                <div class="stat-card purple" onclick="overviewFilter('reduce-forecast')" style="cursor:pointer;" data-tip="Filter to Reduce Forecast subjects">
+                    <div class="stat-label">Reduce Forecast</div>
                     <div class="stat-value" id="lowutil-subjects">-</div>
                     <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
                     <div class="stat-detail">Consider reducing forecast</div>
@@ -247,12 +247,11 @@
                         <select id="filter-problemtype-priority" onchange="renderPriorityTable()">
                             <option value="all-problems">All Problems</option>
                             <option value="all">All Subjects</option>
-                            <option value="placement">Under-Used</option>
-                            <option value="true-supply">True Supply</option>
-                            <option value="no-util-data">No Placement Data</option>
-                            <option value="over-supplied">Over-Supplied</option>
+                            <option value="recruit">Recruit More</option>
+                            <option value="investigate">Investigate</option>
+                            <option value="reduce-forecast">Reduce Forecast</option>
                             <option value="on-track">On Track</option>
-                            <option value="on-track-highwait">On Track — High Wait</option>
+                            <option value="insufficient-data">Insufficient Data</option>
                         </select>
                     </div>
                     <div class="filter-group inline-filter">
@@ -284,14 +283,15 @@
                     <thead>
                         <tr>
                             <th class="sortable" onclick="sortTable('priority', 0)">Subject</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('priority', 1)">Tier<span class="tooltip-text">Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.</span></th>
+                            <th class="sortable" onclick="sortTable('priority', 1)" data-tip="Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.">Tier</th>
                             <th class="sortable" onclick="sortTable('priority', 2)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('priority', 4)">Placement %<span class="tooltip-text">New tutor placement rate: % of recently contracted tutors who received an assignment within 30 days, averaged over the most recent 3 months. Trend label shows placement health factoring in P90 wait time.</span></th>
-                            <th class="sortable" onclick="sortTable('priority', 5)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
-                            <th class="sortable" onclick="sortTable('priority', 6)" data-tip="Season-level classification based on full BTS (Apr–Oct) data. This may differ from the current month's pace.">BTS Status</th>
+                            <th class="sortable" onclick="sortTable('priority', 4)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
+                            <th class="sortable" onclick="sortTable('priority', 5)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
+                            <th class="sortable" onclick="sortTable('priority', 6)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
+                            <th class="sortable" onclick="sortTable('priority', 7)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
+                            <th class="sortable" onclick="sortTable('priority', 8)" data-tip="Classification based on three signals: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
                             <th class="sa-current-col" id="priority-current-month-header" data-tip="This month's actual contracting vs target, with pace-aware projection.">Current Month</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="priority-body">
@@ -332,12 +332,11 @@
                     <select id="sa-filter-type">
                         <option value="all">All Subjects</option>
                         <option value="all-problems">All Problems</option>
-                        <option value="placement">Under-Used</option>
-                        <option value="true-supply">True Supply</option>
-                        <option value="no-util-data">No Placement Data</option>
-                        <option value="over-supplied">Over-Supplied</option>
+                        <option value="recruit">Recruit More</option>
+                        <option value="investigate">Investigate</option>
+                        <option value="reduce-forecast">Reduce Forecast</option>
                         <option value="on-track">On Track</option>
-                        <option value="on-track-highwait">On Track — High Wait</option>
+                        <option value="insufficient-data">Insufficient Data</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -415,16 +414,18 @@
                         <tr>
                             <th style="width:24px;"></th>
                             <th class="sortable" onclick="sortSA(0)">Subject</th>
-                            <th class="sortable" onclick="sortSA(1)" title="Volume tier based on total BTS forecast: CORE (150+), HIGH (75+), MEDIUM (30+), LOW (10+), NICHE (<10). A miss on a CORE subject has much bigger business impact than a miss on a NICHE subject.">Tier</th>
-                            <th class="sortable" onclick="sortSA(2)" title="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor. Dash = no recommended action.">Priority</th>
+                            <th class="sortable" onclick="sortSA(1)" data-tip="Volume tier based on total BTS forecast: CORE (150+), HIGH (75+), MEDIUM (30+), LOW (10+), NICHE (<10). A miss on a CORE subject has much bigger business impact than a miss on a NICHE subject.">Tier</th>
+                            <th class="sortable" onclick="sortSA(2)" data-tip="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor.">Priority</th>
                             <th class="sortable" onclick="sortSA(3)" data-tip="Historical monthly new-tutor contracting capacity, averaged across Dec 2025–Mar 2026. The number we can realistically contract per month through the organic pipeline.">Run Rate</th>
                             <th class="sortable" onclick="sortSA(4)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
-                            <th class="sortable" onclick="sortSA(5)" data-tip="New tutor placement rate: % of recently contracted tutors who received an assignment within 30 days, averaged over the most recent 3 months. Below 50% = anomaly worth investigating.">Placement %</th>
-                            <th class="sortable" onclick="sortSA(6)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically). Color: green/yellow = manageable, red = significant shortfall.">Gap</th>
-                            <th class="sortable sa-current-col" onclick="sortSA(7)" title="Current in-progress month: actual vs target">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
-                            <th class="sortable" onclick="sortSA(8)">Problem Type</th>
-                            <th class="sortable" onclick="sortSA(9)">Recommendation</th>
-                            <th class="sortable" onclick="sortSA(10)">Action Status</th>
+                            <th class="sortable" onclick="sortSA(5)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
+                            <th class="sortable" onclick="sortSA(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
+                            <th class="sortable" onclick="sortSA(7)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
+                            <th class="sortable" onclick="sortSA(8)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically).">Gap</th>
+                            <th class="sortable sa-current-col" onclick="sortSA(9)" data-tip="Current in-progress month: actual vs target with pace projection.">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
+                            <th class="sortable" onclick="sortSA(10)" data-tip="Classification based on three signals: new tutor placement, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
+                            <th class="sortable" onclick="sortSA(11)">Recommendation</th>
+                            <th class="sortable" onclick="sortSA(12)">Action Status</th>
                         </tr>
                     </thead>
                     <tbody id="sa-body"></tbody>

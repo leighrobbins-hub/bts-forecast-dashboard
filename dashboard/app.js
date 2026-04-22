@@ -44,12 +44,19 @@ var currentSorts = {
 var trackerSort = { key: 'subject', asc: true };
 
 var PROBLEM_TIPS = {
-    'placement': 'Anomaly: low new tutor placement rate (<50%) coincident with a demand gap. Investigation needed — could be a placement or algorithm issue, low real demand, multi-subject tutors placed on other subjects, or scheduling mismatch.',
-    'over-supplied': 'Run rate meets or exceeds target but new tutors under 50% placed. Consider reducing forecast — demand may be overestimated.',
-    'true-supply': 'New tutors well-placed (>50%) and target exceeds run rate. Supply is genuinely short — deploy recruiting levers.',
-    'no-util-data': 'Target exceeds run rate but no new tutor placement data available. Gather data to determine root cause.',
-    'on-track': 'Supply meets demand and placement rate is healthy. No action needed.',
-    'on-track-highwait': 'Supply meets demand on paper, but P90 wait time exceeds 24h — students are waiting too long. Investigate matching/placement delays.'
+    'recruit-urgent': 'Run rate short of target AND All Tutor Hours Util above 115% — existing pool is cracking. Deploy recruiting levers immediately.',
+    'recruit': 'Run rate short of target, tutor hours within normal range. Standard recruiting levers needed.',
+    'hidden-supply': 'Existing tutors overworked (hours util \u2265 115%) but new tutors not getting assigned (<30%). Capacity exists on paper but isn\u2019t absorbed — investigate before recruiting.',
+    'capacity-available': 'Run rate suggests gap but existing pool has headroom (hours util < 60%). Understand if additional tutors are needed or capacity can be unlocked.',
+    'wait-times': 'P90 Time-to-Assign exceeds goal for this tier. Students waiting too long despite normal utilization. Examine assignment flow.',
+    'reduce-forecast': 'Run rate meets target but new tutors not placed and existing pool idle. P90 confirms low demand — consider reducing forecast.',
+    'on-track': 'Supply meets demand, utilization healthy, wait times within goal. No action needed.',
+    'insufficient-data': 'No utilization or tutor hours data available. Cannot classify confidently.',
+    'placement': 'Investigation needed — placement anomaly detected.',
+    'over-supplied': 'Run rate meets target but utilization low. Consider forecast reduction.',
+    'true-supply': 'Genuine supply shortage — deploy recruiting levers.',
+    'no-util-data': 'No utilization data available.',
+    'on-track-highwait': 'On track but P90 wait time exceeds goal.'
 };
 
 // Volume tier metadata. Badge class maps to styles.css rules.
@@ -79,18 +86,25 @@ function renderTierBadge(tier, btsTotal) {
     return '<span class="badge ' + meta.badge + '" data-tip="' + escapeHtml(tip) + '">' + meta.label + '</span>';
 }
 
-function classifyType(problemType) {
-    if (!problemType) return 'on-track';
-    var pt = problemType.toLowerCase();
-    if (pt.includes('under-used') || pt.includes('under used')) return 'placement';
-    if (pt.includes('placement suspect')) return 'placement';      // back-compat
-    if (pt.includes('placement bottleneck')) return 'placement';   // back-compat
-    if (pt.includes('possible placement')) return 'placement';     // back-compat
-    if (pt.includes('over-supplied')) return 'over-supplied';
-    if (pt.includes('true supply')) return 'true-supply';
-    if (pt.includes('no util data')) return 'no-util-data';
-    if (pt.includes('low util')) return 'over-supplied';
-    if (pt.includes('high wait')) return 'on-track-highwait';
+function classifyType(problemTypeOrAction) {
+    if (!problemTypeOrAction) return 'on-track';
+    var pt = problemTypeOrAction.toLowerCase();
+    // Primary_Action values (new system)
+    if (pt.indexOf('recruit more') !== -1 && pt.indexOf('urgent') !== -1) return 'recruit-urgent';
+    if (pt.indexOf('recruit more') !== -1) return 'recruit';
+    if (pt.indexOf('hidden supply') !== -1) return 'hidden-supply';
+    if (pt.indexOf('capacity available') !== -1) return 'capacity-available';
+    if (pt.indexOf('wait times') !== -1) return 'wait-times';
+    if (pt === 'reduce forecast') return 'reduce-forecast';
+    if (pt === 'insufficient data') return 'insufficient-data';
+    // Legacy Problem_Type values (backward compat)
+    if (pt.indexOf('under-used') !== -1 || pt.indexOf('under used') !== -1) return 'hidden-supply';
+    if (pt.indexOf('placement suspect') !== -1 || pt.indexOf('placement bottleneck') !== -1 || pt.indexOf('possible placement') !== -1) return 'hidden-supply';
+    if (pt.indexOf('over-supplied') !== -1 || pt.indexOf('low util') !== -1) return 'reduce-forecast';
+    if (pt.indexOf('true supply') !== -1) return 'recruit';
+    if (pt.indexOf('no util data') !== -1) return 'insufficient-data';
+    if (pt.indexOf('high wait') !== -1) return 'wait-times';
+    if (pt === 'on track') return 'on-track';
     return 'on-track';
 }
 
@@ -122,7 +136,7 @@ function buildUtilDisplay(row) {
             label = 'Stable'; color = '#7f8c8d';
             tip = delta + '% vs prior — No meaningful change';
         }
-        html += ' <span class="util-trend-label" style="color:' + color + '" title="' + tip + '">' + label + '</span>';
+        html += ' <span class="util-trend-label" style="color:' + color + '" data-tip="' + escapeHtml(tip) + '">' + label + '</span>';
     }
     if (row.Util_Recent_Contracted != null && row.Util_Recent_Utilized != null) {
         html += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Util_Recent_Utilized) + ' of ' + Math.round(row.Util_Recent_Contracted) + ' recent)</div>';
@@ -130,6 +144,73 @@ function buildUtilDisplay(row) {
         html += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Utilized_30d) + ' of ' + Math.round(row.Total_Contracted) + ')</div>';
     }
     return html;
+}
+
+function renderThuCell(row) {
+    var val = row.Tutor_Hours_Util_Pct;
+    if (val == null) return '<td style="text-align:right;color:#aaa">\u2014</td>';
+    var pct = Math.round(val);
+    var cls = '';
+    if (pct > 120 || pct < 50) cls = ' style="text-align:right;background:#f8d7da;color:#721c24;font-weight:600"';
+    else if ((pct >= 110 && pct <= 120) || (pct >= 50 && pct <= 60)) cls = ' style="text-align:right;background:#fff3cd;color:#856404;font-weight:600"';
+    else cls = ' style="text-align:right"';
+    return '<td' + cls + '>' + pct + '%</td>';
+}
+
+function renderP90Cell(row) {
+    var val = row.P90_NAT_Hours;
+    if (val == null) return '<td style="text-align:right;color:#aaa">\u2014</td>';
+    var hrs = Math.round(val);
+    var goal = row.P90_Goal || 48;
+    var cls = hrs > goal ? ' style="text-align:right;background:#f8d7da;color:#721c24;font-weight:600"' : ' style="text-align:right"';
+    return '<td' + cls + '>' + hrs + 'h</td>';
+}
+
+function renderNewTutor30dCell(row) {
+    var val = row.Util_Rate;
+    if (val == null) return '<td style="text-align:right;color:#aaa">\u2014</td>';
+    var pct = Math.round(val);
+    var cls = pct < 30 ? ' style="text-align:right;background:#f8d7da;color:#721c24;font-weight:600"' : ' style="text-align:right"';
+    return '<td' + cls + '>' + pct + '%</td>';
+}
+
+function renderStressFlags(flags) {
+    if (!flags || !flags.length) return '';
+    var COLORS = {
+        burnout_risk: '#e74c3c', idle_pool: '#3498db', new_tutor_stuck: '#e67e22',
+        high_wait: '#f39c12', critical_wait: '#c0392b', healthy_p90_override: '#27ae60'
+    };
+    var LABELS = {
+        burnout_risk: 'burnout risk', idle_pool: 'idle pool', new_tutor_stuck: 'new tutor stuck',
+        high_wait: 'high wait', critical_wait: 'critical wait', healthy_p90_override: 'healthy P90 override'
+    };
+    return flags.map(function(f) {
+        var c = COLORS[f] || '#7f8c8d';
+        var l = LABELS[f] || f;
+        return '<span style="display:inline-block;font-size:10px;padding:1px 6px;border-radius:8px;margin-left:3px;background:' + c + ';color:#fff;white-space:nowrap;">' + escapeHtml(l) + '</span>';
+    }).join('');
+}
+
+function actionBadgeHtml(row) {
+    var action = row.Primary_Action || row.Problem_Type || 'On Track';
+    var type = classifyType(action);
+    var tip = PROBLEM_TIPS[type] || '';
+    var BADGE_LABELS = {
+        'recruit-urgent': 'Recruit \u2014 Urgent', 'recruit': 'Recruit More',
+        'hidden-supply': 'Hidden Supply', 'capacity-available': 'Capacity Available',
+        'wait-times': 'Wait Times', 'reduce-forecast': 'Reduce Forecast',
+        'on-track': 'On Track', 'insufficient-data': 'Insufficient Data'
+    };
+    var label = BADGE_LABELS[type] || action;
+    var BADGE_CLASSES = {
+        'recruit-urgent': 'badge supply', 'recruit': 'badge supply',
+        'hidden-supply': 'badge util', 'capacity-available': 'badge util',
+        'wait-times': 'badge highwait', 'reduce-forecast': 'badge oversupplied',
+        'on-track': 'badge ontrack', 'insufficient-data': 'badge nodata'
+    };
+    var cls = BADGE_CLASSES[type] || 'badge ontrack';
+    return '<span class="' + cls + '"' + (tip ? ' data-tip="' + escapeHtml(tip) + '"' : '') + '>' + escapeHtml(label) + '</span>'
+        + renderStressFlags(row.Stress_Flags);
 }
 
 /* ── Load saved PAT ── */
@@ -308,12 +389,13 @@ function refreshOverviewLive() {
     if (!allData || !allData.length) return;
 
     var clientTotal = allData.length;
-    var clientPlacement = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'placement'; }).length;
-    var clientSupply = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
-    var clientNoUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
-    var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track'; }).length;
-    var clientHighWait = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'on-track-highwait'; }).length;
-    var overSuppliedCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; }).length;
+    function _ct(r) { return classifyType(r.Primary_Action || r.Problem_Type); }
+    var clientPlacement = allData.filter(function(r) { var t = _ct(r); return t === 'hidden-supply' || t === 'capacity-available'; }).length;
+    var clientSupply = allData.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
+    var clientNoUtil = allData.filter(function(r) { return _ct(r) === 'insufficient-data'; }).length;
+    var clientOnTrack = allData.filter(function(r) { return _ct(r) === 'on-track'; }).length;
+    var clientHighWait = allData.filter(function(r) { return _ct(r) === 'wait-times'; }).length;
+    var overSuppliedCount = allData.filter(function(r) { return _ct(r) === 'reduce-forecast'; }).length;
 
     // Pending counts: for each flagged-problem subject, check if it has any
     // recommendation without a decision yet. Subjects with 0 open decisions
@@ -322,7 +404,7 @@ function refreshOverviewLive() {
     function pendingFor(predicate) {
         var count = 0;
         allData.forEach(function(r) {
-            if (!predicate(classifyType(r.Problem_Type))) return;
+            if (!predicate(_ct(r))) return;
             var recs = recsBySubject[r.Subject];
             if (!recs || recs.length === 0) return;
             var anyPending = recs.some(function(rec) { return !getDecision(rec); });
@@ -330,9 +412,9 @@ function refreshOverviewLive() {
         });
         return count;
     }
-    var placementPending = pendingFor(function(t) { return t === 'placement'; });
-    var supplyPending = pendingFor(function(t) { return t === 'true-supply' || t === 'no-util-data'; });
-    var overSuppliedPending = pendingFor(function(t) { return t === 'over-supplied'; });
+    var placementPending = pendingFor(function(t) { return t === 'hidden-supply' || t === 'capacity-available'; });
+    var supplyPending = pendingFor(function(t) { return t === 'recruit-urgent' || t === 'recruit' || t === 'insufficient-data'; });
+    var overSuppliedPending = pendingFor(function(t) { return t === 'reduce-forecast'; });
 
     document.getElementById('total-subjects').textContent = clientTotal;
     document.getElementById('util-problems').textContent = clientPlacement;
@@ -366,7 +448,7 @@ function refreshOverviewLive() {
     }
 
     var topOverSupplied = allData
-        .filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; })
+        .filter(function(r) { return _ct(r) === 'reduce-forecast'; })
         .sort(function(a, b) { return (b.Run_Rate || 0) - (a.Run_Rate || 0); })
         .slice(0, 5)
         .map(function(r) { return r.Subject + ' (' + (r.Util_Rate || 0) + '% placed, run rate ' + r.Run_Rate + '/mo)'; });
@@ -563,7 +645,7 @@ function renderAllTables() {
 
 function renderBarChart() {
     var problems = allData
-        .filter(function(r) { var t = classifyType(r.Problem_Type); return (t === 'true-supply' || t === 'placement' || t === 'no-util-data') && r.Raw_Gap != null && r.Raw_Gap < 0; })
+        .filter(function(r) { var t = classifyType(r.Primary_Action || r.Problem_Type); return t !== 'on-track' && t !== 'reduce-forecast' && r.Raw_Gap != null && r.Raw_Gap < 0; })
         .sort(function(a, b) { return a.Raw_Gap - b.Raw_Gap; })
         .slice(0, 15);
 
@@ -588,8 +670,8 @@ function renderBarChart() {
     problems.forEach(function(row) {
         var absGap = Math.abs(row.Raw_Gap);
         var seasonPct = Math.min(100, (absGap / maxGap) * 100);
-        var type = classifyType(row.Problem_Type);
-        var barClass = type === 'placement' ? 'util-bar' : type === 'no-util-data' ? 'nodata-bar' : 'supply-bar';
+        var type = classifyType(row.Primary_Action || row.Problem_Type);
+        var barClass = (type === 'hidden-supply' || type === 'capacity-available') ? 'util-bar' : type === 'insufficient-data' ? 'nodata-bar' : 'supply-bar';
         var covPct = row.Coverage_Pct != null ? row.Coverage_Pct : 0;
 
         var cm = cmIdx[row.Subject];
@@ -609,7 +691,7 @@ function renderBarChart() {
         var div = document.createElement('div');
         div.className = 'bar-row bar-row-combo';
         div.innerHTML =
-            '<div class="bar-label" title="' + escapeHtml(row.Subject) + '">' + escapeHtml(row.Subject) + '</div>' +
+            '<div class="bar-label" data-tip="' + escapeHtml(row.Subject) + '">' + escapeHtml(row.Subject) + '</div>' +
             '<div class="bar-combo-tracks">' +
                 '<div class="bar-combo-line">' +
                     '<span class="bar-combo-tag">Season</span>' +
@@ -690,13 +772,9 @@ function renderPriorityTable() {
     if (clearBtn) clearBtn.style.display = isFiltered ? '' : 'none';
 
     var priority = allData.filter(function(r) {
-        var t = classifyType(r.Problem_Type);
+        var t = classifyType(r.Primary_Action || r.Problem_Type);
 
-        if (ptFilter === 'all-problems') {
-            if (!(t === 'true-supply' || t === 'placement' || t === 'no-util-data')) return false;
-        } else if (ptFilter !== 'all') {
-            if (t !== ptFilter) return false;
-        }
+        if (!matchesFilter(r.Primary_Action || r.Problem_Type, ptFilter)) return false;
 
         if (paceFilter !== 'all') {
             var pace = paceIdx[r.Subject] || 'nodata';
@@ -737,24 +815,11 @@ function renderPriorityTable() {
 
     priority.forEach(function(row) {
         var tr = document.createElement('tr');
-        var type = classifyType(row.Problem_Type);
-        if (type === 'placement') tr.className = 'util-problem';
-        else if (type === 'true-supply') tr.className = 'supply-problem';
-        else if (type === 'no-util-data') tr.className = 'nodata-problem';
-        var utilDisplay = buildUtilDisplay(row);
+        var type = classifyType(row.Primary_Action || row.Problem_Type);
         var covPct = row.Coverage_Pct !== null && row.Coverage_Pct !== undefined ? row.Coverage_Pct : 100;
         var gapClass = covPct < 50 ? 'gap-critical' : covPct < 80 ? 'gap-high' : 'gap-medium';
-        var action = '', badgeClass = '', badgeText = '';
-        if (type === 'placement') { action = 'Investigate placement/algo'; badgeClass = 'util'; badgeText = 'Under-Used'; }
-        else if (type === 'no-util-data') { action = 'Gather data'; badgeClass = 'nodata'; badgeText = 'No Placement Data'; }
-        else if (type === 'over-supplied') { action = 'Reduce forecast'; badgeClass = 'lowutil'; badgeText = 'Over-Supplied'; }
-        else if (type === 'on-track') { action = 'No action needed'; badgeClass = 'ontrack'; badgeText = 'On Track'; }
-        else if (type === 'on-track-highwait') { action = 'Investigate wait times'; badgeClass = 'highwait'; badgeText = 'High Wait'; }
-        else if (covPct < 50) { action = 'CRITICAL: Recruit now'; badgeClass = 'supply'; badgeText = 'Supply'; }
-        else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
         var gapDisplay = '<div>' + rawGap + '</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% cov)</div>';
-
         var cmd = cmIdx[row.Subject] || null;
         var cmCell = saRenderCurrentMonthCell(cmd, currentMonth);
 
@@ -762,11 +827,12 @@ function renderPriorityTable() {
             + '<td>' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
             + '<td>' + row.Run_Rate + '</td>'
             + '<td>' + row.Smoothed_Target + '</td>'
-            + '<td>' + utilDisplay + '</td>'
+            + renderNewTutor30dCell(row)
+            + renderThuCell(row)
+            + renderP90Cell(row)
             + '<td class="' + gapClass + '">' + gapDisplay + '</td>'
-            + '<td><span class="badge ' + badgeClass + '" data-tip="' + escapeHtml(PROBLEM_TIPS[type] || '') + '">' + badgeText + '</span></td>'
-            + cmCell
-            + '<td><small>' + action + '</small></td>';
+            + '<td>' + actionBadgeHtml(row) + '</td>'
+            + cmCell;
         tbody.appendChild(tr);
     });
 }
@@ -831,23 +897,27 @@ function clearOverviewFilters() {
 function matchesFilter(problemType, filter) {
     var type = classifyType(problemType);
     if (filter === 'all') return true;
-    if (filter === 'all-problems') return type === 'placement' || type === 'true-supply' || type === 'no-util-data';
-    if (filter === 'placement') return type === 'placement';
-    if (filter === 'true-supply') return type === 'true-supply';
-    if (filter === 'no-util-data') return type === 'no-util-data';
+    if (filter === 'all-problems') return type !== 'on-track' && type !== 'insufficient-data';
+    if (filter === 'recruit') return type === 'recruit-urgent' || type === 'recruit';
+    if (filter === 'investigate') return type === 'hidden-supply' || type === 'capacity-available' || type === 'wait-times';
+    if (filter === 'reduce-forecast') return type === 'reduce-forecast';
     if (filter === 'on-track') return type === 'on-track';
-    if (filter === 'on-track-highwait') return type === 'on-track-highwait';
-    if (filter === 'over-supplied') return type === 'over-supplied';
-    return false;
+    if (filter === 'insufficient-data') return type === 'insufficient-data';
+    // Legacy filter values
+    if (filter === 'placement') return type === 'hidden-supply' || type === 'capacity-available';
+    if (filter === 'true-supply') return type === 'recruit-urgent' || type === 'recruit';
+    if (filter === 'no-util-data') return type === 'insufficient-data';
+    if (filter === 'over-supplied') return type === 'reduce-forecast';
+    if (filter === 'on-track-highwait') return type === 'wait-times';
+    return type === filter;
 }
 
 // Map a row to its top-level recommendation bucket for the Recommendation filter.
 function recommendationFor(row) {
-    var t = classifyType(row.Problem_Type);
-    if (t === 'placement') return 'investigate';
-    if (t === 'true-supply' || t === 'no-util-data') return 'recruit';
-    if (t === 'over-supplied') return 'reduce';
-    if (t === 'on-track-highwait') return 'investigate';
+    var t = classifyType(row.Primary_Action || row.Problem_Type);
+    if (t === 'hidden-supply' || t === 'capacity-available' || t === 'wait-times') return 'investigate';
+    if (t === 'recruit-urgent' || t === 'recruit' || t === 'insufficient-data') return 'recruit';
+    if (t === 'reduce-forecast') return 'reduce';
     return 'none';
 }
 
@@ -870,7 +940,7 @@ function sortData(data, colIndex, asc, tableType) {
     // Column-index → field-key mapping for the priority table. Must stay in
     // lockstep with the <th onclick="sortTable(...)"> indices in index.html.
     var columnMaps = {
-        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Raw_Gap', 'Problem_Type']
+        'priority': ['Subject', 'Tier', 'Run_Rate', 'Smoothed_Target', 'Util_Rate', 'Tutor_Hours_Util_Pct', 'P90_NAT_Hours', 'Raw_Gap', 'Primary_Action']
     };
     var map = columnMaps[tableType] || columnMaps['priority'];
     var key = map[colIndex] || 'Subject';
@@ -980,7 +1050,7 @@ function buildExpandedRow(ts, colspan) {
             if (m.manual_override != null) {
                 var diff = Math.round(m.manual_override) - (m.original_forecast != null ? Math.round(m.original_forecast) : 0);
                 var diffLabel = diff > 0 ? '+' + diff : diff === 0 ? '0' : '' + diff;
-                html += '<td style="color:#e67e22;font-weight:600;" title="Override: ' + Math.round(m.manual_override) + ' (forecast was ' + (m.original_forecast != null ? Math.round(m.original_forecast) : 0) + ')">' + diffLabel + '</td>';
+                html += '<td style="color:#e67e22;font-weight:600;" data-tip="Override: ' + Math.round(m.manual_override) + ' (forecast was ' + (m.original_forecast != null ? Math.round(m.original_forecast) : 0) + ')">' + diffLabel + '</td>';
             } else {
                 html += '<td style="color:#bdc3c7;">—</td>';
             }
@@ -1102,7 +1172,7 @@ function renderMonthlyTracker() {
     });
     headerRow += '<th class="sortable col-right col-right-first" onclick="sortTracker(\'bts_total\')">BTS Total</th>';
     headerRow += '<th class="sortable col-right" onclick="sortTracker(\'remaining_need\')">Remaining</th>';
-    headerRow += '<th class="sortable col-right tooltip-wrap" onclick="sortTracker(\'_pace\')">Pace<span class="tooltip-text"><strong>Pace</strong> = (Run Rate &times; Months Left) &divide; Remaining Need</span></th>';
+    headerRow += '<th class="sortable col-right" onclick="sortTracker(\'_pace\')" data-tip="Pace = (Run Rate × Months Left) ÷ Remaining Need">Pace</th>';
     headerRow += '</tr>';
     thead.innerHTML = headerRow;
 
@@ -1185,7 +1255,7 @@ function renderMonthlyTracker() {
             marContent += '<div class="mc-num mc-empty">—</div>';
         }
         marContent += '</div>';
-        cells += '<td class="col-month col-month-baseline" title="' + marTip + '">' + marContent + '</td>';
+        cells += '<td class="col-month col-month-baseline" data-tip="' + escapeHtml(marTip) + '">' + marContent + '</td>';
 
         visibleMonths.forEach(function(idx) {
             var m = ts.months[idx];
@@ -1784,9 +1854,9 @@ function finalizeAdjustmentsPreview(rows, clearedCount, month, hadPriorFile) {
         var tr = document.createElement('tr');
         var statusHtml;
         if (r.cleared) {
-            statusHtml = '<span style="color:#e67e22" title="Was in the repo file for this month but omitted from your upload — set to 0 for this month only">Cleared</span>';
+            statusHtml = '<span style="color:#e67e22" data-tip="Was in the repo file for this month but omitted from your upload — set to 0 for this month only">Cleared</span>';
         } else {
-            statusHtml = r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#3498db" title="Not in the current subject list; pipeline adds as a new subject">New</span>';
+            statusHtml = r.known ? '<span style="color:#27ae60">Matched</span>' : '<span style="color:#3498db" data-tip="Not in the current subject list; pipeline adds as a new subject">New</span>';
         }
             tr.innerHTML = '<td>' + escapeHtml(r.subject) + '</td><td>' + r.forecast + '</td><td>' + statusHtml + '</td>';
         tbody.appendChild(tr);
@@ -3155,13 +3225,22 @@ function saRecBadge(rec) {
 }
 
 function saProblemTypeBadge(type) {
-    if (type === 'placement')      return '<span class="badge util">Under-Used</span>';
-    if (type === 'true-supply')    return '<span class="badge supply">True Supply</span>';
-    if (type === 'no-util-data')   return '<span class="badge nodata">No Placement Data</span>';
-    if (type === 'over-supplied')  return '<span class="badge lowutil">Over-Supplied</span>';
-    if (type === 'on-track')       return '<span class="badge ontrack">On Track</span>';
-    if (type === 'on-track-highwait') return '<span class="badge highwait">On Track — High Wait</span>';
-    return '<span class="badge">—</span>';
+    var m = {
+        'recruit-urgent': '<span class="badge supply">Recruit \u2014 Urgent</span>',
+        'recruit': '<span class="badge supply">Recruit More</span>',
+        'hidden-supply': '<span class="badge util">Hidden Supply</span>',
+        'capacity-available': '<span class="badge util">Capacity Available</span>',
+        'wait-times': '<span class="badge highwait">Wait Times</span>',
+        'reduce-forecast': '<span class="badge oversupplied">Reduce Forecast</span>',
+        'on-track': '<span class="badge ontrack">On Track</span>',
+        'insufficient-data': '<span class="badge nodata">Insufficient Data</span>',
+        'placement': '<span class="badge util">Under-Used</span>',
+        'true-supply': '<span class="badge supply">True Supply</span>',
+        'no-util-data': '<span class="badge nodata">No Data</span>',
+        'over-supplied': '<span class="badge oversupplied">Over-Supplied</span>',
+        'on-track-highwait': '<span class="badge highwait">High Wait</span>'
+    };
+    return m[type] || '<span class="badge">\u2014</span>';
 }
 
 // Current in-progress month detection. Uses the real calendar via new Date()
@@ -3382,14 +3461,14 @@ function renderSubjectsAndActions() {
             priority: agg.priority,
             status: agg.status,
             rec: agg.rec,
-            _type: classifyType(row.Problem_Type)
+            _type: classifyType(row.Primary_Action || row.Problem_Type)
         };
     });
 
     // Apply filters
     rows = rows.filter(function(x) {
         var r = x.row;
-        if (!matchesFilter(r.Problem_Type, typeFilter)) return false;
+        if (!matchesFilter(r.Primary_Action || r.Problem_Type, typeFilter)) return false;
         if (recFilter !== 'all' && x.rec !== recFilter) return false;
         if (prioFilter !== 'all' && x.priority !== prioFilter) return false;
         if (statusFilter !== 'all') {
@@ -3425,15 +3504,17 @@ function renderSubjectsAndActions() {
             case 3: av = a.row.Run_Rate; bv = b.row.Run_Rate; break;
             case 4: av = a.row.Smoothed_Target; bv = b.row.Smoothed_Target; break;
             case 5: av = a.row.Util_Rate; bv = b.row.Util_Rate; break;
-            case 6: av = a.row.Raw_Gap; bv = b.row.Raw_Gap; break;
-            case 7: // Current month: sort by variance, most-behind first when asc (counter-intuitive but useful)
+            case 6: av = a.row.Tutor_Hours_Util_Pct; bv = b.row.Tutor_Hours_Util_Pct; break;
+            case 7: av = a.row.P90_NAT_Hours; bv = b.row.P90_NAT_Hours; break;
+            case 8: av = a.row.Raw_Gap; bv = b.row.Raw_Gap; break;
+            case 9:
                 var acm = cmIdx[a.row.Subject], bcm = cmIdx[b.row.Subject];
                 av = (acm && acm.variance != null) ? acm.variance : null;
                 bv = (bcm && bcm.variance != null) ? bcm.variance : null;
                 break;
-            case 8: av = a.row.Problem_Type; bv = b.row.Problem_Type; break;
-            case 9: av = a.rec; bv = b.rec; break;
-            case 10: av = STATUS_ORDER[a.status] || 99; bv = STATUS_ORDER[b.status] || 99; break;
+            case 10: av = a.row.Primary_Action || a.row.Problem_Type; bv = b.row.Primary_Action || b.row.Problem_Type; break;
+            case 11: av = a.rec; bv = b.rec; break;
+            case 12: av = STATUS_ORDER[a.status] || 99; bv = STATUS_ORDER[b.status] || 99; break;
             default: av = a.row.Subject; bv = b.row.Subject;
         }
         var aNull = av === null || av === undefined;
@@ -3464,14 +3545,13 @@ function renderSubjectsAndActions() {
     tbody.innerHTML = '';
     rows.forEach(function(x, idx) {
         var r = x.row;
-        var type = classifyType(r.Problem_Type);
+        var type = classifyType(r.Primary_Action || r.Problem_Type);
         var isExpanded = _sa_expanded[r.Subject];
         var actionCount = x.recs.length;
         var expandIndicator = actionCount > 0
             ? '<span class="sa-expand-toggle">\u25B6</span>'
             : '<span class="sa-expand-toggle" style="opacity:0.3">\u00B7</span>';
 
-        var utilText = (r.Util_Rate != null) ? Math.round(r.Util_Rate) + '%' : '—';
         var gapClass = (r.Gap_Pct || 0) > 200 ? 'gap-critical'
                      : (r.Gap_Pct || 0) > 100 ? 'gap-high'
                      : (r.Gap_Pct || 0) > 50  ? 'gap-medium' : 'gap-low';
@@ -3479,7 +3559,6 @@ function renderSubjectsAndActions() {
         var tr = document.createElement('tr');
         tr.className = 'sa-row' + (isExpanded ? ' expanded' : '');
         tr.onclick = function(e) {
-            // Ignore clicks on buttons/links inside the row
             if (e.target.closest('button, a, select, input')) return;
             toggleSARow(r.Subject);
         };
@@ -3490,12 +3569,14 @@ function renderSubjectsAndActions() {
             + '</td>'
             + '<td>' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
             + '<td>' + saPriorityBadge(x.priority, x.recs) + '</td>'
-            + '<td>' + (r.Run_Rate != null ? r.Run_Rate : '—') + '</td>'
-            + '<td>' + (r.Smoothed_Target != null ? r.Smoothed_Target : '—') + '</td>'
-            + '<td>' + utilText + '</td>'
-            + '<td class="' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '—') + '</td>'
+            + '<td>' + (r.Run_Rate != null ? r.Run_Rate : '\u2014') + '</td>'
+            + '<td>' + (r.Smoothed_Target != null ? r.Smoothed_Target : '\u2014') + '</td>'
+            + renderNewTutor30dCell(r)
+            + renderThuCell(r)
+            + renderP90Cell(r)
+            + '<td class="' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '\u2014') + '</td>'
             + saRenderCurrentMonthCell(cmIdx[r.Subject], currentMonth)
-            + '<td>' + saProblemTypeBadge(type) + '</td>'
+            + '<td>' + actionBadgeHtml(r) + '</td>'
             + '<td>' + saRecBadge(x.rec) + '</td>'
             + '<td>' + saStatusBadge(x.status) + '</td>';
         tbody.appendChild(tr);
@@ -3777,15 +3858,4 @@ document.getElementById('main-tabs').addEventListener('keydown', function(e) {
     }
 });
 
-document.querySelectorAll('.tooltip-wrap').forEach(function(el) {
-    var tip = el.querySelector('.tooltip-text');
-    if (!tip) return;
-    el.addEventListener('mouseenter', function(e) {
-        var rect = el.getBoundingClientRect();
-        tip.style.top = (rect.top - tip.offsetHeight - 8) + 'px';
-        var left = rect.left + rect.width / 2 - 140;
-        if (left < 8) left = 8;
-        if (left + 280 > window.innerWidth - 8) left = window.innerWidth - 288;
-        tip.style.left = left + 'px';
-    });
-});
+// tooltip-wrap JS removed — all tooltips now use the data-tip system
