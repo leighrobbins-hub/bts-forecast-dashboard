@@ -51,7 +51,7 @@ var PROBLEM_TIPS = {
     'wait-times': 'P90 Time-to-Assign exceeds goal for this tier. Students waiting too long despite normal utilization. Examine assignment flow.',
     'reduce-forecast': 'Run rate meets target but new tutors not placed and existing pool idle. P90 confirms low demand — consider reducing forecast.',
     'on-track': 'Supply meets demand, utilization healthy, wait times within goal. No action needed.',
-    'insufficient-data': 'No utilization or tutor hours data available. Cannot classify confidently.',
+    'insufficient-data': 'Missing one or more classification signals (New Tutor Placement, All Tutor Hours Util, P90). See recommendation for details on what\u2019s missing vs available.',
     'placement': 'Investigation needed — placement anomaly detected.',
     'over-supplied': 'Run rate meets target but utilization low. Consider forecast reduction.',
     'true-supply': 'Genuine supply shortage — deploy recruiting levers.',
@@ -148,7 +148,7 @@ function buildUtilDisplay(row) {
 
 function renderThuCell(row) {
     var val = row.Tutor_Hours_Util_Pct;
-    if (val == null) return '<td class="tc" style="color:#aaa">\u2014</td>';
+    if (val == null) return '<td class="tc" style="color:#aaa">\u2014<div style="font-size:10px;">no data</div></td>';
     var pct = Math.round(val);
     var bg = '';
     if (pct > 120 || pct < 50) bg = 'background:#f8d7da;color:#721c24;font-weight:600';
@@ -158,7 +158,7 @@ function renderThuCell(row) {
 
 function renderP90Cell(row) {
     var val = row.P90_NAT_Hours;
-    if (val == null) return '<td class="tc" style="color:#aaa">\u2014</td>';
+    if (val == null) return '<td class="tc" style="color:#aaa">\u2014<div style="font-size:10px;">no data</div></td>';
     var hrs = Math.round(val);
     var goal = row.P90_Goal || 48;
     var bg = hrs > goal ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
@@ -168,7 +168,7 @@ function renderP90Cell(row) {
 
 function renderNewTutor30dCell(row) {
     var val = row.Util_Rate;
-    if (val == null) return '<td class="tc" style="color:#aaa">\u2014</td>';
+    if (val == null) return '<td class="tc" style="color:#aaa">\u2014<div style="font-size:10px;">no data</div></td>';
     var pct = Math.round(val);
     var bg = pct < 30 ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
     var detail = '';

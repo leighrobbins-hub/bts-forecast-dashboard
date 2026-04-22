@@ -1388,12 +1388,30 @@ def generate_recommendations(df_final, tracker_subjects):
                 })
 
         elif action == 'Insufficient Data':
+            missing = []
+            if util_val is None:
+                missing.append('New Tutor 30d Placement Rate')
+            if thu_val is None:
+                missing.append('All Tutor Hours Utilization')
+            if p90_val is None:
+                missing.append('P90 Time-to-Assign')
+            available = []
+            if run_rate:
+                available.append(f'Run Rate {run_rate:.0f}')
+            if target:
+                available.append(f'Avg Target {target:.0f}')
+            if raw_gap:
+                available.append(f'Gap {raw_gap:+.0f}')
+            available.append(f'{tier} tier')
+            missing_s = ', '.join(missing) if missing else 'none'
+            avail_s = '; '.join(available) if available else 'none'
             recs.append({
                 'subject': subject, 'category': category, 'priority': 'low',
                 'action_type': 'increase_recruiting',
-                'reason': (f'No utilization or tutor hours data available. Cannot classify confidently. '
-                           f'Gather data before making supply decisions.'),
-                'data_points': {'gap': round(raw_gap), 'run_rate': run_rate}
+                'reason': (f'Missing: {missing_s}. Cannot classify without these signals. '
+                           f'Available: {avail_s}. Gather Looker data for this subject before making supply decisions.'),
+                'data_points': {'gap': round(raw_gap), 'run_rate': run_rate, 'p90_nat': p90_val,
+                                'util_rate': util_val, 'tutor_hours_util': thu_val}
             })
 
         # Behind-pace check for in-progress months (calendar-prorated).
