@@ -287,6 +287,19 @@
                             <option value="NICHE">Niche</option>
                         </select>
                     </div>
+                    <div class="filter-group inline-filter">
+                        <label for="filter-flag-priority">Stress Flag</label>
+                        <select id="filter-flag-priority" onchange="renderPriorityTable()">
+                            <option value="all">All</option>
+                            <option value="any">Any Flag</option>
+                            <option value="burnout_risk">Burnout Risk</option>
+                            <option value="critical_wait">Critical Wait</option>
+                            <option value="paper_supply">Paper Supply</option>
+                            <option value="high_wait">High Wait</option>
+                            <option value="idle_pool">Idle Pool</option>
+                            <option value="new_tutor_stuck">New Tutor Stuck</option>
+                        </select>
+                    </div>
                     <button class="export-btn" onclick="clearOverviewFilters()" id="ov-clear-btn" style="display:none;">Clear Filters</button>
                     <button class="export-btn" onclick="exportTable('top-priorities')">Export CSV</button>
                 </div>
@@ -302,6 +315,7 @@
                             <th class="sortable tc" onclick="sortTable('priority', 6)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
                             <th class="sortable tc" onclick="sortTable('priority', 7)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
                             <th class="sortable tc" onclick="sortTable('priority', 8)" data-tip="Classification based on three signals: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 9)" data-tip="Stress indicators: burnout risk, critical/high wait times, paper supply, idle pool, new tutor stuck.">Flags</th>
                             <th class="sa-current-col tc" id="priority-current-month-header" data-tip="This month's actual contracting vs target, with pace-aware projection.">Current Month</th>
                         </tr>
                     </thead>
@@ -414,6 +428,19 @@
                         <option value="50">50+ tutors</option>
                     </select>
                 </div>
+                <div class="filter-group">
+                    <label>Stress Flag</label>
+                    <select id="sa-filter-flag">
+                        <option value="all">All</option>
+                        <option value="any">Any Flag</option>
+                        <option value="burnout_risk">Burnout Risk</option>
+                        <option value="critical_wait">Critical Wait</option>
+                        <option value="paper_supply">Paper Supply</option>
+                        <option value="high_wait">High Wait</option>
+                        <option value="idle_pool">Idle Pool</option>
+                        <option value="new_tutor_stuck">New Tutor Stuck</option>
+                    </select>
+                </div>
             </div>
 
             <div class="table-container">
@@ -436,8 +463,9 @@
                             <th class="sortable tc" onclick="sortSA(8)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically).">Gap</th>
                             <th class="sortable sa-current-col tc" onclick="sortSA(9)" data-tip="Current in-progress month: actual vs target with pace projection.">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
                             <th class="sortable tc" onclick="sortSA(10)" data-tip="Classification based on three signals: new tutor placement, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
-                            <th class="sortable tc" onclick="sortSA(11)">Recommendation</th>
-                            <th class="sortable tc" onclick="sortSA(12)">Action Status</th>
+                            <th class="sortable tc" onclick="sortSA(11)" data-tip="Stress indicators: burnout risk, critical/high wait times, paper supply, idle pool, new tutor stuck.">Flags</th>
+                            <th class="sortable tc" onclick="sortSA(12)">Recommendation</th>
+                            <th class="sortable tc" onclick="sortSA(13)">Action Status</th>
                         </tr>
                     </thead>
                     <tbody id="sa-body"></tbody>
