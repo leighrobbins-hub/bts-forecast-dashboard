@@ -96,9 +96,31 @@ function buildUtilDisplay(row) {
     var html = Math.round(row.Util_Rate) + '%';
     if (row.Util_Trend && row.Util_Trend_Delta != null) {
         var arrow = row.Util_Trend === 'up' ? '↑' : row.Util_Trend === 'down' ? '↓' : '→';
-        var color = row.Util_Trend === 'up' ? '#27ae60' : row.Util_Trend === 'down' ? '#e74c3c' : '#7f8c8d';
         var delta = row.Util_Trend_Delta > 0 ? '+' + row.Util_Trend_Delta : '' + row.Util_Trend_Delta;
-        html += ' <span style="color:' + color + ';font-weight:600" title="' + delta + '% vs trailing avg">' + arrow + '</span>';
+        var p90 = row.P90_NAT_Hours;
+        var highP90 = p90 != null && p90 >= 24;
+        var color, tip;
+        if (row.Util_Trend === 'up') {
+            if (highP90) {
+                color = '#e74c3c';
+                tip = delta + '% vs trailing — High P90 (' + Math.round(p90) + 'h): demand stress, tutors used immediately but students still waiting';
+            } else {
+                color = '#27ae60';
+                tip = delta + '% vs trailing — Healthy: demand being met efficiently';
+            }
+        } else if (row.Util_Trend === 'down') {
+            if (highP90) {
+                color = '#e67e22';
+                tip = delta + '% vs trailing — High P90 (' + Math.round(p90) + 'h): students waiting but new tutors not being matched';
+            } else {
+                color = '#27ae60';
+                tip = delta + '% vs trailing — Demand easing, less pressure on supply';
+            }
+        } else {
+            color = '#7f8c8d';
+            tip = delta + '% vs trailing — Stable';
+        }
+        html += ' <span style="color:' + color + ';font-weight:600" title="' + tip + '">' + arrow + '</span>';
     }
     if (row.Util_Recent_Contracted != null && row.Util_Recent_Utilized != null) {
         html += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Util_Recent_Utilized) + ' of ' + Math.round(row.Util_Recent_Contracted) + ' recent)</div>';
