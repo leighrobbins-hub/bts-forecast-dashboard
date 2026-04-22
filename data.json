@@ -1,11 +1,11 @@
 {
   "summary": {
     "total_subjects": 382,
-    "under_used": 78,
-    "over_supplied": 61,
-    "supply_problems": 32,
-    "on_track": 211,
-    "last_updated": "2026-04-22 09:24 AM CST",
+    "under_used": 144,
+    "over_supplied": 108,
+    "supply_problems": 12,
+    "on_track": 118,
+    "last_updated": "2026-04-22 09:41 AM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "tier_distribution": {
@@ -26,7 +26,7 @@
       "variance": 148,
       "subjects_with_data": 129
     },
-    "unique_tutors_contracted": 240
+    "unique_tutors_contracted": 120
   },
   "subjects": [
     {
@@ -1937,15 +1937,15 @@
       "Mar_Forecast": 4.0,
       "Total_Contracted": 147.0,
       "Utilized_30d": 123.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 65.716665,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "AP",
       "Tier": "MEDIUM"
     },
@@ -2093,15 +2093,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 137.0,
       "Utilized_30d": 114.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 38.449995,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "IB",
       "Tier": "MEDIUM"
     },
@@ -3027,15 +3027,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 98.0,
       "Utilized_30d": 82.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 26.68166,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "AP",
       "Tier": "LOW"
     },
@@ -3079,15 +3079,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 119.0,
       "Utilized_30d": 100.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 84.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -84.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 69.034999,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "IB",
       "Tier": "LOW"
     },
@@ -3337,15 +3337,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 21.0,
       "Utilized_30d": 18.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 85.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -85.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "LOW"
     },
@@ -3389,15 +3389,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 64.0,
       "Utilized_30d": 51.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 79.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -79.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 43.28333,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Technology",
       "Tier": "LOW"
     },
@@ -4985,15 +4985,15 @@
       "Mar_Forecast": 2.0,
       "Total_Contracted": 148.0,
       "Utilized_30d": 127.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 85.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -85.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 26.405,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -5187,15 +5187,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 16.0,
       "Utilized_30d": 15.0,
-      "Util_Rate": 94.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 93.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -93.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 1.17666,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "LOW"
     },
@@ -5441,15 +5441,15 @@
       "Mar_Forecast": 2.0,
       "Total_Contracted": 76.0,
       "Utilized_30d": 63.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 82.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -82.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 38.559994,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -5545,15 +5545,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 53.0,
       "Utilized_30d": 45.0,
-      "Util_Rate": 85.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 84.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -84.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 136.66666,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Technology",
       "Tier": "LOW"
     },
@@ -5697,15 +5697,15 @@
       "Mar_Forecast": 2.0,
       "Total_Contracted": 9.0,
       "Utilized_30d": 8.0,
-      "Util_Rate": 89.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 88.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -88.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 16.54333,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Professional/Cert",
       "Tier": "LOW"
     },
@@ -6001,15 +6001,15 @@
       "Mar_Forecast": 2.0,
       "Total_Contracted": 46.0,
       "Utilized_30d": 30.0,
-      "Util_Rate": 65.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 65.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -65.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 83.48333,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Arts & Music",
       "Tier": "LOW"
     },
@@ -6103,15 +6103,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 163.0,
       "Utilized_30d": 122.0,
-      "Util_Rate": 75.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 74.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -74.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -6253,15 +6253,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 89.0,
       "Utilized_30d": 69.0,
-      "Util_Rate": 78.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 77.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -77.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 21.658333,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -6303,15 +6303,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 78.0,
       "Utilized_30d": 59.0,
-      "Util_Rate": 76.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 75.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -75.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 113.76666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -7119,15 +7119,15 @@
       "Mar_Forecast": 2.0,
       "Total_Contracted": 52.0,
       "Utilized_30d": 37.0,
-      "Util_Rate": 71.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 71.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -71.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 5.93333,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "LOW"
     },
@@ -7325,15 +7325,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 186.0,
       "Utilized_30d": 155.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 25.976662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -7935,15 +7935,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 208.0,
       "Utilized_30d": 168.0,
-      "Util_Rate": 81.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 80.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -80.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 21.8,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "High School",
       "Tier": "NICHE"
     },
@@ -8035,15 +8035,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 43.0,
       "Utilized_30d": 38.0,
-      "Util_Rate": 88.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 88.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -88.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 0.65,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -8139,15 +8139,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 345.0,
       "Utilized_30d": 282.0,
-      "Util_Rate": 82.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 54.043329,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "High School",
       "Tier": "NICHE"
     },
@@ -8191,15 +8191,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 126.0,
       "Utilized_30d": 100.0,
-      "Util_Rate": 79.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 79.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -79.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 4.598327,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -8343,15 +8343,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 5.0,
-      "Util_Rate": 100.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 100.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -100.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 8.143331,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -8393,15 +8393,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 50.0,
       "Utilized_30d": 35.0,
-      "Util_Rate": 70.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 70.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -70.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 0.11666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -8795,15 +8795,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 5.0,
       "Utilized_30d": 3.0,
-      "Util_Rate": 60.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 60.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -60.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 5.04,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -8845,15 +8845,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 38.0,
       "Utilized_30d": 36.0,
-      "Util_Rate": 95.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 94.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -94.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 1.249995,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -9047,15 +9047,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 129.0,
       "Utilized_30d": 112.0,
-      "Util_Rate": 87.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 86.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -86.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 26.65666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -9097,11 +9097,11 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 17.0,
       "Utilized_30d": 8.0,
-      "Util_Rate": 47.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 47.1,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -47.1,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 48.08333,
@@ -9251,15 +9251,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 81.0,
       "Utilized_30d": 70.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 86.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -86.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 52.57,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -9457,15 +9457,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 15.0,
       "Utilized_30d": 12.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 80.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -80.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -9509,15 +9509,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 95.0,
       "Utilized_30d": 78.0,
-      "Util_Rate": 82.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 82.1,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -82.1,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 52.33333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "IB",
       "Tier": "NICHE"
     },
@@ -9613,15 +9613,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 229.0,
       "Utilized_30d": 201.0,
-      "Util_Rate": 88.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 87.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -87.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 34.43666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "AP",
       "Tier": "NICHE"
     },
@@ -9663,15 +9663,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 9.0,
       "Utilized_30d": 7.0,
-      "Util_Rate": 78.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 77.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -77.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 21.409994,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -9713,15 +9713,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 80.0,
       "Utilized_30d": 65.0,
-      "Util_Rate": 81.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 45.041666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -9867,15 +9867,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 64.0,
       "Utilized_30d": 48.0,
-      "Util_Rate": 75.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 75.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -75.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 44.08333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -10119,15 +10119,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 9.0,
       "Utilized_30d": 7.0,
-      "Util_Rate": 78.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 77.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -77.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 76.53333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -10169,15 +10169,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 32.0,
       "Utilized_30d": 20.0,
-      "Util_Rate": 62.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 62.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -62.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -10219,15 +10219,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 8.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 80.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -80.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 16.796666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -10321,15 +10321,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 49.0,
       "Utilized_30d": 41.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 21.18333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Technology",
       "Tier": "NICHE"
     },
@@ -10677,15 +10677,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 8.0,
       "Utilized_30d": 4.0,
-      "Util_Rate": 50.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 50.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -50.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 33.08833,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -10777,15 +10777,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 176.0,
       "Utilized_30d": 146.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 41.25,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "High School",
       "Tier": "NICHE"
     },
@@ -10927,15 +10927,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 9.0,
-      "Util_Rate": 90.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 90.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -90.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 20.02666,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "LOW"
     },
@@ -11283,15 +11283,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 110.0,
       "Utilized_30d": 96.0,
-      "Util_Rate": 87.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 87.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -87.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 94.683327,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "AP",
       "Tier": "NICHE"
     },
@@ -11383,15 +11383,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 88.0,
       "Utilized_30d": 70.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 79.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -79.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Arts & Music",
       "Tier": "NICHE"
     },
@@ -11433,15 +11433,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 135.0,
       "Utilized_30d": 120.0,
-      "Util_Rate": 89.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 88.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -88.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 1.424997,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -11483,15 +11483,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 25.0,
       "Utilized_30d": 21.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 84.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -84.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 65.569996,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -11533,15 +11533,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 33.0,
       "Utilized_30d": 30.0,
-      "Util_Rate": 91.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 90.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -90.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 29.663332,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -11583,15 +11583,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 41.0,
       "Utilized_30d": 33.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 80.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -80.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 47.596662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Technology",
       "Tier": "LOW"
     },
@@ -11733,15 +11733,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 24.0,
       "Utilized_30d": 18.0,
-      "Util_Rate": 75.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 75.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -75.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 1.43333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -11835,15 +11835,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 66.0,
       "Utilized_30d": 53.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 80.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -80.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 3.35,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -11935,15 +11935,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 37.0,
       "Utilized_30d": 27.0,
-      "Util_Rate": 73.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 73.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -73.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 31.664994,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Arts & Music",
       "Tier": "NICHE"
     },
@@ -12189,15 +12189,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 65.0,
       "Utilized_30d": 46.0,
-      "Util_Rate": 71.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 70.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -70.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 24.81,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -12491,15 +12491,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 79.0,
       "Utilized_30d": 62.0,
-      "Util_Rate": 78.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 78.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -78.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 32.485,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Arts & Music",
       "Tier": "NICHE"
     },
@@ -12591,15 +12591,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 91.0,
       "Utilized_30d": 68.0,
-      "Util_Rate": 75.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 74.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -74.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 36.13666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12641,15 +12641,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 127.0,
       "Utilized_30d": 101.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 79.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -79.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -12791,15 +12791,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 81.0,
       "Utilized_30d": 61.0,
-      "Util_Rate": 75.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 75.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -75.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 28.919994,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12841,15 +12841,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 106.0,
       "Utilized_30d": 90.0,
-      "Util_Rate": 85.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 84.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -84.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 53.039996,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "LOW"
     },
@@ -12941,15 +12941,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 220.0,
       "Utilized_30d": 184.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12991,15 +12991,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 144.0,
       "Utilized_30d": 117.0,
-      "Util_Rate": 81.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 99.58333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -13041,15 +13041,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 43.0,
       "Utilized_30d": 38.0,
-      "Util_Rate": 88.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 88.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -88.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 18.33333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -13345,15 +13345,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 7.0,
       "Utilized_30d": 6.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 85.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -85.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 0.08333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -13395,15 +13395,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 58.0,
       "Utilized_30d": 49.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 84.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -84.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 50.68333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -13645,15 +13645,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 7.0,
       "Utilized_30d": 5.0,
-      "Util_Rate": 71.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 71.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -71.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 0.3,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -13949,15 +13949,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 62.0,
       "Utilized_30d": 55.0,
-      "Util_Rate": 89.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 88.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -88.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -14099,15 +14099,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 77.0,
       "Utilized_30d": 56.0,
-      "Util_Rate": 73.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 72.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -72.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 38.686666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -14151,15 +14151,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 56.0,
       "Utilized_30d": 39.0,
-      "Util_Rate": 70.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 69.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -69.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 1.05,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Arts & Music",
       "Tier": "NICHE"
     },
@@ -14201,15 +14201,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 17.0,
       "Utilized_30d": 11.0,
-      "Util_Rate": 65.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 64.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -64.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 67.593328,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -14251,15 +14251,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 42.0,
       "Utilized_30d": 36.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 85.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -85.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 10.101666,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "LOW"
     },
@@ -14405,15 +14405,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 9.0,
-      "Util_Rate": 90.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 90.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -90.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 54.31666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -14605,15 +14605,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 22.0,
       "Utilized_30d": 14.0,
-      "Util_Rate": 64.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 63.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -63.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 15.16666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -14655,15 +14655,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 48.0,
       "Utilized_30d": 37.0,
-      "Util_Rate": 77.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 77.1,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -77.1,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 0.78333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -14805,15 +14805,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 87.0,
       "Utilized_30d": 66.0,
-      "Util_Rate": 76.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 75.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -75.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 65.1,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -14855,15 +14855,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 33.0,
       "Utilized_30d": 28.0,
-      "Util_Rate": 85.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 84.8,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -84.8,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 70.656664,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -14955,15 +14955,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 84.0,
       "Utilized_30d": 73.0,
-      "Util_Rate": 87.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 86.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -86.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 20.036664,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -15055,15 +15055,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 53.0,
       "Utilized_30d": 50.0,
-      "Util_Rate": 94.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 94.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -94.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 0.65,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -15255,15 +15255,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 6.0,
       "Utilized_30d": 5.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -15305,15 +15305,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 87.0,
       "Utilized_30d": 75.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 86.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -86.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 15.844997,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -15355,15 +15355,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 41.0,
       "Utilized_30d": 35.0,
-      "Util_Rate": 85.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 85.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -85.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 40.146664,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -15407,15 +15407,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 21.0,
       "Utilized_30d": 19.0,
-      "Util_Rate": 90.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 90.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -90.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "LOW"
     },
@@ -15557,15 +15557,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 3.0,
       "Utilized_30d": 2.0,
-      "Util_Rate": 67.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 66.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -66.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 49.11666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -15659,15 +15659,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 41.0,
       "Utilized_30d": 34.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 82.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -82.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 1.141666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -15759,15 +15759,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 58.0,
       "Utilized_30d": 52.0,
-      "Util_Rate": 90.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 89.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -89.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 15.253328,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "AP",
       "Tier": "NICHE"
     },
@@ -15809,15 +15809,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 40.0,
       "Utilized_30d": 32.0,
-      "Util_Rate": 80.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 80.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -80.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 35.19666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -15859,15 +15859,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 69.0,
       "Utilized_30d": 57.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 82.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -82.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 19.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -15909,15 +15909,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 10.0,
       "Utilized_30d": 6.0,
-      "Util_Rate": 60.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 60.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -60.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -16009,15 +16009,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 61.0,
       "Utilized_30d": 51.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16059,15 +16059,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 138.0,
       "Utilized_30d": 113.0,
-      "Util_Rate": 82.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.9,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.9,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 64.98333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16159,15 +16159,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 21.0,
       "Utilized_30d": 19.0,
-      "Util_Rate": 90.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 90.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -90.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 336.96666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "IB",
       "Tier": "NICHE"
     },
@@ -16211,15 +16211,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 56.0,
       "Utilized_30d": 48.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 85.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -85.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 65.64333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16261,15 +16261,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 64.0,
       "Utilized_30d": 50.0,
-      "Util_Rate": 78.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 78.1,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -78.1,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 84.86666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16361,15 +16361,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 116.0,
       "Utilized_30d": 94.0,
-      "Util_Rate": 81.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16411,15 +16411,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 50.0,
       "Utilized_30d": 45.0,
-      "Util_Rate": 90.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 90.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -90.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 121.53333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16461,15 +16461,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 12.0,
       "Utilized_30d": 7.0,
-      "Util_Rate": 58.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 58.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -58.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 18.36666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Technology",
       "Tier": "NICHE"
     },
@@ -16613,15 +16613,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 94.0,
       "Utilized_30d": 78.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 48.68333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "High School",
       "Tier": "NICHE"
     },
@@ -16663,15 +16663,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 70.0,
       "Utilized_30d": 53.0,
-      "Util_Rate": 76.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 75.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -75.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 3.678329,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16815,15 +16815,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 305.0,
       "Utilized_30d": 249.0,
-      "Util_Rate": 82.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 5.5,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "High School",
       "Tier": "NICHE"
     },
@@ -17015,15 +17015,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 93.0,
       "Utilized_30d": 71.0,
-      "Util_Rate": 76.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 76.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -76.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 21.14333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -17115,15 +17115,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 65.0,
       "Utilized_30d": 45.0,
-      "Util_Rate": 69.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 69.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -69.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 3.9,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "AP",
       "Tier": "NICHE"
     },
@@ -17165,15 +17165,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 49.0,
       "Utilized_30d": 40.0,
-      "Util_Rate": 82.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 4.36666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -17265,15 +17265,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 119.0,
       "Utilized_30d": 97.0,
-      "Util_Rate": 82.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 81.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -81.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -17315,15 +17315,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 14.0,
       "Utilized_30d": 10.0,
-      "Util_Rate": 71.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 71.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -71.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Arts & Music",
       "Tier": "NICHE"
     },
@@ -17365,15 +17365,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 23.0,
       "Utilized_30d": 18.0,
-      "Util_Rate": 78.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 78.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -78.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 41.95,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Arts & Music",
       "Tier": "NICHE"
     },
@@ -17415,15 +17415,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 48.0,
       "Utilized_30d": 40.0,
-      "Util_Rate": 83.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.3,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.3,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -17465,15 +17465,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 25.0,
       "Utilized_30d": 23.0,
-      "Util_Rate": 92.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 92.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -92.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -17515,15 +17515,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 28.0,
       "Utilized_30d": 27.0,
-      "Util_Rate": 96.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 96.4,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -96.4,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 3.55,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -17615,15 +17615,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 152.0,
       "Utilized_30d": 127.0,
-      "Util_Rate": 84.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 83.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -83.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -17765,15 +17765,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 57.0,
       "Utilized_30d": 49.0,
-      "Util_Rate": 86.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 86.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -86.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 90.6,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -17815,15 +17815,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 68.0,
       "Utilized_30d": 50.0,
-      "Util_Rate": 74.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 73.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -73.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -17865,15 +17865,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 28.0,
       "Utilized_30d": 15.0,
-      "Util_Rate": 54.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 53.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -53.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 7.17,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -17965,15 +17965,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 52.0,
       "Utilized_30d": 45.0,
-      "Util_Rate": 87.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 86.5,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -86.5,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -18115,15 +18115,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 14.0,
       "Utilized_30d": 11.0,
-      "Util_Rate": 79.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 78.6,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -78.6,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": null,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Over-Supplied",
       "Category": "IB",
       "Tier": "NICHE"
     },
@@ -18165,15 +18165,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 4.0,
       "Utilized_30d": 2.0,
-      "Util_Rate": 50.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 50.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -50.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 53.76666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -18735,15 +18735,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 63.0,
       "Utilized_30d": 48.0,
-      "Util_Rate": 76.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 76.2,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -76.2,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 24.05,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -18941,15 +18941,15 @@
       "Mar_Forecast": 2.0,
       "Total_Contracted": 62.0,
       "Utilized_30d": 55.0,
-      "Util_Rate": 89.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 88.7,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -88.7,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 26.866665,
-      "Problem_Type": "True Supply Problem",
+      "Problem_Type": "Under-Used",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -19409,15 +19409,15 @@
       "Mar_Forecast": 1.0,
       "Total_Contracted": 2.0,
       "Utilized_30d": 1.0,
-      "Util_Rate": 50.0,
-      "Util_Rate_Current": null,
+      "Util_Rate": 0.0,
+      "Util_Rate_Current": 0.0,
       "Util_Rate_Trailing": 50.0,
-      "Util_Trend": null,
-      "Util_Trend_Delta": null,
+      "Util_Trend": "down",
+      "Util_Trend_Delta": -50.0,
       "Util_Recent_Contracted": 0.0,
       "Util_Recent_Utilized": 0.0,
       "P90_NAT_Hours": 40.61833,
-      "Problem_Type": "On Track",
+      "Problem_Type": "Under-Used",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -22939,7 +22939,7 @@
       "actual_to_date": 0,
       "remaining_need": 33.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "AP",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -23227,7 +23227,7 @@
       "actual_to_date": 0,
       "remaining_need": 42.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "IB",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -24955,7 +24955,7 @@
       "actual_to_date": 0,
       "remaining_need": 23.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "AP",
       "tier": "LOW",
       "march_baseline": {
@@ -25051,7 +25051,7 @@
       "actual_to_date": 1,
       "remaining_need": 23.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "IB",
       "tier": "LOW",
       "march_baseline": {
@@ -25531,7 +25531,7 @@
       "actual_to_date": 0,
       "remaining_need": 27.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "LOW",
       "march_baseline": {
@@ -25627,7 +25627,7 @@
       "actual_to_date": 1,
       "remaining_need": 26.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Technology",
       "tier": "LOW",
       "march_baseline": {
@@ -28603,7 +28603,7 @@
       "actual_to_date": 2,
       "remaining_need": 19.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -28987,7 +28987,7 @@
       "actual_to_date": 0,
       "remaining_need": 25.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "LOW",
       "march_baseline": {
@@ -29467,7 +29467,7 @@
       "actual_to_date": 1,
       "remaining_need": 14.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -29659,7 +29659,7 @@
       "actual_to_date": 0,
       "remaining_need": 16.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Technology",
       "tier": "LOW",
       "march_baseline": {
@@ -29947,7 +29947,7 @@
       "actual_to_date": 0,
       "remaining_need": 14.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Professional/Cert",
       "tier": "LOW",
       "march_baseline": {
@@ -30523,7 +30523,7 @@
       "actual_to_date": 0,
       "remaining_need": 12.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Arts & Music",
       "tier": "LOW",
       "march_baseline": {
@@ -30715,7 +30715,7 @@
       "actual_to_date": 1,
       "remaining_need": 18.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -31003,7 +31003,7 @@
       "actual_to_date": 0,
       "remaining_need": 20.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -31099,7 +31099,7 @@
       "actual_to_date": 0,
       "remaining_need": 16.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -32635,7 +32635,7 @@
       "actual_to_date": 0,
       "remaining_need": 21.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "LOW",
       "march_baseline": {
@@ -33019,7 +33019,7 @@
       "actual_to_date": 2,
       "remaining_need": 8.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -34171,7 +34171,7 @@
       "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "High School",
       "tier": "NICHE",
       "march_baseline": {
@@ -34363,7 +34363,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -34555,7 +34555,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "High School",
       "tier": "NICHE",
       "march_baseline": {
@@ -34651,7 +34651,7 @@
       "actual_to_date": 0,
       "remaining_need": 11.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -34939,7 +34939,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -35035,7 +35035,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -35803,7 +35803,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -35899,7 +35899,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -36283,7 +36283,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -36667,7 +36667,7 @@
       "actual_to_date": 0,
       "remaining_need": 11.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -37051,7 +37051,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -37147,7 +37147,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "IB",
       "tier": "NICHE",
       "march_baseline": {
@@ -37339,7 +37339,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "AP",
       "tier": "NICHE",
       "march_baseline": {
@@ -37435,7 +37435,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -37531,7 +37531,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -37819,7 +37819,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -38299,7 +38299,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -38395,7 +38395,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -38491,7 +38491,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -38683,7 +38683,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Technology",
       "tier": "NICHE",
       "march_baseline": {
@@ -39355,7 +39355,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -39547,7 +39547,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "High School",
       "tier": "NICHE",
       "march_baseline": {
@@ -39835,7 +39835,7 @@
       "actual_to_date": 0,
       "remaining_need": 12.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "LOW",
       "march_baseline": {
@@ -40507,7 +40507,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "AP",
       "tier": "NICHE",
       "march_baseline": {
@@ -40699,7 +40699,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Arts & Music",
       "tier": "NICHE",
       "march_baseline": {
@@ -40795,7 +40795,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -40891,7 +40891,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -40987,7 +40987,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -41083,7 +41083,7 @@
       "actual_to_date": 0,
       "remaining_need": 11.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Technology",
       "tier": "LOW",
       "march_baseline": {
@@ -41371,7 +41371,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -41563,7 +41563,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -41755,7 +41755,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Arts & Music",
       "tier": "NICHE",
       "march_baseline": {
@@ -42235,7 +42235,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -42811,7 +42811,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Arts & Music",
       "tier": "NICHE",
       "march_baseline": {
@@ -43003,7 +43003,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -43099,7 +43099,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -43387,7 +43387,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -43483,7 +43483,7 @@
       "actual_to_date": 1,
       "remaining_need": 13.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "LOW",
       "march_baseline": {
@@ -43675,7 +43675,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -43771,7 +43771,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -43867,7 +43867,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -44443,7 +44443,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -44539,7 +44539,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -45019,7 +45019,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -45595,7 +45595,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -45883,7 +45883,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -45979,7 +45979,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Arts & Music",
       "tier": "NICHE",
       "march_baseline": {
@@ -46075,7 +46075,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -46171,7 +46171,7 @@
       "actual_to_date": 0,
       "remaining_need": 10.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "LOW",
       "march_baseline": {
@@ -46459,7 +46459,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -46843,7 +46843,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -46939,7 +46939,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -47227,7 +47227,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -47323,7 +47323,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -47515,7 +47515,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -47707,7 +47707,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -48091,7 +48091,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -48187,7 +48187,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -48283,7 +48283,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -48379,7 +48379,7 @@
       "actual_to_date": 1,
       "remaining_need": 14.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "LOW",
       "march_baseline": {
@@ -48667,7 +48667,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -48859,7 +48859,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -49051,7 +49051,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "AP",
       "tier": "NICHE",
       "march_baseline": {
@@ -49147,7 +49147,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -49243,7 +49243,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -49339,7 +49339,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -49531,7 +49531,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -49627,7 +49627,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -49819,7 +49819,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "IB",
       "tier": "NICHE",
       "march_baseline": {
@@ -49915,7 +49915,7 @@
       "actual_to_date": 1,
       "remaining_need": 9.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -50011,7 +50011,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -50203,7 +50203,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -50299,7 +50299,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -50395,7 +50395,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Technology",
       "tier": "NICHE",
       "march_baseline": {
@@ -50683,7 +50683,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "High School",
       "tier": "NICHE",
       "march_baseline": {
@@ -50779,7 +50779,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -51067,7 +51067,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "High School",
       "tier": "NICHE",
       "march_baseline": {
@@ -51451,7 +51451,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -51643,7 +51643,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "AP",
       "tier": "NICHE",
       "march_baseline": {
@@ -51739,7 +51739,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -51931,7 +51931,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -52027,7 +52027,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Arts & Music",
       "tier": "NICHE",
       "march_baseline": {
@@ -52123,7 +52123,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Arts & Music",
       "tier": "NICHE",
       "march_baseline": {
@@ -52219,7 +52219,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -52315,7 +52315,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -52411,7 +52411,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -52603,7 +52603,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -52891,7 +52891,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -52987,7 +52987,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -53083,7 +53083,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -53275,7 +53275,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -53563,7 +53563,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Over-Supplied",
       "category": "IB",
       "tier": "NICHE",
       "march_baseline": {
@@ -53659,7 +53659,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -54715,7 +54715,7 @@
       "actual_to_date": 0,
       "remaining_need": 2.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -55099,7 +55099,7 @@
       "actual_to_date": 0,
       "remaining_need": 10.0,
       "months_completed": 0,
-      "problem_type": "True Supply Problem",
+      "problem_type": "Under-Used",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -55963,7 +55963,7 @@
       "actual_to_date": 0,
       "remaining_need": 2.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "Under-Used",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -57554,7 +57554,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-22 09:23 AM CST",
+      "uploaded_at": "2026-04-22 09:26 AM CST",
       "subjects_count": 428
     }
   ],
@@ -57684,6 +57684,54 @@
       }
     },
     {
+      "subject": "AP Macroeconomics",
+      "category": "AP",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -9,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "AP Physics 2",
+      "category": "AP",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 14,
+        "run_rate": 3.0
+      }
+    },
+    {
+      "subject": "AP Physics C: Electricity and Magnetism",
+      "category": "AP",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "AP Physics C: Mechanics",
+      "category": "AP",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -19,
+        "run_rate": 2.0
+      }
+    },
+    {
       "subject": "AP Pre-Calculus",
       "category": "AP",
       "priority": "high",
@@ -57746,6 +57794,18 @@
       }
     },
     {
+      "subject": "Agricultural Science",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 5,
+        "run_rate": 2.0
+      }
+    },
+    {
       "subject": "Algebra 2",
       "category": "High School",
       "priority": "high",
@@ -57757,6 +57817,18 @@
         "target": 29,
         "expected": 21,
         "pace": 47
+      }
+    },
+    {
+      "subject": "Algebra Regents",
+      "category": "Test Prep",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 7,
+        "run_rate": 2.0
       }
     },
     {
@@ -57784,6 +57856,18 @@
       }
     },
     {
+      "subject": "Animation",
+      "category": "Arts & Music",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Artificial Intelligence (AI)",
       "category": "College",
       "priority": "high",
@@ -57800,6 +57884,18 @@
     {
       "subject": "Astronomy",
       "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Audio Engineering",
+      "category": "Arts & Music",
       "priority": "high",
       "action_type": "investigate_placement",
       "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
@@ -57848,6 +57944,18 @@
       }
     },
     {
+      "subject": "Biomechanics",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Blender",
       "category": "Other",
       "priority": "high",
@@ -57872,6 +57980,18 @@
       }
     },
     {
+      "subject": "Business Enterprise",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "C++",
       "category": "College",
       "priority": "high",
@@ -57884,6 +58004,30 @@
       }
     },
     {
+      "subject": "CPA REG",
+      "category": "Professional/Cert",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "CPCE",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Chess",
       "category": "Other",
       "priority": "high",
@@ -57893,6 +58037,30 @@
         "util_rate": 0.0,
         "gap": 0,
         "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "Clinical Psychology",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 5,
+        "run_rate": 3.0
+      }
+    },
+    {
+      "subject": "CogAT",
+      "category": "Test Prep",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -4,
+        "run_rate": 1.0
       }
     },
     {
@@ -57944,6 +58112,18 @@
       }
     },
     {
+      "subject": "College Level American History",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -6,
+        "run_rate": 2.0
+      }
+    },
+    {
       "subject": "College Statistics",
       "category": "College",
       "priority": "high",
@@ -57980,6 +58160,18 @@
       }
     },
     {
+      "subject": "Computer Animation",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Computer Architecture",
       "category": "College",
       "priority": "high",
@@ -58013,6 +58205,18 @@
         "util_rate": 25.0,
         "gap": 11,
         "run_rate": 4.0
+      }
+    },
+    {
+      "subject": "Conversational German",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -7,
+        "run_rate": 2.0
       }
     },
     {
@@ -58102,6 +58306,18 @@
       }
     },
     {
+      "subject": "Discrete Structures",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Earth Science",
       "category": "High School",
       "priority": "high",
@@ -58111,6 +58327,18 @@
         "util_rate": 25.0,
         "gap": 105,
         "run_rate": 16.0
+      }
+    },
+    {
+      "subject": "Electronics",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -3,
+        "run_rate": 1.0
       }
     },
     {
@@ -58164,6 +58392,42 @@
       }
     },
     {
+      "subject": "Enrichment",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "European History",
+      "category": "High School",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Evolutionary Biology",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Executive Functioning",
       "category": "Other",
       "priority": "high",
@@ -58194,11 +58458,23 @@
       "category": "Other",
       "priority": "high",
       "action_type": "investigate_placement",
-      "reason": "Only 47% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
       "data_points": {
-        "util_rate": 47.0,
+        "util_rate": 0.0,
         "gap": 7,
         "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "FE - Mechanical Engineering",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
       }
     },
     {
@@ -58276,6 +58552,18 @@
       }
     },
     {
+      "subject": "GMAT",
+      "category": "Test Prep",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -3,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "GRE",
       "category": "Test Prep",
       "priority": "high",
@@ -58300,6 +58588,18 @@
       }
     },
     {
+      "subject": "German 1",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 7,
+        "run_rate": 2.0
+      }
+    },
+    {
       "subject": "Grade 10 Math",
       "category": "High School",
       "priority": "high",
@@ -58309,6 +58609,18 @@
         "util_rate": 33.0,
         "gap": 80,
         "run_rate": 12.0
+      }
+    },
+    {
+      "subject": "Grade 12 Physics",
+      "category": "High School",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 7,
+        "run_rate": 2.0
       }
     },
     {
@@ -58333,6 +58645,42 @@
         "util_rate": 0.0,
         "gap": 21,
         "run_rate": 4.0
+      }
+    },
+    {
+      "subject": "HESI",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Heat Transfer",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Hebrew",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
       }
     },
     {
@@ -58400,6 +58748,18 @@
       }
     },
     {
+      "subject": "Hindi",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "IB Chemistry",
       "category": "IB",
       "priority": "high",
@@ -58412,14 +58772,38 @@
       }
     },
     {
+      "subject": "IB Language A: Language and Literature",
+      "category": "IB",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "IB Mathematics: Analysis and Approaches",
       "category": "IB",
       "priority": "high",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (83%) but target exceeds run rate by 35 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
       "data_points": {
-        "util_rate": 83.0,
+        "util_rate": 0.0,
         "gap": -35,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "IB Mathematics: Applications and Interpretation",
+      "category": "IB",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -16,
         "run_rate": 1.0
       }
     },
@@ -58435,6 +58819,30 @@
         "target": 3,
         "expected": 2,
         "pace": 45
+      }
+    },
+    {
+      "subject": "IB Physics",
+      "category": "IB",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Information Technology",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 21,
+        "run_rate": 4.0
       }
     },
     {
@@ -58500,6 +58908,18 @@
       }
     },
     {
+      "subject": "Latin 4",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -7,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Linear Algebra",
       "category": "College",
       "priority": "high",
@@ -58511,6 +58931,42 @@
         "target": 3,
         "expected": 2,
         "pace": 45
+      }
+    },
+    {
+      "subject": "Linguistics",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -4,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "Logic",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "MATLAB",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
       }
     },
     {
@@ -58549,6 +59005,18 @@
         "target": 3,
         "expected": 2,
         "pace": 45
+      }
+    },
+    {
+      "subject": "Math 3",
+      "category": "High School",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 7,
+        "run_rate": 2.0
       }
     },
     {
@@ -58648,6 +59116,30 @@
       }
     },
     {
+      "subject": "Multivariable Calculus",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -5,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "Music Recording",
+      "category": "Arts & Music",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -5,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Music Theory",
       "category": "Arts & Music",
       "priority": "high",
@@ -58681,6 +59173,30 @@
         "util_rate": 38.0,
         "gap": 63,
         "run_rate": 12.0
+      }
+    },
+    {
+      "subject": "Nutrition",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 7,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "OAT",
+      "category": "Test Prep",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 5,
+        "run_rate": 1.0
       }
     },
     {
@@ -58722,6 +59238,18 @@
       }
     },
     {
+      "subject": "Organic Chemistry 2",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 13,
+        "run_rate": 3.0
+      }
+    },
+    {
       "subject": "Orton Gillingham",
       "category": "Other",
       "priority": "high",
@@ -58734,6 +59262,18 @@
       }
     },
     {
+      "subject": "PTCE",
+      "category": "Professional/Cert",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -7,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Pathophysiology",
       "category": "College",
       "priority": "high",
@@ -58743,6 +59283,18 @@
         "util_rate": 29.0,
         "gap": 42,
         "run_rate": 7.0
+      }
+    },
+    {
+      "subject": "Personal Finance",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 14,
+        "run_rate": 3.0
       }
     },
     {
@@ -58770,6 +59322,30 @@
       }
     },
     {
+      "subject": "Physical Chemistry",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 3,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "Physics 11",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -6,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Piano",
       "category": "Arts & Music",
       "priority": "high",
@@ -58779,6 +59355,18 @@
         "util_rate": 0.0,
         "gap": 30,
         "run_rate": 6.0
+      }
+    },
+    {
+      "subject": "Polish",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
       }
     },
     {
@@ -58816,6 +59404,30 @@
       "data_points": {
         "util_rate": 0.0,
         "gap": -3,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "Project Management/PMP",
+      "category": "Professional/Cert",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Public Health",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 7,
         "run_rate": 2.0
       }
     },
@@ -58858,6 +59470,30 @@
       }
     },
     {
+      "subject": "Real Analysis",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Robotics",
+      "category": "Technology",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -9,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "SAT",
       "category": "Test Prep",
       "priority": "high",
@@ -58884,6 +59520,42 @@
       }
     },
     {
+      "subject": "Series 24",
+      "category": "Professional/Cert",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Singing",
+      "category": "Arts & Music",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Social Networking",
+      "category": "Technology",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -19,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Social Networking",
       "category": "Technology",
       "priority": "high",
@@ -58895,6 +59567,18 @@
         "target": 3,
         "expected": 2,
         "pace": 45
+      }
+    },
+    {
+      "subject": "Statics and Dynamics",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 2.0
       }
     },
     {
@@ -58936,6 +59620,18 @@
       }
     },
     {
+      "subject": "TEAS",
+      "category": "Test Prep",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 5,
+        "run_rate": 1.0
+      }
+    },
+    {
       "subject": "Tableau",
       "category": "Technology",
       "priority": "high",
@@ -58957,6 +59653,102 @@
         "util_rate": 44.0,
         "gap": 154,
         "run_rate": 24.0
+      }
+    },
+    {
+      "subject": "Thermodynamics",
+      "category": "College",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 14,
+        "run_rate": 3.0
+      }
+    },
+    {
+      "subject": "Turkish",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Ukrainian",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -5,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Video Game Design",
+      "category": "Technology",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 3,
+        "run_rate": 2.0
+      }
+    },
+    {
+      "subject": "Vietnamese",
+      "category": "Language",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -18,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Viral Content Creation",
+      "category": "Other",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": -20,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "Voice",
+      "category": "Arts & Music",
+      "priority": "high",
+      "action_type": "investigate_placement",
+      "reason": "Only 0% of recently contracted tutors assigned within 30 days and target exceeds capacity \u2014 an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.",
+      "data_points": {
+        "util_rate": 0.0,
+        "gap": 0,
+        "run_rate": 1.0
+      }
+    },
+    {
+      "subject": "AP Art History",
+      "category": "AP",
+      "priority": "medium",
+      "action_type": "reduce_forecast",
+      "reason": "Run rate meets or exceeds target but only 0% of tutors utilized. P90 NAT 4h (within 24h goal \u2014 confirms low demand). Consider reducing forecast \u2014 demand may be overestimated.",
+      "data_points": {
+        "util_rate": 0.0,
+        "run_rate": 4.0,
+        "bts_total": 7.0
       }
     },
     {
@@ -58983,30 +59775,6 @@
         "util_rate": 50.0,
         "gap": -12,
         "run_rate": 5.0
-      }
-    },
-    {
-      "subject": "AP Macroeconomics",
-      "category": "AP",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (84%) but target exceeds run rate by 9 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 84.0,
-        "gap": -9,
-        "run_rate": 2.0
-      }
-    },
-    {
-      "subject": "AP Physics C: Mechanics",
-      "category": "AP",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (84%) but target exceeds run rate by 19 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 84.0,
-        "gap": -19,
-        "run_rate": 2.0
       }
     },
     {
@@ -59100,30 +59868,6 @@
       }
     },
     {
-      "subject": "CogAT",
-      "category": "Test Prep",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (79%) but target exceeds run rate by 4 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 79.0,
-        "gap": -4,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "College Level American History",
-      "category": "College",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (78%) but target exceeds run rate by 6 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 78.0,
-        "gap": -6,
-        "run_rate": 2.0
-      }
-    },
-    {
       "subject": "Competition Math",
       "category": "High School",
       "priority": "medium",
@@ -59135,18 +59879,6 @@
         "target": 2,
         "expected": 1,
         "pace": 68
-      }
-    },
-    {
-      "subject": "Conversational German",
-      "category": "Language",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (71%) but target exceeds run rate by 7 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 71.0,
-        "gap": -7,
-        "run_rate": 2.0
       }
     },
     {
@@ -59212,18 +59944,6 @@
       }
     },
     {
-      "subject": "Electronics",
-      "category": "Other",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (86%) but target exceeds run rate by 3 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 86.0,
-        "gap": -3,
-        "run_rate": 1.0
-      }
-    },
-    {
       "subject": "Elementary School Math",
       "category": "Elementary",
       "priority": "medium",
@@ -59235,6 +59955,18 @@
         "target": 63,
         "expected": 46,
         "pace": 61
+      }
+    },
+    {
+      "subject": "Ethics",
+      "category": "College",
+      "priority": "medium",
+      "action_type": "reduce_forecast",
+      "reason": "Run rate meets or exceeds target but only 0% of tutors utilized. Consider reducing forecast \u2014 demand may be overestimated.",
+      "data_points": {
+        "util_rate": 0.0,
+        "run_rate": 4.0,
+        "bts_total": 7.0
       }
     },
     {
@@ -59264,18 +59996,6 @@
       }
     },
     {
-      "subject": "GMAT",
-      "category": "Test Prep",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (89%) but target exceeds run rate by 3 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 89.0,
-        "gap": -3,
-        "run_rate": 1.0
-      }
-    },
-    {
       "subject": "GRE",
       "category": "Test Prep",
       "priority": "medium",
@@ -59301,6 +60021,18 @@
         "target": 23,
         "expected": 17,
         "pace": 71
+      }
+    },
+    {
+      "subject": "Grade 11 Physics",
+      "category": "High School",
+      "priority": "medium",
+      "action_type": "reduce_forecast",
+      "reason": "Run rate meets or exceeds target but only 0% of tutors utilized. P90 NAT 22h (within 24h goal \u2014 confirms low demand). Consider reducing forecast \u2014 demand may be overestimated.",
+      "data_points": {
+        "util_rate": 0.0,
+        "run_rate": 3.0,
+        "bts_total": 7.0
       }
     },
     {
@@ -59340,6 +60072,18 @@
       }
     },
     {
+      "subject": "High School Level American Literature",
+      "category": "High School",
+      "priority": "medium",
+      "action_type": "reduce_forecast",
+      "reason": "Run rate meets or exceeds target but only 0% of tutors utilized. P90 NAT 6h (within 24h goal \u2014 confirms low demand). Consider reducing forecast \u2014 demand may be overestimated.",
+      "data_points": {
+        "util_rate": 0.0,
+        "run_rate": 5.0,
+        "bts_total": 7.0
+      }
+    },
+    {
       "subject": "High School Science",
       "category": "High School",
       "priority": "medium",
@@ -59349,18 +60093,6 @@
         "util_rate": 10.0,
         "run_rate": 22.0,
         "bts_total": 3.0
-      }
-    },
-    {
-      "subject": "IB Mathematics: Applications and Interpretation",
-      "category": "IB",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (84%) but target exceeds run rate by 16 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 84.0,
-        "gap": -16,
-        "run_rate": 1.0
       }
     },
     {
@@ -59375,30 +60107,6 @@
         "target": 2,
         "expected": 1,
         "pace": 68
-      }
-    },
-    {
-      "subject": "Latin 4",
-      "category": "Language",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (90%) but target exceeds run rate by 7 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 90.0,
-        "gap": -7,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "Linguistics",
-      "category": "College",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (75%) but target exceeds run rate by 4 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 75.0,
-        "gap": -4,
-        "run_rate": 2.0
       }
     },
     {
@@ -59492,54 +60200,6 @@
       }
     },
     {
-      "subject": "Multivariable Calculus",
-      "category": "College",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (86%) but target exceeds run rate by 5 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 86.0,
-        "gap": -5,
-        "run_rate": 2.0
-      }
-    },
-    {
-      "subject": "Music Recording",
-      "category": "Arts & Music",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (65%) but target exceeds run rate by 5 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 65.0,
-        "gap": -5,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "PTCE",
-      "category": "Professional/Cert",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (89%) but target exceeds run rate by 7 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 89.0,
-        "gap": -7,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "Physics 11",
-      "category": "Other",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (85%) but target exceeds run rate by 6 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 85.0,
-        "gap": -6,
-        "run_rate": 1.0
-      }
-    },
-    {
       "subject": "Piano",
       "category": "Arts & Music",
       "priority": "medium",
@@ -59574,30 +60234,6 @@
       "data_points": {
         "util_rate": 67.0,
         "gap": -3,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "Robotics",
-      "category": "Technology",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (85%) but target exceeds run rate by 9 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 85.0,
-        "gap": -9,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "Social Networking",
-      "category": "Technology",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (80%) but target exceeds run rate by 19 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 80.0,
-        "gap": -19,
         "run_rate": 1.0
       }
     },
@@ -59675,42 +60311,6 @@
         "target": 2,
         "expected": 1,
         "pace": 68
-      }
-    },
-    {
-      "subject": "Ukrainian",
-      "category": "Language",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (90%) but target exceeds run rate by 5 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 90.0,
-        "gap": -5,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "Vietnamese",
-      "category": "Language",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (94%) but target exceeds run rate by 18 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 94.0,
-        "gap": -18,
-        "run_rate": 1.0
-      }
-    },
-    {
-      "subject": "Viral Content Creation",
-      "category": "Other",
-      "priority": "medium",
-      "action_type": "increase_recruiting",
-      "reason": "Tutors well-utilized (86%) but target exceeds run rate by 20 tutors. Supply genuinely short \u2014 deploy recruiting levers (paid spend, InMail, opt-in).",
-      "data_points": {
-        "util_rate": 86.0,
-        "gap": -20,
-        "run_rate": 1.0
       }
     },
     {
@@ -59955,15 +60555,15 @@
   ],
   "weekly_summary": {
     "total_subjects": 382,
-    "on_track": 211,
-    "over_supplied": 61,
-    "under_used": 78,
+    "on_track": 118,
+    "over_supplied": 108,
+    "under_used": 144,
     "total_target": 7317,
     "total_actual": 964,
     "progress_pct": 13.2,
-    "high_priority_actions": 111,
-    "medium_priority_actions": 60,
-    "total_actions": 191,
+    "high_priority_actions": 176,
+    "medium_priority_actions": 45,
+    "total_actions": 241,
     "behind_pace_count": 45,
     "behind_pace_subjects": [
       {
@@ -60040,10 +60640,10 @@
         "remaining": 125
       }
     ],
-    "generated_at": "2026-04-22 09:24 AM CST"
+    "generated_at": "2026-04-22 09:41 AM CST"
   },
   "fetch_status": {
-    "fetched_at": "2026-04-22T14:23:59.020203+00:00",
+    "fetched_at": "2026-04-22T14:28:49.862330+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -60054,6 +60654,6 @@
       "unique_tutors": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-22T14:23:59.020203+00:00"
+    "last_successful_fetch": "2026-04-22T14:28:49.862330+00:00"
   }
 }
