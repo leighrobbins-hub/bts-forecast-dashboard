@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-04-22T08:02:26.999982+00:00",
+  "fetched_at": "2026-04-22T14:19:25.067777+00:00",
   "dry_run": false,
   "skipped": false,
   "sources": {
@@ -10,5 +10,5 @@
     "unique_tutors": true
   },
   "any_failed": false,
-  "last_successful_fetch": "2026-04-22T08:02:26.999982+00:00"
+  "last_successful_fetch": "2026-04-22T14:19:25.067777+00:00"
 }
