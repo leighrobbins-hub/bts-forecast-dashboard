@@ -390,11 +390,11 @@ function refreshOverviewLive() {
 
     var clientTotal = allData.length;
     function _ct(r) { return classifyType(r.Primary_Action || r.Problem_Type); }
-    var clientPlacement = allData.filter(function(r) { var t = _ct(r); return t === 'hidden-supply' || t === 'capacity-available'; }).length;
-    var clientSupply = allData.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
-    var clientNoUtil = allData.filter(function(r) { return _ct(r) === 'insufficient-data'; }).length;
+    var clientInvestigate = allData.filter(function(r) { var t = _ct(r); return t === 'hidden-supply' || t === 'capacity-available'; }).length;
+    var clientRecruit = allData.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
+    var clientNoData = allData.filter(function(r) { return _ct(r) === 'insufficient-data'; }).length;
     var clientOnTrack = allData.filter(function(r) { return _ct(r) === 'on-track'; }).length;
-    var clientHighWait = allData.filter(function(r) { return _ct(r) === 'wait-times'; }).length;
+    var clientWaitTimes = allData.filter(function(r) { return _ct(r) === 'wait-times'; }).length;
     var overSuppliedCount = allData.filter(function(r) { return _ct(r) === 'reduce-forecast'; }).length;
 
     // Pending counts: for each flagged-problem subject, check if it has any
@@ -412,16 +412,16 @@ function refreshOverviewLive() {
         });
         return count;
     }
-    var placementPending = pendingFor(function(t) { return t === 'hidden-supply' || t === 'capacity-available'; });
-    var supplyPending = pendingFor(function(t) { return t === 'recruit-urgent' || t === 'recruit' || t === 'insufficient-data'; });
+    var investigatePending = pendingFor(function(t) { return t === 'hidden-supply' || t === 'capacity-available'; });
+    var recruitPending = pendingFor(function(t) { return t === 'recruit-urgent' || t === 'recruit'; });
     var overSuppliedPending = pendingFor(function(t) { return t === 'reduce-forecast'; });
 
     document.getElementById('total-subjects').textContent = clientTotal;
-    document.getElementById('util-problems').textContent = clientPlacement;
-    document.getElementById('stat-supply-problems').textContent = clientSupply + clientNoUtil;
+    document.getElementById('util-problems').textContent = clientInvestigate;
+    document.getElementById('stat-supply-problems').textContent = clientRecruit;
     document.getElementById('ontrack-subjects').textContent = clientOnTrack;
     var hwEl = document.getElementById('highwait-subjects');
-    if (hwEl) hwEl.textContent = clientHighWait;
+    if (hwEl) hwEl.textContent = clientWaitTimes;
     document.getElementById('lowutil-subjects').textContent = overSuppliedCount;
     var callout = document.getElementById('lowutil-count-callout');
     if (callout) callout.textContent = overSuppliedCount;
@@ -433,17 +433,17 @@ function refreshOverviewLive() {
         el.textContent = n === 0 ? 'All reviewed \u2714' : n + ' pending review';
         el.className = 'stat-pending' + (n === 0 ? ' all-done' : '');
     }
-    setPending('pending-underused', placementPending);
-    setPending('pending-supply', supplyPending);
+    setPending('pending-underused', investigatePending);
+    setPending('pending-supply', recruitPending);
     setPending('pending-oversupplied', overSuppliedPending);
 
     // Reconciliation check (dev-console only)
     if (_lastSummary) {
         var discrepancies = [];
         if (clientTotal !== (_lastSummary.total_subjects || 0)) discrepancies.push('Total: card=' + clientTotal + ' vs data=' + _lastSummary.total_subjects);
-        if (clientPlacement !== (_lastSummary.under_used || 0)) discrepancies.push('Under-Used: card=' + clientPlacement + ' vs data=' + _lastSummary.under_used);
+        if (clientInvestigate !== (_lastSummary.under_used || 0)) discrepancies.push('Investigate: card=' + clientInvestigate + ' vs data=' + _lastSummary.under_used);
         var serverSupply = (_lastSummary.supply_problems || 0);
-        if ((clientSupply + clientNoUtil) !== serverSupply) discrepancies.push('Supply Problems: card=' + (clientSupply + clientNoUtil) + ' vs data=' + serverSupply);
+        if (clientRecruit !== serverSupply) discrepancies.push('Recruit: card=' + clientRecruit + ' vs data=' + serverSupply);
         if (discrepancies.length > 0) console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
     }
 
@@ -899,7 +899,8 @@ function matchesFilter(problemType, filter) {
     if (filter === 'all') return true;
     if (filter === 'all-problems') return type !== 'on-track' && type !== 'insufficient-data';
     if (filter === 'recruit') return type === 'recruit-urgent' || type === 'recruit';
-    if (filter === 'investigate') return type === 'hidden-supply' || type === 'capacity-available' || type === 'wait-times';
+    if (filter === 'investigate') return type === 'hidden-supply' || type === 'capacity-available';
+    if (filter === 'wait-times') return type === 'wait-times';
     if (filter === 'reduce-forecast') return type === 'reduce-forecast';
     if (filter === 'on-track') return type === 'on-track';
     if (filter === 'insufficient-data') return type === 'insufficient-data';
@@ -3669,7 +3670,7 @@ function renderSubjectsAndActions() {
                     + dataHtml + footer + '</div>';
             });
             inner += '</div>';
-            detailTr.innerHTML = '<td colspan="12">' + inner + '</td>';
+            detailTr.innerHTML = '<td colspan="14">' + inner + '</td>';
             tbody.appendChild(detailTr);
         }
     });
