@@ -97,32 +97,31 @@ function buildUtilDisplay(row) {
     if (row.Util_Rate === null || row.Util_Rate === undefined) return 'N/A';
     var html = Math.round(row.Util_Rate) + '%';
     if (row.Util_Trend && row.Util_Trend_Delta != null) {
-        var arrow = row.Util_Trend === 'up' ? '↑' : row.Util_Trend === 'down' ? '↓' : '→';
         var delta = row.Util_Trend_Delta > 0 ? '+' + row.Util_Trend_Delta : '' + row.Util_Trend_Delta;
         var p90 = row.P90_NAT_Hours;
         var highP90 = p90 != null && p90 >= 24;
-        var color, tip;
+        var label, color, tip;
         if (row.Util_Trend === 'up') {
             if (highP90) {
-                color = '#e74c3c';
-                tip = delta + '% vs trailing — High P90 (' + Math.round(p90) + 'h): demand stress, tutors used immediately but students still waiting';
+                label = 'Stress'; color = '#e74c3c';
+                tip = delta + '% vs prior — Tutors consumed fast but P90 is ' + Math.round(p90) + 'h — students still waiting';
             } else {
-                color = '#27ae60';
-                tip = delta + '% vs trailing — Healthy: demand being met efficiently';
+                label = 'Healthy'; color = '#27ae60';
+                tip = delta + '% vs prior — Demand being met efficiently, students matched quickly';
             }
         } else if (row.Util_Trend === 'down') {
             if (highP90) {
-                color = '#e67e22';
-                tip = delta + '% vs trailing — High P90 (' + Math.round(p90) + 'h): students waiting but new tutors not being matched';
+                label = 'Watch'; color = '#e67e22';
+                tip = delta + '% vs prior — P90 is ' + Math.round(p90) + 'h but new tutors not being matched — placement issue';
             } else {
-                color = '#27ae60';
-                tip = delta + '% vs trailing — Demand easing, less pressure on supply';
+                label = 'Easing'; color = '#3498db';
+                tip = delta + '% vs prior — Demand cooling, less pressure on supply';
             }
         } else {
-            color = '#7f8c8d';
-            tip = delta + '% vs trailing — Stable';
+            label = 'Stable'; color = '#7f8c8d';
+            tip = delta + '% vs prior — No meaningful change';
         }
-        html += ' <span style="color:' + color + ';font-weight:600" title="' + tip + '">' + arrow + '</span>';
+        html += ' <span class="util-trend-label" style="color:' + color + '" title="' + tip + '">' + label + '</span>';
     }
     if (row.Util_Recent_Contracted != null && row.Util_Recent_Utilized != null) {
         html += '<div style="font-size:11px;color:#7f8c8d">(' + Math.round(row.Util_Recent_Utilized) + ' of ' + Math.round(row.Util_Recent_Contracted) + ' recent)</div>';

@@ -209,7 +209,13 @@
                     <dd>Volume tier based on total BTS (Apr–Oct) forecasted headcount. <strong>CORE</strong> ≥ 150, <strong>HIGH</strong> ≥ 75, <strong>MEDIUM</strong> ≥ 30, <strong>LOW</strong> ≥ 10, <strong>NICHE</strong> &lt; 10. Tier helps prioritize — a miss on a CORE subject is a bigger business problem than a miss on a NICHE subject.</dd>
 
                     <dt>Util % (30-day)</dt>
-                    <dd>Percentage of recently contracted tutors who received at least one assignment within 30 days of contracting, averaged over the most recent 3 months. Trend arrow shows whether this rate is improving (↑), declining (↓), or stable (→) vs. older months. Counts (e.g. "8 of 17 recent") show the underlying volume.</dd>
+                    <dd>Percentage of recently contracted tutors who received at least one assignment within 30 days of contracting, averaged over the most recent 3 months. Counts (e.g. "8 of 17 recent") show the underlying volume. The trend label combines util direction with P90 NAT wait time:
+                        <br><strong style="color:#27ae60;">Healthy</strong> — Util rising, students matched quickly (P90 &lt; 24h)
+                        <br><strong style="color:#e74c3c;">Stress</strong> — Util rising but students still waiting 24h+ (high P90)
+                        <br><strong style="color:#e67e22;">Watch</strong> — Util falling while students still wait 24h+ — possible placement issue
+                        <br><strong style="color:#3498db;">Easing</strong> — Util falling, demand cooling naturally (P90 &lt; 24h)
+                        <br><strong style="color:#7f8c8d;">Stable</strong> — No meaningful change
+                    </dd>
 
                     <dt>Problem Type</dt>
                     <dd>
@@ -224,6 +230,14 @@
             </details>
 
             <div class="section-header" style="margin-top: 30px;" id="ov-table-header">Subjects — BTS Season Tutor Gap</div>
+            <div class="util-trend-key">
+                <span class="util-trend-key-title">Util Trend Key:</span>
+                <span style="color:#27ae60;font-weight:600">Healthy</span>
+                <span style="color:#e74c3c;font-weight:600">Stress</span>
+                <span style="color:#e67e22;font-weight:600">Watch</span>
+                <span style="color:#3498db;font-weight:600">Easing</span>
+                <span style="color:#7f8c8d;font-weight:600">Stable</span>
+            </div>
             <div class="table-container">
                 <div class="table-toolbar">
                     <span class="row-count" id="priority-count"></span>
@@ -300,6 +314,15 @@
                     <div class="sa-stat"><span class="sa-stat-value" id="sa-stat-reviewed">-</span><span class="sa-stat-label">reviewed</span></div>
                 </div>
                 <button class="btn btn-primary" id="sa-weekly-summary-btn" onclick="openSubjectsActionsWeeklySummary()">Weekly Summary</button>
+            </div>
+
+            <div class="util-trend-key">
+                <span class="util-trend-key-title">Util Trend Key:</span>
+                <span style="color:#27ae60;font-weight:600">Healthy</span>
+                <span style="color:#e74c3c;font-weight:600">Stress</span>
+                <span style="color:#e67e22;font-weight:600">Watch</span>
+                <span style="color:#3498db;font-weight:600">Easing</span>
+                <span style="color:#7f8c8d;font-weight:600">Stable</span>
             </div>
 
             <div class="filters">
