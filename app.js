@@ -2429,6 +2429,8 @@ function dhRevoke(storageKey) {
     }
 }
 
+var _WBR_PENDING = '\u2014 (data source pending)';
+
 function _wbrComputeMetrics() {
     var ws = weeklySummaryData || {};
     var tracker = trackerData || [];
@@ -2439,23 +2441,33 @@ function _wbrComputeMetrics() {
     var monthPctLabel = Math.round(monthFraction * 100);
     var currentMonthKey = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
 
+    var hasCurrentMonth = false;
     var subjects = [];
     tracker.forEach(function(ts) {
         var cm = null;
         (ts.months || []).forEach(function(m) { if (m.month === currentMonthKey && m.status === 'in_progress') cm = m; });
         if (!cm || cm.smoothed_target <= 0) return;
-        var actual = cm.actual || 0;
+        hasCurrentMonth = true;
+        var hasActual = cm.actual != null;
+        var actual = hasActual ? cm.actual : 0;
         var target = cm.smoothed_target;
         var paceTarget = target * monthFraction;
         var pacePct = paceTarget > 0 ? (actual / paceTarget * 100) : 100;
         var remaining = Math.max(0, Math.round(target - actual));
-        var velocity7d = actual;
-        var daysToClose = velocity7d > 0 && remaining > 0 ? Math.round(remaining / (velocity7d / dayOfMonth)) : (remaining === 0 ? 0 : 999);
+        var mtdDailyAvg = (hasActual && dayOfMonth > 0) ? (actual / dayOfMonth) : null;
+        var estVelocity7d = mtdDailyAvg != null ? Math.round(mtdDailyAvg * 7 * 10) / 10 : null;
+        var daysToClose = null;
+        if (hasActual && mtdDailyAvg != null && mtdDailyAvg > 0 && remaining > 0) {
+            daysToClose = Math.round(remaining / mtdDailyAvg);
+        } else if (hasActual && remaining === 0) {
+            daysToClose = 0;
+        }
         subjects.push({
             subject: ts.subject, category: ts.category || '', tier: ts.tier || '',
-            actual: actual, target: target, paceTarget: Math.round(paceTarget),
+            actual: actual, hasActual: hasActual, target: target,
+            paceTarget: Math.round(paceTarget),
             pacePct: Math.round(pacePct), remaining: remaining,
-            velocity7d: Math.round(velocity7d / Math.max(dayOfMonth, 1) * 7 * 10) / 10,
+            estVelocity7d: estVelocity7d,
             daysToClose: daysToClose,
             problemType: ts.problem_type || ''
         });
@@ -2473,6 +2485,7 @@ function _wbrComputeMetrics() {
     var zeroVelocity = subjects.filter(function(s) { return s.actual === 0 && s.target > 0; });
     zeroVelocity.sort(function(a, b) { return b.target - a.target; });
 
+    var decisionsLoaded = Object.keys(_sharedDecisions).length > 0 || (typeof netlifyIdentity !== 'undefined' && netlifyIdentity.currentUser && netlifyIdentity.currentUser());
     var decisionsThisWeek = [];
     var decisionsByUser = {};
     var decisionsByTheme = {};
@@ -2499,10 +2512,8 @@ function _wbrComputeMetrics() {
         }
     });
 
-    var movers = onTrack.filter(function(s) { return s.pacePct >= 90; })
-        .sort(function(a, b) { return b.velocity7d - a.velocity7d; }).slice(0, 5);
-    var velocityLeaders = subjects.filter(function(s) { return s.velocity7d > 0; })
-        .sort(function(a, b) { return b.velocity7d - a.velocity7d; }).slice(0, 5);
+    var movers = onTrack.filter(function(s) { return s.pacePct >= 90 && s.estVelocity7d != null; })
+        .sort(function(a, b) { return (b.estVelocity7d || 0) - (a.estVelocity7d || 0); }).slice(0, 5);
 
     var catPerf = {};
     subjects.forEach(function(s) {
@@ -2517,18 +2528,18 @@ function _wbrComputeMetrics() {
     });
     improvingCats.sort(function(a, b) { return b.pct - a.pct; });
 
-    var biggest = behind.length > 0 ? behind[0].subject : null;
-
     return {
         ws: ws, now: now, dayOfMonth: dayOfMonth, daysInMonth: daysInMonth,
         monthFraction: monthFraction, monthPctLabel: monthPctLabel,
+        hasCurrentMonth: hasCurrentMonth,
         subjects: subjects, totalActual: totalActual, totalTarget: totalTarget,
         contractingPct: contractingPct, paceTargetTotal: paceTargetTotal,
         onTrack: onTrack, behind: behind, zeroVelocity: zeroVelocity,
+        decisionsLoaded: decisionsLoaded,
         decisionsThisWeek: decisionsThisWeek, decisionsByUser: decisionsByUser,
         decisionsByTheme: decisionsByTheme, openOld: openOld,
-        movers: movers, velocityLeaders: velocityLeaders, improvingCats: improvingCats,
-        biggest: biggest
+        movers: movers, improvingCats: improvingCats,
+        hasWoWSnapshot: false
     };
 }
 
@@ -2543,6 +2554,7 @@ function generateWeeklySummary() {
     }
 
     var m = _wbrComputeMetrics();
+    var P = _WBR_PENDING;
     var sty = {
         section: 'background:#202344;color:#ffffff;padding:14px 24px;text-align:center;font-size:16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;',
         sub:     'background:#596087;color:#ffffff;padding:10px 24px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin:0;font-family:Arial,Helvetica,sans-serif;',
@@ -2554,30 +2566,29 @@ function generateWeeklySummary() {
         tbl:     'width:100%;border-collapse:collapse;margin:12px 0;',
         green:   'background:#d4edda;color:#155724;font-weight:600;',
         yellow:  'background:#fff3cd;color:#856404;font-weight:600;',
-        red:     'background:#f8d7da;color:#721c24;font-weight:600;'
+        red:     'background:#f8d7da;color:#721c24;font-weight:600;',
+        pending: 'color:#95a5a6;font-style:italic;'
     };
     var generated = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    var pHtml = '<span style="' + sty.pending + '">' + escapeHtml(P) + '</span>';
 
-    function statusColor(val, target, inverse) {
-        var ratio = target > 0 ? val / target : 1;
-        if (inverse) ratio = 2 - ratio;
-        if (ratio >= 1.0) return sty.green;
-        if (ratio >= 0.99) return sty.yellow;
-        return sty.red;
-    }
-
-    var paceDelta = m.totalActual - m.paceTargetTotal;
-    var paceDeltaSign = paceDelta >= 0 ? '+' : '';
+    var paceDelta = m.hasCurrentMonth ? (m.totalActual - m.paceTargetTotal) : null;
+    var paceDeltaSign = paceDelta != null && paceDelta >= 0 ? '+' : '';
     var biggestConcern = m.behind.length > 0
         ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace'
         : 'no critical gaps';
 
     // --- 1. HEADLINE ---
-    var headline = '<p style="' + sty.p + 'font-size:15px;">'
-        + 'We have contracted <strong>' + m.totalActual + '</strong> of <strong>' + m.totalTarget + '</strong> tutor-subject combos this month (<strong>' + m.contractingPct + '%</strong>). '
-        + 'With ' + m.monthPctLabel + '% of the month elapsed, we are <strong>' + paceDeltaSign + paceDelta + ' combos</strong> vs pace target. '
-        + 'Biggest concern: <strong>' + biggestConcern + '</strong>.'
-        + '</p>';
+    var headlineParts = [];
+    if (m.hasCurrentMonth) {
+        headlineParts.push('We have contracted <strong>' + m.totalActual + '</strong> of <strong>' + m.totalTarget + '</strong> tutor-subject combos this month (<strong>' + m.contractingPct + '%</strong>).');
+        headlineParts.push('With ' + m.monthPctLabel + '% of the month elapsed, we are <strong>' + paceDeltaSign + paceDelta + ' combos</strong> vs pace target.');
+    } else {
+        headlineParts.push(pHtml + ' &mdash; no in-progress month found in tracker data.');
+    }
+    headlineParts.push('WoW combos added: ' + pHtml + ' (no prior-week snapshot available). '
+        + 'Biggest concern: <strong>' + biggestConcern + '</strong>.');
+    var headline = '<p style="' + sty.p + 'font-size:15px;">' + headlineParts.join(' ') + '</p>';
 
     // --- 2. PACE & MOMENTUM TABLE ---
     var onTrackPct = m.subjects.length > 0 ? Math.round(m.onTrack.length / m.subjects.length * 100) : 0;
@@ -2585,33 +2596,42 @@ function generateWeeklySummary() {
     var dailyVelocity = m.dayOfMonth > 0 ? Math.round(m.totalActual / m.dayOfMonth * 10) / 10 : 0;
     var neededDaily = (m.daysInMonth - m.dayOfMonth) > 0 ? Math.round((m.totalTarget - m.totalActual) / (m.daysInMonth - m.dayOfMonth) * 10) / 10 : 0;
 
-    function paceRow(label, value, statusStyle) {
+    function paceRow(label, thisWeek, lastWeek, delta, statusStyle) {
+        var statusLabel = statusStyle === sty.green ? 'On Track' : statusStyle === sty.yellow ? 'Watch' : 'Behind';
         return '<tr><td style="' + sty.td + '">' + label + '</td>'
-            + '<td style="' + sty.td + 'text-align:right;">' + value + '</td>'
-            + '<td style="' + sty.td + statusStyle + 'text-align:center;padding:6px 12px;border-radius:4px;">'
-            + (statusStyle === sty.green ? 'On Track' : statusStyle === sty.yellow ? 'Watch' : 'Behind') + '</td></tr>';
+            + '<td style="' + sty.td + 'text-align:right;">' + thisWeek + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + lastWeek + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;">' + delta + '</td>'
+            + '<td style="' + sty.td + statusStyle + 'text-align:center;padding:6px 12px;border-radius:4px;">' + statusLabel + '</td></tr>';
     }
 
     var combosStatus = m.totalActual >= m.paceTargetTotal ? sty.green : (m.totalActual >= m.paceTargetTotal * 0.99 ? sty.yellow : sty.red);
     var velStatus = dailyVelocity >= neededDaily ? sty.green : (dailyVelocity >= neededDaily * 0.9 ? sty.yellow : sty.red);
     var onTrackStatus = onTrackPct >= 70 ? sty.green : (onTrackPct >= 60 ? sty.yellow : sty.red);
     var behindStatus = behindPct <= 15 ? sty.green : (behindPct <= 25 ? sty.yellow : sty.red);
-    var decisionsStatus = m.decisionsThisWeek.length > 0 ? sty.green : sty.yellow;
+    var decVal = m.decisionsLoaded ? String(m.decisionsThisWeek.length) : pHtml;
+    var decisionsStatus = !m.decisionsLoaded ? sty.pending : (m.decisionsThisWeek.length > 0 ? sty.green : sty.yellow);
 
     var paceTable = '<table style="' + sty.tbl + '">'
-        + '<tr><th style="' + sty.th + '">Metric</th><th style="' + sty.th + 'text-align:right;">Value</th><th style="' + sty.th + 'text-align:center;">Status</th></tr>'
-        + paceRow('New combos contracted', m.totalActual + ' of ' + m.totalTarget + ' (' + m.contractingPct + '%)', combosStatus)
-        + paceRow('Daily velocity', dailyVelocity + '/day (need ' + neededDaily + '/day)', velStatus)
-        + paceRow('Subjects on track', m.onTrack.length + ' of ' + m.subjects.length + ' (' + onTrackPct + '%)', onTrackStatus)
-        + paceRow('Subjects behind pace', m.behind.length + ' (' + behindPct + '%)', behindStatus)
-        + paceRow('Decisions logged this week', m.decisionsThisWeek.length, decisionsStatus)
-        + '</table>';
+        + '<tr><th style="' + sty.th + '">Metric</th>'
+        + '<th style="' + sty.th + 'text-align:right;">This Week</th>'
+        + '<th style="' + sty.th + 'text-align:right;">Last Week</th>'
+        + '<th style="' + sty.th + 'text-align:right;">\u0394</th>'
+        + '<th style="' + sty.th + 'text-align:center;">Status</th></tr>'
+        + paceRow('New combos contracted', m.totalActual + ' of ' + m.totalTarget + ' (' + m.contractingPct + '%)', pHtml, pHtml, combosStatus)
+        + paceRow('Daily velocity (MTD avg)', dailyVelocity + '/day (need ' + neededDaily + '/day)', pHtml, pHtml, velStatus)
+        + paceRow('Subjects on track', m.onTrack.length + ' of ' + m.subjects.length + ' (' + onTrackPct + '%)', pHtml, pHtml, onTrackStatus)
+        + paceRow('Subjects behind pace', m.behind.length + ' (' + behindPct + '%)', pHtml, pHtml, behindStatus)
+        + paceRow('Decisions logged this week', decVal, pHtml, pHtml, decisionsStatus)
+        + '</table>'
+        + '<p style="' + sty.p + sty.pending + 'font-size:11px;">Last Week and \u0394 columns require a weekly data snapshot (not yet implemented). Velocity is MTD average, not a true 7-day rolling window.</p>';
 
     // --- 3. BIGGEST MOVERS ---
     var moversHtml = '';
+    moversHtml += '<p style="' + sty.p + sty.pending + '">Subjects that moved into on-track this week: ' + escapeHtml(P) + ' (requires prior-week status snapshot).</p>';
     if (m.movers.length > 0) {
-        moversHtml += '<p style="' + sty.p + '"><strong>Velocity leaders:</strong> '
-            + m.movers.map(function(s) { return escapeHtml(s.subject) + ' (' + s.velocity7d + '/wk, ' + s.pacePct + '% of pace)'; }).join(', ')
+        moversHtml += '<p style="' + sty.p + '"><strong>Velocity leaders (MTD avg):</strong> '
+            + m.movers.map(function(s) { return escapeHtml(s.subject) + ' (~' + s.estVelocity7d + '/wk est., ' + s.pacePct + '% of pace)'; }).join(', ')
             + '.</p>';
     }
     if (m.improvingCats.length > 0) {
@@ -2619,25 +2639,29 @@ function generateWeeklySummary() {
             + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', ')
             + '.</p>';
     }
-    if (!moversHtml) moversHtml = '<p style="' + sty.p + 'color:#7f8c8d;">No standout movers this period.</p>';
+    if (m.movers.length === 0 && m.improvingCats.length === 0) {
+        moversHtml += '<p style="' + sty.p + 'color:#7f8c8d;">No standout movers this period.</p>';
+    }
 
     // --- 4. BEHIND PACE TOP 10 ---
     var behindRows = m.behind.slice(0, 10).map(function(s) {
-        var dtc = s.daysToClose >= 999 ? 'N/A' : s.daysToClose + 'd';
+        var velDisplay = s.estVelocity7d != null ? '~' + s.estVelocity7d : escapeHtml(P);
+        var dtcDisplay = s.daysToClose != null ? (s.daysToClose === 0 ? '0d' : s.daysToClose + 'd') : escapeHtml(P);
         return '<tr>'
             + '<td style="' + sty.td + '">' + escapeHtml(s.subject) + '</td>'
             + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
             + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
-            + '<td style="' + sty.td + 'text-align:right;">' + s.velocity7d + '</td>'
-            + '<td style="' + sty.td + 'text-align:right;">' + dtc + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;' + (s.estVelocity7d == null ? sty.pending : '') + '">' + velDisplay + '</td>'
+            + '<td style="' + sty.td + 'text-align:right;' + (s.daysToClose == null ? sty.pending : '') + '">' + dtcDisplay + '</td>'
             + '</tr>';
     }).join('');
     var behindTable = '<table style="' + sty.tbl + '">'
         + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + 'text-align:right;">% of Pace Target</th>'
         + '<th style="' + sty.th + 'text-align:right;">Combos Remaining</th>'
-        + '<th style="' + sty.th + 'text-align:right;">7-Day Velocity</th>'
+        + '<th style="' + sty.th + 'text-align:right;">Est. 7-Day Velocity</th>'
         + '<th style="' + sty.th + 'text-align:right;">Days to Close</th></tr>'
-        + behindRows + '</table>';
+        + behindRows + '</table>'
+        + '<p style="' + sty.p + sty.pending + 'font-size:11px;">Velocity is estimated from MTD daily average &times; 7. True 7-day contracting data requires daily-granularity actuals (not yet available).</p>';
 
     // --- 5. ZERO-VELOCITY WATCH LIST ---
     var zeroRows = m.zeroVelocity.slice(0, 15).map(function(s) {
@@ -2646,16 +2670,19 @@ function generateWeeklySummary() {
             + '<td style="' + sty.td + '">' + (s.tier || '-') + '</td>'
             + '<td style="' + sty.td + '">' + escapeHtml(s.category) + '</td></tr>';
     }).join('');
+    var zeroNote = '<p style="' + sty.p + sty.pending + 'font-size:11px;">Based on zero MTD actuals (entire month), not a true 7-day window. Daily-granularity data needed for precise 7-day inactivity detection.</p>';
     var zeroTable = m.zeroVelocity.length > 0
         ? '<table style="' + sty.tbl + '">'
             + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + 'text-align:right;">Monthly Target</th>'
             + '<th style="' + sty.th + '">Tier</th><th style="' + sty.th + '">Category</th></tr>'
-            + zeroRows + '</table>'
+            + zeroRows + '</table>' + zeroNote
         : '<p style="' + sty.p + 'color:#27ae60;">All subjects have contracting activity this month.</p>';
 
     // --- 6. DECISIONS ACTIVITY ---
     var decBody = '';
-    if (m.decisionsThisWeek.length > 0) {
+    if (!m.decisionsLoaded) {
+        decBody = '<p style="' + sty.p + sty.pending + '">' + escapeHtml(P) + ' &mdash; not signed in or decisions have not synced from server. Sign in and wait for sync to complete.</p>';
+    } else if (m.decisionsThisWeek.length > 0) {
         var byUserHtml = Object.keys(m.decisionsByUser).map(function(u) {
             return escapeHtml(u) + ': ' + m.decisionsByUser[u];
         }).join(', ');
@@ -2668,8 +2695,8 @@ function generateWeeklySummary() {
     } else {
         decBody = '<p style="' + sty.p + 'color:#7f8c8d;">No decisions logged in the past 7 days.</p>';
     }
-    if (m.openOld > 0) {
-        decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decisions open &gt; 7 days</span> — may need follow-up.</p>';
+    if (m.decisionsLoaded && m.openOld > 0) {
+        decBody += '<p style="' + sty.p + '"><span style="color:#e67e22;font-weight:600;">' + m.openOld + ' action decisions open &gt; 7 days</span> &mdash; may need follow-up.</p>';
     }
 
     // --- ASSEMBLE ---
@@ -2704,42 +2731,53 @@ function generateWeeklySummary() {
 }
 
 function _wbrPlainText(m, generated) {
+    var P = _WBR_PENDING;
     var lines = [];
     lines.push('BTS TUTOR SUPPLY \u2014 WEEKLY BUSINESS REVIEW');
     lines.push('Generated: ' + generated + ' | Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)');
     lines.push('');
 
-    var paceDelta = m.totalActual - m.paceTargetTotal;
-    var sign = paceDelta >= 0 ? '+' : '';
     lines.push('HEADLINE');
-    lines.push('We have contracted ' + m.totalActual + ' of ' + m.totalTarget + ' combos (' + m.contractingPct + '%). '
-        + sign + paceDelta + ' combos vs pace target. '
+    if (m.hasCurrentMonth) {
+        var paceDelta = m.totalActual - m.paceTargetTotal;
+        var sign = paceDelta >= 0 ? '+' : '';
+        lines.push('We have contracted ' + m.totalActual + ' of ' + m.totalTarget + ' combos (' + m.contractingPct + '%). '
+            + sign + paceDelta + ' combos vs pace target.');
+    } else {
+        lines.push(P + ' \u2014 no in-progress month found in tracker data.');
+    }
+    lines.push('WoW combos added: ' + P + ' (no prior-week snapshot available). '
         + 'Biggest concern: ' + (m.behind.length > 0 ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace' : 'no critical gaps') + '.');
     lines.push('');
 
     var dailyVel = m.dayOfMonth > 0 ? Math.round(m.totalActual / m.dayOfMonth * 10) / 10 : 0;
     var neededDaily = (m.daysInMonth - m.dayOfMonth) > 0 ? Math.round((m.totalTarget - m.totalActual) / (m.daysInMonth - m.dayOfMonth) * 10) / 10 : 0;
     lines.push('PACE & MOMENTUM');
-    lines.push('New combos: ' + m.totalActual + '/' + m.totalTarget + ' (' + m.contractingPct + '%)');
-    lines.push('Daily velocity: ' + dailyVel + '/day (need ' + neededDaily + '/day)');
-    lines.push('On track: ' + m.onTrack.length + '/' + m.subjects.length + ' | Behind: ' + m.behind.length);
-    lines.push('Decisions this week: ' + m.decisionsThisWeek.length);
+    lines.push('                          This Week       | Last Week | \u0394');
+    lines.push('New combos:               ' + m.totalActual + '/' + m.totalTarget + ' (' + m.contractingPct + '%) | ' + P + ' | ' + P);
+    lines.push('Daily velocity (MTD avg): ' + dailyVel + '/day (need ' + neededDaily + '/day)  | ' + P + ' | ' + P);
+    lines.push('On track:                 ' + m.onTrack.length + '/' + m.subjects.length + '           | ' + P + ' | ' + P);
+    lines.push('Behind pace:              ' + m.behind.length + '              | ' + P + ' | ' + P);
+    lines.push('Decisions this week:      ' + (m.decisionsLoaded ? m.decisionsThisWeek.length : P) + '              | ' + P + ' | ' + P);
+    lines.push('* Last Week and \u0394 require a weekly data snapshot (not yet implemented).');
+    lines.push('* Velocity is MTD average, not a true 7-day rolling window.');
     lines.push('');
 
-    if (m.movers.length > 0 || m.improvingCats.length > 0) {
-        lines.push('BIGGEST MOVERS');
-        if (m.movers.length) lines.push('Velocity leaders: ' + m.movers.map(function(s) { return s.subject + ' (' + s.velocity7d + '/wk)'; }).join(', '));
-        if (m.improvingCats.length) lines.push('Strong categories: ' + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', '));
-        lines.push('');
-    }
+    lines.push('BIGGEST MOVERS');
+    lines.push('Moved into on-track this week: ' + P + ' (requires prior-week status snapshot).');
+    if (m.movers.length) lines.push('Velocity leaders (MTD avg): ' + m.movers.map(function(s) { return s.subject + ' (~' + s.estVelocity7d + '/wk est.)'; }).join(', '));
+    if (m.improvingCats.length) lines.push('Strong categories: ' + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', '));
+    lines.push('');
 
     if (m.behind.length > 0) {
         lines.push('BEHIND PACE \u2014 TOP 10');
-        lines.push('Subject | % of Pace | Remaining | Velocity | Days to Close');
+        lines.push('Subject | % of Pace | Remaining | Est. Velocity | Days to Close');
         m.behind.slice(0, 10).forEach(function(s) {
-            var dtc = s.daysToClose >= 999 ? 'N/A' : s.daysToClose + 'd';
-            lines.push(s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + s.velocity7d + '/wk | ' + dtc);
+            var vel = s.estVelocity7d != null ? '~' + s.estVelocity7d + '/wk' : P;
+            var dtc = s.daysToClose != null ? (s.daysToClose === 0 ? '0d' : s.daysToClose + 'd') : P;
+            lines.push(s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + vel + ' | ' + dtc);
         });
+        lines.push('* Velocity estimated from MTD daily avg x 7. True 7-day data not yet available.');
         lines.push('');
     }
 
@@ -2748,11 +2786,14 @@ function _wbrPlainText(m, generated) {
         m.zeroVelocity.slice(0, 15).forEach(function(s) {
             lines.push(s.subject + ' (target: ' + s.target + ', ' + s.tier + ')');
         });
+        lines.push('* Based on zero MTD actuals, not true 7-day inactivity. Daily-granularity data needed.');
         lines.push('');
     }
 
     lines.push('DECISIONS ACTIVITY');
-    if (m.decisionsThisWeek.length > 0) {
+    if (!m.decisionsLoaded) {
+        lines.push(P + ' \u2014 not signed in or decisions have not synced from server.');
+    } else if (m.decisionsThisWeek.length > 0) {
         lines.push(m.decisionsThisWeek.length + ' decisions logged this week');
         var byUser = Object.keys(m.decisionsByUser).map(function(u) { return u + ': ' + m.decisionsByUser[u]; }).join(', ');
         lines.push('By team member: ' + byUser);
@@ -2761,7 +2802,7 @@ function _wbrPlainText(m, generated) {
     } else {
         lines.push('No decisions logged in the past 7 days.');
     }
-    if (m.openOld > 0) lines.push(m.openOld + ' action decisions open > 7 days');
+    if (m.decisionsLoaded && m.openOld > 0) lines.push(m.openOld + ' action decisions open > 7 days');
 
     return lines.join('\n');
 }
