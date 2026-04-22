@@ -1587,6 +1587,55 @@ def main():
     with open('dashboard/data.json', 'w') as f:
         json.dump(dashboard_data, f, indent=2)
 
+    # --- Daily snapshot for WoW comparisons ---
+    snapshot_dir = 'dashboard/snapshots'
+    os.makedirs(snapshot_dir, exist_ok=True)
+    snap_date = datetime.now(tz=CST).strftime('%Y-%m-%d')
+    snapshot = {
+        'snapshot_date': snap_date,
+        'summary': dashboard_data['summary'],
+        'weekly_summary': dashboard_data.get('weekly_summary', {}),
+        'subjects': [
+            {
+                'subject': s['Subject'], 'problem_type': s.get('Problem_Type'),
+                'category': s.get('Category'), 'tier': s.get('Tier'),
+                'util_rate': s.get('Util_Rate'), 'run_rate': s.get('Run_Rate'),
+                'bts_total': s.get('BTS_Total'), 'smoothed_target': s.get('Smoothed_Target'),
+            }
+            for s in dashboard_data.get('subjects', [])
+        ],
+        'tracker': [
+            {
+                'subject': ts['subject'], 'problem_type': ts.get('problem_type'),
+                'actual_to_date': ts.get('actual_to_date'), 'bts_total': ts.get('bts_total'),
+                'months': [
+                    {'month': m['month'], 'actual': m.get('actual'),
+                     'smoothed_target': m.get('smoothed_target'), 'status': m.get('status')}
+                    for m in ts.get('months', [])
+                    if m.get('status') in ('in_progress', 'final') or m.get('actual') is not None
+                ]
+            }
+            for ts in dashboard_data.get('monthly_tracker', [])
+        ],
+        'recommendations': [
+            {'subject': r['subject'], 'action_type': r.get('action_type'),
+             'priority': r.get('priority'), 'category': r.get('category')}
+            for r in dashboard_data.get('recommendations', [])
+        ],
+    }
+    snap_path = os.path.join(snapshot_dir, f'{snap_date}.json')
+    with open(snap_path, 'w') as f:
+        json.dump(snapshot, f, separators=(',', ':'))
+    print(f"  Snapshot written to {snap_path}")
+
+    existing = sorted(glob.glob(os.path.join(snapshot_dir, '????-??-??.json')))
+    if len(existing) > 30:
+        for old in existing[:-30]:
+            os.remove(old)
+    manifest = [os.path.basename(p).replace('.json', '') for p in sorted(glob.glob(os.path.join(snapshot_dir, '????-??-??.json')))]
+    with open(os.path.join(snapshot_dir, 'manifest.json'), 'w') as f:
+        json.dump(manifest, f)
+
     summary = dashboard_data['summary']
     print(f"\nAnalysis complete!")
     print(f"  {summary['total_subjects']} subjects analyzed")
