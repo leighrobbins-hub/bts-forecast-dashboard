@@ -47,7 +47,8 @@ var PROBLEM_TIPS = {
     'over-supplied': 'Run rate meets or exceeds target but tutors under 50% utilized. Consider reducing forecast — demand may be overestimated.',
     'true-supply': 'Tutors well-utilized (>50%) and target exceeds run rate. Supply is genuinely short — deploy recruiting levers.',
     'no-util-data': 'Target exceeds run rate but no utilization data available. Gather data to determine root cause.',
-    'on-track': 'Supply meets demand and utilization is healthy. No action needed.'
+    'on-track': 'Supply meets demand and utilization is healthy. No action needed.',
+    'on-track-highwait': 'Supply meets demand on paper, but P90 wait time exceeds 24h — students are waiting too long. Investigate matching/placement delays.'
 };
 
 // Volume tier metadata. Badge class maps to styles.css rules.
@@ -88,6 +89,7 @@ function classifyType(problemType) {
     if (pt.includes('true supply')) return 'true-supply';
     if (pt.includes('no util data')) return 'no-util-data';
     if (pt.includes('low util')) return 'over-supplied';
+    if (pt.includes('high wait')) return 'on-track-highwait';
     return 'on-track';
 }
 
@@ -309,6 +311,7 @@ function refreshOverviewLive() {
     var clientSupply = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'true-supply'; }).length;
     var clientNoUtil = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'no-util-data'; }).length;
     var clientOnTrack = allData.filter(function(r) { var t = classifyType(r.Problem_Type); return t === 'on-track'; }).length;
+    var clientHighWait = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'on-track-highwait'; }).length;
     var overSuppliedCount = allData.filter(function(r) { return classifyType(r.Problem_Type) === 'over-supplied'; }).length;
 
     // Pending counts: for each flagged-problem subject, check if it has any
@@ -334,6 +337,8 @@ function refreshOverviewLive() {
     document.getElementById('util-problems').textContent = clientPlacement;
     document.getElementById('stat-supply-problems').textContent = clientSupply + clientNoUtil;
     document.getElementById('ontrack-subjects').textContent = clientOnTrack;
+    var hwEl = document.getElementById('highwait-subjects');
+    if (hwEl) hwEl.textContent = clientHighWait;
     document.getElementById('lowutil-subjects').textContent = overSuppliedCount;
     var callout = document.getElementById('lowutil-count-callout');
     if (callout) callout.textContent = overSuppliedCount;
@@ -740,6 +745,7 @@ function renderPriorityTable() {
         else if (type === 'no-util-data') { action = 'Gather data'; badgeClass = 'nodata'; badgeText = 'No Util Data'; }
         else if (type === 'over-supplied') { action = 'Reduce forecast'; badgeClass = 'lowutil'; badgeText = 'Over-Supplied'; }
         else if (type === 'on-track') { action = 'No action needed'; badgeClass = 'ontrack'; badgeText = 'On Track'; }
+        else if (type === 'on-track-highwait') { action = 'Investigate wait times'; badgeClass = 'highwait'; badgeText = 'High Wait'; }
         else if (covPct < 50) { action = 'CRITICAL: Recruit now'; badgeClass = 'supply'; badgeText = 'Supply'; }
         else { action = 'Targeted campaigns'; badgeClass = 'supply'; badgeText = 'Supply'; }
         var rawGap = row.Raw_Gap !== null && row.Raw_Gap !== undefined ? row.Raw_Gap : 0;
@@ -819,9 +825,6 @@ function clearOverviewFilters() {
 }
 
 function matchesFilter(problemType, filter) {
-    // Filter values must match classifyType()'s return values:
-    //   'placement' | 'true-supply' | 'no-util-data' | 'over-supplied' | 'on-track'
-    // (older values 'utilization', 'low-util' were stale from pre-rename eras.)
     var type = classifyType(problemType);
     if (filter === 'all') return true;
     if (filter === 'all-problems') return type === 'placement' || type === 'true-supply' || type === 'no-util-data';
@@ -829,6 +832,7 @@ function matchesFilter(problemType, filter) {
     if (filter === 'true-supply') return type === 'true-supply';
     if (filter === 'no-util-data') return type === 'no-util-data';
     if (filter === 'on-track') return type === 'on-track';
+    if (filter === 'on-track-highwait') return type === 'on-track-highwait';
     if (filter === 'over-supplied') return type === 'over-supplied';
     return false;
 }
@@ -839,6 +843,7 @@ function recommendationFor(row) {
     if (t === 'placement') return 'investigate';
     if (t === 'true-supply' || t === 'no-util-data') return 'recruit';
     if (t === 'over-supplied') return 'reduce';
+    if (t === 'on-track-highwait') return 'investigate';
     return 'none';
 }
 
@@ -1102,7 +1107,7 @@ function renderMonthlyTracker() {
     var filtered = trackerData.filter(function(ts) {
         if (search && ts.subject.toLowerCase().indexOf(search) === -1) return false;
         if (catFilter !== 'all' && ts.category !== catFilter) return false;
-        if (filter === 'problems') return classifyType(ts.problem_type) !== 'on-track' && classifyType(ts.problem_type) !== 'over-supplied';
+        if (filter === 'problems') { var _t = classifyType(ts.problem_type); return _t !== 'on-track' && _t !== 'on-track-highwait' && _t !== 'over-supplied'; }
         if (filter === 'will-miss') return ts._pace < 80;
         if (filter === 'at-risk') return ts._pace >= 80 && ts._pace < 100;
         if (filter === 'has-actuals') return ts.actual_to_date > 0;
@@ -2639,6 +2644,7 @@ function saProblemTypeBadge(type) {
     if (type === 'no-util-data')   return '<span class="badge nodata">No Util Data</span>';
     if (type === 'over-supplied')  return '<span class="badge lowutil">Over-Supplied</span>';
     if (type === 'on-track')       return '<span class="badge ontrack">On Track</span>';
+    if (type === 'on-track-highwait') return '<span class="badge highwait">On Track — High Wait</span>';
     return '<span class="badge">—</span>';
 }
 
