@@ -171,10 +171,19 @@ def load_and_clean_data(run_rate_path, forecast_path, utilization_path):
     return df_runrate, df_forecast, df_utilization
 
 
+_ENGAGEMENT_COLS = ['Auto_Assignable', 'Opps_Responded', 'Assigns']
+
+
 def load_actuals(actuals_dir):
-    """Load all monthly actuals CSVs and per-month status from data/actuals/"""
+    """Load all monthly actuals CSVs and per-month status from data/actuals/
+
+    Returns (actuals, statuses, engagement) where engagement is a dict
+    keyed by subject with aggregated Auto_Assignable, Opps_Responded, and
+    Assigns across all in-progress months.
+    """
     actuals = {}
     statuses = {}
+    engagement_agg = {}  # subject -> {col: total, ...}
 
     status_path = os.path.join(actuals_dir, 'status.json')
     if os.path.exists(status_path):
@@ -197,17 +206,27 @@ def load_actuals(actuals_dir):
                 print(f"  Warning: {filename} missing required columns (Subject, Actual_Contracted)")
                 continue
             month_data = {}
+            has_engagement = any(c in df.columns for c in _ENGAGEMENT_COLS)
             for _, row in df.iterrows():
                 subject = _norm_subject(row['Subject'])
                 val = pd.to_numeric(row['Actual_Contracted'], errors='coerce')
                 if pd.notna(val):
                     month_data[subject] = int(val)
+                if has_engagement:
+                    if subject not in engagement_agg:
+                        engagement_agg[subject] = {c: 0 for c in _ENGAGEMENT_COLS}
+                    for c in _ENGAGEMENT_COLS:
+                        v = pd.to_numeric(row.get(c), errors='coerce')
+                        if pd.notna(v):
+                            engagement_agg[subject][c] += int(v)
             actuals[month_key] = month_data
             status = statuses.get(month_key, 'in_progress')
             print(f"  Loaded actuals for {month_key}: {len(month_data)} subjects [{status}]")
         except Exception as e:
             print(f"  Error loading {filename}: {e}")
-    return actuals, statuses
+    if engagement_agg:
+        print(f"  Aggregated engagement data for {len(engagement_agg)} subjects")
+    return actuals, statuses, engagement_agg
 
 
 def _normalize_csv_columns(df):
@@ -785,7 +804,7 @@ def assign_tier(bts_total):
     return 'NICHE'
 
 
-def classify_problems(df_analysis, df_utilization):
+def classify_problems(df_analysis, df_utilization, engagement=None):
     """Classify subjects as supply vs utilization problems"""
 
     df_analysis = df_analysis.copy()
@@ -793,6 +812,17 @@ def classify_problems(df_analysis, df_utilization):
     df_analysis['Subject'] = df_analysis['Subject'].map(_norm_subject)
     df_utilization['Subject'] = df_utilization['Subject'].map(_norm_subject)
     df_merged = df_analysis.merge(df_utilization, on='Subject', how='left')
+
+    # Merge engagement columns (Auto_Assignable, Opps_Responded, Assigns)
+    if engagement:
+        eng_df = pd.DataFrame.from_dict(engagement, orient='index')
+        eng_df.index.name = 'Subject'
+        eng_df = eng_df.reset_index()
+        df_merged = df_merged.merge(eng_df, on='Subject', how='left')
+        print(f"  Merged engagement data: {len(eng_df)} subjects")
+    for c in _ENGAGEMENT_COLS:
+        if c not in df_merged.columns:
+            df_merged[c] = None
 
     nat_p90_path = 'data/nat_p90.csv'
     if os.path.exists(nat_p90_path):
@@ -851,6 +881,8 @@ def classify_problems(df_analysis, df_utilization):
             if thu is not None and thu >= 115:
                 return "Recruit More \u2014 Urgent"
             elif thu is not None and thu < 60:
+                if p90 is not None and p90 > goal:
+                    return "Recruit More"
                 return "Investigate \u2014 Capacity Available"
             else:
                 return "Recruit More"
@@ -876,6 +908,7 @@ def classify_problems(df_analysis, df_utilization):
         util = _safe_float(row.get('Util_Rate'))
         p90 = _safe_float(row.get('P90_NAT_Hours'))
         goal = row.get('P90_Goal', 48)
+        needs_ext = row.get('Needs_External_Levers', False)
 
         if thu is not None and thu > 120:
             flags.append('burnout_risk')
@@ -887,6 +920,11 @@ def classify_problems(df_analysis, df_utilization):
             flags.append('critical_wait')
         elif p90 is not None and p90 > goal * 1.5:
             flags.append('high_wait')
+
+        # Paper supply: supply gap + low THU + high wait times = idle roster
+        if (needs_ext and thu is not None and thu < 60
+                and p90 is not None and p90 > goal):
+            flags.append('paper_supply')
 
         override = row.get('Healthy_P90_Hours')
         if override is not None and not (isinstance(override, float) and pd.isna(override)) and override > 0:
@@ -1286,13 +1324,27 @@ def generate_recommendations(df_final, tracker_subjects):
             })
 
         elif action == 'Recruit More':
-            priority = 'high' if abs(raw_gap) > 20 else 'medium'
+            stress_flags = row.get('Stress_Flags', [])
+            is_paper = 'paper_supply' in (stress_flags if isinstance(stress_flags, list) else [])
+            priority = 'high' if abs(raw_gap) > 20 or is_paper else 'medium'
+            if is_paper:
+                reason = (f'Run rate short of target by {gap_s} tutors. All Tutor Hours Util at {thu_s} appears low, '
+                          f'but P90 at {p90_s} (goal {goal:.0f}h) shows students are still waiting \u2014 current supply '
+                          f'isn\u2019t converting to real placements (paper supply). Recruit active tutors.')
+            else:
+                reason = (f'Run rate short of target by {gap_s} tutors, All Tutor Hours Util at {thu_s} within normal range. '
+                          f'Standard recruiting levers.')
+            eng_data = {}
+            for c in ['Auto_Assignable', 'Opps_Responded', 'Assigns']:
+                v = _sf(row.get(c))
+                if v is not None:
+                    eng_data[c.lower()] = int(v)
             recs.append({
                 'subject': subject, 'category': category, 'priority': priority,
                 'action_type': 'increase_recruiting',
-                'reason': (f'Run rate short of target by {gap_s} tutors, All Tutor Hours Util at {thu_s} within normal range. '
-                           f'Standard recruiting levers.'),
-                'data_points': {'util_rate': util_val, 'tutor_hours_util': thu_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+                'reason': reason,
+                'data_points': {**{'util_rate': util_val, 'tutor_hours_util': thu_val, 'gap': round(raw_gap),
+                                   'run_rate': run_rate, 'p90_nat': p90_val, 'p90_goal': goal}, **eng_data}
             })
 
         elif action == 'Investigate \u2014 Hidden Supply':
@@ -1628,7 +1680,7 @@ def main():
             print(f"WARNING: Could not load March finals ({e}), continuing without them")
 
     print("Loading actuals...")
-    actuals, month_statuses = load_actuals(actuals_dir)
+    actuals, month_statuses, engagement = load_actuals(actuals_dir)
     if actuals:
         print(f"  Found actuals for {len(actuals)} month(s): {', '.join(sorted(actuals.keys()))}")
     else:
@@ -1644,7 +1696,7 @@ def main():
         df_analysis = calculate_smoothed_forecasts(df_forecast, df_runrate, manual_adjustments, march_overrides)
 
         print("Classifying problems...")
-        df_final = classify_problems(df_analysis, df_utilization)
+        df_final = classify_problems(df_analysis, df_utilization, engagement=engagement)
 
         print("Building monthly tracker...")
         tracker_subjects = calculate_monthly_tracker(df_final, actuals, month_statuses)
@@ -1708,6 +1760,9 @@ def main():
                 'tutor_hours_util': s.get('Tutor_Hours_Util_Pct'),
                 'p90_nat': s.get('P90_NAT_Hours'), 'p90_goal': s.get('P90_Goal'),
                 'bts_total': s.get('BTS_Total'), 'smoothed_target': s.get('Smoothed_Target'),
+                'auto_assignable': s.get('Auto_Assignable'),
+                'opps_responded': s.get('Opps_Responded'),
+                'assigns': s.get('Assigns'),
             }
             for s in dashboard_data.get('subjects', [])
         ],

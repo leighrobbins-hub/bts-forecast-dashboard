@@ -213,7 +213,7 @@ def _util_row(subject, util_rate):
     return {'Subject': subject, 'Total_Contracted': 20, 'Utilized_30d': int(20 * util_rate / 100), 'Util_Rate': util_rate}
 
 
-def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None):
+def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None, engagement=None):
     """Run classify_problems and return the single result row as a dict."""
     row = _base_row(**analysis_overrides)
     analysis = pd.DataFrame([row])
@@ -234,7 +234,7 @@ def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None):
             pd.DataFrame([{'Subject': row['Subject'], 'P90_NAT_Hours': p90}]).to_csv('data/nat_p90.csv', index=False)
         if thu_pct is not None:
             pd.DataFrame([{'Subject': row['Subject'], 'Tutor_Hours_Util_Pct': thu_pct}]).to_csv('data/tutor_hours_util.csv', index=False)
-        result = classify_problems(analysis, util)
+        result = classify_problems(analysis, util, engagement=engagement)
     finally:
         os.chdir(orig_cwd)
         shutil.rmtree(tmpdir)
@@ -348,6 +348,33 @@ class TestPrimaryAction(unittest.TestCase):
                           util_rate=60, thu_pct=None)
         self.assertEqual(r['Primary_Action'], 'Recruit More')
 
+    def test_paper_supply_reclassifies_to_recruit(self):
+        """needs_ext + THU < 60 + P90 > goal -> Recruit More (paper supply)."""
+        # BTS_Total=200 -> CORE tier -> P90 goal=24. P90=30 > 24.
+        r = _run_classify({'Subject': 'Paper', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=45, p90=30)
+        self.assertEqual(r['Primary_Action'], 'Recruit More')
+
+    def test_capacity_available_when_p90_within_goal(self):
+        """needs_ext + THU < 60 + P90 <= goal -> Capacity Available (genuine idle)."""
+        # BTS_Total=200 -> CORE tier -> P90 goal=24. P90=20 < 24.
+        r = _run_classify({'Subject': 'Idle', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=45, p90=20)
+        self.assertEqual(r['Primary_Action'], 'Investigate \u2014 Capacity Available')
+
+    def test_capacity_available_when_no_p90_data(self):
+        """needs_ext + THU < 60 + no P90 -> Capacity Available (can't prove paper supply)."""
+        r = _run_classify({'Subject': 'NoP90', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=45, p90=None)
+        self.assertEqual(r['Primary_Action'], 'Investigate \u2014 Capacity Available')
+
+    def test_paper_supply_low_tier_subject(self):
+        """Paper supply detection works with LOW tier (P90 goal=60)."""
+        # BTS_Total=15 -> LOW tier -> P90 goal=60. P90=70 > 60.
+        r = _run_classify({'Subject': 'LowTier', 'Needs_External_Levers': True, 'BTS_Total': 15},
+                          util_rate=60, thu_pct=50, p90=70)
+        self.assertEqual(r['Primary_Action'], 'Recruit More')
+
 
 class TestStressFlags(unittest.TestCase):
     """Tests for Stress_Flags assignment."""
@@ -396,6 +423,36 @@ class TestStressFlags(unittest.TestCase):
         self.assertIn('burnout_risk', r['Stress_Flags'])
         self.assertIn('new_tutor_stuck', r['Stress_Flags'])
         self.assertIn('critical_wait', r['Stress_Flags'])
+
+    def test_paper_supply_flag(self):
+        """paper_supply fires when needs_ext + THU < 60 + P90 > goal."""
+        # BTS_Total=200 -> CORE -> goal=24. P90=30 > 24.
+        r = _run_classify({'Subject': 'PaperFlag', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=45, p90=30)
+        self.assertIn('paper_supply', r['Stress_Flags'])
+
+    def test_no_paper_supply_flag_when_p90_ok(self):
+        """paper_supply does NOT fire when P90 <= goal."""
+        r = _run_classify({'Subject': 'NotPaper', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=45, p90=20)
+        self.assertNotIn('paper_supply', r['Stress_Flags'])
+
+    def test_no_paper_supply_flag_without_needs_ext(self):
+        """paper_supply requires needs_ext."""
+        r = _run_classify({'Subject': 'NoExt', 'Needs_External_Levers': False, 'BTS_Total': 200,
+                           'Run_Rate': 20, 'Smoothed_Target': 15},
+                          util_rate=60, thu_pct=45, p90=30)
+        self.assertNotIn('paper_supply', r['Stress_Flags'])
+
+    def test_paper_supply_stacks_with_other_flags(self):
+        """paper_supply can coexist with idle_pool and high_wait."""
+        # BTS_Total=200 -> CORE -> goal=24. P90=40 > 1.5*24=36 but < 2*24=48 -> high_wait.
+        # THU=45 < 50 -> idle_pool. needs_ext + THU < 60 + P90 > 24 -> paper_supply.
+        r = _run_classify({'Subject': 'StackPaper', 'Needs_External_Levers': True, 'BTS_Total': 200},
+                          util_rate=60, thu_pct=45, p90=40)
+        self.assertIn('paper_supply', r['Stress_Flags'])
+        self.assertIn('idle_pool', r['Stress_Flags'])
+        self.assertIn('high_wait', r['Stress_Flags'])
 
 
 class TestClassifyProblemsLegacy(unittest.TestCase):

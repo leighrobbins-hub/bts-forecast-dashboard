@@ -218,7 +218,7 @@
                     <dt>Action (Primary Action)</dt>
                     <dd>
                         <strong style="color:#e74c3c;">Recruit — Urgent</strong> — Supply gap AND existing pool cracking (&gt; 115% hours util).<br>
-                        <strong style="color:#e74c3c;">Recruit More</strong> — Supply gap, normal hours utilization.<br>
+                        <strong style="color:#e74c3c;">Recruit More</strong> — Supply gap, normal hours utilization. Also fires when hours util is low but P90 wait times prove idle capacity is paper supply.<br>
                         <strong style="color:#e67e22;">Hidden Supply</strong> — Existing tutors overworked but new tutors not placed. Investigate before recruiting.<br>
                         <strong style="color:#e67e22;">Capacity Available</strong> — Supply gap but idle pool exists. Unlock capacity first.<br>
                         <strong style="color:#e67e22;">Wait Times</strong> — P90 exceeds tier goal. Examine assignment flow.<br>
@@ -234,6 +234,7 @@
                         <span style="color:#e67e22;font-weight:600;">new tutor stuck</span> — placement &lt; 30%<br>
                         <span style="color:#c0392b;font-weight:600;">critical wait</span> — P90 &gt; 2× goal<br>
                         <span style="color:#f39c12;font-weight:600;">high wait</span> — P90 &gt; 1.5× goal<br>
+                        <span style="color:#8e44ad;font-weight:600;">paper supply</span> — supply gap + low hours util + P90 above goal (idle roster, not real capacity)<br>
                         <span style="color:#27ae60;font-weight:600;">healthy P90 override</span> — custom goal active
                     </dd>
                 </dl>
@@ -937,10 +938,11 @@
                     <tr><td>1</td><td><strong>Insufficient Data</strong></td><td>Both new-tutor placement and all-tutor hours util are null</td></tr>
                     <tr><td>2</td><td><strong>Investigate &mdash; Hidden Supply</strong></td><td>Hours util &ge; 115% AND new-tutor placement &lt; 30%</td></tr>
                     <tr><td>3</td><td><strong>Recruit More &mdash; Urgent</strong></td><td>Needs external + hours util &ge; 115%</td></tr>
-                    <tr><td>4</td><td><strong>Investigate &mdash; Capacity Available</strong></td><td>Needs external + hours util &lt; 60%</td></tr>
-                    <tr><td>5</td><td><strong>Recruit More</strong></td><td>Needs external, normal hours util</td></tr>
-                    <tr><td>6</td><td><strong>Reduce Forecast</strong></td><td>Run rate &ge; target, placement &lt; 30%, hours util &lt; 60%, P90 &lt; tiered goal</td></tr>
-                    <tr><td>7</td><td><strong>Investigate &mdash; Wait Times</strong></td><td>P90 &gt; tiered goal</td></tr>
+                    <tr><td>4</td><td><strong>Recruit More</strong> (paper supply)</td><td>Needs external + hours util &lt; 60% + P90 &gt; tiered goal (idle roster not handling demand)</td></tr>
+                    <tr><td>5</td><td><strong>Investigate &mdash; Capacity Available</strong></td><td>Needs external + hours util &lt; 60% + P90 &le; tiered goal (genuine idle capacity)</td></tr>
+                    <tr><td>6</td><td><strong>Recruit More</strong></td><td>Needs external, normal hours util (60&ndash;115%)</td></tr>
+                    <tr><td>7</td><td><strong>Reduce Forecast</strong></td><td>Run rate &ge; target, placement &lt; 30%, hours util &lt; 60%, P90 &lt; tiered goal</td></tr>
+                    <tr><td>8</td><td><strong>Investigate &mdash; Wait Times</strong></td><td>P90 &gt; tiered goal</td></tr>
                     <tr><td>8</td><td><strong>On Track</strong></td><td>Default &mdash; no issues detected</td></tr>
                 </table>
                 
@@ -952,6 +954,7 @@
                     <tr><td style="color:#e67e22;font-weight:600;">new_tutor_stuck</td><td>Placement &lt; 30%</td><td>Recently contracted tutors not getting assigned</td></tr>
                     <tr><td style="color:#c0392b;font-weight:600;">critical_wait</td><td>P90 &gt; 2&times; tiered goal</td><td>Extreme assignment delays</td></tr>
                     <tr><td style="color:#f39c12;font-weight:600;">high_wait</td><td>P90 &gt; 1.5&times; goal (not critical)</td><td>Assignment delays above comfort zone</td></tr>
+                    <tr><td style="color:#8e44ad;font-weight:600;">paper_supply</td><td>Needs external + hours util &lt; 60% + P90 &gt; tiered goal</td><td>Idle roster not handling demand &mdash; &ldquo;capacity&rdquo; is illusory</td></tr>
                     <tr><td style="color:#27ae60;font-weight:600;">healthy_p90_override</td><td>Per-subject override active</td><td>Custom P90 goal set for this subject</td></tr>
                 </table>
                 
@@ -962,8 +965,9 @@
                 <p>Each subject&rsquo;s Primary Action drives a specific recommendation with a detailed reason string citing the actual per-row metrics:</p>
                 <ul>
                     <li><strong>Recruit More / Urgent:</strong> Cites run rate gap and hours util. Recommends deploying recruiting levers.</li>
+                    <li><strong>Recruit More (paper supply):</strong> Low hours util but P90 proves current supply isn&rsquo;t converting to real placements. Recommends recruiting active tutors.</li>
                     <li><strong>Investigate &mdash; Hidden Supply:</strong> Cites both hours util and placement rate. Asks team to investigate before recruiting.</li>
-                    <li><strong>Investigate &mdash; Capacity Available:</strong> Cites low hours util despite supply gap. Asks whether capacity can be unlocked first.</li>
+                    <li><strong>Investigate &mdash; Capacity Available:</strong> Cites low hours util despite supply gap, but P90 within goal confirms genuine idle capacity. Asks whether capacity can be unlocked first.</li>
                     <li><strong>Investigate &mdash; Wait Times:</strong> Cites P90 vs tiered goal. Asks to examine assignment flow.</li>
                     <li><strong>Reduce Forecast:</strong> Cites all three metrics. Recommends considering forecast reduction.</li>
                     <li><strong>Behind-pace alerts</strong> are layered on top for in-progress months using calendar-prorated targets.</li>
@@ -1116,6 +1120,7 @@
                 <h3>Interpretation by Primary Action</h3>
                 <ul>
                     <li><strong>Recruit More / Urgent:</strong> Deploy recruiting levers. Gap is real and pipeline is the bottleneck.</li>
+                    <li><strong>Recruit More (paper supply):</strong> Low hours util looks idle, but P90 wait times prove the &ldquo;capacity&rdquo; is illusory. Existing roster isn&rsquo;t converting &mdash; recruit active tutors.</li>
                     <li><strong>Investigate &mdash; Hidden Supply / Capacity Available:</strong> Do NOT blindly recruit. Capacity may already exist &mdash; investigate placement, algorithm, or scheduling first.</li>
                     <li><strong>Investigate &mdash; Wait Times:</strong> Students waiting too long. Examine matching flow, credential checks, scheduling.</li>
                     <li><strong>Reduce Forecast:</strong> Demand may be overestimated. All signals show surplus. Consider lowering the target.</li>
@@ -1129,6 +1134,7 @@
                     <li><strong>idle_pool</strong> (blue): Existing tutors have substantial unused capacity. Check if routing is efficient.</li>
                     <li><strong>new_tutor_stuck</strong> (orange): &lt; 30% of new tutors placed. Likely a placement/algorithm issue.</li>
                     <li><strong>critical_wait / high_wait</strong> (red/amber): P90 exceeds 2&times; or 1.5&times; the tier goal. Students experience frustrating delays.</li>
+                    <li><strong>paper_supply</strong> (purple): Supply gap + low hours util + P90 above goal. The &ldquo;idle capacity&rdquo; is paper supply &mdash; tutors on the roster who aren&rsquo;t actually handling demand. Recruit active tutors.</li>
                     <li><strong>healthy_p90_override</strong> (green): A per-subject P90 goal override is active.</li>
                 </ul>
                 
