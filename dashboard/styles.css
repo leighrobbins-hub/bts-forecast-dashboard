@@ -103,6 +103,7 @@ body {
 .stat-card.red { border-color: #e74c3c; }
 .stat-card.orange { border-color: #f39c12; }
 .stat-card.green { border-color: #35AA59; }
+.stat-card.amber { border-color: #e67e22; }
 .stat-card.blue { border-color: #4A4BB6; }
 .stat-card.purple { border-color: #6366F1; }
 
@@ -263,6 +264,8 @@ tr.nodata-problem {
 .badge.nodata::before { content: "? "; }
 .badge.lowutil { background: #9b59b6; color: white; }
 .badge.lowutil::before { content: "\25BC "; }
+.badge.highwait { background: #e67e22; color: white; }
+.badge.highwait::before { content: "\26A0 "; }
 .badge.adjusted { background: #3498db; color: white; font-size: 10px; padding: 2px 6px; margin-left: 6px; }
 .adj-note { display: block; font-size: 11px; color: #7f8c8d; font-weight: normal; }
 

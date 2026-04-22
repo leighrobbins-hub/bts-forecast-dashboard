@@ -4,8 +4,9 @@
     "under_used": 144,
     "over_supplied": 108,
     "supply_problems": 12,
-    "on_track": 118,
-    "last_updated": "2026-04-22 09:50 AM CST",
+    "on_track": 46,
+    "on_track_high_wait": 72,
+    "last_updated": "2026-04-22 10:19 AM CST",
     "subjects_with_util_data": 378,
     "util_coverage_pct": 99.0,
     "tier_distribution": {
@@ -77,7 +78,7 @@
       "Util_Recent_Contracted": 139.0,
       "Util_Recent_Utilized": 78.0,
       "P90_NAT_Hours": 26.188327,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Middle School",
       "Tier": "CORE"
     },
@@ -181,7 +182,7 @@
       "Util_Recent_Contracted": 175.0,
       "Util_Recent_Utilized": 88.0,
       "P90_NAT_Hours": 28.08333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Elementary",
       "Tier": "CORE"
     },
@@ -285,7 +286,7 @@
       "Util_Recent_Contracted": 30.0,
       "Util_Recent_Utilized": 20.0,
       "P90_NAT_Hours": 37.15,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "CORE"
     },
@@ -389,7 +390,7 @@
       "Util_Recent_Contracted": 50.0,
       "Util_Recent_Utilized": 33.0,
       "P90_NAT_Hours": 38.51666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "CORE"
     },
@@ -441,7 +442,7 @@
       "Util_Recent_Contracted": 86.0,
       "Util_Recent_Utilized": 48.0,
       "P90_NAT_Hours": 26.239997,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "HIGH"
     },
@@ -493,7 +494,7 @@
       "Util_Recent_Contracted": 26.0,
       "Util_Recent_Utilized": 16.0,
       "P90_NAT_Hours": 38.29,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "HIGH"
     },
@@ -597,7 +598,7 @@
       "Util_Recent_Contracted": 29.0,
       "Util_Recent_Utilized": 19.0,
       "P90_NAT_Hours": 28.216664,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "HIGH"
     },
@@ -909,7 +910,7 @@
       "Util_Recent_Contracted": 57.0,
       "Util_Recent_Utilized": 29.0,
       "P90_NAT_Hours": 24.879997,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "MEDIUM"
     },
@@ -1013,7 +1014,7 @@
       "Util_Recent_Contracted": 6.0,
       "Util_Recent_Utilized": 5.0,
       "P90_NAT_Hours": 29.319994,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "MEDIUM"
     },
@@ -1167,7 +1168,7 @@
       "Util_Recent_Contracted": 13.0,
       "Util_Recent_Utilized": 9.0,
       "P90_NAT_Hours": 42.3,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "MEDIUM"
     },
@@ -1271,7 +1272,7 @@
       "Util_Recent_Contracted": 19.0,
       "Util_Recent_Utilized": 12.0,
       "P90_NAT_Hours": 25.7,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "MEDIUM"
     },
@@ -1375,7 +1376,7 @@
       "Util_Recent_Contracted": 22.0,
       "Util_Recent_Utilized": 12.0,
       "P90_NAT_Hours": 39.53666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "MEDIUM"
     },
@@ -1531,7 +1532,7 @@
       "Util_Recent_Contracted": 7.0,
       "Util_Recent_Utilized": 6.0,
       "P90_NAT_Hours": 26.85666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "MEDIUM"
     },
@@ -1789,7 +1790,7 @@
       "Util_Recent_Contracted": 9.0,
       "Util_Recent_Utilized": 5.0,
       "P90_NAT_Hours": 41.49166,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "MEDIUM"
     },
@@ -2205,7 +2206,7 @@
       "Util_Recent_Contracted": 29.0,
       "Util_Recent_Utilized": 22.0,
       "P90_NAT_Hours": 28.771662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -2257,7 +2258,7 @@
       "Util_Recent_Contracted": 14.0,
       "Util_Recent_Utilized": 7.0,
       "P90_NAT_Hours": 40.401666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Other",
       "Tier": "LOW"
     },
@@ -2309,7 +2310,7 @@
       "Util_Recent_Contracted": 7.0,
       "Util_Recent_Utilized": 4.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "MEDIUM"
     },
@@ -2413,7 +2414,7 @@
       "Util_Recent_Contracted": 28.0,
       "Util_Recent_Utilized": 19.0,
       "P90_NAT_Hours": 26.531663,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "LOW"
     },
@@ -2619,7 +2620,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 30.564998,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -2671,7 +2672,7 @@
       "Util_Recent_Contracted": 6.0,
       "Util_Recent_Utilized": 4.0,
       "P90_NAT_Hours": 51.94333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -2723,7 +2724,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 67.77666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Technology",
       "Tier": "LOW"
     },
@@ -2879,7 +2880,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -2931,7 +2932,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 59.01666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "LOW"
     },
@@ -3191,7 +3192,7 @@
       "Util_Recent_Contracted": 5.0,
       "Util_Recent_Utilized": 3.0,
       "P90_NAT_Hours": 129.499995,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Arts & Music",
       "Tier": "LOW"
     },
@@ -3243,7 +3244,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 77.773327,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -3501,7 +3502,7 @@
       "Util_Recent_Contracted": 5.0,
       "Util_Recent_Utilized": 4.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -4173,7 +4174,7 @@
       "Util_Recent_Contracted": 5.0,
       "Util_Recent_Utilized": 5.0,
       "P90_NAT_Hours": 28.506662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "LOW"
     },
@@ -4225,7 +4226,7 @@
       "Util_Recent_Contracted": 3.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 47.41666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -4327,7 +4328,7 @@
       "Util_Recent_Contracted": 3.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 52.32333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -4739,7 +4740,7 @@
       "Util_Recent_Contracted": 4.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 30.789996,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "LOW"
     },
@@ -5095,7 +5096,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 27.96666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "AP",
       "Tier": "LOW"
     },
@@ -5603,7 +5604,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 29.26666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Arts & Music",
       "Tier": "LOW"
     },
@@ -6619,7 +6620,7 @@
       "Util_Recent_Contracted": 5.0,
       "Util_Recent_Utilized": 4.0,
       "P90_NAT_Hours": 36.98333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -6671,7 +6672,7 @@
       "Util_Recent_Contracted": 6.0,
       "Util_Recent_Utilized": 3.0,
       "P90_NAT_Hours": 39.546666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -6927,7 +6928,7 @@
       "Util_Recent_Contracted": 20.0,
       "Util_Recent_Utilized": 17.0,
       "P90_NAT_Hours": 26.069997,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -7077,7 +7078,7 @@
       "Util_Recent_Contracted": 5.0,
       "Util_Recent_Utilized": 3.0,
       "P90_NAT_Hours": 26.16666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Professional/Cert",
       "Tier": "NICHE"
     },
@@ -7691,7 +7692,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -8095,7 +8096,7 @@
       "Util_Recent_Contracted": 7.0,
       "Util_Recent_Utilized": 6.0,
       "P90_NAT_Hours": 71.18333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -8301,7 +8302,7 @@
       "Util_Recent_Contracted": 9.0,
       "Util_Recent_Utilized": 6.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -8703,7 +8704,7 @@
       "Util_Recent_Contracted": 5.0,
       "Util_Recent_Utilized": 3.0,
       "P90_NAT_Hours": 24.186664,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -9207,7 +9208,7 @@
       "Util_Recent_Contracted": 4.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 29.446662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -9311,7 +9312,7 @@
       "Util_Recent_Contracted": 3.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 45.266665,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "LOW"
     },
@@ -9825,7 +9826,7 @@
       "Util_Recent_Contracted": 24.0,
       "Util_Recent_Utilized": 18.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -9925,7 +9926,7 @@
       "Util_Recent_Contracted": 21.0,
       "Util_Recent_Utilized": 15.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -10025,7 +10026,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 53.323328,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -10279,7 +10280,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 100.63,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -10985,7 +10986,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 164.31666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Technology",
       "Tier": "NICHE"
     },
@@ -11241,7 +11242,7 @@
       "Util_Recent_Contracted": 4.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 72.216662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -11641,7 +11642,7 @@
       "Util_Recent_Contracted": 7.0,
       "Util_Recent_Utilized": 4.0,
       "P90_NAT_Hours": 82.069998,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "High School",
       "Tier": "LOW"
     },
@@ -11691,7 +11692,7 @@
       "Util_Recent_Contracted": 9.0,
       "Util_Recent_Utilized": 5.0,
       "P90_NAT_Hours": 40.03,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12045,7 +12046,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 39.149998,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12147,7 +12148,7 @@
       "Util_Recent_Contracted": 8.0,
       "Util_Recent_Utilized": 4.0,
       "P90_NAT_Hours": 24.699996,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12247,7 +12248,7 @@
       "Util_Recent_Contracted": 4.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 42.076662,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Technology",
       "Tier": "LOW"
     },
@@ -12297,7 +12298,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 49.91666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12449,7 +12450,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 72.376663,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -12749,7 +12750,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 52.88,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -13303,7 +13304,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 34.29833,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -13553,7 +13554,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 71.869994,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Technology",
       "Tier": "NICHE"
     },
@@ -13755,7 +13756,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 55.789996,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -14363,7 +14364,7 @@
       "Util_Recent_Contracted": 4.0,
       "Util_Recent_Utilized": 3.0,
       "P90_NAT_Hours": 39.06666,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -14913,7 +14914,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 93.05,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "LOW"
     },
@@ -15213,7 +15214,7 @@
       "Util_Recent_Contracted": 3.0,
       "Util_Recent_Utilized": 3.0,
       "P90_NAT_Hours": 32.443328,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -15717,7 +15718,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -16571,7 +16572,7 @@
       "Util_Recent_Contracted": 3.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 68.386664,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "IB",
       "Tier": "NICHE"
     },
@@ -16773,7 +16774,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 88.53333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Technology",
       "Tier": "NICHE"
     },
@@ -18225,7 +18226,7 @@
       "Util_Recent_Contracted": 23.0,
       "Util_Recent_Utilized": 14.0,
       "P90_NAT_Hours": 34.26333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "LOW"
     },
@@ -18329,7 +18330,7 @@
       "Util_Recent_Contracted": 31.0,
       "Util_Recent_Utilized": 18.0,
       "P90_NAT_Hours": 28.08333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Other",
       "Tier": "NICHE"
     },
@@ -18535,7 +18536,7 @@
       "Util_Recent_Contracted": 2.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 24.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Language",
       "Tier": "NICHE"
     },
@@ -18897,7 +18898,7 @@
       "Util_Recent_Contracted": 4.0,
       "Util_Recent_Utilized": 2.0,
       "P90_NAT_Hours": 24.863327,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "College",
       "Tier": "NICHE"
     },
@@ -19053,7 +19054,7 @@
       "Util_Recent_Contracted": 18.0,
       "Util_Recent_Utilized": 14.0,
       "P90_NAT_Hours": 55.06333,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -19105,7 +19106,7 @@
       "Util_Recent_Contracted": 17.0,
       "Util_Recent_Utilized": 12.0,
       "P90_NAT_Hours": 27.0,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -19209,7 +19210,7 @@
       "Util_Recent_Contracted": 1.0,
       "Util_Recent_Utilized": 1.0,
       "P90_NAT_Hours": 42.043328,
-      "Problem_Type": "On Track",
+      "Problem_Type": "On Track \u2014 High Wait",
       "Category": "Test Prep",
       "Tier": "NICHE"
     },
@@ -19483,7 +19484,7 @@
       "actual_to_date": 28,
       "remaining_need": 248.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Middle School",
       "tier": "CORE",
       "march_baseline": {
@@ -19675,7 +19676,7 @@
       "actual_to_date": 28,
       "remaining_need": 168.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Elementary",
       "tier": "CORE",
       "march_baseline": {
@@ -19867,7 +19868,7 @@
       "actual_to_date": 9,
       "remaining_need": 198.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "CORE",
       "march_baseline": {
@@ -20059,7 +20060,7 @@
       "actual_to_date": 10,
       "remaining_need": 167.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "CORE",
       "march_baseline": {
@@ -20155,7 +20156,7 @@
       "actual_to_date": 21,
       "remaining_need": 125.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "HIGH",
       "march_baseline": {
@@ -20251,7 +20252,7 @@
       "actual_to_date": 9,
       "remaining_need": 122.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "HIGH",
       "march_baseline": {
@@ -20443,7 +20444,7 @@
       "actual_to_date": 12,
       "remaining_need": 131.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "HIGH",
       "march_baseline": {
@@ -21019,7 +21020,7 @@
       "actual_to_date": 15,
       "remaining_need": 70.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -21211,7 +21212,7 @@
       "actual_to_date": 3,
       "remaining_need": 71.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -21499,7 +21500,7 @@
       "actual_to_date": 5,
       "remaining_need": 50.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -21691,7 +21692,7 @@
       "actual_to_date": 8,
       "remaining_need": 58.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -21883,7 +21884,7 @@
       "actual_to_date": 3,
       "remaining_need": 44.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -22171,7 +22172,7 @@
       "actual_to_date": 0,
       "remaining_need": 37.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -22651,7 +22652,7 @@
       "actual_to_date": 4,
       "remaining_need": 34.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -23419,7 +23420,7 @@
       "actual_to_date": 2,
       "remaining_need": 15.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -23515,7 +23516,7 @@
       "actual_to_date": 3,
       "remaining_need": 27.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Other",
       "tier": "LOW",
       "march_baseline": {
@@ -23611,7 +23612,7 @@
       "actual_to_date": 7,
       "remaining_need": 33.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "MEDIUM",
       "march_baseline": {
@@ -23803,7 +23804,7 @@
       "actual_to_date": 6,
       "remaining_need": 23.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "LOW",
       "march_baseline": {
@@ -24187,7 +24188,7 @@
       "actual_to_date": 5,
       "remaining_need": 21.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -24283,7 +24284,7 @@
       "actual_to_date": 0,
       "remaining_need": 29.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -24379,7 +24380,7 @@
       "actual_to_date": 1,
       "remaining_need": 15.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Technology",
       "tier": "LOW",
       "march_baseline": {
@@ -24667,7 +24668,7 @@
       "actual_to_date": 1,
       "remaining_need": 24.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -24763,7 +24764,7 @@
       "actual_to_date": 2,
       "remaining_need": 27.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "LOW",
       "march_baseline": {
@@ -25243,7 +25244,7 @@
       "actual_to_date": 3,
       "remaining_need": 24.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Arts & Music",
       "tier": "LOW",
       "march_baseline": {
@@ -25339,7 +25340,7 @@
       "actual_to_date": 1,
       "remaining_need": 21.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -25819,7 +25820,7 @@
       "actual_to_date": 2,
       "remaining_need": 18.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -27067,7 +27068,7 @@
       "actual_to_date": 2,
       "remaining_need": 17.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "LOW",
       "march_baseline": {
@@ -27163,7 +27164,7 @@
       "actual_to_date": 1,
       "remaining_need": 12.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -27355,7 +27356,7 @@
       "actual_to_date": 1,
       "remaining_need": 17.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -28123,7 +28124,7 @@
       "actual_to_date": 0,
       "remaining_need": 21.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "LOW",
       "march_baseline": {
@@ -28795,7 +28796,7 @@
       "actual_to_date": 0,
       "remaining_need": 16.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "AP",
       "tier": "LOW",
       "march_baseline": {
@@ -29755,7 +29756,7 @@
       "actual_to_date": 0,
       "remaining_need": 14.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Arts & Music",
       "tier": "LOW",
       "march_baseline": {
@@ -31675,7 +31676,7 @@
       "actual_to_date": 0,
       "remaining_need": 19.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -31771,7 +31772,7 @@
       "actual_to_date": 4,
       "remaining_need": 15.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -32251,7 +32252,7 @@
       "actual_to_date": 6,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -32539,7 +32540,7 @@
       "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Professional/Cert",
       "tier": "NICHE",
       "march_baseline": {
@@ -33691,7 +33692,7 @@
       "actual_to_date": 3,
       "remaining_need": 11.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -34459,7 +34460,7 @@
       "actual_to_date": 2,
       "remaining_need": 12.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -34843,7 +34844,7 @@
       "actual_to_date": 3,
       "remaining_need": 18.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -35611,7 +35612,7 @@
       "actual_to_date": 4,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -36571,7 +36572,7 @@
       "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -36763,7 +36764,7 @@
       "actual_to_date": 2,
       "remaining_need": 10.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "LOW",
       "march_baseline": {
@@ -37723,7 +37724,7 @@
       "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -37915,7 +37916,7 @@
       "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -38107,7 +38108,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -38587,7 +38588,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -39931,7 +39932,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Technology",
       "tier": "NICHE",
       "march_baseline": {
@@ -40411,7 +40412,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -41179,7 +41180,7 @@
       "actual_to_date": 0,
       "remaining_need": 14.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "High School",
       "tier": "LOW",
       "march_baseline": {
@@ -41275,7 +41276,7 @@
       "actual_to_date": 2,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -41947,7 +41948,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -42139,7 +42140,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -42331,7 +42332,7 @@
       "actual_to_date": 4,
       "remaining_need": 10.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Technology",
       "tier": "LOW",
       "march_baseline": {
@@ -42427,7 +42428,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -42715,7 +42716,7 @@
       "actual_to_date": 1,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -43291,7 +43292,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -44347,7 +44348,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -44827,7 +44828,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Technology",
       "tier": "NICHE",
       "march_baseline": {
@@ -45211,7 +45212,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -46363,7 +46364,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -47419,7 +47420,7 @@
       "actual_to_date": 0,
       "remaining_need": 15.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "LOW",
       "march_baseline": {
@@ -47995,7 +47996,7 @@
       "actual_to_date": 3,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -48955,7 +48956,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -50587,7 +50588,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "IB",
       "tier": "NICHE",
       "march_baseline": {
@@ -50971,7 +50972,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Technology",
       "tier": "NICHE",
       "march_baseline": {
@@ -53755,7 +53756,7 @@
       "actual_to_date": 5,
       "remaining_need": 19.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "LOW",
       "march_baseline": {
@@ -53947,7 +53948,7 @@
       "actual_to_date": 14,
       "remaining_need": 3.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Other",
       "tier": "NICHE",
       "march_baseline": {
@@ -54331,7 +54332,7 @@
       "actual_to_date": 0,
       "remaining_need": 1.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Language",
       "tier": "NICHE",
       "march_baseline": {
@@ -55003,7 +55004,7 @@
       "actual_to_date": 4,
       "remaining_need": 3.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "College",
       "tier": "NICHE",
       "march_baseline": {
@@ -55291,7 +55292,7 @@
       "actual_to_date": 2,
       "remaining_need": 1.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -55387,7 +55388,7 @@
       "actual_to_date": 2,
       "remaining_need": 1.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -55579,7 +55580,7 @@
       "actual_to_date": 0,
       "remaining_need": 7.0,
       "months_completed": 0,
-      "problem_type": "On Track",
+      "problem_type": "On Track \u2014 High Wait",
       "category": "Test Prep",
       "tier": "NICHE",
       "march_baseline": {
@@ -57554,7 +57555,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-22 09:50 AM CST",
+      "uploaded_at": "2026-04-22 09:26 AM CST",
       "subjects_count": 428
     }
   ],
@@ -60555,7 +60556,8 @@
   ],
   "weekly_summary": {
     "total_subjects": 382,
-    "on_track": 118,
+    "on_track": 46,
+    "on_track_high_wait": 72,
     "over_supplied": 108,
     "under_used": 144,
     "total_target": 7317,
@@ -60640,7 +60642,7 @@
         "remaining": 125
       }
     ],
-    "generated_at": "2026-04-22 09:50 AM CST"
+    "generated_at": "2026-04-22 10:19 AM CST"
   },
   "fetch_status": {
     "fetched_at": "2026-04-22T14:50:31.292918+00:00",

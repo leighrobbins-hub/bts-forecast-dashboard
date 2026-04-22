@@ -824,6 +824,9 @@ def classify_problems(df_analysis, df_utilization):
             if needs_external:
                 return "True Supply Problem"
             else:
+                p90_val = None if (p90 is None or pd.isna(p90)) else float(p90)
+                if p90_val is not None and p90_val >= NAT_P90_GOAL_HOURS:
+                    return "On Track — High Wait"
                 return "On Track"
 
     df_merged['Problem_Type'] = df_merged.apply(get_problem_type, axis=1)
@@ -1293,6 +1296,7 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
     """Build a structured summary for WBR narratives."""
     total_subjects = len(tracker_subjects)
     on_track = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'On Track')
+    on_track_high_wait = sum(1 for ts in tracker_subjects if 'High Wait' in (ts.get('problem_type') or ''))
     over_supplied = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Over-Supplied')
     under_used = sum(1 for ts in tracker_subjects if ts.get('problem_type') == 'Under-Used')
 
@@ -1329,6 +1333,7 @@ def generate_weekly_summary(tracker_subjects, history, recommendations):
     return {
         'total_subjects': total_subjects,
         'on_track': on_track,
+        'on_track_high_wait': on_track_high_wait,
         'over_supplied': over_supplied,
         'under_used': under_used,
         'total_target': round(total_target),
@@ -1362,6 +1367,7 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
         'over_supplied': len(df_final[df_final['Problem_Type'] == 'Over-Supplied']),
         'supply_problems': int(supply_mask.sum()),
         'on_track': len(df_final[df_final['Problem_Type'] == 'On Track']),
+        'on_track_high_wait': len(df_final[df_final['Problem_Type'].str.contains('High Wait', na=False)]),
         'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
         'subjects_with_util_data': subjects_with_util,
         'util_coverage_pct': round(subjects_with_util / total_subjects * 100, 1) if total_subjects > 0 else 0,

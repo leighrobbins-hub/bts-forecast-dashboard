@@ -154,6 +154,12 @@
                     <div class="stat-value" id="ontrack-subjects">-</div>
                     <div class="stat-detail">No action required</div>
                 </div>
+
+                <div class="stat-card amber" onclick="overviewFilter('on-track-highwait')" style="cursor:pointer;" title="Filter to On Track subjects with high wait times">
+                    <div class="stat-label">High Wait</div>
+                    <div class="stat-value" id="highwait-subjects">-</div>
+                    <div class="stat-detail">On Track but P90 wait &gt; 24h</div>
+                </div>
                 
                 <div class="stat-card purple" onclick="overviewFilter('over-supplied')" style="cursor:pointer;" title="Filter to Over-Supplied subjects">
                     <div class="stat-label">Over-Supplied</div>
@@ -211,7 +217,8 @@
                         <strong style="color:#e74c3c;">True Supply</strong> — Util ≥ 50% and target exceeds run rate. Genuine supply shortage — recruit.<br>
                         <strong style="color:#95a5a6;">No Util Data</strong> — Target exceeds run rate but no utilization data available. Gather data to classify.<br>
                         <strong style="color:#9b59b6;">Over-Supplied</strong> — Run rate meets or exceeds target but tutors under 50% utilized. Consider reducing forecast.<br>
-                        <strong style="color:#27ae60;">On Track</strong> — Supply meets demand with healthy utilization. No action needed.
+                        <strong style="color:#27ae60;">On Track</strong> — Supply meets demand with healthy utilization. No action needed.<br>
+                        <strong style="color:#e67e22;">On Track — High Wait</strong> — Supply math is fine, but P90 wait time exceeds 24h. Students are waiting too long — investigate matching/placement delays.
                     </dd>
                 </dl>
             </details>
@@ -230,6 +237,7 @@
                             <option value="no-util-data">No Util Data</option>
                             <option value="over-supplied">Over-Supplied</option>
                             <option value="on-track">On Track</option>
+                            <option value="on-track-highwait">On Track — High Wait</option>
                         </select>
                     </div>
                     <div class="filter-group inline-filter">
@@ -305,6 +313,7 @@
                         <option value="no-util-data">No Util Data</option>
                         <option value="over-supplied">Over-Supplied</option>
                         <option value="on-track">On Track</option>
+                        <option value="on-track-highwait">On Track — High Wait</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -1166,6 +1175,16 @@ ELSE:
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v3.8 <span class="cl-date">Apr 22, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li>New "On Track — High Wait" classification for subjects where supply math looks fine but P90 wait time exceeds 24h</li>
+                    <li>Added amber stat card on Overview for high-wait subjects with clickable filtering</li>
+                    <li>High Wait subjects show in both Overview priority table and Subjects &amp; Actions tab with orange warning badge</li>
+                    <li>Updated problem type definitions and filter dropdowns across all views</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.7 <span class="cl-date">Apr 21, 2026</span> <span class="cl-tag feature">Feature</span></div>
