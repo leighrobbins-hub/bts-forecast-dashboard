@@ -70,4 +70,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-      # Pages deploy: workflow "Deploy dashboard site" (dashboard/ only; games are in nexus-academy repo)
+
+      - name: Trigger Netlify deploy
+        if: env.NETLIFY_BUILD_HOOK != ''
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          curl -s -X POST "$NETLIFY_BUILD_HOOK"
+          echo "Netlify deploy triggered"
