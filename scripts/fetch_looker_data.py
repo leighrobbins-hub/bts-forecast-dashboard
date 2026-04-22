@@ -411,6 +411,10 @@ def fetch_unique_tutors(api, *, dry_run=False):
         count_col = _find_column(df, UNIQUE_TUTORS_VALUE_PATTERNS, "unique_tutors count")
 
         if count_col:
+            date_col = _find_column(df, ['date', 'start date', 'tutor start'], "unique_tutors date")
+            if date_col:
+                df = df[df[date_col].notna() & (df[date_col].astype(str).str.strip() != '')]
+                print(f"  Filtered to {len(df)} rows with valid dates (excluded totals row)")
             total = pd.to_numeric(df[count_col], errors='coerce').sum()
             total = int(total) if pd.notna(total) else 0
             result_df = pd.DataFrame([{'Unique_Tutors': total}])
