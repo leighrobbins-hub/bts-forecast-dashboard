@@ -1025,7 +1025,7 @@
         <div id="methodology" class="tab-content" role="tabpanel">
             <div class="methodology">
                 <h1>Methodology Documentation</h1>
-                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 4.0</strong> | Last Updated: <span id="method-updated">-</span></p>
+                <p style="color: #95a5a6; margin-bottom: 30px;"><strong>Version 5.0</strong> | Last Updated: <span id="method-updated">-</span></p>
                 
                 <h2>Overview &amp; Purpose</h2>
                 <p>This analysis compares back-to-school forecast demand (April&ndash;October 2026) against organic recruiting capacity using a <strong>three-signal classification system</strong>: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign. The combination pinpoints whether a subject needs recruiting, placement investigation, forecast reduction, or no action at all.</p>
@@ -1362,6 +1362,38 @@
                 <h2>Decision Tracking</h2>
                 <p>Each recommended action can be marked with a decision (Action or No Action) via a dropdown in the Subjects &amp; Actions tab. Decisions include who decided, when, and freeform notes. Data is persisted via Netlify Blobs and synced across all signed-in users.</p>
                 
+                <h2>Overview Sub-Tabs: BTS Season &amp; This Month</h2>
+                <p>The Overview tab is split into two views for different audiences and cadences:</p>
+                
+                <h3>BTS Season View</h3>
+                <p>The full Apr&ndash;Oct season view. The BTS Season Pulse shows portfolio-level progress (contracted vs. total target) with a compact month-pace chip indicating whether the current month is tracking on pace.</p>
+                <p><strong>Top Capacity Gaps</strong> bar chart shows the 15 subjects with the largest season shortfall. Each bar includes a colored dot indicating this month&rsquo;s pacing status for that subject (green = on pace, red = behind, gray = no data).</p>
+                
+                <h3>This Month View</h3>
+                <p>A focused view for current-month operational decisions. Contains:</p>
+                <ul>
+                    <li><strong>Monthly Progress Pulse:</strong> Day-of-month progress bar with projected EOM, remaining need, and daily contracting rate needed.</li>
+                    <li><strong>Pacing Cards:</strong> Monthly Target, Contracted, Unique Tutors, Behind Pace, On Pace, Awaiting Data.</li>
+                    <li><strong>Action Classification Cards:</strong> Investigate, Recruit, On Track, Wait Times, Reduce Forecast, Insufficient Data &mdash; identical categories to the BTS season but displayed here for quick monthly filtering.</li>
+                    <li><strong>Top 15 Furthest Behind:</strong> Bar chart of subjects with the largest monthly shortfall, with BTS action classification dots.</li>
+                    <li><strong>Subjects Table:</strong> Sortable/filterable by pace, action, tier, stress flags, and search.</li>
+                </ul>
+                
+                <h3>Capped Actuals (Over-Contracting Guard)</h3>
+                <p>To prevent over-contracted subjects from inflating portfolio progress, each subject&rsquo;s monthly actual is capped at its target when summing totals. If a subject has a target of 3 and 5 were contracted, only 3 count toward the &ldquo;Contracted&rdquo; total. The excess is displayed separately as an orange annotation (e.g., &ldquo;+X excess&rdquo;) with a tooltip breakdown.</p>
+                <p>This capping is applied consistently on both the BTS Season pulse and This Month pulse, computed client-side from the same tracker data source to guarantee identical numbers.</p>
+                <p><strong>Subjects with no monthly target</strong> (target = 0) do not contribute actuals to the contracted total, even if they have contracting activity. This prevents zero-target subjects from inflating progress.</p>
+
+                <h3>P90 Trend Labels</h3>
+                <p>Each subject&rsquo;s P90 column includes a context-aware trend label computed from utilization trend direction and P90 value:</p>
+                <ul>
+                    <li><strong>Stress:</strong> P90 &gt; tiered goal AND util trending up (worsening)</li>
+                    <li><strong>Watch:</strong> P90 &gt; goal but util trending down (improving)</li>
+                    <li><strong>Healthy:</strong> P90 &le; goal AND util stable or improving</li>
+                    <li><strong>Easing:</strong> P90 &le; goal AND util trending down notably</li>
+                    <li><strong>Stable:</strong> Default when trend data is unavailable</li>
+                </ul>
+
                 <h2>Monthly Tracker</h2>
                 <p>The Monthly Tracker tab shows per-subject, per-month progress. Targets are calendar-prorated: on day 22 of a 30-day month, the expected pace is 22/30 = 73.3% of the monthly goal. Subjects are flagged as behind-pace (&lt; 80%), at-risk (80&ndash;99%), or on-pace (&ge; 100%). A March baseline column shows actual vs. forecast for the pre-BTS month.</p>
                 
@@ -1431,6 +1463,26 @@
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v5.0 <span class="cl-date">Apr 22, 2026</span> <span class="cl-tag improvement">Redesign</span></div>
+                <ul>
+                    <li>Split Overview into two sub-tabs: <strong>BTS Season</strong> (full Apr&ndash;Oct view) and <strong>This Month</strong> (current-month operational focus)</li>
+                    <li>This Month tab includes hero progress pulse, pacing cards, action classification cards (Investigate, Recruit, On Track, Wait Times, Reduce Forecast, Insufficient Data), and a sortable/filterable subjects table</li>
+                    <li>Added &ldquo;Top 15 &mdash; Furthest Behind This Month&rdquo; bar chart with column headers and tooltips explaining each metric</li>
+                    <li>Compact month-pace indicator chip on BTS Season tab shows current month status at a glance (clickable to switch to This Month)</li>
+                    <li>Redesigned BTS Season bar chart: single season gap bar with a colored dot for this month&rsquo;s pacing per subject (replaces old dual-bar layout)</li>
+                    <li>Both bar charts now have column headers (Subject, Gap, Coverage, Pace) with hover tooltips</li>
+                    <li>Capped actuals: each subject&rsquo;s monthly actual is capped at target to prevent over-contracting from inflating totals. Excess shown as orange &ldquo;+X excess&rdquo; annotation with tooltip breakdown</li>
+                    <li>BTS pulse and Monthly pulse now compute contracted totals from the same client-side data source, guaranteeing identical numbers</li>
+                    <li>Subjects with no monthly target (target=0) no longer inflate the contracted total</li>
+                    <li>Stress flag filtering and sorting added to both BTS and Monthly tables (dropdown filter + column header sort by severity-weighted count)</li>
+                    <li>Restored P90 trend labels (Stress, Watch, Healthy, Easing, Stable) based on utilization trend and P90 value</li>
+                    <li>Restored &ldquo;X of Y&rdquo; detail for New Tutor 30d column and centered all numeric/badge columns</li>
+                    <li>Awaiting Data card shows contextual detail: &ldquo;Early in month &mdash; data arriving soon&rdquo; (days 1&ndash;5), &ldquo;All subjects reporting&rdquo; (count=0), or &ldquo;Check Looker data feeds&rdquo;</li>
+                    <li>Updated Methodology documentation to v5.0 covering sub-tabs, capped actuals, and P90 trends</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v3.9 <span class="cl-date">Apr 22, 2026</span> <span class="cl-tag improvement">Redesign</span></div>
