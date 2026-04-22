@@ -1,0 +1,13 @@
+---
+description: Always verify the current date from the system clock before using it
+alwaysApply: true
+---
+
+# Verify Date Before Use
+
+The "Today's date" in session metadata can be stale in long-running or resumed conversations. **Never trust it.**
+
+Before writing any date-sensitive content (changelog entries, timestamps, version dates, comments):
+
+1. Run `date` in the shell to get the actual current date
+2. Use that date — not the session metadata date

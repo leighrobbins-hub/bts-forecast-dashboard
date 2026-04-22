@@ -59,6 +59,15 @@
         <!-- OVERVIEW TAB -->
         <div id="overview" class="tab-content active" role="tabpanel">
 
+            <!-- Overview sub-tabs -->
+            <div class="ov-subtabs">
+                <button class="ov-subtab active" onclick="showOverviewSubTab('ov-bts', this)">BTS Season</button>
+                <button class="ov-subtab" onclick="showOverviewSubTab('ov-monthly', this)">This Month</button>
+            </div>
+
+            <!-- ═══ BTS SEASON sub-tab ═══ -->
+            <div id="ov-bts">
+
             <!-- BTS Season Pulse -->
             <div class="ov-pulse" id="ov-pulse">
                 <div class="ov-pulse-left">
@@ -95,38 +104,19 @@
                     </div>
                 </div>
             </div>
+            <div class="ov-month-chip" id="ov-month-chip" onclick="showOverviewSubTab('ov-monthly', document.querySelector('.ov-subtab:last-child'))" data-tip="Click to view monthly detail">
+                <span class="ov-chip-label" id="ov-chip-month-label">Apr</span>
+                <span class="ov-chip-body">
+                    <span id="ov-chip-actual">-</span> of <span id="ov-chip-target">-</span>
+                    <span class="ov-chip-divider">·</span>
+                    <span id="ov-chip-behind">-</span> behind
+                    <span class="ov-chip-divider">·</span>
+                    <span id="ov-chip-onpace">-</span> on pace
+                </span>
+                <span class="ov-chip-badge" id="ov-chip-badge">—</span>
+            </div>
 
-            <!-- This Month snapshot -->
-            <div class="ov-month-header">
-                <div class="section-header" style="margin:0">This Month — <span id="ov-current-month-label">April</span></div>
-                <span class="ov-month-hint" id="ov-month-active-filter"></span>
-            </div>
-            <div class="ov-month-snapshot" id="ov-month-snapshot">
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" data-tip="Show all subjects in table below">
-                    <div class="ov-month-val" id="ov-month-contracted">-</div>
-                    <div class="ov-month-lbl">tutor-subject combos this month</div>
-                </div>
-                <div class="ov-month-stat" data-tip="Unique tutors contracted this month (one tutor matched to multiple subjects counts once)">
-                    <div class="ov-month-val" id="ov-month-unique-tutors">-</div>
-                    <div class="ov-month-lbl">unique tutors</div>
-                </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-all')" data-tip="Show all subjects in table below">
-                    <div class="ov-month-val" id="ov-month-target">-</div>
-                    <div class="ov-month-lbl">monthly target</div>
-                </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-behind')" data-tip="Show subjects behind pace">
-                    <div class="ov-month-val" id="ov-month-behind">-</div>
-                    <div class="ov-month-lbl">subjects behind pace</div>
-                </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-onpace')" data-tip="Show subjects on pace">
-                    <div class="ov-month-val ov-good" id="ov-month-onpace">-</div>
-                    <div class="ov-month-lbl">subjects on pace</div>
-                </div>
-                <div class="ov-month-stat ov-month-clickable" onclick="overviewFilter('month-nodata')" data-tip="Show subjects awaiting data">
-                    <div class="ov-month-val" id="ov-month-nodata">-</div>
-                    <div class="ov-month-lbl">awaiting data</div>
-                </div>
-            </div>
+            <span class="ov-month-hint" id="ov-month-active-filter"></span>
 
             <!-- Problem type stat cards -->
             <div class="summary-grid">
@@ -175,17 +165,18 @@
                 <span id="util-coverage-badge" class="util-coverage-badge">Loading…</span>
             </div>
 
-            <!-- Bar chart — BTS season projected gaps + current month -->
+            <!-- Bar chart — BTS season projected gaps -->
             <div class="bar-chart">
-                <h3>Top Capacity Gaps — Season vs. This Month</h3>
-                <p class="chart-subtitle">Top bar = projected shortfall across the full BTS season (Apr–Oct). Bottom bar = how this month is tracking against target.</p>
+                <h3>Top Capacity Gaps</h3>
+                <p class="chart-subtitle">Season shortfall (Apr–Oct). The dot on the right shows this month's pacing for each subject.</p>
                 <div id="gap-chart"></div>
                 <div class="chart-legend">
-                    <div class="legend-item"><div class="legend-dot supply-bar"></div> True Supply</div>
-                    <div class="legend-item"><div class="legend-dot util-bar"></div> Under-Used</div>
-                    <div class="legend-item"><div class="legend-dot nodata-bar"></div> No Placement Data</div>
-                    <div class="legend-item"><div class="legend-dot month-behind-bar"></div> This Month Behind</div>
-                    <div class="legend-item"><div class="legend-dot month-ok-bar"></div> This Month On/Ahead</div>
+                    <div class="legend-item"><div class="legend-dot supply-bar"></div> Recruit</div>
+                    <div class="legend-item"><div class="legend-dot util-bar"></div> Investigate</div>
+                    <div class="legend-item"><div class="legend-dot nodata-bar"></div> Insufficient Data</div>
+                    <div class="legend-item"><span class="legend-dot-inline" style="background:#27ae60;"></span> Month On Pace</div>
+                    <div class="legend-item"><span class="legend-dot-inline" style="background:#e74c3c;"></span> Month Behind</div>
+                    <div class="legend-item"><span class="legend-dot-inline" style="background:#bdc3c7;"></span> No Data</div>
                 </div>
             </div>
 
@@ -328,6 +319,169 @@
                 <strong>Over-Supplied Subjects (<span id="lowutil-count-callout">-</span> subjects)</strong>
                 These subjects have enough contracted supply to meet demand, but less than half of those tutors are being utilized. This suggests we may be over-forecasting these subjects. Consider reducing future forecast targets. Top examples: <span id="lowutil-examples"></span>
             </div>
+
+            </div><!-- /ov-bts -->
+
+            <!-- ═══ THIS MONTH sub-tab ═══ -->
+            <div id="ov-monthly" style="display:none;">
+
+                <!-- Monthly progress pulse (hero) -->
+                <div class="ov-pulse" id="mo-pulse" style="margin-bottom:24px;">
+                    <div class="ov-pulse-left" style="flex:1;">
+                        <div class="ov-pulse-title" id="mo-pulse-title">Monthly Progress</div>
+                        <div class="ov-pulse-progress">
+                            <div class="ov-pulse-nums">
+                                <span id="mo-pulse-actual">-</span> <span class="ov-pulse-of">of</span> <span id="mo-pulse-target">-</span> <span class="ov-pulse-label">tutor-subject combos</span>
+                            </div>
+                            <div class="ov-pulse-bar-wrap">
+                                <div class="ov-pulse-bar" id="mo-pulse-bar" style="width:0%"></div>
+                            </div>
+                            <div class="ov-pulse-meta">
+                                <span id="mo-pulse-pct">-</span> of target &nbsp;·&nbsp; Day <span id="mo-pulse-day">-</span> of <span id="mo-pulse-days-total">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ov-pulse-right">
+                        <div class="ov-pulse-kpi">
+                            <div class="ov-pulse-kpi-val" id="mo-pulse-projected">-</div>
+                            <div class="ov-pulse-kpi-lbl">projected EOM</div>
+                        </div>
+                        <div class="ov-pulse-kpi">
+                            <div class="ov-pulse-kpi-val" id="mo-pulse-remaining">-</div>
+                            <div class="ov-pulse-kpi-lbl">remaining need</div>
+                        </div>
+                        <div class="ov-pulse-kpi">
+                            <div class="ov-pulse-kpi-val" id="mo-pulse-daily-rate">-</div>
+                            <div class="ov-pulse-kpi-lbl">needed/day</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ov-month-header">
+                    <div class="section-header" style="margin:0">This Month — <span id="ov-current-month-label">April</span></div>
+                    <span id="ov-monthly-updated" style="font-size:12px;color:#7f8c8d;"></span>
+                </div>
+
+                <!-- Monthly hero cards (goal first) -->
+                <div class="summary-grid">
+                    <div class="stat-card blue" style="cursor:pointer;" onclick="showOverviewSubTab('ov-bts', document.querySelector('.ov-subtab:first-child'))" data-tip="Monthly target for this month across all subjects">
+                        <div class="stat-value" id="mo-target">-</div>
+                        <div class="stat-label">Monthly Target</div>
+                    </div>
+                    <div class="stat-card green" style="cursor:pointer;" data-tip="Tutor-subject combinations contracted this month (capped at target per subject)">
+                        <div class="stat-value" id="mo-contracted">-</div>
+                        <div class="stat-label">Contracted</div>
+                        <div class="stat-detail" id="mo-contracted-detail">&nbsp;</div>
+                    </div>
+                    <div class="stat-card purple" data-tip="Unique individual tutors contracted this month (one tutor on multiple subjects counts once)">
+                        <div class="stat-value" id="mo-unique-tutors">-</div>
+                        <div class="stat-label">Unique Tutors</div>
+                    </div>
+                    <div class="stat-card red" style="cursor:pointer;" onclick="moFilter('behind')" data-tip="Subjects currently pacing below target">
+                        <div class="stat-value" id="mo-behind">-</div>
+                        <div class="stat-label">Behind Pace</div>
+                    </div>
+                    <div class="stat-card green" style="cursor:pointer;" onclick="moFilter('onpace')" data-tip="Subjects meeting or exceeding target pace">
+                        <div class="stat-value" id="mo-onpace">-</div>
+                        <div class="stat-label">On Pace</div>
+                    </div>
+                    <div class="stat-card amber" style="cursor:pointer;" onclick="moFilter('nodata')" data-tip="Subjects with no actuals reported yet this month">
+                        <div class="stat-value" id="mo-nodata">-</div>
+                        <div class="stat-label">Awaiting Data</div>
+                    </div>
+                </div>
+
+                <!-- Monthly top gaps bar chart -->
+                <div class="bar-chart">
+                    <h3>Top 15 — Furthest Behind This Month</h3>
+                    <p class="chart-subtitle">Subjects with the largest shortfall vs. their monthly target. Bar = gap this month. Dot = BTS season action classification.</p>
+                    <div id="mo-gap-chart"></div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="legend-dot month-behind-bar"></div> Monthly Gap</div>
+                        <div class="legend-item"><span class="legend-dot-inline" style="background:#e74c3c;"></span> Recruit</div>
+                        <div class="legend-item"><span class="legend-dot-inline" style="background:#e67e22;"></span> Investigate</div>
+                        <div class="legend-item"><span class="legend-dot-inline" style="background:#27ae60;"></span> On Track</div>
+                        <div class="legend-item"><span class="legend-dot-inline" style="background:#9b59b6;"></span> Reduce Forecast</div>
+                        <div class="legend-item"><span class="legend-dot-inline" style="background:#95a5a6;"></span> Other</div>
+                    </div>
+                </div>
+
+                <!-- Monthly subjects table -->
+                <div class="section-header" style="margin-top: 10px;" id="mo-table-header">Subjects — This Month Pacing</div>
+                <div class="table-container">
+                    <div class="table-toolbar">
+                        <span class="row-count" id="mo-table-count"></span>
+                        <div class="filter-group inline-filter">
+                            <label for="mo-filter-pace">Pace</label>
+                            <select id="mo-filter-pace" onchange="renderMonthlyTable()">
+                                <option value="all">All</option>
+                                <option value="behind">Behind Pace</option>
+                                <option value="onpace">On Pace</option>
+                                <option value="nodata">Awaiting Data</option>
+                            </select>
+                        </div>
+                        <div class="filter-group inline-filter">
+                            <label for="mo-filter-action">Action</label>
+                            <select id="mo-filter-action" onchange="renderMonthlyTable()">
+                                <option value="all">All Subjects</option>
+                                <option value="all-problems">All Problems</option>
+                                <option value="recruit">Recruit More</option>
+                                <option value="investigate">Investigate</option>
+                                <option value="wait-times">Wait Times</option>
+                                <option value="reduce-forecast">Reduce Forecast</option>
+                                <option value="on-track">On Track</option>
+                            </select>
+                        </div>
+                        <div class="filter-group inline-filter">
+                            <label for="mo-filter-tier">Volume Tier</label>
+                            <select id="mo-filter-tier" onchange="renderMonthlyTable()">
+                                <option value="hide-niche">Hide Niche</option>
+                                <option value="all">All Tiers</option>
+                                <option value="CORE">Core</option>
+                                <option value="HIGH">High</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="LOW">Low</option>
+                                <option value="NICHE">Niche</option>
+                            </select>
+                        </div>
+                        <div class="filter-group inline-filter">
+                            <label for="mo-filter-flag">Stress Flag</label>
+                            <select id="mo-filter-flag" onchange="renderMonthlyTable()">
+                                <option value="all">All</option>
+                                <option value="any">Any Flag</option>
+                                <option value="burnout_risk">Burnout Risk</option>
+                                <option value="critical_wait">Critical Wait</option>
+                                <option value="paper_supply">Paper Supply</option>
+                                <option value="high_wait">High Wait</option>
+                                <option value="idle_pool">Idle Pool</option>
+                                <option value="new_tutor_stuck">New Tutor Stuck</option>
+                            </select>
+                        </div>
+                        <div class="filter-group inline-filter">
+                            <label for="mo-search">Search</label>
+                            <input type="text" id="mo-search" placeholder="Subject..." style="width:120px;">
+                        </div>
+                        <button class="export-btn" onclick="exportTable('mo-table')">Export CSV</button>
+                    </div>
+                    <table id="mo-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="sortMonthly(0)">Subject</th>
+                                <th class="sortable tc" onclick="sortMonthly(1)">Tier</th>
+                                <th class="sortable tc" onclick="sortMonthly(2)" data-tip="This month's target for the subject">Target</th>
+                                <th class="sortable tc" onclick="sortMonthly(3)" data-tip="Actual tutor-subject combos contracted this month">Actual</th>
+                                <th class="sortable tc" onclick="sortMonthly(4)" data-tip="Actual minus target for this month">Variance</th>
+                                <th class="sortable tc" onclick="sortMonthly(5)" data-tip="Projected end-of-month total at current daily rate">Projected EOM</th>
+                                <th class="sortable tc" onclick="sortMonthly(6)" data-tip="Current pacing status">Pace</th>
+                                <th class="sortable tc" onclick="sortMonthly(7)" data-tip="BTS season classification">Action</th>
+                                <th class="sortable tc" onclick="sortMonthly(8)">Flags</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mo-table-body"></tbody>
+                    </table>
+                </div>
+            </div><!-- /ov-monthly -->
+
         </div>
         
         <!-- SUBJECTS & ACTIONS TAB (merged All Subjects + Problem Subjects + Actions) -->
@@ -1620,5 +1774,16 @@
     netlifyIdentity.init();
     </script>
     <script src="app.js"></script>
+    <script>
+    /* LOCAL TEST BYPASS — remove before deploy */
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        document.getElementById('login-gate').style.display = 'none';
+        document.getElementById('app-wrapper').style.display = '';
+        document.getElementById('main-content').style.display = '';
+        document.getElementById('main-tabs').style.display = '';
+        document.getElementById('user-name').textContent = 'Local Test';
+        localStorage.setItem('bts_active_user', 'Local Test');
+    }
+    </script>
 </body>
 </html>

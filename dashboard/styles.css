@@ -2179,7 +2179,59 @@ th.sa-current-col { background: #2c3e50; }
     font-style: italic;
 }
 
-/* ── Combo bar chart (season + month side by side) ── */
+/* ── Bar chart column headers ── */
+.bar-header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+}
+.bar-col-head {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    cursor: help;
+}
+.bar-header .bar-track {
+    background: none;
+    height: auto;
+    border-radius: 0;
+    overflow: visible;
+}
+
+/* ── Monthly status dot on bar chart ── */
+.bar-month-dot {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 70px;
+    padding-left: 8px;
+    cursor: help;
+}
+.bar-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.bar-dot-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #4a5568;
+    white-space: nowrap;
+}
+.legend-dot-inline {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* ── Legacy combo bar chart (kept for compat) ── */
 .bar-row-combo { align-items: flex-start; }
 .bar-row-combo .bar-label { padding-top: 4px; }
 .bar-combo-tracks { flex: 1; display: flex; flex-direction: column; gap: 3px; }
@@ -2225,7 +2277,72 @@ th.sa-current-col { background: #2c3e50; }
 .ov-month-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
 .ov-month-hint { font-size: 12px; color: #3498db; font-weight: 600; }
 
+/* Overview sub-tabs */
+.ov-subtabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+}
+.ov-subtab {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #718096;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+    margin-bottom: -2px;
+}
+.ov-subtab:hover { color: #2d3748; }
+.ov-subtab.active {
+    color: #4A4BB6;
+    border-bottom-color: #4A4BB6;
+}
+
+/* Compact month indicator chip on BTS tab */
+.ov-month-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: background .15s, box-shadow .15s;
+}
+.ov-month-chip:hover {
+    background: #edf2f7;
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+.ov-chip-label {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 14px;
+}
+.ov-chip-body { flex: 1; }
+.ov-chip-divider { color: #cbd5e0; margin: 0 2px; }
+.ov-chip-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+.ov-chip-badge.chip-on-track { background: #c6f6d5; color: #22543d; }
+.ov-chip-badge.chip-at-risk { background: #fefcbf; color: #744210; }
+.ov-chip-badge.chip-behind { background: #fed7d7; color: #742a2a; }
+
 @media (max-width: 700px) {
     .ov-month-snapshot { flex-wrap: wrap; }
     .ov-month-stat { min-width: 120px; }
+    .ov-month-chip { flex-wrap: wrap; }
 }
