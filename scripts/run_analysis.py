@@ -1245,76 +1245,104 @@ def generate_recommendations(df_final, tracker_subjects):
     """Produce prioritised action items by scanning all subjects."""
     recs = []
 
+    def _sf(val):
+        if val is None or (isinstance(val, float) and pd.isna(val)):
+            return None
+        return float(val)
+
     tracker_by_subj = {ts['subject']: ts for ts in tracker_subjects}
 
     for _, row in df_final.iterrows():
         subject = row['Subject']
-        ptype = row.get('Problem_Type', 'On Track')
-        util = row.get('Util_Rate')
-        util_val = float(util) if pd.notna(util) else None
-        run_rate = float(row.get('Run_Rate', 0)) if pd.notna(row.get('Run_Rate', 0)) else 0
-        raw_gap = float(row.get('Raw_Gap', 0)) if pd.notna(row.get('Raw_Gap', 0)) else 0
-        bts_total = float(row.get('BTS_Total', 0)) if pd.notna(row.get('BTS_Total', 0)) else 0
+        action = row.get('Primary_Action', 'On Track')
+        util_val = _sf(row.get('Util_Rate'))
+        thu_val = _sf(row.get('Tutor_Hours_Util_Pct'))
+        p90_val = _sf(row.get('P90_NAT_Hours'))
+        run_rate = _sf(row.get('Run_Rate')) or 0
+        target = _sf(row.get('Smoothed_Target')) or 0
+        raw_gap = _sf(row.get('Raw_Gap')) or 0
+        bts_total = _sf(row.get('BTS_Total')) or 0
         category = row.get('Category', 'Other')
+        tier = row.get('Tier', '')
+        goal = row.get('P90_Goal', 48)
         ts = tracker_by_subj.get(subject)
 
-        if ptype == 'Under-Used':
-            util_display = f'{util_val:.0f}%' if util_val is not None else 'unknown'
+        util_s = f'{util_val:.0f}%' if util_val is not None else 'N/A'
+        thu_s = f'{thu_val:.0f}%' if thu_val is not None else 'N/A'
+        p90_s = f'{p90_val:.0f}h' if p90_val is not None else 'N/A'
+        gap_s = f'{abs(round(raw_gap))}'
+
+        if action == 'Recruit More \u2014 Urgent':
             recs.append({
-                'subject': subject, 'category': category,
-                'priority': 'high',
-                'action_type': 'investigate_placement',
-                'reason': f'Only {util_display} of recently contracted tutors assigned within 30 days and target exceeds capacity — an anomaly requiring investigation. Could be a placement or algorithm issue, low real demand, multi-subject tutors utilized on other subjects, or scheduling mismatch.',
-                'data_points': {'util_rate': util_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+                'subject': subject, 'category': category, 'priority': 'high',
+                'action_type': 'increase_recruiting',
+                'reason': (f'Run rate short of target by {gap_s} tutors AND All Tutor Hours Util at {thu_s} '
+                           f'(above 115% threshold \u2014 pool is cracking). Deploy recruiting levers immediately.'),
+                'data_points': {'util_rate': util_val, 'tutor_hours_util': thu_val, 'gap': round(raw_gap), 'run_rate': run_rate}
             })
 
-        elif ptype == 'True Supply Problem':
+        elif action == 'Recruit More':
             priority = 'high' if abs(raw_gap) > 20 else 'medium'
-            util_display = f'{util_val:.0f}%' if util_val is not None else 'unknown'
             recs.append({
-                'subject': subject, 'category': category,
-                'priority': priority,
+                'subject': subject, 'category': category, 'priority': priority,
                 'action_type': 'increase_recruiting',
-                'reason': f'Tutors well-utilized ({util_display}) but target exceeds run rate by {abs(round(raw_gap))} tutors. Supply genuinely short — deploy recruiting levers (paid spend, InMail, opt-in).',
-                'data_points': {'util_rate': util_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+                'reason': (f'Run rate short of target by {gap_s} tutors, All Tutor Hours Util at {thu_s} within normal range. '
+                           f'Standard recruiting levers.'),
+                'data_points': {'util_rate': util_val, 'tutor_hours_util': thu_val, 'gap': round(raw_gap), 'run_rate': run_rate}
             })
 
-        elif ptype == 'Supply Problem (No Util Data)':
+        elif action == 'Investigate \u2014 Hidden Supply':
             recs.append({
-                'subject': subject, 'category': category,
-                'priority': 'medium',
+                'subject': subject, 'category': category, 'priority': 'high',
+                'action_type': 'investigate_placement',
+                'reason': (f'All Tutor Hours Util at {thu_s} (existing tutors carrying above-normal load) while only '
+                           f'{util_s} of recently contracted tutors assigned within 30 days. Capacity exists on paper but '
+                           f'isn\u2019t being absorbed \u2014 worth understanding why before recruiting more. Could be placement '
+                           f'routing, tutor availability, student preference, credentialing, or scheduling mismatch.'),
+                'data_points': {'util_rate': util_val, 'tutor_hours_util': thu_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+            })
+
+        elif action == 'Investigate \u2014 Capacity Available':
+            recs.append({
+                'subject': subject, 'category': category, 'priority': 'medium',
+                'action_type': 'investigate_placement',
+                'reason': (f'Run rate suggests supply gap but All Tutor Hours Util at only {thu_s} \u2014 existing pool has '
+                           f'headroom. Understand whether additional tutors are needed or whether capacity can be unlocked first.'),
+                'data_points': {'util_rate': util_val, 'tutor_hours_util': thu_val, 'gap': round(raw_gap), 'run_rate': run_rate}
+            })
+
+        elif action == 'Investigate \u2014 Wait Times':
+            recs.append({
+                'subject': subject, 'category': category, 'priority': 'medium',
+                'action_type': 'investigate_placement',
+                'reason': (f'P90 Time-to-Assign at {p90_s} vs {goal:.0f}h goal for {tier} tier. Students waiting longer than '
+                           f'goal despite normal utilization signals. Worth examining assignment flow for this subject.'),
+                'data_points': {'p90_nat': p90_val, 'p90_goal': goal, 'util_rate': util_val, 'tutor_hours_util': thu_val}
+            })
+
+        elif action == 'Reduce Forecast':
+            if bts_total > 0:
+                recs.append({
+                    'subject': subject, 'category': category, 'priority': 'medium',
+                    'action_type': 'reduce_forecast',
+                    'reason': (f'Run rate meets or exceeds target but only {util_s} of recent tutors assigned within 30 days '
+                               f'AND All Tutor Hours Util at {thu_s}. P90 at {p90_s} (within {goal:.0f}h goal) confirms '
+                               f'low active demand. Consider reducing forecast.'),
+                    'data_points': {'util_rate': util_val, 'tutor_hours_util': thu_val, 'p90_nat': p90_val, 'run_rate': run_rate, 'bts_total': bts_total}
+                })
+
+        elif action == 'Insufficient Data':
+            recs.append({
+                'subject': subject, 'category': category, 'priority': 'low',
                 'action_type': 'increase_recruiting',
-                'reason': f'Target exceeds run rate by {abs(round(raw_gap))} tutors but no utilization data available. Recruit while gathering util info to confirm it\'s a supply issue and not a placement one.',
+                'reason': (f'No utilization or tutor hours data available. Cannot classify confidently. '
+                           f'Gather data before making supply decisions.'),
                 'data_points': {'gap': round(raw_gap), 'run_rate': run_rate}
             })
 
-        elif ptype == 'Over-Supplied':
-            if not bts_total or bts_total == 0:
-                pass
-            elif run_rate >= 3 and util_val is not None and util_val < 30:
-                p90_raw = row.get('P90_NAT_Hours')
-                p90_context = f' P90 NAT {p90_raw:.0f}h (within {NAT_P90_GOAL_HOURS}h goal — confirms low demand).' if (p90_raw is not None and not pd.isna(p90_raw)) else ''
-                recs.append({
-                    'subject': subject, 'category': category,
-                    'priority': 'medium',
-                    'action_type': 'reduce_forecast',
-                    'reason': f'Run rate meets or exceeds target but only {util_val:.0f}% of tutors utilized.{p90_context} Consider reducing forecast — demand may be overestimated.',
-                    'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
-                })
-            elif run_rate >= 3:
-                p90_raw = row.get('P90_NAT_Hours')
-                p90_context = f' P90 NAT {p90_raw:.0f}h (within {NAT_P90_GOAL_HOURS}h goal — confirms low demand).' if (p90_raw is not None and not pd.isna(p90_raw)) else ''
-                recs.append({
-                    'subject': subject, 'category': category,
-                    'priority': 'low',
-                    'action_type': 'reduce_forecast',
-                    'reason': f'Run rate meets target but tutors only {util_val or 0:.0f}% utilized.{p90_context} Monitor and consider reducing forecast — demand may be overestimated.',
-                    'data_points': {'util_rate': util_val, 'run_rate': run_rate, 'bts_total': bts_total}
-                })
-
         # Behind-pace check for in-progress months (calendar-prorated).
-        # Skip for Over-Supplied: "reduce forecast" + "behind pace" contradict.
-        if ts and ptype != 'Over-Supplied':
+        # Skip for Reduce Forecast: contradicts "behind pace".
+        if ts and action != 'Reduce Forecast':
             now = datetime.now(tz=CST)
             for md in ts['months']:
                 if md['status'] == 'in_progress' and md['actual'] is not None and md['smoothed_target'] > 0:
@@ -1330,16 +1358,14 @@ def generate_recommendations(df_final, tracker_subjects):
                     pace = md['actual'] / expected * 100
                     if pace < 60:
                         recs.append({
-                            'subject': subject, 'category': category,
-                            'priority': 'high',
+                            'subject': subject, 'category': category, 'priority': 'high',
                             'action_type': 'review_performance',
                             'reason': f'{md["label"]}: {md["actual"]} actual vs {round(expected)} expected by day {now.day} ({pace:.0f}% of pace). Target: {round(md["smoothed_target"])}.',
                             'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'expected': round(expected), 'pace': round(pace)}
                         })
                     elif pace < 80:
                         recs.append({
-                            'subject': subject, 'category': category,
-                            'priority': 'medium',
+                            'subject': subject, 'category': category, 'priority': 'medium',
                             'action_type': 'review_performance',
                             'reason': f'{md["label"]}: {md["actual"]} actual vs {round(expected)} expected by day {now.day} ({pace:.0f}% of pace). At risk. Target: {round(md["smoothed_target"])}.',
                             'data_points': {'month': md['label'], 'actual': md['actual'], 'target': round(md['smoothed_target']), 'expected': round(expected), 'pace': round(pace)}
@@ -1351,9 +1377,8 @@ def generate_recommendations(df_final, tracker_subjects):
             if md['status'] == 'in_progress' and md['actual'] is not None and md['actual'] >= 3 and md['smoothed_target'] <= 0:
                 recs.append({
                     'subject': ts['subject'], 'category': ts.get('category', 'Other'),
-                    'priority': 'low',
-                    'action_type': 'review_performance',
-                    'reason': f'Unexpected demand: {md["actual"]} tutors contracted in {md["label"]} with no active forecast. Do not automatically add to the model — verify whether this demand is real and sustained before updating the forecast.',
+                    'priority': 'low', 'action_type': 'review_performance',
+                    'reason': f'Unexpected demand: {md["actual"]} tutors contracted in {md["label"]} with no active forecast. Verify whether this demand is real and sustained before updating the forecast.',
                     'data_points': {'month': md['label'], 'actual': md['actual']}
                 })
 
@@ -1431,13 +1456,17 @@ def generate_dashboard_data(df_final, tracker_subjects, history, uploads, recomm
     # can see "5 inferno-fire core subjects" separate from long-tail niche.
     tier_distribution = {t: int((df_final['Tier'] == t).sum())
                          for t in ('CORE', 'HIGH', 'MEDIUM', 'LOW', 'NICHE')}
+    action_counts = df_final['Primary_Action'].value_counts().to_dict() if 'Primary_Action' in df_final.columns else {}
     summary = {
         'total_subjects': total_subjects,
+        # Legacy counts (backward compat)
         'under_used': len(df_final[df_final['Problem_Type'] == 'Under-Used']),
         'over_supplied': len(df_final[df_final['Problem_Type'] == 'Over-Supplied']),
         'supply_problems': int(supply_mask.sum()),
         'on_track': len(df_final[df_final['Problem_Type'] == 'On Track']),
         'on_track_high_wait': len(df_final[df_final['Problem_Type'].str.contains('High Wait', na=False)]),
+        # Primary_Action counts
+        'action_counts': action_counts,
         'last_updated': datetime.now(tz=CST).strftime('%Y-%m-%d %I:%M %p CST'),
         'subjects_with_util_data': subjects_with_util,
         'util_coverage_pct': round(subjects_with_util / total_subjects * 100, 1) if total_subjects > 0 else 0,
@@ -1668,8 +1697,12 @@ def main():
         'subjects': [
             {
                 'subject': s['Subject'], 'problem_type': s.get('Problem_Type'),
+                'primary_action': s.get('Primary_Action'),
+                'stress_flags': s.get('Stress_Flags', []),
                 'category': s.get('Category'), 'tier': s.get('Tier'),
                 'util_rate': s.get('Util_Rate'), 'run_rate': s.get('Run_Rate'),
+                'tutor_hours_util': s.get('Tutor_Hours_Util_Pct'),
+                'p90_nat': s.get('P90_NAT_Hours'), 'p90_goal': s.get('P90_Goal'),
                 'bts_total': s.get('BTS_Total'), 'smoothed_target': s.get('Smoothed_Target'),
             }
             for s in dashboard_data.get('subjects', [])
