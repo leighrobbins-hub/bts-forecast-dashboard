@@ -385,14 +385,13 @@
                         <div class="stat-value" id="mo-onpace">-</div>
                         <div class="stat-label">On Pace</div>
                     </div>
-                    <div class="stat-card amber" style="cursor:pointer;" onclick="moFilter('nodata')" data-tip="Subjects with no actuals reported yet this month">
+                    <div class="stat-card amber" style="cursor:pointer;" onclick="moFilter('nodata')" data-tip="Subjects with no actuals reported yet this month. Data typically appears within the first few business days once Looker refreshes.">
                         <div class="stat-value" id="mo-nodata">-</div>
                         <div class="stat-label">Awaiting Data</div>
+                        <div class="stat-detail" id="mo-nodata-detail">Updates once Looker refreshes</div>
                     </div>
-                </div>
 
-                <!-- Action classification cards -->
-                <div class="summary-grid">
+                    <!-- Action classification cards (same grid) -->
                     <div class="stat-card orange" style="cursor:pointer;" onclick="moActionFilter('investigate')" data-tip="Subjects classified as Hidden Supply or Capacity Available — investigate utilization">
                         <div class="stat-value" id="mo-investigate">-</div>
                         <div class="stat-label">Investigate</div>
