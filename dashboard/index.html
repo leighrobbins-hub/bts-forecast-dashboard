@@ -139,7 +139,7 @@
                     <div class="stat-label">Under-Used</div>
                     <div class="stat-value" id="util-problems">-</div>
                     <div class="stat-pending" id="pending-underused">&nbsp;</div>
-                    <div class="stat-detail">Low util + demand gap — investigate</div>
+                    <div class="stat-detail">Low placement + demand gap — investigate</div>
                 </div>
                 
                 <div class="stat-card red" onclick="overviewFilter('true-supply')" style="cursor:pointer;" title="Filter to Supply Problems">
@@ -170,7 +170,7 @@
             </div>
 
             <div class="data-quality-bar">
-                <span class="data-quality-label">Utilization data coverage:</span>
+                <span class="data-quality-label">Placement data coverage:</span>
                 <span id="util-coverage-badge" class="util-coverage-badge">Loading…</span>
             </div>
 
@@ -182,7 +182,7 @@
                 <div class="chart-legend">
                     <div class="legend-item"><div class="legend-dot supply-bar"></div> True Supply</div>
                     <div class="legend-item"><div class="legend-dot util-bar"></div> Under-Used</div>
-                    <div class="legend-item"><div class="legend-dot nodata-bar"></div> No Util Data</div>
+                    <div class="legend-item"><div class="legend-dot nodata-bar"></div> No Placement Data</div>
                     <div class="legend-item"><div class="legend-dot month-behind-bar"></div> This Month Behind</div>
                     <div class="legend-item"><div class="legend-dot month-ok-bar"></div> This Month On/Ahead</div>
                 </div>
@@ -208,22 +208,22 @@
                     <dt>Tier</dt>
                     <dd>Volume tier based on total BTS (Apr–Oct) forecasted headcount. <strong>CORE</strong> ≥ 150, <strong>HIGH</strong> ≥ 75, <strong>MEDIUM</strong> ≥ 30, <strong>LOW</strong> ≥ 10, <strong>NICHE</strong> &lt; 10. Tier helps prioritize — a miss on a CORE subject is a bigger business problem than a miss on a NICHE subject.</dd>
 
-                    <dt>Util % (30-day)</dt>
-                    <dd>Percentage of recently contracted tutors who received at least one assignment within 30 days of contracting, averaged over the most recent 3 months. Counts (e.g. "8 of 17 recent") show the underlying volume. The trend label combines util direction with P90 NAT wait time:
-                        <br><strong style="color:#27ae60;">Healthy</strong> — Util rising, students matched quickly (P90 &lt; 24h)
-                        <br><strong style="color:#e74c3c;">Stress</strong> — Util rising but students still waiting 24h+ (high P90)
-                        <br><strong style="color:#e67e22;">Watch</strong> — Util falling while students still wait 24h+ — possible placement issue
-                        <br><strong style="color:#3498db;">Easing</strong> — Util falling, demand cooling naturally (P90 &lt; 24h)
+                    <dt>New Tutor Placement % (30-day)</dt>
+                    <dd>Percentage of recently contracted tutors who received at least one assignment within 30 days of contracting, averaged over the most recent 3 months. Counts (e.g. "8 of 17 recent") show the underlying volume. The trend label combines placement rate direction with P90 NAT wait time:
+                        <br><strong style="color:#27ae60;">Healthy</strong> — Placement rate rising, students matched quickly (P90 &lt; 24h)
+                        <br><strong style="color:#e74c3c;">Stress</strong> — Placement rate rising but students still waiting 24h+ (high P90)
+                        <br><strong style="color:#e67e22;">Watch</strong> — Placement rate falling while students still wait 24h+ — possible placement issue
+                        <br><strong style="color:#3498db;">Easing</strong> — Placement rate falling, demand cooling naturally (P90 &lt; 24h)
                         <br><strong style="color:#7f8c8d;">Stable</strong> — No meaningful change
                     </dd>
 
                     <dt>Problem Type</dt>
                     <dd>
-                        <strong style="color:#e67e22;">Under-Used</strong> — Util &lt; 50% coincident with a demand gap. Anomaly requiring investigation (placement/algorithm, low real demand, multi-subject tutor used elsewhere, or scheduling mismatch).<br>
-                        <strong style="color:#e74c3c;">True Supply</strong> — Util ≥ 50% and target exceeds run rate. Genuine supply shortage — recruit.<br>
-                        <strong style="color:#95a5a6;">No Util Data</strong> — Target exceeds run rate but no utilization data available. Gather data to classify.<br>
-                        <strong style="color:#9b59b6;">Over-Supplied</strong> — Run rate meets or exceeds target but tutors under 50% utilized. Consider reducing forecast.<br>
-                        <strong style="color:#27ae60;">On Track</strong> — Supply meets demand with healthy utilization. No action needed.<br>
+                        <strong style="color:#e67e22;">Under-Used</strong> — Placement &lt; 50% coincident with a demand gap. Anomaly requiring investigation (placement/algorithm, low real demand, multi-subject tutor used elsewhere, or scheduling mismatch).<br>
+                        <strong style="color:#e74c3c;">True Supply</strong> — Placement ≥ 50% and target exceeds run rate. Genuine supply shortage — recruit.<br>
+                        <strong style="color:#95a5a6;">No Placement Data</strong> — Target exceeds run rate but no new tutor placement data available. Gather data to classify.<br>
+                        <strong style="color:#9b59b6;">Over-Supplied</strong> — Run rate meets or exceeds target but new tutors under 50% placed. Consider reducing forecast.<br>
+                        <strong style="color:#27ae60;">On Track</strong> — Supply meets demand with healthy placement rate. No action needed.<br>
                         <strong style="color:#e67e22;">On Track — High Wait</strong> — Supply math is fine, but P90 wait time exceeds 24h. Students are waiting too long — investigate matching/placement delays.
                     </dd>
                 </dl>
@@ -231,7 +231,7 @@
 
             <div class="section-header" style="margin-top: 30px;" id="ov-table-header">Subjects — BTS Season Tutor Gap</div>
             <div class="util-trend-key">
-                <span class="util-trend-key-title">Util Trend Key:</span>
+                <span class="util-trend-key-title">Placement Trend:</span>
                 <span style="color:#27ae60;font-weight:600">Healthy</span>
                 <span style="color:#e74c3c;font-weight:600">Stress</span>
                 <span style="color:#e67e22;font-weight:600">Watch</span>
@@ -248,7 +248,7 @@
                             <option value="all">All Subjects</option>
                             <option value="placement">Under-Used</option>
                             <option value="true-supply">True Supply</option>
-                            <option value="no-util-data">No Util Data</option>
+                            <option value="no-util-data">No Placement Data</option>
                             <option value="over-supplied">Over-Supplied</option>
                             <option value="on-track">On Track</option>
                             <option value="on-track-highwait">On Track — High Wait</option>
@@ -286,7 +286,7 @@
                             <th class="sortable tooltip-wrap" onclick="sortTable('priority', 1)">Tier<span class="tooltip-text">Volume tier based on BTS_Total forecast (Apr-Oct). Core subjects have highest business impact when missed.</span></th>
                             <th class="sortable" onclick="sortTable('priority', 2)">Run Rate</th>
                             <th class="sortable" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
-                            <th class="sortable tooltip-wrap" onclick="sortTable('priority', 4)">Util %<span class="tooltip-text">30-day utilization rate (recent 3 months). Arrow shows trend vs older months: ↑ improving, ↓ declining, → stable. Counts show recent contracted vs utilized.</span></th>
+                            <th class="sortable tooltip-wrap" onclick="sortTable('priority', 4)">Placement %<span class="tooltip-text">New tutor placement rate: % of recently contracted tutors who received an assignment within 30 days, averaged over the most recent 3 months. Trend label shows placement health factoring in P90 wait time.</span></th>
                             <th class="sortable" onclick="sortTable('priority', 5)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
                             <th class="sortable" onclick="sortTable('priority', 6)" data-tip="Season-level classification based on full BTS (Apr–Oct) data. This may differ from the current month's pace.">BTS Status</th>
                             <th class="sa-current-col" id="priority-current-month-header" data-tip="This month's actual contracting vs target, with pace-aware projection.">Current Month</th>
@@ -317,7 +317,7 @@
             </div>
 
             <div class="util-trend-key">
-                <span class="util-trend-key-title">Util Trend Key:</span>
+                <span class="util-trend-key-title">Placement Trend:</span>
                 <span style="color:#27ae60;font-weight:600">Healthy</span>
                 <span style="color:#e74c3c;font-weight:600">Stress</span>
                 <span style="color:#e67e22;font-weight:600">Watch</span>
@@ -333,7 +333,7 @@
                         <option value="all-problems">All Problems</option>
                         <option value="placement">Under-Used</option>
                         <option value="true-supply">True Supply</option>
-                        <option value="no-util-data">No Util Data</option>
+                        <option value="no-util-data">No Placement Data</option>
                         <option value="over-supplied">Over-Supplied</option>
                         <option value="on-track">On Track</option>
                         <option value="on-track-highwait">On Track — High Wait</option>
@@ -418,7 +418,7 @@
                             <th class="sortable" onclick="sortSA(2)" title="Priority level inherited from the subject's highest-priority recommended action. High = needs immediate attention. Medium = address this week. Low = monitor. Dash = no recommended action.">Priority</th>
                             <th class="sortable" onclick="sortSA(3)" data-tip="Historical monthly new-tutor contracting capacity, averaged across Dec 2025–Mar 2026. The number we can realistically contract per month through the organic pipeline.">Run Rate</th>
                             <th class="sortable" onclick="sortSA(4)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
-                            <th class="sortable" onclick="sortSA(5)" data-tip="Percentage of recently contracted tutors who received at least one assignment within 30 days, averaged over the most recent 3 months. Below 50% = anomaly worth investigating.">Util %</th>
+                            <th class="sortable" onclick="sortSA(5)" data-tip="New tutor placement rate: % of recently contracted tutors who received an assignment within 30 days, averaged over the most recent 3 months. Below 50% = anomaly worth investigating.">Placement %</th>
                             <th class="sortable" onclick="sortSA(6)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically). Color: green/yellow = manageable, red = significant shortfall.">Gap</th>
                             <th class="sortable sa-current-col" onclick="sortSA(7)" title="Current in-progress month: actual vs target">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
                             <th class="sortable" onclick="sortSA(8)">Problem Type</th>
@@ -715,12 +715,12 @@
                 </div>
 
                 <div class="upload-section">
-                    <h3>Upload Updated Utilization Data</h3>
-                    <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Override Looker utilization data. Upload an updated <code>utilization.csv</code> with current tutor utilization data.</p>
+                    <h3>Upload Updated Placement Data</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">Override Looker new tutor placement data. Upload an updated <code>utilization.csv</code> with current placement data.</p>
 
                     <div class="upload-controls">
                         <div class="filter-group">
-                            <label>Utilization File (.csv)</label>
+                            <label>Placement File (.csv)</label>
                             <input type="file" id="utilization-file" accept=".csv">
                         </div>
                     </div>
