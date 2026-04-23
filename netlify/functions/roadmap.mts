@@ -91,7 +91,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "New classification for subjects with target ≤ 3 (tunable constant). Tail-end subjects are excluded from Behind Pace and Reduce Forecast counts so those tiles stop being inflated by low-target subjects, while niche priorities like LSAT remain visible and tracked.",
     priority: "P1",
-    status: "Not Started",
+    status: "In Progress",
   },
   {
     id: "exclude-tail-from-counts",
