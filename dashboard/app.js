@@ -774,7 +774,7 @@ function buildMonthlyData() {
 
     var totalTarget = 0, totalActual = 0, totalActualRaw = 0;
     var excessTotal = 0, overContractedCount = 0;
-    var behindCount = 0, onPaceCount = 0, noDataCount = 0;
+    var behindCount = 0, onPaceCount = 0, completeCount = 0, noDataCount = 0;
     var rows = [];
 
     allData.forEach(function(r) {
@@ -794,7 +794,7 @@ function buildMonthlyData() {
                     overContractedCount++;
                 }
                 if (actual >= target) {
-                    pace = 'onpace'; onPaceCount++;
+                    pace = 'complete'; completeCount++;
                 } else if (dayOfMonth <= 2) {
                     pace = 'onpace'; onPaceCount++;
                 } else if (actual === 0) {
@@ -842,6 +842,7 @@ function buildMonthlyData() {
         overContractedCount: overContractedCount,
         behindCount: behindCount,
         onPaceCount: onPaceCount,
+        completeCount: completeCount,
         noDataCount: noDataCount,
         remaining: remaining,
         dailyRate: dailyRate,
@@ -859,6 +860,7 @@ function renderMonthlyHeroCards() {
     setText('mo-unique-tutors', ut != null ? ut.toLocaleString() : '\u2014');
     setText('mo-behind', d.behindCount);
     setText('mo-onpace', d.onPaceCount);
+    setText('mo-complete', d.completeCount);
     setText('mo-nodata', d.noDataCount);
     var nodataDetail = document.getElementById('mo-nodata-detail');
     if (nodataDetail) {
@@ -1000,7 +1002,7 @@ function renderMonthChipOnBTS() {
     setText('ov-chip-actual', d.totalActual.toLocaleString());
     setText('ov-chip-target', Math.round(d.totalTarget).toLocaleString());
     setText('ov-chip-behind', d.behindCount);
-    setText('ov-chip-onpace', d.onPaceCount);
+    setText('ov-chip-onpace', d.onPaceCount + d.completeCount);
 
     var badge = document.getElementById('ov-chip-badge');
     if (badge) {
@@ -1064,7 +1066,7 @@ function renderMonthlyTable() {
     });
 
     var col = _monthlySort.col, asc = _monthlySort.asc;
-    var PACE_ORDER = { behind: 1, nodata: 2, onpace: 3 };
+    var PACE_ORDER = { behind: 1, nodata: 2, onpace: 3, complete: 4 };
     rows.sort(function(a, b) {
         var av, bv;
         switch (col) {
@@ -1112,6 +1114,7 @@ function renderMonthlyTable() {
 
         var paceBadge;
         if (x.pace === 'behind') paceBadge = '<span class="badge supply">Behind</span>';
+        else if (x.pace === 'complete') paceBadge = '<span class="badge ontrack">Complete</span>';
         else if (x.pace === 'onpace') paceBadge = '<span class="badge ontrack">On Pace</span>';
         else paceBadge = '<span class="badge nodata">No Data</span>';
 
@@ -3027,13 +3030,21 @@ function _roadmapGetFilteredPlanned() {
     var filterEl = document.getElementById('roadmap-filter-category');
     var categoryFilter = filterEl ? filterEl.value : 'all';
     return _roadmapItems
-        .filter(function(item) { return _roadmapNormalizeStatus(item.status) !== 'Shipped'; })
+        .filter(function(item) { return _roadmapNormalizeStatus(item.status) === 'Not Started'; })
         .filter(function(item) { return categoryFilter === 'all' ? true : item.category === categoryFilter; })
         .sort(function(a, b) {
-            var statusDiff = _roadmapStatusRank(a.status) - _roadmapStatusRank(b.status);
-            if (statusDiff !== 0) return statusDiff;
             var at = new Date(a.created_at || 0).getTime();
             var bt = new Date(b.created_at || 0).getTime();
+            return bt - at;
+        });
+}
+
+function _roadmapGetInProgress() {
+    return _roadmapItems
+        .filter(function(item) { return _roadmapNormalizeStatus(item.status) === 'In Progress'; })
+        .sort(function(a, b) {
+            var at = new Date(a.started_at || a.created_at || 0).getTime();
+            var bt = new Date(b.started_at || b.created_at || 0).getTime();
             return bt - at;
         });
 }
@@ -3056,6 +3067,38 @@ function _roadmapPopulateCategoryFilter() {
     }
 }
 
+function renderRoadmapInProgress() {
+    var body = document.getElementById('roadmap-inprogress-body');
+    if (!body) return;
+    var actionsHead = document.getElementById('roadmap-inprogress-actions-head');
+    if (actionsHead) actionsHead.style.display = _roadmapIsAdmin ? '' : 'none';
+    var inProgress = _roadmapGetInProgress();
+    if (!inProgress.length) {
+        body.innerHTML = '<tr><td colspan="' + (_roadmapIsAdmin ? '7' : '6') + '" class="dh-empty">Nothing is in progress right now.</td></tr>';
+        return;
+    }
+
+    body.innerHTML = inProgress.map(function(item) {
+        var startedText = item.started_at ? _roadmapFormatDate(item.started_at) : '<span class="roadmap-muted">—</span>';
+        var etaText = item.eta ? _roadmapFormatDate(item.eta) : '<span class="roadmap-muted">Not set</span>';
+        var adminActions = '';
+        if (_roadmapIsAdmin) {
+            adminActions = '<td><div class="roadmap-admin-actions">'
+                + '<button class="btn btn-sm btn-success" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Shipped">Ship</button>'
+                + '</div></td>';
+        }
+        return '<tr>'
+            + '<td><strong>' + escapeHtml(item.title || 'Untitled') + '</strong></td>'
+            + '<td>' + escapeHtml(item.category || 'General') + '</td>'
+            + '<td style="color:#555;font-size:13px;">' + escapeHtml(item.description || '') + '</td>'
+            + '<td>' + startedText + '</td>'
+            + '<td>' + etaText + '</td>'
+            + '<td>' + escapeHtml(item.priority || '—') + '</td>'
+            + adminActions
+            + '</tr>';
+    }).join('');
+}
+
 function renderRoadmapPlannedUpdates() {
     var body = document.getElementById('roadmap-planned-body');
     if (!body) return;
@@ -3073,17 +3116,9 @@ function renderRoadmapPlannedUpdates() {
         var etaText = item.eta ? _roadmapFormatDate(item.eta) : '<span class="roadmap-muted">Not set</span>';
         var adminActions = '';
         if (_roadmapIsAdmin) {
-            if (status === 'Not Started') {
-                adminActions = '<td><div class="roadmap-admin-actions">'
-                    + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="In Progress">Start</button>'
-                    + '</div></td>';
-            } else if (status === 'In Progress') {
-                adminActions = '<td><div class="roadmap-admin-actions">'
-                    + '<button class="btn btn-sm btn-success" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Shipped">Ship</button>'
-                    + '</div></td>';
-            } else {
-                adminActions = '<td><span class="roadmap-muted">Shipped</span></td>';
-            }
+            adminActions = '<td><div class="roadmap-admin-actions">'
+                + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="In Progress">Start</button>'
+                + '</div></td>';
         }
         return '<tr>'
             + '<td><strong>' + escapeHtml(item.title || 'Untitled') + '</strong></td>'
@@ -3161,6 +3196,7 @@ function renderRoadmapChangeLog() {
 
 function renderRoadmapTab() {
     _roadmapPopulateCategoryFilter();
+    renderRoadmapInProgress();
     renderRoadmapPlannedUpdates();
     renderRoadmapSuggestions();
     renderRoadmapChangeLog();
