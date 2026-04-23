@@ -73,7 +73,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.",
     priority: "P0",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "complete-subjects-tile",
