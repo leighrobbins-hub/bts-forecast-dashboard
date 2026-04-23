@@ -82,7 +82,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.",
     priority: "P1",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "tail-end-subjects",
