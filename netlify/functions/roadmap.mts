@@ -37,7 +37,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Every count tile on the Overview (and BTS) tab will explicitly include the word 'Subjects' in its label so external viewers don't mistake subject counts for tutor counts.",
     priority: "P0",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "spell-out-thu",

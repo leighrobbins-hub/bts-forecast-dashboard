@@ -122,39 +122,39 @@
             <!-- Problem type stat cards -->
             <div class="summary-grid">
                 <div class="stat-card blue" onclick="overviewFilter('all')" style="cursor:pointer;" data-tip="Show all subjects">
-                    <div class="stat-label">Total Subjects</div>
+                    <div class="stat-label">Total Subjects Forecasted</div>
                     <div class="stat-value" id="total-subjects">-</div>
                     <div class="stat-detail">Forecast period: Apr–Oct 2026</div>
                 </div>
                 
                 <div class="stat-card orange" onclick="overviewFilter('investigate')" style="cursor:pointer;" data-tip="Filter to Investigate subjects (Hidden Supply, Capacity Available)">
-                    <div class="stat-label">Investigate</div>
+                    <div class="stat-label">Investigate Subjects</div>
                     <div class="stat-value" id="util-problems">-</div>
                     <div class="stat-pending" id="pending-underused">&nbsp;</div>
                     <div class="stat-detail">Capacity or placement anomaly — investigate</div>
                 </div>
                 
                 <div class="stat-card red" onclick="overviewFilter('recruit')" style="cursor:pointer;" data-tip="Filter to Recruit subjects">
-                    <div class="stat-label">Recruit</div>
+                    <div class="stat-label">Recruit Subjects</div>
                     <div class="stat-value" id="stat-supply-problems">-</div>
                     <div class="stat-pending" id="pending-supply">&nbsp;</div>
                     <div class="stat-detail">Need recruiting levers</div>
                 </div>
                 
                 <div class="stat-card green" onclick="overviewFilter('on-track')" style="cursor:pointer;" data-tip="Filter to On Track subjects">
-                    <div class="stat-label">On Track</div>
+                    <div class="stat-label">Subjects on Track</div>
                     <div class="stat-value" id="ontrack-subjects">-</div>
                     <div class="stat-detail">No action required</div>
                 </div>
 
                 <div class="stat-card amber" onclick="overviewFilter('wait-times')" style="cursor:pointer;" data-tip="Filter to subjects with high wait times">
-                    <div class="stat-label">Wait Times</div>
+                    <div class="stat-label">Subjects with High Wait Times</div>
                     <div class="stat-value" id="highwait-subjects">-</div>
                     <div class="stat-detail">P90 above tier goal</div>
                 </div>
                 
                 <div class="stat-card purple" onclick="overviewFilter('reduce-forecast')" style="cursor:pointer;" data-tip="Filter to Reduce Forecast subjects">
-                    <div class="stat-label">Reduce Forecast</div>
+                    <div class="stat-label">Subjects to Reduce Forecast</div>
                     <div class="stat-value" id="lowutil-subjects">-</div>
                     <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
                     <div class="stat-detail">Consider reducing forecast</div>
@@ -380,11 +380,11 @@
                     </div>
                     <div class="stat-card red" style="cursor:pointer;" onclick="moFilter('behind')" data-tip="Subjects currently pacing below target">
                         <div class="stat-value" id="mo-behind">-</div>
-                        <div class="stat-label">Behind Pace</div>
+                        <div class="stat-label">Behind Pace Subjects</div>
                     </div>
                     <div class="stat-card green" style="cursor:pointer;" onclick="moFilter('onpace')" data-tip="Subjects meeting or exceeding target pace">
                         <div class="stat-value" id="mo-onpace">-</div>
-                        <div class="stat-label">On Pace</div>
+                        <div class="stat-label">On Pace Subjects</div>
                     </div>
                     <div class="stat-card amber" style="cursor:pointer;" onclick="moFilter('nodata')" data-tip="Subjects with no actuals reported yet this month. Data typically appears within the first few business days once Looker refreshes.">
                         <div class="stat-value" id="mo-nodata">-</div>
@@ -395,23 +395,23 @@
                     <!-- Action classification cards (same grid) -->
                     <div class="stat-card orange" style="cursor:pointer;" onclick="moActionFilter('investigate')" data-tip="Subjects classified as Hidden Supply or Capacity Available — investigate utilization">
                         <div class="stat-value" id="mo-investigate">-</div>
-                        <div class="stat-label">Investigate</div>
+                        <div class="stat-label">Investigate Subjects</div>
                     </div>
                     <div class="stat-card red" style="cursor:pointer;" onclick="moActionFilter('recruit')" data-tip="Subjects needing more tutors to meet demand">
                         <div class="stat-value" id="mo-recruit">-</div>
-                        <div class="stat-label">Recruit</div>
+                        <div class="stat-label">Recruit Subjects</div>
                     </div>
                     <div class="stat-card green" style="cursor:pointer;" onclick="moActionFilter('on-track')" data-tip="Subjects meeting targets with no action needed">
                         <div class="stat-value" id="mo-ontrack-action">-</div>
-                        <div class="stat-label">On Track</div>
+                        <div class="stat-label">Subjects on Track</div>
                     </div>
                     <div class="stat-card amber" style="cursor:pointer;" onclick="moActionFilter('wait-times')" data-tip="Subjects where P90 wait times exceed the tier goal">
                         <div class="stat-value" id="mo-waittimes">-</div>
-                        <div class="stat-label">Wait Times</div>
+                        <div class="stat-label">Subjects with High Wait Times</div>
                     </div>
                     <div class="stat-card purple" style="cursor:pointer;" onclick="moActionFilter('reduce-forecast')" data-tip="Over-supplied subjects — consider reducing forecast">
                         <div class="stat-value" id="mo-reduce">-</div>
-                        <div class="stat-label">Reduce Forecast</div>
+                        <div class="stat-label">Subjects to Reduce Forecast</div>
                     </div>
                     <div class="stat-card grey" style="cursor:pointer;" onclick="moActionFilter('insufficient-data')" data-tip="Subjects lacking enough data for classification">
                         <div class="stat-value" id="mo-insuff">-</div>
