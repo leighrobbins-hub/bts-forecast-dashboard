@@ -1062,11 +1062,17 @@ function sortMonthly(colIndex) {
     renderMonthlyTable();
 }
 
+function moScrollToTable() {
+    var header = document.getElementById('mo-table-header');
+    if (header) header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function moFilter(paceVal) {
     var el = document.getElementById('mo-filter-pace');
     if (el) el.value = paceVal;
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
+    moScrollToTable();
 }
 
 function moActionFilter(actionVal) {
@@ -1074,6 +1080,7 @@ function moActionFilter(actionVal) {
     if (el) el.value = actionVal;
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
+    moScrollToTable();
 }
 
 function moScopeFilter(scopeVal) {
@@ -1081,6 +1088,7 @@ function moScopeFilter(scopeVal) {
     if (el) el.value = scopeVal;
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
+    moScrollToTable();
 }
 
 function renderMonthlyTable() {
