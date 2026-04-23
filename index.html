@@ -1604,6 +1604,27 @@
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v5.1 <span class="cl-date">Apr 23, 2026</span> <span class="cl-tag feature">Feature + Refinement</span></div>
+                <ul>
+                    <li>New <strong>Roadmap tab</strong> with In Progress, Planned Updates, Suggestion Box, and Change Log sections. Items have status, category, ETA, started/shipped timestamps; admins can promote suggestions, edit statuses, and decline duplicates. Persistent via Netlify Blobs.</li>
+                    <li><strong>Overview tile labels:</strong> "Subjects" added to every count tile across BTS and Monthly views (e.g., "Behind Pace Subjects", "Investigate Subjects", "Recruit Subjects"); "Total Subjects" renamed to "Total Subjects Forecasted".</li>
+                    <li><strong>Spelled out THU</strong> as "Tutor Hours Utilization" everywhere it appeared in action recommendations, hover text, and tile content.</li>
+                    <li><strong>Monthly sub-tab table</strong> gained dedicated <em>All Tutor Hrs Util %</em> and <em>P90 Assign (hrs)</em> columns to the left of Pace, matching the BTS table&rsquo;s column layout.</li>
+                    <li><strong>Clickable subjects</strong> in Overview top-10 tables jump to the Subjects &amp; Actions tab with the subject pre-selected and auto-expanded. Subjects open collapsed by default when entering Subjects &amp; Actions normally.</li>
+                    <li><strong>Renamed action label</strong> "Wait Time" &rarr; "High Wait Time" everywhere; verified BTS-season and monthly action classifications stay distinct when their underlying signals differ.</li>
+                    <li>New <strong>Complete Subjects</strong> tile on Monthly distinguishes subjects that have hit/exceeded target from subjects merely "on pace".</li>
+                    <li>New <strong>Tail-End Subjects</strong> bucket on both Monthly (target &le; 3) and BTS (BTS_Total &le; 10) views, with hero tile, Scope filter (All / Exclude Tail-End / Tail-End Only), and inline tail-end marker on table rows.</li>
+                    <li><strong>Removed "Hide Niche" as the default</strong> tier filter on BTS, Monthly, and Subjects &amp; Actions views &mdash; nothing is hidden by default. "Hide Niche" remains an explicit opt-in.</li>
+                    <li><strong>Tail-End exclusion from headline counts</strong> with carve-outs: Behind Pace, On Pace, Awaiting Data, Investigate, and Reduce Forecast tiles now exclude tail-end subjects so headlines stop being inflated by low-volume work. <em>Carve-outs that keep tail-end visible:</em> Recruit (both views), On Track (both views), High Wait Time (both views), and Complete (Monthly). A tail-end carve-out subject appears in both its action tile and the Tail-End tile.</li>
+                    <li><strong>Tile clicks now produce a drilled-in table that exactly matches the tile headline.</strong> Every Monthly tile click fully resets pace/action/scope/tier/flag/search and auto-applies the matching scope filter; BTS action-tile drill-in does the same. Clicking a tile no longer leaves stale filters that produce empty tables.</li>
+                    <li><strong>Monthly tile clicks scroll the table into view</strong> after applying the filter.</li>
+                    <li><strong>"Reduce Forecast" tile drill-in</strong> no longer auto-applies Behind Pace and Hide Niche &mdash; these caused the drilled count to mismatch the headline.</li>
+                    <li><strong>Monthly tab uses monthly-derived Pace and Action everywhere.</strong> Pace column already reflected the month; Action column now does too. Rule: actionable BTS classifications (Recruit, Investigate, High Wait, Reduce Forecast) pass through; otherwise the badge reflects monthly pace (Behind Pace / On Track / Awaiting Data). The Furthest Behind chart dot, the table Action column, the Action filter dropdown, and the hero action tiles all use the same monthly-derived classification, so headlines, badges, and drilled tables always agree.</li>
+                    <li><strong>Monthly On Track tile</strong> now requires monthly pace = onpace/complete &mdash; a BTS-on-track subject that&rsquo;s monthly-behind goes into Behind Pace, not On Track.</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v5.0 <span class="cl-date">Apr 22, 2026</span> <span class="cl-tag improvement">Redesign</span></div>
                 <ul>
                     <li>Split Overview into two sub-tabs: <strong>BTS Season</strong> (full Apr&ndash;Oct view) and <strong>This Month</strong> (current-month operational focus)</li>
