@@ -86,10 +86,19 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
   },
   {
     id: "tail-end-subjects",
-    title: "Add 'Tail-End Subjects' bucket (foundational)",
+    title: "Add 'Tail-End Subjects' bucket (foundational) — Monthly + BTS",
     category: "Overview Tiles",
     description:
-      "New classification for subjects with target ≤ 3 (tunable constant). Tail-end subjects are excluded from Behind Pace and Reduce Forecast counts so those tiles stop being inflated by low-target subjects, while niche priorities like LSAT remain visible and tracked.",
+      "New classification for low-volume subjects in both the Monthly view (target ≤ 3) and BTS Season view (BTS_Total ≤ 10, matching the NICHE tier boundary). Each view gets a Tail-End tile, a Scope filter (All / Exclude Tail-End / Tail-End Only), and an inline tail-end marker. Niche priorities like LSAT remain visible and tracked without inflating Behind Pace / Reduce Forecast headlines (headline exclusion follows in the next phase).",
+    priority: "P1",
+    status: "In Progress",
+  },
+  {
+    id: "remove-hide-niche-default",
+    title: "Remove 'Hide Niche (default)' so nothing is hidden by default",
+    category: "Filters & Defaults",
+    description:
+      "Change the default Volume Tier filter on the BTS, Monthly, and Subjects & Actions views from 'Hide Niche' to 'All Tiers'. Keep 'Hide Niche' as an explicit opt-in option but do not hide niche/tail-end subjects by default anywhere.",
     priority: "P1",
     status: "In Progress",
   },
