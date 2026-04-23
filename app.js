@@ -94,7 +94,7 @@ function classifyType(problemTypeOrAction) {
     if (pt.indexOf('recruit more') !== -1) return 'recruit';
     if (pt.indexOf('hidden supply') !== -1) return 'hidden-supply';
     if (pt.indexOf('capacity available') !== -1) return 'capacity-available';
-    if (pt.indexOf('wait times') !== -1) return 'wait-times';
+    if (pt.indexOf('wait times') !== -1 || pt.indexOf('high wait time') !== -1) return 'wait-times';
     if (pt === 'reduce forecast') return 'reduce-forecast';
     if (pt === 'insufficient data') return 'insufficient-data';
     // Legacy Problem_Type values (backward compat)
@@ -236,7 +236,7 @@ function actionBadgeHtml(row) {
     var BADGE_LABELS = {
         'recruit-urgent': 'Recruit \u2014 Urgent', 'recruit': 'Recruit More',
         'hidden-supply': 'Hidden Supply', 'capacity-available': 'Capacity Available',
-        'wait-times': 'Wait Times', 'reduce-forecast': 'Reduce Forecast',
+        'wait-times': 'High Wait Time', 'reduce-forecast': 'Reduce Forecast',
         'on-track': 'On Track', 'insufficient-data': 'Insufficient Data'
     };
     var label = BADGE_LABELS[type] || action;
@@ -950,7 +950,7 @@ function renderMonthlyBarChart() {
         'recruit':        { color: '#e74c3c', label: 'Recruit More' },
         'hidden-supply':  { color: '#e67e22', label: 'Hidden Supply' },
         'capacity-available': { color: '#e67e22', label: 'Capacity Available' },
-        'wait-times':     { color: '#e67e22', label: 'Wait Times' },
+        'wait-times':     { color: '#e67e22', label: 'High Wait Time' },
         'reduce-forecast': { color: '#9b59b6', label: 'Reduce Forecast' },
         'on-track':       { color: '#27ae60', label: 'On Track' },
         'insufficient-data': { color: '#95a5a6', label: 'Insufficient Data' }
@@ -2776,7 +2776,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'spell-out-thu', title: "Spell out 'THU' as 'Tutor Hours Utilization'", category: 'Labels & Clarity', description: "Replace the THU abbreviation everywhere it appears with the full phrase so stakeholders don't have to guess what it means.", priority: 'P0', status: 'Shipped' },
     { id: 'inline-p90-util', title: 'Show P90 and Utilization values inline on Overview', category: 'Labels & Clarity', description: 'Where action text references high P90 or low utilization qualitatively, show the actual numeric value inline. Matches the format already used on other tabs.', priority: 'P0', status: 'Shipped' },
     { id: 'clickable-subjects', title: 'Make subjects clickable from Overview top-10 tables', category: 'Navigation', description: 'Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.', priority: 'P0', status: 'Shipped' },
-    { id: 'rename-wait-time', title: "Rename 'Wait Time' action label to 'High Wait Time'", category: 'Labels & Clarity', description: "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.", priority: 'P0', status: 'In Progress' },
+    { id: 'rename-wait-time', title: "Rename 'Wait Time' action label to 'High Wait Time'", category: 'Labels & Clarity', description: "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.", priority: 'P0', status: 'Shipped' },
     { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Not Started' },
     { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational)", category: 'Overview Tiles', description: "New classification for subjects with target <= 3 (tunable constant). Tail-end subjects are excluded from Behind Pace and Reduce Forecast counts so those tiles stop being inflated by low-target subjects, while niche priorities like LSAT remain visible and tracked.", priority: 'P1', status: 'Not Started' },
     { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast', category: 'Overview Tiles', description: 'Apply the Tail-End classification precedence so every subject lands in exactly one tile and the headline counts become trustworthy.', priority: 'P1', status: 'Not Started' },
@@ -4228,7 +4228,7 @@ function saProblemTypeBadge(type) {
         'recruit': '<span class="badge supply">Recruit More</span>',
         'hidden-supply': '<span class="badge util">Hidden Supply</span>',
         'capacity-available': '<span class="badge util">Capacity Available</span>',
-        'wait-times': '<span class="badge highwait">Wait Times</span>',
+        'wait-times': '<span class="badge highwait">High Wait Time</span>',
         'reduce-forecast': '<span class="badge oversupplied">Reduce Forecast</span>',
         'on-track': '<span class="badge ontrack">On Track</span>',
         'insufficient-data': '<span class="badge nodata">Insufficient Data</span>',

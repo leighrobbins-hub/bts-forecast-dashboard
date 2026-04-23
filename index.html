@@ -213,7 +213,7 @@
                         <strong style="color:#e74c3c;">Recruit More</strong> — Supply gap, normal hours utilization. Also fires when hours util is low but P90 wait times prove idle capacity is paper supply.<br>
                         <strong style="color:#e67e22;">Hidden Supply</strong> — Existing tutors overworked but new tutors not placed. Investigate before recruiting.<br>
                         <strong style="color:#e67e22;">Capacity Available</strong> — Supply gap but idle pool exists. Unlock capacity first.<br>
-                        <strong style="color:#e67e22;">Wait Times</strong> — P90 exceeds tier goal. Examine assignment flow.<br>
+                        <strong style="color:#e67e22;">High Wait Time</strong> — P90 exceeds tier goal. Examine assignment flow.<br>
                         <strong style="color:#9b59b6;">Reduce Forecast</strong> — All signals show surplus. Consider lowering the target.<br>
                         <strong style="color:#27ae60;">On Track</strong> — No issues detected.<br>
                         <strong style="color:#95a5a6;">Insufficient Data</strong> — Cannot classify — missing data.
@@ -251,7 +251,7 @@
                             <option value="all">All Subjects</option>
                             <option value="recruit">Recruit More</option>
                             <option value="investigate">Investigate</option>
-                            <option value="wait-times">Wait Times</option>
+                            <option value="wait-times">High Wait Time</option>
                             <option value="reduce-forecast">Reduce Forecast</option>
                             <option value="on-track">On Track</option>
                             <option value="insufficient-data">Insufficient Data</option>
@@ -455,7 +455,7 @@
                                 <option value="all-problems">All Problems</option>
                                 <option value="recruit">Recruit More</option>
                                 <option value="investigate">Investigate</option>
-                                <option value="wait-times">Wait Times</option>
+                                <option value="wait-times">High Wait Time</option>
                                 <option value="reduce-forecast">Reduce Forecast</option>
                                 <option value="on-track">On Track</option>
                             </select>
@@ -543,7 +543,7 @@
                         <option value="all-problems">All Problems</option>
                         <option value="recruit">Recruit More</option>
                         <option value="investigate">Investigate</option>
-                        <option value="wait-times">Wait Times</option>
+                        <option value="wait-times">High Wait Time</option>
                         <option value="reduce-forecast">Reduce Forecast</option>
                         <option value="on-track">On Track</option>
                         <option value="insufficient-data">Insufficient Data</option>
@@ -1233,7 +1233,7 @@
                     <tr><td>5</td><td><strong>Investigate &mdash; Capacity Available</strong></td><td>Needs external + hours util &lt; 60% + P90 &le; tiered goal (genuine idle capacity)</td></tr>
                     <tr><td>6</td><td><strong>Recruit More</strong></td><td>Needs external, normal hours util (60&ndash;115%)</td></tr>
                     <tr><td>7</td><td><strong>Reduce Forecast</strong></td><td>Run rate &ge; target, placement &lt; 30%, hours util &lt; 60%, P90 &lt; tiered goal</td></tr>
-                    <tr><td>8</td><td><strong>Investigate &mdash; Wait Times</strong></td><td>P90 &gt; tiered goal</td></tr>
+                    <tr><td>8</td><td><strong>Investigate &mdash; High Wait Time</strong></td><td>P90 &gt; tiered goal</td></tr>
                     <tr><td>8</td><td><strong>On Track</strong></td><td>Default &mdash; no issues detected</td></tr>
                 </table>
                 
@@ -1250,7 +1250,7 @@
                 </table>
                 
                 <h4>Backward Compatibility</h4>
-                <p>A legacy <code>Problem_Type</code> field is still computed from <code>Primary_Action</code> for older code paths. The mapping: Recruit &rarr; True Supply Problem, Investigate (Hidden/Capacity) &rarr; Under-Used, Wait Times &rarr; On Track &mdash; High Wait, Reduce Forecast &rarr; Over-Supplied, On Track &rarr; On Track, Insufficient Data &rarr; Supply Problem (No Util Data).</p>
+                <p>A legacy <code>Problem_Type</code> field is still computed from <code>Primary_Action</code> for older code paths. The mapping: Recruit &rarr; True Supply Problem, Investigate (Hidden/Capacity) &rarr; Under-Used, High Wait Time &rarr; On Track &mdash; High Wait, Reduce Forecast &rarr; Over-Supplied, On Track &rarr; On Track, Insufficient Data &rarr; Supply Problem (No Util Data).</p>
                 
                 <h3>Step 4: Recommendations Engine</h3>
                 <p>Each subject&rsquo;s Primary Action drives a specific recommendation with a detailed reason string citing the actual per-row metrics:</p>
@@ -1259,13 +1259,13 @@
                     <li><strong>Recruit More (paper supply):</strong> Low hours util but P90 proves current supply isn&rsquo;t converting to real placements. Recommends recruiting active tutors.</li>
                     <li><strong>Investigate &mdash; Hidden Supply:</strong> Cites both hours util and placement rate. Asks team to investigate before recruiting.</li>
                     <li><strong>Investigate &mdash; Capacity Available:</strong> Cites low hours util despite supply gap, but P90 within goal confirms genuine idle capacity. Asks whether capacity can be unlocked first.</li>
-                    <li><strong>Investigate &mdash; Wait Times:</strong> Cites P90 vs tiered goal. Asks to examine assignment flow.</li>
+                    <li><strong>Investigate &mdash; High Wait Time:</strong> Cites P90 vs tiered goal. Asks to examine assignment flow.</li>
                     <li><strong>Reduce Forecast:</strong> Cites all three metrics. Recommends considering forecast reduction.</li>
                     <li><strong>Behind-pace alerts</strong> are layered on top for in-progress months using calendar-prorated targets.</li>
                 </ul>
                 
                 <h2>Key Findings</h2>
-                <p>Findings are dynamic &mdash; the dashboard hero board and WBR show current counts by Primary Action category. Refer to the Overview tab for the latest distribution across Recruit, Investigate, On Track, Wait Times, and Reduce Forecast buckets.</p>
+                <p>Findings are dynamic &mdash; the dashboard hero board and WBR show current counts by Primary Action category. Refer to the Overview tab for the latest distribution across Recruit, Investigate, On Track, High Wait Time, and Reduce Forecast buckets.</p>
                 
                 <h2>Limitations & Caveats</h2>
                 
@@ -1413,7 +1413,7 @@
                     <li><strong>Recruit More / Urgent:</strong> Deploy recruiting levers. Gap is real and pipeline is the bottleneck.</li>
                     <li><strong>Recruit More (paper supply):</strong> Low hours util looks idle, but P90 wait times prove the &ldquo;capacity&rdquo; is illusory. Existing roster isn&rsquo;t converting &mdash; recruit active tutors.</li>
                     <li><strong>Investigate &mdash; Hidden Supply / Capacity Available:</strong> Do NOT blindly recruit. Capacity may already exist &mdash; investigate placement, algorithm, or scheduling first.</li>
-                    <li><strong>Investigate &mdash; Wait Times:</strong> Students waiting too long. Examine matching flow, credential checks, scheduling.</li>
+                    <li><strong>Investigate &mdash; High Wait Time:</strong> Students waiting too long. Examine matching flow, credential checks, scheduling.</li>
                     <li><strong>Reduce Forecast:</strong> Demand may be overestimated. All signals show surplus. Consider lowering the target.</li>
                     <li><strong>On Track:</strong> No action needed. Monitor stress flags for early warning.</li>
                     <li><strong>Insufficient Data:</strong> Cannot classify. Prioritize getting data for this subject.</li>
@@ -1456,7 +1456,7 @@
                 <ul>
                     <li><strong>Monthly Progress Pulse:</strong> Day-of-month progress bar with projected EOM, remaining need, and daily contracting rate needed.</li>
                     <li><strong>Pacing Cards:</strong> Monthly Target, Contracted, Unique Tutors, Behind Pace, On Pace, Awaiting Data.</li>
-                    <li><strong>Action Classification Cards:</strong> Investigate, Recruit, On Track, Wait Times, Reduce Forecast, Insufficient Data &mdash; identical categories to the BTS season but displayed here for quick monthly filtering.</li>
+                    <li><strong>Action Classification Cards:</strong> Investigate, Recruit, On Track, High Wait Time, Reduce Forecast, Insufficient Data &mdash; identical categories to the BTS season but displayed here for quick monthly filtering.</li>
                     <li><strong>Top 15 Furthest Behind:</strong> Bar chart of subjects with the largest monthly shortfall, with BTS action classification dots.</li>
                     <li><strong>Subjects Table:</strong> Sortable/filterable by pace, action, tier, stress flags, and search.</li>
                 </ul>
@@ -1550,7 +1550,7 @@
                 <div class="cl-version">v5.0 <span class="cl-date">Apr 22, 2026</span> <span class="cl-tag improvement">Redesign</span></div>
                 <ul>
                     <li>Split Overview into two sub-tabs: <strong>BTS Season</strong> (full Apr&ndash;Oct view) and <strong>This Month</strong> (current-month operational focus)</li>
-                    <li>This Month tab includes hero progress pulse, pacing cards, action classification cards (Investigate, Recruit, On Track, Wait Times, Reduce Forecast, Insufficient Data), and a sortable/filterable subjects table</li>
+                    <li>This Month tab includes hero progress pulse, pacing cards, action classification cards (Investigate, Recruit, On Track, High Wait Time, Reduce Forecast, Insufficient Data), and a sortable/filterable subjects table</li>
                     <li>Added &ldquo;Top 15 &mdash; Furthest Behind This Month&rdquo; bar chart with column headers and tooltips explaining each metric</li>
                     <li>Compact month-pace indicator chip on BTS Season tab shows current month status at a glance (clickable to switch to This Month)</li>
                     <li>Redesigned BTS Season bar chart: single season gap bar with a colored dot for this month&rsquo;s pacing per subject (replaces old dual-bar layout)</li>
