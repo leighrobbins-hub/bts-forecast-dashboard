@@ -22,7 +22,6 @@ Science Olympiad,100.11666
 Personal Finance,99.58333
 FRT,97.376666
 Blender,96.286664
-Electrical and Computer Engineering,95.853328
 AP Physics C: Electricity and Magnetism,94.683327
 Civil and Environmental Engineering,93.53333
 Software,93.05
@@ -32,6 +31,7 @@ Business Enterprise,90.6
 Scratch,89.13333
 Sketchup,88.53333
 PE - Mechanical - HVAC and Refrigeration,87.95
+Electrical and Computer Engineering,87.009994
 Microsoft Power BI,85.833331
 Real Analysis,84.86666
 Music Recording,83.48333
@@ -59,6 +59,7 @@ PE - Principles and Practice of Engineering - Civil - Geotechnical,68.91666
 Management Information Systems,68.86666
 Graphic Design,68.76666
 AP Chinese Language and Culture,68.55
+ARRT - Radiography,68.45
 IB Business & Management,68.386664
 Discrete Math,67.93333
 Autocad,67.77666
@@ -73,7 +74,6 @@ FL Studio,65.169997
 Information Technology,65.1
 NBDHE,65.08333
 Nutrition,64.98333
-ARRT - Radiography,64.886666
 OAE,64.288333
 MOS,63.49666
 Math 2,63.249995
@@ -104,6 +104,7 @@ Greek,51.348333
 Enrichment,50.68333
 Statics,50.65
 Middle School Reading Comprehension,50.36666
+Oracle Certification,50.35
 Sociology,49.91666
 Series 24,49.11666
 ACSM,49.01666
@@ -135,7 +136,6 @@ Fluid Dynamics,42.91666
 Tableau,42.799999
 AP Chemistry,42.3
 Microsoft Word,42.076662
-DAT,42.043328
 Audio Engineering,41.95
 AP German Language and Culture,41.939997
 Finance,41.716665
@@ -143,50 +143,50 @@ Middle School Science,41.56666
 AP Statistics,41.49166
 Grade 12 Physics,41.25
 AVMA,40.93333
+AP Calculus BC,40.88333
 Corporate Finance,40.783328
-AP Calculus BC,40.74333
 Aerospace Engineering,40.71166
 OAT,40.61833
-Elementary School Writing,40.57
+Elementary School Writing,40.49
 AP Calculus AB,40.48333
 Study Skills And Organization,40.401666
 Heat Transfer,40.146664
 SQL,40.03
 Cryptocurrency,40.01666
+DAT,39.731662
 College Algebra,39.546666
 Coding,39.53666
 CISA,39.45
 Civics,39.169998
 Finite Mathematics,39.149998
 Architecture,39.06666
-SAT,38.78333
+SAT,38.7
 MATLAB,38.686666
 IB History,38.596666
-Statics and Dynamics,38.559994
 Algebra 2,38.51666
 IB Mathematics: Analysis and Approaches,38.449995
 AP Biology,38.29
 Functions,37.923329
-AP Pre-Calculus,37.614998
-Oracle Certification,37.315
-Executive Functioning,37.301661
+AP Pre-Calculus,37.543332
 Pre-Calculus,37.15
 College Physics,36.98333
 ARRT - Computed Tomography,36.329994
 Public Health,36.13666
 Business Analytics,36.13333
 AP Computer Science A,35.486664
-Biomechanics,35.19666
+ACT,34.48333
 AP Physics 2,34.43666
 PSAT Mathematics,34.29833
-ACT,34.26333
+Statics and Dynamics,34.188327
 College Application Essays,33.88333
 GRE,33.474995
+Biomechanics,33.18666
 Critical Analysis and Reasoning Skills,33.146664
 FE - Mechanical Engineering,33.08833
 American Sign Language,32.974995
 Voice,32.485
 Biomedical Engineering,32.443328
+Executive Functioning,32.13333
 Russian,31.813331
 NYSTCE,31.69833
 ABIM Exam,31.68333
@@ -194,56 +194,56 @@ Animation,31.664994
 Marketing,31.664994
 Elementary School Reading,31.65
 PRAXIS,30.86666
-AP Microeconomics,30.789996
 Biochemistry,30.564998
 ACT Math,30.4
 MPJE - New York,30.33333
-General Chemistry 2,30.119994
 Cyber Security,29.96666
 CPC,29.75
 CPA REG,29.663332
+AP Microeconomics,29.60833
 Business Statistics,29.446662
-High School Physics,29.319994
 Fine arts,29.26666
 Earth Science,29.11
 Mathematics for College Technology,29.1
 PRAXIS Elementary School,28.95
 Logic,28.919994
+High School Physics,28.91666
 CST Surgical Tech Exam,28.88333
-SAT Math,28.771662
+General Chemistry 2,28.81666
 Linear Programming,28.71666
+SAT Math,28.703328
 MTEL,28.7
 Engineering Economics,28.66666
 Elementary School Science,28.61666
-AP World History,28.506662
-Geometry,28.216664
-Elementary School Math,28.08333
-Calculus 1,28.08333
+Elementary School Math,28.11666
+Geometry,28.099998
+AP World History,28.099995
 MPJE,28.01666
 AP Computer Science Principles,27.96666
 IBEW,27.88333
-MBLEX,27.808331
-High School Chemistry,27.71833
+Calculus 1,27.846664
 Korean,27.6
 PE - Principles and Practice of Engineering - Civil - Construction,27.51666
+High School Chemistry,27.49833
 CSET,27.413332
 Middle School Reading,27.4
 GED,27.0
+MBLEX,26.991665
 GMAT,26.866665
 AP Physics 1,26.85666
+SAT Writing and Language,26.85
 College Accounting,26.81666
-College Chemistry,26.691661
+College Chemistry,26.683328
 AP Macroeconomics,26.68166
 Thermodynamics,26.65666
 Creative Writing,26.63333
 Trigonometry,26.531663
 AP Comparative Government and Politics,26.46666
 Multivariable Calculus,26.405
-Algebra,26.239997
-Middle School Math,26.188327
+Algebra,26.20333
 NCLEX-RN,26.16666
 AP Human Geography,26.15
-SAT Writing and Language,26.069997
+Middle School Math,26.124995
 Conversational French,26.0
 Organic Chemistry 2,25.976662
 Cursor,25.9
@@ -256,74 +256,73 @@ High School Computer Science,25.73333
 College Biology,25.7
 Computer Networks,25.66666
 Probability,25.661663
-Middle School Writing,25.56666
+Middle School Writing,25.409994
 Microsoft Office,25.33
 Differential Calculus,25.18333
-Organic Chemistry,25.179994
-High School Biology,24.879997
+Basic Computer Literacy,25.14833
+Organic Chemistry,24.893328
 College Math,24.863327
 Project Management/PMP,24.81
+High School Biology,24.78333
 Data Science,24.699996
 Flute,24.67833
 PRAXIS Counseling,24.63333
-Orton Gillingham,24.629996
+Orton Gillingham,24.553329
 Arabic,24.476666
-French 1,24.441661
 Fluid Mechanics,24.35833
-Basic Computer Literacy,24.324999
+French 1,24.299994
 LMSW - Licensed Master Social Worker,24.26666
 Microbiology,24.186664
 Industrial Engineering,24.15
-Elementary School English,24.066664
 TEAS,24.05
-Honors Algebra,24.01666
-Quantitative Reasoning,24.01666
-GATE/ TAG,24.01666
 Music Theory,24.01666
-Public Speaking,24.014994
+Quantitative Reasoning,24.01666
+Honors Algebra,24.01666
+GATE/ TAG,24.01666
 Phonics,24.014994
+Public Speaking,24.013328
 Nursing,24.013328
-Spelling Bee,24.0
-Grade 12 Chemistry,24.0
 Violin,24.0
-ACT English,24.0
-OAR,24.0
-Macroeconomics,24.0
-Algebra Regents,24.0
-MPJE - Illinois,24.0
-Kindergarten Readiness,24.0
-SSAT- Upper Level,24.0
-College Statistics,24.0
-Criminal Law,24.0
-Algorithms,24.0
+Grade 12 Chemistry,24.0
+Elementary School English,24.0
 LSAT,24.0
-Microsoft Excel,24.0
-C++,24.0
-Life Sciences,24.0
-Technical Writing,24.0
-Conversational Italian,24.0
-Calculus 2,24.0
-Pharmacology,24.0
-FE - Fundamentals of Engineering - Other Disciplines,24.0
 Differential Equations,24.0
-Financial Accounting,24.0
-Evolutionary Biology,24.0
+Kindergarten Readiness,24.0
 Pathophysiology,24.0
-High School English,24.0
+Calculus 2,24.0
+Criminal Law,24.0
 Conversational Spanish,24.0
 MCAT,24.0
+Microsoft Excel,24.0
 Operating Systems,24.0
 Singing,24.0
-ISEE- Lower Level,24.0
+OAR,24.0
+Life Sciences,24.0
+Evolutionary Biology,24.0
+MPJE - Illinois,24.0
+Conversational Italian,24.0
+High School English,24.0
+College Statistics,24.0
+Pharmacology,24.0
+Financial Accounting,24.0
+Spelling Bee,24.0
+FE - Fundamentals of Engineering - Other Disciplines,24.0
 ISEE- Middle Level,24.0
-AFOQT,23.96
+C++,24.0
+ACT English,24.0
+Macroeconomics,24.0
+ISEE- Lower Level,24.0
+Algebra Regents,24.0
+Algorithms,24.0
+SSAT- Upper Level,24.0
+AFOQT,23.95
 TACHS,23.78333
-PSAT,23.693333
 Anatomy & Physiology,23.65
 Spanish 1,23.593332
-NCLEX,23.51666
+NCLEX,23.503327
 JavaScript,23.411663
 Certified Reading Intervention,23.391666
+PSAT,23.386666
 Inorganic Chemistry,23.33333
 Calculus 3,23.269998
 CDL,23.25
@@ -337,12 +336,13 @@ Academic Coaching,22.791662
 ARRT - Sonography,22.7
 Vocal Training,22.63666
 NPTE,22.6
-AP English Language and Composition,22.55
-Essay Editing,22.38
+Technical Writing,22.493332
 Printmaking,22.35
+AP English Language and Composition,22.305
 STAAR Grades 3-8,22.28
+Essay Editing,22.2
 ARRT - Magnetic Resonance Imaging,22.18333
-Wordpress,22.078327
+BCABA,22.1
 Elementary Social Studies,22.033332
 Managerial Accounting,21.98333
 ChatGPT,21.956666
@@ -358,6 +358,7 @@ Adult ESL/ELL,21.253332
 Series 66,21.228327
 High School Writing,21.219996
 Computer Game Design,21.18333
+Wordpress,21.16666
 Theology,21.14333
 Genetics,21.123327
 AP Japanese Language and Culture,20.75
@@ -372,15 +373,13 @@ Applied Mathematics,20.11666
 Software Engineering,20.036664
 Ukrainian,20.02666
 ASVAB,20.02166
-BCABA,19.895
 Criminology,19.806664
-Python,19.58333
 ISEE- Upper Level,19.399994
+Python,19.33333
 MCAT Chemical and Physical Foundations of Biological Systems,19.24
 IELTS,19.005
 Quantum Physics,19.0
 Medical Surgery,18.885
-Portuguese,18.88
 Grade 11 Math,18.625
 Chemistry 2,18.46
 Autodesk Maya,18.36666
@@ -388,35 +387,36 @@ Chemical Engineering,18.33333
 College English,18.095
 CLEP Biology,18.06666
 SSAT- Middle Level,17.933332
+Portuguese,17.9
 SHRM-CP,17.73333
 ESL/ELL,17.6
-AP US History,17.521666
 Claude,17.44
+AP US History,17.393332
 Pre-Algebra,17.37166
 Visual Studio,17.31666
 College Political Science,17.3
+High School World History,17.3
 AP Research,17.27666
 Cantonese,17.03
 College Geography,16.85
-PRAXIS Early Childhood,16.846664
 IB Literature and Performance,16.81666
 ARDMS - Sonography Principals and Instruments (SPI),16.796666
 Latin 1,16.789996
 PTCE,16.54333
-High School Reading,16.43666
-High School World History,16.4
+Spanish 3,16.45833
+PRAXIS Early Childhood,16.38333
 Business Calculus,16.359994
 Grade 9 Math,16.32666
 Handwriting,16.18833
 AP English Literature and Composition,15.99333
+High School Reading,15.94666
 Analytical Chemistry,15.844997
 Expository Writing,15.679996
 Drawing,15.6
 CAPM,15.543332
-Spanish 3,15.451663
+AP Seminar,15.41666
 FINRA,15.39333
 PRAXIS Content Math,15.275
-AP Seminar,15.253328
 Tagalog,15.16666
 AP U.S. Government & Politics,14.68333
 NMLS,14.4
@@ -433,7 +433,6 @@ Java,12.896664
 PE - Electrical and Computer - Computer Engineering,12.8
 Construction,12.619996
 Supply Chain Management,12.53333
-Adult Literacy,12.218327
 Medical Terminology,11.6
 OTR,11.52
 Series 7  - General Securities Representative Exam (Stockbroker),11.48
@@ -442,6 +441,7 @@ AP French Language and Culture,11.321666
 GED Math,10.68333
 ACCUPLACER College-Level Math,10.68333
 Photoshop,10.38333
+Adult Literacy,10.273328
 Electronics,10.101666
 Latin 3,10.03
 High School Level American History,9.906666
@@ -458,6 +458,7 @@ Spanish 2,7.239996
 Advanced Functions,7.22666
 Salesforce,7.17
 Real Estate License - Pennsylvania,6.98333
+Series 65,6.883332
 German 4,6.61666
 CLEP Calculus,6.588333
 Data Structures,6.283333
@@ -470,18 +471,16 @@ French 2,5.94333
 Conversational German,5.93333
 CFP,5.89666
 Cost Analysis,5.859994
-CFA - Level 1,5.84
 Japanese,5.776664
-High School Science,5.76666
 SSAT,5.76666
+High School Science,5.76666
 Cost Accounting,5.671666
-High School Level American Literature,5.5
 Pro Tools Software,5.5
+High School Level American Literature,5.5
 CELPIP,5.05
 COTA,5.04
 NBE,5.0
 Latin 2,4.9
-Series 65,4.763327
 Filmmaking,4.75
 CogAT,4.598327
 PC Basic Computer Skills,4.55
@@ -492,14 +491,15 @@ Linux,4.071663
 NCE,3.93833
 AP Art History,3.9
 Susan Barton,3.9
-AP Music Theory,3.686662
 Immunology,3.678329
+CFA - Level 1,3.57
 PRAXIS Core Reading,3.558333
 Numerical Analysis,3.55
 ACCUPLACER Writing,3.51666
 SEE - Special Enrollment Exam,3.51666
 Contract Law,3.503328
 Insurance License,3.403331
+AP Music Theory,3.374995
 TOEFL,3.35
 IB French,3.28
 EPPP,3.21666
@@ -521,19 +521,19 @@ CLEP College Algebra,2.21666
 Series 63,2.18333
 Biostatistics,2.18333
 Endocrinology,2.16666
-Adobe Illustrator,2.136662
+AP Latin,2.05
 Econometrics,1.96666
 Elementary School Math (in French),1.91666
 Business Writing,1.914999
+Adobe Illustrator,1.863328
 Rhino,1.85
 College Level American Literature,1.8
 SPSS Statistic Software,1.76833
-AP Latin,1.696666
 High School Accounting,1.61666
 MPJE - Texas,1.6
 Mandarin Chinese 2,1.474998
-Legal Research,1.43333
 MAP,1.43333
+Legal Research,1.43333
 GRE Quantitative,1.424997
 ARRT - Mammography,1.35
 CPA AUD,1.249995
@@ -554,7 +554,7 @@ German 2,0.78333
 Health Care Administration,0.729994
 LSAT Reading Comprehension,0.68
 GMAT Quantitative Reasoning,0.65
-CPA FAR,0.65
+CPA FAR,0.635
 Bar Exam,0.61666
 ACCUPLACER Reading,0.56666
 Constitutional Law,0.46666
@@ -572,16 +572,16 @@ Canadian French Language Proficiency,0.263329
 Anthropology,0.25
 Theatre,0.21833
 CLEP History of the United States II: 1865 to the Present,0.2
-Exam SRM - Statistics for Risk Modeling,0.18333
 Real Estate License,0.18333
+Exam SRM - Statistics for Risk Modeling,0.18333
 IB Global Politics,0.15
 World Religions,0.13333
 CLEP Social Sciences and History,0.13333
 Plant Biology,0.11666
 French Immersion,0.11666
 French 3,0.094999
-ANCC - Family Nurse Practitioner Certification (FNP),0.08333
 Mandarin Chinese 4,0.08333
+ANCC - Family Nurse Practitioner Certification (FNP),0.08333
 AIS,0.06666
 Viola,0.06666
 African-American History,0.03333
