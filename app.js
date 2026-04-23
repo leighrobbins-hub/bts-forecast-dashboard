@@ -2822,6 +2822,20 @@ function _roadmapLocalSave(items, suggestions) {
     localStorage.setItem(ROADMAP_LOCAL_SUGGESTIONS_KEY, JSON.stringify(suggestions || []));
 }
 
+function _roadmapApplyForcedShipped(items) {
+    var nowIso = new Date().toISOString();
+    return (items || []).map(function(item) {
+        if (!item || !item.id || !ROADMAP_FORCE_SHIPPED_IDS[item.id]) return item;
+        var next = Object.assign({}, item);
+        if (_roadmapNormalizeStatus(next.status) !== 'Shipped') {
+            next.status = 'Shipped';
+        }
+        if (!next.shipped_at) next.shipped_at = nowIso;
+        if (!next.updated_at) next.updated_at = nowIso;
+        return next;
+    });
+}
+
 function _roadmapLocalRequest(method, payload) {
     var state = _roadmapLocalLoad();
     var items = state.items.slice();
@@ -3112,7 +3126,7 @@ function loadRoadmapData() {
     return _roadmapApiRequest('GET')
         .then(function(data) {
             data = data || {};
-            _roadmapItems = Array.isArray(data.items) ? data.items : [];
+            _roadmapItems = _roadmapApplyForcedShipped(Array.isArray(data.items) ? data.items : []);
             _roadmapSuggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
             _roadmapIsAdmin = !!data.isAdmin;
             renderRoadmapTab();
