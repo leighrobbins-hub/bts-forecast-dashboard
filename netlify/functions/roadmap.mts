@@ -28,6 +28,7 @@ type RoadmapSuggestion = {
 };
 
 const DEFAULT_ADMIN_EMAILS = ["leigh.robbins@varsitytutors.com"];
+const FORCE_SHIPPED_IDS = new Set(["overview-labels"]);
 
 const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
   {
@@ -337,6 +338,20 @@ export default async (req: Request, context: Context) => {
       };
       byId.set(seed.id, seededItem);
       changed = true;
+    });
+
+    byId.forEach((item, id) => {
+      if (!FORCE_SHIPPED_IDS.has(id)) return;
+      if (item.status !== "Shipped") {
+        item.status = "Shipped";
+        item.updated_at = nowIso;
+        if (!item.shipped_at) item.shipped_at = nowIso;
+        changed = true;
+      } else if (!item.shipped_at) {
+        item.shipped_at = nowIso;
+        item.updated_at = nowIso;
+        changed = true;
+      }
     });
 
     items = Array.from(byId.values());
