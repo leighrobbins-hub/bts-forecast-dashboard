@@ -260,6 +260,82 @@ function actionBadgeHtml(row) {
     return '<span class="' + cls + '"' + (tip ? ' data-tip="' + escapeHtml(tip) + '"' : '') + '>' + escapeHtml(label) + '</span>';
 }
 
+// ── Monthly action derivation ─────────────────────────────────────────────
+// On the Monthly tab, the Action column must reflect the action that's
+// relevant THIS MONTH, not the BTS-season classification. Rules:
+//   - Actionable BTS classifications pass through (Recruit, Investigate via
+//     Hidden Supply / Capacity Available, High Wait Time, Reduce Forecast) —
+//     these still describe the work to do regardless of monthly pace.
+//   - When BTS isn't actionable (on-track / insufficient-data / none), the
+//     monthly pace drives the label: Behind Pace / Awaiting Data / On Track.
+function monthlyActionType(btsType, pace) {
+    if (btsType === 'recruit' || btsType === 'recruit-urgent') return btsType;
+    if (btsType === 'hidden-supply' || btsType === 'capacity-available') return btsType;
+    if (btsType === 'wait-times') return btsType;
+    if (btsType === 'reduce-forecast') return btsType;
+    if (pace === 'behind') return 'behind-monthly';
+    if (pace === 'nodata') return 'awaiting-data';
+    return 'on-track';
+}
+
+var MONTHLY_ACTION_LABELS = {
+    'recruit-urgent': 'Recruit \u2014 Urgent',
+    'recruit': 'Recruit More',
+    'hidden-supply': 'Hidden Supply',
+    'capacity-available': 'Capacity Available',
+    'wait-times': 'High Wait Time',
+    'reduce-forecast': 'Reduce Forecast',
+    'behind-monthly': 'Behind Pace',
+    'awaiting-data': 'Awaiting Data',
+    'on-track': 'On Track'
+};
+
+var MONTHLY_ACTION_CLASSES = {
+    'recruit-urgent': 'badge supply',
+    'recruit': 'badge supply',
+    'hidden-supply': 'badge util',
+    'capacity-available': 'badge util',
+    'wait-times': 'badge highwait',
+    'reduce-forecast': 'badge oversupplied',
+    'behind-monthly': 'badge supply',
+    'awaiting-data': 'badge nodata',
+    'on-track': 'badge ontrack'
+};
+
+var MONTHLY_ACTION_TIPS = {
+    'behind-monthly': 'Behind monthly pace and no actionable BTS-season signal — investigate the gap.',
+    'awaiting-data': 'No monthly actuals reported yet for this subject.',
+    'on-track': 'On track for the month.'
+};
+
+function monthlyActionTypeForRow(x) {
+    var btsType = classifyType(x.row.Primary_Action || x.row.Problem_Type);
+    return monthlyActionType(btsType, x.pace);
+}
+
+function monthlyActionBadgeHtml(x) {
+    var monthlyType = monthlyActionTypeForRow(x);
+    var label = MONTHLY_ACTION_LABELS[monthlyType] || monthlyType;
+    var cls = MONTHLY_ACTION_CLASSES[monthlyType] || 'badge ontrack';
+    var tip = MONTHLY_ACTION_TIPS[monthlyType] || PROBLEM_TIPS[monthlyType] || '';
+    return '<span class="' + cls + '"' + (tip ? ' data-tip="' + escapeHtml(tip) + '"' : '') + '>' + escapeHtml(label) + '</span>';
+}
+
+function matchesMonthlyAction(monthlyType, filter) {
+    if (filter === 'all') return true;
+    if (filter === 'all-problems') {
+        return monthlyType !== 'on-track' && monthlyType !== 'awaiting-data';
+    }
+    if (filter === 'recruit') return monthlyType === 'recruit' || monthlyType === 'recruit-urgent';
+    if (filter === 'investigate') return monthlyType === 'hidden-supply' || monthlyType === 'capacity-available';
+    if (filter === 'wait-times') return monthlyType === 'wait-times';
+    if (filter === 'reduce-forecast') return monthlyType === 'reduce-forecast';
+    if (filter === 'on-track') return monthlyType === 'on-track';
+    if (filter === 'behind-monthly') return monthlyType === 'behind-monthly';
+    if (filter === 'awaiting-data') return monthlyType === 'awaiting-data';
+    return true;
+}
+
 var FLAG_SEVERITY = {
     burnout_risk: 6, critical_wait: 5, paper_supply: 4,
     high_wait: 3, idle_pool: 2, new_tutor_stuck: 1
@@ -956,23 +1032,24 @@ function renderMonthlyHeroCards() {
     var actionCounts = { investigate: 0, recruit: 0, 'on-track': 0, 'wait-times': 0, 'reduce-forecast': 0, 'insufficient-data': 0 };
     d.rows.forEach(function(x) {
         var r = x.row;
-        var t = classifyType(r.Primary_Action || r.Problem_Type);
+        // Tile counts use the MONTHLY action so the headline matches what the
+        // table's Monthly Action column shows.
+        var monthlyType = monthlyActionTypeForRow(x);
+        var btsType = classifyType(r.Primary_Action || r.Problem_Type);
+        // mo-insuff is still BTS-classification-driven (it surfaces subjects
+        // where the BTS analysis itself flagged insufficient data). It will be
+        // consolidated with mo-nodata under P1.4 (data-review-tile).
+        if (btsType === 'insufficient-data' && !x.isTailEnd) actionCounts['insufficient-data']++;
         // Tail-end carve-outs: Recruit / On Track / High Wait Time keep
         // tail-end subjects visible. The remaining action tiles exclude them.
-        if (t === 'recruit-urgent' || t === 'recruit') { actionCounts.recruit++; return; }
-        if (t === 'on-track') {
-            // On the Monthly tab, "On Track" must mean on track for the MONTH,
-            // not just BTS-season on-track. A BTS-on-track subject that's
-            // monthly-behind (or awaiting data) doesn't belong here — it goes
-            // into Behind Pace / Awaiting Data via its pace tile.
-            if (x.pace === 'onpace' || x.pace === 'complete') actionCounts['on-track']++;
-            return;
-        }
-        if (t === 'wait-times') { actionCounts['wait-times']++; return; }
+        if (monthlyType === 'recruit-urgent' || monthlyType === 'recruit') { actionCounts.recruit++; return; }
+        if (monthlyType === 'on-track') { actionCounts['on-track']++; return; }
+        if (monthlyType === 'wait-times') { actionCounts['wait-times']++; return; }
         if (x.isTailEnd) return;
-        if (t === 'hidden-supply' || t === 'capacity-available') actionCounts.investigate++;
-        else if (t === 'reduce-forecast') actionCounts['reduce-forecast']++;
-        else if (t === 'insufficient-data') actionCounts['insufficient-data']++;
+        if (monthlyType === 'hidden-supply' || monthlyType === 'capacity-available') actionCounts.investigate++;
+        else if (monthlyType === 'reduce-forecast') actionCounts['reduce-forecast']++;
+        // 'awaiting-data' rolls into mo-nodata (the pace tile).
+        // 'behind-monthly' rolls into mo-behind (the pace tile).
     });
     setText('mo-investigate', actionCounts.investigate);
     setText('mo-recruit', actionCounts.recruit);
@@ -1164,11 +1241,18 @@ function renderMonthlyTable() {
 
     var rows = d.rows.filter(function(x) {
         if (paceFilter !== 'all' && x.pace !== paceFilter) return false;
-        if (actionFilter !== 'all' && !matchesFilter(x.row.Primary_Action || x.row.Problem_Type, actionFilter)) return false;
-        // Monthly "On Track" means on track for the MONTH, not BTS-season. Gate
-        // the drilled table the same way the tile count is gated so the two
-        // always match.
-        if (actionFilter === 'on-track' && x.pace !== 'onpace' && x.pace !== 'complete') return false;
+        // Action filter operates on the MONTHLY action (not BTS) so the table
+        // matches what the Monthly Action badge actually shows on each row.
+        // 'insufficient-data' is the one legacy filter that still operates on
+        // the BTS classification because mo-insuff is BTS-driven (will be
+        // consolidated with mo-nodata under P1.4).
+        if (actionFilter === 'insufficient-data') {
+            var rowBtsType = classifyType(x.row.Primary_Action || x.row.Problem_Type);
+            if (rowBtsType !== 'insufficient-data') return false;
+        } else if (actionFilter !== 'all') {
+            var rowMonthlyType = monthlyActionTypeForRow(x);
+            if (!matchesMonthlyAction(rowMonthlyType, actionFilter)) return false;
+        }
         if (tierFilter === 'hide-niche' && x.row.Tier === 'NICHE') return false;
         else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && x.row.Tier !== tierFilter) return false;
         if (scopeFilter === 'tail-only' && !x.isTailEnd) return false;
@@ -1196,7 +1280,10 @@ function renderMonthlyTable() {
             case 6: av = a.row.Tutor_Hours_Util_Pct; bv = b.row.Tutor_Hours_Util_Pct; break;
             case 7: av = a.row.P90_NAT_Hours; bv = b.row.P90_NAT_Hours; break;
             case 8: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
-            case 9: av = a.row.Primary_Action || a.row.Problem_Type; bv = b.row.Primary_Action || b.row.Problem_Type; break;
+            case 9:
+                av = MONTHLY_ACTION_LABELS[monthlyActionTypeForRow(a)] || '';
+                bv = MONTHLY_ACTION_LABELS[monthlyActionTypeForRow(b)] || '';
+                break;
             case 10: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
             default: av = a.row.Subject; bv = b.row.Subject;
         }
@@ -1247,7 +1334,7 @@ function renderMonthlyTable() {
             + renderThuCell(r)
             + renderP90Cell(r)
             + '<td class="tc">' + paceBadge + '</td>'
-            + '<td class="tc">' + actionBadgeHtml(r) + '</td>'
+            + '<td class="tc">' + monthlyActionBadgeHtml(x) + '</td>'
             + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>';
         tbody.appendChild(tr);
     });

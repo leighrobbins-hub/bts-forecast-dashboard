@@ -481,7 +481,7 @@
                             </select>
                         </div>
                         <div class="filter-group inline-filter">
-                            <label for="mo-filter-action">Action</label>
+                            <label for="mo-filter-action">Monthly Action</label>
                             <select id="mo-filter-action" onchange="renderMonthlyTable()">
                                 <option value="all">All Subjects</option>
                                 <option value="all-problems">All Problems</option>
@@ -489,7 +489,9 @@
                                 <option value="investigate">Investigate</option>
                                 <option value="wait-times">High Wait Time</option>
                                 <option value="reduce-forecast">Reduce Forecast</option>
+                                <option value="behind-monthly">Behind Pace</option>
                                 <option value="on-track">On Track</option>
+                                <option value="awaiting-data">Awaiting Data</option>
                             </select>
                         </div>
                         <div class="filter-group inline-filter">
@@ -534,8 +536,8 @@
                                 <th class="sortable tc" onclick="sortMonthly(5)" data-tip="Projected end-of-month total at current daily rate">Projected EOM</th>
                                 <th class="sortable tc" onclick="sortMonthly(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted.">All Tutor Hrs Util %</th>
                                 <th class="sortable tc" onclick="sortMonthly(7)" data-tip="90th percentile of time to fill a placement request.">P90 Assign (hrs)</th>
-                                <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Current pacing status">Pace</th>
-                                <th class="sortable tc" onclick="sortMonthly(9)" data-tip="BTS season classification">Action</th>
+                                <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Pacing status for the current month (Behind, On Pace, Complete, No Data)">Monthly Pace</th>
+                                <th class="sortable tc" onclick="sortMonthly(9)" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) pass through when they still apply; otherwise derived from monthly pace (Behind Pace / On Track / Awaiting Data).">Monthly Action</th>
                                 <th class="sortable tc" onclick="sortMonthly(10)">Flags</th>
                             </tr>
                         </thead>
