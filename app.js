@@ -710,9 +710,32 @@ function showTab(tabName, el) {
     el.setAttribute('aria-selected', 'true');
     if (tabName === 'subjects-and-actions' || tabName === 'decision-history') {
         loadSharedDecisions();
+        if (tabName === 'subjects-and-actions' && !_sa_open_from_overview) {
+            _sa_expanded = {};
+        }
     } else if (tabName === 'roadmap') {
         loadRoadmapData();
     }
+    _sa_open_from_overview = false;
+}
+
+function openSubjectInSubjectsActions(subject) {
+    if (!subject) return false;
+    _sa_open_from_overview = true;
+    _sa_expanded = {};
+    _sa_expanded[subject] = true;
+    var tabBtn = document.querySelector('#main-tabs .tab[aria-controls="subjects-and-actions"]');
+    if (tabBtn) {
+        showTab('subjects-and-actions', tabBtn);
+    }
+    var saSearch = document.getElementById('sa-search');
+    if (saSearch) saSearch.value = subject;
+    if (typeof renderSubjectsAndActions === 'function') {
+        try { renderSubjectsAndActions(); } catch (e) {}
+    }
+    var header = document.querySelector('#subjects-and-actions h2');
+    if (header) header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return false;
 }
 
 function navigateToFiltered(filterValue) {
@@ -1084,13 +1107,15 @@ function renderMonthlyTable() {
             varianceDisplay = (x.variance >= 0 ? '+' : '') + x.variance;
         }
         var projDisplay = x.projectedEOM != null ? x.projectedEOM : '\u2014';
+        var subjectJs = JSON.stringify(r.Subject || '').replace(/"/g, '&quot;');
+        var subjectLink = '<a href="#" onclick="return openSubjectInSubjectsActions(' + subjectJs + ')" style="color:#2c3e50;text-decoration:underline;font-weight:700;">' + escapeHtml(r.Subject) + '</a>';
 
         var paceBadge;
         if (x.pace === 'behind') paceBadge = '<span class="badge supply">Behind</span>';
         else if (x.pace === 'onpace') paceBadge = '<span class="badge ontrack">On Pace</span>';
         else paceBadge = '<span class="badge nodata">No Data</span>';
 
-        tr.innerHTML = '<td><strong>' + escapeHtml(r.Subject) + '</strong></td>'
+        tr.innerHTML = '<td>' + subjectLink + '</td>'
             + '<td class="tc">' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
             + '<td class="tc">' + (x.target || '\u2014') + '</td>'
             + '<td class="tc">' + (x.actual != null ? x.actual : '\u2014') + '</td>'
@@ -1310,8 +1335,10 @@ function renderPriorityTable() {
         var gapDisplay = '<div>' + rawGap + '</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% cov)</div>';
         var cmd = cmIdx[row.Subject] || null;
         var cmCell = saRenderCurrentMonthCell(cmd, currentMonth);
+        var subjectJs = JSON.stringify(row.Subject || '').replace(/"/g, '&quot;');
+        var subjectLink = '<a href="#" onclick="return openSubjectInSubjectsActions(' + subjectJs + ')" style="color:#2c3e50;text-decoration:underline;font-weight:700;">' + escapeHtml(row.Subject) + '</a>';
 
-        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td>'
+        tr.innerHTML = '<td>' + subjectLink + '</td>'
             + '<td class="tc">' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
             + '<td class="tc">' + row.Run_Rate + '</td>'
             + '<td class="tc">' + row.Smoothed_Target + '</td>'
@@ -2749,8 +2776,8 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'overview-labels', title: "Add 'Subjects' to Overview tile labels", category: 'Labels & Clarity', description: "Every count tile on the Overview (and BTS) tab will explicitly include the word 'Subjects' in its label so external viewers don't mistake subject counts for tutor counts.", priority: 'P0', status: 'Shipped' },
     { id: 'spell-out-thu', title: "Spell out 'THU' as 'Tutor Hours Utilization'", category: 'Labels & Clarity', description: "Replace the THU abbreviation everywhere it appears with the full phrase so stakeholders don't have to guess what it means.", priority: 'P0', status: 'Shipped' },
     { id: 'inline-p90-util', title: 'Show P90 and Utilization values inline on Overview', category: 'Labels & Clarity', description: 'Where action text references high P90 or low utilization qualitatively, show the actual numeric value inline. Matches the format already used on other tabs.', priority: 'P0', status: 'Shipped' },
-    { id: 'clickable-subjects', title: 'Make subjects clickable from Overview top-10 tables', category: 'Navigation', description: 'Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.', priority: 'P0', status: 'In Progress' },
-    { id: 'rename-wait-time', title: "Rename 'Wait Time' action label to 'High Wait Time'", category: 'Labels & Clarity', description: "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.", priority: 'P0', status: 'Not Started' },
+    { id: 'clickable-subjects', title: 'Make subjects clickable from Overview top-10 tables', category: 'Navigation', description: 'Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.', priority: 'P0', status: 'Shipped' },
+    { id: 'rename-wait-time', title: "Rename 'Wait Time' action label to 'High Wait Time'", category: 'Labels & Clarity', description: "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.", priority: 'P0', status: 'In Progress' },
     { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Not Started' },
     { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational)", category: 'Overview Tiles', description: "New classification for subjects with target <= 3 (tunable constant). Tail-end subjects are excluded from Behind Pace and Reduce Forecast counts so those tiles stop being inflated by low-target subjects, while niche priorities like LSAT remain visible and tracked.", priority: 'P1', status: 'Not Started' },
     { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast', category: 'Overview Tiles', description: 'Apply the Tail-End classification precedence so every subject lands in exactly one tile and the headline counts become trustworthy.', priority: 'P1', status: 'Not Started' },
@@ -4101,6 +4128,7 @@ function copyWeeklySummary(mode) {
 
 var currentSorts_sa = { col: 6, asc: true }; // Default: Gap ascending (biggest problems first)
 var _sa_expanded = {}; // which subjects are expanded
+var _sa_open_from_overview = false;
 var _sa_pending_note = null; // { subject: string, ridx: number, type: 'action'|'noaction' }
 
 var REC_META = {
