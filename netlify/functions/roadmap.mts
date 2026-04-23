@@ -56,7 +56,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Where action text references high P90 or low utilization qualitatively, show the actual numeric value inline. Matches the format already used on other tabs.",
     priority: "P0",
-    status: "Not Started",
+    status: "In Progress",
   },
   {
     id: "clickable-subjects",
