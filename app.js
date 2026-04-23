@@ -45,7 +45,7 @@ var trackerSort = { key: 'subject', asc: true };
 
 var PROBLEM_TIPS = {
     'recruit-urgent': 'Run rate short of target AND All Tutor Hours Util above 115% — existing pool is cracking. Deploy recruiting levers immediately.',
-    'recruit': 'Run rate short of target. May include paper supply subjects where low THU appears idle but high P90 proves current supply isn\u2019t handling demand.',
+    'recruit': 'Run rate short of target. May include paper supply subjects where low Tutor Hours Util appears idle but high P90 proves current supply isn\u2019t handling demand.',
     'hidden-supply': 'Existing tutors overworked (hours util \u2265 115%) but new tutors not getting assigned (<30%). Capacity exists on paper but isn\u2019t absorbed — investigate before recruiting.',
     'capacity-available': 'Run rate suggests gap but existing pool has headroom (hours util < 60%). Understand if additional tutors are needed or capacity can be unlocked.',
     'wait-times': 'P90 Time-to-Assign exceeds goal for this tier. Students waiting too long despite normal utilization. Examine assignment flow.',
