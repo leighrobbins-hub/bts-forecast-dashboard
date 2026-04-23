@@ -2740,6 +2740,7 @@ var _roadmapSuggestions = [];
 var _roadmapIsAdmin = false;
 var ROADMAP_LOCAL_ITEMS_KEY = 'roadmap_items_local';
 var ROADMAP_LOCAL_SUGGESTIONS_KEY = 'roadmap_suggestions_local';
+var ROADMAP_FORCE_SHIPPED_IDS = { 'overview-labels': true };
 var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'overview-labels', title: "Add 'Subjects' to Overview tile labels", category: 'Labels & Clarity', description: "Every count tile on the Overview (and BTS) tab will explicitly include the word 'Subjects' in its label so external viewers don't mistake subject counts for tutor counts.", priority: 'P0', status: 'Shipped' },
     { id: 'spell-out-thu', title: "Spell out 'THU' as 'Tutor Hours Utilization'", category: 'Labels & Clarity', description: "Replace the THU abbreviation everywhere it appears with the full phrase so stakeholders don't have to guess what it means.", priority: 'P0', status: 'Not Started' },
@@ -2796,6 +2797,17 @@ function _roadmapLocalLoad() {
             status: seed.status,
             created_at: nowIso
         };
+    });
+    Object.keys(byId).forEach(function(id) {
+        if (!ROADMAP_FORCE_SHIPPED_IDS[id]) return;
+        if (byId[id].status !== 'Shipped') {
+            byId[id].status = 'Shipped';
+            byId[id].updated_at = nowIso;
+            if (!byId[id].shipped_at) byId[id].shipped_at = nowIso;
+        } else if (!byId[id].shipped_at) {
+            byId[id].shipped_at = nowIso;
+            byId[id].updated_at = nowIso;
+        }
     });
     items = Object.keys(byId).map(function(id) { return byId[id]; });
     try {
