@@ -26,6 +26,8 @@ type RoadmapSuggestion = {
   linked_item_id?: string;
 };
 
+const DEFAULT_ADMIN_EMAILS = ["leigh.robbins@varsitytutors.com"];
+
 const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
   {
     id: "overview-labels",
@@ -265,11 +267,12 @@ function json(data: unknown, status = 200) {
 }
 
 function parseAdminEmails(raw: string | undefined): string[] {
-  if (!raw) return [];
-  return raw
+  const envEmails = (raw || "")
     .split(",")
     .map((v) => v.trim().toLowerCase())
     .filter(Boolean);
+  const defaults = DEFAULT_ADMIN_EMAILS.map((v) => v.toLowerCase());
+  return Array.from(new Set([...defaults, ...envEmails]));
 }
 
 function isAdmin(email: string, adminEmails: string[]) {
