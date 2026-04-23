@@ -85,6 +85,114 @@ body {
     display: block;
 }
 
+.roadmap-section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.roadmap-section h3 {
+    margin-bottom: 14px;
+}
+
+.roadmap-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.roadmap-suggest-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.roadmap-textarea {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.roadmap-textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.roadmap-recent-suggestions {
+    margin-top: 14px;
+}
+
+.roadmap-recent-suggestions summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #4A4BB6;
+    margin-bottom: 10px;
+}
+
+.roadmap-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.roadmap-pill.not-started {
+    background: #eaf0ff;
+    color: #2f4ea1;
+}
+
+.roadmap-pill.in-progress {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.roadmap-pill.shipped {
+    background: #d4edda;
+    color: #155724;
+}
+
+.roadmap-pill.new {
+    background: #eaf0ff;
+    color: #2f4ea1;
+}
+
+.roadmap-pill.accepted {
+    background: #d4edda;
+    color: #155724;
+}
+
+.roadmap-pill.declined {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.roadmap-pill.duplicate {
+    background: #eceef1;
+    color: #55616f;
+}
+
+.roadmap-admin-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.roadmap-muted {
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
 .summary-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

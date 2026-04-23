@@ -50,6 +50,7 @@
         <button class="tab" role="tab" aria-selected="false" aria-controls="subjects-and-actions" onclick="showTab('subjects-and-actions', this)">Subjects &amp; Actions (<span id="tab-count-sa">-</span>)</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="monthly-tracker" onclick="showTab('monthly-tracker', this)">Monthly Tracker</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="decision-history" onclick="showTab('decision-history', this)">Decision History (<span id="tab-count-dh">-</span>)</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="roadmap" onclick="showTab('roadmap', this)">Roadmap</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="upload-data" onclick="showTab('upload-data', this)">Upload Data</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="performance-history" onclick="showTab('performance-history', this)">History</button>
         <button class="tab" role="tab" aria-selected="false" aria-controls="methodology" onclick="showTab('methodology', this)">Methodology</button>
@@ -793,6 +794,85 @@
                     </thead>
                     <tbody id="dh-body"></tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- ROADMAP TAB -->
+        <div id="roadmap" class="tab-content" role="tabpanel">
+            <h2>Roadmap</h2>
+            <p style="color:#7f8c8d; margin-top:4px; margin-bottom:20px;">
+                Track planned dashboard updates, collect ideas, and review shipped changes.
+            </p>
+
+            <div class="roadmap-section">
+                <div class="roadmap-section-header">
+                    <h3>Planned Updates</h3>
+                    <div class="filter-group">
+                        <label>Category</label>
+                        <select id="roadmap-filter-category">
+                            <option value="all">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="roadmap-planned-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>ETA</th>
+                                <th>Priority</th>
+                                <th id="roadmap-actions-head" style="display:none;">Admin Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roadmap-planned-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="roadmap-section">
+                <h3>Suggest an Update</h3>
+                <div class="roadmap-suggest-form">
+                    <textarea id="roadmap-suggestion-text" class="roadmap-textarea" rows="4" placeholder="Share an idea, bug fix, or enhancement you want tracked on the roadmap..."></textarea>
+                    <button class="btn btn-primary" id="roadmap-submit-suggestion">Submit Suggestion</button>
+                </div>
+                <div id="roadmap-suggestion-status" class="status-msg"></div>
+                <details class="roadmap-recent-suggestions">
+                    <summary>Recent Suggestions</summary>
+                    <div class="table-container">
+                        <table id="roadmap-suggestions-table">
+                            <thead>
+                                <tr>
+                                    <th>Submitted</th>
+                                    <th>Submitter</th>
+                                    <th>Suggestion</th>
+                                    <th>Status</th>
+                                    <th id="roadmap-suggestion-actions-head" style="display:none;">Admin Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="roadmap-suggestions-body"></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="roadmap-section">
+                <h3>Change Log</h3>
+                <div class="table-container">
+                    <table id="roadmap-changelog-table">
+                        <thead>
+                            <tr>
+                                <th>Shipped Date</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roadmap-changelog-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -1829,7 +1909,9 @@
         document.getElementById('app-wrapper').style.display = '';
         document.getElementById('user-name').textContent = name;
         localStorage.setItem('bts_active_user', name);
+        localStorage.setItem('bts_user_email', user.email || '');
         if (typeof loadSharedDecisions === 'function') loadSharedDecisions();
+        if (typeof loadRoadmapData === 'function') loadRoadmapData();
     }
 
     function onLogout() {
@@ -1862,6 +1944,7 @@
         document.getElementById('main-tabs').style.display = '';
         document.getElementById('user-name').textContent = 'Local Test';
         localStorage.setItem('bts_active_user', 'Local Test');
+        localStorage.setItem('bts_user_email', 'local@test');
     }
     </script>
 </body>
