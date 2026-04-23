@@ -821,7 +821,9 @@ function buildMonthlyData() {
                 }
                 if (actual >= target) {
                     pace = 'complete';
-                    if (!tailEnd) completeCount++;
+                    // Complete tile, like Recruit, keeps tail-end subjects
+                    // visible (they can also appear in the Tail-End tile).
+                    completeCount++;
                 } else if (dayOfMonth <= 2) {
                     pace = 'onpace';
                     if (!tailEnd) onPaceCount++;
@@ -1071,25 +1073,44 @@ function moScrollToTable() {
     if (header) header.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function moResetTableFilters(overrides) {
+    // Clean drill-in: reset all non-overridden filters so a tile click always
+    // shows the tile's exact subject set. overrides = { pace, action, scope,
+    // tier, flag, search } — only the keys present are applied; the rest
+    // default back to 'all' / ''.
+    overrides = overrides || {};
+    var paceEl = document.getElementById('mo-filter-pace');
+    var actionEl = document.getElementById('mo-filter-action');
+    var scopeEl = document.getElementById('mo-filter-scope');
+    var tierEl = document.getElementById('mo-filter-tier');
+    var flagEl = document.getElementById('mo-filter-flag');
+    var searchEl = document.getElementById('mo-search');
+    if (paceEl) paceEl.value = overrides.pace != null ? overrides.pace : 'all';
+    if (actionEl) actionEl.value = overrides.action != null ? overrides.action : 'all';
+    if (scopeEl) scopeEl.value = overrides.scope != null ? overrides.scope : 'all';
+    if (tierEl) tierEl.value = overrides.tier != null ? overrides.tier : 'all';
+    if (flagEl) flagEl.value = overrides.flag != null ? overrides.flag : 'all';
+    if (searchEl) searchEl.value = overrides.search != null ? overrides.search : '';
+}
+
 function moFilter(paceVal) {
-    var el = document.getElementById('mo-filter-pace');
-    if (el) el.value = paceVal;
+    // Complete, like Recruit, overlaps with the Tail-End tile — include tail-end
+    // complete subjects in the drill-in so the table matches the tile headline.
+    moResetTableFilters({ pace: paceVal });
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
     moScrollToTable();
 }
 
 function moActionFilter(actionVal) {
-    var el = document.getElementById('mo-filter-action');
-    if (el) el.value = actionVal;
+    moResetTableFilters({ action: actionVal });
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
     moScrollToTable();
 }
 
 function moScopeFilter(scopeVal) {
-    var el = document.getElementById('mo-filter-scope');
-    if (el) el.value = scopeVal;
+    moResetTableFilters({ scope: scopeVal });
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
     moScrollToTable();
@@ -2874,7 +2895,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Shipped' },
     { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational) \u2014 Monthly + BTS", category: 'Overview Tiles', description: "New classification for low-volume subjects in both the Monthly view (target <= 3) and BTS Season view (BTS_Total <= 10, matching the NICHE tier boundary). Each view gets a Tail-End tile, a Scope filter (All / Exclude Tail-End / Tail-End Only), and an inline tail-end marker. Niche priorities like LSAT remain visible and tracked without inflating Behind Pace / Reduce Forecast headlines (headline exclusion follows in the next phase).", priority: 'P1', status: 'Shipped' },
     { id: 'remove-hide-niche-default', title: "Remove 'Hide Niche (default)' so nothing is hidden by default", category: 'Filters & Defaults', description: "Change the default Volume Tier filter on the BTS, Monthly, and Subjects & Actions views from 'Hide Niche' to 'All Tiers'. Keep 'Hide Niche' as an explicit opt-in option but do not hide niche/tail-end subjects by default anywhere.", priority: 'P1', status: 'Shipped' },
-    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from headline action counts (Recruit exempt)', category: 'Overview Tiles', description: "Apply the Tail-End classification on both Monthly and BTS views so headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts. On BTS: remove tail-end subjects from Investigate / On Track / Reduce Forecast / High Wait counts. Recruit is the explicit exception on both views \u2014 tail-end Recruit subjects still count in the Recruit tile so recruiting signals stay visible (they may also appear in the Tail-End tile). Action-tile drill-in auto-applies the same scope filter as the tile, including Recruit staying on 'All' scope. Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'Shipped' },
+    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from headline counts (Recruit + Complete exempt)', category: 'Overview Tiles', description: "Apply the Tail-End classification on both Monthly and BTS views so headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Awaiting Data and the other action tiles. On BTS: remove tail-end subjects from Investigate / On Track / Reduce Forecast / High Wait counts. Recruit (on both views) and Complete (on Monthly) are the explicit exceptions \u2014 tail-end Recruit and Complete subjects still count in their respective tiles so recruiting and finished-work signals stay visible (they may also appear in the Tail-End tile). Monthly tile clicks fully reset the table filters so the drilled-in view always matches the tile headline. BTS action-tile drill-in auto-applies the same scope filter as the tile, including Recruit staying on 'All' scope. Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'Shipped' },
     { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Fixed as part of P1.3: Hide Niche is no longer the default, Behind Pace is no longer auto-applied on tile click, and action-tile clicks auto-apply Scope = Exclude Tail-End so the drilled-in table matches the headline.", priority: 'P1', status: 'Shipped' },
     { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },
     { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },
