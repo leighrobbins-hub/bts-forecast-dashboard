@@ -104,10 +104,10 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
   },
   {
     id: "exclude-tail-from-counts",
-    title: "Exclude Tail-End subjects from headline counts (Recruit + Complete exempt)",
+    title: "Exclude Tail-End from headline counts (Recruit / On Track / High Wait / Complete exempt)",
     category: "Overview Tiles",
     description:
-      "Apply the Tail-End classification on both Monthly and BTS views so headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Awaiting Data and the other action tiles. On BTS: remove tail-end subjects from Investigate / On Track / Reduce Forecast / High Wait counts. Recruit (on both views) and Complete (on Monthly) are the explicit exceptions — tail-end Recruit and Complete subjects still count in their respective tiles so recruiting and finished-work signals stay visible (they may also appear in the Tail-End tile). Monthly tile clicks fully reset the table filters so the drilled-in view always matches the tile headline. BTS action-tile drill-in auto-applies the same scope filter as the tile, including Recruit staying on 'All' scope. Preserve the 'not behind' meaning of the BTS on-pace chip.",
+      "Apply the Tail-End classification on Monthly and BTS views so headline counts become trustworthy. Tiles that EXCLUDE tail-end: Behind Pace, On Pace, Awaiting Data / Insufficient Data, Investigate, Reduce Forecast. Tiles that KEEP tail-end visible (carve-outs): Recruit (both views), On Track (both views), High Wait Time (both views), Complete (Monthly). Every tile click auto-applies a scope filter that matches the tile's own carve-out, so the drilled-in table always equals the tile headline. Monthly tile clicks also fully reset pace/action/scope/tier/flag/search before applying the tile's filter. Preserve the 'not behind' meaning of the BTS on-pace chip.",
     priority: "P1",
     status: "Shipped",
   },
