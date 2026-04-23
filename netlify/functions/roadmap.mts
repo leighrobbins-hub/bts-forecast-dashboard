@@ -56,7 +56,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Where action text references high P90 or low utilization qualitatively, show the actual numeric value inline. Matches the format already used on other tabs.",
     priority: "P0",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "clickable-subjects",
@@ -65,7 +65,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.",
     priority: "P0",
-    status: "Not Started",
+    status: "In Progress",
   },
   {
     id: "rename-wait-time",
