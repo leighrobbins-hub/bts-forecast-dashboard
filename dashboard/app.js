@@ -2771,7 +2771,6 @@ var _roadmapSuggestions = [];
 var _roadmapIsAdmin = false;
 var ROADMAP_LOCAL_ITEMS_KEY = 'roadmap_items_local';
 var ROADMAP_LOCAL_SUGGESTIONS_KEY = 'roadmap_suggestions_local';
-var ROADMAP_FORCE_SHIPPED_IDS = { 'overview-labels': true, 'spell-out-thu': true };
 var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'overview-labels', title: "Add 'Subjects' to Overview tile labels", category: 'Labels & Clarity', description: "Every count tile on the Overview (and BTS) tab will explicitly include the word 'Subjects' in its label so external viewers don't mistake subject counts for tutor counts.", priority: 'P0', status: 'Shipped' },
     { id: 'spell-out-thu', title: "Spell out 'THU' as 'Tutor Hours Utilization'", category: 'Labels & Clarity', description: "Replace the THU abbreviation everywhere it appears with the full phrase so stakeholders don't have to guess what it means.", priority: 'P0', status: 'Shipped' },
@@ -2829,15 +2828,19 @@ function _roadmapLocalLoad() {
             created_at: nowIso
         };
     });
-    Object.keys(byId).forEach(function(id) {
-        if (!ROADMAP_FORCE_SHIPPED_IDS[id]) return;
-        if (byId[id].status !== 'Shipped') {
-            byId[id].status = 'Shipped';
-            byId[id].updated_at = nowIso;
-            if (!byId[id].shipped_at) byId[id].shipped_at = nowIso;
-        } else if (!byId[id].shipped_at) {
-            byId[id].shipped_at = nowIso;
-            byId[id].updated_at = nowIso;
+    ROADMAP_LOCAL_SEED_DATA.forEach(function(seed) {
+        var existing = byId[seed.id];
+        if (!existing) return;
+        var desired = _roadmapNormalizeStatus(seed.status);
+        var current = _roadmapNormalizeStatus(existing.status);
+        if (_roadmapStatusRank(desired) > _roadmapStatusRank(current)) {
+            existing.status = desired;
+            existing.updated_at = nowIso;
+            if (desired === 'In Progress' && !existing.started_at) existing.started_at = nowIso;
+            if (desired === 'Shipped' && !existing.shipped_at) existing.shipped_at = nowIso;
+        } else if (current === 'Shipped' && !existing.shipped_at) {
+            existing.shipped_at = nowIso;
+            existing.updated_at = nowIso;
         }
     });
     items = Object.keys(byId).map(function(id) { return byId[id]; });
@@ -2853,16 +2856,26 @@ function _roadmapLocalSave(items, suggestions) {
     localStorage.setItem(ROADMAP_LOCAL_SUGGESTIONS_KEY, JSON.stringify(suggestions || []));
 }
 
-function _roadmapApplyForcedShipped(items) {
+function _roadmapApplySeedStatus(items) {
+    var seedStatusById = {};
+    ROADMAP_LOCAL_SEED_DATA.forEach(function(seed) {
+        seedStatusById[seed.id] = _roadmapNormalizeStatus(seed.status);
+    });
     var nowIso = new Date().toISOString();
     return (items || []).map(function(item) {
-        if (!item || !item.id || !ROADMAP_FORCE_SHIPPED_IDS[item.id]) return item;
+        if (!item || !item.id) return item;
+        var desired = seedStatusById[item.id];
+        if (!desired) return item;
         var next = Object.assign({}, item);
-        if (_roadmapNormalizeStatus(next.status) !== 'Shipped') {
-            next.status = 'Shipped';
+        var current = _roadmapNormalizeStatus(next.status);
+        if (_roadmapStatusRank(desired) > _roadmapStatusRank(current)) {
+            next.status = desired;
+            next.updated_at = nowIso;
+            if (desired === 'In Progress' && !next.started_at) next.started_at = nowIso;
+            if (desired === 'Shipped' && !next.shipped_at) next.shipped_at = nowIso;
         }
-        if (!next.shipped_at) next.shipped_at = nowIso;
-        if (!next.updated_at) next.updated_at = nowIso;
+        if (_roadmapNormalizeStatus(next.status) === 'Shipped' && !next.shipped_at) next.shipped_at = nowIso;
+        if (!next.updated_at && next.status !== current) next.updated_at = nowIso;
         return next;
     });
 }
@@ -3157,7 +3170,7 @@ function loadRoadmapData() {
     return _roadmapApiRequest('GET')
         .then(function(data) {
             data = data || {};
-            _roadmapItems = _roadmapApplyForcedShipped(Array.isArray(data.items) ? data.items : []);
+            _roadmapItems = _roadmapApplySeedStatus(Array.isArray(data.items) ? data.items : []);
             _roadmapSuggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
             _roadmapIsAdmin = !!data.isAdmin;
             renderRoadmapTab();
