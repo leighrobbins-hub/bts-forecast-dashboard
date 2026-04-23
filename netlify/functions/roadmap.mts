@@ -91,7 +91,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "New classification for low-volume subjects in both the Monthly view (target ≤ 3) and BTS Season view (BTS_Total ≤ 10, matching the NICHE tier boundary). Each view gets a Tail-End tile, a Scope filter (All / Exclude Tail-End / Tail-End Only), and an inline tail-end marker. Niche priorities like LSAT remain visible and tracked without inflating Behind Pace / Reduce Forecast headlines (headline exclusion follows in the next phase).",
     priority: "P1",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "remove-hide-niche-default",
@@ -100,16 +100,16 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Change the default Volume Tier filter on the BTS, Monthly, and Subjects & Actions views from 'Hide Niche' to 'All Tiers'. Keep 'Hide Niche' as an explicit opt-in option but do not hide niche/tail-end subjects by default anywhere.",
     priority: "P1",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "exclude-tail-from-counts",
-    title: "Exclude Tail-End subjects from Behind Pace / Reduce Forecast",
+    title: "Exclude Tail-End subjects from Behind Pace / Reduce Forecast headline counts",
     category: "Overview Tiles",
     description:
-      "Apply the Tail-End classification precedence so every subject lands in exactly one tile and the headline counts become trustworthy.",
+      "Apply the Tail-End classification precedence on both Monthly and BTS views so every subject lands in exactly one tile and the headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts (they count only in the Tail-End tile). On BTS: remove tail-end subjects from Recruit / Investigate / On Track / Reduce Forecast / High Wait counts (they count only in the Tail-End tile). Preserve the 'not behind' meaning of the BTS on-pace chip.",
     priority: "P1",
-    status: "Not Started",
+    status: "In Progress",
   },
   {
     id: "reduce-forecast-filter-fix",
