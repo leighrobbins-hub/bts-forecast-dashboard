@@ -65,7 +65,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.",
     priority: "P0",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "rename-wait-time",
@@ -74,7 +74,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.",
     priority: "P0",
-    status: "Not Started",
+    status: "In Progress",
   },
   {
     id: "complete-subjects-tile",
