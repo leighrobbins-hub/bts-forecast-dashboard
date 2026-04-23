@@ -996,16 +996,28 @@ function renderMonthlyBarChart() {
         if (abs > maxGap) maxGap = abs;
     });
 
-    var ACTION_DOT = {
-        'recruit-urgent': { color: '#e74c3c', label: 'Recruit — Urgent' },
-        'recruit':        { color: '#e74c3c', label: 'Recruit More' },
-        'hidden-supply':  { color: '#e67e22', label: 'Hidden Supply' },
-        'capacity-available': { color: '#e67e22', label: 'Capacity Available' },
-        'wait-times':     { color: '#e67e22', label: 'High Wait Time' },
-        'reduce-forecast': { color: '#9b59b6', label: 'Reduce Forecast' },
-        'on-track':       { color: '#27ae60', label: 'On Track' },
-        'insufficient-data': { color: '#95a5a6', label: 'Insufficient Data' }
+    // Monthly action mapping. Every row in this chart is monthly-behind, so
+    // the dot must describe the MONTHLY situation, not the stale BTS-season
+    // classification. Recruit / Investigate / High Wait / Reduce Forecast are
+    // still valid monthly reasons (they explain WHY the subject is behind), so
+    // we pass them through. BTS-on-track and BTS-insufficient-data contradict
+    // the monthly reality and get overridden to "Behind Pace".
+    var MONTHLY_ACTION_DOT = {
+        'behind-monthly':    { color: '#c0392b', label: 'Behind Pace' },
+        'recruit-urgent':    { color: '#e74c3c', label: 'Recruit — Urgent' },
+        'recruit':           { color: '#e74c3c', label: 'Recruit More' },
+        'hidden-supply':     { color: '#e67e22', label: 'Hidden Supply' },
+        'capacity-available':{ color: '#e67e22', label: 'Capacity Available' },
+        'wait-times':        { color: '#f39c12', label: 'High Wait Time' },
+        'reduce-forecast':   { color: '#9b59b6', label: 'Reduce Forecast' }
     };
+
+    function monthlyActionFor(btsType) {
+        if (btsType === 'on-track' || btsType === 'insufficient-data' || !btsType) {
+            return 'behind-monthly';
+        }
+        return btsType;
+    }
 
     var container = document.getElementById('mo-gap-chart');
     if (!container) return;
@@ -1017,15 +1029,17 @@ function renderMonthlyBarChart() {
         '<div class="bar-label bar-col-head" data-tip="Subject name">Subject</div>' +
         '<div class="bar-track bar-col-head" data-tip="How far behind target this month. Longer bar = bigger shortfall.">Monthly Gap</div>' +
         '<div class="bar-value bar-col-head" data-tip="Variance this month (actual / target)">Variance (Act/Tgt)</div>' +
-        '<div class="bar-month-dot bar-col-head" data-tip="BTS season classification for this subject. Hover for projected end-of-month total.">BTS Action</div>';
+        '<div class="bar-month-dot bar-col-head" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) are passed through when they still explain the shortfall; otherwise marked Behind Pace.">Monthly Action</div>';
     container.appendChild(header);
 
     behindRows.forEach(function(x) {
         var absVar = Math.abs(x.variance);
         var pct = Math.min(100, (absVar / maxGap) * 100);
-        var type = classifyType(x.row.Primary_Action || x.row.Problem_Type);
-        var dot = ACTION_DOT[type] || { color: '#95a5a6', label: type };
+        var btsType = classifyType(x.row.Primary_Action || x.row.Problem_Type);
+        var monthlyType = monthlyActionFor(btsType);
+        var dot = MONTHLY_ACTION_DOT[monthlyType] || MONTHLY_ACTION_DOT['behind-monthly'];
         var projected = x.projectedEOM != null ? x.projectedEOM : '?';
+        var btsLabel = (MONTHLY_ACTION_DOT[btsType] && MONTHLY_ACTION_DOT[btsType].label) || btsType || 'None';
 
         var div = document.createElement('div');
         div.className = 'bar-row';
@@ -1033,7 +1047,7 @@ function renderMonthlyBarChart() {
             '<div class="bar-label" data-tip="' + escapeHtml(x.row.Subject) + '">' + escapeHtml(x.row.Subject) + '</div>' +
             '<div class="bar-track"><div class="bar-fill month-behind-bar" style="width:' + pct + '%"></div></div>' +
             '<div class="bar-value">' + x.variance + ' <span class="bar-coverage">(' + x.actual + '/' + x.target + ')</span></div>' +
-            '<div class="bar-month-dot" data-tip="BTS: ' + escapeHtml(dot.label) + ' · Projected EOM: ~' + projected + '">' +
+            '<div class="bar-month-dot" data-tip="Monthly: ' + escapeHtml(dot.label) + ' · BTS: ' + escapeHtml(btsLabel) + ' · Projected EOM: ~' + projected + '">' +
                 '<span class="bar-dot" style="background:' + dot.color + '"></span>' +
                 '<span class="bar-dot-label">' + escapeHtml(dot.label.split(' ')[0]) + '</span>' +
             '</div>';
