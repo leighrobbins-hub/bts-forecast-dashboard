@@ -109,16 +109,16 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Apply the Tail-End classification precedence on both Monthly and BTS views so every subject lands in exactly one tile and the headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts (they count only in the Tail-End tile). On BTS: remove tail-end subjects from Recruit / Investigate / On Track / Reduce Forecast / High Wait counts (they count only in the Tail-End tile). Preserve the 'not behind' meaning of the BTS on-pace chip.",
     priority: "P1",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "reduce-forecast-filter-fix",
     title: "Fix default filters on 'Reduce Forecast' tile click",
     category: "Overview Tiles",
     description:
-      "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Show all items in the tile's classification by default.",
+      "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Fixed as part of P1.3: Hide Niche is no longer the default, Behind Pace is no longer auto-applied on tile click, and action-tile clicks auto-apply Scope = Exclude Tail-End so the drilled-in table matches the headline.",
     priority: "P1",
-    status: "Not Started",
+    status: "Shipped",
   },
   {
     id: "data-review-tile",

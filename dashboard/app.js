@@ -450,20 +450,27 @@ function refreshOverviewLive() {
 
     var clientTotal = allData.length;
     function _ct(r) { return classifyType(r.Primary_Action || r.Problem_Type); }
-    var clientInvestigate = allData.filter(function(r) { var t = _ct(r); return t === 'hidden-supply' || t === 'capacity-available'; }).length;
-    var clientRecruit = allData.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
-    var clientNoData = allData.filter(function(r) { return _ct(r) === 'insufficient-data'; }).length;
-    var clientOnTrack = allData.filter(function(r) { return _ct(r) === 'on-track'; }).length;
-    var clientWaitTimes = allData.filter(function(r) { return _ct(r) === 'wait-times'; }).length;
-    var overSuppliedCount = allData.filter(function(r) { return _ct(r) === 'reduce-forecast'; }).length;
+    // Tail-End subjects (BTS_Total <= 10) are their own bucket — exclude them
+    // from action-classification headline counts so every subject lands in
+    // exactly one tile and the counts stop being inflated by low-volume work.
+    function _isBTSTail(r) { return isTailEndBTSTotal(r.BTS_Total); }
+    var nonTail = allData.filter(function(r) { return !_isBTSTail(r); });
+    var clientInvestigate = nonTail.filter(function(r) { var t = _ct(r); return t === 'hidden-supply' || t === 'capacity-available'; }).length;
+    var clientRecruit = nonTail.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
+    var clientNoData = nonTail.filter(function(r) { return _ct(r) === 'insufficient-data'; }).length;
+    var clientOnTrack = nonTail.filter(function(r) { return _ct(r) === 'on-track'; }).length;
+    var clientWaitTimes = nonTail.filter(function(r) { return _ct(r) === 'wait-times'; }).length;
+    var overSuppliedCount = nonTail.filter(function(r) { return _ct(r) === 'reduce-forecast'; }).length;
 
     // Pending counts: for each flagged-problem subject, check if it has any
     // recommendation without a decision yet. Subjects with 0 open decisions
     // have been "worked through" — they still exist in the count but pending
-    // drops to 0.
+    // drops to 0. Tail-end subjects are also excluded from pending counts so
+    // they match their parent tile.
     function pendingFor(predicate) {
         var count = 0;
         allData.forEach(function(r) {
+            if (_isBTSTail(r)) return;
             if (!predicate(_ct(r))) return;
             var recs = recsBySubject[r.Subject];
             if (!recs || recs.length === 0) return;
@@ -511,7 +518,7 @@ function refreshOverviewLive() {
         if (discrepancies.length > 0) console.warn('Reconciliation differences (expected from reclassification):', discrepancies);
     }
 
-    var topOverSupplied = allData
+    var topOverSupplied = nonTail
         .filter(function(r) { return _ct(r) === 'reduce-forecast'; })
         .sort(function(a, b) { return (b.Run_Rate || 0) - (a.Run_Rate || 0); })
         .slice(0, 5)
@@ -811,18 +818,23 @@ function buildMonthlyData() {
                     overContractedCount++;
                 }
                 if (actual >= target) {
-                    pace = 'complete'; completeCount++;
+                    pace = 'complete';
+                    if (!tailEnd) completeCount++;
                 } else if (dayOfMonth <= 2) {
-                    pace = 'onpace'; onPaceCount++;
+                    pace = 'onpace';
+                    if (!tailEnd) onPaceCount++;
                 } else if (actual === 0) {
-                    pace = 'behind'; behindCount++;
+                    pace = 'behind';
+                    if (!tailEnd) behindCount++;
                 } else {
                     projectedEOM = fractionThrough > 0 ? Math.round(actual / fractionThrough) : actual;
                     pace = (projectedEOM / target >= 0.85) ? 'onpace' : 'behind';
-                    if (pace === 'onpace') onPaceCount++; else behindCount++;
+                    if (!tailEnd) {
+                        if (pace === 'onpace') onPaceCount++; else behindCount++;
+                    }
                 }
             } else {
-                noDataCount++;
+                if (!tailEnd) noDataCount++;
             }
         } else if (actual != null && actual > 0) {
             totalActualRaw += actual;
@@ -936,7 +948,9 @@ function renderMonthlyHeroCards() {
     if (labelEl) labelEl.textContent = d.label;
 
     var actionCounts = { investigate: 0, recruit: 0, 'on-track': 0, 'wait-times': 0, 'reduce-forecast': 0, 'insufficient-data': 0 };
-    allData.forEach(function(r) {
+    d.rows.forEach(function(x) {
+        if (x.isTailEnd) return;
+        var r = x.row;
         var t = classifyType(r.Primary_Action || r.Problem_Type);
         if (t === 'hidden-supply' || t === 'capacity-available') actionCounts.investigate++;
         else if (t === 'recruit-urgent' || t === 'recruit') actionCounts.recruit++;
@@ -1450,7 +1464,9 @@ function overviewFilter(filterKey) {
         if (ptEl) ptEl.value = filterKey;
         if (paceEl) paceEl.value = 'all';
         if (tierEl) tierEl.value = 'all';
-        if (scopeEl) scopeEl.value = 'all';
+        // Action-tile clicks drill into the same subject set the tile counted.
+        // Tile counts exclude BTS tail-end, so the drilled-in table does too.
+        if (scopeEl) scopeEl.value = 'exclude-tail';
         if (hintEl) hintEl.textContent = 'Filtered: ' + (ptEl ? ptEl.options[ptEl.selectedIndex].text : filterKey);
     }
 
@@ -2845,8 +2861,8 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Shipped' },
     { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational) \u2014 Monthly + BTS", category: 'Overview Tiles', description: "New classification for low-volume subjects in both the Monthly view (target <= 3) and BTS Season view (BTS_Total <= 10, matching the NICHE tier boundary). Each view gets a Tail-End tile, a Scope filter (All / Exclude Tail-End / Tail-End Only), and an inline tail-end marker. Niche priorities like LSAT remain visible and tracked without inflating Behind Pace / Reduce Forecast headlines (headline exclusion follows in the next phase).", priority: 'P1', status: 'Shipped' },
     { id: 'remove-hide-niche-default', title: "Remove 'Hide Niche (default)' so nothing is hidden by default", category: 'Filters & Defaults', description: "Change the default Volume Tier filter on the BTS, Monthly, and Subjects & Actions views from 'Hide Niche' to 'All Tiers'. Keep 'Hide Niche' as an explicit opt-in option but do not hide niche/tail-end subjects by default anywhere.", priority: 'P1', status: 'Shipped' },
-    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast headline counts', category: 'Overview Tiles', description: "Apply the Tail-End classification precedence on both Monthly and BTS views so every subject lands in exactly one tile and the headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts (they count only in the Tail-End tile). On BTS: remove tail-end subjects from Recruit / Investigate / On Track / Reduce Forecast / High Wait counts (they count only in the Tail-End tile). Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'In Progress' },
-    { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Show all items in the tile's classification by default.", priority: 'P1', status: 'Not Started' },
+    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast headline counts', category: 'Overview Tiles', description: "Apply the Tail-End classification precedence on both Monthly and BTS views so every subject lands in exactly one tile and the headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts (they count only in the Tail-End tile). On BTS: remove tail-end subjects from Recruit / Investigate / On Track / Reduce Forecast / High Wait counts (they count only in the Tail-End tile). Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'Shipped' },
+    { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Fixed as part of P1.3: Hide Niche is no longer the default, Behind Pace is no longer auto-applied on tile click, and action-tile clicks auto-apply Scope = Exclude Tail-End so the drilled-in table matches the headline.", priority: 'P1', status: 'Shipped' },
     { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },
     { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },
     { id: 'action-status-logic', title: 'Action status: In Progress / Overdue / Complete', category: 'Action Tracking', description: "Decision History shows a status per action, auto-computed from today's date vs. estimated completion date, with a manual Mark Complete checkbox.", priority: 'P2', status: 'Not Started' },
