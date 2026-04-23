@@ -47,7 +47,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Replace the THU abbreviation everywhere it appears with the full phrase so stakeholders don't have to guess what it means.",
     priority: "P0",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "inline-p90-util",
