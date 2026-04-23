@@ -28,7 +28,7 @@ type RoadmapSuggestion = {
 };
 
 const DEFAULT_ADMIN_EMAILS = ["leigh.robbins@varsitytutors.com"];
-const FORCE_SHIPPED_IDS = new Set(["overview-labels"]);
+const FORCE_SHIPPED_IDS = new Set(["overview-labels", "spell-out-thu"]);
 
 const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
   {
