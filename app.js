@@ -710,6 +710,8 @@ function showTab(tabName, el) {
     el.setAttribute('aria-selected', 'true');
     if (tabName === 'subjects-and-actions' || tabName === 'decision-history') {
         loadSharedDecisions();
+    } else if (tabName === 'roadmap') {
+        loadRoadmapData();
     }
 }
 
@@ -2731,6 +2733,436 @@ var ACTION_TYPE_LABELS = {
 var _sharedDecisions = {};
 var _syncRefreshInterval = null;
 var DECISIONS_API = '/api/decisions';
+var ROADMAP_API = '/api/roadmap';
+var ROADMAP_API_FALLBACK = '/.netlify/functions/roadmap';
+var _roadmapItems = [];
+var _roadmapSuggestions = [];
+var _roadmapIsAdmin = false;
+var ROADMAP_LOCAL_ITEMS_KEY = 'roadmap_items_local';
+var ROADMAP_LOCAL_SUGGESTIONS_KEY = 'roadmap_suggestions_local';
+var ROADMAP_LOCAL_SEED_DATA = [
+    { id: 'overview-labels', title: "Add 'Subjects' to Overview tile labels", category: 'Labels & Clarity', description: "Every count tile on the Overview (and BTS) tab will explicitly include the word 'Subjects' in its label so external viewers don't mistake subject counts for tutor counts.", priority: 'P0', status: 'Not Started' },
+    { id: 'spell-out-thu', title: "Spell out 'THU' as 'Tutor Hours Utilization'", category: 'Labels & Clarity', description: "Replace the THU abbreviation everywhere it appears with the full phrase so stakeholders don't have to guess what it means.", priority: 'P0', status: 'Not Started' },
+    { id: 'inline-p90-util', title: 'Show P90 and Utilization values inline on Overview', category: 'Labels & Clarity', description: 'Where action text references high P90 or low utilization qualitatively, show the actual numeric value inline. Matches the format already used on other tabs.', priority: 'P0', status: 'Not Started' },
+    { id: 'clickable-subjects', title: 'Make subjects clickable from Overview top-10 tables', category: 'Navigation', description: 'Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.', priority: 'P0', status: 'Not Started' },
+    { id: 'rename-wait-time', title: "Rename 'Wait Time' action label to 'High Wait Time'", category: 'Labels & Clarity', description: "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.", priority: 'P0', status: 'Not Started' },
+    { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Not Started' },
+    { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational)", category: 'Overview Tiles', description: "New classification for subjects with target <= 3 (tunable constant). Tail-end subjects are excluded from Behind Pace and Reduce Forecast counts so those tiles stop being inflated by low-target subjects, while niche priorities like LSAT remain visible and tracked.", priority: 'P1', status: 'Not Started' },
+    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast', category: 'Overview Tiles', description: 'Apply the Tail-End classification precedence so every subject lands in exactly one tile and the headline counts become trustworthy.', priority: 'P1', status: 'Not Started' },
+    { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Show all items in the tile's classification by default.", priority: 'P1', status: 'Not Started' },
+    { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },
+    { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },
+    { id: 'action-status-logic', title: 'Action status: In Progress / Overdue / Complete', category: 'Action Tracking', description: "Decision History shows a status per action, auto-computed from today's date vs. estimated completion date, with a manual Mark Complete checkbox.", priority: 'P2', status: 'Not Started' },
+    { id: 'action-reschedule', title: 'Reschedule actions with audit log', category: 'Action Tracking', description: "Push out an action's due date with a required reason. Every push is recorded in an expandable audit log on the action row.", priority: 'P2', status: 'Not Started' },
+    { id: 'action-effectiveness', title: 'Action effectiveness retrospective', category: 'Action Tracking', description: 'When an action is marked complete, snapshot the subject\'s metrics. Two weeks later, compare to snapshot and label the action Helped / Neutral / Did Not Help. Design with Darren before building.', priority: 'P2', status: 'Not Started' },
+    { id: 'slack-digest', title: 'Slack daily digest for actions', category: 'Integrations', description: 'Once-daily 8 AM CT DM to each action owner summarizing upcoming and overdue actions, with links back into the dashboard. Avoids the spam of per-action notifications.', priority: 'P3', status: 'Not Started' },
+    { id: 'admin-target-override', title: 'Admin section for target overrides', category: 'Admin & Access', description: 'Leigh and Darren can pick a subject and month and update the target in-dashboard, with an audit history shown below.', priority: 'P3', status: 'Not Started' },
+    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating, draggable chat bubble powered by the Anthropic API directly, with the user's current dashboard context injected into the system prompt. Matches the pattern that worked on the VCPU dashboard — far richer responses than Cursor's built-in assistant.", priority: 'P3', status: 'Not Started' },
+    { id: 'p90-tier-review', title: 'Review P90 time-to-assign tier goals', category: 'Forecasting Logic', description: 'Revisit the current tier goals (Core 24h, High 36h, Medium 48h, Low 60h, Niche 72h). Pull 3 months of P90 distributions by tier, compute the 80th percentile, and compare to the current goals. Update constants once data-backed thresholds are confirmed.', priority: 'P1', status: 'Not Started' },
+    { id: 'ingest-looker-additional', title: "Ingest additional Looker signals (Michael's client-side looks, utilization dashboard)", category: 'Forecasting Logic', description: 'Pull more signals into the classification engine so actions incorporate client-side context (e.g., oversupplied but fine because a known event is upcoming in month X).', priority: 'P4', status: 'Not Started' },
+    { id: 'prophet-prototype', title: 'Prototype Prophet-style forecasting inside the dashboard', category: 'Forecasting Logic', description: "Study Meta Prophet's internals and prototype a minimal forecast for a handful of subjects inside the dashboard, to compare against Pierre's V1.4 model.", priority: 'P4', status: 'Not Started' },
+    { id: 'sat-indeed-retro', title: 'SAT / Indeed recruiting retrospective', category: 'Analysis (separate deliverable)', description: 'Before/after comparison of SAT run rate when Indeed was active vs. paused. Output: list of subjects where sustained recruiting spend is always justified. Not part of the dashboard itself.', priority: 'P4', status: 'Not Started' },
+    { id: 'sort-sweep', title: 'Cross-tab sortability sweep', category: 'Navigation', description: 'Verify every table on every tab supports sort-by-column-header. Season Gap sort confirmed in meeting; quick sweep for consistency.', priority: 'P4', status: 'Not Started' }
+];
+
+function _roadmapIsLocalDev() {
+    return location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+}
+
+function _roadmapLocalLoad() {
+    var items = [];
+    var suggestions = [];
+    try {
+        items = JSON.parse(localStorage.getItem(ROADMAP_LOCAL_ITEMS_KEY) || '[]');
+    } catch (e) { items = []; }
+    try {
+        suggestions = JSON.parse(localStorage.getItem(ROADMAP_LOCAL_SUGGESTIONS_KEY) || '[]');
+    } catch (e) { suggestions = []; }
+    if (!Array.isArray(items)) items = [];
+    if (!Array.isArray(suggestions)) suggestions = [];
+    var nowIso = new Date().toISOString();
+    var byId = {};
+    items.forEach(function(item) {
+        if (item && item.id) byId[item.id] = item;
+    });
+    ROADMAP_LOCAL_SEED_DATA.forEach(function(seed) {
+        if (byId[seed.id]) return;
+        byId[seed.id] = {
+            id: seed.id,
+            title: seed.title,
+            category: seed.category,
+            description: seed.description,
+            priority: seed.priority,
+            status: seed.status,
+            created_at: nowIso
+        };
+    });
+    items = Object.keys(byId).map(function(id) { return byId[id]; });
+    try {
+        localStorage.setItem(ROADMAP_LOCAL_ITEMS_KEY, JSON.stringify(items));
+        localStorage.setItem(ROADMAP_LOCAL_SUGGESTIONS_KEY, JSON.stringify(suggestions));
+    } catch (e) {}
+    return { items: items, suggestions: suggestions };
+}
+
+function _roadmapLocalSave(items, suggestions) {
+    localStorage.setItem(ROADMAP_LOCAL_ITEMS_KEY, JSON.stringify(items || []));
+    localStorage.setItem(ROADMAP_LOCAL_SUGGESTIONS_KEY, JSON.stringify(suggestions || []));
+}
+
+function _roadmapLocalRequest(method, payload) {
+    var state = _roadmapLocalLoad();
+    var items = state.items.slice();
+    var suggestions = state.suggestions.slice();
+    var isAdmin = true;
+    var nowIso = new Date().toISOString();
+
+    if (method === 'GET') {
+        return Promise.resolve({ items: items, suggestions: suggestions, isAdmin: isAdmin });
+    }
+    payload = payload || {};
+    if (method !== 'POST') {
+        return Promise.reject(new Error('Method not allowed'));
+    }
+    if (payload.op === 'suggestion.create') {
+        var text = String(payload.text || '').trim();
+        if (!text) return Promise.reject(new Error('text is required'));
+        suggestions.push({
+            id: 'sugg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            submitter_email: localStorage.getItem('bts_user_email') || 'local@test',
+            submitted_at: nowIso,
+            text: text,
+            status: 'New'
+        });
+        _roadmapLocalSave(items, suggestions);
+        return Promise.resolve({ ok: true, items: items, suggestions: suggestions, isAdmin: isAdmin });
+    }
+    if (payload.op === 'item.updateStatus') {
+        var found = false;
+        items = items.map(function(item) {
+            if (item.id !== payload.id) return item;
+            found = true;
+            var next = Object.assign({}, item, { status: payload.status, updated_at: nowIso });
+            if (payload.status === 'Shipped') next.shipped_at = nowIso;
+            return next;
+        });
+        if (!found) return Promise.reject(new Error('Roadmap item not found'));
+        _roadmapLocalSave(items, suggestions);
+        return Promise.resolve({ ok: true, items: items, suggestions: suggestions, isAdmin: isAdmin });
+    }
+    if (payload.op === 'suggestion.updateStatus') {
+        var sFound = false;
+        suggestions = suggestions.map(function(s) {
+            if (s.id !== payload.id) return s;
+            sFound = true;
+            return Object.assign({}, s, { status: payload.status });
+        });
+        if (!sFound) return Promise.reject(new Error('Suggestion not found'));
+        _roadmapLocalSave(items, suggestions);
+        return Promise.resolve({ ok: true, items: items, suggestions: suggestions, isAdmin: isAdmin });
+    }
+    if (payload.op === 'suggestion.promote') {
+        var promoted = null;
+        suggestions = suggestions.map(function(s) {
+            if (s.id !== payload.id) return s;
+            promoted = s;
+            return Object.assign({}, s, { status: 'Accepted' });
+        });
+        if (!promoted) return Promise.reject(new Error('Suggestion not found'));
+        items.push({
+            id: 'roadmap_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+            title: String(promoted.text || 'Promoted suggestion').split('\n')[0].slice(0, 80),
+            category: 'Suggested Updates',
+            description: promoted.text,
+            priority: 'P3',
+            status: 'Not Started',
+            created_at: nowIso
+        });
+        _roadmapLocalSave(items, suggestions);
+        return Promise.resolve({ ok: true, items: items, suggestions: suggestions, isAdmin: isAdmin });
+    }
+    return Promise.reject(new Error('Unsupported operation'));
+}
+
+function _roadmapApiRequest(method, payload) {
+    return _getAuthToken().then(function(token) {
+        var isLocalDev = _roadmapIsLocalDev();
+        if (!token && isLocalDev) {
+            return _roadmapLocalRequest(method, payload);
+        }
+        if (!token && !isLocalDev) throw new Error('Authentication required.');
+        var opts = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        if (token) {
+            opts.headers.Authorization = 'Bearer ' + token;
+        }
+        if (payload) opts.body = JSON.stringify(payload);
+        return fetch(ROADMAP_API, opts).then(function(r) {
+            if (r.ok) return r.json();
+            if (isLocalDev && r.status === 404) {
+                return fetch(ROADMAP_API_FALLBACK, opts).then(function(r2) {
+                    if (r2.ok) return r2.json();
+                    if (r2.status === 404) return _roadmapLocalRequest(method, payload);
+                    return r2.json().catch(function() { return {}; }).then(function(err2) {
+                        throw new Error(err2.error || ('Roadmap request failed (' + r2.status + ')'));
+                    });
+                });
+            }
+            return r.json().catch(function() { return {}; }).then(function(err) {
+                throw new Error(err.error || ('Roadmap request failed (' + r.status + ')'));
+            });
+        }).catch(function(err) {
+            if (isLocalDev) return _roadmapLocalRequest(method, payload);
+            throw err;
+        });
+    });
+}
+
+function _roadmapNormalizeStatus(status) {
+    var s = (status || '').toLowerCase();
+    if (s === 'not started') return 'Not Started';
+    if (s === 'in progress') return 'In Progress';
+    if (s === 'shipped') return 'Shipped';
+    return 'Not Started';
+}
+
+function _roadmapStatusRank(status) {
+    var normalized = _roadmapNormalizeStatus(status);
+    if (normalized === 'Not Started') return 0;
+    if (normalized === 'In Progress') return 1;
+    if (normalized === 'Shipped') return 2;
+    return 3;
+}
+
+function _roadmapPillClass(label) {
+    return String(label || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function _roadmapFormatDate(isoDate) {
+    if (!isoDate) return '—';
+    var d = new Date(isoDate);
+    if (isNaN(d.getTime())) return '—';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function _roadmapGetFilteredPlanned() {
+    var filterEl = document.getElementById('roadmap-filter-category');
+    var categoryFilter = filterEl ? filterEl.value : 'all';
+    return _roadmapItems
+        .filter(function(item) { return _roadmapNormalizeStatus(item.status) !== 'Shipped'; })
+        .filter(function(item) { return categoryFilter === 'all' ? true : item.category === categoryFilter; })
+        .sort(function(a, b) {
+            var statusDiff = _roadmapStatusRank(a.status) - _roadmapStatusRank(b.status);
+            if (statusDiff !== 0) return statusDiff;
+            var at = new Date(a.created_at || 0).getTime();
+            var bt = new Date(b.created_at || 0).getTime();
+            return bt - at;
+        });
+}
+
+function _roadmapPopulateCategoryFilter() {
+    var filterEl = document.getElementById('roadmap-filter-category');
+    if (!filterEl) return;
+    var current = filterEl.value || 'all';
+    var categories = {};
+    _roadmapItems.forEach(function(item) {
+        if (item && item.category) categories[item.category] = true;
+    });
+    var opts = ['<option value="all">All Categories</option>'];
+    Object.keys(categories).sort().forEach(function(cat) {
+        opts.push('<option value="' + escapeHtml(cat) + '">' + escapeHtml(cat) + '</option>');
+    });
+    filterEl.innerHTML = opts.join('');
+    if (categories[current] || current === 'all') {
+        filterEl.value = current;
+    }
+}
+
+function renderRoadmapPlannedUpdates() {
+    var body = document.getElementById('roadmap-planned-body');
+    if (!body) return;
+    var actionsHead = document.getElementById('roadmap-actions-head');
+    if (actionsHead) actionsHead.style.display = _roadmapIsAdmin ? '' : 'none';
+    var planned = _roadmapGetFilteredPlanned();
+    if (!planned.length) {
+        body.innerHTML = '<tr><td colspan="' + (_roadmapIsAdmin ? '7' : '6') + '" class="dh-empty">No planned updates match this filter.</td></tr>';
+        return;
+    }
+
+    body.innerHTML = planned.map(function(item) {
+        var status = _roadmapNormalizeStatus(item.status);
+        var statusClass = _roadmapPillClass(status);
+        var etaText = item.eta ? _roadmapFormatDate(item.eta) : '<span class="roadmap-muted">Not set</span>';
+        var adminActions = '';
+        if (_roadmapIsAdmin) {
+            adminActions = '<td><div class="roadmap-admin-actions">'
+                + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Not Started">Not Started</button>'
+                + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="In Progress">In Progress</button>'
+                + '<button class="btn btn-sm btn-success" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Shipped">Ship</button>'
+                + '</div></td>';
+        }
+        return '<tr>'
+            + '<td><strong>' + escapeHtml(item.title || 'Untitled') + '</strong></td>'
+            + '<td>' + escapeHtml(item.category || 'General') + '</td>'
+            + '<td style="color:#555;font-size:13px;">' + escapeHtml(item.description || '') + '</td>'
+            + '<td><span class="roadmap-pill ' + statusClass + '">' + escapeHtml(status) + '</span></td>'
+            + '<td>' + etaText + '</td>'
+            + '<td>' + escapeHtml(item.priority || '—') + '</td>'
+            + adminActions
+            + '</tr>';
+    }).join('');
+}
+
+function renderRoadmapSuggestions() {
+    var body = document.getElementById('roadmap-suggestions-body');
+    if (!body) return;
+    var actionsHead = document.getElementById('roadmap-suggestion-actions-head');
+    if (actionsHead) actionsHead.style.display = _roadmapIsAdmin ? '' : 'none';
+    var rows = _roadmapSuggestions.slice().sort(function(a, b) {
+        var at = new Date(a.submitted_at || 0).getTime();
+        var bt = new Date(b.submitted_at || 0).getTime();
+        return bt - at;
+    });
+
+    if (!rows.length) {
+        body.innerHTML = '<tr><td colspan="' + (_roadmapIsAdmin ? '5' : '4') + '" class="dh-empty">No suggestions yet.</td></tr>';
+        return;
+    }
+
+    body.innerHTML = rows.map(function(suggestion) {
+        var status = suggestion.status || 'New';
+        var statusClass = _roadmapPillClass(status);
+        var submitter = suggestion.submitter_email || 'Unknown';
+        var adminActions = '';
+        if (_roadmapIsAdmin) {
+            adminActions = '<td><div class="roadmap-admin-actions">'
+                + '<button class="btn btn-sm btn-success" data-roadmap-action="promote" data-id="' + escapeHtml(suggestion.id) + '">Promote</button>'
+                + '<button class="btn btn-sm btn-outline" data-roadmap-action="suggestion-status" data-id="' + escapeHtml(suggestion.id) + '" data-status="Declined">Decline</button>'
+                + '<button class="btn btn-sm btn-outline" data-roadmap-action="suggestion-status" data-id="' + escapeHtml(suggestion.id) + '" data-status="Duplicate">Duplicate</button>'
+                + '</div></td>';
+        }
+        return '<tr>'
+            + '<td>' + _roadmapFormatDate(suggestion.submitted_at) + '</td>'
+            + '<td>' + escapeHtml(submitter) + '</td>'
+            + '<td style="color:#555;font-size:13px;">' + escapeHtml(suggestion.text || '') + '</td>'
+            + '<td><span class="roadmap-pill ' + statusClass + '">' + escapeHtml(status) + '</span></td>'
+            + adminActions
+            + '</tr>';
+    }).join('');
+}
+
+function renderRoadmapChangeLog() {
+    var body = document.getElementById('roadmap-changelog-body');
+    if (!body) return;
+    var shipped = _roadmapItems
+        .filter(function(item) { return _roadmapNormalizeStatus(item.status) === 'Shipped'; })
+        .sort(function(a, b) {
+            var at = new Date(a.shipped_at || a.updated_at || a.created_at || 0).getTime();
+            var bt = new Date(b.shipped_at || b.updated_at || b.created_at || 0).getTime();
+            return bt - at;
+        });
+    if (!shipped.length) {
+        body.innerHTML = '<tr><td colspan="4" class="dh-empty">No shipped updates yet.</td></tr>';
+        return;
+    }
+    body.innerHTML = shipped.map(function(item) {
+        return '<tr>'
+            + '<td>' + _roadmapFormatDate(item.shipped_at || item.updated_at || item.created_at) + '</td>'
+            + '<td><strong>' + escapeHtml(item.title || 'Untitled') + '</strong></td>'
+            + '<td>' + escapeHtml(item.category || 'General') + '</td>'
+            + '<td style="color:#555;font-size:13px;">' + escapeHtml(item.description || '') + '</td>'
+            + '</tr>';
+    }).join('');
+}
+
+function renderRoadmapTab() {
+    _roadmapPopulateCategoryFilter();
+    renderRoadmapPlannedUpdates();
+    renderRoadmapSuggestions();
+    renderRoadmapChangeLog();
+}
+
+function loadRoadmapData() {
+    return _roadmapApiRequest('GET')
+        .then(function(data) {
+            data = data || {};
+            _roadmapItems = Array.isArray(data.items) ? data.items : [];
+            _roadmapSuggestions = Array.isArray(data.suggestions) ? data.suggestions : [];
+            _roadmapIsAdmin = !!data.isAdmin;
+            renderRoadmapTab();
+        })
+        .catch(function(e) {
+            console.warn('Failed to load roadmap data:', e);
+            var body = document.getElementById('roadmap-planned-body');
+            if (body) {
+                body.innerHTML = '<tr><td colspan="7" class="dh-empty">Unable to load roadmap data. ' + escapeHtml(e.message || '') + '</td></tr>';
+            }
+        });
+}
+
+function roadmapSubmitSuggestion() {
+    var ta = document.getElementById('roadmap-suggestion-text');
+    if (!ta) return;
+    var text = ta.value.trim();
+    if (!text) {
+        showStatus('roadmap-suggestion-status', 'Please enter a suggestion before submitting.', 'error');
+        return;
+    }
+    _roadmapApiRequest('POST', {
+        op: 'suggestion.create',
+        text: text
+    })
+        .then(function() {
+            ta.value = '';
+            showStatus('roadmap-suggestion-status', 'Suggestion saved.', 'success');
+            return loadRoadmapData();
+        })
+        .catch(function(e) {
+            showStatus('roadmap-suggestion-status', e.message || 'Failed to save suggestion.', 'error');
+        });
+}
+
+function roadmapSetItemStatus(itemId, status) {
+    _roadmapApiRequest('POST', {
+        op: 'item.updateStatus',
+        id: itemId,
+        status: status
+    })
+        .then(function() { return loadRoadmapData(); })
+        .catch(function(e) {
+            alert(e.message || 'Unable to update roadmap item.');
+        });
+}
+
+function roadmapUpdateSuggestionStatus(suggestionId, status) {
+    _roadmapApiRequest('POST', {
+        op: 'suggestion.updateStatus',
+        id: suggestionId,
+        status: status
+    })
+        .then(function() { return loadRoadmapData(); })
+        .catch(function(e) {
+            alert(e.message || 'Unable to update suggestion.');
+        });
+}
+
+function roadmapPromoteSuggestion(suggestionId) {
+    _roadmapApiRequest('POST', {
+        op: 'suggestion.promote',
+        id: suggestionId
+    })
+        .then(function() { return loadRoadmapData(); })
+        .catch(function(e) {
+            alert(e.message || 'Unable to promote suggestion.');
+        });
+}
 
 function getDecisionKey(rec) {
     return 'decision_' + rec.subject + '_' + rec.action_type + '_' + (rec.data_points && rec.data_points.month || 'all');
@@ -4308,6 +4740,28 @@ var _dhFilterDecision = document.getElementById('dh-filter-decision');
 if (_dhFilterDecision) _dhFilterDecision.addEventListener('change', renderDecisionHistory);
 var _dhSearch = document.getElementById('dh-search');
 if (_dhSearch) _dhSearch.addEventListener('input', debounce(renderDecisionHistory, 200));
+
+/* ── Roadmap tab controls ── */
+var _roadmapCategoryFilter = document.getElementById('roadmap-filter-category');
+if (_roadmapCategoryFilter) _roadmapCategoryFilter.addEventListener('change', renderRoadmapPlannedUpdates);
+var _roadmapSubmitSuggestion = document.getElementById('roadmap-submit-suggestion');
+if (_roadmapSubmitSuggestion) _roadmapSubmitSuggestion.addEventListener('click', roadmapSubmitSuggestion);
+
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-roadmap-action]');
+    if (!btn) return;
+    var action = btn.getAttribute('data-roadmap-action');
+    var id = btn.getAttribute('data-id');
+    var status = btn.getAttribute('data-status');
+    if (!action || !id) return;
+    if (action === 'set-status' && status) {
+        roadmapSetItemStatus(id, status);
+    } else if (action === 'suggestion-status' && status) {
+        roadmapUpdateSuggestionStatus(id, status);
+    } else if (action === 'promote') {
+        roadmapPromoteSuggestion(id);
+    }
+});
 
 /* ── Fast JS tooltip — triggered by any element with data-tip attribute ── */
 (function() {
