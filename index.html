@@ -159,6 +159,12 @@
                     <div class="stat-pending" id="pending-oversupplied">&nbsp;</div>
                     <div class="stat-detail">Consider reducing forecast</div>
                 </div>
+
+                <div class="stat-card grey" onclick="ovScopeFilter('tail-only')" style="cursor:pointer;" data-tip="Tail-End BTS subjects have a full-season forecast (BTS_Total) of 10 or fewer. They stay visible and tracked, but don't inflate Recruit / Reduce Forecast headline counts.">
+                    <div class="stat-label">Tail-End Subjects</div>
+                    <div class="stat-value" id="tailend-subjects">-</div>
+                    <div class="stat-detail">BTS_Total &le; 10 (Apr&ndash;Oct)</div>
+                </div>
             </div>
 
             <div class="data-quality-bar">
@@ -267,10 +273,18 @@
                         </select>
                     </div>
                     <div class="filter-group inline-filter">
+                        <label for="filter-scope-priority">Scope</label>
+                        <select id="filter-scope-priority" onchange="renderPriorityTable()">
+                            <option value="all">All Subjects</option>
+                            <option value="exclude-tail">Exclude Tail-End</option>
+                            <option value="tail-only">Tail-End Only</option>
+                        </select>
+                    </div>
+                    <div class="filter-group inline-filter">
                         <label for="filter-tier-priority">Volume Tier</label>
                         <select id="filter-tier-priority" onchange="renderPriorityTable()">
-                            <option value="hide-niche">Hide Niche (default)</option>
                             <option value="all">All Tiers</option>
+                            <option value="hide-niche">Hide Niche</option>
                             <option value="core-only">Core only</option>
                             <option value="CORE">Core</option>
                             <option value="HIGH">High</option>
@@ -395,6 +409,11 @@
                         <div class="stat-label">Awaiting Data</div>
                         <div class="stat-detail" id="mo-nodata-detail">Updates once Looker refreshes</div>
                     </div>
+                    <div class="stat-card grey" style="cursor:pointer;" onclick="moScopeFilter('tail-only')" data-tip="Tail-End subjects have a monthly target of 3 or fewer. They stay visible and tracked, but don't inflate Behind Pace or Reduce Forecast headline counts.">
+                        <div class="stat-value" id="mo-tailend">-</div>
+                        <div class="stat-label">Tail-End Subjects</div>
+                        <div class="stat-detail">Target &le; 3</div>
+                    </div>
 
                     <!-- Action classification cards (same grid) -->
                     <div class="stat-card orange" style="cursor:pointer;" onclick="moActionFilter('investigate')" data-tip="Subjects classified as Hidden Supply or Capacity Available — investigate utilization">
@@ -454,6 +473,14 @@
                             </select>
                         </div>
                         <div class="filter-group inline-filter">
+                            <label for="mo-filter-scope">Scope</label>
+                            <select id="mo-filter-scope" onchange="renderMonthlyTable()">
+                                <option value="all">All Subjects</option>
+                                <option value="exclude-tail">Exclude Tail-End</option>
+                                <option value="tail-only">Tail-End Only</option>
+                            </select>
+                        </div>
+                        <div class="filter-group inline-filter">
                             <label for="mo-filter-action">Action</label>
                             <select id="mo-filter-action" onchange="renderMonthlyTable()">
                                 <option value="all">All Subjects</option>
@@ -468,8 +495,8 @@
                         <div class="filter-group inline-filter">
                             <label for="mo-filter-tier">Volume Tier</label>
                             <select id="mo-filter-tier" onchange="renderMonthlyTable()">
-                                <option value="hide-niche">Hide Niche</option>
                                 <option value="all">All Tiers</option>
+                                <option value="hide-niche">Hide Niche</option>
                                 <option value="CORE">Core</option>
                                 <option value="HIGH">High</option>
                                 <option value="MEDIUM">Medium</option>

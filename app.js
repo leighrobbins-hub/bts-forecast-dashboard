@@ -69,6 +69,16 @@ var TIER_META = {
 };
 var TIER_ORDER = { 'CORE': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3, 'NICHE': 4 };
 
+var TAIL_END_TARGET_MAX = 3;
+function isTailEndMonthlyTarget(target) {
+    return target != null && target > 0 && target <= TAIL_END_TARGET_MAX;
+}
+
+var TAIL_END_BTS_MAX = 10;
+function isTailEndBTSTotal(btsTotal) {
+    return btsTotal != null && btsTotal > 0 && btsTotal <= TAIL_END_BTS_MAX;
+}
+
 function renderTierBadge(tier, btsTotal) {
     if (!tier) return '';
     var meta = TIER_META[tier];
@@ -476,6 +486,10 @@ function refreshOverviewLive() {
     var callout = document.getElementById('lowutil-count-callout');
     if (callout) callout.textContent = overSuppliedCount;
 
+    var btsTailEndCount = allData.filter(function(r) { return isTailEndBTSTotal(r.BTS_Total); }).length;
+    var tailEndEl = document.getElementById('tailend-subjects');
+    if (tailEndEl) tailEndEl.textContent = btsTailEndCount;
+
     // Update pending sub-text (elements added to index.html; use if-exists guard)
     function setPending(elId, n) {
         var el = document.getElementById(elId);
@@ -775,6 +789,7 @@ function buildMonthlyData() {
     var totalTarget = 0, totalActual = 0, totalActualRaw = 0;
     var excessTotal = 0, overContractedCount = 0;
     var behindCount = 0, onPaceCount = 0, completeCount = 0, noDataCount = 0;
+    var tailEndCount = 0;
     var rows = [];
 
     allData.forEach(function(r) {
@@ -783,6 +798,8 @@ function buildMonthlyData() {
         var actual = (cmd && cmd.actual != null) ? cmd.actual : null;
         var pace = 'nodata';
         var projectedEOM = null;
+        var tailEnd = isTailEndMonthlyTarget(target);
+        if (tailEnd) tailEndCount++;
 
         if (target > 0) {
             totalTarget += target;
@@ -822,7 +839,8 @@ function buildMonthlyData() {
             actual: actual,
             variance: actual != null ? actual - target : null,
             projectedEOM: projectedEOM,
-            pace: pace
+            pace: pace,
+            isTailEnd: tailEnd
         });
     });
 
@@ -844,6 +862,7 @@ function buildMonthlyData() {
         onPaceCount: onPaceCount,
         completeCount: completeCount,
         noDataCount: noDataCount,
+        tailEndCount: tailEndCount,
         remaining: remaining,
         dailyRate: dailyRate,
         projectedTotal: projectedTotal,
@@ -862,6 +881,7 @@ function renderMonthlyHeroCards() {
     setText('mo-onpace', d.onPaceCount);
     setText('mo-complete', d.completeCount);
     setText('mo-nodata', d.noDataCount);
+    setText('mo-tailend', d.tailEndCount);
     var nodataDetail = document.getElementById('mo-nodata-detail');
     if (nodataDetail) {
         if (d.dayOfMonth <= 5) nodataDetail.textContent = 'Early in month — data arriving soon';
@@ -1042,12 +1062,20 @@ function moActionFilter(actionVal) {
     renderMonthlyTable();
 }
 
+function moScopeFilter(scopeVal) {
+    var el = document.getElementById('mo-filter-scope');
+    if (el) el.value = scopeVal;
+    _monthlySort = { col: 4, asc: true };
+    renderMonthlyTable();
+}
+
 function renderMonthlyTable() {
     var d = _monthlyCache || buildMonthlyData();
     var paceFilter = (document.getElementById('mo-filter-pace') || {}).value || 'all';
     var actionFilter = (document.getElementById('mo-filter-action') || {}).value || 'all';
-    var tierFilter = (document.getElementById('mo-filter-tier') || {}).value || 'hide-niche';
+    var tierFilter = (document.getElementById('mo-filter-tier') || {}).value || 'all';
     var flagFilter = (document.getElementById('mo-filter-flag') || {}).value || 'all';
+    var scopeFilter = (document.getElementById('mo-filter-scope') || {}).value || 'all';
     var searchTerm = (document.getElementById('mo-search') || {}).value || '';
     searchTerm = searchTerm.toLowerCase();
 
@@ -1056,6 +1084,8 @@ function renderMonthlyTable() {
         if (actionFilter !== 'all' && !matchesFilter(x.row.Primary_Action || x.row.Problem_Type, actionFilter)) return false;
         if (tierFilter === 'hide-niche' && x.row.Tier === 'NICHE') return false;
         else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && x.row.Tier !== tierFilter) return false;
+        if (scopeFilter === 'tail-only' && !x.isTailEnd) return false;
+        if (scopeFilter === 'exclude-tail' && x.isTailEnd) return false;
         if (flagFilter !== 'all') {
             var flags = x.row.Stress_Flags || [];
             if (flagFilter === 'any') { if (flags.length === 0) return false; }
@@ -1111,6 +1141,9 @@ function renderMonthlyTable() {
         var projDisplay = x.projectedEOM != null ? x.projectedEOM : '\u2014';
         var subjectJs = JSON.stringify(r.Subject || '').replace(/"/g, '&quot;');
         var subjectLink = '<a href="#" onclick="return openSubjectInSubjectsActions(' + subjectJs + ')" style="color:#2c3e50;text-decoration:underline;font-weight:700;">' + escapeHtml(r.Subject) + '</a>';
+        if (x.isTailEnd) {
+            subjectLink += ' <span class="tail-end-tag" data-tip="Tail-End Subject \u2014 monthly target \u2264 ' + TAIL_END_TARGET_MAX + '">tail-end</span>';
+        }
 
         var paceBadge;
         if (x.pace === 'behind') paceBadge = '<span class="badge supply">Behind</span>';
@@ -1264,7 +1297,7 @@ function buildPaceIndex() {
 
 function renderPriorityTable() {
     var tierFilterEl = document.getElementById('filter-tier-priority');
-    var tierFilter = tierFilterEl ? tierFilterEl.value : 'hide-niche';
+    var tierFilter = tierFilterEl ? tierFilterEl.value : 'all';
 
     var ptFilterEl = document.getElementById('filter-problemtype-priority');
     var ptFilter = ptFilterEl ? ptFilterEl.value : 'all-problems';
@@ -1275,9 +1308,12 @@ function renderPriorityTable() {
     var flagFilterEl = document.getElementById('filter-flag-priority');
     var flagFilter = flagFilterEl ? flagFilterEl.value : 'all';
 
+    var scopeFilterEl = document.getElementById('filter-scope-priority');
+    var scopeFilter = scopeFilterEl ? scopeFilterEl.value : 'all';
+
     var paceIdx = buildPaceIndex();
 
-    var isFiltered = (ptFilter !== 'all-problems') || (paceFilter !== 'all') || (tierFilter !== 'hide-niche') || (flagFilter !== 'all');
+    var isFiltered = (ptFilter !== 'all-problems') || (paceFilter !== 'all') || (tierFilter !== 'all') || (flagFilter !== 'all') || (scopeFilter !== 'all');
     var clearBtn = document.getElementById('ov-clear-btn');
     if (clearBtn) clearBtn.style.display = isFiltered ? '' : 'none';
 
@@ -1296,6 +1332,10 @@ function renderPriorityTable() {
             if (flagFilter === 'any') { if (flags.length === 0) return false; }
             else { if (flags.indexOf(flagFilter) === -1) return false; }
         }
+
+        var rowIsTailEnd = isTailEndBTSTotal(r.BTS_Total);
+        if (scopeFilter === 'tail-only' && !rowIsTailEnd) return false;
+        if (scopeFilter === 'exclude-tail' && rowIsTailEnd) return false;
 
         if (tierFilter === 'all') return true;
         if (tierFilter === 'hide-niche') return r.Tier !== 'NICHE';
@@ -1340,6 +1380,9 @@ function renderPriorityTable() {
         var cmCell = saRenderCurrentMonthCell(cmd, currentMonth);
         var subjectJs = JSON.stringify(row.Subject || '').replace(/"/g, '&quot;');
         var subjectLink = '<a href="#" onclick="return openSubjectInSubjectsActions(' + subjectJs + ')" style="color:#2c3e50;text-decoration:underline;font-weight:700;">' + escapeHtml(row.Subject) + '</a>';
+        if (isTailEndBTSTotal(row.BTS_Total)) {
+            subjectLink += ' <span class="tail-end-tag" data-tip="Tail-End Subject \u2014 BTS_Total \u2264 ' + TAIL_END_BTS_MAX + ' (Apr\u2013Oct forecast)">tail-end</span>';
+        }
 
         tr.innerHTML = '<td>' + subjectLink + '</td>'
             + '<td class="tc">' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
@@ -1356,41 +1399,58 @@ function renderPriorityTable() {
     });
 }
 
+function ovScopeFilter(scopeVal) {
+    var el = document.getElementById('filter-scope-priority');
+    if (el) el.value = scopeVal;
+    _ovPaceIndex = null;
+    currentSorts.priority = { col: 7, asc: true };
+    renderPriorityTable();
+    var table = document.getElementById('ov-table-header');
+    if (table) table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function overviewFilter(filterKey) {
     var ptEl = document.getElementById('filter-problemtype-priority');
     var paceEl = document.getElementById('filter-pace-priority');
     var tierEl = document.getElementById('filter-tier-priority');
+    var scopeEl = document.getElementById('filter-scope-priority');
     var hintEl = document.getElementById('ov-month-active-filter');
 
     if (filterKey === 'month-behind') {
         if (ptEl) ptEl.value = 'all';
         if (paceEl) paceEl.value = 'behind';
         if (tierEl) tierEl.value = 'all';
+        if (scopeEl) scopeEl.value = 'all';
         if (hintEl) hintEl.textContent = 'Filtered: behind pace';
     } else if (filterKey === 'month-onpace') {
         if (ptEl) ptEl.value = 'all';
         if (paceEl) paceEl.value = 'onpace';
         if (tierEl) tierEl.value = 'all';
+        if (scopeEl) scopeEl.value = 'all';
         if (hintEl) hintEl.textContent = 'Filtered: on pace';
     } else if (filterKey === 'month-nodata') {
         if (ptEl) ptEl.value = 'all';
         if (paceEl) paceEl.value = 'nodata';
         if (tierEl) tierEl.value = 'all';
+        if (scopeEl) scopeEl.value = 'all';
         if (hintEl) hintEl.textContent = 'Filtered: awaiting data';
     } else if (filterKey === 'month-all') {
         if (ptEl) ptEl.value = 'all';
         if (paceEl) paceEl.value = 'all';
         if (tierEl) tierEl.value = 'all';
+        if (scopeEl) scopeEl.value = 'all';
         if (hintEl) hintEl.textContent = 'Filtered: all subjects';
     } else if (filterKey === 'all') {
         if (ptEl) ptEl.value = 'all';
         if (paceEl) paceEl.value = 'all';
-        if (tierEl) tierEl.value = 'hide-niche';
+        if (tierEl) tierEl.value = 'all';
+        if (scopeEl) scopeEl.value = 'all';
         if (hintEl) hintEl.textContent = 'Filtered: all subjects';
     } else {
         if (ptEl) ptEl.value = filterKey;
         if (paceEl) paceEl.value = 'all';
-        if (tierEl) tierEl.value = 'hide-niche';
+        if (tierEl) tierEl.value = 'all';
+        if (scopeEl) scopeEl.value = 'all';
         if (hintEl) hintEl.textContent = 'Filtered: ' + (ptEl ? ptEl.options[ptEl.selectedIndex].text : filterKey);
     }
 
@@ -1406,11 +1466,13 @@ function clearOverviewFilters() {
     var paceEl = document.getElementById('filter-pace-priority');
     var tierEl = document.getElementById('filter-tier-priority');
     var flagEl = document.getElementById('filter-flag-priority');
+    var scopeEl = document.getElementById('filter-scope-priority');
     var hintEl = document.getElementById('ov-month-active-filter');
     if (ptEl) ptEl.value = 'all-problems';
     if (paceEl) paceEl.value = 'all';
-    if (tierEl) tierEl.value = 'hide-niche';
+    if (tierEl) tierEl.value = 'all';
     if (flagEl) flagEl.value = 'all';
+    if (scopeEl) scopeEl.value = 'all';
     if (hintEl) hintEl.textContent = '';
     _ovPaceIndex = null;
     renderPriorityTable();
@@ -2781,7 +2843,8 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'clickable-subjects', title: 'Make subjects clickable from Overview top-10 tables', category: 'Navigation', description: 'Clicking a subject name in an Overview top-10 table jumps the user to that subject in the Subjects & Actions tab with the filter pre-applied.', priority: 'P0', status: 'Shipped' },
     { id: 'rename-wait-time', title: "Rename 'Wait Time' action label to 'High Wait Time'", category: 'Labels & Clarity', description: "Single-word 'Wait Time' is ambiguous. Relabel and verify BTS actions and monthly actions don't share the same label if signals differ.", priority: 'P0', status: 'Shipped' },
     { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Shipped' },
-    { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational)", category: 'Overview Tiles', description: "New classification for subjects with target <= 3 (tunable constant). Tail-end subjects are excluded from Behind Pace and Reduce Forecast counts so those tiles stop being inflated by low-target subjects, while niche priorities like LSAT remain visible and tracked.", priority: 'P1', status: 'In Progress' },
+    { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational) \u2014 Monthly + BTS", category: 'Overview Tiles', description: "New classification for low-volume subjects in both the Monthly view (target <= 3) and BTS Season view (BTS_Total <= 10, matching the NICHE tier boundary). Each view gets a Tail-End tile, a Scope filter (All / Exclude Tail-End / Tail-End Only), and an inline tail-end marker. Niche priorities like LSAT remain visible and tracked without inflating Behind Pace / Reduce Forecast headlines (headline exclusion follows in the next phase).", priority: 'P1', status: 'In Progress' },
+    { id: 'remove-hide-niche-default', title: "Remove 'Hide Niche (default)' so nothing is hidden by default", category: 'Filters & Defaults', description: "Change the default Volume Tier filter on the BTS, Monthly, and Subjects & Actions views from 'Hide Niche' to 'All Tiers'. Keep 'Hide Niche' as an explicit opt-in option but do not hide niche/tail-end subjects by default anywhere.", priority: 'P1', status: 'In Progress' },
     { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast', category: 'Overview Tiles', description: 'Apply the Tail-End classification precedence so every subject lands in exactly one tile and the headline counts become trustworthy.', priority: 'P1', status: 'Not Started' },
     { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Show all items in the tile's classification by default.", priority: 'P1', status: 'Not Started' },
     { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },

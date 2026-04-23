@@ -254,6 +254,21 @@ body {
     margin-top: 5px;
 }
 
+.tail-end-tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    background: #ecf0f1;
+    color: #7f8c8d;
+    border: 1px solid #dfe4e6;
+    vertical-align: middle;
+}
+
 .filters {
     background: white;
     padding: 20px;
