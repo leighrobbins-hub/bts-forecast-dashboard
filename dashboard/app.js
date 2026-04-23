@@ -451,12 +451,14 @@ function refreshOverviewLive() {
     var clientTotal = allData.length;
     function _ct(r) { return classifyType(r.Primary_Action || r.Problem_Type); }
     // Tail-End subjects (BTS_Total <= 10) are their own bucket — exclude them
-    // from action-classification headline counts so every subject lands in
-    // exactly one tile and the counts stop being inflated by low-volume work.
+    // from most action-classification headline counts so the tiles stop being
+    // inflated by low-volume work. Exception: the Recruit tile keeps tail-end
+    // subjects so recruiting signals stay visible even for niche subjects
+    // (they can appear in both the Tail-End tile and the Recruit tile).
     function _isBTSTail(r) { return isTailEndBTSTotal(r.BTS_Total); }
     var nonTail = allData.filter(function(r) { return !_isBTSTail(r); });
     var clientInvestigate = nonTail.filter(function(r) { var t = _ct(r); return t === 'hidden-supply' || t === 'capacity-available'; }).length;
-    var clientRecruit = nonTail.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
+    var clientRecruit = allData.filter(function(r) { var t = _ct(r); return t === 'recruit-urgent' || t === 'recruit'; }).length;
     var clientNoData = nonTail.filter(function(r) { return _ct(r) === 'insufficient-data'; }).length;
     var clientOnTrack = nonTail.filter(function(r) { return _ct(r) === 'on-track'; }).length;
     var clientWaitTimes = nonTail.filter(function(r) { return _ct(r) === 'wait-times'; }).length;
@@ -465,12 +467,12 @@ function refreshOverviewLive() {
     // Pending counts: for each flagged-problem subject, check if it has any
     // recommendation without a decision yet. Subjects with 0 open decisions
     // have been "worked through" — they still exist in the count but pending
-    // drops to 0. Tail-end subjects are also excluded from pending counts so
-    // they match their parent tile.
-    function pendingFor(predicate) {
+    // drops to 0. Tail-end subjects are excluded from pending counts to match
+    // their parent tile, except for Recruit where tail-end stays visible.
+    function pendingFor(predicate, includeTail) {
         var count = 0;
         allData.forEach(function(r) {
-            if (_isBTSTail(r)) return;
+            if (!includeTail && _isBTSTail(r)) return;
             if (!predicate(_ct(r))) return;
             var recs = recsBySubject[r.Subject];
             if (!recs || recs.length === 0) return;
@@ -480,7 +482,7 @@ function refreshOverviewLive() {
         return count;
     }
     var investigatePending = pendingFor(function(t) { return t === 'hidden-supply' || t === 'capacity-available'; });
-    var recruitPending = pendingFor(function(t) { return t === 'recruit-urgent' || t === 'recruit'; });
+    var recruitPending = pendingFor(function(t) { return t === 'recruit-urgent' || t === 'recruit'; }, true);
     var overSuppliedPending = pendingFor(function(t) { return t === 'reduce-forecast'; });
 
     document.getElementById('total-subjects').textContent = clientTotal;
@@ -949,11 +951,13 @@ function renderMonthlyHeroCards() {
 
     var actionCounts = { investigate: 0, recruit: 0, 'on-track': 0, 'wait-times': 0, 'reduce-forecast': 0, 'insufficient-data': 0 };
     d.rows.forEach(function(x) {
-        if (x.isTailEnd) return;
         var r = x.row;
         var t = classifyType(r.Primary_Action || r.Problem_Type);
+        // Recruit stays visible even for tail-end subjects so recruiting
+        // signals aren't hidden. All other action tiles exclude tail-end.
+        if (t === 'recruit-urgent' || t === 'recruit') { actionCounts.recruit++; return; }
+        if (x.isTailEnd) return;
         if (t === 'hidden-supply' || t === 'capacity-available') actionCounts.investigate++;
-        else if (t === 'recruit-urgent' || t === 'recruit') actionCounts.recruit++;
         else if (t === 'on-track') actionCounts['on-track']++;
         else if (t === 'wait-times') actionCounts['wait-times']++;
         else if (t === 'reduce-forecast') actionCounts['reduce-forecast']++;
@@ -1473,8 +1477,9 @@ function overviewFilter(filterKey) {
         if (paceEl) paceEl.value = 'all';
         if (tierEl) tierEl.value = 'all';
         // Action-tile clicks drill into the same subject set the tile counted.
-        // Tile counts exclude BTS tail-end, so the drilled-in table does too.
-        if (scopeEl) scopeEl.value = 'exclude-tail';
+        // Tile counts exclude BTS tail-end EXCEPT for Recruit, which keeps
+        // tail-end subjects visible. Match that behavior in the drilled table.
+        if (scopeEl) scopeEl.value = (filterKey === 'recruit') ? 'all' : 'exclude-tail';
         if (hintEl) hintEl.textContent = 'Filtered: ' + (ptEl ? ptEl.options[ptEl.selectedIndex].text : filterKey);
     }
 
@@ -2869,7 +2874,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'complete-subjects-tile', title: "Add 'Complete Subjects' tile", category: 'Overview Tiles', description: "Separate subjects that have hit their target from subjects that are merely on pace. A subject with target 2 and 2 contracted is complete, not in progress.", priority: 'P1', status: 'Shipped' },
     { id: 'tail-end-subjects', title: "Add 'Tail-End Subjects' bucket (foundational) \u2014 Monthly + BTS", category: 'Overview Tiles', description: "New classification for low-volume subjects in both the Monthly view (target <= 3) and BTS Season view (BTS_Total <= 10, matching the NICHE tier boundary). Each view gets a Tail-End tile, a Scope filter (All / Exclude Tail-End / Tail-End Only), and an inline tail-end marker. Niche priorities like LSAT remain visible and tracked without inflating Behind Pace / Reduce Forecast headlines (headline exclusion follows in the next phase).", priority: 'P1', status: 'Shipped' },
     { id: 'remove-hide-niche-default', title: "Remove 'Hide Niche (default)' so nothing is hidden by default", category: 'Filters & Defaults', description: "Change the default Volume Tier filter on the BTS, Monthly, and Subjects & Actions views from 'Hide Niche' to 'All Tiers'. Keep 'Hide Niche' as an explicit opt-in option but do not hide niche/tail-end subjects by default anywhere.", priority: 'P1', status: 'Shipped' },
-    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from Behind Pace / Reduce Forecast headline counts', category: 'Overview Tiles', description: "Apply the Tail-End classification precedence on both Monthly and BTS views so every subject lands in exactly one tile and the headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts (they count only in the Tail-End tile). On BTS: remove tail-end subjects from Recruit / Investigate / On Track / Reduce Forecast / High Wait counts (they count only in the Tail-End tile). Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'Shipped' },
+    { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End subjects from headline action counts (Recruit exempt)', category: 'Overview Tiles', description: "Apply the Tail-End classification on both Monthly and BTS views so headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts. On BTS: remove tail-end subjects from Investigate / On Track / Reduce Forecast / High Wait counts. Recruit is the explicit exception on both views \u2014 tail-end Recruit subjects still count in the Recruit tile so recruiting signals stay visible (they may also appear in the Tail-End tile). Action-tile drill-in auto-applies the same scope filter as the tile, including Recruit staying on 'All' scope. Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'Shipped' },
     { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Fixed as part of P1.3: Hide Niche is no longer the default, Behind Pace is no longer auto-applied on tile click, and action-tile clicks auto-apply Scope = Exclude Tail-End so the drilled-in table matches the headline.", priority: 'P1', status: 'Shipped' },
     { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },
     { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },

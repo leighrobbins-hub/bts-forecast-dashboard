@@ -104,10 +104,10 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
   },
   {
     id: "exclude-tail-from-counts",
-    title: "Exclude Tail-End subjects from Behind Pace / Reduce Forecast headline counts",
+    title: "Exclude Tail-End subjects from headline action counts (Recruit exempt)",
     category: "Overview Tiles",
     description:
-      "Apply the Tail-End classification precedence on both Monthly and BTS views so every subject lands in exactly one tile and the headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts (they count only in the Tail-End tile). On BTS: remove tail-end subjects from Recruit / Investigate / On Track / Reduce Forecast / High Wait counts (they count only in the Tail-End tile). Preserve the 'not behind' meaning of the BTS on-pace chip.",
+      "Apply the Tail-End classification on both Monthly and BTS views so headline counts become trustworthy. On Monthly: remove tail-end subjects from Behind Pace / On Pace / Complete / Awaiting Data counts. On BTS: remove tail-end subjects from Investigate / On Track / Reduce Forecast / High Wait counts. Recruit is the explicit exception on both views — tail-end Recruit subjects still count in the Recruit tile so recruiting signals stay visible (they may also appear in the Tail-End tile). Action-tile drill-in auto-applies the same scope filter as the tile, including Recruit staying on 'All' scope. Preserve the 'not behind' meaning of the BTS on-pace chip.",
     priority: "P1",
     status: "Shipped",
   },
