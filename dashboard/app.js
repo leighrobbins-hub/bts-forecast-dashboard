@@ -1094,16 +1094,27 @@ function moResetTableFilters(overrides) {
 }
 
 function moFilter(paceVal) {
-    // Complete, like Recruit, overlaps with the Tail-End tile — include tail-end
-    // complete subjects in the drill-in so the table matches the tile headline.
-    moResetTableFilters({ pace: paceVal });
+    // Pace tiles exclude tail-end from their counts EXCEPT the Complete tile,
+    // which keeps tail-end visible. Auto-apply the matching scope filter so
+    // the drilled-in table always matches the tile headline.
+    var scope;
+    if (paceVal === 'all') scope = 'all';
+    else if (paceVal === 'complete') scope = 'all';
+    else scope = 'exclude-tail';
+    moResetTableFilters({ pace: paceVal, scope: scope });
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
     moScrollToTable();
 }
 
 function moActionFilter(actionVal) {
-    moResetTableFilters({ action: actionVal });
+    // Action tiles exclude tail-end from their counts EXCEPT the Recruit tile,
+    // which keeps tail-end visible. Auto-apply the matching scope filter.
+    var scope;
+    if (actionVal === 'all') scope = 'all';
+    else if (actionVal === 'recruit') scope = 'all';
+    else scope = 'exclude-tail';
+    moResetTableFilters({ action: actionVal, scope: scope });
     _monthlySort = { col: 4, asc: true };
     renderMonthlyTable();
     moScrollToTable();
