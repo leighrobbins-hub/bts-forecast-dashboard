@@ -960,7 +960,14 @@ function renderMonthlyHeroCards() {
         // Tail-end carve-outs: Recruit / On Track / High Wait Time keep
         // tail-end subjects visible. The remaining action tiles exclude them.
         if (t === 'recruit-urgent' || t === 'recruit') { actionCounts.recruit++; return; }
-        if (t === 'on-track') { actionCounts['on-track']++; return; }
+        if (t === 'on-track') {
+            // On the Monthly tab, "On Track" must mean on track for the MONTH,
+            // not just BTS-season on-track. A BTS-on-track subject that's
+            // monthly-behind (or awaiting data) doesn't belong here — it goes
+            // into Behind Pace / Awaiting Data via its pace tile.
+            if (x.pace === 'onpace' || x.pace === 'complete') actionCounts['on-track']++;
+            return;
+        }
         if (t === 'wait-times') { actionCounts['wait-times']++; return; }
         if (x.isTailEnd) return;
         if (t === 'hidden-supply' || t === 'capacity-available') actionCounts.investigate++;
@@ -1144,6 +1151,10 @@ function renderMonthlyTable() {
     var rows = d.rows.filter(function(x) {
         if (paceFilter !== 'all' && x.pace !== paceFilter) return false;
         if (actionFilter !== 'all' && !matchesFilter(x.row.Primary_Action || x.row.Problem_Type, actionFilter)) return false;
+        // Monthly "On Track" means on track for the MONTH, not BTS-season. Gate
+        // the drilled table the same way the tile count is gated so the two
+        // always match.
+        if (actionFilter === 'on-track' && x.pace !== 'onpace' && x.pace !== 'complete') return false;
         if (tierFilter === 'hide-niche' && x.row.Tier === 'NICHE') return false;
         else if (tierFilter !== 'all' && tierFilter !== 'hide-niche' && x.row.Tier !== tierFilter) return false;
         if (scopeFilter === 'tail-only' && !x.isTailEnd) return false;
