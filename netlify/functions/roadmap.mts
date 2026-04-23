@@ -131,6 +131,16 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     status: "Not Started",
   },
   {
+    id: "wbr-align-monthly-classification",
+    title:
+      "Align Weekly Summary with v5.1 monthly classification",
+    category: "Weekly Summary",
+    description:
+      "The Subjects & Actions tab's Weekly Summary uses its own pace/classification logic in _wbrComputeMetrics that does not reflect the v5.1 changes shipped 4/23 (monthly-derived action types, Tail-End carve-outs, On Track gated on monthly pace, Complete-vs-OnPace separation). Result: Subjects on track / behind, Biggest concern, Moved into on-track sections contradict the Monthly tab tiles for the same data. Refactor _wbrComputeMetrics to share the same monthlyActionType + isTailEnd helpers as the Monthly tab so WBR numbers match dashboard tiles. Spot-check after: WBR On Track count must equal mo-ontrack-action; WBR Behind count must equal mo-behind; Biggest Concern must come from the same Behind Pace set the Monthly tab shows.",
+    priority: "P0",
+    status: "Not Started",
+  },
+  {
     id: "action-entry-form",
     title: "Action entry: description + estimated completion date",
     category: "Action Tracking",
