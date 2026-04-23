@@ -1051,9 +1051,11 @@ function renderMonthlyTable() {
             case 3: av = a.actual; bv = b.actual; break;
             case 4: av = a.variance; bv = b.variance; break;
             case 5: av = a.projectedEOM; bv = b.projectedEOM; break;
-            case 6: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
-            case 7: av = a.row.Primary_Action || a.row.Problem_Type; bv = b.row.Primary_Action || b.row.Problem_Type; break;
-            case 8: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
+            case 6: av = a.row.Tutor_Hours_Util_Pct; bv = b.row.Tutor_Hours_Util_Pct; break;
+            case 7: av = a.row.P90_NAT_Hours; bv = b.row.P90_NAT_Hours; break;
+            case 8: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
+            case 9: av = a.row.Primary_Action || a.row.Problem_Type; bv = b.row.Primary_Action || b.row.Problem_Type; break;
+            case 10: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
             default: av = a.row.Subject; bv = b.row.Subject;
         }
         var aN = av === null || av === undefined, bN = bv === null || bv === undefined;
@@ -1094,6 +1096,8 @@ function renderMonthlyTable() {
             + '<td class="tc">' + (x.actual != null ? x.actual : '\u2014') + '</td>'
             + '<td class="tc" style="' + varianceClass + '">' + varianceDisplay + '</td>'
             + '<td class="tc">' + projDisplay + '</td>'
+            + renderThuCell(r)
+            + renderP90Cell(r)
             + '<td class="tc">' + paceBadge + '</td>'
             + '<td class="tc">' + actionBadgeHtml(r) + '</td>'
             + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>';
