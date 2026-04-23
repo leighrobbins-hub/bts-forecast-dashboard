@@ -13,7 +13,7 @@
       "Investigate \u2014 Capacity Available": 33,
       "Recruit More": 11
     },
-    "last_updated": "2026-04-23 01:49 PM CST",
+    "last_updated": "2026-04-23 01:54 PM CST",
     "subjects_with_util_data": 379,
     "util_coverage_pct": 100.0,
     "tier_distribution": {
@@ -60695,7 +60695,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-23 01:49 PM CST",
+      "uploaded_at": "2026-04-23 01:54 PM CST",
       "subjects_count": 438
     }
   ],
@@ -64099,10 +64099,10 @@
         "remaining": 111
       }
     ],
-    "generated_at": "2026-04-23 01:49 PM CST"
+    "generated_at": "2026-04-23 01:54 PM CST"
   },
   "fetch_status": {
-    "fetched_at": "2026-04-23T18:49:24.418725+00:00",
+    "fetched_at": "2026-04-23T18:54:48.467293+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -64114,6 +64114,6 @@
       "tutor_hours_util": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-23T18:49:24.418725+00:00"
+    "last_successful_fetch": "2026-04-23T18:54:48.467293+00:00"
   }
 }
