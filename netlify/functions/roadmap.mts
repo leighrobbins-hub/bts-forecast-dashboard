@@ -13,6 +13,7 @@ type RoadmapItem = {
   status: RoadmapStatus;
   eta?: string | null;
   created_at: string;
+  started_at?: string;
   updated_at?: string;
   shipped_at?: string;
 };
@@ -419,6 +420,9 @@ export default async (req: Request, context: Context) => {
         status,
         updated_at: nowIso,
       };
+      if (status === "In Progress" && !updated.started_at) {
+        updated.started_at = nowIso;
+      }
       if (status === "Shipped") {
         updated.shipped_at = nowIso;
       }

@@ -2843,6 +2843,7 @@ function _roadmapLocalRequest(method, payload) {
             if (item.id !== payload.id) return item;
             found = true;
             var next = Object.assign({}, item, { status: payload.status, updated_at: nowIso });
+            if (payload.status === 'In Progress' && !next.started_at) next.started_at = nowIso;
             if (payload.status === 'Shipped') next.shipped_at = nowIso;
             return next;
         });
@@ -3002,11 +3003,17 @@ function renderRoadmapPlannedUpdates() {
         var etaText = item.eta ? _roadmapFormatDate(item.eta) : '<span class="roadmap-muted">Not set</span>';
         var adminActions = '';
         if (_roadmapIsAdmin) {
-            adminActions = '<td><div class="roadmap-admin-actions">'
-                + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Not Started">Not Started</button>'
-                + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="In Progress">In Progress</button>'
-                + '<button class="btn btn-sm btn-success" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Shipped">Ship</button>'
-                + '</div></td>';
+            if (status === 'Not Started') {
+                adminActions = '<td><div class="roadmap-admin-actions">'
+                    + '<button class="btn btn-sm btn-outline" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="In Progress">Start</button>'
+                    + '</div></td>';
+            } else if (status === 'In Progress') {
+                adminActions = '<td><div class="roadmap-admin-actions">'
+                    + '<button class="btn btn-sm btn-success" data-roadmap-action="set-status" data-id="' + escapeHtml(item.id) + '" data-status="Shipped">Ship</button>'
+                    + '</div></td>';
+            } else {
+                adminActions = '<td><span class="roadmap-muted">Shipped</span></td>';
+            }
         }
         return '<tr>'
             + '<td><strong>' + escapeHtml(item.title || 'Untitled') + '</strong></td>'
