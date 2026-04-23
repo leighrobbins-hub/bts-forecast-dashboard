@@ -710,9 +710,32 @@ function showTab(tabName, el) {
     el.setAttribute('aria-selected', 'true');
     if (tabName === 'subjects-and-actions' || tabName === 'decision-history') {
         loadSharedDecisions();
+        if (tabName === 'subjects-and-actions' && !_sa_open_from_overview) {
+            _sa_expanded = {};
+        }
     } else if (tabName === 'roadmap') {
         loadRoadmapData();
     }
+    _sa_open_from_overview = false;
+}
+
+function openSubjectInSubjectsActions(subject) {
+    if (!subject) return false;
+    _sa_open_from_overview = true;
+    _sa_expanded = {};
+    _sa_expanded[subject] = true;
+    var tabBtn = document.querySelector('#main-tabs .tab[aria-controls="subjects-and-actions"]');
+    if (tabBtn) {
+        showTab('subjects-and-actions', tabBtn);
+    }
+    var saSearch = document.getElementById('sa-search');
+    if (saSearch) saSearch.value = subject;
+    if (typeof renderSubjectsAndActions === 'function') {
+        try { renderSubjectsAndActions(); } catch (e) {}
+    }
+    var header = document.querySelector('#subjects-and-actions h2');
+    if (header) header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return false;
 }
 
 function navigateToFiltered(filterValue) {
@@ -1084,13 +1107,15 @@ function renderMonthlyTable() {
             varianceDisplay = (x.variance >= 0 ? '+' : '') + x.variance;
         }
         var projDisplay = x.projectedEOM != null ? x.projectedEOM : '\u2014';
+        var subjectJs = JSON.stringify(r.Subject || '').replace(/"/g, '&quot;');
+        var subjectLink = '<a href="#" onclick="return openSubjectInSubjectsActions(' + subjectJs + ')" style="color:#2c3e50;text-decoration:underline;font-weight:700;">' + escapeHtml(r.Subject) + '</a>';
 
         var paceBadge;
         if (x.pace === 'behind') paceBadge = '<span class="badge supply">Behind</span>';
         else if (x.pace === 'onpace') paceBadge = '<span class="badge ontrack">On Pace</span>';
         else paceBadge = '<span class="badge nodata">No Data</span>';
 
-        tr.innerHTML = '<td><strong>' + escapeHtml(r.Subject) + '</strong></td>'
+        tr.innerHTML = '<td>' + subjectLink + '</td>'
             + '<td class="tc">' + renderTierBadge(r.Tier, r.BTS_Total) + '</td>'
             + '<td class="tc">' + (x.target || '\u2014') + '</td>'
             + '<td class="tc">' + (x.actual != null ? x.actual : '\u2014') + '</td>'
@@ -1310,8 +1335,10 @@ function renderPriorityTable() {
         var gapDisplay = '<div>' + rawGap + '</div><div style="font-size:11px;color:#7f8c8d">(' + covPct + '% cov)</div>';
         var cmd = cmIdx[row.Subject] || null;
         var cmCell = saRenderCurrentMonthCell(cmd, currentMonth);
+        var subjectJs = JSON.stringify(row.Subject || '').replace(/"/g, '&quot;');
+        var subjectLink = '<a href="#" onclick="return openSubjectInSubjectsActions(' + subjectJs + ')" style="color:#2c3e50;text-decoration:underline;font-weight:700;">' + escapeHtml(row.Subject) + '</a>';
 
-        tr.innerHTML = '<td><strong>' + escapeHtml(row.Subject) + '</strong></td>'
+        tr.innerHTML = '<td>' + subjectLink + '</td>'
             + '<td class="tc">' + renderTierBadge(row.Tier, row.BTS_Total) + '</td>'
             + '<td class="tc">' + row.Run_Rate + '</td>'
             + '<td class="tc">' + row.Smoothed_Target + '</td>'
@@ -4101,6 +4128,7 @@ function copyWeeklySummary(mode) {
 
 var currentSorts_sa = { col: 6, asc: true }; // Default: Gap ascending (biggest problems first)
 var _sa_expanded = {}; // which subjects are expanded
+var _sa_open_from_overview = false;
 var _sa_pending_note = null; // { subject: string, ridx: number, type: 'action'|'noaction' }
 
 var REC_META = {
