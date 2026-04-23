@@ -382,9 +382,13 @@
                         <div class="stat-value" id="mo-behind">-</div>
                         <div class="stat-label">Behind Pace Subjects</div>
                     </div>
-                    <div class="stat-card green" style="cursor:pointer;" onclick="moFilter('onpace')" data-tip="Subjects meeting or exceeding target pace">
+                    <div class="stat-card green" style="cursor:pointer;" onclick="moFilter('onpace')" data-tip="Subjects on healthy projected pace but not yet complete (actual still below target)">
                         <div class="stat-value" id="mo-onpace">-</div>
                         <div class="stat-label">On Pace Subjects</div>
+                    </div>
+                    <div class="stat-card blue" style="cursor:pointer;" onclick="moFilter('complete')" data-tip="Subjects that have already hit or exceeded the monthly target (no further contracting required this month)">
+                        <div class="stat-value" id="mo-complete">-</div>
+                        <div class="stat-label">Complete Subjects</div>
                     </div>
                     <div class="stat-card amber" style="cursor:pointer;" onclick="moFilter('nodata')" data-tip="Subjects with no actuals reported yet this month. Data typically appears within the first few business days once Looker refreshes.">
                         <div class="stat-value" id="mo-nodata">-</div>
@@ -445,6 +449,7 @@
                                 <option value="all">All</option>
                                 <option value="behind">Behind Pace</option>
                                 <option value="onpace">On Pace</option>
+                                <option value="complete">Complete</option>
                                 <option value="nodata">Awaiting Data</option>
                             </select>
                         </div>
@@ -805,6 +810,29 @@
             <p style="color:#7f8c8d; margin-top:4px; margin-bottom:20px;">
                 Track planned dashboard updates, collect ideas, and review shipped changes.
             </p>
+
+            <div class="roadmap-section">
+                <div class="roadmap-section-header">
+                    <h3>In Progress</h3>
+                    <span class="roadmap-muted" style="font-size:13px;">Items currently being built</span>
+                </div>
+                <div class="table-container">
+                    <table id="roadmap-inprogress-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Started</th>
+                                <th>ETA</th>
+                                <th>Priority</th>
+                                <th id="roadmap-inprogress-actions-head" style="display:none;">Admin Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roadmap-inprogress-body"></tbody>
+                    </table>
+                </div>
+            </div>
 
             <div class="roadmap-section">
                 <div class="roadmap-section-header">
