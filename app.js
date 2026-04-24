@@ -17,6 +17,55 @@ function debounce(fn, delay) {
     };
 }
 
+// ── Compact column preview ───────────────────────────────────────────
+// Toggleable layout that hides input-signal columns (Run Rate, Avg Target,
+// New Tutor 30d %, All Tutor Hrs Util %) which are already implied by the
+// Action chip + Wait_State chip. Hidden values surface as a tooltip on the
+// Action cell so nothing is lost. Persisted via localStorage so a reload
+// keeps the user's choice; URL ?compact=1 / ?compact=0 wins for sharing.
+function isCompactMode() {
+    return document.body && document.body.classList.contains('compact-mode');
+}
+function applyCompactMode(on) {
+    if (!document.body) return;
+    document.body.classList.toggle('compact-mode', !!on);
+    var btn = document.getElementById('compact-toggle');
+    if (btn) {
+        btn.classList.toggle('on', !!on);
+        btn.textContent = on ? 'Compact \u2713' : 'Compact';
+    }
+    try { localStorage.setItem('bts_compact_mode', on ? '1' : '0'); } catch (e) {}
+    // Re-render tables that have compact-aware cell renderers.
+    if (typeof renderPriorityTable === 'function') {
+        try { renderPriorityTable(); } catch (e) {}
+    }
+    if (typeof renderSubjectsAndActions === 'function') {
+        try { renderSubjectsAndActions(); } catch (e) {}
+    }
+    if (typeof renderMonthlyTable === 'function') {
+        try { renderMonthlyTable(); } catch (e) {}
+    }
+}
+function toggleCompactMode() {
+    applyCompactMode(!isCompactMode());
+}
+function initCompactMode() {
+    var on = false;
+    try { on = localStorage.getItem('bts_compact_mode') === '1'; } catch (e) {}
+    try {
+        var url = new URL(location.href);
+        if (url.searchParams.has('compact')) {
+            on = url.searchParams.get('compact') === '1';
+        }
+    } catch (e) {}
+    applyCompactMode(on);
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCompactMode);
+} else {
+    initCompactMode();
+}
+
 var allData = [];
 var trackerData = [];
 var historyData = [];
@@ -217,6 +266,33 @@ function renderP90Cell(row) {
     var hrs = Math.round(val);
     var goal = row.P90_Goal || 48;
     var bg = hrs > goal ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
+
+    // Compact mode collapses everything (goal, median, percentile spread,
+    // trend, tail ratio) into a single tooltip and keeps only the P90 +
+    // Wait_State chip in the cell. Operators who want the breakdown hover.
+    if (isCompactMode()) {
+        var parts = ['P90 ' + hrs + 'h vs goal ' + Math.round(goal) + 'h'];
+        if (row.Median_NAT_Hours != null) {
+            var medHr = Math.round(row.Median_NAT_Hours);
+            var mGoal = row.Median_Goal != null ? Math.round(row.Median_Goal) : null;
+            parts.push('Median ' + medHr + 'h' + (mGoal != null ? ' vs goal ' + mGoal + 'h' : ''));
+        }
+        if (row.P25_NAT_Hours != null) parts.push('P25 ' + Math.round(row.P25_NAT_Hours) + 'h');
+        if (row.P75_NAT_Hours != null) parts.push('P75 ' + Math.round(row.P75_NAT_Hours) + 'h');
+        if (row.Tail_Ratio != null) parts.push('Tail ratio ' + row.Tail_Ratio + 'x');
+        if (row.IQR_Hours != null) parts.push('IQR ' + row.IQR_Hours + 'h');
+        if (row.Util_Trend && row.Util_Trend_Delta != null) {
+            var d = Math.round(row.Util_Trend_Delta);
+            parts.push('Trend ' + row.Util_Trend + ' (' + (d > 0 ? '+' : '') + d + '% vs prior)');
+        }
+        var tip = parts.join(' \u00b7 ');
+        var chipC = renderWaitStateChip(row);
+        return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + ' data-tip="' + escapeHtml(tip) + '">'
+            + hrs + 'h'
+            + (chipC ? ' ' + chipC : '')
+            + '</td>';
+    }
+
     var goalHint = '<div style="font-size:11px;color:#7f8c8d;font-weight:400">goal ' + Math.round(goal) + 'h</div>';
     // Median (typical-student wait) sits under the P90 headline. Goal is flat 12h.
     var medianLine = '';
@@ -249,8 +325,35 @@ function renderNewTutor30dCell(row) {
     return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + pct + '%' + detail + '</td>';
 }
 
-function renderStressFlags(flags) {
+function renderStressFlags(flags, row, troubleTier) {
     if (!flags || !flags.length) return '';
+    // Drop flags that another visible chip on the same row already encodes,
+    // so the same supply signal isn't broadcast twice:
+    //   • Wait_State chip in the P90 cell (Crisis / Tail Risk) already covers
+    //     wait severity → drop critical_wait / high_wait.
+    //   • Trouble chip prefixed inside this very cell on the Monthly Tracker
+    //     is literally derived from these flags (see classifyTroubleTier), so
+    //     when it fires the source flags are pure duplicates → drop them.
+    //     - Critical → drop critical_wait + paper_supply + high_wait
+    //     - High     → drop high_wait
+    //   burnout_risk is intentionally kept (Trouble High covers it but the
+    //   action — tutor wellbeing, not recruiting — is distinct).
+    var drop = {};
+    if (row && row.Wait_State && row.Wait_State !== 'Unknown' && row.Wait_State !== 'Insufficient_Data') {
+        drop.high_wait = true;
+        drop.critical_wait = true;
+    }
+    if (troubleTier === 'critical') {
+        drop.critical_wait = true;
+        drop.paper_supply = true;
+        drop.high_wait = true;
+    } else if (troubleTier === 'high') {
+        drop.high_wait = true;
+    }
+    if (Object.keys(drop).length) {
+        flags = flags.filter(function(f) { return !drop[f]; });
+        if (!flags.length) return '';
+    }
     var COLORS = {
         burnout_risk: '#e74c3c', idle_pool: '#3498db', new_tutor_stuck: '#e67e22',
         high_wait: '#f39c12', critical_wait: '#c0392b', healthy_p90_override: '#27ae60',
@@ -286,6 +389,28 @@ function actionBadgeHtml(row) {
         'on-track': 'badge ontrack', 'insufficient-data': 'badge nodata'
     };
     var cls = BADGE_CLASSES[type] || 'badge ontrack';
+    // In compact mode, append the hidden input signals (Run Rate, Avg Target,
+    // New Tutor 30d %, All Tutor Hrs Util %) into the tooltip so the operator
+    // can still see "why" this action fired without those columns visible.
+    if (isCompactMode()) {
+        var inputs = [];
+        if (row.Run_Rate != null) inputs.push('Run Rate ' + row.Run_Rate);
+        if (row.Smoothed_Target != null) inputs.push('Avg Target ' + row.Smoothed_Target);
+        if (row.Raw_Gap != null) inputs.push('Gap ' + row.Raw_Gap);
+        if (row.Util_Rate != null) {
+            var ntDetail = '';
+            if (row.Util_Recent_Utilized != null && row.Util_Recent_Contracted != null) {
+                ntDetail = ' (' + Math.round(row.Util_Recent_Utilized) + '/' + Math.round(row.Util_Recent_Contracted) + ')';
+            } else if (row.Utilized_30d != null && row.Total_Contracted != null) {
+                ntDetail = ' (' + Math.round(row.Utilized_30d) + '/' + Math.round(row.Total_Contracted) + ')';
+            }
+            inputs.push('New Tutor 30d ' + Math.round(row.Util_Rate) + '%' + ntDetail);
+        }
+        if (row.Tutor_Hours_Util_Pct != null) inputs.push('All Tutor Hrs Util ' + Math.round(row.Tutor_Hours_Util_Pct) + '%');
+        if (inputs.length) {
+            tip = (tip ? tip + ' \u2014 ' : '') + inputs.join(' \u00b7 ');
+        }
+    }
     return '<span class="' + cls + '"' + (tip ? ' data-tip="' + escapeHtml(tip) + '"' : '') + '>' + escapeHtml(label) + '</span>';
 }
 
@@ -1455,13 +1580,18 @@ function renderMonthlyTable() {
             case 5: av = a.projectedEOM; bv = b.projectedEOM; break;
             case 6: av = a.row.Tutor_Hours_Util_Pct; bv = b.row.Tutor_Hours_Util_Pct; break;
             case 7: av = a.row.P90_NAT_Hours; bv = b.row.P90_NAT_Hours; break;
-            case 8: av = tierRankForRow(a); bv = tierRankForRow(b); break;
-            case 9: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
-            case 10:
+            case 8: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
+            case 9:
                 av = MONTHLY_ACTION_LABELS[monthlyActionTypeForRow(a)] || '';
                 bv = MONTHLY_ACTION_LABELS[monthlyActionTypeForRow(b)] || '';
                 break;
-            case 11: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
+            // Trouble & Flags column: sort by trouble tier first (Critical
+            // floats up), break ties on flag weight so rows with louder flag
+            // sets rank above quiet ones at the same tier.
+            case 10:
+                av = tierRankForRow(a) * 1000 + flagSortWeight(a.row.Stress_Flags);
+                bv = tierRankForRow(b) * 1000 + flagSortWeight(b.row.Stress_Flags);
+                break;
             default: av = a.row.Subject; bv = b.row.Subject;
         }
         var aN = av === null || av === undefined, bN = bv === null || bv === undefined;
@@ -1472,7 +1602,7 @@ function renderMonthlyTable() {
         if (av > bv) return asc ? 1 : -1;
         // Secondary sort: when primary sort ties and the primary column is
         // Pace, rank by trouble tier so Critical floats to top within Behind.
-        if (col === 9) {
+        if (col === 8) {
             var at = tierRankForRow(a), bt = tierRankForRow(b);
             if (at !== bt) return bt - at;
         }
@@ -1516,10 +1646,9 @@ function renderMonthlyTable() {
             + '<td class="tc">' + projDisplay + '</td>'
             + renderThuCell(r)
             + renderP90Cell(r)
-            + '<td class="tc">' + renderTroubleChip(x) + '</td>'
             + '<td class="tc">' + paceBadge + '</td>'
             + '<td class="tc">' + monthlyActionBadgeHtml(x) + '</td>'
-            + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>';
+            + '<td class="tc">' + renderTroubleAndFlagsCell(x, r) + '</td>';
         tbody.appendChild(tr);
     });
 }
@@ -1545,6 +1674,21 @@ function renderTroubleChip(x) {
         chip += '<span style="font-size:9px;color:#c0392b;font-weight:700;margin-left:4px;text-transform:uppercase;" data-tip="Projected on-pace, but stress signals firing.">sig</span>';
     }
     return chip;
+}
+
+// Merged Trouble + Flags cell for the Monthly Tracker. Trouble chip leads,
+// stress flags follow. renderStressFlags already drops flags that the Trouble
+// chip (or the Wait_State chip in the P90 cell) already encodes, so nothing
+// is broadcast twice. Falls back to em-dash only when both are empty.
+function renderTroubleAndFlagsCell(x, r) {
+    var troubleHtml = '';
+    if (x && x._troubleTier && x._troubleTier !== 'none') {
+        troubleHtml = renderTroubleChip(x);
+    }
+    var flagsHtml = renderStressFlags(r.Stress_Flags, r, x && x._troubleTier);
+    if (!troubleHtml && !flagsHtml) return '<span style="color:#bdc3c7;">&mdash;</span>';
+    if (troubleHtml && flagsHtml) return troubleHtml + flagsHtml;
+    return troubleHtml || flagsHtml;
 }
 
 /* ── Original table renderers ── */
@@ -1774,7 +1918,7 @@ function renderPriorityTable() {
             + renderP90Cell(row)
             + '<td class="tc ' + gapClass + '">' + gapDisplay + '</td>'
             + '<td class="tc">' + actionBadgeHtml(row) + '</td>'
-            + '<td class="tc">' + renderStressFlags(row.Stress_Flags) + '</td>'
+            + '<td class="tc">' + renderStressFlags(row.Stress_Flags, row) + '</td>'
             + cmCell;
         tbody.appendChild(tr);
     });
@@ -5727,7 +5871,7 @@ function renderSubjectsAndActions() {
             + '<td class="tc ' + gapClass + '">' + (r.Raw_Gap != null ? r.Raw_Gap : '\u2014') + '</td>'
             + saRenderCurrentMonthCell(cmIdx[r.Subject], currentMonth)
             + '<td class="tc">' + actionBadgeHtml(r) + '</td>'
-            + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>'
+            + '<td class="tc">' + renderStressFlags(r.Stress_Flags, r) + '</td>'
             + '<td class="tc">' + saRecBadge(x.rec) + '</td>'
             + '<td class="tc">' + saStatusBadge(x.status) + '</td>';
         tbody.appendChild(tr);

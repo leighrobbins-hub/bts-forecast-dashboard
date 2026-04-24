@@ -2738,3 +2738,65 @@ th.sa-current-col { background: #2c3e50; }
 .trouble-chip.trouble-high     { background: #e67e22; color: #ffffff; }
 .trouble-chip.trouble-medium   { background: #f1c40f; color: #2c3e50; }
 .trouble-chip.trouble-cap_avail { background: #ecf0f1; color: #596087; border: 1px solid #bdc3c7; }
+
+/* ── Compact Column Preview ─────────────────────────────────────────
+   Toggled via the "Compact" button in the header. Hides input-signal
+   columns (Run Rate, Avg Target, New Tutor 30d %, All Tutor Hrs Util %)
+   that are already implied by the Action / Wait_State chips, so each
+   row tells one story instead of four overlapping ones. The hidden
+   values are surfaced in the Action cell's tooltip. */
+
+/* Top Priorities (Overview / BTS Season) — 11 cols total.
+   Hide: Run Rate(3), Avg Target(4), New Tutor 30d %(5), All Tutor Hrs Util %(6). */
+body.compact-mode #top-priorities th:nth-child(3),
+body.compact-mode #top-priorities th:nth-child(4),
+body.compact-mode #top-priorities th:nth-child(5),
+body.compact-mode #top-priorities th:nth-child(6),
+body.compact-mode #top-priorities tbody tr > td:nth-child(3),
+body.compact-mode #top-priorities tbody tr > td:nth-child(4),
+body.compact-mode #top-priorities tbody tr > td:nth-child(5),
+body.compact-mode #top-priorities tbody tr > td:nth-child(6) {
+    display: none;
+}
+
+/* Subjects & Actions — 15 cols (1 = expand toggle).
+   Hide: Run Rate(5), Avg Target(6), New Tutor 30d %(7), All Tutor Hrs Util %(8).
+   The detail rows use colspan and aren't .sa-row, so they're untouched. */
+body.compact-mode #sa-table th:nth-child(5),
+body.compact-mode #sa-table th:nth-child(6),
+body.compact-mode #sa-table th:nth-child(7),
+body.compact-mode #sa-table th:nth-child(8),
+body.compact-mode #sa-table tr.sa-row > td:nth-child(5),
+body.compact-mode #sa-table tr.sa-row > td:nth-child(6),
+body.compact-mode #sa-table tr.sa-row > td:nth-child(7),
+body.compact-mode #sa-table tr.sa-row > td:nth-child(8) {
+    display: none;
+}
+
+/* Monthly Tracker — 11 cols (Trouble merged into Trouble & Flags col 11).
+   Hide: Projected EOM(6) (Variance + Pace badge already imply it),
+         All Tutor Hrs Util %(7) (input signal). */
+body.compact-mode #mo-table th:nth-child(6),
+body.compact-mode #mo-table th:nth-child(7),
+body.compact-mode #mo-table tbody tr > td:nth-child(6),
+body.compact-mode #mo-table tbody tr > td:nth-child(7) {
+    display: none;
+}
+
+/* Compact toggle button in the header user bar */
+.compact-toggle-btn {
+    background: rgba(255,255,255,0.15);
+    color: #ecf0f1;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+.compact-toggle-btn:hover { background: rgba(255,255,255,0.25); }
+.compact-toggle-btn.on {
+    background: #4A4BB6;
+    border-color: #4A4BB6;
+}
