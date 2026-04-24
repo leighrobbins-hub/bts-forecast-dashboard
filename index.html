@@ -1616,6 +1616,14 @@
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v5.7 <span class="cl-date">Apr 24, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li><strong>Download Weekly Summary for Word.</strong> The WBR toolbar now has a <em>Download for Word</em> button alongside the two Copy buttons. It packages the styled Weekly Summary (headline, focus section, Pace &amp; Momentum table, Biggest Movers, trouble-tier tables, colored chips, footnotes) into a Microsoft Word document preset for <strong>landscape US&nbsp;Letter with 0.2&rdquo; margins on all four sides</strong>, so the wider trouble tables fit without column wrapping. Filename is <code>BTS-Weekly-Summary-YYYY-MM-DD.doc</code> (MS Word HTML format &mdash; Word, Google Docs, and Pages all open it natively; one click inside Word converts to .docx if needed). The first cut tried the unmaintained html-docx-js library but it produced files Word flagged as corrupt because of the nested chip tables and named HTML entities; the current MS Word HTML format path preserves every inline style (chip colors, borders, padding, table borders) and needs no CDN dependency.</li>
+                    <li><strong>Open in Google Docs.</strong> New <em>Open in Google Docs</em> button copies the styled summary to the clipboard and opens a fresh Google Doc (<code>docs.new</code>) in a new tab &mdash; one <kbd>⌘V</kbd> / <kbd>Ctrl</kbd>+<kbd>V</kbd> and the full styled WBR (colored chips, trouble-tier tables, headings, footnotes) drops straight into Docs with formatting preserved. Uses the same rich-HTML ClipboardItem as the &ldquo;Copy (styled)&rdquo; button. If the browser's popup blocker kills the new tab, the button reports that so you can allow popups and retry.</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v5.6 <span class="cl-date">Apr 24, 2026</span> <span class="cl-tag improvement">Refinement</span></div>
                 <ul>
                     <li><strong>Weekly Summary is now Google-Docs-paste-ready.</strong> Tooltips don't survive a copy into Docs, so every piece of context that used to live in a hover (signal-only critical explanation, flag definitions, tier meaning) is now rendered as visible inline text or a legend row. Paste the styled summary into a Doc and the reader sees the same story the dashboard shows.</li>
