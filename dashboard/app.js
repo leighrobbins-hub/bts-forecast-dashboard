@@ -1276,12 +1276,14 @@ function moResetTableFilters(overrides) {
     var scopeEl = document.getElementById('mo-filter-scope');
     var tierEl = document.getElementById('mo-filter-tier');
     var flagEl = document.getElementById('mo-filter-flag');
+    var troubleEl = document.getElementById('mo-filter-trouble');
     var searchEl = document.getElementById('mo-search');
     if (paceEl) paceEl.value = overrides.pace != null ? overrides.pace : 'all';
     if (actionEl) actionEl.value = overrides.action != null ? overrides.action : 'all';
     if (scopeEl) scopeEl.value = overrides.scope != null ? overrides.scope : 'all';
     if (tierEl) tierEl.value = overrides.tier != null ? overrides.tier : 'all';
     if (flagEl) flagEl.value = overrides.flag != null ? overrides.flag : 'all';
+    if (troubleEl) troubleEl.value = overrides.trouble != null ? overrides.trouble : 'all';
     if (searchEl) searchEl.value = overrides.search != null ? overrides.search : '';
 }
 
@@ -1328,8 +1330,23 @@ function renderMonthlyTable() {
     var tierFilter = (document.getElementById('mo-filter-tier') || {}).value || 'all';
     var flagFilter = (document.getElementById('mo-filter-flag') || {}).value || 'all';
     var scopeFilter = (document.getElementById('mo-filter-scope') || {}).value || 'all';
+    var troubleFilter = (document.getElementById('mo-filter-trouble') || {}).value || 'all';
     var searchTerm = (document.getElementById('mo-search') || {}).value || '';
     searchTerm = searchTerm.toLowerCase();
+
+    // Precompute trouble tier for every row so the chip, filter, and sort
+    // all agree. Only behind + non-tail-end subjects get a tier; everything
+    // else is 'none' (rendered blank in the chip column).
+    d.rows.forEach(function(x) {
+        if (x.pace === 'behind' && !x.isTailEnd) {
+            var tt = classifyTroubleTier(x.row);
+            x._troubleTier = tt.tier;
+            x._troubleReasons = tt.reasons;
+        } else {
+            x._troubleTier = 'none';
+            x._troubleReasons = [];
+        }
+    });
 
     var rows = d.rows.filter(function(x) {
         if (paceFilter !== 'all' && x.pace !== paceFilter) return false;
@@ -1354,12 +1371,28 @@ function renderMonthlyTable() {
             if (flagFilter === 'any') { if (flags.length === 0) return false; }
             else { if (flags.indexOf(flagFilter) === -1) return false; }
         }
+        // Trouble filter: applies to the precomputed tier on this row. The
+        // "real-trouble" option is the one supply actually needs — Critical +
+        // High combined, with Cap-Available explicitly excluded.
+        if (troubleFilter !== 'all') {
+            if (troubleFilter === 'real-trouble') {
+                if (x._troubleTier !== 'critical' && x._troubleTier !== 'high') return false;
+            } else if (x._troubleTier !== troubleFilter) {
+                return false;
+            }
+        }
         if (searchTerm && x.row.Subject.toLowerCase().indexOf(searchTerm) === -1) return false;
         return true;
     });
 
     var col = _monthlySort.col, asc = _monthlySort.asc;
     var PACE_ORDER = { behind: 1, nodata: 2, onpace: 3, complete: 4 };
+    function tierRankForRow(x) {
+        // Behind + trouble-tiered subjects rank highest (critical > high > ...);
+        // everything else ranks lowest so they cluster at the bottom when
+        // sorting by Trouble descending.
+        return troubleTierRank(x._troubleTier);
+    }
     rows.sort(function(a, b) {
         var av, bv;
         switch (col) {
@@ -1371,12 +1404,13 @@ function renderMonthlyTable() {
             case 5: av = a.projectedEOM; bv = b.projectedEOM; break;
             case 6: av = a.row.Tutor_Hours_Util_Pct; bv = b.row.Tutor_Hours_Util_Pct; break;
             case 7: av = a.row.P90_NAT_Hours; bv = b.row.P90_NAT_Hours; break;
-            case 8: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
-            case 9:
+            case 8: av = tierRankForRow(a); bv = tierRankForRow(b); break;
+            case 9: av = PACE_ORDER[a.pace] || 99; bv = PACE_ORDER[b.pace] || 99; break;
+            case 10:
                 av = MONTHLY_ACTION_LABELS[monthlyActionTypeForRow(a)] || '';
                 bv = MONTHLY_ACTION_LABELS[monthlyActionTypeForRow(b)] || '';
                 break;
-            case 10: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
+            case 11: av = flagSortWeight(a.row.Stress_Flags); bv = flagSortWeight(b.row.Stress_Flags); break;
             default: av = a.row.Subject; bv = b.row.Subject;
         }
         var aN = av === null || av === undefined, bN = bv === null || bv === undefined;
@@ -1385,6 +1419,12 @@ function renderMonthlyTable() {
         if (bN) return -1;
         if (av < bv) return asc ? -1 : 1;
         if (av > bv) return asc ? 1 : -1;
+        // Secondary sort: when primary sort ties and the primary column is
+        // Pace, rank by trouble tier so Critical floats to top within Behind.
+        if (col === 9) {
+            var at = tierRankForRow(a), bt = tierRankForRow(b);
+            if (at !== bt) return bt - at;
+        }
         return 0;
     });
 
@@ -1425,11 +1465,25 @@ function renderMonthlyTable() {
             + '<td class="tc">' + projDisplay + '</td>'
             + renderThuCell(r)
             + renderP90Cell(r)
+            + '<td class="tc">' + renderTroubleChip(x) + '</td>'
             + '<td class="tc">' + paceBadge + '</td>'
             + '<td class="tc">' + monthlyActionBadgeHtml(x) + '</td>'
             + '<td class="tc">' + renderStressFlags(r.Stress_Flags) + '</td>';
         tbody.appendChild(tr);
     });
+}
+
+// Trouble chip: compact colored pill for the Monthly table. Populated only
+// for behind + non-tail-end subjects (others render a blank em-dash). Hover
+// tip surfaces the classifier reasons so a PM can see why a subject landed
+// in that tier without opening the Weekly Summary.
+function renderTroubleChip(x) {
+    if (!x || !x._troubleTier || x._troubleTier === 'none') return '<span style="color:#bdc3c7;">&mdash;</span>';
+    var tier = x._troubleTier;
+    var label = troubleTierLabel(tier);
+    var reasons = (x._troubleReasons && x._troubleReasons.length) ? x._troubleReasons.join(' · ') : label + ' trouble tier';
+    var cls = 'trouble-chip trouble-' + tier;
+    return '<span class="' + cls + '" data-tip="' + escapeHtml(reasons) + '">' + escapeHtml(label) + '</span>';
 }
 
 /* ── Original table renderers ── */
