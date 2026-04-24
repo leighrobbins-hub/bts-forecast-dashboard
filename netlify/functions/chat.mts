@@ -7,7 +7,7 @@ import type { Context } from "@netlify/functions";
 //
 // Env vars:
 //   ANTHROPIC_API_KEY   – required for live responses
-//   ANTHROPIC_MODEL     – optional (default: claude-3-5-sonnet-20241022)
+//   ANTHROPIC_MODEL     – optional (default: claude-sonnet-4-6)
 //   ANTHROPIC_MAX_TOKENS – optional (default: 1024)
 //   ADMIN_EMAILS        – comma-separated; combined with the default list
 //
@@ -29,7 +29,7 @@ import type { Context } from "@netlify/functions";
 //   }
 
 const DEFAULT_ADMIN_EMAILS = ["leigh.robbins@varsitytutors.com"];
-const DEFAULT_MODEL = "claude-3-5-sonnet-20241022";
+const DEFAULT_MODEL = "claude-sonnet-4-6";
 const DEFAULT_MAX_TOKENS = 1024;
 const DATA_CACHE_TTL_MS = 60 * 1000; // refresh dashboard data once per minute per warm function instance
 const TAIL_END_TARGET_MAX = 3;
