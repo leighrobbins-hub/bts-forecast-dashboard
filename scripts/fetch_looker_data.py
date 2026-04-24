@@ -26,7 +26,14 @@ RUN_RATE_SUBJECT_PATTERNS = ['subject name', 'subject']
 RUN_RATE_VALUE_PATTERNS = ['attain', 'run rate', 'total count']
 UTILIZATION_SUBJECT_PATTERNS = ['tutor start month', 'subject name', 'subject']
 NAT_P90_SUBJECT_PATTERNS = ['subject name', 'subject']
-NAT_P90_VALUE_PATTERNS   = ['p90', 'hours to assign']
+# Per-percentile patterns are deliberately SPECIFIC (just 'p90', 'median', etc.) so that
+# we can distinguish the four percentile columns when Look 26319 returns all of them.
+# The fallback 'hours to assign' would match all four columns indiscriminately, so it
+# is no longer used for P90 detection.
+NAT_P90_VALUE_PATTERNS    = ['p90']
+NAT_P25_VALUE_PATTERNS    = ['p25']
+NAT_MEDIAN_VALUE_PATTERNS = ['median', 'p50']
+NAT_P75_VALUE_PATTERNS    = ['p75']
 UNIQUE_TUTORS_VALUE_PATTERNS = ['tutor count', 'count']
 TUTOR_HOURS_SUBJECT_PATTERNS = ['subject name', 'subject']
 TUTOR_HOURS_UTIL_PATTERNS = ['utilization', 'util', 'hours util']
@@ -354,14 +361,25 @@ def fetch_actuals(api, *, dry_run=False):
 
 
 def fetch_nat_p90(api, *, dry_run=False):
-    """Fetch P90 time-on-NAT by subject from Looker Look 26319.
+    """Fetch the time-on-NAT distribution by subject from Looker Look 26319.
 
-    Used to confirm Over-Supplied classification:
-      P90 < 24h  → placements filling within operational goal → confirmed Over-Supplied
-      P90 >= 24h → students waiting beyond goal → placement anomaly → reclassify as Under-Used
+    Look 26319 returns up to four percentile columns per subject:
+      P25, Median (P50), P75, P90 — measured in hours from campaign creation
+      to tutor assignment.
 
-    The Look is pre-filtered in Looker to remove noise subjects (stale campaigns,
-    legacy subject IDs) so no additional filtering is needed here.
+    Together these characterize the full wait-time distribution per subject and
+    let downstream classification reason about distribution shape:
+      Median  = the typical student's wait
+      P90     = the slow tail (10% wait longer than this)
+      P75-P25 = IQR (consistency of the experience)
+      P90/Median = tail heaviness ratio
+
+    Each percentile column is independently optional. Older versions of the look
+    that only return a P90 column are still supported; missing columns are
+    written to the CSV as empty (downstream merge handles them as NaN).
+
+    Output CSV (data/nat_p90.csv) columns, when all four are present:
+      Subject, P25_NAT_Hours, Median_NAT_Hours, P75_NAT_Hours, P90_NAT_Hours
     """
     look_id = os.getenv("LOOKER_NAT_P90_LOOK_ID", "26319").strip() or None
 
@@ -369,29 +387,56 @@ def fetch_nat_p90(api, *, dry_run=False):
         print("⚠  No LOOKER_NAT_P90_LOOK_ID set — using default Look 26319")
         look_id = "26319"
 
-    print("Fetching P90 NAT hours from Looker...")
+    print("Fetching NAT percentile distribution from Looker...")
     try:
         df = _fetch(api, look_id, None, "nat_p90")
-        subj_col = _find_column(df, NAT_P90_SUBJECT_PATTERNS, "nat_p90 subject")
-        p90_col  = _find_column(df, NAT_P90_VALUE_PATTERNS,   "nat_p90 value")
+        subj_col   = _find_column(df, NAT_P90_SUBJECT_PATTERNS,    "nat_p90 subject")
+        p25_col    = _find_column(df, NAT_P25_VALUE_PATTERNS,      "nat_p90 p25")
+        median_col = _find_column(df, NAT_MEDIAN_VALUE_PATTERNS,   "nat_p90 median")
+        p75_col    = _find_column(df, NAT_P75_VALUE_PATTERNS,      "nat_p90 p75")
+        p90_col    = _find_column(df, NAT_P90_VALUE_PATTERNS,      "nat_p90 p90")
 
         if subj_col and p90_col:
-            df = df.rename(columns={subj_col: 'Subject', p90_col: 'P90_NAT_Hours'})
-            df = df[['Subject', 'P90_NAT_Hours']].copy()
-            df['P90_NAT_Hours'] = pd.to_numeric(df['P90_NAT_Hours'], errors='coerce')
-            print(f"  Normalized columns: {subj_col!r} → Subject, {p90_col!r} → P90_NAT_Hours")
+            rename_map = {subj_col: 'Subject', p90_col: 'P90_NAT_Hours'}
+            keep_cols = ['Subject', 'P90_NAT_Hours']
+            normalized = []
+            normalized.append(f"{subj_col!r} → Subject")
+            if p25_col:
+                rename_map[p25_col] = 'P25_NAT_Hours'
+                keep_cols.insert(1, 'P25_NAT_Hours')
+                normalized.append(f"{p25_col!r} → P25_NAT_Hours")
+            if median_col:
+                rename_map[median_col] = 'Median_NAT_Hours'
+                keep_cols.insert(-1 if p25_col else 1, 'Median_NAT_Hours')
+                normalized.append(f"{median_col!r} → Median_NAT_Hours")
+            if p75_col:
+                rename_map[p75_col] = 'P75_NAT_Hours'
+                # Insert P75 immediately before P90 (which is always last in keep_cols)
+                keep_cols.insert(len(keep_cols) - 1, 'P75_NAT_Hours')
+                normalized.append(f"{p75_col!r} → P75_NAT_Hours")
+            normalized.append(f"{p90_col!r} → P90_NAT_Hours")
+
+            df = df.rename(columns=rename_map)
+            df = df[keep_cols].copy()
+            for col in keep_cols:
+                if col != 'Subject':
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+            print(f"  Normalized columns: {', '.join(normalized)}")
+
+            present = [c for c in ['P25_NAT_Hours', 'Median_NAT_Hours', 'P75_NAT_Hours', 'P90_NAT_Hours'] if c in df.columns]
+            print(f"  Percentile columns present: {present}")
         else:
-            print("  ⚠  Could not auto-detect columns; saving raw output")
+            print("  ⚠  Could not auto-detect columns (need at least Subject + P90); saving raw output")
 
         if dry_run:
             print(f"  [dry-run] Would save {len(df)} rows to data/nat_p90.csv")
         else:
             os.makedirs('data', exist_ok=True)
             df.to_csv("data/nat_p90.csv", index=False)
-            print(f"✓ P90 NAT data saved: {len(df)} subjects")
+            print(f"✓ NAT percentile data saved: {len(df)} subjects")
         return True
     except Exception as exc:
-        print(f"⚠  Could not fetch NAT P90: {exc}")
+        print(f"⚠  Could not fetch NAT percentiles: {exc}")
         print("   Using existing data/nat_p90.csv if available")
         return False
 

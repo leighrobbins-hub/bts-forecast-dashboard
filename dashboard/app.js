@@ -195,6 +195,22 @@ function p90TrendLabel(row) {
     return '<div style="font-size:10px;font-weight:600;color:' + color + '" data-tip="' + escapeHtml(tip) + '">' + label + '</div>';
 }
 
+// Wait_State chip (color-coded quadrant label derived from Median + P90 vs goals).
+// Returns '' for Unknown so we don't render an empty chip.
+function renderWaitStateChip(row) {
+    var ws = row.Wait_State;
+    if (!ws || ws === 'Unknown') return '';
+    var STYLES = {
+        Healthy:           { bg: '#d4edda', fg: '#155724', label: 'Healthy',     tip: 'Median \u2264 goal AND P90 \u2264 goal \u2014 most students matched fast' },
+        Tail_Risk:         { bg: '#ffe5b4', fg: '#7a4f01', label: 'Tail Risk',   tip: 'Median \u2264 goal but P90 > goal \u2014 typical student fine, slow tail of stuck students' },
+        Crisis:            { bg: '#f8d7da', fg: '#721c24', label: 'Crisis',      tip: 'Median > goal AND P90 > goal \u2014 most students slow, tail catastrophic' },
+        Insufficient_Data: { bg: '#ecf0f1', fg: '#7f8c8d', label: 'N=1',         tip: 'P25 == P90 \u2014 too few placements to characterize the distribution' }
+    };
+    var s = STYLES[ws];
+    if (!s) return '';
+    return '<div style="display:inline-block;margin-top:3px;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:600;background:' + s.bg + ';color:' + s.fg + '" data-tip="' + escapeHtml(s.tip) + '">' + s.label + '</div>';
+}
+
 function renderP90Cell(row) {
     var val = row.P90_NAT_Hours;
     if (val == null) return '<td class="tc" style="color:#aaa">\u2014<div style="font-size:10px;">no data</div></td>';
@@ -202,8 +218,21 @@ function renderP90Cell(row) {
     var goal = row.P90_Goal || 48;
     var bg = hrs > goal ? 'background:#f8d7da;color:#721c24;font-weight:600' : '';
     var goalHint = '<div style="font-size:11px;color:#7f8c8d;font-weight:400">goal ' + Math.round(goal) + 'h</div>';
+    // Median (typical-student wait) sits under the P90 headline. Goal is flat 12h.
+    var medianLine = '';
+    if (row.Median_NAT_Hours != null) {
+        var med = Math.round(row.Median_NAT_Hours);
+        var medGoal = row.Median_Goal || 12;
+        var medColor = med > medGoal ? '#c0392b' : '#27ae60';
+        var medTip = 'Typical student\'s wait. P25=' +
+            (row.P25_NAT_Hours != null ? Math.round(row.P25_NAT_Hours) + 'h' : '?') +
+            ' \u00b7 P75=' + (row.P75_NAT_Hours != null ? Math.round(row.P75_NAT_Hours) + 'h' : '?') +
+            (row.Tail_Ratio != null ? ' \u00b7 P90/Med=' + row.Tail_Ratio + 'x' : '');
+        medianLine = '<div style="font-size:10px;color:' + medColor + ';font-weight:600;margin-top:2px" data-tip="' + escapeHtml(medTip) + '">med ' + med + 'h</div>';
+    }
     var trend = p90TrendLabel(row);
-    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + hrs + 'h' + goalHint + trend + '</td>';
+    var chip = renderWaitStateChip(row);
+    return '<td class="tc"' + (bg ? ' style="' + bg + '"' : '') + '>' + hrs + 'h' + goalHint + medianLine + trend + chip + '</td>';
 }
 
 function renderNewTutor30dCell(row) {
@@ -3217,6 +3246,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'slack-digest', title: 'Slack daily digest for actions', category: 'Integrations', description: 'Once-daily 8 AM CT DM to each action owner summarizing upcoming and overdue actions, with links back into the dashboard. Avoids the spam of per-action notifications.', priority: 'P3', status: 'Not Started' },
     { id: 'admin-target-override', title: 'Admin section for target overrides', category: 'Admin & Access', description: 'Leigh and Darren can pick a subject and month and update the target in-dashboard, with an audit history shown below.', priority: 'P3', status: 'Not Started' },
     { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side, model defaults to claude-sonnet-4-6) and injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, Tutor Hours Utilization, P90, util trend, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.", priority: 'P3', status: 'Shipped' },
+    { id: 'nat-percentile-distribution', title: 'NAT percentile distribution (P25 / Median / P75 / P90 + Wait State)', category: 'Forecasting Logic', description: "Looker Look 26319 was extended to return the full wait-time distribution per subject (P25, Median, P75, P90 in hours) instead of just P90. Phase 1 (shipped) wires the data end-to-end: fetcher detects all four percentile columns; run_analysis.py computes Median_Goal (12h flat, 'matched within half a business day'), Tail_Ratio (P90/Median), IQR (P75-P25), and a derived Wait_State quadrant per subject (Healthy / Tail_Risk / Crisis / Insufficient_Data / Unknown); dashboard P90 cell shows median + Wait State chip without column-shift surgery; AI assistant gains the full distribution plus quadrant interpretation. Phase 2 will add a scenario-preview tab to evaluate candidate Phase-3 classification gates against real subjects before flipping them on (e.g. block Reduce Forecast when Crisis, route Tail_Risk to a new Investigate \u2014 Stuck Tail action).", priority: 'P0', status: 'In Progress' },
     { id: 'p90-tier-review', title: 'Review P90 time-to-assign tier goals', category: 'Forecasting Logic', description: 'Revisit the current tier goals (Core 24h, High 36h, Medium 48h, Low 60h, Niche 72h). Pull 3 months of P90 distributions by tier, compute the 80th percentile, and compare to the current goals. Update constants once data-backed thresholds are confirmed.', priority: 'P1', status: 'Not Started' },
     { id: 'ingest-looker-additional', title: "Ingest additional Looker signals (Michael's client-side looks, utilization dashboard)", category: 'Forecasting Logic', description: 'Pull more signals into the classification engine so actions incorporate client-side context (e.g., oversupplied but fine because a known event is upcoming in month X).', priority: 'P4', status: 'Not Started' },
     { id: 'prophet-prototype', title: 'Prototype Prophet-style forecasting inside the dashboard', category: 'Forecasting Logic', description: "Study Meta Prophet's internals and prototype a minimal forecast for a handful of subjects inside the dashboard, to compare against Pierre's V1.4 model.", priority: 'P4', status: 'Not Started' },
@@ -4566,9 +4596,30 @@ function generateWeeklySummary() {
         var goal = (row && typeof row.P90_Goal === 'number' && row.P90_Goal > 0) ? row.P90_Goal : null;
         if (p90 == null) return '<span style="' + sty.pending + '">-</span>';
         var v = Math.round(p90 * 10) / 10;
-        if (goal == null) return v + 'h';
-        var over = p90 > goal;
-        return '<span style="' + (over ? 'color:#c0392b;font-weight:600;' : 'color:#2c3e50;') + '">' + v + 'h</span> <span style="font-size:11px;color:#7f8c8d;">/ ' + goal + 'h</span>';
+        var p90Frag = goal == null
+            ? v + 'h'
+            : '<span style="' + ((p90 > goal) ? 'color:#c0392b;font-weight:600;' : 'color:#2c3e50;') + '">' + v + 'h</span> <span style="font-size:11px;color:#7f8c8d;">/ ' + goal + 'h</span>';
+        // Median + Wait_State chip render below the P90 line so the WBR survives copy-paste into Word/Google Docs.
+        var medianFrag = '';
+        if (row && typeof row.Median_NAT_Hours === 'number') {
+            var med = Math.round(row.Median_NAT_Hours * 10) / 10;
+            var medGoal = (typeof row.Median_Goal === 'number' && row.Median_Goal > 0) ? row.Median_Goal : 12;
+            var medColor = med > medGoal ? '#c0392b' : '#27ae60';
+            medianFrag = '<div style="font-size:10px;color:' + medColor + ';font-weight:600;">med ' + med + 'h / ' + medGoal + 'h</div>';
+        }
+        var chipFrag = '';
+        if (row && row.Wait_State && row.Wait_State !== 'Unknown') {
+            var CHIP = {
+                Healthy:           { bg: '#d4edda', fg: '#155724', label: 'Healthy' },
+                Tail_Risk:         { bg: '#ffe5b4', fg: '#7a4f01', label: 'Tail Risk' },
+                Crisis:            { bg: '#f8d7da', fg: '#721c24', label: 'Crisis' },
+                Insufficient_Data: { bg: '#ecf0f1', fg: '#7f8c8d', label: 'N=1' }
+            }[row.Wait_State];
+            if (CHIP) {
+                chipFrag = '<div style="display:inline-block;margin-top:2px;padding:1px 5px;border-radius:6px;font-size:9px;font-weight:600;background:' + CHIP.bg + ';color:' + CHIP.fg + ';">' + CHIP.label + '</div>';
+            }
+        }
+        return p90Frag + medianFrag + chipFrag;
     }
     function fmtThuCell(row) {
         var thu = (row && typeof row.Tutor_Hours_Util_Pct === 'number') ? row.Tutor_Hours_Util_Pct : null;
@@ -4621,7 +4672,7 @@ function generateWeeklySummary() {
             + '<th style="' + sty.th + '">Subject</th>'
             + '<th style="' + sty.th + 'text-align:right;">% Pace</th>'
             + '<th style="' + sty.th + 'text-align:right;">Gap</th>'
-            + '<th style="' + sty.th + 'text-align:right;">P90 vs Goal</th>'
+            + '<th style="' + sty.th + 'text-align:right;">P90 / Med vs Goal</th>'
             + '<th style="' + sty.th + 'text-align:right;">Utilization</th>'
             + '<th style="' + sty.th + 'text-align:center;">Util Trend</th>'
             + '<th style="' + sty.th + '">Why</th>'

@@ -14,7 +14,9 @@ from run_analysis import (
     classify_problems,
     _norm_subject,
     get_p90_goal,
+    compute_wait_state,
     NAT_P90_GOAL_BY_TIER,
+    MEDIAN_NAT_GOAL_FLAT,
 )
 
 
@@ -213,8 +215,15 @@ def _util_row(subject, util_rate):
     return {'Subject': subject, 'Total_Contracted': 20, 'Utilized_30d': int(20 * util_rate / 100), 'Util_Rate': util_rate}
 
 
-def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None, engagement=None):
-    """Run classify_problems and return the single result row as a dict."""
+def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None,
+                  median=None, p25=None, p75=None, engagement=None):
+    """Run classify_problems and return the single result row as a dict.
+
+    Extra percentile params (median, p25, p75) are written into the same
+    nat_p90.csv that fetch_nat_p90 produces. Each is independently optional —
+    when omitted, the corresponding column is absent from the CSV (so we
+    exercise the column-missing backfill path inside classify_problems).
+    """
     row = _base_row(**analysis_overrides)
     analysis = pd.DataFrame([row])
     if util_rate is not None:
@@ -223,15 +232,23 @@ def _run_classify(analysis_overrides, util_rate=None, thu_pct=None, p90=None, en
         util = pd.DataFrame({'Subject': pd.Series(dtype='str'), 'Total_Contracted': pd.Series(dtype='float'),
                              'Utilized_30d': pd.Series(dtype='float'), 'Util_Rate': pd.Series(dtype='float')})
 
-    # Write temp CSVs for P90 and THU if provided
     import tempfile, shutil
     tmpdir = tempfile.mkdtemp()
     orig_cwd = os.getcwd()
     os.chdir(tmpdir)
     os.makedirs('data', exist_ok=True)
     try:
-        if p90 is not None:
-            pd.DataFrame([{'Subject': row['Subject'], 'P90_NAT_Hours': p90}]).to_csv('data/nat_p90.csv', index=False)
+        if p90 is not None or median is not None or p25 is not None or p75 is not None:
+            nat_row = {'Subject': row['Subject']}
+            if p25 is not None:
+                nat_row['P25_NAT_Hours'] = p25
+            if median is not None:
+                nat_row['Median_NAT_Hours'] = median
+            if p75 is not None:
+                nat_row['P75_NAT_Hours'] = p75
+            if p90 is not None:
+                nat_row['P90_NAT_Hours'] = p90
+            pd.DataFrame([nat_row]).to_csv('data/nat_p90.csv', index=False)
         if thu_pct is not None:
             pd.DataFrame([{'Subject': row['Subject'], 'Tutor_Hours_Util_Pct': thu_pct}]).to_csv('data/tutor_hours_util.csv', index=False)
         result = classify_problems(analysis, util, engagement=engagement)
@@ -491,6 +508,123 @@ class TestClassifyProblemsLegacy(unittest.TestCase):
         util = self._make_util_df([_util_row('PGoal', 60.0)])
         result = classify_problems(analysis, util)
         self.assertIn('P90_Goal', result.columns)
+
+
+class TestMedianGoal(unittest.TestCase):
+    """Tests for MEDIAN_NAT_GOAL_FLAT — the typical-student-wait operational goal."""
+
+    def test_median_goal_is_12_hours(self):
+        # Goal: matched within half a business day. If this changes, downstream
+        # color-coding + Wait_State quadrant boundaries shift in lockstep.
+        self.assertEqual(MEDIAN_NAT_GOAL_FLAT, 12)
+
+
+class TestWaitState(unittest.TestCase):
+    """Tests for compute_wait_state — the 5-outcome quadrant derivation."""
+
+    # Healthy quadrant — typical fast, tail also within tier goal
+    def test_healthy_when_both_within_goal(self):
+        self.assertEqual(compute_wait_state(median_val=6, p90_val=20, p25_val=2,
+                                            median_goal=12, p90_goal=24), 'Healthy')
+
+    def test_healthy_at_exact_goal_boundaries(self):
+        # Boundary policy: <= goal counts as within (matches color-coding logic)
+        self.assertEqual(compute_wait_state(median_val=12, p90_val=24, p25_val=4,
+                                            median_goal=12, p90_goal=24), 'Healthy')
+
+    # Tail_Risk quadrant — typical fine, slow tail above tier goal
+    def test_tail_risk_when_median_ok_p90_high(self):
+        # Robotics-shaped: med 6h, P90 137h, goal 72h
+        self.assertEqual(compute_wait_state(median_val=6, p90_val=137, p25_val=3,
+                                            median_goal=12, p90_goal=72), 'Tail_Risk')
+
+    # Crisis quadrant — both above goal
+    def test_crisis_when_both_high(self):
+        # Autodesk Fusion 360-shaped
+        self.assertEqual(compute_wait_state(median_val=41, p90_val=289, p25_val=25,
+                                            median_goal=12, p90_goal=72), 'Crisis')
+
+    # Insufficient_Data — N=1 collapse (P25 == P90)
+    def test_insufficient_data_when_all_percentiles_equal(self):
+        # WISC IV-shaped: 100.2/100.2/100.2/100.2
+        self.assertEqual(compute_wait_state(median_val=100.2, p90_val=100.2,
+                                            p25_val=100.2, median_goal=12,
+                                            p90_goal=72), 'Insufficient_Data')
+
+    def test_insufficient_data_takes_precedence_over_crisis(self):
+        # Even if values would otherwise be Crisis, N=1 should mark them
+        # Insufficient_Data so we don't act on a single placement.
+        self.assertEqual(compute_wait_state(median_val=200, p90_val=200,
+                                            p25_val=200, median_goal=12,
+                                            p90_goal=72), 'Insufficient_Data')
+
+    # Unknown — missing data
+    def test_unknown_when_median_missing(self):
+        self.assertEqual(compute_wait_state(median_val=None, p90_val=20, p25_val=2,
+                                            median_goal=12, p90_goal=24), 'Unknown')
+
+    def test_unknown_when_p90_missing(self):
+        self.assertEqual(compute_wait_state(median_val=6, p90_val=None, p25_val=2,
+                                            median_goal=12, p90_goal=24), 'Unknown')
+
+    def test_unknown_when_both_missing(self):
+        self.assertEqual(compute_wait_state(median_val=None, p90_val=None, p25_val=None,
+                                            median_goal=12, p90_goal=24), 'Unknown')
+
+    def test_handles_nan_inputs_as_missing(self):
+        self.assertEqual(compute_wait_state(median_val=float('nan'), p90_val=20,
+                                            p25_val=2, median_goal=12, p90_goal=24), 'Unknown')
+
+
+class TestPercentileColumnsPresent(unittest.TestCase):
+    """Lock the data.json schema: classify_problems must always emit the new percentile columns."""
+
+    def test_columns_present_when_csv_has_full_distribution(self):
+        result = _run_classify({'Subject': 'TestSubject'},
+                               util_rate=60, p25=2, median=6, p75=15, p90=80)
+        for col in ['P25_NAT_Hours', 'Median_NAT_Hours', 'P75_NAT_Hours',
+                    'P90_NAT_Hours', 'Median_Goal', 'Tail_Ratio',
+                    'IQR_Hours', 'Wait_State']:
+            self.assertIn(col, result, f'expected {col} in classify_problems output')
+
+    def test_columns_present_when_csv_missing_entirely(self):
+        # No nat_p90.csv → all percentile cols must still exist (as None) in output.
+        result = _run_classify({'Subject': 'NoNat'}, util_rate=60)
+        for col in ['P25_NAT_Hours', 'Median_NAT_Hours', 'P75_NAT_Hours', 'P90_NAT_Hours']:
+            self.assertIn(col, result)
+        self.assertEqual(result.get('Wait_State'), 'Unknown')
+
+    def test_columns_present_when_csv_has_only_p90_back_compat(self):
+        # Older fetcher only wrote P90; missing percentile cols should be backfilled.
+        result = _run_classify({'Subject': 'OldData'}, util_rate=60, p90=80)
+        for col in ['P25_NAT_Hours', 'Median_NAT_Hours', 'P75_NAT_Hours', 'P90_NAT_Hours']:
+            self.assertIn(col, result)
+        # Median is missing → Wait_State should be Unknown (P90 alone isn't enough)
+        self.assertEqual(result.get('Wait_State'), 'Unknown')
+
+    def test_tail_ratio_computed(self):
+        result = _run_classify({'Subject': 'TR'}, util_rate=60, median=10, p90=50)
+        self.assertEqual(result.get('Tail_Ratio'), 5.0)
+
+    def test_tail_ratio_none_when_median_zero(self):
+        # Avoid divide-by-zero
+        result = _run_classify({'Subject': 'TZ'}, util_rate=60, median=0, p90=50)
+        self.assertIsNone(result.get('Tail_Ratio'))
+
+    def test_iqr_computed(self):
+        result = _run_classify({'Subject': 'IQR'}, util_rate=60, p25=10, p75=40)
+        self.assertEqual(result.get('IQR_Hours'), 30.0)
+
+    def test_wait_state_tail_risk_end_to_end(self):
+        # Robotics-shaped row through the real pipeline → expect Tail_Risk
+        result = _run_classify({'Subject': 'Robotics', 'BTS_Total': 50},  # NICHE tier → P90 goal 72
+                               util_rate=60, p25=3, median=6, p75=80, p90=137)
+        self.assertEqual(result.get('Wait_State'), 'Tail_Risk')
+
+    def test_wait_state_crisis_end_to_end(self):
+        result = _run_classify({'Subject': 'Crisis', 'BTS_Total': 50},
+                               util_rate=60, p25=25, median=41, p75=134, p90=289)
+        self.assertEqual(result.get('Wait_State'), 'Crisis')
 
 
 if __name__ == '__main__':

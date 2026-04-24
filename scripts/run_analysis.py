@@ -770,6 +770,12 @@ NAT_P90_GOAL_BY_TIER = {
     'CORE': 24, 'HIGH': 36, 'MEDIUM': 48, 'LOW': 60, 'NICHE': 72,
 }
 
+# Flat goal for the typical student's wait time (Median = P50).
+# "Half a business day" — by end of day the typical student should be matched.
+# Flat (not tiered) because the operational expectation for the typical student
+# does not differ by subject volume the way P90 (slow tail) does.
+MEDIAN_NAT_GOAL_FLAT = 12
+
 def get_p90_goal(row):
     """Return the P90 NAT goal for a subject row. Per-subject override wins if present."""
     override = row.get('Healthy_P90_Hours')
@@ -777,6 +783,54 @@ def get_p90_goal(row):
         return float(override)
     tier = row.get('Tier', '')
     return NAT_P90_GOAL_BY_TIER.get(tier, 48)
+
+
+def compute_wait_state(median_val, p90_val, p25_val, median_goal, p90_goal):
+    """Derive a single Wait_State label from the percentile distribution.
+
+    Five outcomes:
+      Insufficient_Data — P25 == P90 (all percentiles collapse → typically N=1)
+      Unknown           — Median or P90 missing
+      Healthy           — Median ≤ goal AND P90 ≤ goal
+      Tail_Risk         — Median ≤ goal AND P90 > goal (typical student fine, slow tail)
+      Crisis            — Median > goal AND P90 > goal (most students slow, tail catastrophic)
+
+    Note: "Median > goal AND P90 ≤ goal" is mathematically impossible
+    (P90 ≥ Median by definition) so it is not enumerated.
+    """
+    def _f(v):
+        if v is None:
+            return None
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            return None
+        if pd.isna(f):
+            return None
+        return f
+
+    median_val = _f(median_val)
+    p90_val = _f(p90_val)
+    p25_val = _f(p25_val)
+
+    # Insufficient data: all percentiles collapse → degenerate distribution (N≈1)
+    if p25_val is not None and p90_val is not None and p25_val == p90_val:
+        return 'Insufficient_Data'
+
+    if median_val is None or p90_val is None:
+        return 'Unknown'
+
+    median_goal = _f(median_goal) or MEDIAN_NAT_GOAL_FLAT
+    p90_goal = _f(p90_goal) or 48
+
+    median_ok = median_val <= median_goal
+    p90_ok = p90_val <= p90_goal
+
+    if median_ok and p90_ok:
+        return 'Healthy'
+    if median_ok and not p90_ok:
+        return 'Tail_Risk'
+    return 'Crisis'
 
 
 def assign_tier(bts_total):
@@ -825,14 +879,23 @@ def classify_problems(df_analysis, df_utilization, engagement=None):
             df_merged[c] = None
 
     nat_p90_path = 'data/nat_p90.csv'
+    nat_percentile_cols = ['P25_NAT_Hours', 'Median_NAT_Hours', 'P75_NAT_Hours', 'P90_NAT_Hours']
     if os.path.exists(nat_p90_path):
         df_nat = pd.read_csv(nat_p90_path)
         df_nat['Subject'] = df_nat['Subject'].map(_norm_subject)
-        df_merged = df_merged.merge(df_nat[['Subject', 'P90_NAT_Hours']], on='Subject', how='left')
-        print(f"  Merged P90 NAT data: {df_nat['Subject'].nunique()} subjects")
+        # Backfill any percentile column that the CSV doesn't have so the merge schema
+        # is uniform (older versions of the look only returned P90).
+        for col in nat_percentile_cols:
+            if col not in df_nat.columns:
+                df_nat[col] = None
+        merge_cols = ['Subject'] + nat_percentile_cols
+        df_merged = df_merged.merge(df_nat[merge_cols], on='Subject', how='left')
+        present = [c for c in nat_percentile_cols if df_nat[c].notna().any()]
+        print(f"  Merged NAT percentile data: {df_nat['Subject'].nunique()} subjects, columns with data: {present}")
     else:
-        df_merged['P90_NAT_Hours'] = None
-        print("  ⚠  No nat_p90.csv found — P90 NAT will not be used in classification")
+        for col in nat_percentile_cols:
+            df_merged[col] = None
+        print("  ⚠  No nat_p90.csv found — NAT percentile data will not be used in classification")
 
     tutor_hours_path = 'data/tutor_hours_util.csv'
     if os.path.exists(tutor_hours_path):
@@ -855,6 +918,53 @@ def classify_problems(df_analysis, df_utilization, engagement=None):
     df_merged['Category'] = df_merged['Subject'].apply(classify_category)
     df_merged['Tier'] = df_merged['BTS_Total'].apply(assign_tier)
     df_merged['P90_Goal'] = df_merged.apply(get_p90_goal, axis=1)
+
+    # Median goal is currently flat; switching to per-tier later is a one-line change here.
+    df_merged['Median_Goal'] = MEDIAN_NAT_GOAL_FLAT
+
+    # Tail_Ratio = P90 / Median. >5x indicates a heavy slow tail relative to the
+    # typical student. None when either is missing or Median is 0 (would divide by zero).
+    def _tail_ratio(row):
+        med = row.get('Median_NAT_Hours')
+        p90 = row.get('P90_NAT_Hours')
+        try:
+            med_f = float(med) if med is not None else None
+            p90_f = float(p90) if p90 is not None else None
+        except (TypeError, ValueError):
+            return None
+        if med_f is None or p90_f is None or pd.isna(med_f) or pd.isna(p90_f) or med_f <= 0:
+            return None
+        return round(p90_f / med_f, 2)
+
+    df_merged['Tail_Ratio'] = df_merged.apply(_tail_ratio, axis=1)
+
+    # IQR_Hours = P75 - P25. Captures consistency of the typical experience.
+    def _iqr(row):
+        p25 = row.get('P25_NAT_Hours')
+        p75 = row.get('P75_NAT_Hours')
+        try:
+            p25_f = float(p25) if p25 is not None else None
+            p75_f = float(p75) if p75 is not None else None
+        except (TypeError, ValueError):
+            return None
+        if p25_f is None or p75_f is None or pd.isna(p25_f) or pd.isna(p75_f):
+            return None
+        return round(p75_f - p25_f, 2)
+
+    df_merged['IQR_Hours'] = df_merged.apply(_iqr, axis=1)
+
+    # Wait_State quadrant chip: derived from (Median vs Median_Goal, P90 vs P90_Goal).
+    # Phase 1 surfaces this in the UI and AI assistant; Phase 3 may gate recommendations on it.
+    df_merged['Wait_State'] = df_merged.apply(
+        lambda r: compute_wait_state(
+            r.get('Median_NAT_Hours'),
+            r.get('P90_NAT_Hours'),
+            r.get('P25_NAT_Hours'),
+            r.get('Median_Goal'),
+            r.get('P90_Goal'),
+        ),
+        axis=1,
+    )
 
     def _safe_float(val):
         if val is None or (isinstance(val, float) and pd.isna(val)):
@@ -1785,6 +1895,10 @@ def main():
                 'util_rate': s.get('Util_Rate'), 'run_rate': s.get('Run_Rate'),
                 'tutor_hours_util': s.get('Tutor_Hours_Util_Pct'),
                 'p90_nat': s.get('P90_NAT_Hours'), 'p90_goal': s.get('P90_Goal'),
+                'p25_nat': s.get('P25_NAT_Hours'), 'median_nat': s.get('Median_NAT_Hours'),
+                'p75_nat': s.get('P75_NAT_Hours'), 'median_goal': s.get('Median_Goal'),
+                'tail_ratio': s.get('Tail_Ratio'), 'iqr_hours': s.get('IQR_Hours'),
+                'wait_state': s.get('Wait_State'),
                 'bts_total': s.get('BTS_Total'), 'smoothed_target': s.get('Smoothed_Target'),
                 'auto_assignable': s.get('Auto_Assignable'),
                 'opps_responded': s.get('Opps_Responded'),

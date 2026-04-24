@@ -243,6 +243,15 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     status: "Shipped",
   },
   {
+    id: "nat-percentile-distribution",
+    title: "NAT percentile distribution (P25 / Median / P75 / P90 + Wait State)",
+    category: "Forecasting Logic",
+    description:
+      "Looker Look 26319 was extended to return the full wait-time distribution per subject (P25, Median, P75, P90 in hours) instead of just P90. Phase 1 (shipped) wires the data end-to-end: fetcher detects all four percentile columns; run_analysis.py computes Median_Goal (12h flat, 'matched within half a business day'), Tail_Ratio (P90/Median), IQR (P75-P25), and a derived Wait_State quadrant per subject (Healthy / Tail_Risk / Crisis / Insufficient_Data / Unknown); dashboard P90 cell shows median + Wait State chip without column-shift surgery; AI assistant gains the full distribution plus quadrant interpretation. Phase 2 will add a scenario-preview tab to evaluate candidate Phase-3 classification gates against real subjects before flipping them on (e.g. block Reduce Forecast when Crisis, route Tail_Risk to a new Investigate — Stuck Tail action).",
+    priority: "P0",
+    status: "In Progress",
+  },
+  {
     id: "p90-tier-review",
     title: "Review P90 time-to-assign tier goals",
     category: "Forecasting Logic",

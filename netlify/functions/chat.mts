@@ -42,7 +42,7 @@ Your job is to help operators understand and act on:
 - recommended actions (Recruit, Investigate, High Wait Time, Reduce Forecast, On Track),
 - the difference between BTS-season classifications and monthly classifications,
 - weekly business review (WBR) numbers and how they're computed,
-- Looker-derived metrics like Run Rate, Tutor Hours Utilization, P90 Time-to-Assign, New Tutor Placement, and Util Rate,
+- Looker-derived metrics like Run Rate, Tutor Hours Utilization, the NAT (New-Tutor Assignment) wait-time distribution (P25, Median, P75, P90 in hours), and Util Rate,
 - which subjects to prioritize this week and why.
 
 The system prompt below contains a <DATA_PACK> block with the complete dataset the dashboard renders from — every subject, every Looker metric, every monthly tracker row, every recommendation, the WBR summary, the portfolio summary, and data freshness. You can answer detailed questions ("what's LSAT's P90?", "list every CORE subject behind pace", "compare run rate vs target across Test Prep") directly from that data. The <CURRENT_VIEW> block tells you what tab the operator is on right now — use it to keep answers relevant to what they're looking at.
@@ -67,6 +67,19 @@ Action vocabulary (Primary_Action values from the data pack):
 - "Reduce Forecast" → run rate meets/exceeds target and utilization is low; consider trimming the forecast.
 - "On Track" → supply healthy, util healthy, P90 within goal.
 - "On Track — High Wait" → on track on volume but wait times still elevated.
+
+NAT wait-time distribution (per subject):
+- Median_NAT_Hours = the typical student's wait from campaign creation to tutor assignment. Goal: 12h flat (matched within half a business day).
+- P90_NAT_Hours = the slow tail (10% of students wait longer than this). Goal varies by tier (CORE 24h / HIGH 36h / MEDIUM 48h / LOW 60h / NICHE 72h).
+- P25_NAT_Hours / P75_NAT_Hours = the IQR; together with Median they characterize the consistent-experience band.
+- Tail_Ratio = P90 / Median. >5x indicates a heavy slow tail relative to the typical student.
+- IQR_Hours = P75 - P25.
+- Wait_State (derived):
+  - "Healthy" → Median ≤ 12h AND P90 ≤ tier goal. Most students matched fast.
+  - "Tail_Risk" → Median ≤ 12h but P90 > tier goal. Typical student is fine; a slow tail of stuck students needs attention. Common with niche subjects that have a few hard-to-fill cases.
+  - "Crisis" → Median > 12h AND P90 > tier goal. Most students are slow, tail catastrophic. Highest priority.
+  - "Insufficient_Data" → P25 == P90 (typically a single placement; ignore percentile-driven recommendations).
+  - "Unknown" → Median or P90 missing.
 
 Pace vocabulary (monthly):
 - behind = projected end-of-month total < monthly target (and not tail-end)
@@ -207,7 +220,7 @@ function buildDataPack(data: any, currentMonthLabel: string): string {
   const subjects: any[] = data.subjects || [];
   lines.push("");
   lines.push(`SUBJECTS (${subjects.length} total). One row per subject. Pipe-delimited.`);
-  lines.push("Columns: Subject|Category|Tier|TailEnd|BTS_Total|RunRate|SmoothedTarget|MaxCapacity|GapPct|RawGap|CoveragePct|UtilRate|UtilCurrent|UtilTrailing|UtilTrend|UtilTrendDelta|TutorHoursUtilPct|P90_NAT_Hours|P90_Goal|AutoAssignable|OppsResponded|Assigns|Primary_Action|Problem_Type|Stress_Flags|Apr_Tgt|Apr_Act|May_Tgt|Jun_Tgt|Jul_Tgt|Aug_Tgt|Sep_Tgt|Oct_Tgt|Mar_Actual|Mar_Forecast|IsAdjusted|AdjustedMonths");
+  lines.push("Columns: Subject|Category|Tier|TailEnd|BTS_Total|RunRate|SmoothedTarget|MaxCapacity|GapPct|RawGap|CoveragePct|UtilRate|UtilCurrent|UtilTrailing|UtilTrend|UtilTrendDelta|TutorHoursUtilPct|P25_NAT_Hours|Median_NAT_Hours|P75_NAT_Hours|P90_NAT_Hours|Median_Goal|P90_Goal|Tail_Ratio|IQR_Hours|Wait_State|AutoAssignable|OppsResponded|Assigns|Primary_Action|Problem_Type|Stress_Flags|Apr_Tgt|Apr_Act|May_Tgt|Jun_Tgt|Jul_Tgt|Aug_Tgt|Sep_Tgt|Oct_Tgt|Mar_Actual|Mar_Forecast|IsAdjusted|AdjustedMonths");
   for (const s of subjects) {
     const tail = isTailEndSubject(s) ? "Y" : "";
     const stress = Array.isArray(s.Stress_Flags) ? s.Stress_Flags.join(",") : "";
@@ -230,8 +243,15 @@ function buildDataPack(data: any, currentMonthLabel: string): string {
       s.Util_Trend || "",
       fmtNum(s.Util_Trend_Delta),
       fmtNum(s.Tutor_Hours_Util_Pct),
+      fmtNum(s.P25_NAT_Hours),
+      fmtNum(s.Median_NAT_Hours),
+      fmtNum(s.P75_NAT_Hours),
       fmtNum(s.P90_NAT_Hours),
+      fmtNum(s.Median_Goal),
       fmtNum(s.P90_Goal),
+      fmtNum(s.Tail_Ratio),
+      fmtNum(s.IQR_Hours),
+      s.Wait_State || "",
       fmtNum(s.Auto_Assignable),
       fmtNum(s.Opps_Responded),
       fmtNum(s.Assigns),
