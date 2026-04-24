@@ -2719,3 +2719,22 @@ th.sa-current-col { background: #2c3e50; }
         max-height: none;
     }
 }
+
+/* ── Trouble-tier chips (Monthly tab Subjects table) ───────────────────── */
+/* Compact colored pill that sits in the "Trouble" column left of Pace. */
+/* Only rendered for behind + non-tail-end subjects; tier is derived from */
+/* classifyTroubleTier(). Tooltip surfaces the classifier reasons. */
+.trouble-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: help;
+    white-space: nowrap;
+}
+.trouble-chip.trouble-critical { background: #c0392b; color: #ffffff; }
+.trouble-chip.trouble-high     { background: #e67e22; color: #ffffff; }
+.trouble-chip.trouble-medium   { background: #f1c40f; color: #2c3e50; }
+.trouble-chip.trouble-cap_avail { background: #ecf0f1; color: #596087; border: 1px solid #bdc3c7; }

@@ -495,6 +495,17 @@
                             </select>
                         </div>
                         <div class="filter-group inline-filter">
+                            <label for="mo-filter-trouble" data-tip="Classifies behind-pace subjects by whether supply signals are firing. Critical = paper_supply / critical_wait / recruit-urgent / (P90 1.5x goal + THU 90%+). High = recruit / high wait / burnout / (THU 80% + P90 over goal). Cap Avail = behind but capacity available (low utilization) — likely demand/forecast, not supply.">Trouble</label>
+                            <select id="mo-filter-trouble" onchange="renderMonthlyTable()">
+                                <option value="all">All Subjects</option>
+                                <option value="real-trouble">Real Trouble (Critical+High)</option>
+                                <option value="critical">Critical only</option>
+                                <option value="high">High only</option>
+                                <option value="medium">Medium only</option>
+                                <option value="cap_avail">Cap Available only</option>
+                            </select>
+                        </div>
+                        <div class="filter-group inline-filter">
                             <label for="mo-filter-tier">Volume Tier</label>
                             <select id="mo-filter-tier" onchange="renderMonthlyTable()">
                                 <option value="all">All Tiers</option>
@@ -536,9 +547,10 @@
                                 <th class="sortable tc" onclick="sortMonthly(5)" data-tip="Projected end-of-month total at current daily rate">Projected EOM</th>
                                 <th class="sortable tc" onclick="sortMonthly(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted.">All Tutor Hrs Util %</th>
                                 <th class="sortable tc" onclick="sortMonthly(7)" data-tip="90th percentile of time to fill a placement request.">P90 Assign (hrs)</th>
-                                <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Pacing status for the current month (Behind, On Pace, Complete, No Data)">Monthly Pace</th>
-                                <th class="sortable tc" onclick="sortMonthly(9)" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) pass through when they still apply; otherwise derived from monthly pace (Behind Pace / On Track / Awaiting Data).">Monthly Action</th>
-                                <th class="sortable tc" onclick="sortMonthly(10)">Flags</th>
+                                <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Trouble tier for behind-pace subjects. Critical = supply must act (paper_supply / critical_wait / recruit-urgent / maxed pool). High = supply signal firing. Medium = behind, no clear signal yet. Cap Avail = behind but capacity available, likely a demand / forecast issue not a supply issue. Blank when on-pace / complete / awaiting data.">Trouble</th>
+                                <th class="sortable tc" onclick="sortMonthly(9)" data-tip="Pacing status for the current month (Behind, On Pace, Complete, No Data)">Monthly Pace</th>
+                                <th class="sortable tc" onclick="sortMonthly(10)" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) pass through when they still apply; otherwise derived from monthly pace (Behind Pace / On Track / Awaiting Data).">Monthly Action</th>
+                                <th class="sortable tc" onclick="sortMonthly(11)">Flags</th>
                             </tr>
                         </thead>
                         <tbody id="mo-table-body"></tbody>
