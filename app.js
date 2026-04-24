@@ -855,8 +855,8 @@ function renderMonthSnapshot() {
         } else if (actual === 0) {
             behindCount++;
         } else {
-            var projectedEOM = fractionThrough > 0 ? Math.round(actual / fractionThrough) : actual;
-            var projectionRatio = projectedEOM / target;
+            var projectedRaw = fractionThrough > 0 ? (actual / fractionThrough) : actual;
+            var projectionRatio = target > 0 ? projectedRaw / target : 1;
             if (projectionRatio >= 0.85) {
                 onPaceCount++;
             } else {
@@ -1001,8 +1001,16 @@ function buildMonthlyData() {
                     pace = 'behind';
                     if (!tailEnd) behindCount++;
                 } else {
-                    projectedEOM = fractionThrough > 0 ? Math.round(actual / fractionThrough) : actual;
-                    pace = (projectedEOM / target >= 0.85) ? 'onpace' : 'behind';
+                    // Gate on the RAW projection ratio, not the rounded EOM
+                    // estimate. Rounding projectedEOM up by 0.5 can push
+                    // borderline subjects (e.g. SAT at 23.75/28 = 0.848)
+                    // across the 0.85 threshold and mask them as on-pace
+                    // when they're actually behind. We still round the
+                    // projectedEOM for display, but the pace classification
+                    // uses the unrounded ratio.
+                    var projectedRaw = fractionThrough > 0 ? (actual / fractionThrough) : actual;
+                    projectedEOM = Math.round(projectedRaw);
+                    pace = (projectedRaw / target >= 0.85) ? 'onpace' : 'behind';
                     if (!tailEnd) {
                         if (pace === 'onpace') onPaceCount++; else behindCount++;
                     }
@@ -1335,13 +1343,27 @@ function renderMonthlyTable() {
     searchTerm = searchTerm.toLowerCase();
 
     // Precompute trouble tier for every row so the chip, filter, and sort
-    // all agree. Only behind + non-tail-end subjects get a tier; everything
-    // else is 'none' (rendered blank in the chip column).
+    // all agree. Behind + non-tail-end subjects get their classifier tier.
+    // Additionally, onpace subjects with *critical* stress signals firing
+    // (paper_supply, critical_wait, recruit-urgent, pool-maxed combo) get
+    // a critical tier too, marked _signalOnly so the chip can differentiate.
+    // Tail-end, complete, and nodata subjects stay blank to avoid noise.
     d.rows.forEach(function(x) {
+        x._signalOnly = false;
         if (x.pace === 'behind' && !x.isTailEnd) {
             var tt = classifyTroubleTier(x.row);
             x._troubleTier = tt.tier;
             x._troubleReasons = tt.reasons;
+        } else if (x.pace === 'onpace' && !x.isTailEnd) {
+            var ttSignal = classifyTroubleTier(x.row);
+            if (ttSignal.tier === 'critical') {
+                x._troubleTier = 'critical';
+                x._troubleReasons = ttSignal.reasons;
+                x._signalOnly = true;
+            } else {
+                x._troubleTier = 'none';
+                x._troubleReasons = [];
+            }
         } else {
             x._troubleTier = 'none';
             x._troubleReasons = [];
@@ -1481,9 +1503,19 @@ function renderTroubleChip(x) {
     if (!x || !x._troubleTier || x._troubleTier === 'none') return '<span style="color:#bdc3c7;">&mdash;</span>';
     var tier = x._troubleTier;
     var label = troubleTierLabel(tier);
-    var reasons = (x._troubleReasons && x._troubleReasons.length) ? x._troubleReasons.join(' · ') : label + ' trouble tier';
+    var reasons = (x._troubleReasons && x._troubleReasons.length) ? x._troubleReasons.join(' \u00b7 ') : label + ' trouble tier';
+    // Signal-only rows (projected on-pace but critical signals firing) get
+    // a tooltip prefix so PMs understand why the chip is lit on a row that
+    // otherwise looks fine pace-wise.
+    if (x._signalOnly) {
+        reasons = 'Projected on-pace, but supply signals firing \u00b7 ' + reasons;
+    }
     var cls = 'trouble-chip trouble-' + tier;
-    return '<span class="' + cls + '" data-tip="' + escapeHtml(reasons) + '">' + escapeHtml(label) + '</span>';
+    var chip = '<span class="' + cls + '" data-tip="' + escapeHtml(reasons) + '">' + escapeHtml(label) + '</span>';
+    if (x._signalOnly) {
+        chip += '<span style="font-size:9px;color:#c0392b;font-weight:700;margin-left:4px;text-transform:uppercase;" data-tip="Projected on-pace, but stress signals firing.">sig</span>';
+    }
+    return chip;
 }
 
 /* ── Original table renderers ── */
@@ -1608,8 +1640,8 @@ function buildPaceIndex() {
             return;
         }
 
-        var projectedEOM = fractionThrough > 0 ? Math.round(actual / fractionThrough) : actual;
-        var projectionRatio = projectedEOM / target;
+        var projectedRaw = fractionThrough > 0 ? (actual / fractionThrough) : actual;
+        var projectionRatio = target > 0 ? projectedRaw / target : 1;
         _ovPaceIndex[ts.subject] = (projectionRatio >= 0.85) ? 'onpace' : 'behind';
     });
     return _ovPaceIndex;
@@ -4056,8 +4088,37 @@ function _wbrComputeMetrics() {
     behindHigh.sort(_gapSort);
     behindMedium.sort(_gapSort);
     behindCapAvail.sort(_gapSort);
+
+    // Signal-only Critical: subjects projected on-pace (or even complete)
+    // whose stress signals are firing hard enough to count as Critical.
+    // These wouldn't be flagged by pace alone — a subject can be projected
+    // to hit target this month while paper_supply / critical_wait / recruit-
+    // urgent / P90 1.5x + THU >=90 is blaring. Supply still needs to act.
+    // They get merged into the Critical bucket with a _signalOnly marker so
+    // rendering can differentiate.
+    var signalOnlyCritical = subjects.filter(function(s) {
+        if (s.isTailEnd) return false;
+        if (s.pace === 'behind') return false;   // already classified above
+        if (s.pace === 'complete') return false; // hit target; not a concern this week
+        if (s.pace === 'nodata') return false;   // can't classify without data
+        var tt = classifyTroubleTier(s.row);
+        if (tt.tier !== 'critical') return false;
+        s.troubleTier = tt.tier;
+        s.troubleReasons = tt.reasons;
+        s._signalOnly = true;
+        return true;
+    });
+    // Sort signal-only by pacePct ascending (worst projection first) — gap
+    // is small/zero for on-pace subjects so it's not a useful sort key.
+    signalOnlyCritical.sort(function(a, b) { return a.pacePct - b.pacePct; });
+    // Merge into behindCritical: pace-behind criticals first (sorted by
+    // gap), then signal-only (sorted by pacePct). All downstream WBR render
+    // code picks up signal-only rows automatically via behindCritical.
+    behindCritical = behindCritical.concat(signalOnlyCritical);
+
     // "Actionable behind" = the real supply list (excludes the cap-available
     // demoted bucket). This is the number we want supply focusing on.
+    // Includes signal-only criticals because they're genuine supply risk.
     var behindActionable = behindCritical.concat(behindHigh).concat(behindMedium);
 
     // Zero-velocity watch: actively tracked subjects with no MTD activity.
@@ -4238,28 +4299,48 @@ function generateWeeklySummary() {
     // line with a real triage sentence. Critical + High are what supply
     // actually needs to act on; Cap-Available is explicitly called out as
     // not a supply problem so it doesn't dilute the focus.
+    // behindCritical now includes signal-only critical (on-pace but with
+    // hard stress signals firing) — split them out for the headline so the
+    // "behind-pace N" math still makes sense.
     var nBehind = m.behind.length;
+    var behindCritBehindPace = m.behindCritical.filter(function(s) { return !s._signalOnly; });
+    var behindCritSignalOnly = m.behindCritical.filter(function(s) { return s._signalOnly; });
+    var nCritBehind = behindCritBehindPace.length;
+    var nCritSignal = behindCritSignalOnly.length;
     var nCrit = m.behindCritical.length;
     var nHigh = m.behindHigh.length;
     var nMed = m.behindMedium.length;
     var nCap = m.behindCapAvail.length;
-    if (nBehind > 0) {
-        var topCritNames = m.behindCritical.slice(0, 3).map(function(s) { return '<strong>' + escapeHtml(s.subject) + '</strong>'; });
+    if (nBehind > 0 || nCritSignal > 0) {
+        var topCritNames = m.behindCritical.slice(0, 3).map(function(s) {
+            var nm = '<strong>' + escapeHtml(s.subject) + '</strong>';
+            if (s._signalOnly) nm += ' <span style="font-size:10px;color:#c0392b;font-weight:600;">(signals firing)</span>';
+            return nm;
+        });
         if (topCritNames.length === 0) {
             topCritNames = m.behindHigh.slice(0, 3).map(function(s) { return '<strong>' + escapeHtml(s.subject) + '</strong>'; });
         }
-        var breakdown = 'Of the <strong>' + nBehind + ' behind-pace subjects</strong>, '
-            + '<span style="color:#c0392b;font-weight:700;">' + nCrit + ' critical</span> (system signals firing &mdash; supply must act this week), '
-            + '<span style="color:#e67e22;font-weight:700;">' + nHigh + ' high-priority</span>, '
-            + nMed + ' need watching, and '
-            + '<span style="color:#7f8c8d;">' + nCap + ' are behind but have capacity available</span> (likely demand / forecast, not supply).';
+        var breakdown = '';
+        if (nBehind > 0) {
+            breakdown = 'Of the <strong>' + nBehind + ' behind-pace subjects</strong>, '
+                + '<span style="color:#c0392b;font-weight:700;">' + nCritBehind + ' critical</span> (system signals firing &mdash; supply must act this week), '
+                + '<span style="color:#e67e22;font-weight:700;">' + nHigh + ' high-priority</span>, '
+                + nMed + ' need watching, and '
+                + '<span style="color:#7f8c8d;">' + nCap + ' are behind but have capacity available</span> (likely demand / forecast, not supply).';
+        } else {
+            breakdown = '<strong style="color:#27ae60;">No behind-pace subjects this week.</strong>';
+        }
+        if (nCritSignal > 0) {
+            breakdown += ' Plus <span style="color:#c0392b;font-weight:700;">' + nCritSignal + ' subject' + (nCritSignal !== 1 ? 's' : '')
+                + ' projected on-pace but with critical supply signals firing</span> (paper_supply, critical_wait, or recruit-urgent) &mdash; these still need action this week despite hitting pace numbers.';
+        }
         if (topCritNames.length > 0) {
             var label = nCrit > 0 ? 'Top critical' : 'Top high-priority';
             breakdown += ' ' + label + ': ' + topCritNames.join(', ') + '.';
         }
         headlineParts.push(breakdown);
     } else if (m.hasCurrentMonth) {
-        headlineParts.push('<strong style="color:#27ae60;">No behind-pace subjects this week &mdash; no critical gaps.</strong>');
+        headlineParts.push('<strong style="color:#27ae60;">No behind-pace subjects and no critical supply signals firing this week.</strong>');
     }
     var headline = '<p style="' + sty.p + 'font-size:15px;">' + headlineParts.join(' ') + '</p>';
 
@@ -4283,15 +4364,32 @@ function generateWeeklySummary() {
             supplyFocusHtml = '<p style="' + sty.p + 'color:#27ae60;"><strong>No critical or high-priority supply problems this week.</strong> Behind-pace subjects fall into the "need watching" bucket &mdash; no clear supply signal firing yet.</p>';
         }
     } else {
-        supplyFocusHtml = '<p style="' + sty.p + '">These <strong>' + focusCombined.length + '</strong> behind-pace subjects have supply signals firing right now (P90, THU, stress flags, or recruit actions). Prioritize here this week.</p>';
+        // Count how many are signal-only (projected on-pace but signals firing)
+        // so the intro sentence can frame them correctly.
+        var signalOnlyInFocus = focusCombined.filter(function(s) { return s._signalOnly; }).length;
+        var focusIntro;
+        if (signalOnlyInFocus > 0 && signalOnlyInFocus === focusCombined.length) {
+            focusIntro = 'These <strong>' + focusCombined.length + '</strong> subjects are projected on-pace, but critical supply signals are firing (paper_supply, critical_wait, recruit-urgent). Act this week before pace catches up to the signal.';
+        } else if (signalOnlyInFocus > 0) {
+            focusIntro = 'These <strong>' + focusCombined.length + '</strong> subjects need supply attention this week &mdash; <strong>' + (focusCombined.length - signalOnlyInFocus) + '</strong> behind pace with signals firing, plus <strong>' + signalOnlyInFocus + '</strong> projected on-pace but with critical signals firing (paper_supply, critical_wait, recruit-urgent).';
+        } else {
+            focusIntro = 'These <strong>' + focusCombined.length + '</strong> behind-pace subjects have supply signals firing right now (P90, THU, stress flags, or recruit actions). Prioritize here this week.';
+        }
+        supplyFocusHtml = '<p style="' + sty.p + '">' + focusIntro + '</p>';
         var focusRows = focusCombined.map(function(s) {
             var tierLabel = s.troubleTier === 'critical' ? 'Critical' : 'High';
             var tierBg = s.troubleTier === 'critical' ? '#f8d7da' : '#fde4c9';
             var tierFg = s.troubleTier === 'critical' ? '#721c24' : '#7a3e00';
             var reasonsTxt = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : 'See subject detail';
+            // Signal-only rows (projected on-pace) get a small marker next to
+            // the subject name so supply knows this isn't a pace miss.
+            var nameCell = escapeHtml(s.subject);
+            if (s._signalOnly) {
+                nameCell += ' <span style="font-size:10px;color:#c0392b;font-weight:600;background:#fff3f3;padding:1px 6px;border-radius:3px;margin-left:4px;" data-tip="Projected on-pace, but stress signals are firing — supply must still act this week.">signal</span>';
+            }
             return '<tr>'
                 + '<td style="' + sty.td + '"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;background:' + tierBg + ';color:' + tierFg + ';">' + tierLabel + '</span></td>'
-                + '<td style="' + sty.td + 'font-weight:600;">' + escapeHtml(s.subject) + '</td>'
+                + '<td style="' + sty.td + 'font-weight:600;">' + nameCell + '</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
                 + '<td style="' + sty.td + 'font-size:12px;">' + escapeHtml(reasonsTxt) + '</td>'
@@ -4429,8 +4527,16 @@ function generateWeeklySummary() {
     function behindTierTableRows(list) {
         return list.map(function(s) {
             var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
+            // Signal-only rows (projected on-pace but critical signals
+            // firing) get a small "signal" badge so supply knows the row
+            // isn't here because pace missed — it's here because the
+            // supply signals are loud enough to warrant action anyway.
+            var nameCell = escapeHtml(s.subject);
+            if (s._signalOnly) {
+                nameCell += ' <span style="font-size:10px;color:#c0392b;font-weight:600;background:#fff3f3;padding:1px 6px;border-radius:3px;margin-left:4px;" data-tip="Projected on-pace, but critical stress signals are firing.">signal</span>';
+            }
             return '<tr>'
-                + '<td style="' + sty.td + 'font-weight:600;">' + escapeHtml(s.subject) + '</td>'
+                + '<td style="' + sty.td + 'font-weight:600;">' + nameCell + '</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + fmtP90Cell(s.row) + '</td>'
@@ -4497,7 +4603,7 @@ function generateWeeklySummary() {
     if (!behindTable) {
         behindTable = '<p style="' + sty.p + 'color:#27ae60;">No behind-pace subjects this week.</p>';
     } else {
-        behindTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;margin-top:10px;">Sorted by gap (largest remaining first) within each tier. Tiers use Looker P90, THU, utilization trend, action, and stress flags. Cap-Available subjects are excluded from the supply-focus narrative above.</p>';
+        behindTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;margin-top:10px;">Sorted by gap (largest remaining first) within each tier. Tiers use Looker P90, THU, utilization trend, action, and stress flags. Cap-Available subjects are excluded from the supply-focus narrative above. Rows tagged <span style="color:#c0392b;font-weight:600;">signal</span> are projected on-pace but have critical supply signals firing (paper_supply, critical_wait, or recruit-urgent) &mdash; they need action despite hitting pace numbers.</p>';
     }
 
     // --- 5. ZERO-VELOCITY WATCH LIST ---
@@ -4663,29 +4769,38 @@ function _wbrPlainText(m, generated) {
     } else {
         lines.push('WoW combos added: ' + P + ' (no prior-week snapshot available yet).');
     }
+    var _behindCritBehindPace = m.behindCritical.filter(function(s) { return !s._signalOnly; });
+    var _behindCritSignalOnly = m.behindCritical.filter(function(s) { return s._signalOnly; });
     if (m.behind.length > 0) {
         lines.push('Behind-pace triage: '
-            + m.behindCritical.length + ' critical (supply must act), '
+            + _behindCritBehindPace.length + ' critical (supply must act), '
             + m.behindHigh.length + ' high-priority, '
             + m.behindMedium.length + ' need watching, '
             + m.behindCapAvail.length + ' behind but capacity available (likely demand/forecast, not supply).');
-        var topCrit = m.behindCritical.slice(0, 3).map(function(s) { return s.subject; });
-        if (topCrit.length === 0) topCrit = m.behindHigh.slice(0, 3).map(function(s) { return s.subject; });
-        if (topCrit.length > 0) {
-            lines.push((m.behindCritical.length > 0 ? 'Top critical: ' : 'Top high-priority: ') + topCrit.join(', ') + '.');
-        }
     } else {
-        lines.push('No behind-pace subjects this week \u2014 no critical gaps.');
+        lines.push('No behind-pace subjects this week.');
+    }
+    if (_behindCritSignalOnly.length > 0) {
+        lines.push('Plus ' + _behindCritSignalOnly.length + ' subject' + (_behindCritSignalOnly.length !== 1 ? 's' : '')
+            + ' projected on-pace but with critical supply signals firing (paper_supply, critical_wait, or recruit-urgent): '
+            + _behindCritSignalOnly.slice(0, 5).map(function(s) { return s.subject; }).join(', ')
+            + (_behindCritSignalOnly.length > 5 ? '...' : '') + '.');
+    }
+    var topCrit = m.behindCritical.slice(0, 3).map(function(s) { return s.subject + (s._signalOnly ? ' (signal)' : ''); });
+    if (topCrit.length === 0) topCrit = m.behindHigh.slice(0, 3).map(function(s) { return s.subject; });
+    if (topCrit.length > 0) {
+        lines.push((m.behindCritical.length > 0 ? 'Top critical: ' : 'Top high-priority: ') + topCrit.join(', ') + '.');
     }
     lines.push('');
 
-    // Supply focus (critical + high only)
+    // Supply focus (critical + high only; includes signal-only criticals)
     var focusList = m.behindCritical.concat(m.behindHigh).slice(0, 10);
     if (focusList.length > 0) {
         lines.push('WHERE SUPPLY SHOULD FOCUS THIS WEEK');
         lines.push('Priority | Subject | % Pace | Gap | Why');
         focusList.forEach(function(s) {
             var tierLabel = s.troubleTier === 'critical' ? 'CRITICAL' : 'HIGH';
+            if (s._signalOnly) tierLabel += ' (signal)';
             var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
             lines.push(tierLabel + ' | ' + s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + reasons);
         });
@@ -4724,14 +4839,15 @@ function _wbrPlainText(m, generated) {
     if (m.improvingCats.length) lines.push('Strong categories: ' + m.improvingCats.slice(0, 5).map(function(c) { return c.cat + ' (' + c.pct + '% on track)'; }).join(', '));
     lines.push('');
 
-    if (m.behind.length > 0) {
+    if (m.behind.length > 0 || m.behindCritical.length > 0) {
         function behindSect(name, list, limit) {
             if (!list.length) return;
             lines.push(name + ' (' + list.length + ')');
             var rows = limit != null ? list.slice(0, limit) : list;
             rows.forEach(function(s) {
                 var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
-                lines.push('  ' + s.subject + ' | ' + s.pacePct + '% | gap ' + s.remaining + ' | ' + reasons);
+                var tag = s._signalOnly ? ' [signal]' : '';
+                lines.push('  ' + s.subject + tag + ' | ' + s.pacePct + '% | gap ' + s.remaining + ' | ' + reasons);
             });
             if (limit != null && list.length > limit) lines.push('  ... (' + (list.length - limit) + ' more)');
         }
@@ -4746,6 +4862,7 @@ function _wbrPlainText(m, generated) {
                 lines.push('  ' + s.subject + ' | ' + s.pacePct + '% | gap ' + s.remaining + ' | ' + action);
             });
         }
+        lines.push('[signal] = projected on-pace but critical supply signals firing.');
         lines.push('');
     }
 
@@ -5073,8 +5190,9 @@ function saRenderCurrentMonthCell(cmd, currentMonth) {
     //   Day 15 (50%), actual 25 → projected  50 → just on pace       → green
     //   Day 24 (80%), actual 25 → projected  31 → won't make it      → red
     //   Day 28 (93%), actual 45 → projected  48 → close but at risk  → yellow
-    var projectedEOM = fractionThroughMonth > 0 ? Math.round(actual / fractionThroughMonth) : actual;
-    var projectionRatio = target > 0 ? projectedEOM / target : 1;
+    var projectedRaw = fractionThroughMonth > 0 ? (actual / fractionThroughMonth) : actual;
+    var projectedEOM = Math.round(projectedRaw);
+    var projectionRatio = target > 0 ? projectedRaw / target : 1;
 
     // Thresholds:
     //   ≥ 100% projected  → green  (on pace or ahead)
