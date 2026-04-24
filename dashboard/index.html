@@ -2034,5 +2034,39 @@
         localStorage.setItem('bts_user_email', 'local@test');
     }
     </script>
+
+    <!-- Dashboard Assistant chat bubble (gated to signed-in users via JS) -->
+    <button id="chat-bubble-fab" class="chat-bubble-fab" aria-label="Open Dashboard Assistant" title="Dashboard Assistant" type="button" hidden>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span class="chat-bubble-fab-label">Ask</span>
+    </button>
+
+    <div id="chat-bubble-panel" class="chat-bubble-panel" role="dialog" aria-label="Dashboard Assistant" hidden>
+        <div class="chat-bubble-header">
+            <div class="chat-bubble-title">
+                <span class="chat-bubble-dot"></span>
+                Dashboard Assistant
+            </div>
+            <div class="chat-bubble-actions">
+                <button type="button" class="chat-bubble-iconbtn" id="chat-bubble-clear" title="Clear conversation" aria-label="Clear conversation">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
+                </button>
+                <button type="button" class="chat-bubble-iconbtn" id="chat-bubble-close" title="Close" aria-label="Close">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+        <div class="chat-bubble-context" id="chat-bubble-context-pill" title="Dashboard context auto-injected with each message"></div>
+        <div class="chat-bubble-messages" id="chat-bubble-messages" aria-live="polite"></div>
+        <form class="chat-bubble-input" id="chat-bubble-form">
+            <textarea id="chat-bubble-textarea" rows="1" placeholder="Ask about pacing, actions, or a specific subject…" autocomplete="off"></textarea>
+            <button type="submit" id="chat-bubble-send" title="Send (Enter)" aria-label="Send">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </form>
+        <div class="chat-bubble-footer" id="chat-bubble-footer">Powered by Anthropic. Context is auto-attached.</div>
+    </div>
 </body>
 </html>

@@ -199,9 +199,9 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     title: "AI assistant chat bubble (Anthropic API)",
     category: "AI Features",
     description:
-      "Floating, draggable chat bubble powered by the Anthropic API directly, with the user's current dashboard context injected into the system prompt. Matches the pattern that worked on the VCPU dashboard — far richer responses than Cursor's built-in assistant.",
+      "Floating chat bubble powered by the Anthropic Messages API. Built in branch-local for review: new netlify/functions/chat.mts proxies to Anthropic so the API key never ships to the browser, the bubble lives bottom-right on every tab, and a context snapshot (current tab, totals, top behind subjects, week label) is auto-injected into the system prompt on every send. Requires ANTHROPIC_API_KEY env var on Netlify before it works in production. Pending: review architecture, set the env var, then push to main.",
     priority: "P3",
-    status: "Not Started",
+    status: "In Progress",
   },
   {
     id: "p90-tier-review",
