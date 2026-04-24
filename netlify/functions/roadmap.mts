@@ -238,9 +238,9 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     title: "AI assistant chat bubble (Anthropic API)",
     category: "AI Features",
     description:
-      "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, Tutor Hours Utilization, P90, util trend, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.",
+      "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side, model defaults to claude-sonnet-4-6) and injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, Tutor Hours Utilization, P90, util trend, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.",
     priority: "P3",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "p90-tier-review",
