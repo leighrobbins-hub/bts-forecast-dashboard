@@ -148,7 +148,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     description:
       "Not every behind-pace subject is real trouble. Some are behind because the pool is maxed and students are waiting (supply must act); others are behind because utilization is 30% and capacity is idle (demand/forecast issue, not supply). Adds a classifyTroubleTier(row) helper driven by Looker signals (Primary_Action, P90_NAT_Hours vs P90_Goal, Tutor_Hours_Util_Pct, Stress_Flags) that splits behind-pace subjects into Critical / High / Medium / Capacity-Available tiers. Weekly Summary gains a richer headline, a new 'Where Supply Should Focus This Week' narrative section, and a Behind Pace table grouped by tier with a Why column. The Monthly tab Subjects table gains a Trouble chip column to the left of Pace, a Trouble filter dropdown, and a secondary sort so the most urgent behind subjects rise to the top.",
     priority: "P0",
-    status: "In Progress",
+    status: "Shipped",
   },
   {
     id: "action-entry-form",
