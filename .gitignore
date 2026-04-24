@@ -33,3 +33,6 @@ dashboard/.cursor/
 
 # Node
 node_modules/
+
+# Local Netlify folder
+.netlify

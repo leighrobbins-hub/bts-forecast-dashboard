@@ -3034,7 +3034,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'action-effectiveness', title: 'Action effectiveness retrospective', category: 'Action Tracking', description: 'When an action is marked complete, snapshot the subject\'s metrics. Two weeks later, compare to snapshot and label the action Helped / Neutral / Did Not Help. Design with Darren before building.', priority: 'P2', status: 'Not Started' },
     { id: 'slack-digest', title: 'Slack daily digest for actions', category: 'Integrations', description: 'Once-daily 8 AM CT DM to each action owner summarizing upcoming and overdue actions, with links back into the dashboard. Avoids the spam of per-action notifications.', priority: 'P3', status: 'Not Started' },
     { id: 'admin-target-override', title: 'Admin section for target overrides', category: 'Admin & Access', description: 'Leigh and Darren can pick a subject and month and update the target in-dashboard, with an audit history shown below.', priority: 'P3', status: 'Not Started' },
-    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating chat bubble powered by the Anthropic Messages API. Built in branch-local for review: new netlify/functions/chat.mts proxies to Anthropic so the API key never ships to the browser, the bubble lives bottom-right on every tab, and a context snapshot (current tab, totals, top behind subjects, week label) is auto-injected into the system prompt on every send. Requires ANTHROPIC_API_KEY env var on Netlify before it works in production. Pending: review architecture, set the env var, then push to main.", priority: 'P3', status: 'In Progress' },
+    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, THU, P90, util, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.", priority: 'P3', status: 'In Progress' },
     { id: 'p90-tier-review', title: 'Review P90 time-to-assign tier goals', category: 'Forecasting Logic', description: 'Revisit the current tier goals (Core 24h, High 36h, Medium 48h, Low 60h, Niche 72h). Pull 3 months of P90 distributions by tier, compute the 80th percentile, and compare to the current goals. Update constants once data-backed thresholds are confirmed.', priority: 'P1', status: 'Not Started' },
     { id: 'ingest-looker-additional', title: "Ingest additional Looker signals (Michael's client-side looks, utilization dashboard)", category: 'Forecasting Logic', description: 'Pull more signals into the classification engine so actions incorporate client-side context (e.g., oversupplied but fine because a known event is upcoming in month X).', priority: 'P4', status: 'Not Started' },
     { id: 'prophet-prototype', title: 'Prototype Prophet-style forecasting inside the dashboard', category: 'Forecasting Logic', description: "Study Meta Prophet's internals and prototype a minimal forecast for a handful of subjects inside the dashboard, to compare against Pierre's V1.4 model.", priority: 'P4', status: 'Not Started' },
@@ -5285,17 +5285,47 @@ function _chatGetCurrentMonthLabel() {
     return monthNames[d.getMonth()] + ' ' + d.getFullYear();
 }
 
-// Build a compact, deterministic snapshot of the dashboard for context
-// injection. Keep it SMALL — Claude is paying per token. We focus on what
-// an operator would actually want to ask about: pacing tile counts, top
-// behind subjects, and recent action recommendations.
+// Build a small "what is the operator looking at right now" snapshot.
+// The chat function injects the FULL dataset (every subject + Looker metric +
+// monthly tracker + recommendations) server-side, so this client snapshot
+// only needs to describe the live UI state: active tab, selected subject,
+// active filters, and Monthly tab tile counts (because those are derived
+// from live UI logic and may differ from the cached weekly_summary).
 function _chatBuildContextSnapshot() {
     var lines = [];
     var tab = _chatGetActiveTabLabel();
     var monthLabel = _chatGetCurrentMonthLabel();
     lines.push('Active tab: ' + tab);
-    lines.push('Current month: ' + monthLabel);
-    lines.push('Today: ' + new Date().toISOString().slice(0, 10));
+    lines.push('Today (browser local): ' + new Date().toISOString().slice(0, 10));
+    lines.push('Current calendar month: ' + monthLabel);
+
+    // What subject (if any) is the operator currently drilled into on the
+    // Subjects & Actions tab?
+    try {
+        var saSelect = document.getElementById('sa-subject-select');
+        if (saSelect && saSelect.value) {
+            lines.push('Subjects & Actions: drilled into "' + saSelect.value + '"');
+        }
+    } catch (e) {}
+
+    // Active monthly filters so the LLM understands a follow-up like
+    // "what subjects am I currently filtering to".
+    try {
+        var moPace = document.getElementById('mo-pace-filter');
+        var moAction = document.getElementById('mo-action-filter');
+        var moTier = document.getElementById('mo-tier-filter');
+        var moScope = document.getElementById('mo-scope-filter');
+        var moSearch = document.getElementById('mo-search');
+        var monthlyFilters = [];
+        if (moPace && moPace.value && moPace.value !== 'all') monthlyFilters.push('pace=' + moPace.value);
+        if (moAction && moAction.value && moAction.value !== 'all') monthlyFilters.push('action=' + moAction.value);
+        if (moTier && moTier.value && moTier.value !== 'all') monthlyFilters.push('tier=' + moTier.value);
+        if (moScope && moScope.value && moScope.value !== 'all') monthlyFilters.push('scope=' + moScope.value);
+        if (moSearch && moSearch.value) monthlyFilters.push('search="' + moSearch.value + '"');
+        if (monthlyFilters.length) {
+            lines.push('Monthly tab active filters: ' + monthlyFilters.join('; '));
+        }
+    } catch (e) {}
 
     if (typeof buildMonthlyData === 'function') {
         try {
@@ -5310,44 +5340,6 @@ function _chatBuildContextSnapshot() {
                 lines.push('  Awaiting Data (excl. tail):   ' + d.noDataCount);
                 lines.push('  Tail-End Subjects:            ' + d.tailEndCount);
                 lines.push('  Projected EOM total: ' + d.projectedTotal + '   Daily rate needed: ' + d.dailyRate);
-
-                var behindRows = (d.rows || [])
-                    .filter(function(x) { return x.pace === 'behind' && !x.isTailEnd; })
-                    .map(function(x) {
-                        var monthlyType = (typeof monthlyActionTypeForRow === 'function')
-                            ? monthlyActionTypeForRow(x)
-                            : '';
-                        var label = (typeof MONTHLY_ACTION_LABELS !== 'undefined' && MONTHLY_ACTION_LABELS[monthlyType])
-                            || monthlyType || '';
-                        var actualStr = (x.actual != null ? x.actual : 0) + '/' + x.target;
-                        var pct = x.target > 0 ? Math.round((x.actual || 0) / x.target * 100) : 0;
-                        return {
-                            line: '  ' + (x.row && x.row.Subject ? x.row.Subject : '?')
-                                + ' — ' + actualStr + ' (' + pct + '% of target)'
-                                + (label ? ' — action: ' + label : ''),
-                            shortfall: (x.target - (x.actual || 0))
-                        };
-                    })
-                    .sort(function(a, b) { return b.shortfall - a.shortfall; })
-                    .slice(0, 10)
-                    .map(function(r) { return r.line; });
-                if (behindRows.length) {
-                    lines.push('');
-                    lines.push('Top behind-pace subjects this month (largest shortfall first):');
-                    lines = lines.concat(behindRows);
-                }
-
-                var recruit = (d.rows || []).filter(function(x) {
-                    var bts = classifyType((x.row && (x.row.Primary_Action || x.row.Problem_Type)) || '');
-                    return bts === 'recruit' || bts === 'recruit-urgent';
-                }).slice(0, 5).map(function(x) {
-                    return '  ' + (x.row.Subject || '?');
-                });
-                if (recruit.length) {
-                    lines.push('');
-                    lines.push('Subjects with active Recruit recommendation (sample):');
-                    lines = lines.concat(recruit);
-                }
             }
         } catch (e) {
             lines.push('(unable to build monthly snapshot: ' + (e && e.message ? e.message : 'error') + ')');
@@ -5356,7 +5348,7 @@ function _chatBuildContextSnapshot() {
 
     if (typeof allData !== 'undefined' && allData && allData.length) {
         lines.push('');
-        lines.push('Total subjects forecasted (BTS): ' + allData.length);
+        lines.push('Client-loaded subjects: ' + allData.length + ' (server data pack carries full per-subject Looker metrics).');
     }
 
     return lines.join('\n');
@@ -5380,10 +5372,11 @@ function _chatRender() {
     if (!_chatState.messages.length) {
         box.innerHTML =
             '<div class="chat-bubble-msg system">'
-            + 'Hi — I\u2019m the Dashboard Assistant. Ask about pacing, an action recommendation, or a specific subject. Examples:'
-            + '<br>\u2022 \u201CWhich subjects are most at risk this month?\u201D'
-            + '<br>\u2022 \u201CWhy is LSAT in the Tail-End bucket?\u201D'
-            + '<br>\u2022 \u201CExplain the Reduce Forecast action.\u201D'
+            + 'Hi \u2014 I\u2019m the Dashboard Assistant. I have access to every subject\u2019s Looker metrics (run rate, THU, P90, util), the monthly tracker, and the WBR summary. Ask me anything. Examples:'
+            + '<br>\u2022 \u201CWhich CORE subjects are behind pace and have low THU?\u201D'
+            + '<br>\u2022 \u201CWhat\u2019s LSAT\u2019s P90 vs goal, and what action does it have?\u201D'
+            + '<br>\u2022 \u201CCompare run rate vs target across Test Prep.\u201D'
+            + '<br>\u2022 \u201CWhat should I prioritize this week?\u201D'
             + '</div>';
         return;
     }
