@@ -204,8 +204,12 @@
                     <dt>All Tutor Hrs Util %</dt>
                     <dd>Across ALL tutors on this subject, actual hours worked ÷ hours they told us they wanted. Above 100% means overworked; below means idle capacity. Red when &gt; 120% or &lt; 50%, yellow when 110–120% or 50–60%.</dd>
 
-                    <dt>P90 Assign (hrs)</dt>
-                    <dd>90th percentile of time to fill a placement request (in hours). Red when above the tiered goal for that subject's volume tier (CORE: 24h, HIGH: 36h, MEDIUM: 48h, LOW: 60h, NICHE: 72h).</dd>
+                    <dt>P90 / Median (hrs)</dt>
+                    <dd>The wait-time distribution per subject from campaign creation to tutor assignment.<br>
+                        <strong>P90</strong> (top): the slow tail — 10% of students wait longer than this. Red when above the tiered goal (CORE: 24h, HIGH: 36h, MEDIUM: 48h, LOW: 60h, NICHE: 72h).<br>
+                        <strong>med</strong> (below): the typical student's wait. Goal: 12h flat (matched within half a business day). Red when above goal.<br>
+                        <strong>Wait State chip</strong>: derived quadrant — <em>Healthy</em> (both within goal) · <em>Tail Risk</em> (typical fine, slow tail) · <em>Crisis</em> (most students slow) · <em>N=1</em> (insufficient data).<br>
+                        Hover the median line to see P25 / P75 / P90÷Median ratio.</dd>
 
                     <dt>Season Gap</dt>
                     <dd>Run rate minus avg target across the full BTS season. Negative = shortfall. Coverage % in parentheses.</dd>
@@ -318,7 +322,7 @@
                             <th class="sortable tc" onclick="sortTable('priority', 3)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
                             <th class="sortable tc" onclick="sortTable('priority', 4)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
                             <th class="sortable tc" onclick="sortTable('priority', 5)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
-                            <th class="sortable tc" onclick="sortTable('priority', 6)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
+                            <th class="sortable tc" onclick="sortTable('priority', 6)" data-tip="Wait-time distribution per subject. P90 = the slow tail (worst 10% wait at least this long), goal varies by tier. Below it: median = typical student's wait (goal 12h). Wait State chip: Healthy / Tail Risk / Crisis (derived from both).">P90 / Median (hrs)</th>
                             <th class="sortable tc" onclick="sortTable('priority', 7)" data-tip="Projected season gap: run rate minus avg target across the full BTS season. Negative = shortfall if current organic pipeline continues.">Season Gap</th>
                             <th class="sortable tc" onclick="sortTable('priority', 8)" data-tip="Classification based on three signals: new tutor placement rate, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
                             <th class="sortable tc" onclick="sortTable('priority', 9)" data-tip="Stress indicators: burnout risk, critical/high wait times, paper supply, idle pool, new tutor stuck.">Flags</th>
@@ -546,7 +550,7 @@
                                 <th class="sortable tc" onclick="sortMonthly(4)" data-tip="Actual minus target for this month">Variance</th>
                                 <th class="sortable tc" onclick="sortMonthly(5)" data-tip="Projected end-of-month total at current daily rate">Projected EOM</th>
                                 <th class="sortable tc" onclick="sortMonthly(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted.">All Tutor Hrs Util %</th>
-                                <th class="sortable tc" onclick="sortMonthly(7)" data-tip="90th percentile of time to fill a placement request.">P90 Assign (hrs)</th>
+                                <th class="sortable tc" onclick="sortMonthly(7)" data-tip="Wait-time distribution. P90 = slow tail (goal varies by tier); median = typical student (goal 12h); Wait State chip = Healthy / Tail Risk / Crisis.">P90 / Median (hrs)</th>
                                 <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Trouble tier for behind-pace subjects. Critical = supply must act (paper_supply / critical_wait / recruit-urgent / maxed pool). High = supply signal firing. Medium = behind, no clear signal yet. Cap Avail = behind but capacity available, likely a demand / forecast issue not a supply issue. Blank when on-pace / complete / awaiting data.">Trouble</th>
                                 <th class="sortable tc" onclick="sortMonthly(9)" data-tip="Pacing status for the current month (Behind, On Pace, Complete, No Data)">Monthly Pace</th>
                                 <th class="sortable tc" onclick="sortMonthly(10)" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) pass through when they still apply; otherwise derived from monthly pace (Behind Pace / On Track / Awaiting Data).">Monthly Action</th>
@@ -689,7 +693,7 @@
                             <th class="sortable tc" onclick="sortSA(4)" data-tip="Smoothed average monthly target across the full BTS season (Apr–Oct). This is NOT this month's specific target — use the Current Month column for that.">Avg Target</th>
                             <th class="sortable tc" onclick="sortSA(5)" data-tip="Of tutors newly contracted, the percentage who got any assignment within 30 days. Measures how quickly new tutors are absorbed into active work.">New Tutor 30d %</th>
                             <th class="sortable tc" onclick="sortSA(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted. Above 100% means tutors are working more than they asked for; below 100% means they have capacity.">All Tutor Hrs Util %</th>
-                            <th class="sortable tc" onclick="sortSA(7)" data-tip="90th percentile of time to fill a placement request. The worst 10% of placements wait at least this long. Goal varies by subject tier.">P90 Assign (hrs)</th>
+                            <th class="sortable tc" onclick="sortSA(7)" data-tip="Wait-time distribution. P90 = slow tail (goal varies by tier); median = typical student (goal 12h); Wait State chip = Healthy / Tail Risk / Crisis.">P90 / Median (hrs)</th>
                             <th class="sortable tc" onclick="sortSA(8)" data-tip="Raw difference between run rate and average monthly target (negative = we can't keep up organically).">Gap</th>
                             <th class="sortable sa-current-col tc" onclick="sortSA(9)" data-tip="Current in-progress month: actual vs target with pace projection.">Current <span id="sa-current-month-label" style="color:#bdc3c7;font-weight:500;">(—)</span></th>
                             <th class="sortable tc" onclick="sortSA(10)" data-tip="Classification based on three signals: new tutor placement, all-tutor hours utilization, and P90 time-to-assign.">Action</th>
@@ -1614,6 +1618,15 @@
         <div class="changelog-modal">
             <button class="changelog-close" onclick="document.getElementById('changelog-overlay').classList.remove('active')">&times;</button>
             <h2>Changelog</h2>
+
+            <div class="cl-entry">
+                <div class="cl-version">v5.8 <span class="cl-date">Apr 24, 2026</span> <span class="cl-tag feature">Feature</span></div>
+                <ul>
+                    <li><strong>NAT percentile distribution \u2014 Phase 1 (data + display).</strong> Looker Look 26319 was extended to return four percentiles per subject (<code>P25</code>, <code>Median</code>, <code>P75</code>, <code>P90</code> in hours from campaign creation to tutor assignment) instead of just P90. The fetcher (<code>scripts/fetch_looker_data.py</code>) auto-detects each percentile column independently; older single-column outputs still work (back-compat). The analysis pipeline (<code>scripts/run_analysis.py</code>) merges all four columns and computes three new derived fields per subject: <strong>Tail_Ratio</strong> (P90 \u00f7 Median \u2014 distribution shape; >5x indicates a heavy slow tail), <strong>IQR_Hours</strong> (P75 \u2212 P25 \u2014 consistency of the typical experience), and <strong>Wait_State</strong> \u2014 a derived quadrant: <em>Healthy</em> (Median \u2264 12h goal AND P90 \u2264 tier goal), <em>Tail Risk</em> (typical student fine, slow tail above tier goal \u2014 the Robotics-shape: med 6h, P90 137h), <em>Crisis</em> (both above goal \u2014 the Autodesk Fusion-shape: med 41h, P90 289h), <em>N=1</em> (P25 = P90, single placement), or <em>Unknown</em>. The dashboard&rsquo;s P90 cell now shows median + Wait State chip in-place (no column-shift surgery; sortability preserved); the column tooltip and column legend explain the new layout. WBR trouble-tier tables get the same enrichment. The AI assistant gains the full distribution + quadrant interpretation in its data pack so it can reason about Tail Risk vs Crisis directly. Phase 2 (scenario preview) and Phase 3 (live classification gates) are tracked on the roadmap.</li>
+                    <li>Snapshots (<code>dashboard/snapshots/YYYY-MM-DD.json</code>) gain the new percentile + Wait_State fields per subject so future trend tracking (median-trending-down vs. baseline) is a free downstream win.</li>
+                    <li>Test coverage: <code>tests/test_analysis.py</code> grows by 14 cases covering <code>compute_wait_state</code> across all 5 outcomes, <code>MEDIAN_NAT_GOAL_FLAT</code>, Tail_Ratio finite/zero/missing paths, IQR, and end-to-end Robotics + Autodesk Fusion shape sanity checks. 83 tests pass.</li>
+                </ul>
+            </div>
 
             <div class="cl-entry">
                 <div class="cl-version">v5.7 <span class="cl-date">Apr 24, 2026</span> <span class="cl-tag feature">Feature</span></div>
