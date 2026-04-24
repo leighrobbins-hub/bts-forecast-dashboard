@@ -151,6 +151,16 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     status: "Shipped",
   },
   {
+    id: "wbr-docs-paste-chips",
+    title:
+      "Weekly Summary: Google-Docs-ready + colored reason chips + retire THU abbreviation",
+    category: "Weekly Summary",
+    description:
+      "Weekly Summary is pasted into Google Docs weekly, but tooltips do not survive a Docs paste — any context hidden behind hover text was lost for readers. This pass (1) inlines every explanation that used to live in a tooltip (the signal-only badge becomes a visible 'on pace · signals firing' pill; tier meaning moves into a legend row), (2) renders every reason ('paper_supply', 'high_wait', 'recruit-urgent', 'reduce-forecast', P90/utilization metrics, …) as a severity-colored inline chip with red/orange/blue/neutral palettes, inline-styled so the colors carry into Docs, and (3) retires the THU abbreviation in all user-facing copy (column headers, chip labels, focus intro, footnotes, Monthly Trouble filter hover, AI assistant intro + system prompt) and replaces it with 'Utilization' / 'Tutor Hours Utilization'.",
+    priority: "P0",
+    status: "Shipped",
+  },
+  {
     id: "action-entry-form",
     title: "Action entry: description + estimated completion date",
     category: "Action Tracking",
@@ -209,7 +219,7 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     title: "AI assistant chat bubble (Anthropic API)",
     category: "AI Features",
     description:
-      "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, THU, P90, util, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.",
+      "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, Tutor Hours Utilization, P90, util trend, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.",
     priority: "P3",
     status: "In Progress",
   },

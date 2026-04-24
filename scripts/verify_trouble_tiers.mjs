@@ -45,7 +45,7 @@ function classifyTroubleTier(row) {
   const thu = (typeof row.Tutor_Hours_Util_Pct === 'number' && isFinite(row.Tutor_Hours_Util_Pct)) ? row.Tutor_Hours_Util_Pct : null;
 
   const p90Str = (p90 != null && p90Goal != null) ? `P90 ${Math.round(p90 * 10) / 10}h vs ${p90Goal}h goal` : null;
-  const thuStr = (thu != null) ? `THU ${Math.round(thu)}%` : null;
+  const thuStr = (thu != null) ? `Utilization ${Math.round(thu)}%` : null;
 
   if (btsType === 'recruit-urgent') result.reasons.push('recruit-urgent action');
   if (hasFlag('critical_wait')) result.reasons.push('critical_wait flag');

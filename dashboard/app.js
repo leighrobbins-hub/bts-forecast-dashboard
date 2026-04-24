@@ -360,7 +360,7 @@ function flagSortWeight(flags) {
 // Output: { tier, reasons }
 //   tier     - 'critical' | 'high' | 'medium' | 'cap_avail'
 //   reasons  - short human-readable strings for display ("P90 5.2h vs 2h goal",
-//              "THU 112%", "recruit-urgent", "high_wait flag", ...)
+//              "Utilization 112%", "recruit-urgent", "high_wait flag", ...)
 //
 // Rules (see plan doc): Critical = system already screaming; High = supply
 // signal firing; Cap-Available = capacity exists on paper, behind gap is
@@ -390,7 +390,7 @@ function classifyTroubleTier(row) {
     var p90Str = (p90 != null && p90Goal != null)
         ? ('P90 ' + (Math.round(p90 * 10) / 10) + 'h vs ' + p90Goal + 'h goal')
         : null;
-    var thuStr = (thu != null) ? ('THU ' + Math.round(thu) + '%') : null;
+    var thuStr = (thu != null) ? ('Utilization ' + Math.round(thu) + '%') : null;
 
     // --- CRITICAL tests (system is already screaming) ---
     if (btsType === 'recruit-urgent') result.reasons.push('recruit-urgent action');
@@ -3207,13 +3207,14 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },
     { id: 'wbr-align-monthly-classification', title: 'Align Weekly Summary with v5.1 monthly classification', category: 'Weekly Summary', description: "The Subjects & Actions tab's Weekly Summary used its own pace/classification logic in _wbrComputeMetrics that did not reflect the v5.1 monthly tab classifications. Refactored _wbrComputeMetrics to consume buildMonthlyData() as the source of truth: subjects / totals come from the Monthly cache (target-capped totals), On Track count = subjects with monthlyAction === 'on-track' (matches mo-ontrack-action), Behind count = pace === 'behind' && !isTailEnd (matches mo-behind), zero-velocity excludes tail-end and recruit subjects, movers / category performance use the same On Track definition. Added a footnote noting the alignment.", priority: 'P0', status: 'Shipped' },
     { id: 'wbr-trouble-tier-narrative', title: 'Weekly Summary trouble-tier narrative + Monthly Critical column', category: 'Weekly Summary', description: "Not every behind-pace subject is real trouble. Some are behind because the pool is maxed and students are waiting (supply must act); others are behind because utilization is 30% and capacity is idle (demand/forecast issue, not supply). Adds a classifyTroubleTier(row) helper driven by Looker signals (Primary_Action, P90_NAT_Hours vs P90_Goal, Tutor_Hours_Util_Pct, Stress_Flags) that splits behind-pace subjects into Critical / High / Medium / Capacity-Available tiers. Weekly Summary gains a richer headline, a new 'Where Supply Should Focus This Week' narrative section, and a Behind Pace table grouped by tier with a Why column. The Monthly tab Subjects table gains a Trouble chip column to the left of Pace, a Trouble filter dropdown, and a secondary sort so the most urgent behind subjects rise to the top.", priority: 'P0', status: 'Shipped' },
+    { id: 'wbr-docs-paste-chips', title: 'Weekly Summary: Google-Docs-ready + colored reason chips + retire THU abbreviation', category: 'Weekly Summary', description: "Weekly Summary is pasted into Google Docs weekly, but tooltips do not survive a Docs paste — any context hidden behind hover text was lost for readers. This pass (1) inlines every explanation that used to live in a tooltip (the signal-only badge becomes a visible 'on pace · signals firing' pill; tier meaning moves into a legend row), (2) renders every reason ('paper_supply', 'high_wait', 'recruit-urgent', 'reduce-forecast', P90/utilization metrics, …) as a severity-colored inline chip with red/orange/blue/neutral palettes, inline-styled so the colors carry into Docs, and (3) retires the THU abbreviation in all user-facing copy (column headers, chip labels, focus intro, footnotes, Monthly Trouble filter hover, AI assistant intro + system prompt) and replaces it with 'Utilization' / 'Tutor Hours Utilization'.", priority: 'P0', status: 'Shipped' },
     { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },
     { id: 'action-status-logic', title: 'Action status: In Progress / Overdue / Complete', category: 'Action Tracking', description: "Decision History shows a status per action, auto-computed from today's date vs. estimated completion date, with a manual Mark Complete checkbox.", priority: 'P2', status: 'Not Started' },
     { id: 'action-reschedule', title: 'Reschedule actions with audit log', category: 'Action Tracking', description: "Push out an action's due date with a required reason. Every push is recorded in an expandable audit log on the action row.", priority: 'P2', status: 'Not Started' },
     { id: 'action-effectiveness', title: 'Action effectiveness retrospective', category: 'Action Tracking', description: 'When an action is marked complete, snapshot the subject\'s metrics. Two weeks later, compare to snapshot and label the action Helped / Neutral / Did Not Help. Design with Darren before building.', priority: 'P2', status: 'Not Started' },
     { id: 'slack-digest', title: 'Slack daily digest for actions', category: 'Integrations', description: 'Once-daily 8 AM CT DM to each action owner summarizing upcoming and overdue actions, with links back into the dashboard. Avoids the spam of per-action notifications.', priority: 'P3', status: 'Not Started' },
     { id: 'admin-target-override', title: 'Admin section for target overrides', category: 'Admin & Access', description: 'Leigh and Darren can pick a subject and month and update the target in-dashboard, with an audit history shown below.', priority: 'P3', status: 'Not Started' },
-    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, THU, P90, util, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.", priority: 'P3', status: 'In Progress' },
+    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, Tutor Hours Utilization, P90, util trend, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.", priority: 'P3', status: 'In Progress' },
     { id: 'p90-tier-review', title: 'Review P90 time-to-assign tier goals', category: 'Forecasting Logic', description: 'Revisit the current tier goals (Core 24h, High 36h, Medium 48h, Low 60h, Niche 72h). Pull 3 months of P90 distributions by tier, compute the 80th percentile, and compare to the current goals. Update constants once data-backed thresholds are confirmed.', priority: 'P1', status: 'Not Started' },
     { id: 'ingest-looker-additional', title: "Ingest additional Looker signals (Michael's client-side looks, utilization dashboard)", category: 'Forecasting Logic', description: 'Pull more signals into the classification engine so actions incorporate client-side context (e.g., oversupplied but fine because a known event is upcoming in month X).', priority: 'P4', status: 'Not Started' },
     { id: 'prophet-prototype', title: 'Prototype Prophet-style forecasting inside the dashboard', category: 'Forecasting Logic', description: "Study Meta Prophet's internals and prototype a minimal forecast for a handful of subjects inside the dashboard, to compare against Pierre's V1.4 model.", priority: 'P4', status: 'Not Started' },
@@ -4042,7 +4043,7 @@ function _wbrComputeMetrics() {
                 isTailEnd: x.isTailEnd,
                 monthlyAction: monthlyAction,
                 // Raw Looker row preserved so the trouble-tier classifier
-                // can read P90, THU, stress flags, action, etc.
+                // can read P90, utilization, stress flags, action, etc.
                 row: r
             });
         });
@@ -4093,7 +4094,7 @@ function _wbrComputeMetrics() {
     // whose stress signals are firing hard enough to count as Critical.
     // These wouldn't be flagged by pace alone — a subject can be projected
     // to hit target this month while paper_supply / critical_wait / recruit-
-    // urgent / P90 1.5x + THU >=90 is blaring. Supply still needs to act.
+    // urgent / P90 1.5x + utilization >=90 is blaring. Supply still needs to act.
     // They get merged into the Critical bucket with a _signalOnly marker so
     // rendering can differentiate.
     var signalOnlyCritical = subjects.filter(function(s) {
@@ -4276,6 +4277,66 @@ function generateWeeklySummary() {
     var generated = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
     var pHtml = '<span style="' + sty.pending + '">' + escapeHtml(P) + '</span>';
 
+    // ── Inline reason chips + signal pill ────────────────────────────────
+    // The WBR is frequently copied into Google Docs, which strips class
+    // selectors and tooltips but keeps inline background/text colors and
+    // padding. Everything below renders flag/action context as visible
+    // colored chips so the narrative survives a paste into Docs.
+    function signalOnlyPill() {
+        return '<span style="display:inline-block;background:#fdecea;color:#a93226;'
+            + 'border:1px solid #f1b0b7;border-radius:3px;padding:1px 7px;'
+            + 'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;'
+            + 'margin-left:6px;white-space:nowrap;font-family:Arial,Helvetica,sans-serif;">'
+            + 'on pace &middot; signals firing</span>';
+    }
+    var _reasonPalette = {
+        red:     { bg:'#fdecea', fg:'#a93226', bd:'#f1b0b7' },
+        orange:  { bg:'#fdebd0', fg:'#9c4221', bd:'#f5b97d' },
+        yellow:  { bg:'#fef5c7', fg:'#7d6608', bd:'#f4d47a' },
+        blue:    { bg:'#e8f4fd', fg:'#1e5a8a', bd:'#aed6f1' },
+        neutral: { bg:'#eef1f3', fg:'#2c3e50', bd:'#d6dbdf' }
+    };
+    function reasonChipMeta(reason) {
+        var raw = String(reason || '').trim();
+        var lr = raw.toLowerCase();
+        if (lr.indexOf('paper_supply') !== -1)   return { label: 'Paper supply',   palette: 'red' };
+        if (lr.indexOf('critical_wait') !== -1)  return { label: 'Critical wait',  palette: 'red' };
+        if (lr.indexOf('high_wait') !== -1)      return { label: 'High wait',      palette: 'orange' };
+        if (lr.indexOf('burnout_risk') !== -1)   return { label: 'Burnout risk',   palette: 'orange' };
+        if (lr.indexOf('idle_pool') !== -1)      return { label: 'Idle pool',      palette: 'blue' };
+        if (lr.indexOf('recruit-urgent') !== -1)     return { label: 'Recruit \u2014 urgent', palette: 'red' };
+        if (lr === 'recruit action')                 return { label: 'Recruit',          palette: 'orange' };
+        if (lr.indexOf('wait-times') !== -1)         return { label: 'Wait times',       palette: 'orange' };
+        if (lr.indexOf('reduce-forecast') !== -1)    return { label: 'Reduce forecast',  palette: 'blue' };
+        if (lr.indexOf('capacity-available') !== -1) return { label: 'Capacity avail',   palette: 'blue' };
+        if (lr.indexOf('pool maxed') !== -1)         return { label: raw, palette: 'red' };
+        if (lr.indexOf('pool has headroom') !== -1)  return { label: raw, palette: 'blue' };
+        if (lr.indexOf('p90 ') === 0 || lr.indexOf('utilization ') === 0) return { label: raw, palette: 'neutral' };
+        return { label: raw, palette: 'neutral' };
+    }
+    function renderReasonChip(reason) {
+        var meta = reasonChipMeta(reason);
+        var c = _reasonPalette[meta.palette] || _reasonPalette.neutral;
+        return '<span style="display:inline-block;background:' + c.bg + ';color:' + c.fg
+            + ';border:1px solid ' + c.bd + ';border-radius:3px;padding:2px 8px;'
+            + 'font-size:11px;font-weight:600;margin:0 4px 3px 0;white-space:nowrap;'
+            + 'font-family:Arial,Helvetica,sans-serif;">'
+            + escapeHtml(meta.label) + '</span>';
+    }
+    function renderReasonChips(reasons) {
+        if (!reasons || !reasons.length) {
+            return '<span style="color:#7f8c8d;">&mdash;</span>';
+        }
+        return reasons.map(renderReasonChip).join('');
+    }
+    function legendChip(text, paletteKey) {
+        var c = _reasonPalette[paletteKey] || _reasonPalette.neutral;
+        return '<span style="display:inline-block;background:' + c.bg + ';color:' + c.fg
+            + ';border:1px solid ' + c.bd + ';border-radius:3px;padding:1px 7px;'
+            + 'font-size:11px;font-weight:600;margin:0 3px 2px 0;white-space:nowrap;'
+            + 'font-family:Arial,Helvetica,sans-serif;">' + text + '</span>';
+    }
+
     var paceDelta = m.hasCurrentMonth ? (m.totalActual - m.paceTargetTotal) : null;
     var paceDeltaSign = paceDelta != null && paceDelta >= 0 ? '+' : '';
 
@@ -4373,26 +4434,26 @@ function generateWeeklySummary() {
         } else if (signalOnlyInFocus > 0) {
             focusIntro = 'These <strong>' + focusCombined.length + '</strong> subjects need supply attention this week &mdash; <strong>' + (focusCombined.length - signalOnlyInFocus) + '</strong> behind pace with signals firing, plus <strong>' + signalOnlyInFocus + '</strong> projected on-pace but with critical signals firing (paper_supply, critical_wait, recruit-urgent).';
         } else {
-            focusIntro = 'These <strong>' + focusCombined.length + '</strong> behind-pace subjects have supply signals firing right now (P90, THU, stress flags, or recruit actions). Prioritize here this week.';
+            focusIntro = 'These <strong>' + focusCombined.length + '</strong> behind-pace subjects have supply signals firing right now (P90, utilization, stress flags, or recruit actions). Prioritize here this week.';
         }
         supplyFocusHtml = '<p style="' + sty.p + '">' + focusIntro + '</p>';
         var focusRows = focusCombined.map(function(s) {
             var tierLabel = s.troubleTier === 'critical' ? 'Critical' : 'High';
             var tierBg = s.troubleTier === 'critical' ? '#f8d7da' : '#fde4c9';
             var tierFg = s.troubleTier === 'critical' ? '#721c24' : '#7a3e00';
-            var reasonsTxt = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : 'See subject detail';
-            // Signal-only rows (projected on-pace) get a small marker next to
-            // the subject name so supply knows this isn't a pace miss.
+            // Signal-only rows (projected on-pace) get a visible inline pill
+            // next to the subject so the context survives a Google Docs paste.
             var nameCell = escapeHtml(s.subject);
-            if (s._signalOnly) {
-                nameCell += ' <span style="font-size:10px;color:#c0392b;font-weight:600;background:#fff3f3;padding:1px 6px;border-radius:3px;margin-left:4px;" data-tip="Projected on-pace, but stress signals are firing — supply must still act this week.">signal</span>';
-            }
+            if (s._signalOnly) nameCell += signalOnlyPill();
+            var reasonsCell = (s.troubleReasons && s.troubleReasons.length)
+                ? renderReasonChips(s.troubleReasons)
+                : '<span style="color:#7f8c8d;">See subject detail</span>';
             return '<tr>'
                 + '<td style="' + sty.td + '"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;background:' + tierBg + ';color:' + tierFg + ';">' + tierLabel + '</span></td>'
                 + '<td style="' + sty.td + 'font-weight:600;">' + nameCell + '</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
-                + '<td style="' + sty.td + 'font-size:12px;">' + escapeHtml(reasonsTxt) + '</td>'
+                + '<td style="' + sty.td + 'font-size:12px;">' + reasonsCell + '</td>'
                 + '</tr>';
         }).join('');
         supplyFocusHtml += '<table style="' + sty.tbl + '">'
@@ -4464,7 +4525,7 @@ function generateWeeklySummary() {
     } else {
         paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">Compared to snapshot from ' + escapeHtml(m.snapDate) + '. Velocity is MTD average.</p>';
     }
-    paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">On Track / Behind counts mirror the Monthly tab tiles (monthly pace, tail-end carve-outs applied). Trouble tiers (Critical / High / Medium / Cap-Available) layer Looker P90, THU, utilization, action, and stress flags on top of Behind so supply can separate real trouble from "behind but capacity available."</p>';
+    paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">On Track / Behind counts mirror the Monthly tab tiles (monthly pace, tail-end carve-outs applied). Trouble tiers (Critical / High / Medium / Cap-Available) layer Looker P90, utilization, utilization trend, action, and stress flags on top of Behind so supply can separate real trouble from "behind but capacity available."</p>';
 
     // --- 3. BIGGEST MOVERS ---
     var moversHtml = '';
@@ -4526,15 +4587,12 @@ function generateWeeklySummary() {
     }
     function behindTierTableRows(list) {
         return list.map(function(s) {
-            var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
-            // Signal-only rows (projected on-pace but critical signals
-            // firing) get a small "signal" badge so supply knows the row
-            // isn't here because pace missed — it's here because the
-            // supply signals are loud enough to warrant action anyway.
+            // Signal-only rows (projected on-pace, critical supply signals
+            // firing) — show an inline pill instead of a tooltip so the
+            // context survives when the WBR is copied into Google Docs.
             var nameCell = escapeHtml(s.subject);
-            if (s._signalOnly) {
-                nameCell += ' <span style="font-size:10px;color:#c0392b;font-weight:600;background:#fff3f3;padding:1px 6px;border-radius:3px;margin-left:4px;" data-tip="Projected on-pace, but critical stress signals are firing.">signal</span>';
-            }
+            if (s._signalOnly) nameCell += signalOnlyPill();
+            var reasonsCell = renderReasonChips(s.troubleReasons);
             return '<tr>'
                 + '<td style="' + sty.td + 'font-weight:600;">' + nameCell + '</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
@@ -4542,7 +4600,7 @@ function generateWeeklySummary() {
                 + '<td style="' + sty.td + 'text-align:right;">' + fmtP90Cell(s.row) + '</td>'
                 + '<td style="' + sty.td + 'text-align:right;">' + fmtThuCell(s.row) + '</td>'
                 + '<td style="' + sty.td + 'text-align:center;">' + fmtUtilTrendCell(s.row) + '</td>'
-                + '<td style="' + sty.td + 'font-size:12px;">' + escapeHtml(reasons) + '</td>'
+                + '<td style="' + sty.td + 'font-size:12px;">' + reasonsCell + '</td>'
                 + '</tr>';
         }).join('');
     }
@@ -4562,7 +4620,7 @@ function generateWeeklySummary() {
             + '<th style="' + sty.th + 'text-align:right;">% Pace</th>'
             + '<th style="' + sty.th + 'text-align:right;">Gap</th>'
             + '<th style="' + sty.th + 'text-align:right;">P90 vs Goal</th>'
-            + '<th style="' + sty.th + 'text-align:right;">THU</th>'
+            + '<th style="' + sty.th + 'text-align:right;">Utilization</th>'
             + '<th style="' + sty.th + 'text-align:center;">Util Trend</th>'
             + '<th style="' + sty.th + '">Why</th>'
             + '</tr>'
@@ -4593,7 +4651,7 @@ function generateWeeklySummary() {
             + '<th style="' + sty.th + '">Subject</th>'
             + '<th style="' + sty.th + 'text-align:right;">% Pace</th>'
             + '<th style="' + sty.th + 'text-align:right;">Gap</th>'
-            + '<th style="' + sty.th + 'text-align:right;">THU</th>'
+            + '<th style="' + sty.th + 'text-align:right;">Utilization</th>'
             + '<th style="' + sty.th + '">Action</th>'
             + '</tr>'
             + capRows + '</table></details>';
@@ -4603,7 +4661,23 @@ function generateWeeklySummary() {
     if (!behindTable) {
         behindTable = '<p style="' + sty.p + 'color:#27ae60;">No behind-pace subjects this week.</p>';
     } else {
-        behindTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;margin-top:10px;">Sorted by gap (largest remaining first) within each tier. Tiers use Looker P90, THU, utilization trend, action, and stress flags. Cap-Available subjects are excluded from the supply-focus narrative above. Rows tagged <span style="color:#c0392b;font-weight:600;">signal</span> are projected on-pace but have critical supply signals firing (paper_supply, critical_wait, or recruit-urgent) &mdash; they need action despite hitting pace numbers.</p>';
+        behindTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;margin-top:10px;">'
+            + 'Sorted by gap (largest remaining first) within each tier. Tiers use Looker P90, '
+            + 'utilization, utilization trend, action, and stress flags. Cap-Available subjects are '
+            + 'excluded from the supply-focus narrative above.</p>'
+            + '<p style="' + sty.p + 'font-size:11px;color:#555;margin-top:4px;">'
+            + '<strong>Legend:</strong> '
+            + legendChip('Paper supply', 'red') + legendChip('Critical wait', 'red')
+            + legendChip('Recruit \u2014 urgent', 'red')
+            + ' = act this week. '
+            + legendChip('High wait', 'orange') + legendChip('Burnout risk', 'orange')
+            + legendChip('Wait times', 'orange') + legendChip('Recruit', 'orange')
+            + ' = supply pressure, plan a fix. '
+            + legendChip('Reduce forecast', 'blue') + legendChip('Capacity avail', 'blue')
+            + legendChip('Idle pool', 'blue')
+            + ' = demand / forecast signal, not a supply fire. '
+            + 'Rows with <span style="display:inline-block;background:#fdecea;color:#a93226;border:1px solid #f1b0b7;border-radius:3px;padding:1px 6px;font-size:10px;font-weight:700;text-transform:uppercase;">on pace &middot; signals firing</span> '
+            + 'are projected on-pace but flagged critical — act despite hitting pace numbers.</p>';
     }
 
     // --- 5. ZERO-VELOCITY WATCH LIST ---
@@ -5864,8 +5938,8 @@ function _chatRender() {
     if (!_chatState.messages.length) {
         box.innerHTML =
             '<div class="chat-bubble-msg system">'
-            + 'Hi \u2014 I\u2019m the Dashboard Assistant. I have access to every subject\u2019s Looker metrics (run rate, THU, P90, util), the monthly tracker, and the WBR summary. Ask me anything. Examples:'
-            + '<br>\u2022 \u201CWhich CORE subjects are behind pace and have low THU?\u201D'
+            + 'Hi \u2014 I\u2019m the Dashboard Assistant. I have access to every subject\u2019s Looker metrics (run rate, tutor-hour utilization, P90, util trend), the monthly tracker, and the WBR summary. Ask me anything. Examples:'
+            + '<br>\u2022 \u201CWhich CORE subjects are behind pace and have low utilization?\u201D'
             + '<br>\u2022 \u201CWhat\u2019s LSAT\u2019s P90 vs goal, and what action does it have?\u201D'
             + '<br>\u2022 \u201CCompare run rate vs target across Test Prep.\u201D'
             + '<br>\u2022 \u201CWhat should I prioritize this week?\u201D'
