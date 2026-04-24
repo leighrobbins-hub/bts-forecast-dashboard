@@ -161,6 +161,25 @@ const ROADMAP_SEED_DATA: Array<Omit<RoadmapItem, "created_at">> = [
     status: "Shipped",
   },
   {
+    id: "wbr-download-docx",
+    title: 'Weekly Summary: Download for Word (landscape, 0.2" margins)',
+    category: "Weekly Summary",
+    description:
+      "Add a third toolbar button on the Weekly Business Review section, alongside the two Copy buttons, that downloads the same styled WBR output as a Microsoft Word document. The document opens in landscape US Letter with 0.2-inch margins on all four sides so the wider trouble-tier tables render without column wrapping.\n\nFirst attempt used the html-docx-js browser library to emit a real .docx, but it consistently produced files Word flagged as corrupt (the library's OOXML emitter is unmaintained since 2015 and chokes on nested chip tables plus named HTML entities like &mdash;/&bull;/&nbsp;). Final implementation generates a MS Word HTML document (.doc extension, application/msword MIME, with the classic <w:WordDocument> XML island plus @page Section1 mso-page-orientation:landscape + margin:0.2in rules) — the same format Word itself produces via 'Save As → Web Page', rock-solid since Office 2003. Word, Google Docs, and Pages all open it natively and every inline style (chip backgrounds, borders, padding, table borders) is preserved because Word interprets HTML+CSS directly. No CDN dependency, everything runs client-side. The sibling 'Open in Google Docs' button handles the Docs workflow directly.",
+    priority: "P1",
+    status: "Shipped",
+  },
+  {
+    id: "wbr-open-in-gdocs",
+    title:
+      "Weekly Summary: Open in Google Docs (one-click copy + new Doc)",
+    category: "Weekly Summary",
+    description:
+      "Google Docs has no URL parameter to inject content into a new document, so this button combines the two steps the ops team does manually every week: (1) copy the styled WBR HTML to the clipboard (same rich-HTML ClipboardItem used by 'Copy (styled)' — chips, trouble-tier tables, headings, and footnotes included), and (2) open a fresh Google Doc in a new tab via docs.new. A single ⌘V / Ctrl+V in the new Doc pastes the full styled summary. The window.open call runs synchronously inside the click handler so popup blockers treat it as a user gesture; if blocked, the button reports 'Allow popups & retry'. No data leaves the browser.",
+    priority: "P1",
+    status: "Shipped",
+  },
+  {
     id: "action-entry-form",
     title: "Action entry: description + estimated completion date",
     category: "Action Tracking",

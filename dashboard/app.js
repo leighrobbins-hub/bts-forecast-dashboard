@@ -3208,6 +3208,8 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'wbr-align-monthly-classification', title: 'Align Weekly Summary with v5.1 monthly classification', category: 'Weekly Summary', description: "The Subjects & Actions tab's Weekly Summary used its own pace/classification logic in _wbrComputeMetrics that did not reflect the v5.1 monthly tab classifications. Refactored _wbrComputeMetrics to consume buildMonthlyData() as the source of truth: subjects / totals come from the Monthly cache (target-capped totals), On Track count = subjects with monthlyAction === 'on-track' (matches mo-ontrack-action), Behind count = pace === 'behind' && !isTailEnd (matches mo-behind), zero-velocity excludes tail-end and recruit subjects, movers / category performance use the same On Track definition. Added a footnote noting the alignment.", priority: 'P0', status: 'Shipped' },
     { id: 'wbr-trouble-tier-narrative', title: 'Weekly Summary trouble-tier narrative + Monthly Critical column', category: 'Weekly Summary', description: "Not every behind-pace subject is real trouble. Some are behind because the pool is maxed and students are waiting (supply must act); others are behind because utilization is 30% and capacity is idle (demand/forecast issue, not supply). Adds a classifyTroubleTier(row) helper driven by Looker signals (Primary_Action, P90_NAT_Hours vs P90_Goal, Tutor_Hours_Util_Pct, Stress_Flags) that splits behind-pace subjects into Critical / High / Medium / Capacity-Available tiers. Weekly Summary gains a richer headline, a new 'Where Supply Should Focus This Week' narrative section, and a Behind Pace table grouped by tier with a Why column. The Monthly tab Subjects table gains a Trouble chip column to the left of Pace, a Trouble filter dropdown, and a secondary sort so the most urgent behind subjects rise to the top.", priority: 'P0', status: 'Shipped' },
     { id: 'wbr-docs-paste-chips', title: 'Weekly Summary: Google-Docs-ready + colored reason chips + retire THU abbreviation', category: 'Weekly Summary', description: "Weekly Summary is pasted into Google Docs weekly, but tooltips do not survive a Docs paste — any context hidden behind hover text was lost for readers. This pass (1) inlines every explanation that used to live in a tooltip (the signal-only badge becomes a visible 'on pace · signals firing' pill; tier meaning moves into a legend row), (2) renders every reason ('paper_supply', 'high_wait', 'recruit-urgent', 'reduce-forecast', P90/utilization metrics, …) as a severity-colored inline chip with red/orange/blue/neutral palettes, inline-styled so the colors carry into Docs, and (3) retires the THU abbreviation in all user-facing copy (column headers, chip labels, focus intro, footnotes, Monthly Trouble filter hover, AI assistant intro + system prompt) and replaces it with 'Utilization' / 'Tutor Hours Utilization'.", priority: 'P0', status: 'Shipped' },
+    { id: 'wbr-download-docx', title: 'Weekly Summary: Download for Word (landscape, 0.2" margins)', category: 'Weekly Summary', description: "Add a third toolbar button on the Weekly Business Review section, alongside the two Copy buttons, that downloads the same styled WBR output as a Microsoft Word document. The document opens in landscape US Letter with 0.2-inch margins on all four sides so the wider trouble-tier tables render without column wrapping.\n\nFirst attempt used the html-docx-js browser library to emit a real .docx, but it consistently produced files Word flagged as corrupt (the library's OOXML emitter is unmaintained since 2015 and chokes on nested chip tables plus named HTML entities like &mdash;/&bull;/&nbsp;). Final implementation generates a MS Word HTML document (.doc extension, application/msword MIME, with the classic <w:WordDocument> XML island plus @page Section1 mso-page-orientation:landscape + margin:0.2in rules) — the same format Word itself produces via 'Save As → Web Page', rock-solid since Office 2003. Word, Google Docs, and Pages all open it natively and every inline style (chip backgrounds, borders, padding, table borders) is preserved because Word interprets HTML+CSS directly. No CDN dependency, everything runs client-side. The sibling 'Open in Google Docs' button handles the Docs workflow directly.", priority: 'P1', status: 'Shipped' },
+    { id: 'wbr-open-in-gdocs', title: 'Weekly Summary: Open in Google Docs (one-click copy + new Doc)', category: 'Weekly Summary', description: "Google Docs has no URL parameter to inject content into a new document, so this button combines the two steps the ops team does manually every week: (1) copy the styled WBR HTML to the clipboard (same rich-HTML ClipboardItem used by 'Copy (styled)' — chips, trouble-tier tables, headings, and footnotes included), and (2) open a fresh Google Doc in a new tab via docs.new. A single ⌘V / Ctrl+V in the new Doc pastes the full styled summary. The window.open call runs synchronously inside the click handler so popup blockers treat it as a user gesture; if blocked, the button reports 'Allow popups & retry'. No data leaves the browser.", priority: 'P1', status: 'Shipped' },
     { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },
     { id: 'action-status-logic', title: 'Action status: In Progress / Overdue / Complete', category: 'Action Tracking', description: "Decision History shows a status per action, auto-computed from today's date vs. estimated completion date, with a manual Mark Complete checkbox.", priority: 'P2', status: 'Not Started' },
     { id: 'action-reschedule', title: 'Reschedule actions with audit log', category: 'Action Tracking', description: "Push out an action's due date with a required reason. Every push is recorded in an expandable audit log on the action row.", priority: 'P2', status: 'Not Started' },
@@ -4813,6 +4815,8 @@ function generateWeeklySummary() {
         '<div class="wbr-summary-toolbar">'
             + '<button class="btn btn-sm btn-outline" onclick="copyWeeklySummary(\'html\')">Copy (styled)</button>'
             + '<button class="btn btn-sm btn-outline" onclick="copyWeeklySummary(\'text\')">Copy (plain text)</button>'
+            + '<button class="btn btn-sm btn-outline" onclick="downloadWeeklySummaryDocx()">Download for Word</button>'
+            + '<button class="btn btn-sm btn-outline" onclick="openInGoogleDocs()">Open in Google Docs</button>'
         + '</div>'
         + html;
     block.dataset.htmlContent = html;
@@ -5033,6 +5037,190 @@ function copyWeeklySummary(mode) {
             });
     } else {
         navigator.clipboard.writeText(textContent).then(function() { feedback('Copied (plain)'); });
+    }
+}
+
+/**
+ * Download the Weekly Business Review as a Microsoft Word document (.doc).
+ *
+ * We originally tried the html-docx-js library to produce a real .docx, but
+ * the WBR's nested tables, inline chip <span>s (with background / border /
+ * padding), and named HTML entities (&mdash;, &bull;, &middot;, &rsquo;, &nbsp;)
+ * consistently produced .docx files that Word flagged as corrupt or asked
+ * to "recover." That library is unmaintained since 2015 and its internal
+ * OOXML emitter doesn't handle that kind of HTML cleanly.
+ *
+ * Instead we produce a MS Word HTML document — the same format Word itself
+ * uses when you "Save As → Web Page." It has been rock-solid since Office
+ * 2003: Word, Google Docs (via File → Open / upload), and Apple Pages all
+ * open it natively. Crucially, it preserves every inline style (chip colors,
+ * borders, padding, table borders) because Word interprets HTML + CSS directly
+ * rather than translating to OOXML.
+ *
+ * Page setup (landscape US Letter, 0.2" margins) is controlled by
+ *   @page Section1 { size: 11in 8.5in; mso-page-orientation: landscape;
+ *                    margin: 0.2in 0.2in 0.2in 0.2in; }
+ * and the <w:WordDocument> XML island — both official MS mechanisms.
+ *
+ * File extension is .doc (honest about the underlying format). In Word,
+ * File → Save As → .docx converts it in one click if a true .docx is needed.
+ * The sibling "Open in Google Docs" button handles the Docs workflow directly.
+ */
+function downloadWeeklySummaryDocx() {
+    var block = document.getElementById('sa-weekly-summary-output');
+    if (!block) return;
+
+    var btns = block.querySelectorAll('.wbr-summary-toolbar .btn');
+    var btn = btns[2];
+    function feedback(msg) {
+        if (!btn) return;
+        var orig = btn.dataset.origLabel || btn.textContent;
+        btn.dataset.origLabel = orig;
+        btn.textContent = msg;
+        setTimeout(function() { btn.textContent = orig; }, 1800);
+    }
+
+    var bodyHtml = block.dataset.htmlContent || '';
+    if (!bodyHtml) {
+        feedback('Nothing to export');
+        return;
+    }
+
+    // Landscape US Letter = 11in x 8.5in, 0.2in margins all sides.
+    // @page rules + mso-page-orientation let Word pick up page size and
+    // orientation exactly as specified.
+    var pageCss =
+        '@page Section1 {'
+        +    'size: 11.0in 8.5in;'
+        +    'mso-page-orientation: landscape;'
+        +    'margin: 0.2in 0.2in 0.2in 0.2in;'
+        +    'mso-header-margin: 0.2in;'
+        +    'mso-footer-margin: 0.2in;'
+        + '}'
+        + 'div.Section1 { page: Section1; }'
+        + 'body { font-family: Arial, Helvetica, sans-serif; color: #2c3e50; font-size: 11pt; margin: 0; padding: 0; }'
+        + 'h1, h2, h3, h4 { font-family: Arial, Helvetica, sans-serif; color: #1f2a44; margin: 10px 0 6px; }'
+        + 'table { border-collapse: collapse; width: 100%; }'
+        + 'th, td { padding: 6px 10px; font-size: 10.5pt; vertical-align: top; border: 1px solid #d6dbdf; }'
+        + 'th { background: #f4f6f7; text-align: left; }'
+        + 'ul, ol { margin: 6px 0 6px 20px; padding: 0; }'
+        + 'li { margin: 2px 0; }';
+
+    var fullHtml =
+        '<html xmlns:o="urn:schemas-microsoft-com:office:office" '
+        +     'xmlns:w="urn:schemas-microsoft-com:office:word" '
+        +     'xmlns="http://www.w3.org/TR/REC-html40">'
+        + '<head>'
+        + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
+        + '<meta name="ProgId" content="Word.Document">'
+        + '<meta name="Generator" content="Microsoft Word 15">'
+        + '<meta name="Originator" content="Microsoft Word 15">'
+        + '<title>BTS Weekly Business Review</title>'
+        + '<!--[if gte mso 9]><xml>'
+        +   '<w:WordDocument>'
+        +     '<w:View>Print</w:View>'
+        +     '<w:Zoom>100</w:Zoom>'
+        +     '<w:DoNotOptimizeForBrowser/>'
+        +   '</w:WordDocument>'
+        + '</xml><![endif]-->'
+        + '<style>' + pageCss + '</style>'
+        + '</head>'
+        + '<body>'
+        + '<div class="Section1">' + bodyHtml + '</div>'
+        + '</body>'
+        + '</html>';
+
+    try {
+        // MS Word HTML files carry a BOM + "application/msword" MIME type
+        // so Word/Finder recognize them as Word documents on download.
+        var bom = '\uFEFF';
+        var blob = new Blob([bom + fullHtml], { type: 'application/msword' });
+        var today = new Date().toISOString().slice(0, 10);
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'BTS-Weekly-Summary-' + today + '.doc';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+        feedback('Downloaded!');
+    } catch (err) {
+        console.error('[WBR] Word export failed:', err);
+        feedback('Export failed');
+    }
+}
+
+/**
+ * Open a new Google Doc pre-loaded (via clipboard) with the styled Weekly Summary.
+ *
+ * Google Docs has no public URL parameter to inject content into a new document,
+ * so the pattern is:
+ *   1. Copy the same styled HTML we use for "Copy (styled)" to the clipboard
+ *      (rich-HTML ClipboardItem so chips, colors, and tables survive the paste).
+ *   2. Open https://docs.new in a new tab (Google's official shortcut for a
+ *      fresh blank Doc — redirects to docs.google.com/document/create).
+ *   3. Prompt the user to paste (⌘V / Ctrl+V).
+ *
+ * The new-tab window.open must run synchronously inside the click handler so it
+ * isn't flagged as a popup. We kick it off first, then write to the clipboard.
+ */
+function openInGoogleDocs() {
+    var block = document.getElementById('sa-weekly-summary-output');
+    if (!block) return;
+
+    var btns = block.querySelectorAll('.wbr-summary-toolbar .btn');
+    var btn = btns[3];
+    function feedback(msg) {
+        if (!btn) return;
+        var orig = btn.dataset.origLabel || btn.textContent;
+        btn.dataset.origLabel = orig;
+        btn.textContent = msg;
+        setTimeout(function() { btn.textContent = orig; }, 2500);
+    }
+
+    var htmlContent = block.dataset.htmlContent || '';
+    var textContent = block.dataset.textContent || '';
+    if (!htmlContent) {
+        feedback('Nothing to copy');
+        return;
+    }
+
+    // Open the new Doc tab FIRST (must be synchronous inside the user gesture
+    // or popup blockers will swallow it). We use docs.new which always maps to
+    // "create a new Google Doc" in the user's currently-signed-in Google account.
+    var docsTab = window.open('https://docs.new', '_blank', 'noopener');
+    if (!docsTab) {
+        // Popup blocker killed it — fall back to copy-only and tell the user.
+        feedback('Allow popups & retry');
+    }
+
+    function afterCopy(ok) {
+        if (ok) {
+            feedback('Copied — paste in Docs');
+        } else {
+            feedback('Copy failed');
+        }
+    }
+
+    if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
+        var item = new ClipboardItem({
+            'text/html':  new Blob([htmlContent], { type: 'text/html' }),
+            'text/plain': new Blob([textContent], { type: 'text/plain' })
+        });
+        navigator.clipboard.write([item])
+            .then(function() { afterCopy(true); })
+            .catch(function() {
+                navigator.clipboard.writeText(textContent)
+                    .then(function() { afterCopy(true); })
+                    .catch(function() { afterCopy(false); });
+            });
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textContent)
+            .then(function() { afterCopy(true); })
+            .catch(function() { afterCopy(false); });
+    } else {
+        afterCopy(false);
     }
 }
 
