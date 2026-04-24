@@ -348,6 +348,98 @@ function flagSortWeight(flags) {
     return w;
 }
 
+// ── Trouble Tier classifier ──────────────────────────────────────────────
+// Purpose: not every behind-pace subject is actually in trouble. Some are
+// behind because the pool is maxed and students are waiting (supply must
+// act); others are behind because utilization is 30% and capacity is idle
+// (demand / forecast issue, not supply). The Weekly Summary and the Monthly
+// tab use this classifier so they agree on "who is really in trouble."
+//
+// Input:  row  - the raw subject row from data.json (Primary_Action,
+//                P90_NAT_Hours, P90_Goal, Tutor_Hours_Util_Pct, Stress_Flags)
+// Output: { tier, reasons }
+//   tier     - 'critical' | 'high' | 'medium' | 'cap_avail'
+//   reasons  - short human-readable strings for display ("P90 5.2h vs 2h goal",
+//              "THU 112%", "recruit-urgent", "high_wait flag", ...)
+//
+// Rules (see plan doc): Critical = system already screaming; High = supply
+// signal firing; Cap-Available = capacity exists on paper, behind gap is
+// likely demand/forecast not supply; Medium = behind with no clear signal.
+var _TROUBLE_TIER_RANK = { critical: 4, high: 3, medium: 2, cap_avail: 1, none: 0 };
+var _TROUBLE_TIER_LABELS = {
+    critical: 'Critical',
+    high: 'High',
+    medium: 'Medium',
+    cap_avail: 'Cap Avail'
+};
+function troubleTierRank(tier) { return _TROUBLE_TIER_RANK[tier] || 0; }
+function troubleTierLabel(tier) { return _TROUBLE_TIER_LABELS[tier] || tier; }
+
+function classifyTroubleTier(row) {
+    var result = { tier: 'medium', reasons: [] };
+    if (!row) return result;
+
+    var btsType = classifyType(row.Primary_Action || row.Problem_Type);
+    var flags = Array.isArray(row.Stress_Flags) ? row.Stress_Flags : [];
+    var hasFlag = function(f) { return flags.indexOf(f) !== -1; };
+
+    var p90 = (typeof row.P90_NAT_Hours === 'number' && isFinite(row.P90_NAT_Hours)) ? row.P90_NAT_Hours : null;
+    var p90Goal = (typeof row.P90_Goal === 'number' && isFinite(row.P90_Goal) && row.P90_Goal > 0) ? row.P90_Goal : null;
+    var thu = (typeof row.Tutor_Hours_Util_Pct === 'number' && isFinite(row.Tutor_Hours_Util_Pct)) ? row.Tutor_Hours_Util_Pct : null;
+
+    var p90Str = (p90 != null && p90Goal != null)
+        ? ('P90 ' + (Math.round(p90 * 10) / 10) + 'h vs ' + p90Goal + 'h goal')
+        : null;
+    var thuStr = (thu != null) ? ('THU ' + Math.round(thu) + '%') : null;
+
+    // --- CRITICAL tests (system is already screaming) ---
+    if (btsType === 'recruit-urgent') result.reasons.push('recruit-urgent action');
+    if (hasFlag('critical_wait')) result.reasons.push('critical_wait flag');
+    if (hasFlag('paper_supply')) result.reasons.push('paper_supply flag');
+    var p90x15Maxed = (p90 != null && p90Goal != null && thu != null && p90 > 1.5 * p90Goal && thu >= 90);
+    if (p90x15Maxed) result.reasons.push(p90Str + ' · ' + thuStr + ' (pool maxed, students waiting)');
+
+    if (btsType === 'recruit-urgent' || hasFlag('critical_wait') || hasFlag('paper_supply') || p90x15Maxed) {
+        result.tier = 'critical';
+        return result;
+    }
+
+    // --- HIGH tests (supply signal firing) ---
+    if (btsType === 'recruit') result.reasons.push('recruit action');
+    if (btsType === 'wait-times') result.reasons.push('wait-times action');
+    if (hasFlag('high_wait')) result.reasons.push('high_wait flag');
+    if (hasFlag('burnout_risk')) result.reasons.push('burnout_risk flag');
+    var thuOverGoal = (p90 != null && p90Goal != null && thu != null && thu >= 80 && p90 > p90Goal);
+    if (thuOverGoal) result.reasons.push(thuStr + ' · ' + p90Str);
+
+    if (btsType === 'recruit' || btsType === 'wait-times' || hasFlag('high_wait') || hasFlag('burnout_risk') || thuOverGoal) {
+        result.tier = 'high';
+        return result;
+    }
+
+    // --- CAP AVAILABLE tests (behind but capacity is sitting idle) ---
+    var urgentFlags = hasFlag('high_wait') || hasFlag('critical_wait') || hasFlag('burnout_risk');
+    if (btsType === 'reduce-forecast') result.reasons.push('reduce-forecast action');
+    if (btsType === 'capacity-available') result.reasons.push('capacity-available action');
+    var lowThuNoStress = (thu != null && thu < 60 && !urgentFlags);
+    if (lowThuNoStress) result.reasons.push(thuStr + ' (pool has headroom)');
+
+    if (btsType === 'reduce-forecast' || btsType === 'capacity-available' || lowThuNoStress) {
+        result.tier = 'cap_avail';
+        if (!result.reasons.length && thuStr) result.reasons.push(thuStr);
+        return result;
+    }
+
+    // --- MEDIUM (behind, but no clear signal either way) ---
+    result.tier = 'medium';
+    if (!result.reasons.length) {
+        if (thuStr) result.reasons.push(thuStr);
+        if (p90Str) result.reasons.push(p90Str);
+        if (!result.reasons.length && btsType && btsType !== 'on-track') result.reasons.push(btsType + ' action');
+    }
+    return result;
+}
+
 /* ── Load saved PAT ── */
 (function() {
     var saved = sessionStorage.getItem('bts_github_pat');
@@ -3862,7 +3954,10 @@ function _wbrComputeMetrics() {
                 problemType: r.Primary_Action || r.Problem_Type || '',
                 pace: x.pace,
                 isTailEnd: x.isTailEnd,
-                monthlyAction: monthlyAction
+                monthlyAction: monthlyAction,
+                // Raw Looker row preserved so the trouble-tier classifier
+                // can read P90, THU, stress flags, action, etc.
+                row: r
             });
         });
     }
@@ -3886,6 +3981,30 @@ function _wbrComputeMetrics() {
     var complete = subjects.filter(function(s) { return s.pace === 'complete'; });
     var noData = subjects.filter(function(s) { return s.pace === 'nodata' && !s.isTailEnd; });
     var tailEnd = subjects.filter(function(s) { return s.isTailEnd; });
+
+    // Trouble-tier classification: layer stress signals on top of behind
+    // pace so the WBR can distinguish real supply trouble from behind-but-
+    // capacity-available. Each subject gets { tier, reasons } cached on the
+    // record; the four buckets below feed the WBR render directly.
+    behind.forEach(function(s) {
+        var tt = classifyTroubleTier(s.row);
+        s.troubleTier = tt.tier;
+        s.troubleReasons = tt.reasons;
+    });
+    // Sort within each tier by gap descending (largest remaining first) so
+    // the biggest supply problems surface at the top of each group.
+    function _gapSort(a, b) { return (b.remaining || 0) - (a.remaining || 0); }
+    var behindCritical = behind.filter(function(s) { return s.troubleTier === 'critical'; });
+    var behindHigh     = behind.filter(function(s) { return s.troubleTier === 'high'; });
+    var behindMedium   = behind.filter(function(s) { return s.troubleTier === 'medium'; });
+    var behindCapAvail = behind.filter(function(s) { return s.troubleTier === 'cap_avail'; });
+    behindCritical.sort(_gapSort);
+    behindHigh.sort(_gapSort);
+    behindMedium.sort(_gapSort);
+    behindCapAvail.sort(_gapSort);
+    // "Actionable behind" = the real supply list (excludes the cap-available
+    // demoted bucket). This is the number we want supply focusing on.
+    var behindActionable = behindCritical.concat(behindHigh).concat(behindMedium);
 
     // Zero-velocity watch: actively tracked subjects with no MTD activity.
     // Exclude tail-end (target ≤ 3 doesn't deserve a Watch List callout —
@@ -4002,6 +4121,8 @@ function _wbrComputeMetrics() {
         subjects: subjects, totalActual: totalActual, totalTarget: totalTarget,
         contractingPct: contractingPct, paceTargetTotal: paceTargetTotal,
         onTrack: onTrack, behind: behind, complete: complete, noData: noData, tailEnd: tailEnd,
+        behindCritical: behindCritical, behindHigh: behindHigh, behindMedium: behindMedium,
+        behindCapAvail: behindCapAvail, behindActionable: behindActionable,
         zeroVelocity: zeroVelocity,
         decisionsLoaded: decisionsLoaded,
         decisionsThisWeek: decisionsThisWeek, decisionsByUser: decisionsByUser,
@@ -4042,9 +4163,6 @@ function generateWeeklySummary() {
 
     var paceDelta = m.hasCurrentMonth ? (m.totalActual - m.paceTargetTotal) : null;
     var paceDeltaSign = paceDelta != null && paceDelta >= 0 ? '+' : '';
-    var biggestConcern = m.behind.length > 0
-        ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace'
-        : 'no critical gaps';
 
     // --- 1. HEADLINE ---
     var headlineParts = [];
@@ -4061,8 +4179,83 @@ function generateWeeklySummary() {
     } else {
         headlineParts.push('WoW combos added: ' + pHtml + ' (no prior-week snapshot available yet).');
     }
-    headlineParts.push('Biggest concern: <strong>' + biggestConcern + '</strong>.');
+
+    // Trouble-tier breakdown: replaces the one-subject "biggest concern"
+    // line with a real triage sentence. Critical + High are what supply
+    // actually needs to act on; Cap-Available is explicitly called out as
+    // not a supply problem so it doesn't dilute the focus.
+    var nBehind = m.behind.length;
+    var nCrit = m.behindCritical.length;
+    var nHigh = m.behindHigh.length;
+    var nMed = m.behindMedium.length;
+    var nCap = m.behindCapAvail.length;
+    if (nBehind > 0) {
+        var topCritNames = m.behindCritical.slice(0, 3).map(function(s) { return '<strong>' + escapeHtml(s.subject) + '</strong>'; });
+        if (topCritNames.length === 0) {
+            topCritNames = m.behindHigh.slice(0, 3).map(function(s) { return '<strong>' + escapeHtml(s.subject) + '</strong>'; });
+        }
+        var breakdown = 'Of the <strong>' + nBehind + ' behind-pace subjects</strong>, '
+            + '<span style="color:#c0392b;font-weight:700;">' + nCrit + ' critical</span> (system signals firing &mdash; supply must act this week), '
+            + '<span style="color:#e67e22;font-weight:700;">' + nHigh + ' high-priority</span>, '
+            + nMed + ' need watching, and '
+            + '<span style="color:#7f8c8d;">' + nCap + ' are behind but have capacity available</span> (likely demand / forecast, not supply).';
+        if (topCritNames.length > 0) {
+            var label = nCrit > 0 ? 'Top critical' : 'Top high-priority';
+            breakdown += ' ' + label + ': ' + topCritNames.join(', ') + '.';
+        }
+        headlineParts.push(breakdown);
+    } else if (m.hasCurrentMonth) {
+        headlineParts.push('<strong style="color:#27ae60;">No behind-pace subjects this week &mdash; no critical gaps.</strong>');
+    }
     var headline = '<p style="' + sty.p + 'font-size:15px;">' + headlineParts.join(' ') + '</p>';
+
+    // --- 1b. WHERE SUPPLY SHOULD FOCUS THIS WEEK ---
+    // Critical + High behind-pace subjects: the ones where the signals are
+    // actually firing. One row per subject, one-sentence "why" built from
+    // the classifier reasons. Capped at 10 so this stays a focus list, not
+    // another table dump.
+    var focusCombined = m.behindCritical.concat(m.behindHigh);
+    focusCombined = focusCombined.slice(0, 10);
+    var supplyFocusHtml = '';
+    if (focusCombined.length === 0) {
+        if (m.behind.length === 0) {
+            supplyFocusHtml = '<p style="' + sty.p + 'color:#27ae60;"><strong>All subjects on or ahead of pace &mdash; no supply intervention needed this week.</strong></p>';
+        } else if (m.behindCapAvail.length > 0) {
+            supplyFocusHtml = '<p style="' + sty.p + 'color:#27ae60;"><strong>No critical or high-priority supply problems this week.</strong> '
+                + 'The ' + m.behindCapAvail.length + ' subject' + (m.behindCapAvail.length !== 1 ? 's' : '')
+                + ' behind pace all show capacity-available signals (low utilization, healthy P90) &mdash; likely a demand or forecast issue, not a supply issue. '
+                + 'See the "Behind but Capacity Available" table below for detail.</p>';
+        } else {
+            supplyFocusHtml = '<p style="' + sty.p + 'color:#27ae60;"><strong>No critical or high-priority supply problems this week.</strong> Behind-pace subjects fall into the "need watching" bucket &mdash; no clear supply signal firing yet.</p>';
+        }
+    } else {
+        supplyFocusHtml = '<p style="' + sty.p + '">These <strong>' + focusCombined.length + '</strong> behind-pace subjects have supply signals firing right now (P90, THU, stress flags, or recruit actions). Prioritize here this week.</p>';
+        var focusRows = focusCombined.map(function(s) {
+            var tierLabel = s.troubleTier === 'critical' ? 'Critical' : 'High';
+            var tierBg = s.troubleTier === 'critical' ? '#f8d7da' : '#fde4c9';
+            var tierFg = s.troubleTier === 'critical' ? '#721c24' : '#7a3e00';
+            var reasonsTxt = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : 'See subject detail';
+            return '<tr>'
+                + '<td style="' + sty.td + '"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;background:' + tierBg + ';color:' + tierFg + ';">' + tierLabel + '</span></td>'
+                + '<td style="' + sty.td + 'font-weight:600;">' + escapeHtml(s.subject) + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
+                + '<td style="' + sty.td + 'font-size:12px;">' + escapeHtml(reasonsTxt) + '</td>'
+                + '</tr>';
+        }).join('');
+        supplyFocusHtml += '<table style="' + sty.tbl + '">'
+            + '<tr>'
+            + '<th style="' + sty.th + 'width:82px;">Priority</th>'
+            + '<th style="' + sty.th + '">Subject</th>'
+            + '<th style="' + sty.th + 'text-align:right;">% Pace</th>'
+            + '<th style="' + sty.th + 'text-align:right;">Gap</th>'
+            + '<th style="' + sty.th + '">Why it\'s real trouble</th>'
+            + '</tr>'
+            + focusRows + '</table>';
+        if (m.behindCapAvail.length > 0) {
+            supplyFocusHtml += '<p style="' + sty.p + 'font-size:12px;color:#7f8c8d;">Separately, <strong>' + m.behindCapAvail.length + '</strong> behind-pace subject' + (m.behindCapAvail.length !== 1 ? 's have' : ' has') + ' capacity available (low utilization, healthy P90). Those are tracked in the "Behind but Capacity Available" table below and should not consume supply attention this week.</p>';
+        }
+    }
 
     // --- 2. PACE & MOMENTUM TABLE ---
     var onTrackPct = m.subjects.length > 0 ? Math.round(m.onTrack.length / m.subjects.length * 100) : 0;
@@ -4119,7 +4312,7 @@ function generateWeeklySummary() {
     } else {
         paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">Compared to snapshot from ' + escapeHtml(m.snapDate) + '. Velocity is MTD average.</p>';
     }
-    paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">On Track / Behind counts mirror the Monthly tab tiles (monthly pace, tail-end carve-outs applied).</p>';
+    paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">On Track / Behind counts mirror the Monthly tab tiles (monthly pace, tail-end carve-outs applied). Trouble tiers (Critical / High / Medium / Cap-Available) layer Looker P90, THU, utilization, action, and stress flags on top of Behind so supply can separate real trouble from "behind but capacity available."</p>';
 
     // --- 3. BIGGEST MOVERS ---
     var moversHtml = '';
@@ -4149,25 +4342,109 @@ function generateWeeklySummary() {
         moversHtml += '<p style="' + sty.p + 'color:#7f8c8d;">No standout movers this period.</p>';
     }
 
-    // --- 4. BEHIND PACE TOP 10 ---
-    var behindRows = m.behind.slice(0, 10).map(function(s) {
-        var velDisplay = s.estVelocity7d != null ? '~' + s.estVelocity7d : escapeHtml(P);
-        var dtcDisplay = s.daysToClose != null ? (s.daysToClose === 0 ? '0d' : s.daysToClose + 'd') : escapeHtml(P);
-        return '<tr>'
-            + '<td style="' + sty.td + '">' + escapeHtml(s.subject) + '</td>'
-            + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
-            + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
-            + '<td style="' + sty.td + 'text-align:right;' + (s.estVelocity7d == null ? sty.pending : '') + '">' + velDisplay + '</td>'
-            + '<td style="' + sty.td + 'text-align:right;' + (s.daysToClose == null ? sty.pending : '') + '">' + dtcDisplay + '</td>'
-            + '</tr>';
-    }).join('');
-    var behindTable = '<table style="' + sty.tbl + '">'
-        + '<tr><th style="' + sty.th + '">Subject</th><th style="' + sty.th + 'text-align:right;">% of Pace Target</th>'
-        + '<th style="' + sty.th + 'text-align:right;">Combos Remaining</th>'
-        + '<th style="' + sty.th + 'text-align:right;">Est. 7-Day Velocity</th>'
-        + '<th style="' + sty.th + 'text-align:right;">Days to Close</th></tr>'
-        + behindRows + '</table>'
-        + '<p style="' + sty.p + sty.pending + 'font-size:11px;">Velocity is estimated from MTD daily average &times; 7. True 7-day contracting data requires daily-granularity actuals (not yet available).</p>';
+    // --- 4. BEHIND PACE BY TROUBLE TIER ---
+    // Shows Critical → High → Medium as separate tables (real supply work)
+    // and Cap-Available as a collapsed table (behind but not a supply
+    // problem; surfaced so forecasting/demand can review separately).
+    function fmtP90Cell(row) {
+        var p90 = (row && typeof row.P90_NAT_Hours === 'number') ? row.P90_NAT_Hours : null;
+        var goal = (row && typeof row.P90_Goal === 'number' && row.P90_Goal > 0) ? row.P90_Goal : null;
+        if (p90 == null) return '<span style="' + sty.pending + '">-</span>';
+        var v = Math.round(p90 * 10) / 10;
+        if (goal == null) return v + 'h';
+        var over = p90 > goal;
+        return '<span style="' + (over ? 'color:#c0392b;font-weight:600;' : 'color:#2c3e50;') + '">' + v + 'h</span> <span style="font-size:11px;color:#7f8c8d;">/ ' + goal + 'h</span>';
+    }
+    function fmtThuCell(row) {
+        var thu = (row && typeof row.Tutor_Hours_Util_Pct === 'number') ? row.Tutor_Hours_Util_Pct : null;
+        if (thu == null) return '<span style="' + sty.pending + '">-</span>';
+        var v = Math.round(thu);
+        var color = thu >= 100 ? '#c0392b' : (thu >= 80 ? '#e67e22' : (thu < 60 ? '#3498db' : '#2c3e50'));
+        var weight = (thu >= 80 || thu < 60) ? '600' : '400';
+        return '<span style="color:' + color + ';font-weight:' + weight + ';">' + v + '%</span>';
+    }
+    function fmtUtilTrendCell(row) {
+        var trend = row && row.Util_Trend ? String(row.Util_Trend) : '';
+        var delta = (row && typeof row.Util_Trend_Delta === 'number') ? row.Util_Trend_Delta : null;
+        if (!trend) return '<span style="' + sty.pending + '">-</span>';
+        var arrow = trend === 'up' ? '↑' : (trend === 'down' ? '↓' : '→');
+        var color = trend === 'up' ? '#27ae60' : (trend === 'down' ? '#c0392b' : '#7f8c8d');
+        var dStr = (delta != null) ? ' ' + (delta >= 0 ? '+' : '') + (Math.round(delta * 10) / 10) + 'pp' : '';
+        return '<span style="color:' + color + ';font-weight:600;">' + arrow + dStr + '</span>';
+    }
+    function behindTierTableRows(list) {
+        return list.map(function(s) {
+            var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
+            return '<tr>'
+                + '<td style="' + sty.td + 'font-weight:600;">' + escapeHtml(s.subject) + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + fmtP90Cell(s.row) + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + fmtThuCell(s.row) + '</td>'
+                + '<td style="' + sty.td + 'text-align:center;">' + fmtUtilTrendCell(s.row) + '</td>'
+                + '<td style="' + sty.td + 'font-size:12px;">' + escapeHtml(reasons) + '</td>'
+                + '</tr>';
+        }).join('');
+    }
+    function behindTierTable(title, subtitle, list, headerBg, headerFg, limit) {
+        if (!list || !list.length) return '';
+        var rows = limit != null ? list.slice(0, limit) : list;
+        var truncNote = (limit != null && list.length > limit)
+            ? '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">Showing ' + limit + ' of ' + list.length + '.</p>'
+            : '';
+        return '<div style="background:' + headerBg + ';color:' + headerFg + ';padding:8px 12px;margin-top:14px;font-weight:700;font-size:13px;border-radius:4px 4px 0 0;">'
+            + escapeHtml(title)
+            + (subtitle ? ' <span style="font-weight:400;opacity:0.85;">&mdash; ' + escapeHtml(subtitle) + '</span>' : '')
+            + '</div>'
+            + '<table style="' + sty.tbl + 'margin-top:0;">'
+            + '<tr>'
+            + '<th style="' + sty.th + '">Subject</th>'
+            + '<th style="' + sty.th + 'text-align:right;">% Pace</th>'
+            + '<th style="' + sty.th + 'text-align:right;">Gap</th>'
+            + '<th style="' + sty.th + 'text-align:right;">P90 vs Goal</th>'
+            + '<th style="' + sty.th + 'text-align:right;">THU</th>'
+            + '<th style="' + sty.th + 'text-align:center;">Util Trend</th>'
+            + '<th style="' + sty.th + '">Why</th>'
+            + '</tr>'
+            + behindTierTableRows(rows) + '</table>'
+            + truncNote;
+    }
+
+    var behindCriticalTable = behindTierTable('Critical', 'Supply must act this week', m.behindCritical, '#c0392b', '#fff', null);
+    var behindHighTable     = behindTierTable('High',     'Supply signal firing',      m.behindHigh,     '#e67e22', '#fff', null);
+    var behindMediumTable   = behindTierTable('Medium',   'Behind, no clear signal yet',m.behindMedium,   '#f39c12', '#fff', 5);
+
+    var behindCapAvailTable = '';
+    if (m.behindCapAvail.length > 0) {
+        var capRows = m.behindCapAvail.map(function(s) {
+            var action = s.row && (s.row.Primary_Action || s.row.Problem_Type) ? (s.row.Primary_Action || s.row.Problem_Type) : '-';
+            return '<tr>'
+                + '<td style="' + sty.td + 'font-weight:600;">' + escapeHtml(s.subject) + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + s.pacePct + '%</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + s.remaining + '</td>'
+                + '<td style="' + sty.td + 'text-align:right;">' + fmtThuCell(s.row) + '</td>'
+                + '<td style="' + sty.td + 'font-size:12px;">' + escapeHtml(action) + '</td>'
+                + '</tr>';
+        }).join('');
+        behindCapAvailTable = '<details style="margin-top:14px;"><summary style="cursor:pointer;padding:8px 12px;background:#ecf0f1;color:#596087;font-weight:600;font-size:13px;border-radius:4px;">Behind but Capacity Available (' + m.behindCapAvail.length + ')</summary>'
+            + '<p style="' + sty.p + 'font-size:12px;color:#7f8c8d;margin-top:10px;">These subjects are behind pace but stress signals show capacity is available (low utilization, no high-wait / burnout / critical-wait flags, or a reduce-forecast action). Likely a demand or forecast issue, <strong>not</strong> a supply problem &mdash; surfaced here for forecasting / PM review, not for supply action.</p>'
+            + '<table style="' + sty.tbl + '">'
+            + '<tr>'
+            + '<th style="' + sty.th + '">Subject</th>'
+            + '<th style="' + sty.th + 'text-align:right;">% Pace</th>'
+            + '<th style="' + sty.th + 'text-align:right;">Gap</th>'
+            + '<th style="' + sty.th + 'text-align:right;">THU</th>'
+            + '<th style="' + sty.th + '">Action</th>'
+            + '</tr>'
+            + capRows + '</table></details>';
+    }
+
+    var behindTable = behindCriticalTable + behindHighTable + behindMediumTable + behindCapAvailTable;
+    if (!behindTable) {
+        behindTable = '<p style="' + sty.p + 'color:#27ae60;">No behind-pace subjects this week.</p>';
+    } else {
+        behindTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;margin-top:10px;">Sorted by gap (largest remaining first) within each tier. Tiers use Looker P90, THU, utilization trend, action, and stress flags. Cap-Available subjects are excluded from the supply-focus narrative above.</p>';
+    }
 
     // --- 5. ZERO-VELOCITY WATCH LIST ---
     var zeroRows = m.zeroVelocity.slice(0, 15).map(function(s) {
@@ -4284,12 +4561,14 @@ function generateWeeklySummary() {
         + '<div style="' + sty.meta + '">Generated: ' + escapeHtml(generated) + ' &bull; Review week: ' + escapeHtml(m.weekLabel) + ' &bull; Month progress: Day ' + m.dayOfMonth + ' of ' + m.daysInMonth + ' (' + m.monthPctLabel + '% elapsed)</div>'
         + '<div style="' + sty.sub + '">Headline</div>'
         + '<div style="' + sty.body + '">' + headline + '</div>'
+        + '<div style="' + sty.sub + '">Where Supply Should Focus This Week</div>'
+        + '<div style="' + sty.body + '">' + supplyFocusHtml + '</div>'
         + '<div style="' + sty.sub + '">Pace &amp; Momentum</div>'
         + '<div style="' + sty.body + '">' + paceTable + '</div>'
         + '<div style="' + sty.sub + '">Biggest Movers</div>'
         + '<div style="' + sty.body + '">' + moversHtml + '</div>'
-        + '<div style="' + sty.sub + '">Behind Pace &mdash; Top 10</div>'
-        + '<div style="' + sty.body + '">' + (m.behind.length > 0 ? behindTable : '<p style="' + sty.p + 'color:#27ae60;">All subjects on or ahead of pace.</p>') + '</div>'
+        + '<div style="' + sty.sub + '">Behind Pace &mdash; By Trouble Tier</div>'
+        + '<div style="' + sty.body + '">' + behindTable + '</div>'
         + '<div style="' + sty.sub + '">Zero-Velocity Watch List</div>'
         + '<div style="' + sty.body + '">' + zeroTable + '</div>'
         + '<div style="' + sty.sub + '">Decisions Activity &mdash; ' + escapeHtml(m.weekLabel) + '</div>'
@@ -4330,8 +4609,34 @@ function _wbrPlainText(m, generated) {
     } else {
         lines.push('WoW combos added: ' + P + ' (no prior-week snapshot available yet).');
     }
-    lines.push('Biggest concern: ' + (m.behind.length > 0 ? m.behind[0].subject + ' at ' + m.behind[0].pacePct + '% of pace' : 'no critical gaps') + '.');
+    if (m.behind.length > 0) {
+        lines.push('Behind-pace triage: '
+            + m.behindCritical.length + ' critical (supply must act), '
+            + m.behindHigh.length + ' high-priority, '
+            + m.behindMedium.length + ' need watching, '
+            + m.behindCapAvail.length + ' behind but capacity available (likely demand/forecast, not supply).');
+        var topCrit = m.behindCritical.slice(0, 3).map(function(s) { return s.subject; });
+        if (topCrit.length === 0) topCrit = m.behindHigh.slice(0, 3).map(function(s) { return s.subject; });
+        if (topCrit.length > 0) {
+            lines.push((m.behindCritical.length > 0 ? 'Top critical: ' : 'Top high-priority: ') + topCrit.join(', ') + '.');
+        }
+    } else {
+        lines.push('No behind-pace subjects this week \u2014 no critical gaps.');
+    }
     lines.push('');
+
+    // Supply focus (critical + high only)
+    var focusList = m.behindCritical.concat(m.behindHigh).slice(0, 10);
+    if (focusList.length > 0) {
+        lines.push('WHERE SUPPLY SHOULD FOCUS THIS WEEK');
+        lines.push('Priority | Subject | % Pace | Gap | Why');
+        focusList.forEach(function(s) {
+            var tierLabel = s.troubleTier === 'critical' ? 'CRITICAL' : 'HIGH';
+            var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
+            lines.push(tierLabel + ' | ' + s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + reasons);
+        });
+        lines.push('');
+    }
 
     var dailyVel = m.dayOfMonth > 0 ? Math.round(m.totalActual / m.dayOfMonth * 10) / 10 : 0;
     var neededDaily = (m.daysInMonth - m.dayOfMonth) > 0 ? Math.round((m.totalTarget - m.totalActual) / (m.daysInMonth - m.dayOfMonth) * 10) / 10 : 0;
@@ -4366,13 +4671,27 @@ function _wbrPlainText(m, generated) {
     lines.push('');
 
     if (m.behind.length > 0) {
-        lines.push('BEHIND PACE \u2014 TOP 10');
-        lines.push('Subject | % of Pace | Remaining | Est. Velocity | Days to Close');
-        m.behind.slice(0, 10).forEach(function(s) {
-            var vel = s.estVelocity7d != null ? '~' + s.estVelocity7d + '/wk' : P;
-            var dtc = s.daysToClose != null ? (s.daysToClose === 0 ? '0d' : s.daysToClose + 'd') : P;
-            lines.push(s.subject + ' | ' + s.pacePct + '% | ' + s.remaining + ' | ' + vel + ' | ' + dtc);
-        });
+        function behindSect(name, list, limit) {
+            if (!list.length) return;
+            lines.push(name + ' (' + list.length + ')');
+            var rows = limit != null ? list.slice(0, limit) : list;
+            rows.forEach(function(s) {
+                var reasons = (s.troubleReasons && s.troubleReasons.length) ? s.troubleReasons.join('; ') : '-';
+                lines.push('  ' + s.subject + ' | ' + s.pacePct + '% | gap ' + s.remaining + ' | ' + reasons);
+            });
+            if (limit != null && list.length > limit) lines.push('  ... (' + (list.length - limit) + ' more)');
+        }
+        lines.push('BEHIND PACE \u2014 BY TROUBLE TIER');
+        behindSect('CRITICAL (supply must act this week)', m.behindCritical, null);
+        behindSect('HIGH (supply signal firing)', m.behindHigh, null);
+        behindSect('MEDIUM (behind, no clear signal yet)', m.behindMedium, 5);
+        if (m.behindCapAvail.length > 0) {
+            lines.push('BEHIND BUT CAPACITY AVAILABLE (likely demand/forecast, not supply)');
+            m.behindCapAvail.forEach(function(s) {
+                var action = s.row && (s.row.Primary_Action || s.row.Problem_Type) ? (s.row.Primary_Action || s.row.Problem_Type) : '-';
+                lines.push('  ' + s.subject + ' | ' + s.pacePct + '% | gap ' + s.remaining + ' | ' + action);
+            });
+        }
         lines.push('');
     }
 
