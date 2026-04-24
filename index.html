@@ -1604,6 +1604,13 @@
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v5.2 <span class="cl-date">Apr 23, 2026</span> <span class="cl-tag improvement">Refinement</span></div>
+                <ul>
+                    <li><strong>Weekly Summary now mirrors the Monthly tab tiles.</strong> Refactored <code>_wbrComputeMetrics</code> to consume <code>buildMonthlyData()</code> as the source of truth: subjects, totals, pace, and tail-end carve-outs all match the dashboard. <em>Subjects on track</em> equals <code>mo-ontrack-action</code> (subjects whose monthly action is On Track), <em>Subjects behind pace</em> equals <code>mo-behind</code> (pace = Behind, tail-end excluded), <em>Biggest concern</em> is drawn from the same Behind set the Monthly tab shows, and the Zero-Velocity watch list now excludes tail-end and Recruit subjects (those gaps are tracked separately). A footnote on the Pace &amp; Momentum table calls out the alignment.</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v5.1 <span class="cl-date">Apr 23, 2026</span> <span class="cl-tag feature">Feature + Refinement</span></div>
                 <ul>
                     <li>New <strong>Roadmap tab</strong> with In Progress, Planned Updates, Suggestion Box, and Change Log sections. Items have status, category, ETA, started/shipped timestamps; admins can promote suggestions, edit statuses, and decline duplicates. Persistent via Netlify Blobs.</li>

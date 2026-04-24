@@ -3027,7 +3027,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'exclude-tail-from-counts', title: 'Exclude Tail-End from headline counts (Recruit / On Track / High Wait / Complete exempt)', category: 'Overview Tiles', description: "Apply the Tail-End classification on Monthly and BTS views so headline counts become trustworthy. Tiles that EXCLUDE tail-end: Behind Pace, On Pace, Awaiting Data / Insufficient Data, Investigate, Reduce Forecast. Tiles that KEEP tail-end visible (carve-outs): Recruit (both views), On Track (both views), High Wait Time (both views), Complete (Monthly). Every tile click auto-applies a scope filter that matches the tile's own carve-out, so the drilled-in table always equals the tile headline. Monthly tile clicks also fully reset pace/action/scope/tier/flag/search before applying the tile's filter. Preserve the 'not behind' meaning of the BTS on-pace chip.", priority: 'P1', status: 'Shipped' },
     { id: 'reduce-forecast-filter-fix', title: "Fix default filters on 'Reduce Forecast' tile click", category: 'Overview Tiles', description: "Clicking the Reduce Forecast tile currently auto-applies Behind Pace and Hide Niche filters, causing the drilled-in count to mismatch the tile headline. Fixed as part of P1.3: Hide Niche is no longer the default, Behind Pace is no longer auto-applied on tile click, and action-tile clicks auto-apply Scope = Exclude Tail-End so the drilled-in table matches the headline.", priority: 'P1', status: 'Shipped' },
     { id: 'data-review-tile', title: "Consolidate 'Awaiting Data' and 'Insufficient Data' into 'Data Review Needed'", category: 'Overview Tiles', description: "Replace the two overlapping tiles with a single 'Data Review Needed' tile that surfaces the reason (naming mismatch vs. early-month / no activity yet) as a sub-label on each row.", priority: 'P1', status: 'Not Started' },
-    { id: 'wbr-align-monthly-classification', title: 'Align Weekly Summary with v5.1 monthly classification', category: 'Weekly Summary', description: "The Subjects & Actions tab's Weekly Summary uses its own pace/classification logic in _wbrComputeMetrics that does not reflect the v5.1 changes shipped 4/23 (monthly-derived action types, Tail-End carve-outs, On Track gated on monthly pace, Complete-vs-OnPace separation). Result: Subjects on track / behind, Biggest concern, Moved into on-track sections contradict the Monthly tab tiles for the same data. Refactor _wbrComputeMetrics to share the same monthlyActionType + isTailEnd helpers as the Monthly tab so WBR numbers match dashboard tiles. Spot-check after: WBR On Track count must equal mo-ontrack-action; WBR Behind count must equal mo-behind; Biggest Concern must come from the same Behind Pace set the Monthly tab shows.", priority: 'P0', status: 'In Progress' },
+    { id: 'wbr-align-monthly-classification', title: 'Align Weekly Summary with v5.1 monthly classification', category: 'Weekly Summary', description: "The Subjects & Actions tab's Weekly Summary used its own pace/classification logic in _wbrComputeMetrics that did not reflect the v5.1 monthly tab classifications. Refactored _wbrComputeMetrics to consume buildMonthlyData() as the source of truth: subjects / totals come from the Monthly cache (target-capped totals), On Track count = subjects with monthlyAction === 'on-track' (matches mo-ontrack-action), Behind count = pace === 'behind' && !isTailEnd (matches mo-behind), zero-velocity excludes tail-end and recruit subjects, movers / category performance use the same On Track definition. Added a footnote noting the alignment.", priority: 'P0', status: 'Shipped' },
     { id: 'action-entry-form', title: 'Action entry: description + estimated completion date', category: 'Action Tracking', description: 'When a user clicks Action on a subject, show a form capturing description, estimated completion date, and owner. Required to make actions trackable.', priority: 'P2', status: 'Not Started' },
     { id: 'action-status-logic', title: 'Action status: In Progress / Overdue / Complete', category: 'Action Tracking', description: "Decision History shows a status per action, auto-computed from today's date vs. estimated completion date, with a manual Mark Complete checkbox.", priority: 'P2', status: 'Not Started' },
     { id: 'action-reschedule', title: 'Reschedule actions with audit log', category: 'Action Tracking', description: "Push out an action's due date with a required reason. Every push is recorded in an expandable audit log on the action row.", priority: 'P2', status: 'Not Started' },
@@ -3804,56 +3804,98 @@ function _loadPriorWeekSnapshot() {
 
 function _wbrComputeMetrics() {
     var ws = weeklySummaryData || {};
-    var tracker = trackerData || [];
     var now = new Date();
     var dayOfMonth = now.getDate();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     var monthFraction = dayOfMonth / daysInMonth;
     var monthPctLabel = Math.round(monthFraction * 100);
-    var currentMonthKey = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
 
-    var hasCurrentMonth = false;
+    // Source of truth: the Monthly tab cache. WBR must mirror its pace
+    // classification (Behind / On Pace / Complete / No Data), tail-end
+    // exclusion rules, and target-capped totals so the Weekly Summary's
+    // counts match the dashboard tiles.
+    var monthly = (typeof buildMonthlyData === 'function') ? buildMonthlyData() : (_monthlyCache || null);
+    var hasCurrentMonth = !!(monthly && monthly.totalTarget > 0);
+
+    // Build subject records that preserve the field shape the existing
+    // WBR renderer relies on (subject, category, tier, actual, target,
+    // pacePct, remaining, estVelocity7d, daysToClose, problemType) AND
+    // expose monthly-tab classifications for new logic.
     var subjects = [];
-    tracker.forEach(function(ts) {
-        var cm = null;
-        (ts.months || []).forEach(function(m) { if (m.month === currentMonthKey && m.status === 'in_progress') cm = m; });
-        if (!cm || cm.smoothed_target <= 0) return;
-        hasCurrentMonth = true;
-        var hasActual = cm.actual != null;
-        var actual = hasActual ? cm.actual : 0;
-        var target = cm.smoothed_target;
-        var paceTarget = target * monthFraction;
-        var pacePct = paceTarget > 0 ? (actual / paceTarget * 100) : 100;
-        var remaining = Math.max(0, Math.round(target - actual));
-        var mtdDailyAvg = (hasActual && dayOfMonth > 0) ? (actual / dayOfMonth) : null;
-        var estVelocity7d = mtdDailyAvg != null ? Math.round(mtdDailyAvg * 7 * 10) / 10 : null;
-        var daysToClose = null;
-        if (hasActual && mtdDailyAvg != null && mtdDailyAvg > 0 && remaining > 0) {
-            daysToClose = Math.round(remaining / mtdDailyAvg);
-        } else if (hasActual && remaining === 0) {
-            daysToClose = 0;
-        }
-        subjects.push({
-            subject: ts.subject, category: ts.category || '', tier: ts.tier || '',
-            actual: actual, hasActual: hasActual, target: target,
-            paceTarget: Math.round(paceTarget),
-            pacePct: Math.round(pacePct), remaining: remaining,
-            estVelocity7d: estVelocity7d,
-            daysToClose: daysToClose,
-            problemType: ts.problem_type || ''
+    if (monthly && monthly.rows) {
+        monthly.rows.forEach(function(x) {
+            var r = x.row || {};
+            if (!(x.target > 0)) return; // Only include subjects with a real monthly target.
+            var hasActual = x.actual != null;
+            var actual = hasActual ? x.actual : 0;
+            var target = x.target;
+            var paceTarget = target * monthFraction;
+            // pacePct kept for renderer compatibility (Behind table column,
+            // Biggest Concern sentence). Cap at 100 so over-contracted
+            // subjects don't read like 1500% of pace.
+            var pacePctRaw = paceTarget > 0 ? (Math.min(actual, target) / paceTarget * 100) : 100;
+            var pacePct = Math.round(pacePctRaw);
+            var remaining = Math.max(0, Math.round(target - actual));
+            var mtdDailyAvg = (hasActual && dayOfMonth > 0) ? (actual / dayOfMonth) : null;
+            var estVelocity7d = mtdDailyAvg != null ? Math.round(mtdDailyAvg * 7 * 10) / 10 : null;
+            var daysToClose = null;
+            if (hasActual && mtdDailyAvg != null && mtdDailyAvg > 0 && remaining > 0) {
+                daysToClose = Math.round(remaining / mtdDailyAvg);
+            } else if (hasActual && remaining === 0) {
+                daysToClose = 0;
+            }
+            var btsType = classifyType(r.Primary_Action || r.Problem_Type);
+            var monthlyAction = monthlyActionType(btsType, x.pace);
+            subjects.push({
+                subject: r.Subject || '',
+                category: r.Category || '',
+                tier: r.Volume_Tier || '',
+                actual: actual,
+                hasActual: hasActual,
+                target: target,
+                paceTarget: Math.round(paceTarget),
+                pacePct: pacePct,
+                remaining: remaining,
+                estVelocity7d: estVelocity7d,
+                daysToClose: daysToClose,
+                problemType: r.Primary_Action || r.Problem_Type || '',
+                pace: x.pace,
+                isTailEnd: x.isTailEnd,
+                monthlyAction: monthlyAction
+            });
         });
-    });
+    }
 
-    var totalActual = 0, totalTarget = 0;
-    subjects.forEach(function(s) { totalActual += s.actual; totalTarget += s.target; });
+    // Headline totals come from the Monthly tab cache so WBR's contracting %
+    // matches the Monthly Pulse exactly (capped at target per subject).
+    var totalActual = monthly ? monthly.totalActual : 0;
+    var totalTarget = monthly ? monthly.totalTarget : 0;
     var contractingPct = totalTarget > 0 ? Math.round(totalActual / totalTarget * 100 * 10) / 10 : 0;
     var paceTargetTotal = Math.round(totalTarget * monthFraction);
 
-    var onTrack = subjects.filter(function(s) { return s.pacePct >= 80; });
-    var behind = subjects.filter(function(s) { return s.pacePct < 80; });
+    // Buckets aligned with Monthly tab tiles:
+    //   onTrack  ↔ mo-ontrack-action (monthlyAction === 'on-track')
+    //   behind   ↔ mo-behind          (pace === 'behind' AND not tail-end)
+    //   complete ↔ mo-complete        (pace === 'complete', includes tail-end)
+    //   noData   ↔ mo-nodata          (pace === 'nodata', not tail-end)
+    //   tailEnd  ↔ mo-tailend         (isTailEnd)
+    var onTrack = subjects.filter(function(s) { return s.monthlyAction === 'on-track'; });
+    var behind = subjects.filter(function(s) { return s.pace === 'behind' && !s.isTailEnd; });
     behind.sort(function(a, b) { return a.pacePct - b.pacePct; });
+    var complete = subjects.filter(function(s) { return s.pace === 'complete'; });
+    var noData = subjects.filter(function(s) { return s.pace === 'nodata' && !s.isTailEnd; });
+    var tailEnd = subjects.filter(function(s) { return s.isTailEnd; });
 
-    var zeroVelocity = subjects.filter(function(s) { return s.actual === 0 && s.target > 0; });
+    // Zero-velocity watch: actively tracked subjects with no MTD activity.
+    // Exclude tail-end (target ≤ 3 doesn't deserve a Watch List callout —
+    // those land in the Tail-End tile on Monthly). Subjects whose monthly
+    // action is Recruit also don't belong here — recruit gaps are tracked
+    // separately and a zero MTD on Recruit subjects is expected.
+    var zeroVelocity = subjects.filter(function(s) {
+        if (s.isTailEnd) return false;
+        if (s.monthlyAction === 'recruit' || s.monthlyAction === 'recruit-urgent') return false;
+        return s.actual === 0 && s.target > 0;
+    });
     zeroVelocity.sort(function(a, b) { return b.target - a.target; });
 
     // Compute last complete week: Sunday 00:00 to Saturday 23:59:59
@@ -3914,20 +3956,36 @@ function _wbrComputeMetrics() {
         });
     }
 
+    // Velocity leaders: among subjects whose monthly action is On Track or
+    // Complete, surface the ones putting up the most actuals per day. We
+    // intentionally exclude tail-end so a 1-target subject doesn't headline.
+    var movers = subjects
+        .filter(function(s) {
+            if (s.isTailEnd) return false;
+            if (s.monthlyAction !== 'on-track' && s.pace !== 'complete') return false;
+            return s.estVelocity7d != null;
+        })
+        .sort(function(a, b) { return (b.estVelocity7d || 0) - (a.estVelocity7d || 0); })
+        .slice(0, 5);
+
     var movedIntoOnTrack = [];
-    var movers = onTrack.filter(function(s) { return s.pacePct >= 90 && s.estVelocity7d != null; })
-        .sort(function(a, b) { return (b.estVelocity7d || 0) - (a.estVelocity7d || 0); }).slice(0, 5);
     if (hasSnap) {
+        // "Moved into on-track" mirrors the Monthly On Track tile: subjects
+        // whose monthly action is now on-track but were not on-track in the
+        // prior week's snapshot.
         onTrack.forEach(function(s) {
             if (!prevOnTrackSet[s.subject]) movedIntoOnTrack.push(s);
         });
     }
 
+    // Category performance uses the same on-track definition as the Monthly
+    // tab (monthlyAction === 'on-track'), so a category called "improving"
+    // here means its members are showing as On Track on the dashboard.
     var catPerf = {};
     subjects.forEach(function(s) {
         if (!catPerf[s.category]) catPerf[s.category] = { on: 0, total: 0 };
         catPerf[s.category].total++;
-        if (s.pacePct >= 80) catPerf[s.category].on++;
+        if (s.monthlyAction === 'on-track') catPerf[s.category].on++;
     });
     var improvingCats = [];
     Object.keys(catPerf).forEach(function(c) {
@@ -3942,7 +4000,8 @@ function _wbrComputeMetrics() {
         hasCurrentMonth: hasCurrentMonth,
         subjects: subjects, totalActual: totalActual, totalTarget: totalTarget,
         contractingPct: contractingPct, paceTargetTotal: paceTargetTotal,
-        onTrack: onTrack, behind: behind, zeroVelocity: zeroVelocity,
+        onTrack: onTrack, behind: behind, complete: complete, noData: noData, tailEnd: tailEnd,
+        zeroVelocity: zeroVelocity,
         decisionsLoaded: decisionsLoaded,
         decisionsThisWeek: decisionsThisWeek, decisionsByUser: decisionsByUser,
         decisionsByTheme: decisionsByTheme, openOld: openOld, weekLabel: weekLabel,
@@ -4059,6 +4118,7 @@ function generateWeeklySummary() {
     } else {
         paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">Compared to snapshot from ' + escapeHtml(m.snapDate) + '. Velocity is MTD average.</p>';
     }
+    paceTable += '<p style="' + sty.p + 'font-size:11px;color:#7f8c8d;">On Track / Behind counts mirror the Monthly tab tiles (monthly pace, tail-end carve-outs applied).</p>';
 
     // --- 3. BIGGEST MOVERS ---
     var moversHtml = '';
