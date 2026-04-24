@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Forecast &amp; Action Dashboard - Varsity Tutors</title>
     <link rel="icon" href="https://www.varsitytutors.com/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=trouble-merge1">
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
@@ -29,6 +29,7 @@
         </div>
         <div id="user-bar" style="margin-left:auto; display:flex; align-items:center; gap:12px; padding-right:20px;">
             <span id="sync-status" class="sync-status" data-tip="Decision sync status"></span>
+            <button id="compact-toggle" class="compact-toggle-btn" onclick="toggleCompactMode()" data-tip="Compact view: hides Run Rate / Avg Target / New Tutor % / All Tutor Hrs Util % columns. Their values move into the Action cell tooltip. Applies to Top Priorities, Subjects &amp; Actions, and Monthly Tracker tables.">Compact</button>
             <span id="user-name" style="color:#ecf0f1; font-size:13px; font-weight:500;"></span>
             <button onclick="netlifyIdentity.logout()" style="background:rgba(255,255,255,0.15); color:#ecf0f1; border:1px solid rgba(255,255,255,0.25); padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer;">Sign out</button>
         </div>
@@ -551,10 +552,9 @@
                                 <th class="sortable tc" onclick="sortMonthly(5)" data-tip="Projected end-of-month total at current daily rate">Projected EOM</th>
                                 <th class="sortable tc" onclick="sortMonthly(6)" data-tip="Across ALL tutors on this subject (not just new ones), actual hours worked divided by hours they told us they wanted.">All Tutor Hrs Util %</th>
                                 <th class="sortable tc" onclick="sortMonthly(7)" data-tip="Wait-time distribution. P90 = slow tail (goal varies by tier); median = typical student (goal 12h); Wait State chip = Healthy / Tail Risk / Crisis.">P90 / Median (hrs)</th>
-                                <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Trouble tier for behind-pace subjects. Critical = supply must act (paper_supply / critical_wait / recruit-urgent / maxed pool). High = supply signal firing. Medium = behind, no clear signal yet. Cap Avail = behind but capacity available, likely a demand / forecast issue not a supply issue. Blank when on-pace / complete / awaiting data.">Trouble</th>
-                                <th class="sortable tc" onclick="sortMonthly(9)" data-tip="Pacing status for the current month (Behind, On Pace, Complete, No Data)">Monthly Pace</th>
-                                <th class="sortable tc" onclick="sortMonthly(10)" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) pass through when they still apply; otherwise derived from monthly pace (Behind Pace / On Track / Awaiting Data).">Monthly Action</th>
-                                <th class="sortable tc" onclick="sortMonthly(11)">Flags</th>
+                                <th class="sortable tc" onclick="sortMonthly(8)" data-tip="Pacing status for the current month (Behind, On Pace, Complete, No Data)">Monthly Pace</th>
+                                <th class="sortable tc" onclick="sortMonthly(9)" data-tip="Action relevant to the current month. BTS-season actions (Recruit, Investigate, High Wait, Reduce Forecast) pass through when they still apply; otherwise derived from monthly pace (Behind Pace / On Track / Awaiting Data).">Monthly Action</th>
+                                <th class="sortable tc" onclick="sortMonthly(10)" data-tip="Trouble tier (Critical / High / Medium / Cap Avail) leads the cell, followed by stress flags. Trouble tier is derived from supply signals (paper_supply, critical_wait, recruit-urgent, maxed pool, etc.); flags that the tier already implies are dropped to avoid duplicate signals on the same row.">Trouble &amp; Flags</th>
                             </tr>
                         </thead>
                         <tbody id="mo-table-body"></tbody>
@@ -1620,6 +1620,13 @@
             <h2>Changelog</h2>
 
             <div class="cl-entry">
+                <div class="cl-version">v5.9 <span class="cl-date">Apr 24, 2026</span> <span class="cl-tag improvement">Refinement</span></div>
+                <ul>
+                    <li><strong>Monthly Tracker: Trouble merged into the Flags column.</strong> The standalone Trouble column is gone; the chip now leads the renamed <em>Trouble &amp; Flags</em> cell, followed by stress flags, with redundant flags suppressed automatically (Trouble Critical drops <code>critical_wait</code> + <code>paper_supply</code> + <code>high_wait</code>; Trouble High drops <code>high_wait</code>; the Wait_State chip in the P90 cell drops <code>critical_wait</code> + <code>high_wait</code>). <code>burnout_risk</code> is intentionally retained even when Trouble High covers it &mdash; the implied action (tutor wellbeing, not recruiting) is distinct. Sort indices on the Monthly Tracker shifted accordingly: Pace 9&rarr;8, Action 10&rarr;9, Trouble&nbsp;&amp;&nbsp;Flags 11&rarr;10. The merged column sorts by trouble tier first, then flag weight as a tiebreaker. The same dedup is now <em>always-on</em>, not gated on compact mode, since the chips that imply each flag are visible in both modes.</li>
+                </ul>
+            </div>
+
+            <div class="cl-entry">
                 <div class="cl-version">v5.8 <span class="cl-date">Apr 24, 2026</span> <span class="cl-tag feature">Feature</span></div>
                 <ul>
                     <li><strong>NAT percentile distribution \u2014 Phase 1 (data + display).</strong> Looker Look 26319 was extended to return four percentiles per subject (<code>P25</code>, <code>Median</code>, <code>P75</code>, <code>P90</code> in hours from campaign creation to tutor assignment) instead of just P90. The fetcher (<code>scripts/fetch_looker_data.py</code>) auto-detects each percentile column independently; older single-column outputs still work (back-compat). The analysis pipeline (<code>scripts/run_analysis.py</code>) merges all four columns and computes three new derived fields per subject: <strong>Tail_Ratio</strong> (P90 \u00f7 Median \u2014 distribution shape; >5x indicates a heavy slow tail), <strong>IQR_Hours</strong> (P75 \u2212 P25 \u2014 consistency of the typical experience), and <strong>Wait_State</strong> \u2014 a derived quadrant: <em>Healthy</em> (Median \u2264 12h goal AND P90 \u2264 tier goal), <em>Tail Risk</em> (typical student fine, slow tail above tier goal \u2014 the Robotics-shape: med 6h, P90 137h), <em>Crisis</em> (both above goal \u2014 the Autodesk Fusion-shape: med 41h, P90 289h), <em>N=1</em> (P25 = P90, single placement), or <em>Unknown</em>. The dashboard&rsquo;s P90 cell now shows median + Wait State chip in-place (no column-shift surgery; sortability preserved); the column tooltip and column legend explain the new layout. WBR trouble-tier tables get the same enrichment. The AI assistant gains the full distribution + quadrant interpretation in its data pack so it can reason about Tail Risk vs Crisis directly. Phase 2 (scenario preview) and Phase 3 (live classification gates) are tracked on the roadmap.</li>
@@ -2093,7 +2100,7 @@
     netlifyIdentity.on('logout', onLogout);
     netlifyIdentity.init();
     </script>
-    <script src="app.js"></script>
+    <script src="app.js?v=trouble-merge1"></script>
     <script>
     /* LOCAL TEST BYPASS — remove before deploy */
     if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
