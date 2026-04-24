@@ -93,41 +93,75 @@ const dayOfMonth = now.getDate();
 const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 const monthFraction = dayOfMonth / daysInMonth;
 
-// Pull current (in_progress) month per subject from the nested months array
+// Replicates the post-fix buildMonthlyData pace gate: uses the RAW
+// projection ratio (actual / fractionThrough / target) rather than the
+// rounded one so borderline subjects like SAT at 23.75/28 land correctly.
+function classifyPace(actual, target) {
+  if (actual == null) return 'nodata';
+  if (actual >= target) return 'complete';
+  if (dayOfMonth <= 2) return 'onpace';
+  if (actual === 0) return 'behind';
+  const projectedRaw = monthFraction > 0 ? (actual / monthFraction) : actual;
+  return (projectedRaw / target >= 0.85) ? 'onpace' : 'behind';
+}
+
+// Walk every subject in the tracker and classify pace + trouble tier.
+// Mirrors the _wbrComputeMetrics flow including the new signal-only
+// Critical bucket for onpace subjects whose stress signals are firing.
 const behindCandidates = [];
+const signalOnlyCandidates = [];
 tracker.forEach((t) => {
   const currentMonth = (t.months || []).find((m) => m.status === 'in_progress');
   if (!currentMonth) return;
   const target = currentMonth.adjusted_target != null ? currentMonth.adjusted_target : currentMonth.smoothed_target;
   if (!(target > 0)) return;
   if (target <= 3) return; // tail-end excluded
-  const actual = currentMonth.actual != null ? currentMonth.actual : 0;
+  const actual = currentMonth.actual != null ? currentMonth.actual : null;
+  const pace = classifyPace(actual, target);
+  if (pace !== 'behind' && pace !== 'onpace') return;
+  const row = subjects.find((s) => s.Subject === t.subject);
   const paceTarget = target * monthFraction;
-  const remaining = Math.max(0, Math.round(target - actual));
-  if (currentMonth.actual != null && actual < paceTarget) {
-    const row = subjects.find((s) => s.Subject === t.subject);
-    behindCandidates.push({
-      subject: t.subject,
-      target,
-      actual,
-      remaining,
-      pacePct: Math.round(actual / paceTarget * 100),
-      row
-    });
+  const actualOrZero = actual != null ? actual : 0;
+  const remaining = Math.max(0, Math.round(target - actualOrZero));
+  const pacePct = paceTarget > 0 ? Math.round(actualOrZero / paceTarget * 100) : 100;
+  const entry = { subject: t.subject, target, actual: actualOrZero, remaining, pacePct, pace, row };
+
+  if (pace === 'behind') {
+    behindCandidates.push(entry);
+  } else if (pace === 'onpace') {
+    const tt = classifyTroubleTier(row);
+    if (tt.tier === 'critical') {
+      signalOnlyCandidates.push({ ...entry, tier: 'critical', reasons: tt.reasons, signalOnly: true });
+    }
   }
 });
 
 console.log(`Month: ${monthLabel} · day ${dayOfMonth}/${daysInMonth} (${Math.round(monthFraction * 100)}%)`);
-console.log(`Behind candidates (quick approximation): ${behindCandidates.length}`);
+console.log(`Behind candidates (post-fix pace gate): ${behindCandidates.length}`);
+console.log(`Signal-only critical candidates (onpace but signals firing): ${signalOnlyCandidates.length}`);
 console.log('');
 
 const buckets = { critical: [], high: [], medium: [], cap_avail: [] };
 behindCandidates.forEach((b) => {
   const tt = classifyTroubleTier(b.row);
-  buckets[tt.tier].push({ ...b, tier: tt.tier, reasons: tt.reasons });
+  buckets[tt.tier].push({ ...b, tier: tt.tier, reasons: tt.reasons, signalOnly: false });
 });
+// Signal-only criticals merge into the critical bucket, sorted separately
+// (by pacePct ascending — worst projection first).
+signalOnlyCandidates.sort((a, b) => a.pacePct - b.pacePct);
+buckets.critical.sort((a, b) => b.remaining - a.remaining);
+const combinedCritical = buckets.critical.concat(signalOnlyCandidates);
 
-Object.entries(buckets).forEach(([tier, list]) => {
+console.log(`── CRITICAL (${combinedCritical.length}) ──`);
+combinedCritical.slice(0, 15).forEach((x) => {
+  const tag = x.signalOnly ? ' [signal]' : '';
+  console.log(`  ${(x.subject + tag).padEnd(52)} ${String(x.pacePct).padStart(3)}%  gap ${String(x.remaining).padStart(3)}  ${x.reasons.join(' | ')}`);
+});
+if (combinedCritical.length > 15) console.log(`  ... (${combinedCritical.length - 15} more)`);
+console.log('');
+
+['high', 'medium', 'cap_avail'].forEach((tier) => {
+  const list = buckets[tier];
   console.log(`── ${tier.toUpperCase()} (${list.length}) ──`);
   list.sort((a, b) => b.remaining - a.remaining).slice(0, 10).forEach((x) => {
     console.log(`  ${x.subject.padEnd(45)} ${String(x.pacePct).padStart(3)}%  gap ${String(x.remaining).padStart(3)}  ${x.reasons.join(' | ')}`);
