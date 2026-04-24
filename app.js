@@ -3034,7 +3034,7 @@ var ROADMAP_LOCAL_SEED_DATA = [
     { id: 'action-effectiveness', title: 'Action effectiveness retrospective', category: 'Action Tracking', description: 'When an action is marked complete, snapshot the subject\'s metrics. Two weeks later, compare to snapshot and label the action Helped / Neutral / Did Not Help. Design with Darren before building.', priority: 'P2', status: 'Not Started' },
     { id: 'slack-digest', title: 'Slack daily digest for actions', category: 'Integrations', description: 'Once-daily 8 AM CT DM to each action owner summarizing upcoming and overdue actions, with links back into the dashboard. Avoids the spam of per-action notifications.', priority: 'P3', status: 'Not Started' },
     { id: 'admin-target-override', title: 'Admin section for target overrides', category: 'Admin & Access', description: 'Leigh and Darren can pick a subject and month and update the target in-dashboard, with an audit history shown below.', priority: 'P3', status: 'Not Started' },
-    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating, draggable chat bubble powered by the Anthropic API directly, with the user's current dashboard context injected into the system prompt. Matches the pattern that worked on the VCPU dashboard — far richer responses than Cursor's built-in assistant.", priority: 'P3', status: 'Not Started' },
+    { id: 'ai-assistant', title: 'AI assistant chat bubble (Anthropic API)', category: 'AI Features', description: "Floating chat bubble powered by the Anthropic Messages API. The Netlify function netlify/functions/chat.mts proxies to Anthropic (API key stays server-side) and now injects the FULL dashboard dataset on every send: portfolio summary, weekly summary, all 379 subjects with every Looker metric (Run Rate, THU, P90, util, capacity), the per-subject monthly tracker, all recommendations, and data freshness. Cached for 60s per warm function instance to keep latency low. Client snapshot covers what the operator is looking at right now (active tab, drilled-in subject, active filters, Monthly tile counts). Requires ANTHROPIC_API_KEY on Netlify.", priority: 'P3', status: 'In Progress' },
     { id: 'p90-tier-review', title: 'Review P90 time-to-assign tier goals', category: 'Forecasting Logic', description: 'Revisit the current tier goals (Core 24h, High 36h, Medium 48h, Low 60h, Niche 72h). Pull 3 months of P90 distributions by tier, compute the 80th percentile, and compare to the current goals. Update constants once data-backed thresholds are confirmed.', priority: 'P1', status: 'Not Started' },
     { id: 'ingest-looker-additional', title: "Ingest additional Looker signals (Michael's client-side looks, utilization dashboard)", category: 'Forecasting Logic', description: 'Pull more signals into the classification engine so actions incorporate client-side context (e.g., oversupplied but fine because a known event is upcoming in month X).', priority: 'P4', status: 'Not Started' },
     { id: 'prophet-prototype', title: 'Prototype Prophet-style forecasting inside the dashboard', category: 'Forecasting Logic', description: "Study Meta Prophet's internals and prototype a minimal forecast for a handful of subjects inside the dashboard, to compare against Pierre's V1.4 model.", priority: 'P4', status: 'Not Started' },
@@ -5235,3 +5235,346 @@ document.getElementById('main-tabs').addEventListener('keydown', function(e) {
 });
 
 // tooltip-wrap JS removed — all tooltips now use the data-tip system
+
+// ── Dashboard Assistant chat bubble ─────────────────────────────────────
+// Floating chat UI that proxies to /.netlify/functions/chat. The proxy
+// holds the Anthropic API key server-side; the browser only sees the
+// signed-in user's Netlify Identity bearer token. The bubble auto-injects
+// a snapshot of the current dashboard state into the system prompt so the
+// assistant can answer questions about the data it sees.
+
+var CHAT_API = '/api/chat';
+var CHAT_API_FALLBACK = '/.netlify/functions/chat';
+var CHAT_STORAGE_KEY = 'bts_chat_history_v1';
+var CHAT_MAX_HISTORY = 24;
+var _chatState = {
+    open: false,
+    sending: false,
+    initialized: false,
+    messages: [] // [{ role: 'user'|'assistant'|'system'|'error', content, ts }]
+};
+
+function _chatIsLocalDev() {
+    return location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+}
+
+function _chatLoadHistory() {
+    try {
+        var raw = sessionStorage.getItem(CHAT_STORAGE_KEY);
+        if (!raw) return [];
+        var parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed.slice(-CHAT_MAX_HISTORY) : [];
+    } catch (e) { return []; }
+}
+
+function _chatSaveHistory() {
+    try {
+        sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(_chatState.messages.slice(-CHAT_MAX_HISTORY)));
+    } catch (e) {}
+}
+
+function _chatGetActiveTabLabel() {
+    var active = document.querySelector('.tab.active');
+    if (!active) return 'Unknown';
+    return (active.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80) || 'Unknown';
+}
+
+function _chatGetCurrentMonthLabel() {
+    var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var d = new Date();
+    return monthNames[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+// Build a small "what is the operator looking at right now" snapshot.
+// The chat function injects the FULL dataset (every subject + Looker metric +
+// monthly tracker + recommendations) server-side, so this client snapshot
+// only needs to describe the live UI state: active tab, selected subject,
+// active filters, and Monthly tab tile counts (because those are derived
+// from live UI logic and may differ from the cached weekly_summary).
+function _chatBuildContextSnapshot() {
+    var lines = [];
+    var tab = _chatGetActiveTabLabel();
+    var monthLabel = _chatGetCurrentMonthLabel();
+    lines.push('Active tab: ' + tab);
+    lines.push('Today (browser local): ' + new Date().toISOString().slice(0, 10));
+    lines.push('Current calendar month: ' + monthLabel);
+
+    // What subject (if any) is the operator currently drilled into on the
+    // Subjects & Actions tab?
+    try {
+        var saSelect = document.getElementById('sa-subject-select');
+        if (saSelect && saSelect.value) {
+            lines.push('Subjects & Actions: drilled into "' + saSelect.value + '"');
+        }
+    } catch (e) {}
+
+    // Active monthly filters so the LLM understands a follow-up like
+    // "what subjects am I currently filtering to".
+    try {
+        var moPace = document.getElementById('mo-pace-filter');
+        var moAction = document.getElementById('mo-action-filter');
+        var moTier = document.getElementById('mo-tier-filter');
+        var moScope = document.getElementById('mo-scope-filter');
+        var moSearch = document.getElementById('mo-search');
+        var monthlyFilters = [];
+        if (moPace && moPace.value && moPace.value !== 'all') monthlyFilters.push('pace=' + moPace.value);
+        if (moAction && moAction.value && moAction.value !== 'all') monthlyFilters.push('action=' + moAction.value);
+        if (moTier && moTier.value && moTier.value !== 'all') monthlyFilters.push('tier=' + moTier.value);
+        if (moScope && moScope.value && moScope.value !== 'all') monthlyFilters.push('scope=' + moScope.value);
+        if (moSearch && moSearch.value) monthlyFilters.push('search="' + moSearch.value + '"');
+        if (monthlyFilters.length) {
+            lines.push('Monthly tab active filters: ' + monthlyFilters.join('; '));
+        }
+    } catch (e) {}
+
+    if (typeof buildMonthlyData === 'function') {
+        try {
+            var d = buildMonthlyData();
+            if (d) {
+                lines.push('');
+                lines.push('Monthly tab tiles (' + monthLabel + ', day ' + d.dayOfMonth + ' of ' + d.lastDay + '):');
+                lines.push('  Total target: ' + d.totalTarget + '   Total actual (capped): ' + d.totalActual);
+                lines.push('  Behind Pace (excl. tail-end): ' + d.behindCount);
+                lines.push('  On Pace (excl. tail-end):     ' + d.onPaceCount);
+                lines.push('  Complete:                     ' + d.completeCount);
+                lines.push('  Awaiting Data (excl. tail):   ' + d.noDataCount);
+                lines.push('  Tail-End Subjects:            ' + d.tailEndCount);
+                lines.push('  Projected EOM total: ' + d.projectedTotal + '   Daily rate needed: ' + d.dailyRate);
+            }
+        } catch (e) {
+            lines.push('(unable to build monthly snapshot: ' + (e && e.message ? e.message : 'error') + ')');
+        }
+    }
+
+    if (typeof allData !== 'undefined' && allData && allData.length) {
+        lines.push('');
+        lines.push('Client-loaded subjects: ' + allData.length + ' (server data pack carries full per-subject Looker metrics).');
+    }
+
+    return lines.join('\n');
+}
+
+function _chatRenderContextPill() {
+    var pill = document.getElementById('chat-bubble-context-pill');
+    if (!pill) return;
+    var tab = _chatGetActiveTabLabel();
+    pill.textContent = 'Context: ' + tab + ' · ' + _chatGetCurrentMonthLabel();
+}
+
+function _chatScrollToBottom() {
+    var el = document.getElementById('chat-bubble-messages');
+    if (el) el.scrollTop = el.scrollHeight;
+}
+
+function _chatRender() {
+    var box = document.getElementById('chat-bubble-messages');
+    if (!box) return;
+    if (!_chatState.messages.length) {
+        box.innerHTML =
+            '<div class="chat-bubble-msg system">'
+            + 'Hi \u2014 I\u2019m the Dashboard Assistant. I have access to every subject\u2019s Looker metrics (run rate, THU, P90, util), the monthly tracker, and the WBR summary. Ask me anything. Examples:'
+            + '<br>\u2022 \u201CWhich CORE subjects are behind pace and have low THU?\u201D'
+            + '<br>\u2022 \u201CWhat\u2019s LSAT\u2019s P90 vs goal, and what action does it have?\u201D'
+            + '<br>\u2022 \u201CCompare run rate vs target across Test Prep.\u201D'
+            + '<br>\u2022 \u201CWhat should I prioritize this week?\u201D'
+            + '</div>';
+        return;
+    }
+    var html = _chatState.messages.map(function(m) {
+        var cls = 'chat-bubble-msg ' + (m.role || 'assistant');
+        return '<div class="' + cls + '">' + escapeHtml(m.content || '') + '</div>';
+    }).join('');
+    if (_chatState.sending) {
+        html += '<div class="chat-bubble-typing"><span class="chat-bubble-typing-dot"></span><span class="chat-bubble-typing-dot"></span><span class="chat-bubble-typing-dot"></span><span style="margin-left:6px;">thinking…</span></div>';
+    }
+    box.innerHTML = html;
+    setTimeout(_chatScrollToBottom, 0);
+}
+
+function _chatPushMessage(role, content) {
+    _chatState.messages.push({ role: role, content: content, ts: Date.now() });
+    _chatSaveHistory();
+    _chatRender();
+}
+
+function _chatRequest(userMessages, systemPrompt, contextSnapshot) {
+    var url = CHAT_API;
+    var doFetch = function(target) {
+        return _getAuthToken().then(function(token) {
+            var headers = { 'Content-Type': 'application/json' };
+            if (token) headers.Authorization = 'Bearer ' + token;
+            return fetch(target, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    messages: userMessages,
+                    systemPrompt: systemPrompt,
+                    contextSnapshot: contextSnapshot
+                })
+            });
+        });
+    };
+    return doFetch(url).then(function(r) {
+        if (r.ok) return r.json();
+        if (r.status === 404 && _chatIsLocalDev()) {
+            return doFetch(CHAT_API_FALLBACK).then(function(r2) {
+                if (r2.ok) return r2.json();
+                return r2.json().catch(function() { return {}; }).then(function(err) {
+                    var e = new Error(err.error || ('Chat request failed (' + r2.status + ')'));
+                    e.status = r2.status;
+                    e.code = err.code;
+                    throw e;
+                });
+            });
+        }
+        return r.json().catch(function() { return {}; }).then(function(err) {
+            var e = new Error(err.error || ('Chat request failed (' + r.status + ')'));
+            e.status = r.status;
+            e.code = err.code;
+            throw e;
+        });
+    });
+}
+
+function _chatHandleSubmit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (_chatState.sending) return;
+    var ta = document.getElementById('chat-bubble-textarea');
+    if (!ta) return;
+    var text = (ta.value || '').trim();
+    if (!text) return;
+    ta.value = '';
+    ta.style.height = 'auto';
+    _chatPushMessage('user', text);
+
+    _chatState.sending = true;
+    _chatRender();
+    _chatRenderContextPill();
+
+    var convo = _chatState.messages
+        .filter(function(m) { return m.role === 'user' || m.role === 'assistant'; })
+        .map(function(m) { return { role: m.role, content: m.content }; });
+    var contextSnapshot = _chatBuildContextSnapshot();
+
+    _chatRequest(convo, null, contextSnapshot)
+        .then(function(resp) {
+            _chatState.sending = false;
+            var reply = (resp && resp.reply) || '(empty response)';
+            _chatPushMessage('assistant', reply);
+        })
+        .catch(function(err) {
+            _chatState.sending = false;
+            var msg;
+            if (err && err.code === 'missing_api_key') {
+                msg = 'Chat is not configured: set ANTHROPIC_API_KEY on Netlify (Site settings → Environment variables) and redeploy. Until then, the bubble is read-only.';
+            } else if (err && err.status === 401) {
+                msg = 'You need to be signed in to use the assistant. Click Login at the top right.';
+            } else {
+                msg = (err && err.message) || 'Chat request failed.';
+            }
+            _chatPushMessage('error', msg);
+        });
+}
+
+function _chatToggleOpen(open) {
+    var panel = document.getElementById('chat-bubble-panel');
+    var fab = document.getElementById('chat-bubble-fab');
+    if (!panel || !fab) return;
+    var willOpen = open != null ? open : panel.hasAttribute('hidden');
+    _chatState.open = willOpen;
+    if (willOpen) {
+        panel.removeAttribute('hidden');
+        fab.setAttribute('aria-expanded', 'true');
+        _chatRenderContextPill();
+        _chatRender();
+        setTimeout(function() {
+            var ta = document.getElementById('chat-bubble-textarea');
+            if (ta) ta.focus();
+        }, 50);
+    } else {
+        panel.setAttribute('hidden', '');
+        fab.setAttribute('aria-expanded', 'false');
+    }
+}
+
+function _chatHandleClear() {
+    _chatState.messages = [];
+    _chatSaveHistory();
+    _chatRender();
+}
+
+function _chatBubbleShouldShow() {
+    // Show whenever a user is signed in OR we're running locally with the
+    // dev bypass active.
+    if (_chatIsLocalDev()) return true;
+    if (typeof netlifyIdentity !== 'undefined') {
+        try {
+            return !!(netlifyIdentity.currentUser && netlifyIdentity.currentUser());
+        } catch (e) { return false; }
+    }
+    return false;
+}
+
+function _chatBubbleRefreshVisibility() {
+    var fab = document.getElementById('chat-bubble-fab');
+    var panel = document.getElementById('chat-bubble-panel');
+    if (!fab) return;
+    if (_chatBubbleShouldShow()) {
+        fab.removeAttribute('hidden');
+    } else {
+        fab.setAttribute('hidden', '');
+        if (panel) panel.setAttribute('hidden', '');
+        _chatState.open = false;
+    }
+}
+
+function initChatBubble() {
+    if (_chatState.initialized) return;
+    var fab = document.getElementById('chat-bubble-fab');
+    var panel = document.getElementById('chat-bubble-panel');
+    if (!fab || !panel) return;
+    _chatState.initialized = true;
+    _chatState.messages = _chatLoadHistory();
+
+    fab.addEventListener('click', function() { _chatToggleOpen(true); });
+    var closeBtn = document.getElementById('chat-bubble-close');
+    if (closeBtn) closeBtn.addEventListener('click', function() { _chatToggleOpen(false); });
+    var clearBtn = document.getElementById('chat-bubble-clear');
+    if (clearBtn) clearBtn.addEventListener('click', _chatHandleClear);
+
+    var form = document.getElementById('chat-bubble-form');
+    if (form) form.addEventListener('submit', _chatHandleSubmit);
+
+    var ta = document.getElementById('chat-bubble-textarea');
+    if (ta) {
+        ta.addEventListener('input', function() {
+            ta.style.height = 'auto';
+            ta.style.height = Math.min(ta.scrollHeight, 140) + 'px';
+        });
+        ta.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                _chatHandleSubmit(e);
+            }
+        });
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && _chatState.open) _chatToggleOpen(false);
+    });
+
+    if (typeof netlifyIdentity !== 'undefined') {
+        try {
+            netlifyIdentity.on('login', _chatBubbleRefreshVisibility);
+            netlifyIdentity.on('logout', _chatBubbleRefreshVisibility);
+        } catch (e) {}
+    }
+
+    _chatBubbleRefreshVisibility();
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(initChatBubble, 0);
+} else {
+    document.addEventListener('DOMContentLoaded', initChatBubble);
+}
