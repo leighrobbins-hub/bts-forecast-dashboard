@@ -14,7 +14,7 @@
       "Recruit More": 11,
       "Insufficient Data": 1
     },
-    "last_updated": "2026-04-24 04:55 PM CST",
+    "last_updated": "2026-04-25 02:41 AM CST",
     "subjects_with_util_data": 376,
     "util_coverage_pct": 99.7,
     "tier_distribution": {
@@ -63024,7 +63024,7 @@
       "type": "actuals",
       "month": "2026-04",
       "filename": "2026-04.csv",
-      "uploaded_at": "2026-04-24 04:55 PM CST",
+      "uploaded_at": "2026-04-25 02:41 AM CST",
       "subjects_count": 467
     }
   ],
@@ -63088,13 +63088,13 @@
       "category": "AP",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 3 expected by day 24 (31% of pace). Target: 4.",
+      "reason": "Apr: 1 actual vs 3 expected by day 25 (30% of pace). Target: 4.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 4,
         "expected": 3,
-        "pace": 31
+        "pace": 30
       }
     },
     {
@@ -63120,13 +63120,13 @@
       "category": "Technology",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (42% of pace). Target: 3.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (40% of pace). Target: 3.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 3,
         "expected": 2,
-        "pace": 42
+        "pace": 40
       }
     },
     {
@@ -63149,13 +63149,13 @@
       "category": "College",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 4 expected by day 24 (25% of pace). Target: 5.",
+      "reason": "Apr: 1 actual vs 4 expected by day 25 (24% of pace). Target: 5.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 5,
         "expected": 4,
-        "pace": 25
+        "pace": 24
       }
     },
     {
@@ -63163,13 +63163,13 @@
       "category": "College",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 4 expected by day 24 (25% of pace). Target: 5.",
+      "reason": "Apr: 1 actual vs 4 expected by day 25 (24% of pace). Target: 5.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 5,
         "expected": 4,
-        "pace": 25
+        "pace": 24
       }
     },
     {
@@ -63177,13 +63177,13 @@
       "category": "College",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 2 actual vs 6 expected by day 24 (36% of pace). Target: 7.",
+      "reason": "Apr: 2 actual vs 6 expected by day 25 (34% of pace). Target: 7.",
       "data_points": {
         "month": "Apr",
         "actual": 2,
         "target": 7,
         "expected": 6,
-        "pace": 36
+        "pace": 34
       }
     },
     {
@@ -63191,13 +63191,13 @@
       "category": "Language",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 4 actual vs 18 expected by day 24 (22% of pace). Target: 23.",
+      "reason": "Apr: 4 actual vs 19 expected by day 25 (21% of pace). Target: 23.",
       "data_points": {
         "month": "Apr",
         "actual": 4,
         "target": 23,
-        "expected": 18,
-        "pace": 22
+        "expected": 19,
+        "pace": 21
       }
     },
     {
@@ -63223,13 +63223,13 @@
       "category": "Elementary",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 34 actual vs 57 expected by day 24 (60% of pace). Target: 71.",
+      "reason": "Apr: 34 actual vs 59 expected by day 25 (57% of pace). Target: 71.",
       "data_points": {
         "month": "Apr",
         "actual": 34,
         "target": 71,
-        "expected": 57,
-        "pace": 60
+        "expected": 59,
+        "pace": 57
       }
     },
     {
@@ -63237,13 +63237,13 @@
       "category": "Other",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 10 expected by day 24 (29% of pace). Target: 13.",
+      "reason": "Apr: 3 actual vs 11 expected by day 25 (28% of pace). Target: 13.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 13,
-        "expected": 10,
-        "pace": 29
+        "expected": 11,
+        "pace": 28
       }
     },
     {
@@ -63269,13 +63269,13 @@
       "category": "IB",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 3 expected by day 24 (31% of pace). Target: 4.",
+      "reason": "Apr: 1 actual vs 3 expected by day 25 (30% of pace). Target: 4.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 4,
         "expected": 3,
-        "pace": 31
+        "pace": 30
       }
     },
     {
@@ -63301,13 +63301,13 @@
       "category": "IB",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (42% of pace). Target: 3.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (40% of pace). Target: 3.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 3,
         "expected": 2,
-        "pace": 42
+        "pace": 40
       }
     },
     {
@@ -63348,13 +63348,13 @@
       "category": "Other",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 4 expected by day 24 (25% of pace). Target: 5.",
+      "reason": "Apr: 1 actual vs 4 expected by day 25 (24% of pace). Target: 5.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 5,
         "expected": 4,
-        "pace": 25
+        "pace": 24
       }
     },
     {
@@ -63362,13 +63362,13 @@
       "category": "College",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 7 expected by day 24 (42% of pace). Target: 9.",
+      "reason": "Apr: 3 actual vs 8 expected by day 25 (40% of pace). Target: 9.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 9,
-        "expected": 7,
-        "pace": 42
+        "expected": 8,
+        "pace": 40
       }
     },
     {
@@ -63409,13 +63409,13 @@
       "category": "Technology",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (42% of pace). Target: 3.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (40% of pace). Target: 3.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 3,
         "expected": 2,
-        "pace": 42
+        "pace": 40
       }
     },
     {
@@ -63423,13 +63423,27 @@
       "category": "Other",
       "priority": "high",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 7 expected by day 24 (42% of pace). Target: 9.",
+      "reason": "Apr: 3 actual vs 8 expected by day 25 (40% of pace). Target: 9.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 9,
-        "expected": 7,
-        "pace": 42
+        "expected": 8,
+        "pace": 40
+      }
+    },
+    {
+      "subject": "ACT",
+      "category": "Test Prep",
+      "priority": "medium",
+      "action_type": "review_performance",
+      "reason": "Apr: 9 actual vs 12 expected by day 25 (77% of pace). At risk. Target: 14.",
+      "data_points": {
+        "month": "Apr",
+        "actual": 9,
+        "target": 14,
+        "expected": 12,
+        "pace": 77
       }
     },
     {
@@ -63491,13 +63505,13 @@
       "category": "AP",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 9 actual vs 12 expected by day 24 (75% of pace). At risk. Target: 15.",
+      "reason": "Apr: 9 actual vs 12 expected by day 25 (72% of pace). At risk. Target: 15.",
       "data_points": {
         "month": "Apr",
         "actual": 9,
         "target": 15,
         "expected": 12,
-        "pace": 75
+        "pace": 72
       }
     },
     {
@@ -63532,13 +63546,13 @@
       "category": "AP",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -63559,13 +63573,13 @@
       "category": "AP",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 4 expected by day 24 (75% of pace). At risk. Target: 5.",
+      "reason": "Apr: 3 actual vs 4 expected by day 25 (72% of pace). At risk. Target: 5.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 5,
         "expected": 4,
-        "pace": 75
+        "pace": 72
       }
     },
     {
@@ -63586,13 +63600,13 @@
       "category": "AP",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 5 expected by day 24 (62% of pace). At risk. Target: 6.",
+      "reason": "Apr: 3 actual vs 5 expected by day 25 (60% of pace). At risk. Target: 6.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 6,
         "expected": 5,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -63696,13 +63710,13 @@
       "category": "Test Prep",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -63751,13 +63765,13 @@
       "category": "High School",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 18 actual vs 23 expected by day 24 (78% of pace). At risk. Target: 29.",
+      "reason": "Apr: 18 actual vs 24 expected by day 25 (74% of pace). At risk. Target: 29.",
       "data_points": {
         "month": "Apr",
         "actual": 18,
         "target": 29,
-        "expected": 23,
-        "pace": 78
+        "expected": 24,
+        "pace": 74
       }
     },
     {
@@ -64204,13 +64218,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 5 expected by day 24 (62% of pace). At risk. Target: 6.",
+      "reason": "Apr: 3 actual vs 5 expected by day 25 (60% of pace). At risk. Target: 6.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 6,
         "expected": 5,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -64270,13 +64284,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 3 actual vs 4 expected by day 24 (75% of pace). At risk. Target: 5.",
+      "reason": "Apr: 3 actual vs 4 expected by day 25 (72% of pace). At risk. Target: 5.",
       "data_points": {
         "month": "Apr",
         "actual": 3,
         "target": 5,
         "expected": 4,
-        "pace": 75
+        "pace": 72
       }
     },
     {
@@ -64351,13 +64365,13 @@
       "category": "High School",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -64447,13 +64461,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -64611,13 +64625,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -64776,13 +64790,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 2 actual vs 3 expected by day 24 (62% of pace). At risk. Target: 4.",
+      "reason": "Apr: 2 actual vs 3 expected by day 25 (60% of pace). At risk. Target: 4.",
       "data_points": {
         "month": "Apr",
         "actual": 2,
         "target": 4,
         "expected": 3,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -64818,13 +64832,13 @@
       "category": "Language",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -65082,13 +65096,13 @@
       "category": "High School",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 5 actual vs 7 expected by day 24 (69% of pace). At risk. Target: 9.",
+      "reason": "Apr: 5 actual vs 8 expected by day 25 (67% of pace). At risk. Target: 9.",
       "data_points": {
         "month": "Apr",
         "actual": 5,
         "target": 9,
-        "expected": 7,
-        "pace": 69
+        "expected": 8,
+        "pace": 67
       }
     },
     {
@@ -65231,13 +65245,13 @@
       "category": "Test Prep",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 5 actual vs 8 expected by day 24 (62% of pace). At risk. Target: 10.",
+      "reason": "Apr: 5 actual vs 8 expected by day 25 (60% of pace). At risk. Target: 10.",
       "data_points": {
         "month": "Apr",
         "actual": 5,
         "target": 10,
         "expected": 8,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -65750,13 +65764,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -66090,13 +66104,13 @@
       "category": "College",
       "priority": "medium",
       "action_type": "review_performance",
-      "reason": "Apr: 1 actual vs 2 expected by day 24 (62% of pace). At risk. Target: 2.",
+      "reason": "Apr: 1 actual vs 2 expected by day 25 (60% of pace). At risk. Target: 2.",
       "data_points": {
         "month": "Apr",
         "actual": 1,
         "target": 2,
         "expected": 2,
-        "pace": 62
+        "pace": 60
       }
     },
     {
@@ -66314,62 +66328,62 @@
     "total_actual": 1656,
     "progress_pct": 22.7,
     "high_priority_actions": 25,
-    "medium_priority_actions": 208,
-    "total_actions": 235,
-    "behind_pace_count": 35,
+    "medium_priority_actions": 209,
+    "total_actions": 236,
+    "behind_pace_count": 36,
     "behind_pace_subjects": [
       {
         "subject": "Elementary School Reading",
-        "pace": 60,
+        "pace": 57,
         "month": "Apr"
       },
       {
         "subject": "Algebra 2",
-        "pace": 78,
+        "pace": 74,
         "month": "Apr"
       },
       {
         "subject": "College Accounting",
-        "pace": 25,
+        "pace": 24,
         "month": "Apr"
       },
       {
         "subject": "AP Calculus AB",
-        "pace": 75,
+        "pace": 72,
         "month": "Apr"
       },
       {
         "subject": "Executive Functioning",
-        "pace": 29,
+        "pace": 28,
         "month": "Apr"
       },
       {
         "subject": "High School Physics",
-        "pace": 69,
+        "pace": 67,
         "month": "Apr"
       },
       {
         "subject": "LSAT",
-        "pace": 62,
+        "pace": 60,
         "month": "Apr"
       },
       {
         "subject": "Coding",
-        "pace": 62,
+        "pace": 60,
         "month": "Apr"
       },
       {
         "subject": "AP Physics 1",
-        "pace": 62,
+        "pace": 60,
         "month": "Apr"
       },
       {
         "subject": "AP Human Geography",
-        "pace": 75,
+        "pace": 72,
         "month": "Apr"
       }
     ],
-    "on_pace_count": 185,
+    "on_pace_count": 184,
     "biggest_gaps": [
       {
         "subject": "High School Chemistry",
@@ -66392,10 +66406,10 @@
         "remaining": 110
       }
     ],
-    "generated_at": "2026-04-24 04:55 PM CST"
+    "generated_at": "2026-04-25 02:41 AM CST"
   },
   "fetch_status": {
-    "fetched_at": "2026-04-24T21:55:12.302117+00:00",
+    "fetched_at": "2026-04-25T07:41:42.466744+00:00",
     "dry_run": false,
     "skipped": false,
     "sources": {
@@ -66407,6 +66421,6 @@
       "tutor_hours_util": true
     },
     "any_failed": false,
-    "last_successful_fetch": "2026-04-24T21:55:12.302117+00:00"
+    "last_successful_fetch": "2026-04-25T07:41:42.466744+00:00"
   }
 }
