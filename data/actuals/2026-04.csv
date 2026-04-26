@@ -16,91 +16,93 @@ Subject,Actual_Contracted,Auto_Assignable,Opps_Responded,Assigns
 11th Grade English,2,0,7,0
 11th Grade Physics,1,0,7,1
 11th Grade Writing,2,0,15,3
+12th Grade AP Biology,1,0,1,1
 12th Grade Calculus,1,0,3,2
 12th Grade English,1,0,7,0
 12th Grade Writing,2,1,15,3
-1st Grade English,1,0,2,2
+1st Grade English,1,0,3,2
 1st Grade Reading,1,0,2,1
 1st Grade Vocabulary,1,0,2,1
 2nd Grade,1,0,2,1
-2nd Grade English,1,0,2,2
+2nd Grade English,1,0,3,2
 3rd Grade Homework,1,0,2,1
+4th Grade math,1,1,0,0
 6th Grade Physics,1,0,7,1
 8th Grade Physics,1,0,7,1
 9th Grade Chemistry,1,0,7,1
 9th Grade Writing,1,0,8,3
-ACCUPLACER,3,3,13,7
-ACCUPLACER College-Level Math,2,2,6,4
+ACCUPLACER,4,4,14,8
+ACCUPLACER College-Level Math,3,3,7,5
 ACCUPLACER QAS,2,2,6,4
 ACCUPLACER WritePlacer,1,1,6,4
 ACCUPLACER Writing,2,2,13,7
-ACT,9,3,53,16
+ACT,10,4,56,16
 ACT English,4,1,16,3
 ACT Reading,3,1,8,3
-ACT Science,2,1,0,0
+ACT Science,2,1,2,0
 ACT Writing,2,1,8,3
 ANCC,1,1,0,0
 ANCC - Psychiatric-Mental Health Nurse Practitioner (Across the Lifespan) Certification (PMHNP),1,1,0,0
-AP Biology,16,10,138,44
-AP Calculus AB,9,1,33,11
+AP Biology,18,10,141,44
+AP Calculus AB,9,1,37,14
 AP Calculus BC,4,1,10,1
-AP Chemistry,10,4,48,27
+AP Chemistry,10,4,52,28
 AP Computer Science A,3,1,8,1
 AP Computer Science Principles,1,0,0,0
-AP English Language and Composition,23,8,171,24
-AP English Literature and Composition,17,1,50,9
-AP Environmental Science,6,3,6,3
-AP European History,4,0,2,2
+AP English Language and Composition,27,11,171,24
+AP English Literature and Composition,20,1,51,9
+AP Environmental Science,8,3,9,3
+AP European History,5,0,3,3
 AP Human Geography,3,0,0,0
 AP Macroeconomics,2,0,1,0
 AP Music Theory,2,0,0,0
-AP Physics 1,3,1,3,1
-AP Physics 2,2,0,0,0
+AP Physics 1,4,2,4,2
+AP Physics 2,3,0,0,0
 AP Physics C: Mechanics,1,0,0,0
-AP Pre-Calculus,18,3,142,31
-AP Psychology,8,2,109,16
-AP Research,4,2,0,0
+AP Pre-Calculus,18,3,149,33
+AP Psychology,9,2,109,16
+AP Research,5,3,0,0
 AP Spanish Language & Culture,4,0,1,0
-AP Statistics,6,3,141,23
-AP U.S. Government & Politics,9,3,10,1
-AP US History,12,1,2,2
-AP World History,6,0,2,2
+AP Statistics,6,3,144,25
+AP U.S. Government & Politics,11,5,10,1
+AP US History,15,2,3,3
+AP World History,7,0,3,3
 ARDMS - RDMS - Obstetrics and Gynecology  (OB/GYN),1,0,2,2
 ASVAB,1,0,0,0
 Academic Coaching,2,0,8,0
 Academic Counseling,1,0,7,0
 Accounting,1,1,0,0
 Administrative Law,4,0,2,1
-Admissions,8,6,17,4
-Adobe Illustrator,1,1,1,1
-Adult ESL/ELL,11,4,6,4
-Adult Literacy,12,1,12,2
+Admissions,9,7,17,4
+Adobe Illustrator,3,2,1,1
+Adult ESL/ELL,11,4,7,4
+Adult Literacy,15,2,13,2
 Adult Reading and Writing,1,0,8,3
 Advanced Accounting,1,1,0,0
-Agribusiness,1,0,2,2
-Agricultural Science,1,0,2,2
-Algebra,44,16,315,61
-Algebra 2,18,6,209,36
+Agribusiness,1,0,3,2
+Agricultural Science,1,0,3,2
+Algebra,54,20,330,67
+Algebra 2,23,9,217,39
 American Government,2,1,9,1
 American Sign Language,2,2,0,0
-Anatomy & Physiology,9,4,25,21
+Anatomy & Physiology,15,7,26,21
 Arabic,1,0,15,9
 Argumentative Writing,1,0,8,3
-Art,7,6,3,2
-Artificial Intelligence (AI),2,0,10,5
+Art,10,9,3,2
+Artificial Intelligence (AI),2,0,11,6
 Autocad,1,0,0,0
 BCABA,1,1,0,0
 Bar Exam,1,0,0,0
-Basic Computer Literacy,9,2,6,4
+Basic Computer Literacy,12,3,7,4
 Basic Medical Terminology,1,0,2,2
-Biochemistry,8,3,49,25
-Biology,20,18,158,53
-Biomedical Engineering,4,1,53,5
+Biochemistry,11,3,53,26
+Biology,25,20,162,54
+Biomedical Engineering,4,1,54,5
 Book Reports,1,0,7,0
 Business,7,6,3,1
 Business Administration,1,0,0,0
-Business Analytics,9,1,142,24
-Business Statistics,4,0,140,23
+Business Analytics,9,1,145,26
+Business Statistics,5,1,143,25
 CFP,1,1,0,0
 CLEP,2,0,2,1
 CLEP American Government,1,0,2,1
@@ -111,45 +113,46 @@ CPA BEC,1,0,1,0
 CPA FAR,1,0,1,0
 CPA REG,1,0,1,0
 CPCE,1,0,0,0
-Calculus 1,22,3,139,30
-Calculus 2,9,1,103,20
-Calculus 3,3,0,1,0
+Calculus 1,25,6,147,33
+Calculus 2,9,2,105,20
+Calculus 3,3,1,1,0
 Canadian History,1,0,7,0
 Canadian Law,1,0,0,0
 Canadian politics,1,0,7,0
 Case Study Interviews,1,0,77,10
-Cell Biology,10,1,65,36
+Cell Biology,13,1,69,37
 Certified Medical Assistant Exam,1,0,0,0
-Certified Reading Intervention,4,1,2,1
+Certified Reading Intervention,5,1,2,1
 Certified ScrumMaster,1,0,7,1
-Chemistry,13,11,86,30
-Chemistry 2,2,0,34,8
+ChatGPT,1,0,0,0
+Chemistry,15,13,93,32
+Chemistry 2,2,0,37,9
 Civics,2,2,1,0
 Civil Engineering,1,0,0,0
-Coding,3,2,11,5
+Coding,3,2,12,6
 College,1,0,7,0
 College Accounting,1,1,0,0
 College Advising,3,3,0,0
-College Algebra,8,0,55,5
-College Application Essays,13,4,116,19
-College Biology,14,6,129,39
+College Algebra,11,0,60,8
+College Application Essays,16,5,117,20
+College Biology,18,7,133,40
 College Business,3,2,2,1
-College Chemistry,16,5,82,39
+College Chemistry,19,5,89,41
 College Computer Science,3,2,0,0
 College Economics,1,0,0,0
-College English,20,10,147,17
+College English,25,13,147,17
 College Essays,1,0,7,0
-College Math,7,0,52,4
-College Physics,2,1,0,0
-College Political Science,6,2,11,1
-College Statistics,10,1,199,47
-College and University Admissions,8,2,10,2
+College Math,8,0,53,4
+College Physics,4,2,0,0
+College Political Science,7,2,11,1
+College Statistics,10,1,203,49
+College and University Admissions,9,3,10,2
 Communication,1,0,77,10
 Communications,1,0,7,0
 CompTIA A+,1,0,0,0
 Competition Math,1,0,1,1
 Computer Programming,4,1,1,0
-Computer Science,2,2,0,0
+Computer Science,3,2,0,0
 Conceptual Physics,1,0,7,1
 Constitutional Law,1,0,0,0
 Contract Law,4,0,2,1
@@ -157,106 +160,114 @@ Conversational English,1,0,0,0
 Conversational Italian,1,0,0,0
 Conversational Spanish,4,2,7,3
 Corporate Finance,1,0,0,0
-Creative Writing,28,7,22,4
+Creative Writing,33,8,22,4
 Criminal psychology,1,0,0,0
 Criminology,1,0,0,0
-Critical Analysis and Reasoning Skills,2,2,17,14
+Critical Analysis and Reasoning Skills,2,2,18,14
 Critical Reasoning,1,0,7,0
 Critical Thinking,1,0,7,0
 Cyber Security,2,1,1,0
-Data Analysis,6,0,10,5
-Data Science,2,1,10,5
-Differential Equations,4,0,1,1
+Data Analysis,6,0,11,6
+Data Science,2,1,11,6
+Differential Equations,5,0,1,1
 Digital Marketing,1,0,7,0
-Digital Media,6,1,8,1
+Digital Media,8,1,8,1
 Discrete Math,1,0,0,0
-Drawing,5,3,4,3
+Drawing,6,4,5,3
 Dyslexia,1,0,2,1
-EMT,1,1,0,0
+EMT,2,2,0,0
 ESL,1,0,7,1
-ESL/ELL,12,5,15,8
-Earth Science,8,1,13,4
+ESL/ELL,13,6,15,8
+Earth Science,10,1,14,4
 Ecology,2,0,84,11
 Editing,1,0,7,0
 Electrical Engineering,1,1,0,0
-Electrical and Computer Engineering,1,1,0,0
-Elementary Reading and Phonics Class,2,0,4,3
-Elementary School English,33,16,214,33
-Elementary School Math,53,31,249,41
-Elementary School Reading,34,20,110,21
-Elementary School Science,44,31,199,60
-Elementary School Writing,41,17,195,31
-Elementary Social Studies,13,7,3,2
+Electrical and Computer Engineering,2,1,0,0
+Electronics,1,0,0,0
+Elementary Math,1,0,0,0
+Elementary Reading and Phonics Class,2,0,5,3
+Elementary School,1,0,0,0
+Elementary School (in French),1,0,0,0
+Elementary School English,42,22,218,34
+Elementary School Math,61,35,257,43
+Elementary School Reading,39,23,113,22
+Elementary School Science,50,35,206,61
+Elementary School Writing,48,20,197,32
+Elementary Social Studies,15,8,4,3
 Engineering,3,3,1,1
-English,68,61,249,42
-English Grammar and Syntax,18,1,36,7
-Environmental Science,2,2,2,2
-Essay Editing,53,10,172,27
+English,81,73,253,43
+English Grammar,1,0,0,0
+English Grammar and Syntax,22,2,36,7
+English literature,1,1,0,0
+Environmental Science,2,2,3,2
+Essay Editing,61,14,175,29
 Essay Writing,1,1,8,3
 Evolution,1,0,77,10
 Executive Functioning,3,3,9,4
-Expository Writing,14,1,8,3
+Expository Writing,16,2,8,3
 Fiction Writing,1,0,8,3
-Filmmaking,2,2,2,1
+Filmmaking,4,4,2,1
 Financial Accounting,2,1,1,0
 Flute,1,0,0,0
-French,1,1,0,0
-French 1,3,1,0,0
+French,2,1,0,0
+French 1,4,1,1,1
 French 2,2,1,0,0
 French 3,1,0,0,0
 French 4,1,0,0,0
-Functions,2,0,0,0
-GED,3,2,8,3
-GED Reasoning Through Language Arts,2,2,8,3
-GED Science,1,1,0,0
+French Immersion,1,0,0,0
+Functions,3,0,0,0
+GED,3,2,10,3
+GED Reasoning Through Language Arts,2,2,10,3
+GED Science,1,1,2,0
 GRE,1,0,1,0
 Gender Studies,1,0,7,0
-General Chemistry 2,3,0,34,8
-Genetics,7,2,113,34
+General Chemistry 2,3,0,37,9
+Genetics,10,3,114,34
 Genomics,1,0,77,10
-Geometry,24,3,91,25
-Government,5,5,3,1
-Grade 10 Math,6,1,81,12
-Grade 11 Math,2,0,0,0
-Grade 11 Physics,3,0,7,1
-Grade 12 Chemistry,1,0,21,3
-Grade 12 Physics,2,0,0,0
-Grade 9 Math,7,0,82,12
+Geometry,28,5,98,28
+Government,7,7,3,1
+Grade 10 Math,9,1,81,12
+Grade 11 Math,4,0,0,0
+Grade 11 Physics,4,0,7,1
+Grade 12 Chemistry,1,0,23,3
+Grade 12 Physics,3,0,0,0
+Grade 9 Math,10,0,82,12
 Graduate Level Accounting,1,1,0,0
 Graduate Program Application Essay,1,0,77,10
-Graduate Test Prep,3,2,26,15
+Graduate Test Prep,3,2,27,15
 Graduate-level writing,1,0,8,3
-Graphic Design,2,2,1,1
-HESI,1,0,0,0
-HSPT,3,3,13,7
+Graphic Design,4,3,1,1
+HESI,2,0,0,0
+HSPT,4,4,14,8
 HSPT Language Skills,1,1,6,4
-HSPT Math,2,2,6,4
+HSPT Math,3,3,7,5
 HSPT Quantitative,2,2,6,4
 HSPT Reading,2,2,13,7
 HSPT Verbal,1,1,6,4
-HTML,4,1,1,1
-Handwriting,15,0,18,6
+HTML,6,1,1,1
+Handwriting,18,0,19,6
 High School Accounting,1,1,0,0
 High School Applications,1,0,77,10
-High School Biology,26,17,162,55
+High School Biology,30,18,166,56
 High School Business,2,2,2,1
-High School Chemistry,29,7,155,41
+High School Chemistry,34,9,164,44
 High School Computer Science,7,1,7,1
-High School English,34,16,179,27
-High School Geography,4,0,7,1
-High School Government,8,2,3,1
-High School Level American History,8,2,4,3
-High School Physics,5,2,17,2
+High School English,43,20,181,28
+High School French,1,0,0,0
+High School Geography,5,0,7,1
+High School Government,10,2,3,1
+High School Level American History,10,3,5,4
+High School Physics,7,3,17,2
 High School Political Science,1,0,2,1
-High School Reading,10,1,22,5
-High School Science,8,4,7,6
-High School World History,9,2,9,3
-High School Writing,39,17,189,30
-History,6,5,1,0
+High School Reading,13,1,24,6
+High School Science,12,4,8,6
+High School World History,9,2,10,4
+High School Writing,45,21,190,30
+History,7,6,1,0
 IB Biology,5,1,18,11
-IB Chemistry,2,0,19,9
-IB Mathematics: Analysis and Approaches,1,0,0,0
-IB Mathematics: Applications and Interpretation,1,0,7,3
+IB Chemistry,2,0,20,10
+IB Mathematics: Analysis and Approaches,3,1,0,0
+IB Mathematics: Applications and Interpretation,2,0,7,3
 ISEE,4,4,21,10
 ISEE- Lower Level,2,2,6,4
 ISEE- Middle Level,2,2,6,4
@@ -273,7 +284,7 @@ ISEE-Upper Level Mathematics Achievement,2,2,6,4
 ISEE-Upper Level Quantitative Reasoning,2,2,6,4
 ISEE-Upper Level Reading Comprehension,1,1,6,4
 ISEE-Upper Level Verbal Reasoning,2,2,14,7
-Inorganic Chemistry,3,1,24,15
+Inorganic Chemistry,3,1,26,16
 Insurance License,1,1,7,3
 Intermediate Web Design,1,0,7,0
 International Human Rights,1,0,0,0
@@ -283,61 +294,62 @@ Japanese,1,1,0,0
 Java,4,1,0,0
 JavaScript,3,0,0,0
 Journalism,1,1,7,0
-Kindergarten English,1,0,2,2
-Kindergarten Readiness,7,2,2,1
-Kindergarten Reading,1,0,2,2
-LSAT,5,1,58,25
-LSAT Argumentative Writing,2,1,20,11
-LSAT Logical Reasoning,3,1,20,11
-LSAT Reading Comprehension,2,1,20,11
+Kindergarten English,1,0,3,2
+Kindergarten Readiness,10,4,2,1
+Kindergarten Reading,1,0,3,2
+LSAT,5,1,60,25
+LSAT Argumentative Writing,2,1,21,11
+LSAT Logical Reasoning,3,1,21,11
+LSAT Reading Comprehension,2,1,21,11
 Lab Report Writing,1,0,8,3
-Languages,10,7,16,5
+Languages,13,9,17,6
 Late Elementary Reading Comprehension,1,0,2,1
-Latin,1,1,2,2
-Latin 1,1,1,2,2
-Latin 2,1,0,2,2
-Latin 4,1,0,2,2
+Latin,1,1,3,3
+Latin 1,2,1,3,3
+Latin 2,2,0,3,3
+Latin 4,1,0,3,3
 Law,3,3,0,0
 Law School Application Essays,1,0,0,0
 Learning Differences,5,4,11,5
 Learning Disability,1,0,2,1
 Legal Writing,4,3,2,1
-Life Sciences,6,1,103,21
+Life Sciences,9,1,103,21
 Linear Algebra,3,0,4,2
 Linguistics,2,1,1,0
-Literature,2,1,28,5
-MCAT,3,3,17,14
-MCAT Biological and Biochemical Foundations of Living Systems,2,1,17,14
-MCAT Chemical and Physical Foundations of Biological Systems,2,2,17,14
-"MCAT Psychological, Social, and Biological Foundations of Behavior",2,2,17,14
-Mac Basic Computer Skills,5,0,1,1
-Machine Learning,1,1,10,5
+Literature,3,2,28,5
+MCAT,3,3,18,14
+MCAT Biological and Biochemical Foundations of Living Systems,3,1,19,15
+MCAT Chemical and Physical Foundations of Biological Systems,3,2,19,15
+"MCAT Psychological, Social, and Biological Foundations of Behavior",3,2,19,15
+Mac Basic Computer Skills,6,0,1,1
+Machine Learning,1,1,11,6
 Macroeconomics,2,0,1,1
 Management,7,2,7,2
+Mandarin Chinese 2,1,0,0,0
 Marketing,3,2,0,0
-Math,50,43,298,49
+Math,61,52,310,54
 Math 1,4,0,0,0
 Math 2,3,0,0,0
 Media History,1,0,7,0
 Media Studies,1,0,7,0
-Medical Terminology,5,4,2,2
-Medicine,6,6,2,2
-Mendelian Genetics,1,0,77,10
-Microbiology,8,2,47,32
+Medical Terminology,6,4,2,2
+Medicine,7,6,2,2
+Mendelian Genetics,2,1,77,10
+Microbiology,9,2,50,32
 Microeconomics,2,0,1,1
-Microsoft Excel,8,4,4,1
-Microsoft Office,10,5,4,1
+Microsoft Excel,9,4,4,1
+Microsoft Office,12,5,4,1
 Microsoft Power BI,2,1,0,0
-Microsoft Word,7,0,2,1
+Microsoft Word,9,0,2,1
 Middle School,2,1,7,1
-Middle School English,24,14,183,28
-Middle School Math,43,20,381,68
+Middle School English,31,18,185,29
+Middle School Math,54,27,393,73
 Middle School Physics,1,1,7,1
-Middle School Reading,28,16,112,21
-Middle School Reading Comprehension,14,3,34,8
-Middle School Science,35,29,192,60
-Middle School Social Studies,8,6,1,0
-Middle School Writing,37,18,198,33
+Middle School Reading,33,18,114,22
+Middle School Reading Comprehension,16,3,34,8
+Middle School Science,40,32,199,61
+Middle School Social Studies,10,7,1,0
+Middle School Writing,43,20,199,34
 Molecular Genetics,1,0,77,10
 Multivariable Calculus,3,0,13,6
 Music,4,2,20,1
@@ -345,85 +357,86 @@ Music Education,2,0,0,0
 Music Fundamentals,1,0,0,0
 Music History,2,0,0,0
 Music Theory,2,2,0,0
-NCLEX,1,0,0,0
+NCLEX,2,0,0,0
 NCLEX-PN,1,0,0,0
 NCLEX-RN,3,2,0,0
 NREMT,1,0,1,1
 Narrative Writing,1,0,8,3
-Neuroscience,3,0,84,14
-Nursing,2,1,0,0
-Organic Chemistry,9,4,44,24
-Organic Chemistry 2,3,0,17,6
+Neuroscience,4,0,84,14
+Nursing,3,2,0,0
+Organic Chemistry,11,4,49,26
+Organic Chemistry 2,3,0,18,7
 Organizational Leadership,1,0,0,0
 Orton Gillingham,1,1,0,0
-Other,15,12,26,5
+Other,20,16,26,5
 PANCE,1,0,11,8
-PC Basic Computer Skills,10,1,5,3
+PC Basic Computer Skills,11,1,6,3
 PRAXIS,2,1,0,0
 PRAXIS Music,2,1,0,0
-PSAT,4,4,54,22
+PSAT,6,6,56,23
 PSAT Reading and Writing,1,0,8,3
 PSAT Writing Skills,2,0,8,3
-Painting,3,2,1,1
+Painting,4,3,1,1
 Pathology,1,1,2,2
-Pathophysiology,6,2,17,11
-Performing Arts,2,2,2,1
+Pathophysiology,8,2,17,11
+Performing Arts,4,4,2,1
 Persuasive Writing,1,0,8,3
-Pharmacology,6,1,28,19
-Philosophy,2,1,2,2
-Phonics,24,15,90,19
+Pharmacology,8,2,28,19
+Philosophy,2,1,3,3
+Phonics,29,17,93,19
 Photography,1,0,7,0
-Photoshop,1,1,1,1
+Photoshop,2,2,1,1
+Physical Chemistry,1,0,0,0
 Physical Science,4,2,7,1
-Physics,3,3,7,1
+Physics,4,4,7,1
 Physics 11,1,0,7,1
 Physics 2,1,0,0,0
 Piano,1,0,20,1
 Political Science,4,2,4,1
 Population Genetics,1,0,77,10
 Portuguese,2,0,8,0
-Pre-Algebra,27,16,267,40
-Pre-Calculus,19,2,153,33
-Presentation Skills,3,1,4,2
+Pre-Algebra,35,20,274,42
+Pre-Calculus,22,4,161,36
+Presentation Skills,3,1,5,2
 Private High School Application Essays,1,0,77,10
 Probability,3,0,14,7
-Productivity,6,6,3,1
-Professional Certifications,11,8,17,7
-Programming Languages,5,5,10,5
+Productivity,7,7,3,1
+Professional Certifications,12,9,17,7
+Programming Languages,5,5,11,6
 Psychoanalysis,1,0,0,0
-Psychologies,10,6,109,16
-Psychology,15,6,99,19
+Psychologies,11,7,109,16
+Psychology,16,7,99,19
 Psychopathology,1,0,0,0
 Public Speaking,3,2,3,0
-Python,4,1,10,5
-Quickbooks,1,0,2,2
-Reading,24,22,106,19
+Python,4,1,11,6
+Quickbooks,1,0,3,2
+Reading,28,25,108,20
 Reading Comprehension,1,0,7,0
-Reading Fundamentals: Phonics and Decoding,1,0,2,2
+Reading Fundamentals: Phonics and Decoding,1,0,3,2
 Reading Intervention,2,1,2,1
 Regents,2,0,1,1
 Relational Databases,1,1,0,0
 Research Writing,1,0,8,3
 SAFe,1,0,7,1
-SAT,19,3,96,35
-SAT Math,4,3,11,4
-SAT Writing and Language,6,2,22,10
+SAT,22,5,100,37
+SAT Math,6,5,13,5
+SAT Writing and Language,9,4,23,11
 SHSAT,2,2,6,4
-SQL,4,3,10,5
-SSAT,2,2,6,4
-SSAT- Elementary Level,2,2,6,4
+SQL,4,3,11,6
+SSAT,3,3,7,5
+SSAT- Elementary Level,3,3,7,5
 SSAT- Middle Level,2,2,6,4
 SSAT- Upper Level,2,2,6,4
-Science,47,44,220,74
-Sculpture,3,3,1,1
+Science,60,54,228,76
+Sculpture,4,4,1,1
 Social Media Marketing,2,0,7,0
 Social Networking,1,0,1,0
-Social Sciences,14,9,115,19
-Social Studies,12,12,3,1
-Spanish,3,2,7,3
-Spanish 1,9,1,8,3
-Spanish 2,6,0,15,6
-Spanish 3,5,0,14,6
+Social Sciences,15,10,116,20
+Social Studies,15,14,3,1
+Spanish,5,4,7,3
+Spanish 1,13,3,8,3
+Spanish 2,9,0,15,6
+Spanish 3,6,0,14,6
 Spanish 4,4,0,7,3
 Special Education,1,0,1,0
 Speech Writing,1,0,8,3
@@ -432,23 +445,24 @@ Spelling Bee,3,0,1,0
 "Spelling, Grammar, and Writing Skills Class",2,0,8,3
 Statics,1,0,0,0
 Statics and Dynamics,1,0,0,0
-Statistics,18,3,228,55
+Statistics,20,5,232,57
 Statistics Graduate Level,2,0,0,0
 Story Writing,1,0,8,3
 Structural Engineering,1,1,0,0
 Study Skills,2,2,2,0
-Study Skills And Organization,3,2,9,4
+Study Skills And Organization,4,2,9,4
 TACHS,2,2,6,4
+TEAS,1,0,0,0
 TEFL,1,0,7,1
 TExES™,1,1,7,1
 TOEFL,1,0,7,1
 Tableau,1,1,0,0
 Technical Certifications,1,0,7,1
 Technical Writing,8,1,1,1
-Technology and Coding,17,15,18,9
-Test Prep,15,8,37,11
+Technology and Coding,21,18,19,10
+Test Prep,18,10,41,12
 Thesis Writing,1,0,8,3
-Trigonometry,12,3,40,6
+Trigonometry,15,5,46,9
 UK A Level,1,0,0,0
 UK A Level English Language,1,0,0,0
 UK A Level English Literature,1,0,0,0
@@ -457,12 +471,12 @@ USMLE Step 1,1,0,11,8
 Vibe Coding,1,0,0,0
 Video Editing,1,0,7,0
 Videography,1,0,7,0
-Visual Arts,6,4,3,3
+Visual Arts,7,5,4,3
 Web Advertising,1,0,0,0
 Web Analytics,1,0,0,0
-Web Design,2,1,0,0
+Web Design,4,2,0,0
 Westlaw Research,1,0,0,0
 Women's studies,1,0,7,0
-Wordpress,1,0,7,0
-Writing,33,29,188,29
+Wordpress,2,0,7,0
+Writing,40,36,189,29
 Youtube Video Production,1,0,7,0
